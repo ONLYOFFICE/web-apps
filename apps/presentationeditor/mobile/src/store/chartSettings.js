@@ -1,20 +1,35 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeChartSettings {
+    constructor() {
+        makeObservable(this, {
+            chartStyles: observable,
+            fillColor: observable,
+            borderColor: observable,
+            clearChartStyles: action,
+            updateChartStyles: action,
+            styles: computed,
+            types: computed,
+            setFillColor: action,
+            getFillColor: action,
+            setBorderColor: action,
+            initBorderColor: action
+        });
+    }
     
     // Style
     
-    @observable chartStyles = null;
+    chartStyles = null;
 
-    @action clearChartStyles () {
+    clearChartStyles () {
         this.chartStyles = null;
     }
 
-    @action updateChartStyles (styles) {
+    updateChartStyles (styles) {
         this.chartStyles = styles;
     }
 
-    @computed get styles () {
+    get styles () {
         if (!this.chartStyles) return null;
         const widthContainer = document.querySelector(".page-content").clientWidth;
         const columns = parseInt(widthContainer / 70); // magic
@@ -32,7 +47,7 @@ export class storeChartSettings {
         return styles;
     }
 
-    @computed get types () {
+    get types () {
         const types = [
             { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'chart-03.png'},
             { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'chart-02.png'},
@@ -75,7 +90,7 @@ export class storeChartSettings {
 
     // Fill Color
 
-    @observable fillColor = undefined;
+    fillColor = undefined;
 
     setFillColor (color) {
         this.fillColor = color;
@@ -104,7 +119,7 @@ export class storeChartSettings {
 
     // Border size and border color
 
-    @observable borderColor;
+    borderColor;
 
     setBorderColor (color) {
         this.borderColor = color;

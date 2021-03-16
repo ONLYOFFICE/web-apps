@@ -212,20 +212,12 @@ const PageTransition = props => {
     };
 
     const storeFocusObjects = props.storeFocusObjects;
-    const storeSlideSettings = props.storeSlideSettings;
     const transitionObj = storeFocusObjects.slideObject.get_transition();
 
-    if(!storeSlideSettings.effect) {
-        storeSlideSettings.changeEffect(transitionObj.get_TransitionType());
-    }
-
-    const _effect = storeSlideSettings.effect;
+    const [_effect, setEffect] = useState(transitionObj.get_TransitionType());
     const valueEffectTypes = fillEffectTypes(_effect);
+    const [type, setType] = useState(valueEffectTypes);
 
-    if(!storeSlideSettings.type) {
-        storeSlideSettings.changeType(valueEffectTypes);
-    }
-    
     let _effectDelay = transitionObj.get_SlideAdvanceDuration();
 
     const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
@@ -248,13 +240,19 @@ const PageTransition = props => {
                 <ListItem link="/effect/" title={_t.textEffect} after={nameEffect} routeProps={{
                     _arrEffect,
                     onEffectClick: props.onEffectClick,
-                    fillEffectTypes
+                    fillEffectTypes,
+                    _effect,
+                    setEffect,
+                    setType
                 }}></ListItem>
                 <ListItem link="/type/" title={_t.textType} 
                     after={_effect != Asc.c_oAscSlideTransitionTypes.None ? nameEffectType : ''} 
                     disabled={_effect == Asc.c_oAscSlideTransitionTypes.None} routeProps={{
                         _arrCurrentEffectTypes, 
-                        onEffectTypeClick: props.onEffectTypeClick
+                        onEffectTypeClick: props.onEffectTypeClick,
+                        _effect,
+                        type,
+                        setType
                     }}>
                 </ListItem>
                 <ListItem title={_t.textDuration} disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
@@ -285,11 +283,11 @@ const PageTransition = props => {
             <List>
                 <ListItem>
                     <span>{_t.textStartOnClick}</span>
-                    <Toggle checked={isStartOnClick} onToggleChange={() => {props.onStartClick(!isStartOnClick)}} />
+                    <Toggle checked={isStartOnClick} onChange={() => {props.onStartClick(!isStartOnClick)}} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textDelay}</span>
-                    <Toggle checked={isDelay} onToggleChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
+                    <Toggle checked={isDelay} onChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
                 </ListItem>
                 <ListItem>
                     <div slot='inner' style={{width: '100%'}}>
@@ -316,8 +314,8 @@ const PageTransition = props => {
 const PageEffect = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    const storeSlideSettings = props.storeSlideSettings;
-    const _effect = storeSlideSettings.effect;
+    const _effect = props._effect;
+    const [currentEffect, setEffect] = useState(_effect);
     const _arrEffect = props._arrEffect;
 
     return (
@@ -328,10 +326,11 @@ const PageEffect = props => {
                     {_arrEffect.map((elem, index) => {
                         return (
                             <ListItem key={index} radio name="editslide-effect" title={elem.displayValue} value={elem.value} 
-                                checked={elem.value === _effect} onChange={() => {
-                                    storeSlideSettings.changeEffect(elem.value);
+                                checked={elem.value === currentEffect} onChange={() => {
+                                    setEffect(elem.value);
+                                    props.setEffect(elem.value);
                                     let valueEffectTypes = props.fillEffectTypes(elem.value);
-                                    storeSlideSettings.changeType(valueEffectTypes);
+                                    props.setType(valueEffectTypes);
                                     props.onEffectClick(elem.value, valueEffectTypes);
                                 }}></ListItem>
                         )
@@ -346,9 +345,9 @@ const PageType= props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
     const _arrCurrentEffectTypes = props._arrCurrentEffectTypes;
-    const storeSlideSettings = props.storeSlideSettings;
-    const _effect = storeSlideSettings.effect;
-    const type = storeSlideSettings.type;
+    const _effect = props._effect;
+    const type = props.type;
+    const [currentType, setType] = useState(type);
 
     return (
         <Page className="style-type">
@@ -362,8 +361,9 @@ const PageType= props => {
                     {_arrCurrentEffectTypes.map((elem, index) => {
                         return (
                             <ListItem key={index} radio name="editslide-effect-type" title={elem.displayValue} value={elem.value}
-                                checked={elem.value === type} onChange={() => {
-                                    storeSlideSettings.changeType(elem.value);
+                                checked={elem.value === currentType} onChange={() => {
+                                    setType(elem.value);
+                                    props.setType(elem.value);
                                     props.onEffectTypeClick(elem.value, _effect);
                                 }}>
                             </ListItem>

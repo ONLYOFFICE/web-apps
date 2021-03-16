@@ -1,4 +1,4 @@
-import {makeObservable, action, observable} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 
 export class storeAppOptions {
     constructor() {
@@ -11,6 +11,7 @@ export class storeAppOptions {
 
     isEdit = false;
     config = {};
+
     setConfigOptions (config) {
         this.config = config;
         this.user = Common.Utils.fillUserInfo(config.user, config.lang, "Local.User"/*me.textAnonymous*/);
@@ -33,6 +34,7 @@ export class storeAppOptions {
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
     }
+
     setPermissionOptions (document, licType, params, permissions) {
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();

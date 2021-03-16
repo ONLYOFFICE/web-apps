@@ -67,7 +67,7 @@ class EditLinkController extends Component {
                     let mask = "ppaction://hlinksldjumpslide",
                         indSlide = url.indexOf(mask);
                     if (0 == indSlide) {
-                        slideNum = parseInt(url.substring(mask.length));
+                        this.slideNum = parseInt(url.substring(mask.length));
                         if (slideNum < 0) this.slideNum = 0;
                         if (slideNum >= slidesCount) this.slideNum = slidesCount - 1;
                     } else this.slideNum = 0;
@@ -121,7 +121,7 @@ class EditLinkController extends Component {
                     break;
                 case 1:
                     url = url + "showjump?jump=previousslide";
-                    slidetip = _t.textPrevSlide;
+                    slidetip = _t.textPreviousSlide;
                     break;
                 case 2:
                     url = url + "showjump?jump=firstslide";
@@ -137,12 +137,12 @@ class EditLinkController extends Component {
                     break;
             }
             props.put_Value(url);
-            props.put_ToolTip(!tip ? slidetip : tip);
+            props.put_ToolTip(tip === '' ? slidetip : tip);
             def_display = slidetip;
         }
 
         if (!linkInfo.displayDisabled) {
-            props.put_Text(!display ? def_display : display);
+            props.put_Text(display === '' ? def_display : display);
         } else
             props.put_Text(null);
         
