@@ -79,21 +79,21 @@ const PageAdvancedSettings = props => {
             </List>
             <List>
                 <ListItem title={t('Edit.textSpaceBetweenParagraphs')}>
-                    <Toggle checked={spaceBetween} onToggleChange={() => {props.onSpaceBetween(!spaceBetween)}}/>
+                    <Toggle checked={spaceBetween} onChange={() => {props.onSpaceBetween(!spaceBetween)}}/>
                 </ListItem>
             </List>
             <List>
                 <ListItem title={t('Edit.textPageBreakBefore')}>
-                    <Toggle checked={breakBefore} onToggleChange={() => {props.onBreakBefore(!breakBefore)}}/>
+                    <Toggle checked={breakBefore} onChange={() => {props.onBreakBefore(!breakBefore)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textOrphanControl')}>
-                    <Toggle checked={orphanControl} onToggleChange={() => {props.onOrphan(!orphanControl)}}/>
+                    <Toggle checked={orphanControl} onChange={() => {props.onOrphan(!orphanControl)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textKeepLinesTogether')}>
-                    <Toggle checked={keepTogether} onToggleChange={() => {props.onKeepTogether(!keepTogether)}}/>
+                    <Toggle checked={keepTogether} onChange={() => {props.onKeepTogether(!keepTogether)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textKeepWithNext')}>
-                    <Toggle checked={keepWithNext} onToggleChange={() => {props.onKeepNext(!keepWithNext)}}/>
+                    <Toggle checked={keepWithNext} onChange={() => {props.onKeepNext(!keepWithNext)}}/>
                 </ListItem>
             </List>
         </Page>

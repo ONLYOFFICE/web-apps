@@ -1,8 +1,16 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 
 export class storeLinkSettings {
-    @observable canAddLink;
-    @action canAddHyperlink (value) {
+    constructor() {
+        makeObservable(this, {
+            canAddLink: observable,
+            canAddHyperlink: action
+        });
+    }
+
+    canAddLink;
+
+    canAddHyperlink (value) {
         this.canAddLink = value;
     }
 }

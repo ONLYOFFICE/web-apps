@@ -1,13 +1,30 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeFocusObjects {
-    @observable _focusObjects = [];
+    constructor() {
+        makeObservable(this, {
+            _focusObjects: observable,
+            resetFocusObjects: action,
+            settings: computed,
+            slideObject: computed,
+            paragraphObject: computed,
+            paragraphLocked: computed,
+            shapeObject: computed,
+            imageObject: computed,
+            tableObject: computed,
+            isTableInStack: computed,
+            chartObject: computed,
+            linkObject: computed
+        });
+    }
 
-    @action resetFocusObjects(objects) {
+    _focusObjects = [];
+
+    resetFocusObjects(objects) {
         this._focusObjects = objects;
     }
 
-    @computed get settings() {
+    get settings() {
         const _settings = [];
         let no_text = true;
         for (let object of this._focusObjects) {
@@ -53,7 +70,7 @@ export class storeFocusObjects {
         return resultArr;
     }
 
-    @computed get slideObject() {
+    get slideObject() {
         const slides = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Slide) {
@@ -68,7 +85,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get paragraphObject() {
+    get paragraphObject() {
         const paragraphs = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
@@ -83,7 +100,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get paragraphLocked() {
+    get paragraphLocked() {
         let _paragraphLocked = false;
         for (let object of this._focusObjects) {
             if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
@@ -93,7 +110,7 @@ export class storeFocusObjects {
         return _paragraphLocked;
     }
 
-    @computed get shapeObject() {
+    get shapeObject() {
         const shapes = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Shape) {
@@ -108,7 +125,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get imageObject() {
+    get imageObject() {
         const images = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image && object.get_ObjectValue()) {
@@ -123,7 +140,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get tableObject() {
+    get tableObject() {
         const tables = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
@@ -138,7 +155,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get isTableInStack() {
+    get isTableInStack() {
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
                 return true;
@@ -147,7 +164,7 @@ export class storeFocusObjects {
         return false;
     }
 
-    @computed get chartObject() {
+    get chartObject() {
         const charts = [];
         
         for (let object of this._focusObjects) {
@@ -164,7 +181,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get linkObject() {
+    get linkObject() {
         const links = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {

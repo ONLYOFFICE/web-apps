@@ -4,6 +4,18 @@ import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, Na
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
 
+// Utils
+const sliceQuote = (text) => {
+    if (text) {
+        let sliced = text.slice(0, 100);
+        if (sliced.length < text.length) {
+            sliced += '...';
+            return sliced;
+        }
+        return text;
+    }
+};
+
 // Add comment
 
 const AddCommentPopup = inject("storeComments")(observer(props => {
@@ -533,16 +545,6 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.sortComments;
-    const sliceQuote = (text) => {
-        if (text) {
-            let sliced = text.slice(0, 100);
-            if (sliced.length < text.length) {
-                sliced += '...';
-                return sliced;
-            }
-            return text;
-        }
-    };
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
@@ -633,18 +635,123 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
 const _ViewComments = inject('storeComments', 'storeAppOptions')(observer(ViewComments));
 
-const CommentList = () => {
-    return (
-        <List>
-
-        </List>
-    )
-};
-
-const ViewCommentSheet = ({closeCurComments}) => {
+const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
+    const isAndroid = Device.android;
 
+    const viewMode = !storeAppOptions.canComments;
+
+    const comments = storeComments.showComments;
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const comment = comments[currentIndex];
+
+    const [commentActionsOpened, openActionComment] = useState(false);
+
+    const [reply, setReply] = useState();
+    const [replyActionsOpened, openActionReply] = useState(false);
+
+    const onViewPrevComment = () => {
+        if (currentIndex - 1 < 0) {
+            setCurrentIndex(comments.length - 1);
+        } else {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const onViewNextComment = () => {
+        if (currentIndex + 1 === comments.length) {
+            setCurrentIndex(0);
+        } else {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
+    return (
+        <Fragment>
+            <Toolbar position='bottom'>
+                {!viewMode &&
+                    <Link className='btn-add-reply' href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                }
+                <div className='comment-navigation row'>
+                    <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
+                    <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
+                </div>
+            </Toolbar>
+            <Page className='page-current-comment'>
+            <List className='comment-list'>
+            <ListItem>
+                <div slot='header' className='comment-header'>
+                    <div className='left'>
+                        {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                        <div>
+                            <div className='user-name'>{comment.userName}</div>
+                            <div className='comment-date'>{comment.date}</div>
+                        </div>
+                    </div>
+                    {!viewMode &&
+                    <div className='right'>
+                        <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                        <div className='comment-menu'
+                             onClick={() => {openActionComment(true);}}
+                        ><Icon icon='icon-menu-comment'/></div>
+                    </div>
+                    }
+                </div>
+                <div slot='footer'>
+                    {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
+                    <div className='comment-text'><pre>{comment.comment}</pre></div>
+                    {comment.replies.length > 0 &&
+                    <ul className='reply-list'>
+                        {comment.replies.map((reply, indexReply) => {
+                            return (
+                                <li key={`reply-${indexReply}`}
+                                    className='reply-item'
+                                >
+                                    <div className='item-content'>
+                                        <div className='item-inner'>
+                                            <div className='item-title'>
+                                                <div slot='header' className='reply-header'>
+                                                    <div className='left'>
+                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                        <div>
+                                                            <div className='user-name'>{reply.userName}</div>
+                                                            <div className='reply-date'>{reply.date}</div>
+                                                        </div>
+                                                    </div>
+                                                    {!viewMode &&
+                                                    <div className='right'>
+                                                        <div className='reply-menu'
+                                                             onClick={() => {setReply(reply); openActionReply(true);}}
+                                                        >
+                                                            <Icon icon='icon-menu-comment'/>
+                                                        </div>
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div slot='footer'>
+                                                    <div className='reply-text'><pre>{reply.reply}</pre></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    }
+                </div>
+            </ListItem>
+            </List>
+            <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
+            <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
+            </Page>
+        </Fragment>
+    )
+}));
+
+const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
     });
@@ -681,7 +788,6 @@ const ViewCommentSheet = ({closeCurComments}) => {
         const swipeEnd = parseInt(touchObj.clientY);
         const dist = swipeEnd - stateStartY;
         if (isNeedClose) {
-            f7.sheet.close('#view-comment-sheet');
             closeCurComments();
         } else if (stateHeight === '90%' && dist > 20) {
             setHeight('45%');
@@ -689,28 +795,21 @@ const ViewCommentSheet = ({closeCurComments}) => {
     };
     return (
         <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
-            <Toolbar position='bottom'>
-                <Link className='btn-add-reply' href='#'>{_t.textAddReply}</Link>
-                <div className='comment-navigation row'>
-                    <Link href='#'><Icon slot='media' icon='icon-prev'/></Link>
-                    <Link href='#'><Icon slot='media' icon='icon-next'/></Link>
-                </div>
-            </Toolbar>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
-            <CommentList />
+            <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
         </Sheet>
     )
 };
 
-const ViewCommentPopover = () => {
+const ViewCommentPopover = ({onCommentMenuClick, onResolveComment}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
     });
     return (
-        <Popover id='view-comment-popover'>
-            <CommentList />
+        <Popover id='view-comment-popover' style={{height: '410px'}}>
+            <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )
 };

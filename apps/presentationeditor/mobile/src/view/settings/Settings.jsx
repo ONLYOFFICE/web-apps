@@ -106,9 +106,9 @@ const SettingsList = withTranslation()(props => {
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                    <ListItem title={_t.textFindAndReplace}>
-                        <Icon slot="media" icon="icon-search"></Icon>
-                    </ListItem>
+                        <ListItem title={_t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal}>
+                            <Icon slot="media" icon="icon-search"></Icon>
+                        </ListItem>
                     }
                     <ListItem link="#" title={_t.textPresentationSettings} onClick={onoptionclick.bind(this, '/presentation-settings/')}>
                         <Icon slot="media" icon="icon-setup"></Icon>

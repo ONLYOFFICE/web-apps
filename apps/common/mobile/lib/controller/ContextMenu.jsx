@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device'
 
-import ContextMenuView, { idContextMenuElement } from '../view/ContextMenu';
+import ContextMenuView, { idContextMenuElement, ActionsWithExtraItems } from '../view/ContextMenu';
 
 const idCntextMenuTargetElement = '#idx-context-menu-target';
 
@@ -11,12 +11,15 @@ class ContextMenuController extends Component {
         super(props);
 
         this.state = {
-            opened: false
-            , items: []
+            opened: false,
+            items: [],
+            openedMore: false,
+            extraItems: []
         };
 
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onMenuClosed = this.onMenuClosed.bind(this);
+        this.onActionClosed = this.onActionClosed.bind(this);
         this.onDocumentReady = this.onDocumentReady.bind(this);
         this.onApiOpenContextMenu = this.onApiOpenContextMenu.bind(this);
         this.onApiHideContextMenu = this.onApiHideContextMenu.bind(this);
@@ -96,7 +99,10 @@ class ContextMenuController extends Component {
 
     onApiOpenContextMenu(x, y) {
         if ( !this.state.opened ) {
-            this.setState({items: this.initMenuItems()});
+            this.setState({
+                items: this.initMenuItems(),
+                extraItems: this.initExtraItems()
+            });
 
             this.$targetEl.css({left: `${x}px`, top: `${y}px`});
             const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
@@ -132,8 +138,16 @@ class ContextMenuController extends Component {
         // })();
     }
 
+    onActionClosed() {
+        this.setState({openedMore: false});
+    }
+
     onMenuItemClick(action) {
         this.onApiHideContextMenu();
+
+        if (action === 'showActionSheet') {
+            this.setState({openedMore: true});
+        }
     }
 
     componentWillUnmount() {
@@ -158,9 +172,16 @@ class ContextMenuController extends Component {
         return [];
     }
 
+    initExtraItems () {
+        return [];
+    }
+
     render() {
         return (
-            <ContextMenuView items={this.state.items} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
+            <Fragment>
+                <ContextMenuView items={this.state.items} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
+                <ActionsWithExtraItems items={this.state.extraItems} onMenuItemClick={this.onMenuItemClick} opened={this.state.openedMore} onActionClosed={this.onActionClosed}/>
+            </Fragment>
         )
     }
 }

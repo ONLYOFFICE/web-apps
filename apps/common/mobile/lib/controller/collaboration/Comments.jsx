@@ -58,6 +58,8 @@ class CommentsController extends Component {
             api.asc_registerCallback('asc_onRemoveComment', this.removeComment.bind(this));
             api.asc_registerCallback('asc_onRemoveComments', this.removeComments.bind(this));
             api.asc_registerCallback('asc_onChangeCommentData', this.changeCommentData.bind(this));
+            api.asc_registerCallback('asc_onShowComment', this.changeShowComments.bind(this));
+            api.asc_registerCallback('asc_onHideComment', this.hideComments.bind(this));
         });
 
         Common.Notifications.on('comments:filterchange', this.onFilterChange.bind(this)); // for sse
@@ -97,57 +99,58 @@ class CommentsController extends Component {
             this.removeComment(data[i]);
         }
     }
+    changeShowComments (id) {
+        this.storeComments.changeShowComment(id);
+    }
+    hideComments () {
+        //Common.Notifications.trigger('closeviewcomment');
+    }
     changeCommentData (id, data) {
-        let date = null;
-        let replies = null;
-        let repliesCount = 0;
+        const changeComment = {};
+
+        const date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+            ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
+
+        let user = this.usersStore.searchUserById(data.asc_getUserId());
+
+        changeComment.comment = data.asc_getText();
+        changeComment.userId = data.asc_getUserId();
+        changeComment.userName = data.asc_getUserName();
+        changeComment.userColor = (user) ? user.asc_getColor() : null;
+        changeComment.resolved = data.asc_getSolved();
+        changeComment.quote = data.asc_getQuoteText();
+        changeComment.time = date.getTime();
+        changeComment.date = dateToLocaleTimeString(date);
+        changeComment.editable = this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId);
+        changeComment.removable = this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId);
+
         let dateReply = null;
+        const replies = [];
 
-        const comment = this.storeComments.findComment(id);
+        const repliesCount = data.asc_getRepliesCount();
+        for (let i = 0; i < repliesCount; ++i) {
 
-        if (comment) {
+            dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-            date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
-                ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
-
-            let user = this.usersStore.searchUserById(data.asc_getUserId());
-
-            comment.comment = data.asc_getText();
-            comment.userId = data.asc_getUserId();
-            comment.userName = data.asc_getUserName();
-            comment.userColor = (user) ? user.asc_getColor() : null;
-            comment.resolved = data.asc_getSolved();
-            comment.quote = data.asc_getQuoteText();
-            comment.time = date.getTime();
-            comment.date = dateToLocaleTimeString(date);
-            comment.editable = this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId);
-            comment.removable = this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId);
-
-            replies = [];
-
-            repliesCount = data.asc_getRepliesCount();
-            for (let i = 0; i < repliesCount; ++i) {
-
-                dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
-                    ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
-
-                user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
-                const userName = data.asc_getReply(i).asc_getUserName();
-                replies.push({
-                    ind: i,
-                    userId: data.asc_getReply(i).asc_getUserId(),
-                    userName: userName,
-                    userColor: (user) ? user.asc_getColor() : null,
-                    date: dateToLocaleTimeString(dateReply),
-                    reply: data.asc_getReply(i).asc_getText(),
-                    time: dateReply.getTime(),
-                    userInitials: this.usersStore.getInitials(userName),
-                    editable: this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
-                    removable: this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
-                });
-            }
-            comment.replies = replies;
+            user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
+            const userName = data.asc_getReply(i).asc_getUserName();
+            replies.push({
+                ind: i,
+                userId: data.asc_getReply(i).asc_getUserId(),
+                userName: userName,
+                userColor: (user) ? user.asc_getColor() : null,
+                date: dateToLocaleTimeString(dateReply),
+                reply: data.asc_getReply(i).asc_getText(),
+                time: dateReply.getTime(),
+                userInitials: this.usersStore.getInitials(userName),
+                editable: this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
+                removable: this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
+            });
         }
+        changeComment.replies = replies;
+
+        this.props.storeComments.changeComment(id, changeComment);
     }
     onFilterChange (filter) {
         this.storeComments.changeFilter(filter);
@@ -308,7 +311,7 @@ class EditCommentController extends Component {
             var reply = comment.replies;
             if (reply && reply.length > 0) {
                 reply.forEach((reply) => {
-                    var addReply = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    var addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
                     if (addReply) {
                         addReply.asc_putText(reply.reply);
                         addReply.asc_putTime(utcDateToString(new Date(reply.time)));
@@ -325,11 +328,12 @@ class EditCommentController extends Component {
         }
     }
     onEditComment (comment, text) {
-        comment.comment = text.trim();
+        const changeComment = {...comment};
+        changeComment.comment = text.trim();
         const user = this.props.users.currentUser;
-        comment.userid = user.asc_getIdOriginal();
-        comment.username = user.asc_getUserName();
-        this.onChangeComment(comment);
+        changeComment.userid = user.asc_getIdOriginal();
+        changeComment.username = user.asc_getUserName();
+        this.onChangeComment(changeComment);
     }
     onAddReply (comment, replyVal) {
         let reply = null;
@@ -386,10 +390,13 @@ class EditCommentController extends Component {
     onEditReply (comment, reply, textReply) {
         const currentUser = this.props.users.currentUser;
         const indReply = reply.ind;
-        comment.replies[indReply].reply = textReply;
-        comment.replies[indReply].userid = currentUser.asc_getIdOriginal();
-        comment.replies[indReply].username = currentUser.asc_getUserName();
-        this.onChangeComment(comment);
+        const changeComment = {...comment};
+        changeComment.replies = [...comment.replies];
+        changeComment.replies[indReply] = {...reply};
+        changeComment.replies[indReply].reply = textReply;
+        changeComment.replies[indReply].userid = currentUser.asc_getIdOriginal();
+        changeComment.replies[indReply].username = currentUser.asc_getUserName();
+        this.onChangeComment(changeComment);
     }
     render() {
         const storeComments = this.props.storeComments;
@@ -418,14 +425,18 @@ class ViewCommentsController extends Component {
         Common.Notifications.on('viewcomment', () => {
             this.setState({isOpenViewCurComments: true});
         });
+        Common.Notifications.on('closeviewcomment', () => {
+            this.closeViewCurComments();
+        });
     }
     closeViewCurComments () {
+        f7.sheet.close('#view-comment-sheet');
         this.setState({isOpenViewCurComments: false});
     }
     onResolveComment (comment) {
         let reply = null,
             addReply = null,
-            ascComment = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+            ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
 
         if (ascComment && comment) {
             ascComment.asc_putText(comment.comment);
@@ -444,7 +455,7 @@ class ViewCommentsController extends Component {
             reply = comment.replies;
             if (reply && reply.length > 0) {
                 reply.forEach((reply) => {
-                    addReply = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
                     if (addReply) {
                         addReply.asc_putText(reply.reply);
                         addReply.asc_putTime(utcDateToString(new Date(reply.time)));
@@ -546,7 +557,11 @@ class ViewCommentsController extends Component {
         return(
             <Fragment>
                 {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} />}
-                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments} closeCurComments={this.closeViewCurComments} />}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
+                                                                          closeCurComments={this.closeViewCurComments}
+                                                                          onCommentMenuClick={this.onCommentMenuClick}
+                                                                          onResolveComment={this.onResolveComment}
+                />}
             </Fragment>
         )
     }

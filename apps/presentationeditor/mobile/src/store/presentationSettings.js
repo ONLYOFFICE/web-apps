@@ -1,15 +1,23 @@
-import {action, observable} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 
 export class storePresentationSettings {
-    @observable slideSizes = [
-        [9144000, 6858000, Asc.c_oAscSlideSZType.SzScreen4x3], 
-        [12192000, 6858000, Asc.c_oAscSlideSZType.SzCustom]
-    ];
+    constructor() {
+        makeObservable(this, {
+            slideSizes: observable,
+            currentPageSize: observable,
+            slideSizeIndex: observable,
+            allSchemes: observable,
+            changeSizeIndex: action,
+            addSchemes: action,
+            initSlideSizes: action
+        })
+    }
 
-    @observable currentPageSize;
-    @observable slideSizeIndex;
+    slideSizes = [];
+    currentPageSize;
+    slideSizeIndex;
 
-    @action changeSizeIndex(width, height) {
+    changeSizeIndex(width, height) {
         this.currentPageSize = {width, height};
         let ratio = height / width;
 
@@ -20,11 +28,15 @@ export class storePresentationSettings {
         });
     }
 
+    initSlideSizes(value) {
+        this.slideSizes = value;
+    }
+
     // Color Schemes
 
-    @observable allSchemes;
+    allSchemes;
 
-    @action addSchemes(arr) {
+    addSchemes(arr) {
         this.allSchemes = arr;
     }
 

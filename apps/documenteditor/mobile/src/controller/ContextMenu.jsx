@@ -4,6 +4,7 @@ import { inject, observer } from "mobx-react";
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import { Device } from '../../../../common/mobile/utils/device';
+import { withTranslation} from 'react-i18next';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
@@ -70,6 +71,9 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
+        const { t } = this.props;
+        const _t = t("ContextMenu", { returnObjects: true });
+
         const { isEdit, canViewComments, canReview } = this.props;
 
         const api = Common.EditorApi.get();
@@ -81,7 +85,6 @@ class ContextMenu extends ContextMenuController {
 
         if ( canCopy ) {
             itemsIcon.push({
-                caption: /*me.menuCopy*/ 'Copy',
                 event: 'copy',
                 icon: 'icon-copy'
             });
@@ -89,7 +92,7 @@ class ContextMenu extends ContextMenuController {
 
         if ( canViewComments && this.isComments && !isEdit ) {
             itemsText.push({
-                caption: /*me.menuViewComment*/'View Comment',
+                caption: _t.menuViewComment,
                 event: 'viewcomment'
             });
         }
@@ -144,7 +147,6 @@ class ContextMenu extends ContextMenuController {
             if ( isEdit && !this.isDisconnected ) {
                 if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy ) {
                     itemsIcon.push({
-                        // caption: me.menuCut,
                         event: 'cut',
                         icon: 'icon-cut'
                     });
@@ -155,16 +157,70 @@ class ContextMenu extends ContextMenuController {
 
                 if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
                     itemsIcon.push({
-                        // caption: me.menuPaste,
                         event: 'paste',
                         icon: 'icon-paste'
                     });
                 }
 
-                // For test
+                if ( isTable && api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
+                    itemsText.push({
+                        caption: _t.menuMerge,
+                        event: 'merge'
+                    });
+                }
+
+                if ( isTable && api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader ) {
+                    itemsText.push({
+                        caption: _t.menuSplit,
+                        event: 'split'
+                    });
+                }
+
+                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
+                    itemsText.push({
+                        caption: _t.menuDelete,
+                        event: 'delete'
+                    });
+                }
+
+                if ( isTable && !lockedTable && !lockedText && !lockedHeader ) {
+                    itemsText.push({
+                        caption: _t.menuDeleteTable,
+                        event: 'deletetable'
+                    });
+                }
+
+                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ){
+                    itemsText.push({
+                        caption: _t.menuEdit,
+                        event: 'edit'
+                    });
+                }
+
+                // if ( !_.isEmpty(api.can_AddHyperlink()) && !lockedHeader) {
+                //     arrItems.push({
+                //         caption: _t.menuAddLink,
+                //         event: 'addlink'
+                //     });
+                // }
+
+                if ( canReview ) {
+                    if (false /*_inRevisionChange*/) {
+                        itemsText.push({
+                            caption: _t.menuReviewChange,
+                            event: 'reviewchange'
+                        });
+                    } else {
+                        itemsText.push({
+                            caption: _t.menuReview,
+                            event: 'review'
+                        });
+                    }
+                }
+
                 if ( this.isComments && canViewComments ) {
                     itemsText.push({
-                        caption: /*me.menuViewComment*/'View Comment',
+                        caption: _t.menuViewComment,
                         event: 'viewcomment'
                     });
                 }
@@ -173,102 +229,23 @@ class ContextMenu extends ContextMenuController {
                 const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
                 if ( !hideAddComment ) {
                     itemsText.push({
-                        caption: /*me.menuAddComment*/'Add Comment',
+                        caption: _t.menuAddComment,
                         event: 'addcomment'
                     });
                 }
-                // end test
-
-                if ( isTable && api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
-                    itemsText.push({
-                        caption: /*me.menuMerge*/'Merge',
-                        event: 'merge'
-                    });
-                }
-
-                if ( isTable && api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader ) {
-                    itemsText.push({
-                        caption: /*me.menuSplit*/'Split',
-                        event: 'split'
-                    });
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
-                    itemsText.push({
-                        caption: /*me.menuDelete*/'Delete',
-                        event: 'delete'
-                    });
-                }
-
-                if ( isTable && !lockedTable && !lockedText && !lockedHeader ) {
-                    itemsText.push({
-                        caption: /*me.menuDeleteTable*/'Delete Table',
-                        event: 'deletetable'
-                    });
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ){
-                    itemsText.push({
-                        caption: /*me.menuEdit*/'Edit',
-                        event: 'edit'
-                    });
-                }
-
-                // if ( !_.isEmpty(api.can_AddHyperlink()) && !lockedHeader) {
-                //     arrItems.push({
-                //         caption: me.menuAddLink,
-                //         event: 'addlink'
-                //     });
-                // }
-
-                if ( canReview ) {
-                    if (false /*_inRevisionChange*/) {
-                        itemsText.push({
-                            caption: /*me.menuReviewChange*/'Review Change',
-                            event: 'reviewchange'
-                        });
-                    } else {
-                        itemsText.push({
-                            caption: /*me.menuReview*/'Review',
-                            event: 'review'
-                        });
-                    }
-                }
-
-                if ( this.isComments && canViewComments ) {
-                    itemsText.push({
-                        caption: /*me.menuViewComment*/'View Comment',
-                        event: 'viewcomment'
-                    });
-                }
-
-                /*const isObject = isShape || isChart || isImage || isTable;
-                const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
-                if ( !hideAddComment ) {
-                    itemsText.push({
-                        caption: 'Add Comment',
-                        event: 'addcomment'
-                    });
-                }*/
             }
         }
 
         if ( isLink ) {
             itemsText.push({
-                caption: /*me.menuOpenLink*/'Open Link',
+                caption: _t.menuOpenLink,
                 event: 'openlink'
             });
         }
 
         if ( Device.phone && itemsText.length > 2 ) {
-            // _actionSheets = arrItems.slice(2);
-            // arrItems = arrItems.slice(0, 2);
-            // arrItems.push({
-            //     caption: me.menuMore,
-            //     event: 'showActionSheet'
-            // });
             this.extraItems = itemsText.splice(2,itemsText.length, {
-                caption: /*me.menuMore*/'More',
+                caption: _t.menuMore,
                 event: 'showActionSheet'
             });
         }
@@ -285,6 +262,11 @@ class ContextMenu extends ContextMenuController {
         //         event: 'review'
         //     }];
     }
+
+    initExtraItems () {
+        return (this.extraItems && this.extraItems.length > 0 ? this.extraItems : []);
+    }
 }
 
-export { ContextMenu as default };
+const _ContextMenu = withTranslation()(ContextMenu);
+export { _ContextMenu as default };

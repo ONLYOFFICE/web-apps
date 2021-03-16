@@ -129,6 +129,21 @@
       "textEditReply": "Edit Reply"
     }
   },
+  "ContextMenu": {
+    "menuViewComment": "View Comment",
+    "menuAddComment": "Add Comment",
+    "menuMerge": "Merge",
+    "menuSplit": "Split",
+    "menuDelete": "Delete",
+    "menuDeleteTable": "Delete Table",
+    "menuEdit": "Edit",
+    "menuAddLink": "Add Link",
+    "menuReviewChange": "Review Change",
+    "menuReview": "Review",
+    "menuOpenLink": "Open Link",
+    "menuMore": "More",
+    "menuCancel": "Cancel"
+  },
   "Settings": {
     "textCancel": "Cancel",
     "textSettings": "Settings",
@@ -195,7 +210,13 @@
     "advDRMPassword": "Password",
     "closeButtonText": "Close File",
     "advDRMOptions": "Protected File",
-    "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset"
+    "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+    "textNoTextFound": "Text not found",
+    "textReplace": "Replace",
+    "textReplaceAll": "Replace All",
+    "textCaseSensitive": "Case Sensitive",
+    "textHighlightResults": "Highlight Results",
+    "textSearch": "Search"
   },
   "Edit": {
     "textClose": "Close",
@@ -296,7 +317,6 @@
     "textAutomatic": "Automatic",
     "textAddCustomColor": "Add Custom Color",
     "textCustomColor": "Custom Color",
-    "textBackground": "Background",
     "textFill": "Fill",
     "textBorder": "Border",
     "textEffects": "Effects",

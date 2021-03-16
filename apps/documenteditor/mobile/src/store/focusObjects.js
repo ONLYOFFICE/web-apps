@@ -1,14 +1,32 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeFocusObjects {
-    @observable _focusObjects = [];
-    @observable _headerType = 1;
+    constructor() {
+        makeObservable(this, {
+            _focusObjects: observable,
+            _headerType: observable,
+            resetFocusObjects: action,
+            settings: computed,
+            headerType: computed,
+            headerObject: computed,
+            paragraphObject: computed,
+            shapeObject: computed,
+            imageObject: computed,
+            tableObject: computed,
+            isTableInStack: computed,
+            chartObject: computed,
+            linkObject: computed
+        });
+    }
 
-    @action resetFocusObjects (objects) {
+    _focusObjects = [];
+    _headerType = 1;
+
+    resetFocusObjects (objects) {
         this._focusObjects = objects;
     }
 
-    @computed get settings() {
+    get settings() {
         const _settings = [];
         for (let object of this._focusObjects) {
             let type = object.get_ObjectType();
@@ -34,7 +52,8 @@ export class storeFocusObjects {
         }
         return _settings.filter((value, index, self) => self.indexOf(value) === index);
     }
-    @computed get headerType() {
+
+    get headerType() {
         for (let object of this._focusObjects) {
             const type = object.get_ObjectType();
             if (Asc.c_oAscTypeSelectElement.Header === type) {
@@ -43,7 +62,8 @@ export class storeFocusObjects {
         }
         return this._headerType;
     }
-    @computed get headerObject() {
+
+    get headerObject() {
         const headers = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Header) {
@@ -57,7 +77,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get paragraphObject() {
+
+    get paragraphObject() {
         const paragraphs = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
@@ -71,7 +92,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get shapeObject() {
+
+    get shapeObject() {
         const shapes = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
@@ -87,7 +109,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get imageObject() {
+
+    get imageObject() {
         const images = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
@@ -104,7 +127,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get tableObject() {
+
+    get tableObject() {
         const tables = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
@@ -118,7 +142,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get isTableInStack() {
+
+    get isTableInStack() {
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
                 return true;
@@ -126,7 +151,8 @@ export class storeFocusObjects {
         }
         return false;
     }
-    @computed get chartObject() {
+
+    get chartObject() {
         const charts = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
@@ -140,7 +166,8 @@ export class storeFocusObjects {
             return undefined;
         }
     }
-    @computed get linkObject() {
+    
+    get linkObject() {
         const links = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {

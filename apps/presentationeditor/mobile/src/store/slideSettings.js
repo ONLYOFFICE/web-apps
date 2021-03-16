@@ -1,17 +1,30 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeSlideSettings {
+    constructor() {
+        makeObservable(this, {
+            arrayLayouts: observable,
+            slideLayoutIndex: observable,
+            fillColor: observable,
+            arrayThemes: observable,
+            slideThemeIndex: observable,
+            getFillColor: action,
+            changeFillColor: action,
+            addArrayLayouts: action,
+            slideLayouts: computed,
+            changeSlideLayoutIndex: action,
+            addArrayThemes: action,
+            changeSlideThemeIndex: action,
+        });
+    }
+
+    arrayLayouts;
+    slideLayoutIndex = -1;
+    fillColor = undefined;
+    arrayThemes;
+    slideThemeIndex;
     
-    @observable arrayLayouts;
-    @observable slideLayoutIndex = -1;
-    @observable fillColor = undefined;
-    @observable arrayThemes;
-    @observable slideThemeIndex;
-    @observable effect;
-    @observable type;
-    
-    @action getFillColor (slideObject) {
-    
+    getFillColor (slideObject) {
         let color = 'transparent';
         let fill = slideObject.get_background(),
             fillType = fill.get_type();
@@ -34,14 +47,15 @@ export class storeSlideSettings {
         return color;
     }
 
-    @action changeFillColor (color) {
+    changeFillColor (color) {
         this.fillColor = color;
     }
 
-    @action addArrayLayouts(array) {
+    addArrayLayouts(array) {
         this.arrayLayouts = array;
     }
-    @computed get slideLayouts () {
+
+    get slideLayouts () {
         const layouts = [];
         const columns = 2;
         let row = -1;
@@ -60,23 +74,15 @@ export class storeSlideSettings {
         return layouts;
     }
 
-    @action changeSlideLayoutIndex(index) {
+    changeSlideLayoutIndex(index) {
         this.slideLayoutIndex = index;
     }
 
-    @action addArrayThemes(array) {
+    addArrayThemes(array) {
         this.arrayThemes = array;
     }
 
-    @action changeSlideThemeIndex(index) {
+    changeSlideThemeIndex(index) {
         this.slideThemeIndex = index;
-    }
-
-    @action changeEffect(value) {
-        this.effect = value;
-    }
-
-    @action changeType(value) {
-        this.type = value;
     }
 }
