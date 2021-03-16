@@ -2,8 +2,8 @@
 .device-ios {
     @blockTitleColor: #6d6d72;
     @item-border-color: #c8c7cc;
-
     --f7-list-item-border-color: @item-border-color;
+    @darkGreen: #40865c;
 
     --f7-navbar-link-color: @themeColor;
     --f7-navbar-text-color: @black;
@@ -391,6 +391,33 @@
         }
     }
 
+    // input[type="number"]
+
+    input[type="number"] {
+        &::placeholder,
+            &::-webkit-input-placeholder,
+            &::-moz-placeholder,
+            &:-moz-placeholder,
+            &:-ms-input-placeholder
+        {
+            color: @darkGreen;
+        }
+    }
+
+    // Regional Settings
+
+    .regional-settings {
+        .item-title-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .item-title {
+                margin-left: 20px;
+                white-space: normal;
+            }
+        }
+    }
+
     // Find and Replace 
 
     .navbar {
@@ -447,6 +474,7 @@
             &.replace {
                 height: 88px;
                 .searchbar-inner {
+                    height: 100%;
                     &__center {
                         .searchbar-input-wrap {
                             margin: 8px 0;
