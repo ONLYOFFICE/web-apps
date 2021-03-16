@@ -317,10 +317,10 @@ const PageWrap = props => {
             }
             <List>
                 <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
-                    <Toggle checked={moveText} onToggleChange={() => {props.onMoveText(!moveText)}}/>
+                    <Toggle checked={moveText} onChange={() => {props.onMoveText(!moveText)}}/>
                 </ListItem>
                 <ListItem title={_t.textAllowOverlap}>
-                    <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
+                    <Toggle checked={overlap} onChange={() => {props.onOverlap(!overlap)}}/>
                 </ListItem>
             </List>
             {
