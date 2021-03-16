@@ -3,20 +3,20 @@ import {makeObservable, action, observable} from 'mobx';
 export class storeApplicationSettings {
     constructor() {
         makeObservable(this, {
-            unitMeasurement: observable
-            , isSpellChecking: observable
-            , isNonprintingCharacters: observable
-            , isHiddenTableBorders: observable
-            , isComments: observable
-            , isResolvedComments: observable
-            , macrosMode: observable
-            , changeSpellCheck: action
-            , changeUnitMeasurement: action
-            , changeNoCharacters: action
-            , changeShowTableEmptyLine: action
-            , changeDisplayComments: action
-            , changeDisplayResolved: action
-            , changeMacrosSettings: action
+            unitMeasurement: observable, 
+            isSpellChecking: observable, 
+            isNonprintingCharacters: observable, 
+            isHiddenTableBorders: observable, 
+            isComments: observable, 
+            isResolvedComments: observable, 
+            macrosMode: observable, 
+            changeSpellCheck: action, 
+            changeUnitMeasurement: action, 
+            changeNoCharacters: action, 
+            changeShowTableEmptyLine: action, 
+            changeDisplayComments: action, 
+            changeDisplayResolved: action, 
+            changeMacrosSettings: action
         })
     }
 

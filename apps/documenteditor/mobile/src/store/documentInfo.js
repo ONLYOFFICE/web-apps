@@ -1,21 +1,33 @@
-import { action, observable } from "mobx";
+import {action, observable, makeObservable} from "mobx";
 
 export class storeDocumentInfo {
-  @observable infoObj = {
+  constructor() {
+    makeObservable(this, {
+      infoObj: observable,
+      isLoaded: observable,
+      dataDoc: observable,
+      switchIsLoaded: action,
+      changeCount: action,
+      setDataDoc: action
+    });
+  }
+
+  infoObj = {
     pageCount: 0,
     wordsCount: 0,
     paragraphCount: 0,
     symbolsCount: 0,
     symbolsWSCount: 0,
   };
-  @observable isLoaded = false;
-  @observable dataDoc;
 
-  @action switchIsLoaded(value) {
+  isLoaded = false;
+  dataDoc;
+
+  switchIsLoaded(value) {
     this.isLoaded = value;
   }
 
-  @action changeCount(obj) {
+  changeCount(obj) {
     if (obj) {
       if (obj.get_PageCount() > -1)
         this.infoObj.pageCount = obj.get_PageCount();
@@ -30,7 +42,7 @@ export class storeDocumentInfo {
     }
   }
 
-  @action setDataDoc(obj) {
+  setDataDoc(obj) {
     this.dataDoc = obj;
   }
 }
