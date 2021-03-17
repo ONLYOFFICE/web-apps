@@ -791,6 +791,16 @@ define([
                 return comment;
             },
 
+            findVisibleComment: function(uid) {
+                var comment;
+                if (this.groupCollectionFilter.length !== 0) {
+                    comment = this.findVisibleCommentInGroup(uid);
+                } else if (this.collectionComments.length !== 0) {
+                    comment = _.findWhere(this.collectionComments, {uid: uid, hide: false});
+                }
+                return comment;
+            },
+
             apiShowComments: function(uid) {
                 var comments,
                     me = this;
@@ -988,12 +998,15 @@ define([
 
             onViewPrevComment: function() {
                 if (this.showComments && this.showComments.length > 0) {
-                    if (this.indexCurrentComment - 1 < 0) {
-                        this.indexCurrentComment = this.showComments.length - 1;
-                    } else {
-                        this.indexCurrentComment -= 1;
+                    for (var i=0; i<this.showComments.length; i++) {
+                        if (this.indexCurrentComment - 1 < 0) {
+                            this.indexCurrentComment = this.showComments.length - 1;
+                        } else {
+                            this.indexCurrentComment -= 1;
+                        }
+                        if (this.view.renderViewComments(this.showComments, this.indexCurrentComment))
+                            break;
                     }
-                    this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
                         $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
@@ -1005,12 +1018,15 @@ define([
 
             onViewNextComment: function() {
                 if (this.showComments && this.showComments.length > 0) {
-                    if (this.indexCurrentComment + 1 === this.showComments.length) {
-                        this.indexCurrentComment = 0;
-                    } else {
-                        this.indexCurrentComment += 1;
+                    for (var i=0; i<this.showComments.length; i++) {
+                        if (this.indexCurrentComment + 1 === this.showComments.length) {
+                            this.indexCurrentComment = 0;
+                        } else {
+                            this.indexCurrentComment += 1;
+                        }
+                        if (this.view.renderViewComments(this.showComments, this.indexCurrentComment))
+                            break;
                     }
-                    this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
                         $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
@@ -1543,7 +1559,8 @@ define([
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
                             editable            : (this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username)
+                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
+                            hide                : !Common.Utils.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
                         });
                     }
                 }
@@ -1573,7 +1590,8 @@ define([
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
                     editable            : (this.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                    removable           : (this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username)
+                    removable           : (this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
+                    hide                : !Common.Utils.UserInfoParser.canViewComment(username)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1611,6 +1629,7 @@ define([
                     comment.date = me.dateToLocaleTimeString(date);
                     comment.editable = (me.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(data.asc_getUserName());
                     comment.removable = (me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(data.asc_getUserName());
+                    comment.hide = !Common.Utils.UserInfoParser.canViewComment(data.asc_getUserName());
 
                     replies = _.clone(comment.replys);
 
@@ -1636,7 +1655,8 @@ define([
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
                             editable            : (me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username)
+                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
+                            hide                : !Common.Utils.UserInfoParser.canViewComment(username)
                         });
                     }
                     comment.replys = replies;
@@ -1704,6 +1724,15 @@ define([
                     var store = this.groupCollectionComments[name];
                     var id = _.isArray(id) ? id[0] : id;
                     var model = _.findWhere(store, {uid: id});
+                    if (model) return model;
+                }
+            },
+
+            findVisibleCommentInGroup: function (id) {
+                for (var name in this.groupCollectionComments) {
+                    var store = this.groupCollectionComments[name];
+                    var id = _.isArray(id) ? id[0] : id;
+                    var model = _.findWhere(store, {uid: id, hide: false});
                     if (model) return model;
                 }
             },

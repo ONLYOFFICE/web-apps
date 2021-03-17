@@ -54,7 +54,8 @@ define([
         var _actionSheets = [],
             _isEdit = false,
             _canViewComments = true,
-            _isComments = false;
+            _isComments = false,
+            _isVisibleComments = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -321,8 +322,18 @@ define([
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
                     seltype         = cellinfo.asc_getSelectionType(),
-                    xfs             = cellinfo.asc_getXfs();
-                _isComments      = cellinfo.asc_getComments().length>0; //prohibit adding multiple comments in one cell;
+                    xfs             = cellinfo.asc_getXfs(),
+                    comments = cellinfo.asc_getComments();
+                _isComments      = comments.length>0; //prohibit adding multiple comments in one cell;
+                _isVisibleComments = false;
+                if (comments && comments.length > 0) {
+                    for (var i = 0; i < comments.length; ++i) {
+                        if (me.getApplication().getController('Common.Controllers.Collaboration').findVisibleComment(comments[i].asc_getId())) {
+                            _isVisibleComments = true;
+                            break;
+                        }
+                    }
+                }
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -350,7 +361,7 @@ define([
                             event: 'openlink'
                         });
                     }
-                    if (_canViewComments && _isComments) {
+                    if (_canViewComments && _isVisibleComments) {
                         arrItems.push({
                             caption: me.menuViewComment,
                             event: 'viewcomment'
@@ -463,12 +474,12 @@ define([
                         }
 
                         if (_canViewComments) {
-                            if (_isComments) {
+                            if (_isVisibleComments) {
                                 arrItems.push({
                                     caption: me.menuViewComment,
                                     event: 'viewcomment'
                                 });
-                            } else if (iscellmenu) {
+                            } else if (iscellmenu && !_isComments) {
                                 arrItems.push({
                                     caption: me.menuAddComment,
                                     event: 'addcomment'

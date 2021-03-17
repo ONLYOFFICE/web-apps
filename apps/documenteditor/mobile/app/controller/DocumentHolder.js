@@ -454,7 +454,15 @@ define([
             },
 
             onApiShowComment: function(comments) {
-                _isComments = comments && comments.length>0;
+                _isComments = false;
+                if (comments && comments.length > 0) {
+                    for (var i = 0; i < comments.length; ++i) {
+                        if (this.getApplication().getController('Common.Controllers.Collaboration').findVisibleComment(comments[i])) {
+                            _isComments = true;
+                            break;
+                        }
+                    }
+                }
             },
 
             onApiHideComment: function() {
