@@ -774,9 +774,11 @@ define([
 
                     me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroups ||
                                                             me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
-                    Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                    me.appOptions.canUseCommentPermissions = me.appOptions.canLicense && !!me.permissions.commentGroups;
+                    Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions || me.appOptions.canUseCommentPermissions);
                     Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
                     me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
+                    me.appOptions.canUseCommentPermissions && Common.Utils.UserInfoParser.setCommentPermissions(me.permissions.commentGroups);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;

@@ -1034,9 +1034,11 @@ define([
 
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                          this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
-                Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
+                this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
+                Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
                 this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
+                this.appOptions.canUseCommentPermissions && Common.Utils.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                 appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);

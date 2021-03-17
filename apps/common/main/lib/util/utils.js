@@ -982,9 +982,20 @@ Common.Utils.UserInfoParser = new(function() {
     var parse = false,
         separator = String.fromCharCode(160),
         username = '',
-        usergroups,
-        reviewPermissions,
-        reviewGroups;
+        _reviewPermissions,
+        reviewGroups,
+        commentGroups;
+
+    var _intersection = function (arr1, arr2) {
+        if (arr1 && arr2) {
+            for (var i=0; i<arr2.length; i++) {
+                if (arr1.indexOf(arr2[i])>-1)
+                    return true;
+            }
+        }
+        return false;
+    };
+
     return {
         setParser: function(value) {
             parse = !!value;
@@ -995,10 +1006,7 @@ Common.Utils.UserInfoParser = new(function() {
         },
 
         getParsedName: function(username) {
-            if (parse && username) {
-                return username.substring(username.indexOf(separator)+1);
-            } else
-                return username;
+            return (parse && username) ? username.substring(username.indexOf(separator)+1) : username;
         },
 
         getParsedGroups: function(username) {
@@ -1008,13 +1016,12 @@ Common.Utils.UserInfoParser = new(function() {
                 for (var i=0; i<groups.length; i++)
                     groups[i] = groups[i].trim();
                 return groups;
-            } else
-                return undefined;
+            } 
         },
 
         setCurrentName: function(name) {
             username = name;
-            this.setReviewPermissions(reviewGroups, reviewPermissions);
+            _reviewPermissions && this.setReviewPermissions(null, _reviewPermissions); // old version of review permissions
         },
 
         getCurrentName: function() {
@@ -1024,27 +1031,59 @@ Common.Utils.UserInfoParser = new(function() {
         setReviewPermissions: function(groups, permissions) {
             if (groups) {
                 if  (typeof groups == 'object' && groups.length>0)
-                    usergroups = groups;
-                reviewGroups = groups;
-            } else if (permissions) {
+                    reviewGroups = groups;
+            } else if (permissions) { // old version of review permissions
                 var arr = [],
                     arrgroups  =  this.getParsedGroups(username);
                 arrgroups && arrgroups.forEach(function(group) {
                     var item = permissions[group.trim()];
                     item && (arr = arr.concat(item));
                 });
-                usergroups = arr;
-                reviewPermissions = permissions;
+                reviewGroups = arr;
+                _reviewPermissions = permissions;
             }
         },
 
-        getCurrentGroups: function() {
-            return usergroups;
+        setCommentPermissions: function(groups) {
+            if (groups && typeof groups == 'object') {
+                commentGroups = {
+                    view: (typeof groups.view == 'object' && groups.view.length>0) ? groups.view : null,
+                    edit: (typeof groups.edit == 'object' && groups.edit.length>0) ? groups.edit : null,
+                    remove: (typeof groups.remove == 'object' && groups.remove.length>0) ? groups.remove : null
+                };
+            }
         },
 
         canEditReview: function(username) {
+            if (!parse || !reviewGroups) return true;
+
             var groups = this.getParsedGroups(username);
-            return usergroups && groups && (_.intersection(usergroups, (groups.length>0) ? groups : [""]).length>0);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(reviewGroups, groups);
+        },
+
+        canViewComment: function(username) {
+            if (!parse || !commentGroups) return true;
+
+            var groups = this.getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.view, groups);
+        },
+
+        canEditComment: function(username) {
+            if (!parse || !commentGroups) return true;
+
+            var groups = this.getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.edit, groups);
+        },
+
+        canDeleteComment: function(username) {
+            if (!parse || !commentGroups) return true;
+
+            var groups = this.getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.remove, groups);
         }
     }
 })();

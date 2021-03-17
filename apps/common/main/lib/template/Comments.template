@@ -73,7 +73,9 @@
                 <% if (removable) { %>
                     <div class="btn-delete img-commonctrl"></div>
                 <% } %>
+                <% if (editable) { %>
                 <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                <% } %>
             </div>
         <% } %>
 

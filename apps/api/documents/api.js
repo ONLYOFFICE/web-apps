@@ -51,6 +51,11 @@
                     editCommentAuthorOnly: <can edit your own comments only> // default = false
                     deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
                     reviewGroups: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
+                    commentGroups: { // {} - use groups, but can't view/edit/delete any group's comments
+                         view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
+                         edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
+                         remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
+                    }
                 }
             },
             editorConfig: {
