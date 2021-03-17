@@ -996,27 +996,19 @@ Common.Utils.UserInfoParser = new(function() {
         return false;
     };
 
+    var _getParsedGroups = function(username) {
+        if (parse && username) {
+            var idx = username.indexOf(separator),
+                groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+            for (var i=0; i<groups.length; i++)
+                groups[i] = groups[i].trim();
+            return groups;
+        }
+    };
+
     return {
         setParser: function(value) {
             parse = !!value;
-        },
-
-        getSeparator: function() {
-            return separator;
-        },
-
-        getParsedName: function(username) {
-            return (parse && username) ? username.substring(username.indexOf(separator)+1) : username;
-        },
-
-        getParsedGroups: function(username) {
-            if (parse && username) {
-                var idx = username.indexOf(separator),
-                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
-                for (var i=0; i<groups.length; i++)
-                    groups[i] = groups[i].trim();
-                return groups;
-            } 
         },
 
         setCurrentName: function(name) {
@@ -1028,13 +1020,21 @@ Common.Utils.UserInfoParser = new(function() {
             return username;
         },
 
+        getSeparator: function() {
+            return separator;
+        },
+
+        getParsedName: function(username) {
+            return (parse && username) ? username.substring(username.indexOf(separator)+1) : username;
+        },
+
         setReviewPermissions: function(groups, permissions) {
             if (groups) {
                 if  (typeof groups == 'object' && groups.length>0)
                     reviewGroups = groups;
             } else if (permissions) { // old version of review permissions
                 var arr = [],
-                    arrgroups  =  this.getParsedGroups(username);
+                    arrgroups  =  _getParsedGroups(username);
                 arrgroups && arrgroups.forEach(function(group) {
                     var item = permissions[group.trim()];
                     item && (arr = arr.concat(item));
@@ -1057,7 +1057,7 @@ Common.Utils.UserInfoParser = new(function() {
         canEditReview: function(username) {
             if (!parse || !reviewGroups) return true;
 
-            var groups = this.getParsedGroups(username);
+            var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
             return _intersection(reviewGroups, groups);
         },
@@ -1065,7 +1065,7 @@ Common.Utils.UserInfoParser = new(function() {
         canViewComment: function(username) {
             if (!parse || !commentGroups) return true;
 
-            var groups = this.getParsedGroups(username);
+            var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
             return _intersection(commentGroups.view, groups);
         },
@@ -1073,7 +1073,7 @@ Common.Utils.UserInfoParser = new(function() {
         canEditComment: function(username) {
             if (!parse || !commentGroups) return true;
 
-            var groups = this.getParsedGroups(username);
+            var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
             return _intersection(commentGroups.edit, groups);
         },
@@ -1081,7 +1081,7 @@ Common.Utils.UserInfoParser = new(function() {
         canDeleteComment: function(username) {
             if (!parse || !commentGroups) return true;
 
-            var groups = this.getParsedGroups(username);
+            var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
             return _intersection(commentGroups.remove, groups);
         }
