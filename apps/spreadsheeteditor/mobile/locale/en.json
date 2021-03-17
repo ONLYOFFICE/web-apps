@@ -323,5 +323,15 @@
             "textEditUser": "Users who are editing the file:",
             "textComments": "Comments"
         }
+    },
+    "About": {
+        "textNameEditor": "SPREADSHEET EDITOR",
+        "textAbout": "About",
+        "textVersion": "Version",
+        "textEmail": "Email",
+        "textAddress": "Address",
+        "textTel": "Tel",
+        "textPoweredBy": "Powered By",
+        "textBack": "Back"
     }
 }

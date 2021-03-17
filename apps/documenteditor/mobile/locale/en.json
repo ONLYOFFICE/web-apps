@@ -384,5 +384,15 @@
     "textStartAt": "Start At",
     "textLocation": "Location",
     "textFormat": "Format"
+  },
+  "About": {
+    "textNameEditor": "DOCUMENT EDITOR",
+    "textAbout": "About",
+    "textVersion": "Version",
+    "textEmail": "Email",
+    "textAddress": "Address",
+    "textTel": "Tel",
+    "textPoweredBy": "Powered By",
+    "textBack": "Back"
   }
 }

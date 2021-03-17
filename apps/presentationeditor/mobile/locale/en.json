@@ -268,5 +268,15 @@
       "textStandartColors": "Standard Colors",
       "textCustomColors": "Custom Colors"
     }
+  },
+  "About": {
+    "textNameEditor": "PRESENTATION EDITOR",
+    "textAbout": "About",
+    "textVersion": "Version",
+    "textEmail": "Email",
+    "textAddress": "Address",
+    "textTel": "Tel",
+    "textPoweredBy": "Powered By",
+    "textBack": "Back"
   }
 }
