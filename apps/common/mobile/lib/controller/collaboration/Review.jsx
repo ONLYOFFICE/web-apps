@@ -120,6 +120,7 @@ class Review extends Component {
                         onAcceptAll={this.onAcceptAll}
                         onRejectAll={this.onRejectAll}
                         onDisplayMode={this.onDisplayMode}
+                        noBack={this.props.noBack}
             />
         )
     }
@@ -520,6 +521,7 @@ class ReviewChange extends Component {
                               onRejectCurrentChange={this.onRejectCurrentChange}
                               onGotoNextChange={this.onGotoNextChange}
                               onDeleteChange={this.onDeleteChange}
+                              noBack={this.props.noBack}
             />
         )
     }

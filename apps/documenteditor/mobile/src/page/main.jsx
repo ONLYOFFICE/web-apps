@@ -23,7 +23,7 @@ export default class MainPage extends Component {
         };
     }
 
-    handleClickToOpenOptions = opts => {
+    handleClickToOpenOptions = (opts, page) => {
         ContextMenu.closeContextMenu();
 
         this.setState(state => {
@@ -34,7 +34,10 @@ export default class MainPage extends Component {
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
             else if ( opts == 'coauth' )
-                return {collaborationVisible: true};
+                return {
+                    collaborationVisible: true,
+                    collaborationPage: page
+                };
         });
     };
 
@@ -95,9 +98,9 @@ export default class MainPage extends Component {
               }
               {
                   !this.state.collaborationVisible ? null :
-                      <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                      <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
               }
-              <ContextMenu />
+              <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
           </Page>
       )
   }

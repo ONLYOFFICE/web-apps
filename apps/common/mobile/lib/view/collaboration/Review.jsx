@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, Icon, Toggle, Toolbar, Link } from 'framework7-react';
+import { Page, Navbar, NavRight, List, ListItem, Icon, Toggle, Toolbar, Link } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../utils/device";
@@ -14,7 +14,15 @@ const PageReview = props => {
 
     return (
        <Page>
-           <Navbar title={_t.textReview} backLink={_t.textBack}/>
+           <Navbar title={_t.textReview} backLink={!props.noBack && _t.textBack}>
+               {Device.phone &&
+               <NavRight>
+                   <Link sheetClose=".coauth__sheet">
+                       <Icon icon='icon-expand-down'/>
+                   </Link>
+               </NavRight>
+               }
+           </Navbar>
            <List>
                {canReview &&
                     <ListItem title={_t.textTrackChanges} className={isDisableAllSettings ? 'disabled' : ''}>
@@ -58,7 +66,15 @@ const DisplayMode = props => {
     const mode = props.storeReview.displayMode;
     return (
         <Page>
-            <Navbar title={_t.textDisplayMode} backLink={_t.textBack}/>
+            <Navbar title={_t.textDisplayMode} backLink={_t.textBack}>
+                {Device.phone &&
+                <NavRight>
+                    <Link sheetClose=".coauth__sheet">
+                        <Icon icon='icon-expand-down'/>
+                    </Link>
+                </NavRight>
+                }
+            </Navbar>
             <List mediaList>
                 <ListItem title={_t.textMarkup}
                           subtitle={_t.textAllChangesEditing}
@@ -99,7 +115,15 @@ const PageReviewChange = props => {
     const isLockPrevNext = (displayMode === "final" || displayMode === "original");
     return (
         <Page className='page-review'>
-            <Navbar title={_t.textReviewChange} backLink={_t.textBack}/>
+            <Navbar title={_t.textReviewChange} backLink={!props.noBack && _t.textBack}>
+                {Device.phone &&
+                <NavRight>
+                    <Link sheetClose=".coauth__sheet">
+                        <Icon icon='icon-expand-down'/>
+                    </Link>
+                </NavRight>
+                }
+            </Navbar>
             <Toolbar position='bottom'>
                 <span className='change-buttons row'>
                     {!props.isReviewOnly &&
