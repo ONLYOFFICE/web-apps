@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
+import { withTranslation} from 'react-i18next';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import { Device } from '../../../../common/mobile/utils/device';
-import { withTranslation} from 'react-i18next';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
@@ -48,7 +50,23 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
+        const api = Common.EditorApi.get();
         switch (action) {
+            case 'cut':
+                if (!api.Cut() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                    this.showCopyCutPasteModal();
+                }
+                break;
+            case 'copy':
+                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                    this.showCopyCutPasteModal();
+                }
+                break;
+            case 'paste':
+                if (!api.Paste() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                    this.showCopyCutPasteModal();
+                }
+                break;
             case 'addcomment':
                 Common.Notifications.trigger('addcomment');
                 break;
@@ -58,6 +76,29 @@ class ContextMenu extends ContextMenuController {
         }
 
         console.log("click context menu item: " + action);
+    }
+
+    showCopyCutPasteModal() {
+        const { t } = this.props;
+        const _t = t("ContextMenu", { returnObjects: true });
+        f7.dialog.create({
+            title: _t.textCopyCutPasteActions,
+            text: _t.errorCopyCutPaste,
+            content: `<div class="checkbox-in-modal">
+                      <label class="checkbox">
+                        <input type="checkbox" name="checkbox-show" />
+                        <i class="icon-checkbox"></i>
+                      </label>
+                      <span class="right-text">${_t.textDoNotShowAgain}</span>
+                      </div>`,
+            buttons: [{
+                text: 'OK',
+                onClick: () => {
+                    const dontShow = $$('input[name="checkbox-show"]').prop('checked');
+                    if (dontShow) LocalStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                }
+            }]
+        }).open();
     }
 
     onDocumentReady() {
