@@ -310,4 +310,5 @@ class ContextMenu extends ContextMenuController {
 }
 
 const _ContextMenu = withTranslation()(ContextMenu);
+_ContextMenu.closeContextMenu = ContextMenu.closeContextMenu;
 export { _ContextMenu as default };
