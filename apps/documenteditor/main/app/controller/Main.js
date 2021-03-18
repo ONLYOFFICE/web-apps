@@ -571,6 +571,7 @@ define([
                     appHeader.getButton('users') && appHeader.getButton('users').hide();
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
+                    this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
                         currentVersion = null;
@@ -701,6 +702,7 @@ define([
                 app.getController('LeftMenu').SetDisabled(disable, true);
                 app.getController('Toolbar').DisableToolbar(disable, disable);
                 app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                app.getController('Viewport').SetDisabled(disable);
             },
 
             goBack: function(current) {
