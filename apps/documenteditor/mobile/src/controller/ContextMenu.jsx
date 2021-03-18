@@ -20,6 +20,7 @@ class ContextMenu extends ContextMenuController {
         // console.log('context menu controller created');
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
+        this.onApiShowChange = this.onApiShowChange.bind(this);
     }
 
     static closeContextMenu() {
@@ -32,6 +33,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_unregisterCallback('asc_onShowRevisionsChange', this.onApiShowChange);
     }
 
 
@@ -41,6 +43,10 @@ class ContextMenu extends ContextMenuController {
 
     onApiHideComment() {
         this.isComments = false;
+    }
+
+    onApiShowChange(sdkchange) {
+        this.inRevisionChange = sdkchange && sdkchange.length>0;
     }
 
     // onMenuClosed() {
@@ -72,6 +78,16 @@ class ContextMenu extends ContextMenuController {
                 break;
             case 'viewcomment':
                 Common.Notifications.trigger('viewcomment');
+                break;
+            case 'review':
+                setTimeout(() => {
+                    this.props.openOptions('coauth', 'cm-review');
+                }, 400);
+                break;
+            case 'reviewchange':
+                setTimeout(() => {
+                    this.props.openOptions('coauth', 'cm-review-change');
+                }, 400);
                 break;
         }
 
@@ -107,6 +123,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_registerCallback('asc_onShowRevisionsChange', this.onApiShowChange);
     }
 
     initMenuItems() {
@@ -246,7 +263,7 @@ class ContextMenu extends ContextMenuController {
                 // }
 
                 if ( canReview ) {
-                    if (false /*_inRevisionChange*/) {
+                    if (this.inRevisionChange) {
                         itemsText.push({
                             caption: _t.menuReviewChange,
                             event: 'reviewchange'

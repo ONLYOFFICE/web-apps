@@ -16,7 +16,15 @@ const PageUsers = inject("users")(observer(props => {
     const storeUsers = props.users;
     return (
         <Page name="collab__users">
-            <Navbar title={_t.textUsers} backLink={_t.textBack}></Navbar>
+            <Navbar title={_t.textUsers} backLink={_t.textBack}>
+                {Device.phone &&
+                <NavRight>
+                    <Link sheetClose=".coauth__sheet">
+                        <Icon icon='icon-expand-down'/>
+                    </Link>
+                </NavRight>
+                }
+            </Navbar>
             <BlockTitle>{_t.textEditUser}</BlockTitle>
             <List className="coauth__list">
                 {storeUsers.users.map((model, i) => (
@@ -40,12 +48,30 @@ const routes = [
         component: ReviewController
     },
     {
+        path: '/cm-review/',
+        component: ReviewController,
+        options: {
+            props: {
+                noBack: true
+            }
+        }
+    },
+    {
         path: '/display-mode/',
         component: PageDisplayMode
     },
     {
         path: '/review-change/',
         component: ReviewChangeController
+    },
+    {
+        path: '/cm-review-change/',
+        component: ReviewChangeController,
+        options: {
+            props: {
+                noBack: true
+            }
+        }
     },
     {
         path: '/comments/',
@@ -62,10 +88,10 @@ const PageCollaboration = inject('storeAppOptions')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} stackPages={true} routes={routes} url={props.page && `/${props.page}/`}>
             <Page name="collab__main">
                 <Navbar title={_t.textCollaboration}>
-                    {props.isSheet &&
+                    {Device.phone &&
                         <NavRight>
                             <Link sheetClose=".coauth__sheet">
                                 <Icon icon='icon-expand-down'/>
@@ -108,10 +134,10 @@ class CollaborationView extends Component {
         return (
             show_popover ?
                 <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <PageCollaboration style={{height: '410px'}}/>
+                    <PageCollaboration style={{height: '410px'}} page={this.props.page}/>
                 </Popover> :
                 <Sheet className="coauth__sheet" push onSheetClosed={() => this.props.onclosed()}>
-                    <PageCollaboration isSheet={true}/>
+                    <PageCollaboration page={this.props.page}/>
                 </Sheet>
         )
     }
@@ -135,7 +161,7 @@ const Collaboration = props => {
     };
 
     return (
-        <CollaborationView usePopover={!Device.phone} onclosed={onviewclosed} />
+        <CollaborationView usePopover={!Device.phone} onclosed={onviewclosed} page={props.page}/>
     )
 };
 
