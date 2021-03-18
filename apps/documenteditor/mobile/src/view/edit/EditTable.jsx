@@ -70,10 +70,10 @@ const PageWrap = props => {
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}>
+                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onChange={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}>
                     {!isAndroid && <Icon slot="media" icon="icon-wrap-table-inline"></Icon>}
                 </ListItem>
-                <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}>
+                <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onChange={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}>
                     {!isAndroid && <Icon slot="media" icon="icon-wrap-table-flow"></Icon>}
                 </ListItem>
             </List>

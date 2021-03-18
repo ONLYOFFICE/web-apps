@@ -131,6 +131,7 @@ const PageBullets = props => {
     ];
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
+    
     return(
         <Page className='bullets dataview'>
             <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')} />

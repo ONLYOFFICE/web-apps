@@ -155,8 +155,10 @@ export class storeFocusObjects {
     get chartObject() {
         const charts = [];
         for (let object of this._focusObjects) {
-            if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
-                charts.push(object);
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
+                    charts.push(object);
+                }
             }
         }
         if (charts.length > 0) {

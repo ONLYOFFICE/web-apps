@@ -159,6 +159,7 @@ module.exports = {
       __PUBLISHER_PHONE__: JSON.stringify('+371 633-99867'),
       __PUBLISHER_URL__: JSON.stringify('https://www.onlyoffice.com'),
       __PUBLISHER_NAME__: JSON.stringify('Ascensio System SIA'),
+      __HELP_URL__: JSON.stringify('https://helpcenter.onlyoffice.com'),
     }),
 
     ...(env === 'production' ? [

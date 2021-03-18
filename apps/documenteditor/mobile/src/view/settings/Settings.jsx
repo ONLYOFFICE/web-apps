@@ -72,6 +72,31 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
         }
     };
 
+    const onPrint = () => {
+        closeModal();
+        const api = Common.EditorApi.get();
+        api.asc_Print();
+    };
+
+    const showHelp = () => {
+        let url = __HELP_URL__;
+        // let url = 'https://helpcenter.onlyoffice.com';
+
+        if (url.charAt(url.length-1) !== '/') {
+            url += '/';
+        }
+
+        if (Device.sailfish || Device.android) {
+            url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+        } 
+        else {
+            url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
+        }
+
+        closeModal();
+        window.open(url, "_blank");
+    };
+
     useEffect(() => {
     });
 
@@ -138,7 +163,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                     </ListItem>
                     }
                     {_canPrint &&
-                        <ListItem title={_t.textPrint}>
+                        <ListItem title={_t.textPrint} onClick={onPrint}>
                             <Icon slot="media" icon="icon-print"></Icon>
                         </ListItem>
                     }
@@ -146,7 +171,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
                     {_canHelp &&
-                        <ListItem title={_t.textHelp} link="#">
+                        <ListItem title={_t.textHelp} link="#" onClick={showHelp}>
                             <Icon slot="media" icon="icon-help"></Icon>
                         </ListItem>
                     }
