@@ -106,6 +106,21 @@ class ContextMenu extends ContextMenuController {
                     this.props.openOptions('edit');
                 }, 0);
                 break;
+            case 'addlink':
+                setTimeout(() => {
+                    this.props.openOptions('add', 'link');
+                }, 400)
+                break;
+            case 'openlink':
+                const stack = Common.EditorApi.get().getSelectedElements();
+                let value;
+                stack.forEach((item) => {
+                    if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                        value = item.get_ObjectValue().get_Value();
+                    }
+                });
+                value && this.openLink(value);
+                break;
         }
 
         console.log("click context menu item: " + action);
@@ -183,6 +198,15 @@ class ContextMenu extends ContextMenuController {
                 value: [3, 3]
             });
         });
+    }
+
+    openLink(url) {
+        if (Common.EditorApi.get().asc_getUrlType(url) > 0) {
+            const newDocumentPage = window.open(url, '_blank');
+            if (newDocumentPage) {
+                newDocumentPage.focus();
+            }
+        }
     }
 
     onDocumentReady() {
@@ -323,12 +347,12 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                // if ( !_.isEmpty(api.can_AddHyperlink()) && !lockedHeader) {
-                //     arrItems.push({
-                //         caption: _t.menuAddLink,
-                //         event: 'addlink'
-                //     });
-                // }
+                if ( !!api.can_AddHyperlink() && !lockedHeader) {
+                    itemsText.push({
+                        caption: _t.menuAddLink,
+                        event: 'addlink'
+                    });
+                }
 
                 if ( canReview ) {
                     if (this.inRevisionChange) {
