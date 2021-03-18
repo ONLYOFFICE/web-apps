@@ -589,7 +589,7 @@ define([
                                 if (!user) {
                                     user = new Common.Models.User({
                                         id          : version.user.id,
-                                        username    : version.user.name,
+                                        username    : version.user.name || this.textAnonymous,
                                         colorval    : Asc.c_oAscArrUserColors[usersCnt],
                                         color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                     });
@@ -600,7 +600,7 @@ define([
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
-                                    username : version.user.name,
+                                    username : version.user.name || this.textAnonymous,
                                     usercolor: user.get('color'),
                                     created: version.created,
                                     docId: version.key,
@@ -637,7 +637,7 @@ define([
                                             if (!user) {
                                                 user = new Common.Models.User({
                                                     id          : change.user.id,
-                                                    username    : change.user.name,
+                                                    username    : change.user.name || this.textAnonymous,
                                                     colorval    : Asc.c_oAscArrUserColors[usersCnt],
                                                     color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                                 });
@@ -649,7 +649,7 @@ define([
                                                 revision: version.version,
                                                 changeid: i,
                                                 userid : change.user.id,
-                                                username : change.user.name,
+                                                username : change.user.name || this.textAnonymous,
                                                 usercolor: user.get('color'),
                                                 created: change.created,
                                                 docId: version.key,
