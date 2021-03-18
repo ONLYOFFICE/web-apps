@@ -89,6 +89,23 @@ class ContextMenu extends ContextMenuController {
                     this.props.openOptions('coauth', 'cm-review-change');
                 }, 400);
                 break;
+            case 'merge':
+                api.MergeCells();
+                break;
+            case 'split':
+                this.showSplitModal();
+                break;
+            case 'delete':
+                api.asc_Remove();
+                break;
+            case 'deletetable':
+                api.remTable();
+                break;
+            case 'edit':
+                setTimeout(() => {
+                    this.props.openOptions('edit');
+                }, 0);
+                break;
         }
 
         console.log("click context menu item: " + action);
@@ -115,6 +132,57 @@ class ContextMenu extends ContextMenuController {
                 }
             }]
         }).open();
+    }
+
+    showSplitModal() {
+        const { t } = this.props;
+        const _t = t("ContextMenu", { returnObjects: true });
+        let picker;
+        const dialog = f7.dialog.create({
+            title: _t.menuSplit,
+            text: '',
+            content:
+                '<div class="content-block">' +
+                '<div class="row">' +
+                '<div class="col-50">' + _t.textColumns + '</div>' +
+                '<div class="col-50">' + _t.textRows + '</div>' +
+                '</div>' +
+                '<div id="picker-split-size"></div>' +
+                '</div>',
+            buttons: [
+                {
+                    text: _t.menuCancel
+                },
+                {
+                    text: 'OK',
+                    bold: true,
+                    onClick: function () {
+                        const size = picker.value;
+                        Common.EditorApi.get().SplitCell(parseInt(size[0]), parseInt(size[1]));
+                    }
+                }
+            ]
+        }).open();
+        dialog.on('opened', () => {
+            picker = f7.picker.create({
+                containerEl: document.getElementById('picker-split-size'),
+                cols: [
+                    {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    },
+                    {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }
+                ],
+                toolbar: false,
+                rotateEffect: true,
+                value: [3, 3]
+            });
+        });
     }
 
     onDocumentReady() {
