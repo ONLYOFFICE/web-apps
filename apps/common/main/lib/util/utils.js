@@ -1063,7 +1063,7 @@ Common.Utils.UserInfoParser = new(function() {
         },
 
         canViewComment: function(username) {
-            if (!parse || !commentGroups) return true;
+            if (!parse || !commentGroups || !commentGroups.view) return true;
 
             var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
@@ -1071,7 +1071,7 @@ Common.Utils.UserInfoParser = new(function() {
         },
 
         canEditComment: function(username) {
-            if (!parse || !commentGroups) return true;
+            if (!parse || !commentGroups || !commentGroups.edit) return true;
 
             var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
@@ -1079,7 +1079,7 @@ Common.Utils.UserInfoParser = new(function() {
         },
 
         canDeleteComment: function(username) {
-            if (!parse || !commentGroups) return true;
+            if (!parse || !commentGroups || !commentGroups.remove) return true;
 
             var groups = _getParsedGroups(username);
             groups && (groups.length==0) && (groups = [""]);
