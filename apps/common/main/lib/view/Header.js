@@ -715,6 +715,18 @@ define([
                     if ( lock )
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
                         $btnUsers.removeClass('disabled').attr('disabled', '');
+                } else if ( alias == 'rename-user' ) {
+                    if (me.labelUserName) {
+                        if ( lock ) {
+                            me.labelUserName.removeClass('clickable');
+                            me.labelUserName.addClass('disabled');
+                        } else {
+                            me.labelUserName.addClass('clickable');
+                            me.labelUserName.removeClass('disabled');
+                        }
+                    } else if (me.btnUserName) {
+                        me.btnUserName.setDisabled(lock);
+                    }
                 } else {
                     var _lockButton = function (btn) {
                         if ( btn ) {
