@@ -7,6 +7,7 @@
     color: @text-normal;
     border-width: @scaled-one-px-value-ie;
     border-width: @scaled-one-px-value;
+    opacity: @component-normal-opacity;
 
     .btnsize(@value) {
         min-width: @value;
@@ -52,11 +53,15 @@
     &:hover {
         color: @text-normal-ie;
         color: @text-normal;
+
+        opacity: @component-hover-opacity;
     }
 
     &:active, &.active {
         -webkit-box-shadow: none;
         box-shadow: none;
+
+        opacity: @component-active-opacity;
     }
 
     .caret {
