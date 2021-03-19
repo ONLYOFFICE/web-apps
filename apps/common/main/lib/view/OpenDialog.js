@@ -60,7 +60,20 @@ define([
                 height = 277;
             } else {
                 width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
-                height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
+                switch (options.type) {
+                    case Common.Utils.importTextType.CSV:
+                    case Common.Utils.importTextType.Paste:
+                    case Common.Utils.importTextType.Columns:
+                        height = 190;
+                        break;
+                    case Common.Utils.importTextType.Data:
+                        height = 220;
+                        break;
+                    default:
+                        height = options.warning ? 187 : 147;
+                        break;
+                }
+                // height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
             }
 
             _.extend(_options,  {
@@ -98,7 +111,7 @@ define([
                         '<% } %>',
                     '<% } else { %>',
                         '<% if (codepages && codepages.length>0) { %>',
-                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
+                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
                             '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
@@ -114,7 +127,7 @@ define([
                             '</div>',
                         '</div>',
                         '<% } %>',
-                        '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns) { %>',
+                        '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data) { %>',
                         '<div style="display: inline-block; margin-bottom:15px;width: 100%;">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
@@ -321,7 +334,7 @@ define([
                 ul.find('li div').width(width);
             }
 
-            if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns) {
+            if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
                 this.cmbDelimiter = new Common.UI.ComboBox({
                     el: $('#id-delimiters-combo', this.$window),
                     style: 'width: 100px;',
@@ -351,7 +364,7 @@ define([
                 if (this.preview)
                     this.inputDelimiter.on ('changing', _.bind(this.updatePreview, this));
 
-                if (this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns) {
+                if (this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
                     this.btnAdvanced = new Common.UI.Button({
                         el: $('#id-delimiters-advanced')
                     });
@@ -382,6 +395,14 @@ define([
                         options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
                     }
                     this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
+                    break;
+                case Common.Utils.importTextType.Data:
+                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                    if (this.separatorOptions) {
+                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
+                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                    }
+                    this.api.asc_TextFromFileOrUrl(options, _.bind(this.previewCallback, this), undefined, true);
                     break;
             }
         },
@@ -424,7 +445,7 @@ define([
                 delete this.scrollerX;
             }
 
-            if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns) {
+            if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
                 var maxlength = 0;
                 for (var i=0; i<data.length; i++) {
                     if (data[i].length>maxlength)
