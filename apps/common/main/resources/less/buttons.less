@@ -7,7 +7,6 @@
     color: @text-normal;
     border-width: @scaled-one-px-value-ie;
     border-width: @scaled-one-px-value;
-    opacity: @component-normal-opacity;
 
     .btnsize(@value) {
         min-width: @value;
@@ -53,15 +52,11 @@
     &:hover {
         color: @text-normal-ie;
         color: @text-normal;
-
-        opacity: @component-hover-opacity;
     }
 
     &:active, &.active {
         -webkit-box-shadow: none;
         box-shadow: none;
-
-        opacity: @component-active-opacity;
     }
 
     .caret {
@@ -177,7 +172,13 @@
 
     &:not(:disabled) {
         .icon {
-            opacity: @button-icon-opacity;
+            opacity: @component-normal-icon-opacity;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        .icon {
+            opacity: @component-hover-icon-opacity;
         }
     }
 
@@ -188,6 +189,14 @@
                 border-color: @background-normal-ie;
                 border-color: @background-normal;
             }
+        }
+
+        .icon {
+            opacity: @component-active-icon-opacity;
+        }
+
+        &:hover .icon {
+            opacity: @component-active-hover-icon-opacity;
         }
     }
 }
