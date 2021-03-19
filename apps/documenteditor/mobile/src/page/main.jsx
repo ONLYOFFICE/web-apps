@@ -18,25 +18,29 @@ export default class MainPage extends Component {
         this.state = {
             editOptionsVisible: false,
             addOptionsVisible: false,
+            addShowOptions: null,
             settingsVisible: false,
             collaborationVisible: false
         };
     }
 
-    handleClickToOpenOptions = (opts, page) => {
+    handleClickToOpenOptions = (opts, showOpts) => {
         ContextMenu.closeContextMenu();
 
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
             else if ( opts == 'add' )
-                return {addOptionsVisible: true};
+                return {
+                    addOptionsVisible: true,
+                    addShowOptions: showOpts
+                };
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
             else if ( opts == 'coauth' )
                 return {
                     collaborationVisible: true,
-                    collaborationPage: page
+                    collaborationPage: showOpts
                 };
         });
     };
@@ -90,7 +94,7 @@ export default class MainPage extends Component {
               }
               {
                   !this.state.addOptionsVisible ? null :
-                      <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} />
+                      <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
               }
               {
                   !this.state.settingsVisible ? null :
