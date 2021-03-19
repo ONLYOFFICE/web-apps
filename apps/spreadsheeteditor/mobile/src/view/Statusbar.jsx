@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Toolbar, Link, Icon } from 'framework7-react';
+import { View, Toolbar, Link, Icon, Popover, List, ListButton } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 
 const viewStyle = {
@@ -22,7 +22,7 @@ const StatusbarView = inject('sheets')(observer(props => {
                     <ul className="sheet-tabs bottom">
                         {sheets.sheets.map((model,i) =>
                             model.hidden ? null :
-                                <li className={getTabClassList(model)} key={i}>
+                                <li className={getTabClassList(model)} key={i} onClick={() => props.onTabClick(i)}>
                                     <a onClick={e => props.onTabClicked(i)}>{model.name}</a>
                                 </li>
                         )}
@@ -31,4 +31,23 @@ const StatusbarView = inject('sheets')(observer(props => {
             </View>;
 }));
 
-export default StatusbarView;
+const TabContextMenu = props => {
+    return (
+        <Popover id="idx-statusbar-context-menu-popover"
+                className="document-menu"
+                backdrop={false}
+                closeByBackdropClick={false}
+                closeByOutsideClick={false}
+                // onPopoverClosed={e => this.props.onMenuClosed()}
+            >
+                <List className="list-block">
+                    <ListButton title="Duplicate" onClick={() => this.props.onTabMenu('copy')} />
+                    <ListButton title="Delete" onClick={() => this.props.onTabMenu('del')} />
+                    <ListButton title="Rename" onClick={() => this.props.onTabMenu('ren')} />
+                    <ListButton title="Hide" onClick={() => this.props.onTabMenu('hide')} />
+                </List>
+        </Popover>
+    )
+}
+
+export {StatusbarView, TabContextMenu};
