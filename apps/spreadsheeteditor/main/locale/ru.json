@@ -2541,7 +2541,7 @@
   "SSE.Views.SignatureSettings.strValid": "Действительные подписи",
   "SSE.Views.SignatureSettings.txtContinueEditing": "Все равно редактировать",
   "SSE.Views.SignatureSettings.txtEditWarning": "При редактировании из электронной таблицы будут удалены подписи.<br>Продолжить?",
-  "SSE.Views.SignatureSettings.txtRemoveWarning": "Вы действительно хотите удалить эту подпись?<br> Это действие нельзя отменить.",
+  "SSE.Views.SignatureSettings.txtRemoveWarning": "Вы хотите удалить эту подпись?<br>Это нельзя отменить.",
   "SSE.Views.SignatureSettings.txtRequestedSignatures": "Эту таблицу требуется подписать.",
   "SSE.Views.SignatureSettings.txtSigned": "В электронную таблицу добавлены действительные подписи. Таблица защищена от редактирования.",
   "SSE.Views.SignatureSettings.txtSignedInvalid": "Некоторые из цифровых подписей в электронной таблице недействительны или их нельзя проверить. Таблица защищена от редактирования.",

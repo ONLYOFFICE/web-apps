@@ -253,6 +253,7 @@
   "SSE.Controllers.Main.textContactUs": "Equipo de ventas",
   "SSE.Controllers.Main.textCustomLoader": "Note, por favor, que según los términos de la licencia Usted no tiene derecho a cambiar el cargador.<br>Por favor, póngase en contacto con nuestro Departamento de Ventas para obtener una cotización.",
   "SSE.Controllers.Main.textDone": "Listo",
+  "SSE.Controllers.Main.textGuest": "Invitado",
   "SSE.Controllers.Main.textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
   "SSE.Controllers.Main.textLoadingDocument": "Cargando hoja de cálculo",
   "SSE.Controllers.Main.textNo": "No",

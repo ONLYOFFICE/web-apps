@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Kontaktujte predajcu",
   "DE.Controllers.Main.textCustomLoader": "Všimnite si, prosím, že podľa zmluvných podmienok licencie nemáte oprávnenie zmeniť loader.<br>Kontaktujte prosím naše Predajné oddelenie, aby ste získali odhad ceny.",
   "DE.Controllers.Main.textDone": "Hotovo",
+  "DE.Controllers.Main.textGuest": "Hosť",
   "DE.Controllers.Main.textHasMacros": "Súbor obsahuje automatické makrá.<br>Chcete makrá spustiť?",
   "DE.Controllers.Main.textLoadingDocument": "Načítavanie dokumentu",
   "DE.Controllers.Main.textNo": "Nie",
