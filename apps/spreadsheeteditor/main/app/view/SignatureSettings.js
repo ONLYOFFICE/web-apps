@@ -310,7 +310,18 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')), guid);// can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_RemoveSignature(guid);
+                    var me = this;
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.txtRemoveWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_RemoveSignature(guid);
+                            }
+                        }
+                    });
                     break;
             }
         },
@@ -416,7 +427,8 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
         strDelete: 'Remove Signature',
-        strSigner: 'Signer'
+        strSigner: 'Signer',
+        txtRemoveWarning: 'Are you sure you want to remove this signature?<br>This action cannot be undone.'
 
     }, SSE.Views.SignatureSettings || {}));
 });
