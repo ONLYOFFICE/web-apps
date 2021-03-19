@@ -11,7 +11,8 @@ import { Device } from '../../../../common/mobile/utils/device';
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canViewComments: stores.storeAppOptions.canViewComments,
-    canReview: stores.storeAppOptions.canReview
+    canReview: stores.storeAppOptions.canReview,
+    users: stores.users
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -21,10 +22,16 @@ class ContextMenu extends ContextMenuController {
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.onApiShowChange = this.onApiShowChange.bind(this);
+        this.getUserName = this.getUserName.bind(this);
     }
 
     static closeContextMenu() {
         f7.popover.close(idContextMenuElement, false);
+    }
+
+    getUserName(id) {
+        const user = this.props.users.searchUserByCurrentId(id);
+        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {

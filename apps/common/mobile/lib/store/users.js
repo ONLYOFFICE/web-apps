@@ -62,4 +62,14 @@ export class storeUsers {
         });
         return user;
     }
+
+    searchUserByCurrentId (id) {
+        let user = null;
+        this.users.forEach((item) => {
+            if (item.asc_getId() === id) {
+                user = item;
+            }
+        });
+        return user;
+    }
 }
