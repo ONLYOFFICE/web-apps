@@ -137,7 +137,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 menuStyle   : 'min-width: 100%;max-height: 211px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.refreshRuleList(record);
             });
@@ -156,7 +157,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             '<div class="lock-user"><%=lockuser%></div>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.rulesList.createNewItem = function(record) {
                 return new _CustomItem({
@@ -201,11 +203,18 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.afterRender();
         },
 
+        getDefaultFocusableComponent: function () {
+            return this.cmbScope;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {
+            Common.UI.FocusManager.add(this, this.cmbScope);
+            Common.UI.FocusManager.add(this, {cmp: this.rulesList, selector: '.listview'});
+
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
@@ -517,6 +526,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 }
 
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
+            Common.UI.FocusManager.add(this, input);
 
             var val = item.get('range');
             (val!==null) && input.setValue(val);
