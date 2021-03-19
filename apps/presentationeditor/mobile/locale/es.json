@@ -170,6 +170,7 @@
   "PE.Controllers.Main.textContactUs": "Equipo de ventas",
   "PE.Controllers.Main.textCustomLoader": "Note, por favor, que según los términos de la licencia Usted no tiene derecho a cambiar el cargador.<br>Por favor, póngase en contacto con nuestro Departamento de Ventas para obtener una cotización.",
   "PE.Controllers.Main.textDone": "Listo",
+  "PE.Controllers.Main.textGuest": "Invitado",
   "PE.Controllers.Main.textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
   "PE.Controllers.Main.textLoadingDocument": "Cargando presentación",
   "PE.Controllers.Main.textNo": "No",

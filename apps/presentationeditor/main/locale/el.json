@@ -1601,6 +1601,7 @@
   "PE.Views.SignatureSettings.strValid": "Έγκυρες υπογραφές",
   "PE.Views.SignatureSettings.txtContinueEditing": "Επεξεργασία ούτως ή άλλως",
   "PE.Views.SignatureSettings.txtEditWarning": "Η επεξεργασία θα αφαιρέσει τις υπογραφές από την παρουσίαση.<br>Θέλετε σίγουρα να συνεχίσετε;",
+  "PE.Views.SignatureSettings.txtRemoveWarning": "Θέλετε να αφαιρέσετε αυτή την υπογραφή;<br>Δεν μπορεί να αναιρεθεί.",
   "PE.Views.SignatureSettings.txtSigned": "Έγκυρες υπογραφές προστέθηκαν στην παρουσίαση. Η παρουσίαση προστατεύεται από επεξεργασία.",
   "PE.Views.SignatureSettings.txtSignedInvalid": "Κάποιες από τις ψηφιακές υπογραφές στην παρουσίαση είναι άκυρες ή δεν επαληθεύτηκαν. Η παρουσίαση έχει προστασία τροποποίησης.",
   "PE.Views.SlideSettings.strBackground": "Χρώμα παρασκηνίου",

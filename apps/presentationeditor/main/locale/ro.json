@@ -1601,6 +1601,7 @@
   "PE.Views.SignatureSettings.strValid": "Semnături valide",
   "PE.Views.SignatureSettings.txtContinueEditing": "Editare în aceste condiții",
   "PE.Views.SignatureSettings.txtEditWarning": "Semnăturile vor fi eliminate din prezentarea după editare.<br>Sigur doriți să continuați?",
+  "PE.Views.SignatureSettings.txtRemoveWarning": "Doriți să eliminați aceasta semnătura?<br>Va fi imposibil să anulați acțiunea.",
   "PE.Views.SignatureSettings.txtSigned": "Semnături valide au fost adăugate în prezentarea. Prezentarea este protejată împotriva editării.",
   "PE.Views.SignatureSettings.txtSignedInvalid": "O parte din semnături electronice din prezentarea nu sunt valide sau nu pot fi verificate. Prezentarea este protejată împotriva editării.",
   "PE.Views.SlideSettings.strBackground": "Culoare de fundal",

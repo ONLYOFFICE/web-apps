@@ -1601,7 +1601,7 @@
   "PE.Views.SignatureSettings.strValid": "Действительные подписи",
   "PE.Views.SignatureSettings.txtContinueEditing": "Все равно редактировать",
   "PE.Views.SignatureSettings.txtEditWarning": "При редактировании из презентации будут удалены подписи.<br>Продолжить?",
-  "PE.Views.SignatureSettings.txtRemoveWarning": "Вы действительно хотите удалить эту подпись?<br> Это действие нельзя отменить.",
+  "PE.Views.SignatureSettings.txtRemoveWarning": "Вы хотите удалить эту подпись?<br>Это нельзя отменить.",
   "PE.Views.SignatureSettings.txtSigned": "В презентацию добавлены действительные подписи. Презентация защищена от редактирования.",
   "PE.Views.SignatureSettings.txtSignedInvalid": "Некоторые из цифровых подписей в презентации недействительны или их нельзя проверить. Презентация защищена от редактирования.",
   "PE.Views.SlideSettings.strBackground": "Цвет фона",

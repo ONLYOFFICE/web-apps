@@ -2517,6 +2517,7 @@
   "SSE.Views.SignatureSettings.strValid": "Έγκυρες υπογραφές",
   "SSE.Views.SignatureSettings.txtContinueEditing": "Επεξεργασία ούτως ή άλλως",
   "SSE.Views.SignatureSettings.txtEditWarning": "Η επεξεργασία θα αφαιρέσει τις υπογραφές από το υπολογιστικό φύλλο.<br>Θέλετε σίγουρα να συνεχίσετε;",
+  "SSE.Views.SignatureSettings.txtRemoveWarning": "Θέλετε να αφαιρέσετε αυτή την υπογραφή;<br>Δεν μπορεί να αναιρεθεί.",
   "SSE.Views.SignatureSettings.txtRequestedSignatures": "Αυτό το υπολογιστικό φύλλο πρέπει να υπογραφεί.",
   "SSE.Views.SignatureSettings.txtSigned": "Προστέθηκαν έγκυρες υπογραφές στο λογιστικό φύλλο. Το φύλλο προστατεύεται από επεξεργασία.",
   "SSE.Views.SignatureSettings.txtSignedInvalid": "Κάποιες από τις ψηφιακές υπογραφές στο υπολογιστικό φύλλο δεν είναι έγκυρες ή δεν ήταν δυνατό να επιβεβαιωθούν. Το υπολογιστικό φύλλο προστατεύεται από επεξεργασία.",
