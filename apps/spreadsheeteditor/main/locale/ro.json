@@ -2541,6 +2541,7 @@
   "SSE.Views.SignatureSettings.strValid": "Semnături valide",
   "SSE.Views.SignatureSettings.txtContinueEditing": "Editare în aceste condiții",
   "SSE.Views.SignatureSettings.txtEditWarning": "În rezultatul editării toate semnăturile din foaie de calcul vor fi șterse.<br>Sunteți sigur că doriți să continuați? ",
+  "SSE.Views.SignatureSettings.txtRemoveWarning": "Doriți să eliminați aceasta semnătura?<br>Va fi imposibil să anulați acțiunea.",
   "SSE.Views.SignatureSettings.txtRequestedSignatures": "Foaia de calcul trebuie să fie semnată.",
   "SSE.Views.SignatureSettings.txtSigned": "Semnături valide au fost adăugate în foaia de calcul. Foaia de calcul este protejată împotriva editării.",
   "SSE.Views.SignatureSettings.txtSignedInvalid": "O parte din semnături electronice pe foaia de calcul nu sunt valide sau nu pot fi verificate. Foaia de calcul este protejată împotriva editării.",

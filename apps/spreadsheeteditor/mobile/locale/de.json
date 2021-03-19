@@ -46,7 +46,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Sie müssen eine Bild-URL angeben.",
   "SSE.Controllers.AddOther.txtNotUrl": "Dieser Bereich soll ein URL in der Format \"http://www.example.com\" sein.",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Funktionen 'Kopieren', 'Ausschneiden' und 'Einfügen' über das Kontextmenü werden nur in der aktuellen Datei ausgeführt.",
-  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Der Linkverweis existiert nicht. Bitte korrigieren Sie das Link oder löschen Sie es. ",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Der Linkverweis existiert nicht. Bitte korrigieren oder löschen Sie den Link.",
   "SSE.Controllers.DocumentHolder.menuAddComment": "Kommentar hinzufügen",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Link hinzufügen",
   "SSE.Controllers.DocumentHolder.menuCell": "Zelle",

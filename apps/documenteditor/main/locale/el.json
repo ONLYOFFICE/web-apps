@@ -2271,6 +2271,7 @@
   "DE.Views.SignatureSettings.strValid": "Έγκυρες υπογραφές",
   "DE.Views.SignatureSettings.txtContinueEditing": "Επεξεργασία ούτως ή άλλως",
   "DE.Views.SignatureSettings.txtEditWarning": "Η επεξεργασία θα αφαιρέσει τις υπογραφές από το έγγραφο.<br>Θέλετε σίγουρα να συνεχίσετε;",
+  "DE.Views.SignatureSettings.txtRemoveWarning": "Θέλετε να αφαιρέσετε αυτή την υπογραφή;<br>Δεν μπορεί να αναιρεθεί.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Αυτό το έγγραφο πρέπει να υπογραφεί.",
   "DE.Views.SignatureSettings.txtSigned": "Προστέθηκαν έγκυρες υπογραφές  στο έγγραφο. Το έγγραφο έχει προστασία επεξεργασίας.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Κάποιες από τις ψηφιακές υπογραφές του εγγράφου είναι άκυρες ή δεν επιβεβαιώθηκαν. Αποτρέπεται η επεξεργασία του.",

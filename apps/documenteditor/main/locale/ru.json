@@ -2271,7 +2271,7 @@
   "DE.Views.SignatureSettings.strValid": "Действительные подписи",
   "DE.Views.SignatureSettings.txtContinueEditing": "Все равно редактировать",
   "DE.Views.SignatureSettings.txtEditWarning": "При редактировании из документа будут удалены подписи.<br>Продолжить?",
-  "DE.Views.SignatureSettings.txtRemoveWarning": "Вы действительно хотите удалить эту подпись?<br> Это действие нельзя отменить.",
+  "DE.Views.SignatureSettings.txtRemoveWarning": "Вы хотите удалить эту подпись?<br>Это нельзя отменить.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Этот документ требуется подписать.",
   "DE.Views.SignatureSettings.txtSigned": "В документ добавлены действительные подписи. Документ защищен от редактирования.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Некоторые из цифровых подписей в документе недействительны или их нельзя проверить. Документ защищен от редактирования.",
