@@ -57,7 +57,7 @@ define([
 
             if (options.preview) {
                 width = 414;
-                height = 277;
+                height = (options.type==Common.Utils.importTextType.Data) ? 330 : 277;
             } else {
                 width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
                 switch (options.type) {
@@ -67,7 +67,7 @@ define([
                         height = 190;
                         break;
                     case Common.Utils.importTextType.Data:
-                        height = 220;
+                        height = 245;
                         break;
                     default:
                         height = options.warning ? 187 : 147;
@@ -151,6 +151,10 @@ define([
                                 '</div>',
                             '</div>',
                         '<% } %>',
+                        '<% if (type == Common.Utils.importTextType.Data) { %>',
+                            '<label class="header" style="margin-top:15px;">' + t.txtDestData + '</label>',
+                            '<div id="id-open-data-range" class="input-row" style="width: 100%;"></div>',
+                        '<% } %>',
                     '<% } %>',
                     '</div>',
                 '</div>',
@@ -217,6 +221,19 @@ define([
                         (this.previewData) ? this.previewCallback(this.previewData) : this.updatePreview();
                     }
                 }
+                if (this.type == Common.Utils.importTextType.Data) {
+                    this.txtDestRange = new Common.UI.InputFieldBtn({
+                        el          : $('#id-open-data-range'),
+                        name        : 'range',
+                        style       : 'width: 100%;',
+                        btnHint     : this.textSelectData,
+                        allowBlank  : true,
+                        validateOnChange: true,
+                        validateOnBlur: false
+                    });
+                    this.txtDestRange.on('button:click', _.bind(this.onSelectData, this));
+                }
+
                 this.onPrimary = function() {
                     me._handleInput('ok');
                     return false;
@@ -250,6 +267,10 @@ define([
                 if (this.type == Common.Utils.importTextType.DRM) {
                     this.handler.call(this, state, this.inputPwd.getValue());
                 } else {
+                    if ( this.type == Common.Utils.importTextType.Data && state == 'ok' && !this.isRangeValid() ) {
+                        return;
+                    }
+
                     var encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                             ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0),
                         delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
@@ -261,7 +282,7 @@ define([
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined;
-                    this.handler.call(this, state, encoding, delimiter, delimiterChar, decimal, thousands);
+                    this.handler.call(this, state, encoding, delimiter, delimiterChar, decimal, thousands, this.txtDestRange ? this.txtDestRange.getValue() : '');
                 }
             }
 
@@ -513,6 +534,60 @@ define([
             })).show();
         },
 
+        onSelectData: function(type) {
+            var me = this,
+                txtRange = me.txtDestRange;
+
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        var txt = dlg.getSettings();
+                        me.dataDestValid = txt;
+                        txtRange.setValue(txt);
+                        txtRange.checkValidate();
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                    _.delay(function(){
+                        txtRange.focus();
+                    },1);
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 160, xy.top + 125);
+                win.setSettings({
+                    api     : me.api,
+                    range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : (me.dataDestValid),
+                    type    : Asc.c_oAscSelectionDialogType.Chart
+                });
+            }
+        },
+
+        isRangeValid: function() {
+            var isvalid = true,
+                txtError = '';
+            if (_.isEmpty(this.txtDestRange.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            } else {
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDestRange.getValue());
+                isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                !isvalid && (txtError = this.textInvalidRange);
+            }
+            if (!isvalid) {
+                this.txtDestRange.showError([txtError]);
+                this.txtDestRange.focus();
+                return isvalid;
+            }
+
+            return isvalid;
+        },
+
         txtDelimiter       : "Delimiter",
         txtEncoding        : "Encoding ",
         txtSpace           : "Space",
@@ -529,7 +604,11 @@ define([
         txtSemicolon: 'Semicolon',
         txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset.',
         txtAdvanced: 'Advanced',
-        txtOpenFile: "Enter a password to open the file"
+        txtOpenFile: "Enter a password to open the file",
+        textSelectData: 'Select data',
+        txtDestData: 'Choose where to put the data',
+        txtEmpty:           'This field is required',
+        textInvalidRange:   'Invalid cells range'
 
     }, Common.Views.OpenDialog || {}));
 });
