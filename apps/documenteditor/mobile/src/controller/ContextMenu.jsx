@@ -12,7 +12,8 @@ import { Device } from '../../../../common/mobile/utils/device';
     isEdit: stores.storeAppOptions.isEdit,
     canViewComments: stores.storeAppOptions.canViewComments,
     canReview: stores.storeAppOptions.canReview,
-    users: stores.users
+    users: stores.users,
+    isDisconnected: stores.users.isDisconnected
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -231,7 +232,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit, canViewComments, canReview } = this.props;
+        const { isEdit, canViewComments, canReview, isDisconnected } = this.props;
 
         const api = Common.EditorApi.get();
         const stack = api.getSelectedElements();
@@ -301,7 +302,7 @@ class ContextMenu extends ContextMenuController {
                 items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
             };
 
-            if ( isEdit && !this.isDisconnected ) {
+            if ( isEdit && !isDisconnected ) {
                 if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy ) {
                     itemsIcon.push({
                         event: 'cut',

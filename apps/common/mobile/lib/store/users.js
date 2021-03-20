@@ -8,12 +8,15 @@ export class storeUsers {
             reset: action,
             currentUser: observable,
             setCurrentUser: action,
-            connection: action
+            connection: action,
+            isDisconnected: observable,
+            resetDisconnected: action
         })
     }
 
     users = [];
     currentUser;
+    isDisconnected = false;
 
     reset (users) {
         this.users = Object.values(users)
@@ -39,6 +42,10 @@ export class storeUsers {
             }
         }
         !changed && change && (this.users[change.asc_getId()] = change);
+    }
+
+    resetDisconnected (isDisconnected) {
+        this.isDisconnected = isDisconnected;
     }
 
     getInitials (name) {

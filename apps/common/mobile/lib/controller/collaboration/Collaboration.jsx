@@ -8,10 +8,10 @@ class CollaborationController extends Component {
 
         Common.Notifications.on('configOptionsFill', () => {
             const api = Common.EditorApi.get();
-            // this.api = api;
             api.asc_registerCallback('asc_onAuthParticipantsChanged', this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onParticipantsChanged',     this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onConnectionStateChanged',  this.onUserConnection.bind(this));
+            api.asc_registerCallback('asc_onCoAuthoringDisconnect',  this.onCoAuthoringDisconnect.bind(this));
         });
 
         Common.Notifications.on('document:ready', this.onDocumentReady.bind(this));
@@ -69,6 +69,10 @@ class CollaborationController extends Component {
 
     onUserConnection(change) {
         this.props.users.connection(change);
+    }
+
+    onCoAuthoringDisconnect() {
+        this.props.users.resetDisconnected(true);
     }
 
     render() {
