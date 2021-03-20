@@ -33,7 +33,7 @@ const StatusbarView = inject('sheets')(observer(props => {
 
 const TabContextMenu = props => {
     return (
-        <Popover id="idx-statusbar-context-menu-popover"
+        <Popover id="idx-tab-context-menu-popover"
                 className="document-menu"
                 backdrop={false}
                 closeByBackdropClick={false}
@@ -41,10 +41,10 @@ const TabContextMenu = props => {
                 // onPopoverClosed={e => this.props.onMenuClosed()}
             >
                 <List className="list-block">
-                    <ListButton title="Duplicate" onClick={() => this.props.onTabMenu('copy')} />
-                    <ListButton title="Delete" onClick={() => this.props.onTabMenu('del')} />
-                    <ListButton title="Rename" onClick={() => this.props.onTabMenu('ren')} />
-                    <ListButton title="Hide" onClick={() => this.props.onTabMenu('hide')} />
+                    <ListButton title="Duplicate" onClick={() => props.onTabMenu('copy')} />
+                    <ListButton title="Delete" onClick={() => props.onTabMenu('del')} />
+                    <ListButton title="Rename" onClick={() => props.onTabMenu('ren')} />
+                    <ListButton title="Hide" onClick={() => props.onTabMenu('hide')} />
                 </List>
         </Popover>
     )

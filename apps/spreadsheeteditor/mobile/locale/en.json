@@ -310,6 +310,25 @@
             "textReplaceAll": "Replace All"
         }
     },
+    "Statusbar": {
+        "textDuplicate": "Duplicate",
+        "textDelete": "textDelete",
+        "textHide": "Hide",
+        "textUnhide": "Unhide",
+        "textErrorLastSheet": "Workbook must have at least one visible worksheet.",
+        "textErrorRemoveSheet": "Can\"t delete the worksheet.",
+        "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
+        "textSheet": "Sheet",
+        "textRename": "textRename",
+        "textErrNameExists": "Worksheet with such name already exist.",
+        "textErrNameWrongChar": "A sheet name cannot contains characters: \\, \/, *, ?, [, ], :",
+        "textErrNotEmpty": "Sheet name must not be empty",
+        "textRenameSheet": "Rename Sheet",
+        "textSheetName": "Sheet Name",
+        "textCancel": "Cancel",
+        "notcriticalErrorTitle": "Warning",
+        "textMore": "More"
+    },
     "Common": {
         "ThemeColorPalette": {
             "textThemeColors": "Theme Colors",
