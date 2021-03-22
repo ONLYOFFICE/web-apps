@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { f7 } from 'framework7-react';
 import StatusbarView from '../view/Statusbar';
 import { inject } from 'mobx-react';
 
@@ -7,12 +8,25 @@ const Statusbar = inject('sheets')(props => {
     const {sheets} = props;
 
     useEffect(() => {
-        console.log("status bar did mount");
+        const on_api_created = api => {
+            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged.bind(api));
+        };
+
+        const on_main_view_click = e => {
+            // f7.popover.close('.document-menu.modal-in');
+        };
 
         Common.Notifications.on('document:ready', onApiSheetsChanged);
-        Common.Notifications.on('engineCreated', api => {
-            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged.bind(api));
-        });
+        Common.Notifications.on('engineCreated', on_api_created);
+
+        $$('.view-main').on('click', on_main_view_click);
+
+        return () => {
+            Common.Notifications.off('document:ready', onApiSheetsChanged);
+            Common.Notifications.off('engineCreated', on_api_created);
+
+            $$('.view-main').off('click', on_main_view_click);
+        };
     }, []);
 
     const onApiSheetsChanged = api => {
