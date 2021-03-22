@@ -79,6 +79,7 @@ define([
                 'Toolbar': {
                     'change:compact': this.onClickChangeCompact.bind(me),
                     'add:chart'     : this.onSelectChart,
+                    'add:spark'     : this.onSelectSpark,
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
@@ -1124,6 +1125,28 @@ define([
                                 }
                             });
                         }
+                    }
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSelectSpark: function(type) {
+            if (!this.editMode) return;
+            var me = this,
+                info = me.api.asc_getCellInfo(),
+                seltype = info.asc_getSelectionType();
+
+            if (me.api) {
+                if (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
+                    seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax) {
+                    var sparkLineInfo = info.asc_getSparklineInfo();
+                    if (!!sparkLineInfo) {
+                        var props = new Asc.sparklineGroup();
+                        props.asc_setType(type);
+                        this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
+                    } else {
+                        // add sparkline
                     }
                 }
             }
