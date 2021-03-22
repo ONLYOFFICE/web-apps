@@ -403,6 +403,7 @@
   "SSE.Controllers.DataTab.txtRemoveDataValidation": "The selection contains more than one type of validation.<br>Erase current settings and continue?",
   "SSE.Controllers.DataTab.txtRemSelected": "Remove in selected",
   "SSE.Controllers.DataTab.textEmptyUrl": "You need to specify URL.",
+  "SSE.Controllers.DataTab.txtImportWizard": "Text Import Wizard",
   "SSE.Controllers.DocumentHolder.alignmentText": "Alignment",
   "SSE.Controllers.DocumentHolder.centerText": "Center",
   "SSE.Controllers.DocumentHolder.deleteColumnText": "Delete Column",

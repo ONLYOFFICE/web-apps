@@ -258,7 +258,7 @@ define([
 
             var me = this;
             (new Common.Views.OpenDialog({
-                title: me.textWizard,
+                title: me.txtImportWizard,
                 closable: true,
                 type: Common.Utils.importTextType.Data,
                 preview: true,
@@ -439,7 +439,8 @@ define([
         txtDataValidation: 'Data Validation',
         txtExtendDataValidation: 'The selection contains some cells without Data Validation settings.<br>Do you want to extend Data Validation to these cells?',
         txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?',
-        textEmptyUrl: 'You need to specify URL.'
+        textEmptyUrl: 'You need to specify URL.',
+        txtImportWizard: 'Text Import Wizard'
 
     }, SSE.Controllers.DataTab || {}));
 });
