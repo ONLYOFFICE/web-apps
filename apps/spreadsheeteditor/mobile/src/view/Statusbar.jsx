@@ -9,8 +9,7 @@ const viewStyle = {
 const StatusbarView = inject('sheets')(observer(props => {
     const { sheets } = props;
 
-    const getTabClassList = model =>
-            `tab ${model.active ? 'active':''} ${model.locked ? 'locked':''}`;
+    const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
 
     return <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 <div id="idx-box-add-tab">
@@ -22,8 +21,8 @@ const StatusbarView = inject('sheets')(observer(props => {
                     <ul className="sheet-tabs bottom">
                         {sheets.sheets.map((model,i) =>
                             model.hidden ? null :
-                                <li className={getTabClassList(model)} key={i} onClick={() => props.onTabClick(i)}>
-                                    <a onClick={e => props.onTabClicked(i)}>{model.name}</a>
+                                <li className={getTabClassList(model)} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
+                                    <a /*onClick={e => props.onTabClicked(i)} */>{model.name}</a>
                                 </li>
                         )}
                     </ul>
@@ -38,7 +37,6 @@ const TabContextMenu = props => {
                 backdrop={false}
                 closeByBackdropClick={false}
                 closeByOutsideClick={false}
-                // onPopoverClosed={e => this.props.onMenuClosed()}
             >
                 <List className="list-block">
                     <ListButton title="Duplicate" onClick={() => props.onTabMenu('copy')} />
@@ -48,6 +46,6 @@ const TabContextMenu = props => {
                 </List>
         </Popover>
     )
-}
+};
 
 export {StatusbarView, TabContextMenu};
