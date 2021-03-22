@@ -267,6 +267,27 @@
       "textThemeColors": "Theme Colors",
       "textStandartColors": "Standard Colors",
       "textCustomColors": "Custom Colors"
+    },
+    "Collaboration": {
+      "textCollaboration": "Collaboration",
+      "textBack": "Back",
+      "textUsers": "Users",
+      "textEditUser": "Users who are editing the file:",
+      "textComments": "Comments",
+      "textAddComment": "Add Comment",
+      "textCancel": "Cancel",
+      "textDone": "Done",
+      "textNoComments": "This document doesn't contain comments",
+      "textEdit": "Edit",
+      "textResolve": "Resolve",
+      "textReopen": "Reopen",
+      "textAddReply": "Add Reply",
+      "textDeleteComment": "Delete Comment",
+      "textMessageDeleteComment": "Do you really want to delete this comment?",
+      "textMessageDeleteReply": "Do you really want to delete this reply?",
+      "textDeleteReply": "Delete Reply",
+      "textEditComment": "Edit Comment",
+      "textEditReply": "Edit Reply"
     }
   }
 }

@@ -88,10 +88,38 @@ class AddOtherController extends Component {
         });
     }
 
+    hideAddComment () {
+        const api = Common.EditorApi.get();
+        const stack = api.getSelectedElements();
+        let isText = false,
+            isChart = false;
+
+        stack.forEach((item) => {
+            const objectType = item.get_ObjectType();
+            if (objectType === Asc.c_oAscTypeSelectElement.Paragraph) {
+                isText = true;
+            } else if (objectType === Asc.c_oAscTypeSelectElement.Chart) {
+                isChart = true;
+            }
+        });
+        if (stack.length > 0) {
+            const topObject = stack[stack.length - 1];
+            const topObjectValue = topObject.get_ObjectValue();
+            let objectLocked = typeof topObjectValue.get_Locked === 'function' ? topObjectValue.get_Locked() : false;
+            !objectLocked && (objectLocked = typeof topObjectValue.get_LockDelete === 'function' ? topObjectValue.get_LockDelete() : false);
+            if (!objectLocked) {
+                return ((isText && isChart) || api.can_AddQuotedComment() === false);
+            }
+        }
+        return true;
+    }
+
     render () {
         return (
-            <AddOther onStyleClick={this.onStyleClick}
+            <AddOther closeModal={this.closeModal}
+                      onStyleClick={this.onStyleClick}
                       initStyleTable={this.initStyleTable}
+                      hideAddComment={this.hideAddComment}
             />
         )
     }

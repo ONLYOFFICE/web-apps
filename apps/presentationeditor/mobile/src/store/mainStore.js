@@ -16,6 +16,7 @@ import { storeLinkSettings } from "./linkSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
+import {storeComments} from "../../../../common/mobile/lib/store/comments";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -31,10 +32,11 @@ export const stores = {
     storeShapeSettings: new storeShapeSettings(),
     storeTableSettings: new storeTableSettings(),
     storeChartSettings: new storeChartSettings(),
-    storeLinkSettings: new storeLinkSettings()
+    storeLinkSettings: new storeLinkSettings(),
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
+    storeComments: new storeComments()
 };
 

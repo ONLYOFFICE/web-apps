@@ -28,6 +28,7 @@ export class storeUsers {
                 this.currentUser = item;
             }
         });
+        return this.currentUser;
     }
 
     connection (change) {

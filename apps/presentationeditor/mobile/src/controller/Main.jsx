@@ -1,9 +1,15 @@
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { inject } from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
-import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx'
+import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
+import {
+    CommentsController,
+    AddCommentController,
+    EditCommentController,
+    ViewCommentsController
+} from "../../../../common/mobile/lib/controller/collaboration/Comments";
 
 @inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings", "storeChartSettings", "storeLinkSettings")
 class MainController extends Component {
@@ -346,7 +352,15 @@ class MainController extends Component {
     }
 
     render() {
-        return <CollaborationController />
+        return (
+            <Fragment>
+                <CollaborationController />
+                <CommentsController />
+                <AddCommentController />
+                <EditCommentController />
+                <ViewCommentsController />
+            </Fragment>
+            )
     }
 
     componentDidMount() {

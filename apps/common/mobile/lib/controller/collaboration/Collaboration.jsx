@@ -6,8 +6,7 @@ class CollaborationController extends Component {
     constructor(props){
         super(props);
 
-        Common.Notifications.on('configOptionsFill', () => {
-            const api = Common.EditorApi.get();
+        Common.Notifications.on('engineCreated', (api) => {
             api.asc_registerCallback('asc_onAuthParticipantsChanged', this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onParticipantsChanged',     this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onConnectionStateChanged',  this.onUserConnection.bind(this));
