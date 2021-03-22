@@ -253,7 +253,7 @@ define([
             }
         },
 
-        onDataFromTextCallback: function(data) {
+        onDataFromTextCallback: function(data, advOptions) {
             if (!data || !data.length) return;
 
             var me = this;
@@ -263,7 +263,8 @@ define([
                 type: Common.Utils.importTextType.Data,
                 preview: true,
                 previewData: data,
-                settings: me._state.CSVOptions,
+                settings: advOptions ? advOptions.asc_getRecommendedSettings() : me._state.CSVOptions,
+                codepages: advOptions ? advOptions.asc_getCodePages() : null,
                 api: me.api,
                 handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands, range) {
                     if (result == 'ok') {

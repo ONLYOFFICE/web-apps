@@ -57,7 +57,7 @@ define([
 
             if (options.preview) {
                 width = 414;
-                height = (options.type==Common.Utils.importTextType.Data) ? 330 : 277;
+                height = (options.type==Common.Utils.importTextType.Data) ? 385 : 277;
             } else {
                 width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
                 switch (options.type) {
@@ -111,7 +111,7 @@ define([
                         '<% } %>',
                     '<% } else { %>',
                         '<% if (codepages && codepages.length>0) { %>',
-                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
+                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
                             '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
@@ -133,7 +133,7 @@ define([
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
                                 '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
-                                '<button type="button" class="btn btn-text-default" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;float:right;">' + t.txtAdvanced + '</button>',
+                                '<button type="button" class="btn auto btn-text-default" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;float:right;">' + t.txtAdvanced + '</button>',
                             '</div>',
                         '</div>',
                         '<% } %>',
