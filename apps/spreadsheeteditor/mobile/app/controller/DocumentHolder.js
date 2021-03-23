@@ -54,7 +54,8 @@ define([
         var _actionSheets = [],
             _isEdit = false,
             _canViewComments = true,
-            _isComments = false;
+            _isComments = false,
+            _canDeleteComments = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -95,6 +96,7 @@ define([
                     this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiFilterOptions, this));
                 }
                 _canViewComments = mode.canViewComments;
+                _canDeleteComments = mode.canDeleteComments;
             },
 
             // When our application is ready, lets get started
@@ -187,7 +189,9 @@ define([
                         }
                     }
                     break;
-                case 'del': me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All); break;
+                case 'del':
+                    me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All, !_canDeleteComments);
+                    break;
                 case 'wrap': me.api.asc_setCellTextWrap(true); break;
                 case 'unwrap': me.api.asc_setCellTextWrap(false); break;
                 case 'edit':
