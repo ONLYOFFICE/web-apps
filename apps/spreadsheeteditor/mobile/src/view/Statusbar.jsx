@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { View, Toolbar, Link, Icon, Popover, List, ListButton } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
+import { f7 } from 'framework7-react';
 
 const viewStyle = {
     height: 30
@@ -11,7 +12,7 @@ const StatusbarView = inject('sheets')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const { sheets } = props;
-    const hiddenSheets = sheets.hiddenWorksheets();
+    const hiddenSheets = sheets.hiddensheets;
     const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
 
     return  (
@@ -27,7 +28,7 @@ const StatusbarView = inject('sheets')(observer(props => {
                         {sheets.sheets.map((model,i) =>
                             model.hidden ? null :
                                 <li className={getTabClassList(model)} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
-                                    <a /*onClick={e => props.onTabClicked(i)} */>{model.name}</a>
+                                    <a /* onClick={e => props.onTabClicked(i)} */>{model.name}</a>
                                 </li>
                         )}
                     </ul>
@@ -45,7 +46,7 @@ const StatusbarView = inject('sheets')(observer(props => {
                     <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
                     <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
                     {hiddenSheets.length ? (
-                        <ListButton title={_t.textUnhide} onClick={(e) => props.onTabMenu('unhide')} />
+                        <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
                     ): null}
                 </List>
             </Popover>
@@ -59,7 +60,8 @@ const StatusbarView = inject('sheets')(observer(props => {
                     <List className="list-block">
                         {hiddenSheets.map(sheet => {
                             return (
-                                <ListButton key={sheet.index} data-event={`reveal:${sheet.index}`} title={sheet.name} onClick={() => props.onTabMenu(`reveal:${sheet.index}`)} />
+                                <ListButton key={sheet.index} data-event={`reveal:${sheet.index}`} title={sheet.name} 
+                                    onClick={() => props.onTabMenu(`reveal:${sheet.index}`)} />
                             )
                         })}
                     </List>

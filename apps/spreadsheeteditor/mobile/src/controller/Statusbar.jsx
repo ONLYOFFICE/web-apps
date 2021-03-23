@@ -7,19 +7,22 @@ import { Dom7 } from 'framework7';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const Statusbar = inject('sheets', 'storeAppOptions')(props => {
-    const {sheets, storeAppOptions} = props;
-    const $$ = Dom7;
+const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
+    const {sheets, storeAppOptions, users} = props;
     const {t} = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     console.log(props);
 
     let isEdit = storeAppOptions.isEdit;
-    let isDisconnected = false;
+    let isDisconnected = users.isDisconnected;
 
     useEffect(() => {
         const on_api_created = api => {
-            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged.bind(api));
+            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
+            api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
+            api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
+            api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
+            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
         };
 
         const on_main_view_click = e => {
@@ -33,6 +36,7 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
         $$('.view-main').on('click', on_main_view_click);
 
         return () => {
+            Common.Notifications.off('api:disconnect', onApiDisconnect);
             Common.Notifications.off('document:ready', onApiSheetsChanged);
             Common.Notifications.off('engineCreated', on_api_created);
 
@@ -40,16 +44,15 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
         };
     }, []);
 
-//     const onWorkbookLocked = locked => {
-//         this.statusbar.$btnAddTab.toggleClass('disabled', locked);
-//         return;
-//     };
+    const onWorkbookLocked = locked => {
+        $$('.idx-btn-addtab').toggleClass('disabled', locked);
+    };
 
-//     const onWorksheetLocked = (index, locked) => {
-//         let model = sheets.findWhere({index: index});
-//         if(model && model.get('locked') != locked)
-//             model.set('locked', locked);
-//     };
+    const onWorksheetLocked = (index, locked) => {
+        let model = sheets.find(sheet => sheet.index === index);
+        if(model && model.locked != locked)
+            model.locked = locked;
+    };
 
     const onApiSheetsChanged = () => {
         console.log('on api sheets changed');
@@ -58,9 +61,9 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
         const sheets_count = api.asc_getWorksheetsCount();
         const active_index = api.asc_getActiveWorksheetIndex();
 
-        let i = -1,  items = [];
+        let i = -1, items = [], hiddentems = [];
 
-        while ( ++i < sheets_count ) {
+        while (++i < sheets_count) {
             const tab = {
                 index       : i,
                 active      : active_index == i,
@@ -70,12 +73,14 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
                 color       : api.asc_getWorksheetTabColor(i)
             };
 
-            items.push(tab);
+            (api.asc_isWorksheetHidden(i) ? hiddentems : items).push(tab);
+            // items.push(tab);
         }
 
-        sheets.reset(items);
+        sheets.resetSheets(items);
+        sheets.resetHiddenSheets(hiddentems);
         // this.hiddensheets.reset(hiddentems);
-        // updateTabsColors();
+        updateTabsColors();
     };
 
     const loadTabColor = sheetindex => {
@@ -89,34 +94,34 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
     };
 
     const onApiDisconnect = () => {
-        isDisconnected = true;
+        users.isDisconnected = true;
     };
 
     const onApiUpdateTabColor = index => {
         loadTabColor(index);
     };
 
-    // const setTabLineColor = (tab, color) => {
-    //     if (tab) {
-    //         if (null !== color) {
-    //             color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-    //         } else {
-    //             color = '';
-    //         }
+    const setTabLineColor = (tab, color) => {
+        if (tab) {
+            if (null !== color) {
+                color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            } else {
+                color = '';
+            }
 
-    //         if (color.length) {
-    //             if (!tab.active) {
-    //                 color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
-    //             } else {
-    //                 color = '0px 4px 0 ' + color + ' inset';
-    //             }
+            if (color.length) {
+                if (!tab.active) {
+                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                } else {
+                    color = '0px 4px 0 ' + color + ' inset';
+                }
                 
-    //             $$('.tab')[tab.index].find('a').css('box-shadow', color);
-    //         } else {
-    //             $$('.tab')[tab.index].find('a').css('box-shadow', '');
-    //         }
-    //     }
-    // };
+                $('.tab:eq(' + tab.index + ')').find('a').css('box-shadow', color);
+            } else {
+                $('.tab:eq(' + tab.index + ')').find('a').css('box-shadow', '');
+            }
+        }
+    };
 
     const updateTabsColors = () => {
         const api = Common.EditorApi.get();
@@ -154,7 +159,6 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
     const onAddTabClicked = () => {
         const api = Common.EditorApi.get();
         api.asc_closeCellEditor();
-        f7.popover.close('#idx-tab-context-menu-popover');
 
         createSheetName();
         api.asc_addWorksheet(createSheetName());
@@ -210,9 +214,9 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
         console.log(model);
 
         let opened = $$('.document-menu.modal-in').length;
-        let index = model.index;
-
         f7.popover.close('.document-menu.modal-in');
+
+        let index = model.index;
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
@@ -327,12 +331,13 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
     const hideWorksheet = (hide, index) => {
         const api = Common.EditorApi.get();
         const visibleSheets = sheets.visibleWorksheets();
-      
+
         if(hide) {
             visibleSheets.length == 1 ? 
                 f7.dialog.alert(_t.textErrorLastSheet, _t.notcriticalErrorTitle) :
                 api['asc_hideWorksheet']([index]);
         } else {
+            f7.popover.close('#idx-hidden-sheets-popover');
             api['asc_showWorksheet'](index);
             // loadTabColor(index);
         }
@@ -341,6 +346,7 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
     const onTabMenu = (event) => {
         const api = Common.EditorApi.get();
         let index = sheets.sheets.find(sheet => sheet.active).index;
+
         f7.popover.close('#idx-tab-context-menu-popover');
 
         switch (event) {
@@ -355,25 +361,25 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
             case 'unhide':
                 f7.popover.open('#idx-hidden-sheets-popover', '.active');
                 break;
-            case 'showMore':
-                if (me._moreAction.length > 0) {
-                    _.delay(function () {
-                        _.each(me._moreAction, function (action) {
-                            action.text = action.caption;
-                            action.onClick = function () {
-                                me.onTabMenu(null, action.event, model)
-                            }
-                        });
+            // case 'showMore':
+            //     if (me._moreAction.length > 0) {
+            //         _.delay(function () {
+            //             _.each(me._moreAction, function (action) {
+            //                 action.text = action.caption;
+            //                 action.onClick = function () {
+            //                     me.onTabMenu(null, action.event, model)
+            //                 }
+            //             });
 
-                        uiApp.actions([me._moreAction, [
-                            {
-                                text: me.cancelButtonText,
-                                bold: true
-                            }
-                        ]]);
-                    }, 100);
-                }
-                break;
+            //             uiApp.actions([me._moreAction, [
+            //                 {
+            //                     text: me.cancelButtonText,
+            //                     bold: true
+            //                 }
+            //             ]]);
+            //         }, 100);
+            //     }
+            //     break;
             default:
                 let _re = /reveal\:(\d+)/.exec(event);
                 if (_re && !!_re[1]) {
