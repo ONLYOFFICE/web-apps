@@ -1978,7 +1978,7 @@ define([
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.api.asc_setAdvancedOptions(type, value.drmOptions);
                                     me.loadMask && me.loadMask.show();
                                 }
                             } else {

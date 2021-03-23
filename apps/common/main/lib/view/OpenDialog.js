@@ -264,7 +264,7 @@ define([
         _handleInput: function(state) {
             if (this.handler) {
                 if (this.type == Common.Utils.importTextType.DRM) {
-                    this.handler.call(this, state, this.inputPwd.getValue());
+                    this.handler.call(this, state, {drmOptions: new Asc.asc_CDRMAdvancedOptions(this.inputPwd.getValue())});
                 } else {
                     if ( this.type == Common.Utils.importTextType.Data && state == 'ok' && !this.isRangeValid() ) {
                         return;
@@ -281,7 +281,14 @@ define([
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined;
-                    this.handler.call(this, state, encoding, delimiter, delimiterChar, decimal, thousands, this.txtDestRange ? this.txtDestRange.getValue() : '');
+                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                    decimal && options.asc_setNumberDecimalSeparator(decimal);
+                    thousands && options.asc_setNumberGroupSeparator(thousands);
+                    this.handler.call(this, state, {
+                        textOptions: options,
+                        range: this.txtDestRange ? this.txtDestRange.getValue() : '',
+                        data: this.data
+                    });
                 }
             }
 

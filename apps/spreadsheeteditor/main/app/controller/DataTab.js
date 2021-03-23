@@ -209,14 +209,9 @@ define([
                 previewData: data,
                 settings: me._state.CSVOptions,
                 api: me.api,
-                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
-                    if (result == 'ok') {
-                        if (me && me.api) {
-                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                            decimal && options.asc_setNumberDecimalSeparator(decimal);
-                            thousands && options.asc_setNumberGroupSeparator(thousands);
-                            me.api.asc_TextToColumns(options);
-                        }
+                handler: function (result, settings) {
+                    if (result == 'ok' && me.api) {
+                        me.api.asc_TextToColumns(settings.textOptions);
                     }
                 }
             })).show();
@@ -263,16 +258,10 @@ define([
                 settings: advOptions ? advOptions.asc_getRecommendedSettings() : me._state.CSVOptions,
                 codepages: advOptions ? advOptions.asc_getCodePages() : null,
                 api: me.api,
-                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands, range) {
-                    if (result == 'ok') {
-                        if (me && me.api) {
-                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                            decimal && options.asc_setNumberDecimalSeparator(decimal);
-                            thousands && options.asc_setNumberGroupSeparator(thousands);
-                            me.api.asc_TextToColumns(options, me.api.asc_getTextFromFileOrUrl(), range);
-                        }
+                handler: function (result, settings) {
+                    if (result == 'ok' && me.api) {
+                        me.api.asc_TextToColumns(settings.textOptions, settings.data, settings.range);
                     }
-                    me.api.asc_cleanTextFromFileOrUrl();
                 }
             })).show();
         },
