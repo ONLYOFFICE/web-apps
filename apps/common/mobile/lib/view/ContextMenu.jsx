@@ -47,7 +47,7 @@ const ActionsWithExtraItems = ({items, onMenuItemClick, opened, onActionClosed})
             <ActionsGroup>
                 {items.length > 0 && items.map((item, index)=>{
                     return(
-                        <ActionsButton key={`act-${item.caption}`} onClick={() => {onMenuItemClick(item.event)}}>{item.caption}</ActionsButton>
+                        <ActionsButton key={`act-${index}`} onClick={() => {onMenuItemClick(item.event)}}>{item.caption}</ActionsButton>
                     )
                 })}
             </ActionsGroup>

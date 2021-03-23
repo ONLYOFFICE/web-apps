@@ -18,17 +18,26 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
     let isDisconnected = false;
 
     useEffect(() => {
-        console.log("status bar did mount");
+        const on_api_created = api => {
+            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged.bind(api));
+        };
+
+        const on_main_view_click = e => {
+            // f7.popover.close('.document-menu.modal-in');
+        };
 
         Common.Notifications.on('api:disconnect', onApiDisconnect);
         Common.Notifications.on('document:ready', onApiSheetsChanged);
-        Common.Notifications.on('engineCreated', api => {
-            api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
-            // api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
-            // api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
-            api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
-        });
+        Common.Notifications.on('engineCreated', on_api_created);
+
+        $$('.view-main').on('click', on_main_view_click);
+
+        return () => {
+            Common.Notifications.off('document:ready', onApiSheetsChanged);
+            Common.Notifications.off('engineCreated', on_api_created);
+
+            $$('.view-main').off('click', on_main_view_click);
+        };
     }, []);
 
 //     const onWorkbookLocked = locked => {

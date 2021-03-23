@@ -1,5 +1,5 @@
 import React, {Component, useEffect} from 'react';
-import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,Tabs,Tab} from 'framework7-react';
+import {View,Page,Navbar,NavRight, NavTitle, Link,Popup,Popover,Icon,Tabs,Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
@@ -43,13 +43,16 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
     return (
         <Navbar>
-            <div className='tab-buttons tabbar'>
-                {tabs.map((item, index) =>
-                    <Link key={"pe-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                        <Icon slot="media" icon={item.icon}></Icon>
-                    </Link>)}
-                {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-            </div>
+            {tabs.length > 1 ?
+                <div className='tab-buttons tabbar'>
+                    {tabs.map((item, index) =>
+                        <Link key={"pe-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                            <Icon slot="media" icon={item.icon}></Icon>
+                        </Link>)}
+                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
+                </div> :
+                <NavTitle>{tabs[0].caption}</NavTitle>
+            }
             { !inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
         </Navbar>
     )
@@ -69,32 +72,42 @@ const AddLayoutContent = ({ tabs }) => {
 
 const AddTabs = props => {
     const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
+    const _t = t('View.Add', {returnObjects: true});
+    const showPanels = props.showPanels;
     const tabs = [];
-    tabs.push({
-        caption: _t.textSlide,
-        id: 'add-slide',
-        icon: 'icon-add-slide',
-        component: <AddSlideController />
-    });
-    tabs.push({
-        caption: _t.textShape,
-        id: 'add-shape',
-        icon: 'icon-add-shape',
-        component: <AddShapeController />
-    });
-    tabs.push({
-        caption: _t.textImage,
-        id: 'add-image',
-        icon: 'icon-add-image',
-        component: <AddImageController />
-    });
-    tabs.push({
-        caption: _t.textOther,
-        id: 'add-other',
-        icon: 'icon-add-other',
-        component: <AddOtherController />
-    });
+    if (!showPanels) {
+        tabs.push({
+            caption: _t.textSlide,
+            id: 'add-slide',
+            icon: 'icon-add-slide',
+            component: <AddSlideController />
+        });
+        tabs.push({
+            caption: _t.textShape,
+            id: 'add-shape',
+            icon: 'icon-add-shape',
+            component: <AddShapeController/>
+        });
+        tabs.push({
+            caption: _t.textImage,
+            id: 'add-image',
+            icon: 'icon-add-image',
+            component: <AddImageController/>
+        });
+        tabs.push({
+            caption: _t.textOther,
+            id: 'add-other',
+            icon: 'icon-add-other',
+            component: <AddOtherController/>
+        });
+    }
+    if (showPanels && showPanels === 'link') {
+        tabs.push({
+            caption: _t.textAddLink,
+            id: 'add-link',
+            component: <AddLinkController noNavbar={true}/>
+        });
+    }
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
@@ -119,10 +132,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
+                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels} />
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onOptionClick={this.onoptionclick} />
+                    <AddTabs onOptionClick={this.onoptionclick} showPanels={this.props.showPanels} />
                 </Popup>
         )
     }
@@ -142,7 +155,7 @@ const Add = props => {
         if ( props.onclosed )
             props.onclosed();
     };
-    return <AddView usePopover={!Device.phone} onclosed={onviewclosed} />
+    return <AddView usePopover={!Device.phone} onclosed={onviewclosed} showPanels={props.showOptions} />
 };
 
 export default Add;

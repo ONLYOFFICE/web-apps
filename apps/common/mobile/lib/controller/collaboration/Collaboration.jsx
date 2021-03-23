@@ -1,17 +1,63 @@
 import React, { Component } from 'react'
 import {observer, inject} from "mobx-react"
+import { LocalStorage } from '../../../utils/LocalStorage';
 
 class CollaborationController extends Component {
     constructor(props){
         super(props);
 
-        Common.Notifications.on('configOptionsFill', () => {
-            const api = Common.EditorApi.get();
-            // this.api = api;
+        Common.Notifications.on('engineCreated', (api) => {
             api.asc_registerCallback('asc_onAuthParticipantsChanged', this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onParticipantsChanged',     this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onConnectionStateChanged',  this.onUserConnection.bind(this));
+            api.asc_registerCallback('asc_onCoAuthoringDisconnect',  this.onCoAuthoringDisconnect.bind(this));
         });
+
+        Common.Notifications.on('document:ready', this.onDocumentReady.bind(this));
+    }
+
+    onDocumentReady() {
+        const api = Common.EditorApi.get();
+        const appOptions = this.props.storeAppOptions;
+        /** coauthoring begin **/
+        let isFastCoauth;
+        if (appOptions.isEdit && appOptions.canLicense && !appOptions.isOffline && appOptions.canCoAuthoring) {
+            // Force ON fast co-authoring mode
+            isFastCoauth = true;
+            api.asc_SetFastCollaborative(isFastCoauth);
+
+            if (window.editorType === 'de') {
+                const value = LocalStorage.getItem((isFastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                if (value !== null) {
+                    api.SetCollaborativeMarksShowType(
+                        value === 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                            value === 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                } else {
+                    api.SetCollaborativeMarksShowType(isFastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                }
+            }
+        } else if (!appOptions.isEdit && appOptions.isRestrictedEdit) {
+            isFastCoauth = true;
+            api.asc_SetFastCollaborative(isFastCoauth);
+            window.editorType === 'de' && api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+            api.asc_setAutoSaveGap(1);
+        } else {
+            isFastCoauth = false;
+            api.asc_SetFastCollaborative(isFastCoauth);
+            window.editorType === 'de' && api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+        }
+
+        if (appOptions.isEdit) {
+            let value;
+            if (window.editorType === 'sse') {
+                value = appOptions.canAutosave ? 1 : 0; // FORCE AUTOSAVE
+            } else {
+                value = isFastCoauth; // Common.localStorage.getItem("de-settings-autosave");
+                value = (!isFastCoauth && value !== null) ? parseInt(value) : (appOptions.canCoAuthoring ? 1 : 0);
+            }
+            api.asc_setAutoSaveGap(value);
+        }
+        /** coauthoring end **/
     }
 
     onChangeEditUsers(users) {
@@ -22,6 +68,10 @@ class CollaborationController extends Component {
 
     onUserConnection(change) {
         this.props.users.connection(change);
+    }
+
+    onCoAuthoringDisconnect() {
+        this.props.users.resetDisconnected(true);
     }
 
     render() {

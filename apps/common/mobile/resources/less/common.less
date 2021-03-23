@@ -669,6 +669,22 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+.username-tip {
+    height: 20px;
+    color: @white;
+    padding: 0 10px;
+    position: absolute;
+    z-index: 900;
+    display: none;
+    pointer-events: none;
+    transition: opacity 0.1ms ease-out;
+    opacity: 0;
+    &.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
 
 
 

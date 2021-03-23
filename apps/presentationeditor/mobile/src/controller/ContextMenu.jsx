@@ -11,7 +11,6 @@ import { Device } from '../../../../common/mobile/utils/device';
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canViewComments: stores.storeAppOptions.canViewComments,
-    canReview: stores.storeAppOptions.canReview,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected
 }))
@@ -22,7 +21,6 @@ class ContextMenu extends ContextMenuController {
         // console.log('context menu controller created');
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
-        this.onApiShowChange = this.onApiShowChange.bind(this);
         this.getUserName = this.getUserName.bind(this);
     }
 
@@ -41,7 +39,6 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
-        api.asc_unregisterCallback('asc_onShowRevisionsChange', this.onApiShowChange);
     }
 
 
@@ -51,10 +48,6 @@ class ContextMenu extends ContextMenuController {
 
     onApiHideComment() {
         this.isComments = false;
-    }
-
-    onApiShowChange(sdkchange) {
-        this.inRevisionChange = sdkchange && sdkchange.length>0;
     }
 
     // onMenuClosed() {
@@ -67,17 +60,17 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         switch (action) {
             case 'cut':
-                if (!api.Cut() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if (!api.Cut() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
                     this.showCopyCutPasteModal();
                 }
                 break;
             case 'copy':
-                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if (!api.Copy() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
                     this.showCopyCutPasteModal();
                 }
                 break;
             case 'paste':
-                if (!api.Paste() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if (!api.Paste() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
                     this.showCopyCutPasteModal();
                 }
                 break;
@@ -87,27 +80,8 @@ class ContextMenu extends ContextMenuController {
             case 'viewcomment':
                 Common.Notifications.trigger('viewcomment');
                 break;
-            case 'review':
-                setTimeout(() => {
-                    this.props.openOptions('coauth', 'cm-review');
-                }, 400);
-                break;
-            case 'reviewchange':
-                setTimeout(() => {
-                    this.props.openOptions('coauth', 'cm-review-change');
-                }, 400);
-                break;
-            case 'merge':
-                api.MergeCells();
-                break;
-            case 'split':
-                this.showSplitModal();
-                break;
             case 'delete':
                 api.asc_Remove();
-                break;
-            case 'deletetable':
-                api.remTable();
                 break;
             case 'edit':
                 setTimeout(() => {
@@ -157,63 +131,15 @@ class ContextMenu extends ContextMenuController {
         }).open();
     }
 
-    showSplitModal() {
-        const { t } = this.props;
-        const _t = t("ContextMenu", { returnObjects: true });
-        let picker;
-        const dialog = f7.dialog.create({
-            title: _t.menuSplit,
-            text: '',
-            content:
-                '<div class="content-block">' +
-                '<div class="row">' +
-                '<div class="col-50">' + _t.textColumns + '</div>' +
-                '<div class="col-50">' + _t.textRows + '</div>' +
-                '</div>' +
-                '<div id="picker-split-size"></div>' +
-                '</div>',
-            buttons: [
-                {
-                    text: _t.menuCancel
-                },
-                {
-                    text: 'OK',
-                    bold: true,
-                    onClick: function () {
-                        const size = picker.value;
-                        Common.EditorApi.get().SplitCell(parseInt(size[0]), parseInt(size[1]));
-                    }
-                }
-            ]
-        }).open();
-        dialog.on('opened', () => {
-            picker = f7.picker.create({
-                containerEl: document.getElementById('picker-split-size'),
-                cols: [
-                    {
-                        textAlign: 'center',
-                        width: '100%',
-                        values: [1,2,3,4,5,6,7,8,9,10]
-                    },
-                    {
-                        textAlign: 'center',
-                        width: '100%',
-                        values: [1,2,3,4,5,6,7,8,9,10]
-                    }
-                ],
-                toolbar: false,
-                rotateEffect: true,
-                value: [3, 3]
-            });
-        });
-    }
-
     openLink(url) {
-        if (Common.EditorApi.get().asc_getUrlType(url) > 0) {
+        const api = Common.EditorApi.get();
+        if (api.asc_getUrlType(url) > 0) {
             const newDocumentPage = window.open(url, '_blank');
             if (newDocumentPage) {
                 newDocumentPage.focus();
             }
+        } else {
+            api.asc_GoToInternalHyperlink(url);
         }
     }
 
@@ -223,7 +149,6 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
-        api.asc_registerCallback('asc_onShowRevisionsChange', this.onApiShowChange);
     }
 
     initMenuItems() {
@@ -241,69 +166,65 @@ class ContextMenu extends ContextMenuController {
         let itemsIcon = [],
             itemsText = [];
 
-        if ( canCopy ) {
-            itemsIcon.push({
-                event: 'copy',
-                icon: 'icon-copy'
-            });
-        }
-
-        if ( canViewComments && this.isComments && !isEdit ) {
-            itemsText.push({
-                caption: _t.menuViewComment,
-                event: 'viewcomment'
-            });
-        }
-
         let isText = false,
             isTable = false,
             isImage = false,
             isChart = false,
             isShape = false,
             isLink = false,
-            lockedText = false,
-            lockedTable = false,
-            lockedImage = false,
-            lockedHeader = false;
+            isSlide = false,
+            isObject = false;
 
         stack.forEach(item => {
             const objectType = item.get_ObjectType(),
-                    objectValue = item.get_ObjectValue();
+                objectValue = item.get_ObjectValue();
 
-            if ( objectType == Asc.c_oAscTypeSelectElement.Header ) {
-                lockedHeader = objectValue.get_Locked();
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Paragraph ) {
-                lockedText = objectValue.get_Locked();
+            if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
                 isText = true;
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Image ) {
-                lockedImage = objectValue.get_Locked();
-                if ( objectValue && objectValue.get_ChartProperties() ) {
-                    isChart = true;
-                } else
-                if ( objectValue && objectValue.get_ShapeProperties() ) {
-                    isShape = true;
-                } else {
-                    isImage = true;
-                }
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Table ) {
-                lockedTable = objectValue.get_Locked();
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                isImage = true;
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Chart) {
+                isChart = true;
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Shape) {
+                isShape = true;
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
                 isTable = true;
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Hyperlink ) {
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
                 isLink = true;
+            } else if (objectType == Asc.c_oAscTypeSelectElement.Slide) {
+                isSlide = true;
             }
         });
 
+        isObject = isText || isImage || isChart || isShape || isTable;
+
+        if (canCopy && isObject) {
+            itemsIcon.push({
+                event: 'copy',
+                icon: 'icon-copy'
+            });
+        }
+        if (canViewComments && this.isComments && !isEdit) {
+            itemsText.push({
+                caption: _t.menuViewComment,
+                event: 'viewcomment'
+            });
+        }
+
         if ( stack.length > 0 ) {
+            let topObject = stack[stack.length - 1],
+                topObjectType = topObject.get_ObjectType(),
+                topObjectValue = topObject.get_ObjectValue(),
+                objectLocked = typeof topObjectValue.get_Locked === 'function' ? topObjectValue.get_Locked() : false;
+
+            !objectLocked && (objectLocked = typeof topObjectValue.get_LockDelete === 'function' ? topObjectValue.get_LockDelete() : false);
+
             const swapItems = function(items, indexBefore, indexAfter) {
                 items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
             };
 
-            if ( isEdit && !isDisconnected ) {
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy ) {
+            if (!objectLocked && isEdit && !isDisconnected) {
+                if (canCopy && isObject) {
                     itemsIcon.push({
                         event: 'cut',
                         icon: 'icon-cut'
@@ -313,79 +234,38 @@ class ContextMenu extends ContextMenuController {
                     swapItems(itemsIcon, 0, 1);
                 }
 
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
-                    itemsIcon.push({
-                        event: 'paste',
-                        icon: 'icon-paste'
-                    });
-                }
+                itemsIcon.push({
+                    event: 'paste',
+                    icon: 'icon-paste'
+                });
 
-                if ( isTable && api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
-                    itemsText.push({
-                        caption: _t.menuMerge,
-                        event: 'merge'
-                    });
-                }
-
-                if ( isTable && api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader ) {
-                    itemsText.push({
-                        caption: _t.menuSplit,
-                        event: 'split'
-                    });
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
+                if (isObject)
                     itemsText.push({
                         caption: _t.menuDelete,
                         event: 'delete'
                     });
-                }
 
-                if ( isTable && !lockedTable && !lockedText && !lockedHeader ) {
-                    itemsText.push({
-                        caption: _t.menuDeleteTable,
-                        event: 'deletetable'
-                    });
-                }
+                itemsText.push({
+                    caption: _t.menuEdit,
+                    event: 'edit'
+                });
 
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ){
-                    itemsText.push({
-                        caption: _t.menuEdit,
-                        event: 'edit'
-                    });
-                }
-
-                if ( !!api.can_AddHyperlink() && !lockedHeader) {
+                if (!isLink && api.can_AddHyperlink() !== false) {
                     itemsText.push({
                         caption: _t.menuAddLink,
                         event: 'addlink'
                     });
                 }
 
-                if ( canReview ) {
-                    if (this.inRevisionChange) {
-                        itemsText.push({
-                            caption: _t.menuReviewChange,
-                            event: 'reviewchange'
-                        });
-                    } else {
-                        itemsText.push({
-                            caption: _t.menuReview,
-                            event: 'review'
-                        });
-                    }
-                }
-
-                if ( this.isComments && canViewComments ) {
+                if (this.isComments && canViewComments) {
                     itemsText.push({
                         caption: _t.menuViewComment,
                         event: 'viewcomment'
                     });
                 }
 
-                const isObject = isShape || isChart || isImage || isTable;
-                const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
-                if ( !hideAddComment ) {
+                var hideAddComment = (isText && isChart) || api.can_AddQuotedComment() === false || !canViewComments;
+                if (!hideAddComment) {
                     itemsText.push({
                         caption: _t.menuAddComment,
                         event: 'addcomment'
@@ -394,12 +274,13 @@ class ContextMenu extends ContextMenuController {
             }
         }
 
-        if ( isLink ) {
+        if (isLink) {
             itemsText.push({
                 caption: _t.menuOpenLink,
                 event: 'openlink'
             });
         }
+
 
         if ( Device.phone && itemsText.length > 2 ) {
             this.extraItems = itemsText.splice(2,itemsText.length, {

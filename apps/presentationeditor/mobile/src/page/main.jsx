@@ -7,6 +7,7 @@ import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { Search, SearchSettings } from '../controller/Search';
+import ContextMenu from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -19,12 +20,17 @@ export default class MainPage extends Component {
         };
     }
 
-    handleClickToOpenOptions = opts => {
+    handleClickToOpenOptions = (opts, showOpts) => {
+        ContextMenu.closeContextMenu();
+
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
             else if ( opts == 'add' )
-                return {addOptionsVisible: true};
+                return {
+                    addOptionsVisible: true,
+                    addShowOptions: showOpts
+                };
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
             else if ( opts == 'coauth' )
@@ -77,7 +83,7 @@ export default class MainPage extends Component {
             }
             {
                 !this.state.addOptionsVisible ? null :
-                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} />
+                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
             }
             {
                 !this.state.settingsVisible ? null :
@@ -87,6 +93,7 @@ export default class MainPage extends Component {
                 !this.state.collaborationVisible ? null :
                     <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
             }
+            <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
         </Page>
     )
   }
