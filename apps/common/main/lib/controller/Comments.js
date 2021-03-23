@@ -190,6 +190,7 @@ define([
                 this.api.asc_registerCallback('asc_onHideComment', _.bind(this.onApiHideComment, this));
                 this.api.asc_registerCallback('asc_onUpdateCommentPosition', _.bind(this.onApiUpdateCommentPosition, this));
                 this.api.asc_registerCallback('asc_onDocumentPlaceChanged', _.bind(this.onDocumentPlaceChanged, this));
+                this.api.asc_registerCallback('asc_onDeleteComment', _.bind(this.onDeleteComment, this)); // only for PE, when del or ctrl+x pressed
             }
         },
 
@@ -1036,6 +1037,12 @@ define([
                             this.hintmode ? anchor.asc_getX() : undefined);
                     }
                 }
+            }
+        },
+
+        onDeleteComment: function (id, comment) {
+            if (this.api) {
+                this.api.asc_RemoveAllComments(!this.mode.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
 
