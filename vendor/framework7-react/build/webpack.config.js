@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
@@ -53,6 +53,7 @@ module.exports = {
     minimizer: [new TerserPlugin({
       sourceMap: true,
     })],
+    moduleIds: 'named',
   },
   module: {
     rules: [
@@ -162,8 +163,8 @@ module.exports = {
     }),
 
     ...(env === 'production' ? [
-      new OptimizeCSSPlugin({
-        cssProcessorOptions: {
+      new CssMinimizerPlugin({
+        processorOptions: {
           safe: true,
           map: { inline: false },
         },
@@ -172,7 +173,7 @@ module.exports = {
     ] : [
       // Development only plugins
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin(),
+      // new webpack.NamedModulesPlugin(),
     ]),
     // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

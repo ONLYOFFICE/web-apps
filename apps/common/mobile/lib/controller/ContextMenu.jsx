@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { f7 } from 'framework7-react';
-import { Device } from '../../../../common/mobile/utils/device'
+import {observer, inject} from "mobx-react";
+import { Device } from '../../../../common/mobile/utils/device';
 
 import ContextMenuView, { idContextMenuElement, ActionsWithExtraItems } from '../view/ContextMenu';
 
@@ -23,6 +24,8 @@ class ContextMenuController extends Component {
         this.onDocumentReady = this.onDocumentReady.bind(this);
         this.onApiOpenContextMenu = this.onApiOpenContextMenu.bind(this);
         this.onApiHideContextMenu = this.onApiHideContextMenu.bind(this);
+        this.onApiShowForeignCursorLabel = this.onApiShowForeignCursorLabel.bind(this);
+        this.onApiHideForeignCursorLabel = this.onApiHideForeignCursorLabel.bind(this);
     }
 
     onDocumentReady() {
@@ -38,6 +41,8 @@ class ContextMenuController extends Component {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
         api.asc_registerCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
+        api.asc_registerCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
+        api.asc_registerCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
     }
 
     offsetPopoverTop(popover) {
@@ -150,12 +155,61 @@ class ContextMenuController extends Component {
         }
     }
 
+    onApiShowForeignCursorLabel(UserId, X, Y, color) {
+        /** coauthoring begin **/
+        const tipHeight = 20;
+
+        if (!this.fastCoAuthTips) {
+            this.fastCoAuthTips = [];
+        }
+        let src;
+        for (let i=0; i<this.fastCoAuthTips.length; i++) {
+            if (this.fastCoAuthTips[i].attr('userid') === UserId) {
+                src = this.fastCoAuthTips[i];
+                break;
+            }
+        }
+        if (!src) {
+            src = $$(`<div class="username-tip"></div>`);
+            src.attr('userid', UserId);
+            src.css({'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
+            src.text(this.getUserName(UserId));
+            $$('#id_main_parent').append(src);
+            this.fastCoAuthTips.push(src);
+            //src.fadeIn(150);
+            src[0].classList.add('active');
+
+            $$('#id_main_view').append(src);
+        }
+        src.css({
+            top: (Y - tipHeight) + 'px',
+            left: X + 'px'});
+        /** coauthoring end **/
+    }
+
+    onApiHideForeignCursorLabel(userId) {
+        /** coauthoring begin **/
+        for (let i=0; i<this.fastCoAuthTips.length; i++) {
+            if (this.fastCoAuthTips[i].attr('userid') == userId) {
+                const src = this.fastCoAuthTips[i];
+                //this.fastCoAuthTips[i].fadeOut(150, () => {src.remove()});
+                src[0].classList.remove('active');
+                src.remove();
+                this.fastCoAuthTips.splice(i, 1);
+                break;
+            }
+        }
+        /** coauthoring end **/
+    }
+
     componentWillUnmount() {
         Common.Notifications.off('document:ready', this.onDocumentReady);
 
         const api = Common.EditorApi.get();
         api.asc_unregisterCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
         api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
+        api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
+        api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
     }
 
     componentDidMount() {

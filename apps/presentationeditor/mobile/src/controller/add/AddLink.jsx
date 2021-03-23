@@ -102,6 +102,7 @@ class AddLinkController extends Component {
         return (
             <PageLink onInsertLink={this.onInsertLink}
                       getTextDisplay={this.getTextDisplay}
+                      noNavbar={this.props.noNavbar}
             />
         )
     }

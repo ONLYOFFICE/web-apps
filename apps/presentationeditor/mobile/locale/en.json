@@ -24,6 +24,19 @@
       }
     }
   },
+  "ContextMenu": {
+    "menuViewComment": "View Comment",
+    "menuAddComment": "Add Comment",
+    "menuDelete": "Delete",
+    "menuEdit": "Edit",
+    "menuAddLink": "Add Link",
+    "menuOpenLink": "Open Link",
+    "menuMore": "More",
+    "menuCancel": "Cancel",
+    "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
+    "errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
+    "textDoNotShowAgain": "Don't show again"
+  },
   "View": {
     "Settings": {
       "textDone": "Done",
@@ -101,6 +114,7 @@
       "textColumns": "Columns",
       "textRows": "Rows",
       "textCancel": "Cancel",
+      "textAddLink": "Add Link",
       "textLink": "Link",
       "textLinkType": "Link Type",
       "textExternalLink": "External Link",
@@ -267,6 +281,27 @@
       "textThemeColors": "Theme Colors",
       "textStandartColors": "Standard Colors",
       "textCustomColors": "Custom Colors"
+    },
+    "Collaboration": {
+      "textCollaboration": "Collaboration",
+      "textBack": "Back",
+      "textUsers": "Users",
+      "textEditUser": "Users who are editing the file:",
+      "textComments": "Comments",
+      "textAddComment": "Add Comment",
+      "textCancel": "Cancel",
+      "textDone": "Done",
+      "textNoComments": "This document doesn't contain comments",
+      "textEdit": "Edit",
+      "textResolve": "Resolve",
+      "textReopen": "Reopen",
+      "textAddReply": "Add Reply",
+      "textDeleteComment": "Delete Comment",
+      "textMessageDeleteComment": "Do you really want to delete this comment?",
+      "textMessageDeleteReply": "Do you really want to delete this reply?",
+      "textDeleteReply": "Delete Reply",
+      "textEditComment": "Edit Comment",
+      "textEditReply": "Edit Reply"
     }
   }
 }

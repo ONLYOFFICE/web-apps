@@ -238,6 +238,9 @@ class AddCommentController extends Component {
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
+        if (!this.currentUser) {
+            this.currentUser = this.props.users.setCurrentUser(this.props.storeAppOptions.user.id);
+        }
         const name = this.currentUser.asc_getUserName();
         return {
             name: name,
