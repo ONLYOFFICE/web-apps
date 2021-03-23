@@ -62,7 +62,8 @@ define([
     'spreadsheeteditor/main/app/view/ScaleDialog',
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog'
+    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
+    'spreadsheeteditor/main/app/view/CreateSparklineDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -1079,52 +1080,39 @@ define([
             if (!this.editMode) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
-                seltype = info.asc_getSelectionType(),
-                isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
+                seltype = info.asc_getSelectionType();
 
             if (me.api) {
                 var win, props;
-                if (isSpark && (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
-                    seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax)) {
-                    var sparkLineInfo = info.asc_getSparklineInfo();
-                    if (!!sparkLineInfo) {
-                        var props = new Asc.sparklineGroup();
-                        props.asc_setType(type);
-                        this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
+                var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
+                props = me.api.asc_getChartObject(true); // don't lock chart object
+                if (props) {
+                    (ischartedit) ? props.changeType(type) : props.putType(type);
+                    var range = props.getRange(),
+                        isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
+                    if (isvalid == Asc.c_oAscError.ID.No) {
+                        (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                     } else {
-                        // add sparkline
-                    }
-                } else if (!isSpark) {
-                    var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
-                    props = me.api.asc_getChartObject(true); // don't lock chart object
-                    if (props) {
-                        (ischartedit) ? props.changeType(type) : props.putType(type);
-                        var range = props.getRange(),
-                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
-                        if (isvalid == Asc.c_oAscError.ID.No) {
-                            (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
-                        } else {
-                            var msg = me.txtInvalidRange;
-                            switch (isvalid) {
-                                case isvalid == Asc.c_oAscError.ID.StockChartError:
-                                    msg = me.errorStockChart;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
-                                    msg = me.errorMaxRows;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
-                                    msg = me.errorComboSeries;
-                                    break;
-                            }
-                            Common.UI.warning({
-                                msg: msg,
-                                callback: function() {
-                                    _.defer(function(btn) {
-                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                    })
-                                }
-                            });
+                        var msg = me.txtInvalidRange;
+                        switch (isvalid) {
+                            case isvalid == Asc.c_oAscError.ID.StockChartError:
+                                msg = me.errorStockChart;
+                                break;
+                            case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
+                                msg = me.errorMaxRows;
+                                break;
+                            case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
+                                msg = me.errorComboSeries;
+                                break;
                         }
+                        Common.UI.warning({
+                            msg: msg,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                })
+                            }
+                        });
                     }
                 }
             }
@@ -1146,7 +1134,19 @@ define([
                         props.asc_setType(type);
                         this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
                     } else {
-                        // add sparkline
+                        var me = this;
+                        (new SSE.Views.CreateSparklineDialog(
+                            {
+                                api: me.api,
+                                handler: function(result, settings) {
+                                    if (result == 'ok' && settings) {
+                                        me.view && me.view.fireEvent('insertspark', me.view);
+                                        if (settings.destination)
+                                            me.api.asc_addSparklineGroup(type, settings.source, settings.destination);
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                }
+                            })).show();
                     }
                 }
             }

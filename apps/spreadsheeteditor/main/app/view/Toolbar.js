@@ -2689,6 +2689,6 @@ define([
         textAutoColor: 'Automatic',
         textItems: 'Items',
         tipInsertSpark: 'Insert sparkline',
-        capInsertSpark: 'Sparkline'
+        capInsertSpark: 'Sparklines'
     }, SSE.Views.Toolbar || {}));
 });
