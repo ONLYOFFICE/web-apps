@@ -1,6 +1,6 @@
 
 import React, { Fragment, useEffect, useState } from 'react';
-import {StatusbarView, TabContextMenu} from '../view/Statusbar';
+import {StatusbarView} from '../view/Statusbar';
 import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { Dom7 } from 'framework7';
@@ -87,35 +87,35 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
         loadTabColor(index);
     };
 
-    const setTabLineColor = (tab, color) => {
-        if (tab) {
-            if (null !== color) {
-                color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-            } else {
-                color = '';
-            }
+    // const setTabLineColor = (tab, color) => {
+    //     if (tab) {
+    //         if (null !== color) {
+    //             color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+    //         } else {
+    //             color = '';
+    //         }
 
-            if (color.length) {
-                if (!tab.get('active')) {
-                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
-                } else {
-                    color = '0px 4px 0 ' + color + ' inset';
-                }
-
-                tab.get('el').find('a').css('box-shadow', color);
-            } else {
-                tab.get('el').find('a').css('box-shadow', '');
-            }
-        }
-    };
-
-    // const updateTabsColors = () => {
-    //     const api = Common.EditorApi.get();
-
-    //     sheets.sheets.forEach(model => {
-    //         setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
-    //     });
+    //         if (color.length) {
+    //             if (!tab.active) {
+    //                 color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+    //             } else {
+    //                 color = '0px 4px 0 ' + color + ' inset';
+    //             }
+                
+    //             $$('.tab')[tab.index].find('a').css('box-shadow', color);
+    //         } else {
+    //             $$('.tab')[tab.index].find('a').css('box-shadow', '');
+    //         }
+    //     }
     // };
+
+    const updateTabsColors = () => {
+        const api = Common.EditorApi.get();
+
+        sheets.sheets.forEach(model => {
+            setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
+        });
+    };
 
     const onTabClicked = i => {
         const model = sheets.at(i);
@@ -223,9 +223,9 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
 
     const deleteWorksheet = () => {
         const api = Common.EditorApi.get();
-        const countVisibleSheets = sheets.sheets.filter(sheet => !sheet.hidden);
+        const visibleSheets = sheets.visibleWorksheets();
 
-        if (sheets.sheets.length == 1 || countVisibleSheets.length == 1) {
+        if (sheets.sheets.length == 1 || visibleSheets.length == 1) {
             f7.dialog.alert(_t.textErrorLastSheet, _t.notcriticalErrorTitle);
         } else {
             f7.dialog.confirm(
@@ -317,15 +317,15 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
 
     const hideWorksheet = (hide, index) => {
         const api = Common.EditorApi.get();
-        const countVisibleSheets = sheets.sheets.filter(sheet => !sheet.hidden);
-
+        const visibleSheets = sheets.visibleWorksheets();
+      
         if(hide) {
-            countVisibleSheets.length == 1 ? 
+            visibleSheets.length == 1 ? 
                 f7.dialog.alert(_t.textErrorLastSheet, _t.notcriticalErrorTitle) :
                 api['asc_hideWorksheet']([index]);
         } else {
             api['asc_showWorksheet'](index);
-            loadTabColor(index);
+            // loadTabColor(index);
         }
     };
 
@@ -343,50 +343,38 @@ const Statusbar = inject('sheets', 'storeAppOptions')(props => {
                 api.asc_copyWorksheet(index, name);
                 break;
             case 'ren': renameWorksheet(); break;
-            // case 'unhide':
-            //     var items = [];
-            //     _.each(this.hiddensheets.models, function (item) {
-            //         items.push({
-            //             caption: item.get('name'),
-            //             event: 'reveal:' + item.get('index')
-            //         })
-            //     });
-            //     _.defer(function () {
-            //         me.statusbar.showTabContextMenu(items, model);
-            //     });
-            //     break;
-            // case 'showMore':
-            //     if (me._moreAction.length > 0) {
-            //         _.delay(function () {
-            //             _.each(me._moreAction, function (action) {
-            //                 action.text = action.caption;
-            //                 action.onClick = function () {
-            //                     me.onTabMenu(null, action.event, model)
-            //                 }
-            //             });
+            case 'unhide':
+                f7.popover.open('#idx-hidden-sheets-popover', '.active');
+                break;
+            case 'showMore':
+                if (me._moreAction.length > 0) {
+                    _.delay(function () {
+                        _.each(me._moreAction, function (action) {
+                            action.text = action.caption;
+                            action.onClick = function () {
+                                me.onTabMenu(null, action.event, model)
+                            }
+                        });
 
-            //             uiApp.actions([me._moreAction, [
-            //                 {
-            //                     text: me.cancelButtonText,
-            //                     bold: true
-            //                 }
-            //             ]]);
-            //         }, 100);
-            //     }
-            //     break;
-            // default:
-            //     var _re = /reveal\:(\d+)/.exec(event);
-            //     if ( _re && !!_re[1] ) {
-            //         me.hideWorksheet(false, parseInt(_re[1]));
-            //     }
+                        uiApp.actions([me._moreAction, [
+                            {
+                                text: me.cancelButtonText,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
+                }
+                break;
+            default:
+                let _re = /reveal\:(\d+)/.exec(event);
+                if (_re && !!_re[1]) {
+                    hideWorksheet(false, parseInt(_re[1]));
+                }
         }
     };
 
     return (
-        <Fragment>
-            <StatusbarView onTabClick={onTabClick} onTabClicked={onTabClicked} onAddTabClicked={onAddTabClicked} />
-            <TabContextMenu onTabMenu={onTabMenu} />
-        </Fragment>
+        <StatusbarView onTabClick={onTabClick} onTabClicked={onTabClicked} onAddTabClicked={onAddTabClicked} onTabMenu={onTabMenu} />
     )
 });
 

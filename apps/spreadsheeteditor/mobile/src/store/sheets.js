@@ -57,4 +57,8 @@ export class storeWorksheets {
     hiddenWorksheets() {
         return this.sheets.filter(model => model.hidden);
     }
+
+    visibleWorksheets() {
+        return this.sheets.filter(model => !model.hidden);
+    }
 }
