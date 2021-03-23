@@ -73,7 +73,6 @@ define([
                         height = options.warning ? 187 : 147;
                         break;
                 }
-                // height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
             }
 
             _.extend(_options,  {
@@ -423,7 +422,7 @@ define([
                         options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
                         options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
                     }
-                    this.api.asc_TextFromFileOrUrl(options, _.bind(this.previewCallback, this), undefined, true);
+                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
             }
         },

@@ -253,16 +253,13 @@ define([
             }
         },
 
-        onDataFromTextCallback: function(data, advOptions) {
-            if (!data || !data.length) return;
-
+        onDataFromTextCallback: function(advOptions) {
             var me = this;
             (new Common.Views.OpenDialog({
                 title: me.txtImportWizard,
                 closable: true,
                 type: Common.Utils.importTextType.Data,
-                preview: true,
-                previewData: data,
+                preview: advOptions.asc_getData(),
                 settings: advOptions ? advOptions.asc_getRecommendedSettings() : me._state.CSVOptions,
                 codepages: advOptions ? advOptions.asc_getCodePages() : null,
                 api: me.api,
