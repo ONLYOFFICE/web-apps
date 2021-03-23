@@ -1717,7 +1717,7 @@ define([
             } else if (type == 'indents' || type == 'tabs') {
                 win = this.advancedParagraphClick({isChart: false});
                 if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 3);
+                    win.setActiveCategory(type == 'indents' ? 0 : 4);
             } else if (type == 'margins') {
                 if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({
