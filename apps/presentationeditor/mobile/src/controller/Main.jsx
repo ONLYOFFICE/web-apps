@@ -340,6 +340,8 @@ class MainController extends Component {
 
         Common.Gateway.documentReady();
         f7.emit('resize');
+
+        Common.Notifications.trigger('document:ready');
     }
 
     _onOpenDocumentProgress(progress) {
