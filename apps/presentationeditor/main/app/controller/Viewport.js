@@ -146,11 +146,15 @@ define([
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
             $(window).on('resize', _.bind(this.onWindowResize, this));
 
-            var leftPanel = $('#left-menu');
+            var leftPanel = $('#left-menu'),
+                histPanel = $('#left-panel-history');
             this.viewport.hlayout.on('layout:resizedrag', function() {
                 this.api.Resize();
-                Common.localStorage.setItem('pe-mainmenu-width',leftPanel.width());
+                Common.localStorage.setItem('pe-mainmenu-width', histPanel.is(':visible') ? (histPanel.width()+SCALE_MIN) : leftPanel.width() );
             }, this);
+
+            this.boxSdk = $('#editor_sdk');
+            this.boxSdk.css('border-left', 'none');
 
             this.header.mnuitemFitPage = this.header.fakeMenuItem();
             this.header.mnuitemFitWidth = this.header.fakeMenuItem();
@@ -327,10 +331,24 @@ define([
             case 'rightmenu':
                 this.viewport.hlayout.doLayout();
                 break;
+            case 'history':
+                var panel = this.viewport.hlayout.items[1];
+                if (panel.resize.el) {
+                    this.boxSdk.css('border-left', '');
+                    panel.resize.el.show();
+                }
+                this.viewport.hlayout.doLayout();
+                break;
             case 'leftmenu':
                 var panel = this.viewport.hlayout.items[0];
                 if (panel.resize.el) {
-                    panel.el.width() > 40 ? panel.resize.el.show() : panel.resize.el.hide();
+                    if (panel.el.width() > 40) {
+                        this.boxSdk.css('border-left', '');
+                        panel.resize.el.show();
+                    } else {
+                        panel.resize.el.hide();
+                        this.boxSdk.css('border-left', '0 none');
+                    }
                 }
                 this.viewport.hlayout.doLayout();
                 break;
