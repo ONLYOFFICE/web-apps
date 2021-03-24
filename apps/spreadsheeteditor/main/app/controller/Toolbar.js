@@ -193,7 +193,8 @@ define([
                 pgmargins: undefined,
                 pgorient: undefined,
                 lock_doc: undefined,
-                cf_locked: []
+                cf_locked: [],
+                selectedCells: 0
             };
             this.binding = {};
 
@@ -418,6 +419,7 @@ define([
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
                     Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                     Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
+                    this.api.asc_registerCallback('asc_onSelectionMathChanged',   _.bind(this.onApiMathChanged, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
@@ -1138,6 +1140,7 @@ define([
                         (new SSE.Views.CreateSparklineDialog(
                             {
                                 api: me.api,
+                                props: {selectedCells: me._state.selectedCells},
                                 handler: function(result, settings) {
                                     if (result == 'ok' && settings) {
                                         me.view && me.view.fireEvent('insertspark', me.view);
@@ -1151,6 +1154,10 @@ define([
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onApiMathChanged: function(info) {
+            this._state.selectedCells = info.asc_getCount(); // not empty cells
         },
 
         onInsertTextart: function (data) {

@@ -47,7 +47,7 @@ define([
     SSE.Views.CreateSparklineDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 200
+            height: 195
         },
 
         initialize : function(options) {
@@ -71,7 +71,7 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td>',
                                             '<label class="input-label">' + me.textDestination + '</label>',
                                         '</td>',
                                     '</tr>',
@@ -137,29 +137,30 @@ define([
             return [this.txtSourceRange, this.txtDestRange];
         },
 
-        getDefaultFocusableComponent: function () {
-            if (this._alreadyRendered) return; // focus only at first show
-            this._alreadyRendered = true;
-            return this.txtSourceRange;
-        },
-
         afterRender: function() {
             this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                var value = props.asc_getRange();
-                this.txtSourceRange.setValue((value) ? value : '');
-                this.dataSourceValid = value;
-            }
+            var cells = props ? props.selectedCells : 0;
             var me = this;
+            if (cells>0) {
+                var range = this.api.asc_getActiveRangeStr(Asc.referenceType.R);
+                this.txtSourceRange.setValue(range);
+                this.dataSourceValid = range;
+                setTimeout(function(){me.txtDestRange.focus();}, 100);
+            } else {
+                var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A);
+                this.txtDestRange.setValue(range);
+                this.dataDestValid = range;
+                setTimeout(function(){me.txtSourceRange.focus();}, 100);
+            }
             this.txtSourceRange.validation = function(value) {
                 var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             this.txtDestRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
         },
@@ -185,7 +186,7 @@ define([
             }
             if (!isvalid) {
                 this.txtSourceRange.showError([txtError]);
-                this.txtSourceRange.cmpEl.find('input').focus();
+                this.txtSourceRange.focus();
                 return isvalid;
             }
 
@@ -193,13 +194,13 @@ define([
                 isvalid = false;
                 txtError = this.txtEmpty;
             } else {
-                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDestRange.getValue());
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, this.txtDestRange.getValue());
                 isvalid = (isvalid == Asc.c_oAscError.ID.No);
                 !isvalid && (txtError = this.textInvalidRange);
             }
             if (!isvalid) {
                 this.txtDestRange.showError([txtError]);
-                this.txtDestRange.cmpEl.find('input').focus();
+                this.txtDestRange.focus();
                 return isvalid;
             }
 
@@ -235,7 +236,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='source') ? me.dataSourceValid : me.dataDestValid),
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : (type=='source') ? Asc.c_oAscSelectionDialogType.Chart : Asc.c_oAscSelectionDialogType.FormatTable
                 });
             }
         },
