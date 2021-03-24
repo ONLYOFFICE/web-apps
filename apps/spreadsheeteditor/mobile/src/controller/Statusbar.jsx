@@ -63,6 +63,8 @@ const Statusbar = inject('sheets')(props => {
         const api = Common.EditorApi.get();
         api.asc_showWorksheet(model.index);
         sheets.setActiveWorksheet(i);
+
+        Common.Notifications.trigger('sheet:active', model.index);
     };
 
     const onAddTabClicked = () => {

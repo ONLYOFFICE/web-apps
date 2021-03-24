@@ -18,9 +18,17 @@ class AddOtherController extends Component {
         }
     }
 
+    hideAddComment () {
+        const cellinfo = Common.EditorApi.get().asc_getCellInfo();
+        const iscelllocked = cellinfo.asc_getLocked();
+        const seltype = cellinfo.asc_getSelectionType();
+        return !(seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked);
+    }
+
     render () {
         return (
-            <AddOther
+            <AddOther closeModal={this.closeModal}
+                      hideAddComment={this.hideAddComment}
             />
         )
     }

@@ -60,12 +60,12 @@ class CommentsController extends Component {
             api.asc_registerCallback('asc_onChangeCommentData', this.changeCommentData.bind(this));
             api.asc_registerCallback('asc_onShowComment', this.changeShowComments.bind(this));
             api.asc_registerCallback('asc_onHideComment', this.hideComments.bind(this));
-        });
 
-        Common.Notifications.on('comments:filterchange', this.onFilterChange.bind(this)); // for sse
-
-        Common.Notifications.on('configOptionsFill', () => {
-            this.curUserId = this.appOptions.user.id;
+            if (window.editorType === 'sse') {
+                api.asc_registerCallback('asc_onActiveSheetChanged', this.onApiActiveSheetChanged.bind(this));
+                Common.Notifications.on('comments:filterchange', this.onFilterChange.bind(this));
+                Common.Notifications.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
+            }
         });
 
         Common.Notifications.on('document:ready', () => {
@@ -77,7 +77,12 @@ class CommentsController extends Component {
                 isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
                 /** coauthoring end **/
             }
+
+            this.curUserId = this.props.users.currentUser.asc_getIdOriginal();
         });
+    }
+    onApiActiveSheetChanged (index) {
+        this.onFilterChange(['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)]);
     }
     addComment (id, data) {
         const comment = this.readSDKComment(id, data);

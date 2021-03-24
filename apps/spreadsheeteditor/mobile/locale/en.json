@@ -46,7 +46,8 @@
             "textInsert": "Insert",
             "textInvalidRange": "ERROR! Invalid cells range",
             "textSortAndFilter": "Sort and Filter",
-            "textFilter": "Filter"
+            "textFilter": "Filter",
+            "textComment": "Comment"
         },
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
@@ -321,7 +322,21 @@
             "textBack": "Back",
             "textUsers": "Users",
             "textEditUser": "Users who are editing the file:",
-            "textComments": "Comments"
+            "textComments": "Comments",
+            "textAddComment": "Add Comment",
+            "textCancel": "Cancel",
+            "textDone": "Done",
+            "textNoComments": "This document doesn't contain comments",
+            "textEdit": "Edit",
+            "textResolve": "Resolve",
+            "textReopen": "Reopen",
+            "textAddReply": "Add Reply",
+            "textDeleteComment": "Delete Comment",
+            "textMessageDeleteComment": "Do you really want to delete this comment?",
+            "textMessageDeleteReply": "Do you really want to delete this reply?",
+            "textDeleteReply": "Delete Reply",
+            "textEditComment": "Edit Comment",
+            "textEditReply": "Edit Reply"
         }
     }
 }

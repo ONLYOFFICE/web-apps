@@ -31,8 +31,10 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
             <Navbar>
                 <NavLeft>
                     <Link onClick={() => {
-                        props.closeAddComment();
                         f7.popup.close('.add-comment-popup');
+                        setTimeout(() => {
+                            props.closeAddComment();
+                        }, 500)
                     }}>{_t.textCancel}</Link>
                 </NavLeft>
                 <NavTitle>{_t.textAddComment}</NavTitle>
@@ -40,8 +42,10 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
                               if (props.onAddNewComment(stateText, false)) {
-                                  props.closeAddComment();
                                   f7.popup.close('.add-comment-popup');
+                                  setTimeout(() => {
+                                      props.closeAddComment();
+                                  }, 500)
                               }
                     }}>
                         {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}

@@ -54,8 +54,8 @@ export class storeComments {
         if (!this.groupCollectionComments[groupName]) {
             this.groupCollectionComments[groupName] = [];
         }
-        this.groupCollectionComments[groupname].push(comment);
-        if (this.filter.indexOf(groupname) !== -1) {
+        this.groupCollectionComments[groupName].push(comment);
+        if (typeof this.filter === 'object' && this.filter.indexOf(groupName) !== -1) {
             this.groupCollectionFilter.push(comment);
         }
     }
@@ -86,7 +86,7 @@ export class storeComments {
             const index = store.indexOf(comment);
             if (index !== -1) {
                 this.groupCollectionComments[name].splice(index, 1);
-                if (this.filter.indexOf(name) !== -1) {
+                if (typeof this.filter === 'object' && this.filter.indexOf(name) !== -1) {
                     this.groupCollectionFilter.splice(this.groupCollectionFilter.indexOf(comment), 1);
                 }
             }
@@ -135,9 +135,9 @@ export class storeComments {
         let model;
         for (let name in this.groupCollectionComments) {
             const store = this.groupCollectionComments[name];
-            const id = id.isArray() ? id[0] : id;
+            const uid = typeof id === 'object' && id.isArray() ? id[0] : id;
             model = store.find((item) => {
-                return item.uid === id;
+                return item.uid === uid;
             });
             if (model) return model;
         }
