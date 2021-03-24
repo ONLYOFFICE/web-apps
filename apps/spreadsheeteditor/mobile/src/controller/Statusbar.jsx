@@ -45,7 +45,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     }, []);
 
     const onWorkbookLocked = locked => {
-        $$('.idx-btn-addtab').toggleClass('disabled', locked);
+        locked ? $$('.idx-btn-addtab').addClass('disabled') : $$('.idx-btn-addtab').removeClass('disabled');
     };
 
     const onWorksheetLocked = (index, locked) => {
@@ -116,9 +116,9 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
                     color = '0px 4px 0 ' + color + ' inset';
                 }
                 
-                $('.tab:eq(' + tab.index + ')').find('a').css('box-shadow', color);
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
             } else {
-                $('.tab:eq(' + tab.index + ')').find('a').css('box-shadow', '');
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
             }
         }
     };
@@ -361,25 +361,9 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             case 'unhide':
                 f7.popover.open('#idx-hidden-sheets-popover', '.active');
                 break;
-            // case 'showMore':
-            //     if (me._moreAction.length > 0) {
-            //         _.delay(function () {
-            //             _.each(me._moreAction, function (action) {
-            //                 action.text = action.caption;
-            //                 action.onClick = function () {
-            //                     me.onTabMenu(null, action.event, model)
-            //                 }
-            //             });
-
-            //             uiApp.actions([me._moreAction, [
-            //                 {
-            //                     text: me.cancelButtonText,
-            //                     bold: true
-            //                 }
-            //             ]]);
-            //         }, 100);
-            //     }
-            //     break;
+            case 'showMore':
+                f7.actions.open('#idx-tab-menu-actions');
+                break;
             default:
                 let _re = /reveal\:(\d+)/.exec(event);
                 if (_re && !!_re[1]) {
