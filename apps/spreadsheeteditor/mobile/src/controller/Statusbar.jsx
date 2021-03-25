@@ -23,10 +23,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
+            api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
         };
 
         const on_main_view_click = e => {
-            // f7.popover.close('.document-menu.modal-in');
+            if(!e.target.closest('.tab.active')) {
+                f7.popover.close('.document-menu.modal-in', false);
+            }
         };
 
         Common.Notifications.on('api:disconnect', onApiDisconnect);
@@ -43,6 +46,10 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             $$('.view-main').off('click', on_main_view_click);
         };
     }, []);
+
+    const onApiHideTabContextMenu = () => {
+        f7.popover.close('.document-menu.modal-in', false);
+    }
 
     const onWorkbookLocked = locked => {
         locked ? $$('.idx-btn-addtab').addClass('disabled') : $$('.idx-btn-addtab').removeClass('disabled');
@@ -79,7 +86,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
         sheets.resetSheets(items);
         sheets.resetHiddenSheets(hiddentems);
-        // this.hiddensheets.reset(hiddentems);
+    
         updateTabsColors();
     };
 
@@ -164,71 +171,25 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         api.asc_addWorksheet(createSheetName());
     };
 
-    // const _getTabMenuItems = model => {
-    //     const api = Common.EditorApi.get();
-    //     let wbLocked = api.asc_isWorkbookLocked();
-    //     let shLocked = api.asc_isWorksheetLockedOrDeleted(model.index);
-
-    //     let items = [{
-    //             caption: _t.textDuplicate,
-    //             event: 'copy',
-    //             locked: wbLocked || shLocked
-    //         },{
-    //             caption: _t.textDelete,
-    //             event: 'del',
-    //             locked: wbLocked || shLocked
-    //         },{
-    //             caption: _t.textRename,
-    //             event: 'ren',
-    //             locked: wbLocked || shLocked
-    //         },{
-    //             caption: _t.textHide,
-    //             event: 'hide',
-    //             locked: wbLocked || shLocked
-    //         }];
-
-
-    //     if (!wbLocked && !shLocked && this.hiddensheets.length) {
-    //         items.push({
-    //             caption: _t.textUnhide,
-    //             event: 'unhide'
-    //         });
-    //     }
-
-    //     if (Common.SharedSettings.get('phone') && items.length > 3) {
-    //         this._moreAction = items.slice(2);
-
-    //         items = items.slice(0, 2);
-    //         items.push({
-    //             caption: this.menuMore,
-    //             event: 'showMore'
-    //         });
-    //     }
-
-    //     return items;
-    // };
-
     const onTabClick = (i, target) => {
         const api = Common.EditorApi.get();
         const model = sheets.at(i);
         console.log(model);
 
         let opened = $$('.document-menu.modal-in').length;
-        f7.popover.close('.document-menu.modal-in');
-
         let index = model.index;
+
+        f7.popover.close('.document-menu.modal-in', false);
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
                 if (!isDisconnected) {
                     api.asc_closeCellEditor();
-                    // const items = _getTabMenuItems(model);
-                    // this.statusbar.showTabContextMenu(this._getTabMenuItems(model), model);
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
             }
         } else {
-            f7.popover.close('#idx-tab-context-menu-popover');
+            f7.popover.close('#idx-tab-context-menu-popover', false);
             onTabClicked(i);
             Common.Notifications.trigger('sheet:active', index);
         }
@@ -339,7 +300,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         } else {
             f7.popover.close('#idx-hidden-sheets-popover');
             api['asc_showWorksheet'](index);
-            // loadTabColor(index);
+            loadTabColor(index);
         }
     };
 
@@ -347,7 +308,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         const api = Common.EditorApi.get();
         let index = sheets.sheets.find(sheet => sheet.active).index;
 
-        f7.popover.close('#idx-tab-context-menu-popover');
+        f7.popover.close('.document-menu.modal-in', false);
 
         switch (event) {
             case 'del': deleteWorksheet(); break;

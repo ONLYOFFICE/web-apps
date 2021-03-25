@@ -112,32 +112,36 @@ const StatusbarView = inject('sheets')(observer(props => {
                 closeByBackdropClick={false}
                 closeByOutsideClick={false}
             >
-                <List className="list-block">
-                    <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
-                    <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
-                    {isPhone || isAndroid ? (
+                {isPhone || isAndroid ? ( 
+                    <List className="list-block">
+                        <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
+                        <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
                         <ListButton title={_t.textMore} onClick={() => props.onTabMenu('showMore')} /> 
-                    ) : (
-                        <Fragment>
-                            <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
-                            <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
-                            {hiddenSheets.length ? (
-                                <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
-                            ): null}
-                        </Fragment>
-                    )}
-                </List>
+                    </List>
+                ) : (
+                    <List className="list-block">
+                        <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
+                        <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
+                        <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
+                        <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
+                        {hiddenSheets.length ? (
+                            <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
+                        ) : null}
+                    </List>
+                )}
             </Popover>
             {isPhone || isAndroid ? (
                 <Actions id="idx-tab-menu-actions" backdrop={true} closeByBackdropClick={true}>
                     <ActionsGroup>
                         <ActionsButton onClick={() => props.onTabMenu('ren')}>{_t.textRename}</ActionsButton>
                         <ActionsButton onClick={() => props.onTabMenu('hide')}>{_t.textHide}</ActionsButton>
-                        <ActionsButton onClick={() => props.onTabMenu('unhide')}>{_t.textUnhide}</ActionsButton>
+                        {hiddenSheets.length ? (
+                            <ActionsButton onClick={() => props.onTabMenu('unhide')}>{_t.textUnhide}</ActionsButton>
+                        ) : null}
                     </ActionsGroup>
                     <ActionsGroup>
-                        <ActionsButton>{_t.textCancel}</ActionsButton>
-                    </ActionsGroup>
+                        <ActionsButton bold={true}>{_t.textCancel}</ActionsButton>
+                    </ActionsGroup> 
                 </Actions>
             ) : null}
             {hiddenSheets.length ? (
