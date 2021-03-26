@@ -19,6 +19,14 @@ const PageAbout = props => {
 
     const publisherUrl = __PUBLISHER_URL__,
         publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/,"");
+    
+    const editors = {
+        de: 'DOCUMENT EDITOR',
+        pe: 'PRESENTATION EDITOR',
+        sse: 'SPREADSHEET EDITOR'
+    };
+
+    const nameEditor = editors[editorType];
 
     return (
         <Page className="about">
@@ -33,7 +41,7 @@ const PageAbout = props => {
                         ) : null}
                     </div>
                     <div className="content-block">
-                        <h3>{_t.textNameEditor}</h3>
+                        <h3>{nameEditor}</h3>
                         <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
                     </div>
                     <div className="content-block">
@@ -83,7 +91,7 @@ const PageAbout = props => {
                         <div className="logo"></div>
                     </div>
                     <div className="content-block">
-                        <h3>{_t.textNameEditor}</h3>
+                        <h3>{nameEditor}</h3>
                         <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
                     </div>
                     <div className="content-block">

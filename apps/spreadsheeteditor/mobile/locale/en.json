@@ -325,7 +325,6 @@
         }
     },
     "About": {
-        "textNameEditor": "SPREADSHEET EDITOR",
         "textAbout": "About",
         "textVersion": "Version",
         "textEmail": "Email",

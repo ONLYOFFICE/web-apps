@@ -9,7 +9,8 @@ import { onAdvancedOptions } from './settings/Download.jsx';
 @inject("storeAppOptions", "storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings", "storeSpreadsheetInfo")
 class MainController extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        window.editorType = 'sse';
     }
 
     initSdk() {

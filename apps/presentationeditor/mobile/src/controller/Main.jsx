@@ -9,6 +9,7 @@ import CollaborationController from '../../../../common/mobile/lib/controller/co
 class MainController extends Component {
     constructor(props) {
         super(props)
+        window.editorType = 'pe';
     }
 
     initSdk() {
