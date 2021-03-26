@@ -7,7 +7,6 @@ export class storeComments {
             collectionComments: observable,
             groupCollectionComments: observable,
             filter: observable,
-            groupCollectionFilter: observable,
 
             showComments: observable,
             changeShowComment: action,
@@ -17,7 +16,7 @@ export class storeComments {
             changeComment: action,
             changeFilter: action,
 
-            sortComments: computed,
+            groupCollectionFilter: computed,
 
             isOpenEditComment: observable,
             openEditComment: action,
@@ -31,7 +30,6 @@ export class storeComments {
     groupCollectionComments = [];
 
     filter = undefined;
-    groupCollectionFilter = []; // for sse
 
     showComments = [];
     changeShowComment (uid) {
@@ -42,54 +40,16 @@ export class storeComments {
     }
 
     addComment (comment) {
-        comment.groupName ? this.addCommentToGroupCollection(comment) : this.addCommentToCollection(comment);
-    }
-
-    addCommentToCollection (comment) {
-        this.collectionComments.push(comment);
-    }
-
-    addCommentToGroupCollection (comment) {
-        const groupName = comment.groupName;
-        if (!this.groupCollectionComments[groupName]) {
-            this.groupCollectionComments[groupName] = [];
-        }
-        this.groupCollectionComments[groupName].push(comment);
-        if (typeof this.filter === 'object' && this.filter.indexOf(groupName) !== -1) {
-            this.groupCollectionFilter.push(comment);
-        }
+        comment.groupName ? this.groupCollectionComments.push(comment) : this.collectionComments.push(comment);
     }
 
     removeComment (id) {
-        if (this.collectionComments.length > 0) {
-            this.removeCommentFromCollection(id);
-        } else {
-            this.removeCommentFromGroups(id);
-        }
-    }
-
-    removeCommentFromCollection (id) {
-        const index = this.collectionComments.findIndex((comment) => {
+        const collection = this.collectionComments.length > 0 ? this.collectionComments : this.groupCollectionComments;
+        const index = collection.findIndex((comment) => {
             return comment.uid === id;
         });
         if (index !== -1) {
-            this.collectionComments.splice(index, 1);
-        }
-    }
-
-    removeCommentFromGroups (id) {
-        for (let name in this.groupCollectionComments) {
-            const store = this.groupCollectionComments[name];
-            const comment = store.find((item) => {
-                return item.uid === id;
-            });
-            const index = store.indexOf(comment);
-            if (index !== -1) {
-                this.groupCollectionComments[name].splice(index, 1);
-                if (typeof this.filter === 'object' && this.filter.indexOf(name) !== -1) {
-                    this.groupCollectionFilter.splice(this.groupCollectionFilter.indexOf(comment), 1);
-                }
-            }
+            collection.splice(index, 1);
         }
     }
 
@@ -111,43 +71,28 @@ export class storeComments {
     }
 
     changeFilter (filter) {
-        let comments = [];
         this.filter = filter;
-        filter.forEach((item) => {
-            if (!this.groupCollectionComments[item])
-                this.groupCollectionComments[item] = [];
-            comments = comments.concat(this.groupCollectionComments[item]);
-        });
-        this.groupCollectionFilter = comments;
     }
 
     findComment (id) {
-        let comment = this.collectionComments.find((item) => {
+        const collection = this.collectionComments.length > 0 ? this.collectionComments : this.groupCollectionComments;
+        let comment = collection.find((item) => {
             return item.uid === id;
         });
-        if (!comment) {
-            comment = this.findCommentInGroup(id);
-        }
         return comment;
     }
 
-    findCommentInGroup (id) {
-        let model;
-        for (let name in this.groupCollectionComments) {
-            const store = this.groupCollectionComments[name];
-            const uid = typeof id === 'object' && id.isArray() ? id[0] : id;
-            model = store.find((item) => {
-                return item.uid === uid;
+    get groupCollectionFilter () {
+        if (this.filter && this.groupCollectionComments.length > 0) {
+            const arr = [];
+            this.filter.forEach((groupName) => {
+                this.groupCollectionComments.forEach((comment) => {
+                    if (comment.groupName === groupName) {
+                        arr.push(comment);
+                    }
+                });
             });
-            if (model) return model;
-        }
-        return model;
-    }
-
-    get sortComments () {
-        const comments = (this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0 ? this.collectionComments : false);
-        if (comments.length > 0) {
-            return  [...comments].sort((a, b) => a.time > b.time ? 1 : -1);
+            return arr;
         }
         return false;
     }

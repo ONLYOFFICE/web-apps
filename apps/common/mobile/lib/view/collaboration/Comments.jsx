@@ -41,12 +41,11 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                 <NavRight>
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
-                              if (props.onAddNewComment(stateText, false)) {
-                                  f7.popup.close('.add-comment-popup');
-                                  setTimeout(() => {
-                                      props.closeAddComment();
-                                  }, 500)
-                              }
+                              f7.popup.close('.add-comment-popup');
+                              setTimeout(() => {
+                                  props.closeAddComment();
+                                  props.onAddNewComment(stateText, false)
+                              }, 500);
                     }}>
                         {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
                     </Link>
@@ -108,9 +107,10 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                     const done = document.getElementById('comment-done');
                     done.addEventListener('click', () => {
                         const value = document.getElementById('comment-text').value;
-                        if (value.length > 0 && props.onAddNewComment(value, false)) {
+                        if (value.length > 0) {
                             f7.dialog.close();
                             props.closeAddComment();
+                            props.onAddNewComment(value, false);
                         }
                     });
                     const area = document.getElementById('comment-text');
@@ -197,16 +197,20 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                 <NavLeft>
                     <Link onClick={() => {
                         f7.popup.close('.edit-comment-popup');
-                        storeComments.openEditComment(false);
+                        setTimeout(() => {
+                            storeComments.openEditComment(false);
+                        }, 500);
                     }}>{_t.textCancel}</Link>
                 </NavLeft>
                 <NavTitle>{_t.textEditComment}</NavTitle>
                 <NavRight>
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
-                              onEditComment(comment, stateText);
                               f7.popup.close('.edit-comment-popup');
-                              storeComments.openEditComment(false);
+                              setTimeout(() => {
+                                  storeComments.openEditComment(false);
+                                  onEditComment(comment, stateText);
+                              }, 500);
                           }}
                     >
                         {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
@@ -317,17 +321,21 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
             <Navbar>
                 <NavLeft>
                     <Link onClick={() => {
-                        storeComments.openAddReply(false);
                         f7.popup.close('.add-reply-popup');
+                        setTimeout(() => {
+                            storeComments.openAddReply(false);
+                        }, 500);
                     }}>{_t.textCancel}</Link>
                 </NavLeft>
                 <NavTitle>{_t.textAddReply}</NavTitle>
                 <NavRight>
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
-                              onAddReply(comment, stateText);
-                              storeComments.openAddReply(false);
                               f7.popup.close('.add-reply-popup');
+                              setTimeout(() => {
+                                  storeComments.openAddReply(false);
+                                  onAddReply(comment, stateText);
+                              }, 500);
                           }}>
                         {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
                     </Link>
@@ -433,16 +441,20 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                 <NavLeft>
                     <Link onClick={() => {
                         f7.popup.close('.edit-reply-popup');
-                        storeComments.openEditReply(false);
+                        setTimeout(() => {
+                            storeComments.openEditReply(false);
+                        }, 500);
                     }}>{_t.textCancel}</Link>
                 </NavLeft>
                 <NavTitle>{_t.textEditReply}</NavTitle>
                 <NavRight>
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
-                              onEditReply(comment, reply, stateText);
                               f7.popup.close('.edit-reply-popup');
-                              storeComments.openEditReply(false);
+                              setTimeout(() => {
+                                  storeComments.openEditReply(false);
+                                  onEditReply(comment, reply, stateText);
+                              }, 500);
                           }}
                     >
                         {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
@@ -548,7 +560,8 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
     const isAndroid = Device.android;
 
     const viewMode = !storeAppOptions.canComments;
-    const comments = storeComments.sortComments;
+    const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
+    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? 1 : -1) : null;
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
@@ -559,10 +572,10 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
     return (
         <Page>
             <Navbar title={_t.textComments} backLink={_t.textBack}/>
-            {!comments ?
+            {!sortComments ?
                 <div className='no-comments'>{_t.textNoComments}</div> :
                 <List className='comment-list'>
-                    {comments.map((comment, indexComment) => {
+                    {sortComments.map((comment, indexComment) => {
                         return (
                             <ListItem key={`comment-${indexComment}`}>
                                 <div slot='header' className='comment-header'>

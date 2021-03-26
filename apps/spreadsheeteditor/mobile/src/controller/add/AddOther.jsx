@@ -22,7 +22,8 @@ class AddOtherController extends Component {
         const cellinfo = Common.EditorApi.get().asc_getCellInfo();
         const iscelllocked = cellinfo.asc_getLocked();
         const seltype = cellinfo.asc_getSelectionType();
-        return !(seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked);
+        const isComments = cellinfo.asc_getComments().length > 0;
+        return (!(seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked) || isComments);
     }
 
     render () {

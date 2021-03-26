@@ -272,10 +272,7 @@ class AddCommentController extends Component {
             !!comment.asc_putDocumentFlag && comment.asc_putDocumentFlag(documentFlag);
 
             api.asc_addComment(comment);
-
-            return true;
         }
-        return false;
     }
     render() {
         return(
@@ -316,10 +313,10 @@ class EditCommentController extends Component {
                 ascComment.asc_putDocumentFlag(comment.unattached);
             }
 
-            var reply = comment.replies;
+            const reply = comment.replies;
             if (reply && reply.length > 0) {
                 reply.forEach((reply) => {
-                    var addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    const addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
                     if (addReply) {
                         addReply.asc_putText(reply.reply);
                         addReply.asc_putTime(utcDateToString(new Date(reply.time)));
