@@ -102,8 +102,11 @@ define([
             me.btnCustomSort.on('click', function (b, e) {
                 me.fireEvent('data:sortcustom');
             });
+            me.btnDataFromText.menu ?
             me.btnDataFromText.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('data:fromtext', [item.value]);
+            }) : me.btnDataFromText.on('click', function (b, e) {
+                me.fireEvent('data:fromtext', ['file']);
             });
         }
 
@@ -125,7 +128,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-import-data',
                     caption: this.capDataFromText,
-                    menu: true,
+                    menu: !this.toolbar.mode.isDesktopApp,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
@@ -266,7 +269,7 @@ define([
                     me.btnGroup.setMenu(_menu);
 
                     me.btnDataFromText.updateHint(me.tipDataFromText);
-                    me.btnDataFromText.setMenu(new Common.UI.Menu({
+                    me.btnDataFromText.menu && me.btnDataFromText.setMenu(new Common.UI.Menu({
                         items: [
                             { caption: me.mniFromFile, value: 'file' },
                             { caption: me.mniFromUrl,  value: 'url' }
