@@ -123,7 +123,7 @@ define([
                 this.btnDataFromText = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-data-from-text'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-cell-group',
+                    iconCls: 'toolbar__icon btn-import-data',
                     caption: this.capDataFromText,
                     menu: true,
                     disabled: true,
