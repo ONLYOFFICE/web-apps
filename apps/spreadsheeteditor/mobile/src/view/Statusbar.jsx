@@ -16,76 +16,81 @@ const StatusbarView = inject('sheets')(observer(props => {
     const { sheets } = props;
     const hiddenSheets = sheets.hiddensheets;
     const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
-    const $boxTabs = $$('.sheet-tabs');
-    // $boxTabs.css('position', 'absolute');
+    // const $boxTabs = $$('.sheet-tabs');
+    // const $statusBar = $$('.statusbar');
 
-    $boxTabs.on('touchstart', onTouchStart);
-    $boxTabs.on('touchmove', onTouchMove);
-    $boxTabs.on('touchend', onTouchEnd);
+    // $boxTabs.on('touchstart', onTouchStart);
+    // $boxTabs.on('touchmove', onTouchMove);
+    // $boxTabs.on('touchend', onTouchEnd);
 
-    let touch = {};
+    // let touch = {};
 
-    function hasInvisible() {
-        let _left_bound_ = $boxTabs.offset().left,
-            _right_bound_ = _left_bound_ + $boxTabs.width();
+    // function hasInvisible() {
+    //     let _left_bound_ = $boxTabs.offset().left,
+    //         _right_bound_ = $boxTabs.width() + _left_bound_ - $statusBar.width();
+    //         // _right_bound_ = _left_bound_ + $boxTabs.width();
         
-        // console.log(_left_bound_);
-        // console.log(_right_bound_);
+    //     // console.log(_left_bound_);
+    //     console.log(_right_bound_);
 
-        let tab = $$('.sheet-tabs li')[0];
-        let rect = tab.getBoundingClientRect();
+    //     let tab = $$('.sheet-tabs li')[0];
+    //     let rect = tab.getBoundingClientRect();
 
-        if (!(rect.left < _left_bound_)) {
-            tab = $$('.sheet-tabs li')[$$('.sheet-tabs li').length - 1];
-            rect = tab.getBoundingClientRect();
+    //     if (!(rect.left < _left_bound_)) {
+    //         // tab = $$('.sheet-tabs li')[$$('.sheet-tabs li').length - 1];
+    //         // rect = tab.getBoundingClientRect();
        
-            if (!(rect.right > _right_bound_))
-                return false;
-        }
+    //         // if (!((rect.right).toFixed(2) > _right_bound_))
+    //         //     return false;
+    //         if(_right_bound_ <= 0) {
+    //             return false;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    function onTouchStart(e) {
-        if (hasInvisible()) {
-            // console.log(e);
-            let touches = e.changedTouches;
-            touch.startx = touches[0].clientX;
-            touch.scrollx = $boxTabs.scrollLeft();
-            // console.log(touch.scrollx);
+    // function onTouchStart(e) {
+    //     if (hasInvisible()) {
+    //         console.log(e);
+    //         let touches = e.changedTouches;
+    //         touch.startx = touches[0].clientX;
+    //         touch.scrollx = $boxTabs.scrollLeft();
+    //         // console.log(touch.scrollx);
             
-            touch.timer = setTimeout(function () {
-                // touch.longtouch = true;
-            }, 500);
-            // e.preventDefault();
-        }
-    }
+    //         touch.timer = setTimeout(function () {
+    //             // touch.longtouch = true;
+    //         }, 500);
+    //         // e.preventDefault();
+    //     }
+    // }
 
-    function onTouchMove(e) {
-        if (touch.startx !== undefined) {
-            // console.log(e);
-            let touches = e.changedTouches;
+    // function onTouchMove(e) {
+    //     if (touch.startx !== undefined) {
+    //         // console.log(e);
+    //         let touches = e.changedTouches;
 
-            if (touch.longtouch) {}
-            else {
-                if (touch.timer) clearTimeout(touch.timer), delete touch.timer;
-                let valueLeft = touch.scrollx + (touch.startx - touches[0].clientX);
-                // console.log(valueLeft);
-                $boxTabs.scrollLeft(valueLeft);
-            }
+    //         if (touch.longtouch) {}
+    //         else {
+    //             if (touch.timer) clearTimeout(touch.timer), delete touch.timer;
+    //             let valueLeft = touch.scrollx + (touch.startx - touches[0].clientX);
+    //             console.log(valueLeft);
+    //             // $boxTabs.scrollLeft(valueLeft);
+    //             
+    //         }
 
-            // e.preventDefault();
-        }
-    }
+    //         // e.preventDefault();
+    //     }
+    // }
 
-    function onTouchEnd(e) {
-        if (touch.startx !== undefined) {
-            // console.log(e);
-            touch.longtouch = false;
-            delete touch.startx;
-            // e.preventDefault();
-        }
-    }
+    // function onTouchEnd(e) {
+    //     if (touch.startx !== undefined) {
+    //         // console.log(e);
+    //         touch.longtouch = false;
+    //         delete touch.startx;
+    //         // e.preventDefault();
+    //     }
+    // }
 
     return  (
         <Fragment>

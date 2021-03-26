@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {StatusbarView} from '../view/Statusbar';
 import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
-import { Dom7 } from 'framework7';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
@@ -11,7 +10,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     const {sheets, storeAppOptions, users} = props;
     const {t} = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
-    console.log(props);
+    // console.log(props);
 
     let isEdit = storeAppOptions.isEdit;
     let isDisconnected = users.isDisconnected;
@@ -62,7 +61,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     };
 
     const onApiSheetsChanged = () => {
-        console.log('on api sheets changed');
+        // console.log('on api sheets changed');
 
         const api = Common.EditorApi.get();
         const sheets_count = api.asc_getWorksheetsCount();
@@ -174,7 +173,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     const onTabClick = (i, target) => {
         const api = Common.EditorApi.get();
         const model = sheets.at(i);
-        console.log(model);
+        // console.log(model);
 
         let opened = $$('.document-menu.modal-in').length;
         let index = model.index;
@@ -228,14 +227,15 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
             f7.dialog.create({
                 title: _t.textRenameSheet,
-                content:
-                    '<div class="input-field"><input type="text" name="modal-sheet-name" placeholder="' + _t.textSheetName + '" class="modal-text-input"></div>',
+                content: Device.ios ?
+                    '<div class="input-field"><input type="text" name="modal-sheet-name" placeholder="' + _t.textSheetName + '" class="modal-text-input"></div>' : 
+                    '<div class="item-content item-input" style="margin-top: 15px; position: relative; padding-bottom: 10px;"><div class="item-inner"><div class="item-input-wrap" style="min-height: initial;"><input type="text" name="modal-sheet-name" placeholder="' + _t.textSheetName + '" /></div></div></div>',
                 buttons: [
                     {
                         text: 'OK',
                         bold: true,
                         onClick: function () {
-                            let s = $$('.modal-text-input[name="modal-sheet-name"]').val(),
+                            let s = $$('input[name="modal-sheet-name"]').val(),
                                 wc = api.asc_getWorksheetsCount(), items = [],
                                 err = !s.trim().length ? _t.textErrNotEmpty : ((s.length > 2 && s[0] == '"' && s[s.length-1] == '"' || !/[:\\\/\*\?\[\]\']/.test(s)) ? null : _t.textErrNameWrongChar);
                             if (!err) {
