@@ -179,7 +179,7 @@ define([
                 this.api.asc_AddContentControlPicture(oFormPr);
             else if (type == 'checkbox' || type == 'radiobox') {
                 oPr = new AscCommon.CSdtCheckBoxPr();
-                (type == 'radiobox') && oPr.put_GroupKey('Group 1');
+                (type == 'radiobox') && oPr.put_GroupKey(this.toolbar.textGroup + ' 1');
                 this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);

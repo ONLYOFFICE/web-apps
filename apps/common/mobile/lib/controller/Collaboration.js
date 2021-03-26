@@ -63,8 +63,7 @@ define([
             canViewReview,
             arrChangeReview = [],
             dateChange = [],
-            _fileKey,
-            _currentUserGroups;
+            _fileKey;
 
 
         return {
@@ -115,18 +114,6 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
-
-                if (mode && mode.canUseReviewPermissions) {
-                    var permissions = mode.customization.reviewPermissions,
-                        arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(Common.Utils.UserInfoParser.getCurrentName());
-                    groups && groups.forEach(function(group) {
-                        var item = permissions[group.trim()];
-                        item && (arr = arr.concat(item));
-                    });
-                    _currentUserGroups = arr;
-                }
-
                 return this;
             },
 
@@ -725,7 +712,7 @@ define([
 
             checkUserGroups: function(username) {
                 var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+                return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {

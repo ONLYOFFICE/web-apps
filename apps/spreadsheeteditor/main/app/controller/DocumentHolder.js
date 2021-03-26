@@ -1114,11 +1114,10 @@ define([
 
                     if (props.asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
                         var linkstr = props.asc_getTooltip();
-                        if (linkstr) {
-                            linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
-                        } else {
-                            linkstr = Common.Utils.String.htmlEncode(props.asc_getHyperlinkUrl()) + '<br><b>' + me.textCtrlClick + '</b>';
-                        }
+                        linkstr = (linkstr) ? linkstr : props.asc_getHyperlinkUrl();
+                        if (linkstr.length>256)
+                            linkstr = linkstr.substr(0, 256) + '...';
+                        linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
                         linkstr += '<br><b>' + me.textCtrlClick + '</b>';

@@ -310,7 +310,7 @@ define([
                     }
                 }
             } else {
-                var regstr = new RegExp('^\s*[0-9]+[,.]?[0-9]*\s*$');
+                var regstr = new RegExp('^\s*[-]?[0-9]+[,.]?[0-9]*\s*$');
                 var res1 = this.inputStart.getValue().toString();
                 if (!regstr.test(res1)) {
                     this.inputStart.showError([this.textError]);
