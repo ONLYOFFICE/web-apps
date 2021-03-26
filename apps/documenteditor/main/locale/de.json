@@ -308,7 +308,7 @@
   "Common.Views.PasswordDialog.txtPassword": "Kennwort",
   "Common.Views.PasswordDialog.txtRepeat": "Kennwort wiederholen",
   "Common.Views.PasswordDialog.txtTitle": "Kennwort festlegen",
-  "Common.Views.PasswordDialog.txtWarning": "Vorsicht: Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen. Bewahren Sie ihn an einem sicheren Ort auf.",
+  "Common.Views.PasswordDialog.txtWarning": "Vorsicht: Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen. Bewahren Sie es an einem sicheren Ort auf.",
   "Common.Views.PluginDlg.textLoading": "Ladevorgang",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",

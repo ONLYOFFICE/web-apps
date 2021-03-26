@@ -285,7 +285,7 @@
   "SSE.Controllers.Main.txtFiguredArrows": "Βέλη",
   "SSE.Controllers.Main.txtLines": "Γραμμές",
   "SSE.Controllers.Main.txtMath": "Μαθηματικά",
-  "SSE.Controllers.Main.txtProtected": "Μόλις εισαχθεί ο κωδικός πρόσβασης και ανοίξει το αρχείο, ο τρέχων κωδικός πρόσβασης θα επαναφερθεί.",
+  "SSE.Controllers.Main.txtProtected": "Μόλις εισαγάγετε το συνθηματικό και ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού του αρχείου",
   "SSE.Controllers.Main.txtRectangles": "Ορθογώνια",
   "SSE.Controllers.Main.txtSeries": "Σειρά",
   "SSE.Controllers.Main.txtSpace": "Κενό",
