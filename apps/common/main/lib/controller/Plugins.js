@@ -237,6 +237,7 @@ define([
             this.api.asc_pluginsRegister('', arr);
             if (storePlugins.hasVisible())
                 Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
+            Common.Gateway.pluginsReady();
         },
 
         onAddPlugin: function (model) {
