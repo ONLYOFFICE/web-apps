@@ -209,7 +209,7 @@ define([
             },
 
             getUserName: function (username) {
-                return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {

@@ -255,7 +255,7 @@ define([
                 var me = this;
                 var usersArray = [];
                 _.each(editUsers, function(item){
-                    var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
+                    var name = AscCommon.UserInfoParser.getParsedName(item.asc_getUserName());
                     var initials = me.getInitials(name);
                     if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
@@ -699,7 +699,7 @@ define([
                             userColor = item.get_UserColor(),
                             goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
-                        var editable = me.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || Common.Utils.UserInfoParser.canEditReview(item.get_UserName()));
+                        var editable = me.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
                         arr.push({date: date, user: user, usercolor: userColor, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
@@ -770,7 +770,7 @@ define([
             },
 
             getInitials: function(name) {
-                var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
+                var fio = AscCommon.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
                 for (var i=fio.length-1; i>0; i--) {
                     if (fio[i][0]!=='(' && fio[i][0]!==')') {
@@ -1558,9 +1558,9 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : (this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
-                            hide                : !Common.Utils.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
+                            editable            : (this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                            hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
                         });
                     }
                 }
@@ -1589,9 +1589,9 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : (this.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                    removable           : (this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
-                    hide                : !Common.Utils.UserInfoParser.canViewComment(username)
+                    editable            : (this.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                    removable           : (this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                    hide                : !AscCommon.UserInfoParser.canViewComment(username)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1627,9 +1627,9 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
-                    comment.editable = (me.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(data.asc_getUserName());
-                    comment.removable = (me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(data.asc_getUserName());
-                    comment.hide = !Common.Utils.UserInfoParser.canViewComment(data.asc_getUserName());
+                    comment.editable = (me.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName());
+                    comment.removable = (me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName());
+                    comment.hide = !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName());
 
                     replies = _.clone(comment.replys);
 
@@ -1654,9 +1654,9 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : (me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canEditComment(username),
-                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && Common.Utils.UserInfoParser.canDeleteComment(username),
-                            hide                : !Common.Utils.UserInfoParser.canViewComment(username)
+                            editable            : (me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                            hide                : !AscCommon.UserInfoParser.canViewComment(username)
                         });
                     }
                     comment.replys = replies;

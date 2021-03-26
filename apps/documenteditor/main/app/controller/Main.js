@@ -1334,11 +1334,11 @@ define([
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                         this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
-                Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
-                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
-                this.appOptions.canUseCommentPermissions && Common.Utils.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
+                AscCommon.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
+                AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
+                this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
+                appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -2234,10 +2234,10 @@ define([
             onUserConnection: function(change){
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
-                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                    if (name && name !== AscCommon.UserInfoParser.getCurrentName() ) {
                         this._renameDialog && this._renameDialog.close();
-                        Common.Utils.UserInfoParser.setCurrentName(name);
-                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+                        AscCommon.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(name));
 
                         var idx1 = name.lastIndexOf('('),
                             idx2 = name.lastIndexOf(')'),

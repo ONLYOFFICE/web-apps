@@ -136,7 +136,7 @@ define([
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
                         fnEncode: function(username) {
-                            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                            return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
                         }
                     }));
 
