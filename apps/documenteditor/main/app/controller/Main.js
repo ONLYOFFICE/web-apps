@@ -138,9 +138,10 @@ define([
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
                     "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item.": this.txtChoose,
-                    "Enter a date.": this.txtEnterDate,
-                    "Type equation here.": this.txtTypeEquation
+                    "Choose an item": this.txtChoose,
+                    "Enter a date": this.txtEnterDate,
+                    "Type equation here": this.txtTypeEquation,
+                    "Click to load image": this.txtClickToLoad
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2825,15 +2826,15 @@ define([
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            txtChoose: 'Choose an item.',
+            txtChoose: 'Choose an item',
             errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
             txtStyle_Caption: 'Caption',
             errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
-            txtEnterDate: 'Enter a date.',
-            txtTypeEquation: 'Type equation here.',
+            txtEnterDate: 'Enter a date',
+            txtTypeEquation: 'Type equation here',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
@@ -2845,7 +2846,8 @@ define([
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
-            errorSubmit: 'Submit failed.'
+            errorSubmit: 'Submit failed.',
+            txtClickToLoad: 'Click to load image'
         }
     })(), DE.Controllers.Main || {}))
 });
