@@ -472,7 +472,12 @@ define([
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
+                this.header.lockHeaderBtns( 'rename-user', true);
             }
+        },
+
+        SetDisabled: function(disable) {
+            this.header && this.header.lockHeaderBtns( 'rename-user', disable);
         },
 
         textFitPage: 'Fit to Page',
