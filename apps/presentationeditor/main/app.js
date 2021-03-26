@@ -54,6 +54,8 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
+        jszip           : '../vendor/jszip/jszip.min',
+        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/slide/sdk-all-min',
         api             : 'api/documents/api',
@@ -106,7 +108,9 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs'
+                'sockjs',
+                'jszip',
+                'jsziputils'
             ]
         },
         gateway: {
@@ -148,7 +152,8 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
-            'Common.Controllers.Fonts'
+            'Common.Controllers.Fonts',
+            'Common.Controllers.History'
             /** coauthoring begin **/
             , 'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
@@ -179,7 +184,8 @@ require([
             'presentationeditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/util/LocalStorage',
-            'common/main/lib/controller/Fonts'
+            'common/main/lib/controller/Fonts',
+            'common/main/lib/controller/History'
             /** coauthoring begin **/
             ,'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
