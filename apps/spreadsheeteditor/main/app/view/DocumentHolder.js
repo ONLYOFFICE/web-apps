@@ -82,7 +82,7 @@ define([
         focus: function() {
             var me = this;
             _.defer(function(){
-                me.cmpEl.focus();
+                me.cmpEl && me.cmpEl.focus();
             }, 50);
         },
 
