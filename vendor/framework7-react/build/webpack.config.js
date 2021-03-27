@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const fs = require('fs')
 
 const path = require('path');
 
@@ -18,6 +19,7 @@ const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
 const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
                     process.env.TARGET_EDITOR == 'slide' ? 'presentationeditor' : 'documenteditor';
+const targetPatch = process.env.TARGET_EDITOR || 'word';
 
 module.exports = {
   mode: env,
@@ -206,5 +208,10 @@ module.exports = {
         },
       ],
     }),
+    new webpack.NormalModuleReplacementPlugin(
+        /\.{2}\/lib\/patch/,
+        resource => fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
+                        resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
+    ),
   ],
 };
