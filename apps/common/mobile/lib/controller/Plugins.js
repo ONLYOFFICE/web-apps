@@ -73,7 +73,7 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.showPluginModal, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.pluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.pluginResize, this));
-                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.registerPlugins, this));
+                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
             },
 
             onLaunch: function () {
@@ -223,6 +223,11 @@ define([
                     }
                     this.registerPlugins(arr);
                 }
+            },
+
+            onPluginsInit: function(pluginsdata) {
+                !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
+                this.registerPlugins(pluginsdata)
             },
 
             registerPlugins: function(plugins) {
