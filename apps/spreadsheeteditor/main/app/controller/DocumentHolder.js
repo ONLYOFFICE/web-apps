@@ -1660,7 +1660,7 @@ define([
         },
 
         onDocumentMouseMove: function(e) {
-            if (e.target.localName !== 'canvas') {
+            if (e && e.target.localName !== 'canvas') {
                 this.hideHyperlinkTip();
             }
         },
