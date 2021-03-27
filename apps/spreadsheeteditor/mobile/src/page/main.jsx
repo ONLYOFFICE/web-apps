@@ -12,6 +12,7 @@ import { Device } from '../../../../common/mobile/utils/device';
 import { Search, SearchSettings } from '../controller/Search';
 
 import {FunctionGroups} from "../controller/add/AddFunction";
+import ContextMenu from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -98,6 +99,7 @@ export default class MainPage extends Component {
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
+                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
             </Page>
       )
   }

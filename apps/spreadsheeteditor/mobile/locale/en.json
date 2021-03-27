@@ -6,6 +6,29 @@
             "textAnonymous": "Anonymous"
         }
     },
+    "ContextMenu": {
+        "menuViewComment": "View Comment",
+        "menuAddComment": "Add Comment",
+        "menuMore": "More",
+        "menuCancel": "Cancel",
+        "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
+        "errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
+        "textDoNotShowAgain": "Don't show again",
+        "warnMergeLostData": "Operation can destroy data in the selected cells. Continue?",
+        "notcriticalErrorTitle": "Warning",
+        "menuAddLink": "Add Link",
+        "menuOpenLink": "Open Link",
+        "menuUnfreezePanes": "Unfreeze Panes",
+        "menuFreezePanes": "Freeze Panes",
+        "menuUnwrap": "Unwrap",
+        "menuWrap": "Wrap",
+        "menuUnmerge": "Unmerge",
+        "menuCell": "Cell",
+        "menuShow": "Show",
+        "menuHide": "Hide",
+        "menuEdit": "Edit",
+        "menuDelete": "Delete"
+    },
     "View" : {
         "Add" : {
             "textChart": "Chart",
