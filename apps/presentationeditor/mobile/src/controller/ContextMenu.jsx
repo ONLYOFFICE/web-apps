@@ -157,7 +157,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit, canViewComments, canReview, isDisconnected } = this.props;
+        const { isEdit, canViewComments, isDisconnected } = this.props;
 
         const api = Common.EditorApi.get();
         const stack = api.getSelectedElements();
@@ -264,7 +264,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                var hideAddComment = (isText && isChart) || api.can_AddQuotedComment() === false || !canViewComments;
+                const hideAddComment = (isText && isChart) || api.can_AddQuotedComment() === false || !canViewComments;
                 if (!hideAddComment) {
                     itemsText.push({
                         caption: _t.menuAddComment,
