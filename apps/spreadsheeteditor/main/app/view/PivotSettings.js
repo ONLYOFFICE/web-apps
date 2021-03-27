@@ -415,8 +415,8 @@ define([
                             models[index].set({
                                 pivotIndex: pivotIndex,
                                 index           : index,
-                                value           : name,
-                                tip             : (name.length>10) ? name : ''
+                                value           : name || '',
+                                tip             : (name && name.length>10) ? name : ''
                             });
                         } else
                             arr.push(new Common.UI.DataViewModel({
@@ -424,8 +424,8 @@ define([
                                 allowSelected   : false,
                                 pivotIndex      : pivotIndex,
                                 index           : index,
-                                value           : name,
-                                tip             : (name.length>10) ? name : ''
+                                value           : name || '',
+                                tip             : (name && name.length>10) ? name : ''
                             }));
                         isChecked[getNameFunction ? name : me._state.names[pivotIndex]] = true;
                     });
