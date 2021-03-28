@@ -172,7 +172,13 @@
 
     &:not(:disabled) {
         .icon {
-            opacity: @button-icon-opacity;
+            opacity: @component-normal-icon-opacity;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        .icon {
+            opacity: @component-hover-icon-opacity;
         }
     }
 
@@ -183,6 +189,14 @@
                 border-color: @background-normal-ie;
                 border-color: @background-normal;
             }
+        }
+
+        .icon {
+            opacity: @component-active-icon-opacity;
+        }
+
+        &:hover .icon {
+            opacity: @component-active-hover-icon-opacity;
         }
     }
 }
