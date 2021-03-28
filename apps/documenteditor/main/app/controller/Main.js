@@ -709,8 +709,29 @@ define([
             goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
-                        Common.Gateway.requestClose();
-                        // Common.Controllers.Desktop.requestClose();
+                        if (this.api.isDocumentModified()) {
+                            var me = this;
+                            this.api.asc_stopSaving();
+                            Common.UI.warning({
+                                closable: false,
+                                width: 500,
+                                title: this.notcriticalErrorTitle,
+                                msg: this.leavePageTextOnClose,
+                                buttons: ['ok', 'cancel'],
+                                primary: 'ok',
+                                callback: function(btn) {
+                                    if (btn == 'ok') {
+                                        me.api.asc_undoAllChanges();
+                                        Common.Gateway.requestClose();
+                                        // Common.Controllers.Desktop.requestClose();
+                                    } else
+                                        me.api.asc_continueSaving();
+                                }
+                            });
+                        } else {
+                            Common.Gateway.requestClose();
+                            // Common.Controllers.Desktop.requestClose();
+                        }
                     } else {
                         var href = this.appOptions.customization.goback.url;
                         if (!current && this.appOptions.customization.goback.blank!==false) {
@@ -2847,7 +2868,8 @@ define([
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
             errorSubmit: 'Submit failed.',
-            txtClickToLoad: 'Click to load image'
+            txtClickToLoad: 'Click to load image',
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -552,8 +552,28 @@ define([
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose) {
-                        Common.Gateway.requestClose();
-                        // Common.Controllers.Desktop.requestClose();
+                        if (this.api.asc_isDocumentModified()) {
+                            this.api.asc_stopSaving();
+                            Common.UI.warning({
+                                closable: false,
+                                width: 500,
+                                title: this.notcriticalErrorTitle,
+                                msg: this.leavePageTextOnClose,
+                                buttons: ['ok', 'cancel'],
+                                primary: 'ok',
+                                callback: function(btn) {
+                                    if (btn == 'ok') {
+                                        me.api.asc_undoAllChanges();
+                                        Common.Gateway.requestClose();
+                                        // Common.Controllers.Desktop.requestClose();
+                                    } else
+                                        me.api.asc_continueSaving();
+                                }
+                            });
+                        } else {
+                            Common.Gateway.requestClose();
+                            // Common.Controllers.Desktop.requestClose();
+                        }
                     } else {
                         var href = me.appOptions.customization.goback.url;
                         if (!current && me.appOptions.customization.goback.blank!==false) {
@@ -2837,7 +2857,8 @@ define([
             txtMonths: 'Months',
             txtQuarters: 'Quarters',
             txtYears: 'Years',
-            errorPivotGroup: 'Cannot group that selection.'
+            errorPivotGroup: 'Cannot group that selection.',
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
         }
     })(), SSE.Controllers.Main || {}))
 });

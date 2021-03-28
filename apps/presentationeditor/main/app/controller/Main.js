@@ -489,8 +489,28 @@ define([
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose) {
-                        Common.Gateway.requestClose();
-                        // Common.Controllers.Desktop.requestClose();
+                        if (this.api.isDocumentModified()) {
+                            this.api.asc_stopSaving();
+                            Common.UI.warning({
+                                closable: false,
+                                width: 500,
+                                title: this.notcriticalErrorTitle,
+                                msg: this.leavePageTextOnClose,
+                                buttons: ['ok', 'cancel'],
+                                primary: 'ok',
+                                callback: function(btn) {
+                                    if (btn == 'ok') {
+                                        me.api.asc_undoAllChanges();
+                                        Common.Gateway.requestClose();
+                                        // Common.Controllers.Desktop.requestClose();
+                                    } else
+                                        me.api.asc_continueSaving();
+                                }
+                            });
+                        } else {
+                            Common.Gateway.requestClose();
+                            // Common.Controllers.Desktop.requestClose();
+                        }
                     } else {
                         var href = me.appOptions.customization.goback.url;
                         if (!current && me.appOptions.customization.goback.blank!==false) {
@@ -2480,7 +2500,8 @@ define([
             textRenameLabel: 'Enter a name to be used for collaboration',
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
         }
     })(), PE.Controllers.Main || {}))
 });
