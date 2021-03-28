@@ -45,10 +45,10 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
-    'common/main/lib/view/About',
     /** coauthoring begin **/
     'common/main/lib/view/Comments',
     'common/main/lib/view/Chat',
+    'common/main/lib/view/History',
     /** coauthoring end **/
     'common/main/lib/view/Plugins',
     'common/main/lib/view/SearchDialog',
@@ -258,6 +258,8 @@ define([
             } else /** coauthoring end **/
             if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render('#left-panel-plugins');
+            } else if (name == 'history') {
+                this.panelHistory = panel.render('#left-panel-history');
             }
         },
 
@@ -431,6 +433,14 @@ define([
                 top += (this.betaHeight + 4);
             }
             this.limitHint && this.limitHint.css('top', top);
+        },
+
+        showHistory: function() {
+            this._state.pluginIsRunning = false;
+            this._state.historyIsRunning = true;
+            this.panelHistory.show();
+            this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('pe-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
         /** coauthoring begin **/

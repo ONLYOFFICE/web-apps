@@ -263,6 +263,7 @@ define([
                     arr.push(plugin);
                 });
                 me.api.asc_pluginsRegister('', arr);
+                Common.Gateway.pluginsReady();
             },
 
             getPlugins: function(pluginsData, fetchFunction) {

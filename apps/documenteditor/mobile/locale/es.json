@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Equipo de ventas",
   "DE.Controllers.Main.textCustomLoader": "Note, por favor, que según los términos de la licencia Usted no tiene derecho a cambiar el cargador.<br>Por favor, póngase en contacto con nuestro Departamento de Ventas para obtener una cotización.",
   "DE.Controllers.Main.textDone": "Listo",
+  "DE.Controllers.Main.textGuest": "Invitado",
   "DE.Controllers.Main.textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
   "DE.Controllers.Main.textLoadingDocument": "Cargando documento",
   "DE.Controllers.Main.textNo": "No",

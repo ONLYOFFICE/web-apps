@@ -330,6 +330,10 @@ if (Common === undefined) {
                 _postMessage({event:'onRequestCreateNew'});
             },
 
+            pluginsReady: function() {
+                _postMessage({ event: 'onPluginsReady' });
+            },
+
             on: function(event, handler){
                 var localHandler = function(event, data){
                     handler.call(me, data)

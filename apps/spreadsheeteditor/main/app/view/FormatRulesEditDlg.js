@@ -228,10 +228,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 menuStyle   : 'min-width: 100%;max-height: 211px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : cmbData
+                data        : cmbData,
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.refreshRules(record.value);
             });
+            Common.UI.FocusManager.add(this, this.cmbCategory);
 
             this.cmbRule = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-rule'),
@@ -239,10 +241,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 menuStyle   : 'min-width: 100%;max-height: 211px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.setControls(me.cmbCategory.getValue(), record.value);
             });
+            Common.UI.FocusManager.add(this, this.cmbRule);
 
             this.txtRange1 = new Common.UI.InputFieldBtn({
                 el          : $('#format-rules-edit-txt-r1'),
@@ -253,7 +257,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 validateOnChange: false
             });
             this.txtRange1.on('button:click', _.bind(this.onSelectData, this));
-            
+            Common.UI.FocusManager.add(this, this.txtRange1);
+
             this.txtRange2 = new Common.UI.InputFieldBtn({
                 el          : $('#format-rules-edit-txt-r2'),
                 name        : 'range',
@@ -263,6 +268,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 validateOnChange: false
             });
             this.txtRange2.on('button:click', _.bind(this.onSelectData, this));
+            Common.UI.FocusManager.add(this, this.txtRange2);
 
             // top 10
             this.cmbPercent = new Common.UI.ComboBox({
@@ -274,13 +280,15 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 data        : [
                     {value: 0, displayValue: this.textItem},
                     {value: 1, displayValue: this.textPercent}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 var percent = !!record.value;
                 // me.numRank.setMaxValue(percent ? 100 : 1000);
                 me.numRank.setValue(me.numRank.getNumberValue());
             });
             this.cmbPercent.setValue(0);
+            Common.UI.FocusManager.add(this, this.cmbPercent);
 
             this.numRank = new Common.UI.MetricSpinner({
                 el: $('#format-rules-edit-spin-rank'),
@@ -295,6 +303,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.numRank.on('change', _.bind(function(field, newValue, oldValue, eOpts){
             }, this));
+            Common.UI.FocusManager.add(this, this.numRank);
 
             // Format
             this.CFPresets = this.api.asc_getCFPresets();
@@ -619,10 +628,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint        : this.tipNumFormat,
                 itemsTemplate: formatTemplate,
                 editable    : false,
-                data        : this.numFormatData
+                data        : this.numFormatData,
+                takeFocusOnClose: true
             });
             this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
+            Common.UI.FocusManager.add(this, this.cmbNumberFormat);
 
             this.btnClear = new Common.UI.Button({
                 el: $('#format-rules-edit-btn-clear')
@@ -656,6 +667,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     '</div>'
                 ].join(''))
             });
+
             var menu = (new Common.UI.Menu({
                 style: 'min-width: 105px;',
                 additionalAlign: this.menuAddAlign,
@@ -677,31 +689,20 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.iconsControls[i].pickerIcons = picker;
 
             combo = new Common.UI.ComboBox({
-                el          : $('#format-rules-edit-combo-type-' + (i+1)),
-                style       : 'width: 80px;',
-                menuStyle   : 'min-width: 100%;max-height: 211px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : this.dataValTypes,
-                type        : i
-            }).on('selected', function(combo, record) {
-            });
-            combo.setValue(Asc.c_oAscCfvoType.Percent);
-            this.iconsControls[i].cmbType = combo;
-
-            combo = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-op-' + (i+1)),
                 style       : 'width: 55px;',
                 menuStyle   : 'min-width: 100%;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [{value: true, displayValue: '>=', prevOp: '<'}, {value: false, displayValue: '>', prevOp: '<='}],
-                type        : i
+                type        : i,
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.fillIconsLabels();
             });
             combo.setValue(1);
             this.iconsControls[i].cmbOperator = combo;
+            Common.UI.FocusManager.add(this, combo);
 
             var range = new Common.UI.InputFieldBtn({
                 el          : $('#format-rules-edit-txt-value-' + (i+1)),
@@ -717,6 +718,22 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             range.setValue('');
             this.iconsControls[i].value = range;
             range.on('button:click', _.bind(this.onSelectData, this));
+            Common.UI.FocusManager.add(this, range);
+
+            combo = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-type-' + (i+1)),
+                style       : 'width: 80px;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : this.dataValTypes,
+                type        : i,
+                takeFocusOnClose: true
+            }).on('selected', function(combo, record) {
+            });
+            combo.setValue(Asc.c_oAscCfvoType.Percent);
+            this.iconsControls[i].cmbType = combo;
+            Common.UI.FocusManager.add(this, combo);
 
             this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
         },
@@ -777,6 +794,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 data        : arr
             }).on('selected', function(combo, record) {
                 me.fillIconsControls(record.value, record.data.values);
+                _.delay(function(){
+                    me.iconsControls[me.iconsControls.length-1].cmbOperator.focus();
+                },50);
             });
             this.cmbIconsPresets.setValue(3);
             this.iconsProps = {iconsSet: 3};
@@ -829,13 +849,15 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     editable    : false,
                     cls         : 'input-group-nr',
                     data        : arr,
-                    type        : i
+                    type        : i,
+                    takeFocusOnClose: true
                 }).on('selected', function(combo, record) {
                     me.barControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum ||
                         record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
                     me.setDefComboValue(combo.options.type, record.value, me.barControls[combo.options.type].range);
                 });
                 combo.setValue(arr[1].value);
+                Common.UI.FocusManager.add(this, combo);
 
                 var range = new Common.UI.InputFieldBtn({
                     el          : $('#format-rules-edit-txt-bar-' + (i+1)),
@@ -849,6 +871,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 range.setValue(0);
                 range.on('button:click', _.bind(this.onSelectData, this));
                 this.barControls.push({combo: combo, range: range});
+                Common.UI.FocusManager.add(this, range);
             }
 
             // Fill
@@ -861,7 +884,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 data        : [
                     {value: false, displayValue: this.textSolid},
                     {value: true, displayValue: this.textGradient}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 if (me.barProps) {
                     me.barProps.asc_setGradient(record.value);
@@ -869,6 +893,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 }
             });
             this.cmbFill.setValue(false);
+            Common.UI.FocusManager.add(this, this.cmbFill);
 
             this.btnPosFill = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-pos-fill'),
@@ -902,7 +927,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 data        : [
                     {value: false, displayValue: this.textSolid},
                     {value: true, displayValue: this.textNone}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 var hasBorder = !record.value;
                 me.btnPosBorder.setDisabled(!hasBorder);
@@ -917,6 +943,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 }
             });
             this.cmbBorder.setValue(false);
+            Common.UI.FocusManager.add(this, this.cmbBorder);
 
             this.btnPosBorder = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-pos-border'),
@@ -951,7 +978,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     {value: Asc.c_oAscDataBarDirection.context, displayValue: this.textContext},
                     {value: Asc.c_oAscDataBarDirection.leftToRight, displayValue: this.textLeft2Right},
                     {value: Asc.c_oAscDataBarDirection.rightToLeft, displayValue: this.textRight2Left}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 if (me.barProps) {
                     me.barProps.asc_setDirection(record.value);
@@ -959,6 +987,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 }
             });
             this.cmbBarDirection.setValue(Asc.c_oAscDataBarDirection.context);
+            Common.UI.FocusManager.add(this, this.cmbBarDirection);
 
             this.chShowBar = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-show-bar'),
@@ -975,11 +1004,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     {value: Asc.c_oAscDataBarAxisPosition.automatic, displayValue: this.textAutomatic},
                     {value: Asc.c_oAscDataBarAxisPosition.middle, displayValue: this.textCellMidpoint},
                     {value: Asc.c_oAscDataBarAxisPosition.none, displayValue: this.textNone}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.btnAxisColor.setDisabled(record.value == Asc.c_oAscDataBarAxisPosition.none);
             });
             this.cmbAxisPos.setValue(Asc.c_oAscDataBarDirection.context);
+            Common.UI.FocusManager.add(this, this.cmbAxisPos);
 
             this.btnAxisColor = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-axis-color'),
@@ -1013,12 +1044,14 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     editable    : false,
                     cls         : 'input-group-nr',
                     data        : arr,
-                    type        : i
+                    type        : i,
+                    takeFocusOnClose: true
                 }).on('selected', function(combo, record) {
                     me.scaleControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum);
                     me.setDefComboValue(combo.options.type, record.value, me.scaleControls[combo.options.type].range);
                 });
                 combo.setValue((i==1) ? Asc.c_oAscCfvoType.Percentile : arr[0].value);
+                Common.UI.FocusManager.add(this, combo);
 
                 var range = new Common.UI.InputFieldBtn({
                     el          : $('#format-rules-edit-txt-scale-' + (i+1)),
@@ -1032,6 +1065,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 });
                 range.setValue((i==1) ? 50 : '');
                 range.on('button:click', _.bind(this.onSelectData, this));
+                Common.UI.FocusManager.add(this, range);
 
                 var color = new Common.UI.ColorButton({
                     parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
@@ -1473,6 +1507,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         setControls: function(category, rule) {
             var hasformat = this.$window.find('.hasformat');
             hasformat.toggleClass('hidden', category>=7 && category<=10);
+            var focused;
 
             this.cmbRule.setVisible(category<7);
 
@@ -1497,6 +1532,20 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             (category==10) && this.renderIconsPanel();
             this.$window.find('.databar').toggleClass('hidden', category!==9);
             this.$window.find('.iconset').toggleClass('hidden', category!==10);
+
+            if (category<7)
+                focused = this.cmbRule;
+            else  if (category==7 || category==8) {
+                focused = this.scaleControls[0].combo;
+            } else  if (category==9) {
+                focused = this.barControls[0].combo;
+            } else  if (category==10) {
+                focused = this.iconsControls[this.iconsControls.length-1].cmbOperator;
+            }
+
+            focused && _.delay(function(){
+                focused.focus();
+            },50);
         },
 
         onSelectData: function(cmp) {
