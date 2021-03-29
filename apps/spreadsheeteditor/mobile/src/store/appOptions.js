@@ -4,6 +4,7 @@ export class storeAppOptions {
     constructor() {
         makeObservable(this, {
             isEdit: observable,
+            canViewComments: observable,
             setConfigOptions: action,
             setPermissionOptions: action
         });
@@ -11,6 +12,9 @@ export class storeAppOptions {
 
     isEdit = false;
     config = {};
+
+    isEdit = false;
+    canViewComments = false;
 
     setConfigOptions (config) {
         this.config = config;

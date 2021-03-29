@@ -15,6 +15,7 @@ import {
 class MainController extends Component {
     constructor(props) {
         super(props)
+        window.editorType = 'pe';
     }
 
     initSdk() {

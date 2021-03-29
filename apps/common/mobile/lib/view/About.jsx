@@ -3,12 +3,12 @@ import { observer, inject } from "mobx-react";
 import { Page, Navbar, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
-const PageSpreadsheetAbout = props => {
+const PageAbout = props => {
     const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
-    const storeAppOptions = props.storeAppOptions;
-    const isCanBranding = storeAppOptions.canBranding;
-    const licInfo = isCanBranding ? storeAppOptions.customization : null;
+    const _t = t("About", { returnObjects: true });
+    const store = props.storeAppOptions;
+    const isCanBranding = store.canBranding;
+    const licInfo = isCanBranding ? store.customization : null;
     const customer = licInfo ? licInfo.customer : null;
     const nameCustomer = customer ? customer.name : null;
     const mailCustomer = customer ? customer.mail : null;
@@ -17,27 +17,32 @@ const PageSpreadsheetAbout = props => {
     const infoCustomer = customer ? customer.info : null;
     const logoCustomer = customer ? customer.logo : null;
 
-    // console.log(storeAppOptions);
-    // console.log(isCanBranding);
+    const publisherUrl = __PUBLISHER_URL__,
+        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/,"");
+    
+    const editors = {
+        de: 'DOCUMENT EDITOR',
+        pe: 'PRESENTATION EDITOR',
+        sse: 'SPREADSHEET EDITOR'
+    };
+
+    const nameEditor = editors[editorType];
 
     return (
         <Page className="about">
             <Navbar title={_t.textAbout} backLink={_t.textBack} />
-            {licInfo && typeof licInfo == 'object' && typeof(customer) == 'object' ? 
+            {licInfo && typeof licInfo == 'object' && typeof(customer) == 'object' ? (
                 <Fragment>
                     <div className="content-block">
-                        {/* {licInfo && typeof licInfo == 'object' && typeof(customer) == 'object' ? null : (
-                            <i className="logo"></i>
-                        )} */}
                         {logoCustomer && logoCustomer.length ? (
                             <div id="settings-about-logo" className="settings-about-logo">
-                                <img src={logoCustomer} />
+                                <img src={logoCustomer} alt="" />
                             </div>
                         ) : null}
                     </div>
                     <div className="content-block">
-                        <h3>SPREADSHEET EDITOR</h3>
-                        <h3>{_t.textVersion} 6.1.1</h3>
+                        <h3>{nameEditor}</h3>
+                        <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
                     </div>
                     <div className="content-block">
                         {nameCustomer && nameCustomer.length ? (
@@ -45,20 +50,16 @@ const PageSpreadsheetAbout = props => {
                         ) : null}
                         {addressCustomer && addressCustomer.length ? (
                             <p>
-                                <label>{_t.textAddress}</label>
+                                <label>{_t.textAddress}:</label>
                                 <Link id="settings-about-address" className="external">{addressCustomer}</Link>
                             </p>
                         ) : null}
                         {mailCustomer && mailCustomer.length ? (
                             <p>
-                                <label>{_t.textEmail}</label>
+                                <label>{_t.textEmail}:</label>
                                 <Link id="settings-about-email" className="external" target="_blank" href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
                             </p>
                         ) : null}
-                        <p>
-                            <label>{_t.textTel}</label>
-                            <Link id="settings-about-tel" className="external" target="_blank" href="tel:+37163399867">+371 633-99867</Link>
-                        </p>
                         {urlCustomer && urlCustomer.length ? (
                             <p>
                                 <Link id="settings-about-url" className="external" target="_blank" 
@@ -78,21 +79,45 @@ const PageSpreadsheetAbout = props => {
                         <p>
                             <label>{_t.textPoweredBy}</label>
                         </p>
-                        <h3 className="vendor">Ascensio System SIA</h3>
+                        <h3 className="vendor">{__PUBLISHER_NAME__}</h3>
                         <p>
-                            <Link className="external" target="_blank" href="www.onlyoffice.com">www.onlyoffice.com</Link>
+                            <Link className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
                     </div>
-                </Fragment> :
+                </Fragment>
+            ) : (
                 <Fragment>
                     <div className="content-block">
-                        <i className="logo"></i>
+                        <div className="logo"></div>
                     </div>
-                </Fragment>}
+                    <div className="content-block">
+                        <h3>{nameEditor}</h3>
+                        <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
+                    </div>
+                    <div className="content-block">
+                        <h3 id="settings-about-name" className="vendor">{__PUBLISHER_NAME__}</h3>
+                        <p>
+                            <label>{_t.textAddress}:</label>
+                            <a id="settings-about-address" className="external">{__PUBLISHER_ADDRESS__}</a>
+                        </p>
+                        <p>
+                            <label>{_t.textEmail}:</label>
+                            <a id="settings-about-email" className="external" href={`mailto:${__SUPPORT_EMAIL__}`}>{__SUPPORT_EMAIL__}</a>
+                        </p>
+                        <p>
+                            <label>{_t.textTel}:</label>
+                            <a id="settings-about-tel" className="external" href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</a>
+                        </p>
+                        <p>
+                            <a id="settings-about-url" className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</a>
+                        </p>
+                    </div>
+                </Fragment>
+            )}
         </Page>
     );
 };
 
-const SpreadsheetAbout = inject("storeAppOptions")(observer(PageSpreadsheetAbout));
+const About = inject("storeAppOptions")(observer(PageAbout));
 
-export default SpreadsheetAbout;
+export default About;

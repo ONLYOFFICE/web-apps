@@ -386,5 +386,14 @@
     "textStartAt": "Start At",
     "textLocation": "Location",
     "textFormat": "Format"
+  },
+  "About": {
+    "textAbout": "About",
+    "textVersion": "Version",
+    "textEmail": "Email",
+    "textAddress": "Address",
+    "textTel": "Tel",
+    "textPoweredBy": "Powered By",
+    "textBack": "Back"
   }
 }
