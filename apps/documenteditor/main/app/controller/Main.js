@@ -138,9 +138,10 @@ define([
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
                     "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item.": this.txtChoose,
-                    "Enter a date.": this.txtEnterDate,
-                    "Type equation here.": this.txtTypeEquation
+                    "Choose an item": this.txtChoose,
+                    "Enter a date": this.txtEnterDate,
+                    "Type equation here": this.txtTypeEquation,
+                    "Click to load image": this.txtClickToLoad
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -156,7 +157,7 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
                 this.languages = null;
 
                 // Initialize viewport
@@ -571,6 +572,7 @@ define([
                     appHeader.getButton('users') && appHeader.getButton('users').hide();
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
+                    this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
                         currentVersion = null;
@@ -589,7 +591,7 @@ define([
                                 if (!user) {
                                     user = new Common.Models.User({
                                         id          : version.user.id,
-                                        username    : version.user.name,
+                                        username    : version.user.name || this.textAnonymous,
                                         colorval    : Asc.c_oAscArrUserColors[usersCnt],
                                         color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                     });
@@ -600,7 +602,7 @@ define([
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
-                                    username : version.user.name,
+                                    username : version.user.name || this.textAnonymous,
                                     usercolor: user.get('color'),
                                     created: version.created,
                                     docId: version.key,
@@ -637,7 +639,7 @@ define([
                                             if (!user) {
                                                 user = new Common.Models.User({
                                                     id          : change.user.id,
-                                                    username    : change.user.name,
+                                                    username    : change.user.name || this.textAnonymous,
                                                     colorval    : Asc.c_oAscArrUserColors[usersCnt],
                                                     color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                                 });
@@ -649,7 +651,7 @@ define([
                                                 revision: version.version,
                                                 changeid: i,
                                                 userid : change.user.id,
-                                                username : change.user.name,
+                                                username : change.user.name || this.textAnonymous,
                                                 usercolor: user.get('color'),
                                                 created: change.created,
                                                 docId: version.key,
@@ -701,6 +703,7 @@ define([
                 app.getController('LeftMenu').SetDisabled(disable, true);
                 app.getController('Toolbar').DisableToolbar(disable, disable);
                 app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                app.getController('Viewport').SetDisabled(disable);
             },
 
             goBack: function(current) {
@@ -1800,7 +1803,7 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    Common.Gateway.setDocumentModified(isModified);
+                    this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
                     if (isModified && (!this._state.fastCoauth || this._state.usersCount<2))
                         this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
@@ -1811,7 +1814,7 @@ define([
             onDocumentModifiedChanged: function() {
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
-                    Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
                 }
 
                 this.updateWindowTitle();
@@ -2825,15 +2828,15 @@ define([
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            txtChoose: 'Choose an item.',
+            txtChoose: 'Choose an item',
             errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
             txtStyle_Caption: 'Caption',
             errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
-            txtEnterDate: 'Enter a date.',
-            txtTypeEquation: 'Type equation here.',
+            txtEnterDate: 'Enter a date',
+            txtTypeEquation: 'Type equation here',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
@@ -2845,7 +2848,8 @@ define([
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
-            errorSubmit: 'Submit failed.'
+            errorSubmit: 'Submit failed.',
+            txtClickToLoad: 'Click to load image'
         }
     })(), DE.Controllers.Main || {}))
 });

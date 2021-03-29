@@ -114,7 +114,6 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
-
                 return this;
             },
 

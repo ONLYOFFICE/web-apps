@@ -491,6 +491,8 @@ define([
 
                             ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
                             ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
 
                             if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                                 screenTip.toolTip.setTitle(ToolTip + '<br><b>' + me.txtPressLink + '</b>');

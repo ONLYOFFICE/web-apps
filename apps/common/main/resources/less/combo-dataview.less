@@ -33,7 +33,7 @@
 
             &.dropdown-toggle {
                 .inner-box-caret {
-                    padding: 0 2px 0 0;
+                    padding: 0 1px 0 0;
                 }
 
                 .caret {
@@ -106,8 +106,8 @@
 
 
         &:hover {
-            .box-inner-shadow(0 0 0 2px @border-regular-control-ie);
-            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-regular-control);
+            .box-inner-shadow(0 0 0 2px @border-preview-hover-ie);
+            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
         }
 
         &.selected {
@@ -268,8 +268,8 @@
 
     .item {
         &:hover {
-            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
-            .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-preview-hover-ie);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-preview-hover);
         }
     }
 
@@ -307,6 +307,11 @@
                 .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
             }
         }
+    }
+
+    .combo-wrap-item.options__icon {
+        background-position-x: 0;
+        background-position-x: @button-huge-normal-icon-offset-x;
     }
 }
 

@@ -406,6 +406,7 @@
         // TODO: move to appropriate module
         .btn-header, .btn-users {
             &:not(:active) .icon--inverse {
+                background-position-x: 0;
                 background-position-x: @button-small-normal-icon-offset-x;
             }
 
@@ -428,6 +429,10 @@
                 &:not(.disabled) {
                     background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
+
+                    .icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x;
+                    }
 
                     svg.icon {
                         fill: @icon-toolbar-header-ie;
@@ -629,12 +634,6 @@
     }
 }
 
-.item-equation {
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-    .background-ximage-v2('toolbar/math.png', 1500px);
-}
-
 .item-databar {
     .icon {
         width: 25px;
@@ -688,3 +687,4 @@
         height: 20px;
     }
 }
+

@@ -38,7 +38,7 @@
         .btnsize(@x-huge-btn-height);
     }
 
-    &[disabled] {
+    &[disabled], &.disabled {
         opacity: @component-disabled-opacity;
     }
     
@@ -170,6 +170,18 @@
         }
     }
 
+    &:not(:disabled) {
+        .icon {
+            opacity: @component-normal-icon-opacity;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        .icon {
+            opacity: @component-hover-icon-opacity;
+        }
+    }
+
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret-up, .caret-down {
@@ -177,6 +189,14 @@
                 border-color: @background-normal-ie;
                 border-color: @background-normal;
             }
+        }
+
+        .icon {
+            opacity: @component-active-icon-opacity;
+        }
+
+        &:hover .icon {
+            opacity: @component-active-hover-icon-opacity;
         }
     }
 }
@@ -300,6 +320,12 @@
     border: 0;
     .border-radius(1px);
     background-color: transparent;
+
+    .masked & {
+        &:disabled {
+            opacity: 1;
+        }
+    }
 
     .btn.small;
 
@@ -444,13 +470,13 @@
 
     > .btn {
         + .dropdown-toggle {
-            padding: 0 2px;
+            padding: 0 4px 0 3px;
         }
     }
 
     > .dropdown-toggle:first-child {
         .inner-box-caret {
-            padding: 0 2px;
+            padding: 0 4px 0 3px;
         }
     }
 
@@ -597,7 +623,7 @@
 
     .inner-box-caret {
         position: absolute;
-        right: 1px;
+        right: 0;
         top: 2px;
     }
 
@@ -739,7 +765,7 @@
 
     .caret {
         position: absolute;
-        right: 3px;
+        right: 5px;
         margin-top: 5px;
     }
 
@@ -821,7 +847,7 @@
     }
 
     &.dropdown-toggle:first-child .inner-box-caret {
-      padding: 0 2px 0 0;
+      padding: 0 1px 0 2px;
     }
 
     &:hover:not(.disabled),
@@ -886,6 +912,12 @@
         vertical-align: middle;
         width: 52px;
         padding: 5px;
+
+        fill: @icon-normal;
+
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &:hover,

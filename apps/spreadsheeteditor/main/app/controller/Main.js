@@ -134,8 +134,17 @@ define([
                         'Column Labels': this.txtColLbls,
                         'Multi-Select (Alt+S)': this.txtMultiSelect,
                         'Clear Filter (Alt+C)':  this.txtClearFilter,
-                        '(blank)': this.txtBlank
+                        '(blank)': this.txtBlank,
+                        'Group': this.txtGroup,
+                        'Seconds': this.txtSeconds,
+                        'Minutes': this.txtMinutes,
+                        'Hours': this.txtHours,
+                        'Days': this.txtDays,
+                        'Months': this.txtMonths,
+                        'Quarters': this.txtQuarters,
+                        'Years': this.txtYears
                     };
+
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
@@ -155,7 +164,7 @@ define([
 //                $(document.body).css('position', 'absolute');
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -1615,6 +1624,10 @@ define([
                         config.msg = this.errorSetPassword;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotGroup :
+                        config.msg = this.errorPivotGroup;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1735,7 +1748,7 @@ define([
                             window.document.title = title;
                     }
 
-                    Common.Gateway.setDocumentModified(change);
+                    this._isDocReady && (this._state.isDocModified !== change) && Common.Gateway.setDocumentModified(change);
 
                     this._state.isDocModified = change;
                 }
@@ -1746,8 +1759,10 @@ define([
 
             onDocumentModifiedChanged: function(change) {
                 this.updateWindowTitle(change);
-                Common.Gateway.setDocumentModified(change);
-
+                if (this._state.isDocModified !== change) {
+                    this._isDocReady && Common.Gateway.setDocumentModified(change);
+                }
+                
                 if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
@@ -2846,7 +2861,16 @@ define([
             textRenameLabel: 'Enter a name to be used for collaboration',
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            txtGroup: 'Group',
+            txtSeconds: 'Seconds',
+            txtMinutes: 'Minutes',
+            txtHours: 'Hours',
+            txtDays: 'Days',
+            txtMonths: 'Months',
+            txtQuarters: 'Quarters',
+            txtYears: 'Years',
+            errorPivotGroup: 'Cannot group that selection.'
         }
     })(), SSE.Controllers.Main || {}))
 });

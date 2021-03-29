@@ -501,6 +501,8 @@ define([
                             var hyperProps = moveData.get_Hyperlink();
                             if (!hyperProps) return;
                             ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
                         } else if (type == Asc.c_oAscMouseMoveDataTypes.Footnote) {
                             ToolTip = moveData.get_FootnoteText();
                             if (ToolTip.length>1000)
@@ -1717,7 +1719,7 @@ define([
             } else if (type == 'indents' || type == 'tabs') {
                 win = this.advancedParagraphClick({isChart: false});
                 if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 3);
+                    win.setActiveCategory(type == 'indents' ? 0 : 4);
             } else if (type == 'margins') {
                 if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({

@@ -1392,6 +1392,7 @@
   "PE.Views.HyperlinkSettingsDialog.txtNext": "Next Slide",
   "PE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Previous Slide",
+  "PE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2083 characters",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Slide",
   "PE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "PE.Views.ImageSettings.textCrop": "Crop",

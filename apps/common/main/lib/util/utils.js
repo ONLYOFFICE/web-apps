@@ -120,7 +120,7 @@ Common.Utils = _.extend(new(function() {
         me = this,
         checkSize = function() {
             var scale = {};
-            if ( !!window.AscCommon )
+            if ( !!window.AscCommon && !!window.AscCommon.checkDeviceScale )
                 scale = window.AscCommon.checkDeviceScale();
             else {
                 var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
@@ -140,7 +140,7 @@ Common.Utils = _.extend(new(function() {
             if ( scale.devicePixelRatio < 1.5 ) {
                 $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
             } else
-            if ( !(scale.devicePixelRatio < 1.5) && !(scale.devicePixelRatio > 2) ) {
+            if ( !(scale.devicePixelRatio < 1.5) && scale.devicePixelRatio < 2 ) {
                 $root.removeClass('pixel-ratio__2');
                 $root.addClass('pixel-ratio__1_5');
             } else {

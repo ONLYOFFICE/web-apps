@@ -134,7 +134,10 @@ define([
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 validation  : function(value) {
-                    var urltype = me.api.asc_getUrlType($.trim(value));
+                    var trimmed = $.trim(value);
+                    if (trimmed.length>2083) return me.txtSizeLimit;
+
+                    var urltype = me.api.asc_getUrlType(trimmed);
                     me.isEmail = (urltype==2);
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
@@ -437,6 +440,7 @@ define([
         txtFirst:           'First Slide',
         txtLast:            'Last Slide',
         textDefault:        'Selected text',
-        textSlides: 'Slides'
+        textSlides: 'Slides',
+        txtSizeLimit: 'This field is limited to 2083 characters'
     }, PE.Views.HyperlinkSettingsDialog || {}))
 });

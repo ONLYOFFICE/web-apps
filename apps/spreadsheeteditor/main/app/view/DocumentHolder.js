@@ -82,7 +82,7 @@ define([
         focus: function() {
             var me = this;
             _.defer(function(){
-                me.cmpEl.focus();
+                me.cmpEl && me.cmpEl.focus();
             }, 50);
         },
 
@@ -338,6 +338,16 @@ define([
                 caption     : me.txtReapply
             });
 
+            me.mnuGroupPivot = new Common.UI.MenuItem({
+                caption     : this.txtGroup,
+                value       : 'grouping'
+            });
+
+            me.mnuUnGroupPivot = new Common.UI.MenuItem({
+                caption     : this.txtUngroup,
+                value       : 'ungrouping'
+            });
+
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
                 caption     : me.txtFormula
@@ -564,6 +574,8 @@ define([
                     me.pmiSortCells,
                     me.pmiFilterCells,
                     me.pmiReapply,
+                    me.mnuGroupPivot,
+                    me.mnuUnGroupPivot,
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
@@ -1051,6 +1063,14 @@ define([
                 items: []
             }).on('show:after', function () {
                 this.scroller.update({alwaysVisibleY: true});
+            }).on('keydown:before', function (menu, e) {
+                if (e.altKey && e.keyCode == Common.UI.Keys.DOWN) {
+                    var li = $(e.target).closest('li');
+                    if (li.length>0)
+                        li.click();
+                    else
+                        menu.hide();
+                }
             });
 
             this.funcMenu = new Common.UI.Menu({

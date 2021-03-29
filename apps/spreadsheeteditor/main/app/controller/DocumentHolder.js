@@ -72,7 +72,8 @@ define([
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced'
+    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/PivotGroupDialog'
 ], function () {
     'use strict';
 
@@ -197,6 +198,8 @@ define([
                 view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
                 view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
+                view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
+                view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -324,6 +327,7 @@ define([
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
+                this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
             }
             return this;
         },
@@ -493,9 +497,33 @@ define([
             })).show();
         },
 
+        onGroupPivot: function(item) {
+            item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
+        },
+
+        onShowPivotGroupDialog: function(rangePr, dateTypes, defRangePr) {
+            var win, props,
+                me = this;
+            win = new SSE.Views.PivotGroupDialog({
+                date: !!dateTypes,
+                handler: function(dlg, result) {
+                    if (result == 'ok') {
+                        props = dlg.getSettings();
+                        me.api.asc_groupPivot(props[0], props[1]);
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                }
+            });
+            win.show();
+            win.setSettings(rangePr, dateTypes, defRangePr);
+        },
+
         onClear: function(menu, item) {
             if (this.api) {
-                this.api.asc_emptyCells(item.value);
+                if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                    this.api.asc_RemoveAllComments(!this.permissions.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
+                } else
+                    this.api.asc_emptyCells(item.value, item.value == Asc.c_oAscCleanOptions.All && !this.permissions.canDeleteComments);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Clear');
@@ -1105,11 +1133,10 @@ define([
 
                     if (props.asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
                         var linkstr = props.asc_getTooltip();
-                        if (linkstr) {
-                            linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
-                        } else {
-                            linkstr = Common.Utils.String.htmlEncode(props.asc_getHyperlinkUrl()) + '<br><b>' + me.textCtrlClick + '</b>';
-                        }
+                        linkstr = (linkstr) ? linkstr : props.asc_getHyperlinkUrl();
+                        if (linkstr.length>256)
+                            linkstr = linkstr.substr(0, 256) + '...';
+                        linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
                         linkstr += '<br><b>' + me.textCtrlClick + '</b>';
@@ -1652,7 +1679,7 @@ define([
         },
 
         onDocumentMouseMove: function(e) {
-            if (e.target.localName !== 'canvas') {
+            if (e && e.target.localName !== 'canvas') {
                 this.hideHyperlinkTip();
             }
         },
@@ -1676,6 +1703,7 @@ define([
                 seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
+                isPivotLocked       = cellinfo.asc_getLockedPivotTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
@@ -1880,7 +1908,8 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getMultiselect();
+                    ismultiselect = cellinfo.asc_getMultiselect(),
+                    inPivot = !!cellinfo.asc_getPivotTableInfo();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
@@ -1888,21 +1917,23 @@ define([
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
                 documentHolder.pmiDeleteEntire.setVisible(isrowmenu||iscolmenu);
-                documentHolder.pmiInsertCells.setVisible(iscellmenu && !iscelledit && !isintable);
-                documentHolder.pmiDeleteCells.setVisible(iscellmenu && !iscelledit && !isintable);
+                documentHolder.pmiInsertCells.setVisible(iscellmenu && !iscelledit && !isintable && !inPivot);
+                documentHolder.pmiDeleteCells.setVisible(iscellmenu && !iscelledit && !isintable && !inPivot);
                 documentHolder.pmiSelectTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiSparklines.setVisible(isinsparkline);
-                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
+                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit && !inPivot);
                 documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
-                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
-                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
+                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor && !inPivot);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !internaleditor);
+                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
+                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
-                documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit);
+                documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 if (isintable) {
@@ -1918,8 +1949,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -1930,7 +1961,7 @@ define([
 
                 /** coauthoring begin **/
                 var count = cellinfo.asc_getComments().length;
-                documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
+                documentHolder.ssMenu.items[19].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
@@ -1955,8 +1986,6 @@ define([
                 documentHolder.pmiDeleteCells.menu.items[0].setDisabled(isApplyAutoFilter);
                 documentHolder.pmiInsertCells.menu.items[1].setDisabled(isApplyAutoFilter);
                 documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
-
-                var inPivot = !!cellinfo.asc_getPivotTableInfo();
 
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
@@ -1985,6 +2014,12 @@ define([
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
+
+                if (inPivot) {
+                    var canGroup = this.api.asc_canGroupPivot();
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup);
+                }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {

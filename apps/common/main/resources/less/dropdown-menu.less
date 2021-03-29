@@ -1,11 +1,3 @@
-.dropdown-menu > .disabled > a {
-    cursor: default;
-
-    color: @text-normal-ie;
-    color: @text-normal;
-
-    opacity: @component-disabled-opacity;
-}
 
 .dropdown-menu {
     background-color: @background-normal-ie;
@@ -47,9 +39,6 @@
 
             &:focus, &.focus {
                 outline: 0;
-            }
-
-            &.focus {
                 color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
                 background-color: @highlight-button-hover-ie;
@@ -104,6 +93,7 @@
             height: 20px;
             margin: -3px 5px 0 -15px;
             background-repeat: no-repeat;
+            opacity: @component-normal-icon-opacity;
         }
 
         .no-checkmark.checked {
@@ -111,6 +101,26 @@
                 background-color: @highlight-button-pressed-ie;
                 background-color: @highlight-button-pressed;
                 border-radius: 2px;
+            }
+        }
+    }
+
+    > .disabled {
+        > a {
+            cursor: default;
+
+            color: @text-normal-ie;
+            color: @text-normal;
+
+            opacity: @component-disabled-opacity;
+
+            &:hover, &:focus {
+                color: @text-normal-ie;
+                color: @text-normal;
+            }
+
+            .menu-item-icon {
+                opacity: 1;
             }
         }
     }

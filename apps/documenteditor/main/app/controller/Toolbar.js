@@ -1951,7 +1951,7 @@ define([
                 else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
                     if (isnew) {
                         oPr = new AscCommon.CSdtCheckBoxPr();
-                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey(this.textGroup + ' 1');
                     }
                     this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
                 } else if (item.value == 'date')
@@ -3568,7 +3568,8 @@ define([
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
         textInsert: 'Insert',
-        textTabForms: 'Forms'
+        textTabForms: 'Forms',
+        textGroup: 'Group'
 
     }, DE.Controllers.Toolbar || {}));
 });

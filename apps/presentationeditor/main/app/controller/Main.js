@@ -135,7 +135,7 @@ define([
             onLaunch: function() {
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
                 this.languages = null;
 
                 window.storagename = 'presentation';
@@ -1485,7 +1485,7 @@ define([
                     if ( window.document.title != title )
                         window.document.title = title;
 
-                    Common.Gateway.setDocumentModified(isModified);
+                    this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
                     if (isModified && (!this._state.fastCoauth || this._state.usersCount<2))
                         this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
@@ -1499,7 +1499,7 @@ define([
             onDocumentModifiedChanged: function() {
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
-                    Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
                 }
 
                 this.updateWindowTitle();

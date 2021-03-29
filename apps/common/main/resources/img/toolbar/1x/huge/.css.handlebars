@@ -1,5 +1,10 @@
 {{#spritesheet}}
 .btn {
+    .options__icon.options__icon-huge {
+        background-position-x: 0;
+        background-position-x: var(--button-huge-normal-icon-offset-x,0);
+    }
+
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .options__icon.options__icon-huge {

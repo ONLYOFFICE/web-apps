@@ -508,8 +508,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnWrapNone = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-none'),
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-none',
+                cls: 'btn-options huge-1',
+                iconCls: 'options__icon options__icon-huge table-align-center',
                 posId: c_tableWrap.TABLE_WRAP_NONE,
                 hint: this.textWrapNoneTooltip,
                 enableToggle: true,
@@ -520,8 +520,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnWrapParallel = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-parallel'),
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-parallel',
+                cls: 'btn-options huge-1',
+                iconCls: 'options__icon options__icon-huge table-flow',
                 posId: c_tableWrap.TABLE_WRAP_PARALLEL,
                 hint: this.textWrapParallelTooltip,
                 enableToggle: true,
@@ -532,8 +532,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-left'),
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-table-align-left',
+                cls: 'btn-options huge-1',
+                iconCls: 'options__icon options__icon-huge table-align-left',
                 posId: c_tableAlign.TABLE_ALIGN_LEFT,
                 hint: this.textLeftTooltip,
                 enableToggle: true,
@@ -551,8 +551,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-center'),
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-table-align-center',
+                cls: 'btn-options huge-1',
+                iconCls: 'options__icon options__icon-huge table-align-center',
                 posId: c_tableAlign.TABLE_ALIGN_CENTER,
                 hint: this.textCenterTooltip,
                 enableToggle: true,
@@ -570,8 +570,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-right'),
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-table-align-right',
+                cls: 'btn-options huge-1',
+                iconCls: 'options__icon options__icon-huge table-align-right',
                 posId: c_tableAlign.TABLE_ALIGN_RIGHT,
                 hint: this.textRightTooltip,
                 enableToggle: true,

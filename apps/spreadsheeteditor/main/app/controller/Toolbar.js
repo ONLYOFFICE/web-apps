@@ -1438,8 +1438,12 @@ define([
         },
 
         onClearStyleMenu: function(menu, item, e) {
-            if (this.api)
-                this.api.asc_emptyCells(item.value);
+            if (this.api) {
+                if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                    this.api.asc_RemoveAllComments(!this.mode.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
+                } else
+                    this.api.asc_emptyCells(item.value, item.value == Asc.c_oAscCleanOptions.All && !this.mode.canDeleteComments);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Clear');

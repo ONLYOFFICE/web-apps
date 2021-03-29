@@ -174,6 +174,13 @@
                     }
                 }
 
+                &:not(.active) {
+                    > span {
+                        color: @text-secondary-ie;
+                        color: @text-secondary;
+                    }
+                }
+
                 > span {
                     display: inline-block;
                     .border-radius(0);
@@ -195,8 +202,8 @@
                         border-top-color: @border-toolbar;
                         border-bottom-color: @border-toolbar-ie;
                         border-bottom-color: @border-toolbar;
-                        color: @text-normal-ie !important;
-                        color: @text-normal !important;
+                        color: @text-normal-ie;
+                        color: @text-normal;
                     }
                 }
 
@@ -265,15 +272,10 @@
                 }
 
                 &.disabled {
-                    opacity: 0.5;
+                    opacity: @component-disabled-opacity;
 
                     > span {
                         cursor: default;
-                    }
-                }
-
-                &:not(.active) {
-                    > span {
                         color: @text-secondary-ie;
                         color: @text-secondary;
                     }

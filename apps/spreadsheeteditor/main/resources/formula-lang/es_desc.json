@@ -1715,6 +1715,10 @@
 		"a": "(valor-buscar, tabla-conjunto, col-índice-núm[, [rango-buscar-marcador]])",
 		"d": "Función de búsqueda y referencia utilizada para realizar la búsqueda vertical de un valor en la columna de la izquierda de una tabla o conjunto y devolver el valor en la misma fila basado en un número de índice de columna especificado."
 	},
+	"XLOOKUP": {
+		"a": "(valor_buscado, matriz_buscada, matriz_devuelta, [si_no_se_encuentra], [modo_de_coincidencia], [modo_de_búsqueda])",
+		"d": "Función de búsqueda y referencia busca un rango o una matriz y, a continuación, devuelve el elemento correspondiente a la primera coincidencia que encuentra. Si no existe ninguna coincidencia, BUSCARX puede devolver la coincidencia más cercana (aproximada)"
+	},	
 	"CELL": {
 		"a": "(info_type, [reference])",
 		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
