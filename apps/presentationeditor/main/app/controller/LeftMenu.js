@@ -265,6 +265,7 @@ define([
                                 callback: function(btn) {
                                     if (btn == 'ok') {
                                         me.api.asc_undoAllChanges();
+                                        me.api.asc_continueSaving();
                                         me.showHistory();
                                     } else
                                         me.api.asc_continueSaving();
