@@ -17,7 +17,6 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
     useEffect(() => {
         const on_api_created = api => {
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
             api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
@@ -31,16 +30,20 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             }
         };
 
-        Common.Notifications.on('api:disconnect', onApiDisconnect);
         Common.Notifications.on('document:ready', onApiSheetsChanged);
         Common.Notifications.on('engineCreated', on_api_created);
 
         $$('.view-main').on('click', on_main_view_click);
 
         return () => {
-            Common.Notifications.off('api:disconnect', onApiDisconnect);
             Common.Notifications.off('document:ready', onApiSheetsChanged);
             Common.Notifications.off('engineCreated', on_api_created);
+            
+            api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
+            api.asc_unregisterCallback('asc_onWorkbookLocked', onWorkbookLocked);
+            api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
+            api.asc_unregisterCallback('asc_onSheetsChanged', onApiSheetsChanged);
+            api.asc_unregisterCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
 
             $$('.view-main').off('click', on_main_view_click);
         };
@@ -97,10 +100,6 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
         }
         
-    };
-
-    const onApiDisconnect = () => {
-        users.isDisconnected = true;
     };
 
     const onApiUpdateTabColor = index => {
