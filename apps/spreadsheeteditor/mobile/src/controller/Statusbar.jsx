@@ -38,7 +38,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         return () => {
             Common.Notifications.off('document:ready', onApiSheetsChanged);
             Common.Notifications.off('engineCreated', on_api_created);
-            
+
             api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_unregisterCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
@@ -58,7 +58,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     };
 
     const onWorksheetLocked = (index, locked) => {
-        let model = sheets.find(sheet => sheet.index === index);
+        let model = sheets.sheets.find(sheet => sheet.index === index);
         if(model && model.locked != locked)
             model.locked = locked;
     };
@@ -121,9 +121,9 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
                     color = '0px 4px 0 ' + color + ' inset';
                 }
                 
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
+                $$('.sheet-tabs .tab').eq(tab.index).css('box-shadow', color);
             } else {
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
+                $$('.sheet-tabs .tab').eq(tab.index).css('box-shadow', '');
             }
         }
     };
