@@ -16,13 +16,20 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     let isDisconnected = users.isDisconnected;
 
     useEffect(() => {
-        const on_api_created = api => {
+        const onDocumentReady = () => {
+            const api = Common.EditorApi.get();
             api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
         };
+        if ( !Common.EditorApi ) {
+            Common.Notifications.on('document:ready', onDocumentReady);
+            Common.Notifications.on('document:ready', onApiSheetsChanged);
+        } else {
+            onDocumentReady();
+        }
 
         const on_main_view_click = e => {
             if(!e.target.closest('.tab.active')) {
@@ -30,15 +37,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             }
         };
 
-        Common.Notifications.on('document:ready', onApiSheetsChanged);
-        Common.Notifications.on('engineCreated', on_api_created);
-
         $$('.view-main').on('click', on_main_view_click);
 
         return () => {
+            Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('document:ready', onApiSheetsChanged);
-            Common.Notifications.off('engineCreated', on_api_created);
 
+            const api = Common.EditorApi.get();
             api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_unregisterCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
