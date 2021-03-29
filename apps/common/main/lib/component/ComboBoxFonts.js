@@ -51,21 +51,36 @@ define([
     Common.UI.ComboBoxFonts = Common.UI.ComboBox.extend((function() {
         var iconWidth       = 302,
             iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 26,
-            isRetina        = window.devicePixelRatio > 1,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
-            thumbPath       = '../../../../sdkjs/common/Images/fonts_thumbnail.png',
-            thumbPath2x     = '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png',
+            thumbs       = [
+                {ratio: 1,      path: '../../../../sdkjs/common/Images/fonts_thumbnail.png', width: iconWidth, height: iconHeight},
+                {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2},
+                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2}
+            ],
+            thumbIdx = 0,
             listItemHeight  = 26,
-            spriteCols     = 1;
+            spriteCols     = 1,
+            applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
         if (typeof window['AscDesktopEditor'] === 'object') {
-            thumbPath       = window['AscDesktopEditor'].getFontsSprite();
-            thumbPath2x     = window['AscDesktopEditor'].getFontsSprite(true);
+            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite();
+            thumbs[1].path = thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite(true);
         }
 
-        thumbCanvas.height  = isRetina ? iconHeight * 2 : iconHeight;
-        thumbCanvas.width   = isRetina ? iconWidth  * 2 : iconWidth;
+        var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
+        var currentDistance = 0;
+        for (var i=1; i<thumbs.length; i++) {
+            currentDistance = Math.abs(applicationPixelRatio-thumbs[i].ratio);
+            if (currentDistance < (bestDistance - 0.0001))
+            {
+                bestDistance = currentDistance;
+                thumbIdx = i;
+            }
+        }
+
+        thumbCanvas.height  = thumbs[thumbIdx].height;
+        thumbCanvas.width   = thumbs[thumbIdx].width;
 
         return {
             template: _.template([
@@ -279,13 +294,8 @@ define([
                     return img != null ? img[0].src : undefined;
                 }
 
-                if (isRetina) {
-                    thumbContext.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * Math.floor(opts.imgidx/spriteCols));
-                } else {
-                    thumbContext.clearRect(0, 0, iconWidth, iconHeight);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * Math.floor(opts.imgidx/spriteCols));
-                }
+                thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+                thumbContext.drawImage(this.spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(opts.imgidx/spriteCols));
 
                 return thumbCanvas.toDataURL();
             },
@@ -306,7 +316,7 @@ define([
                 if (callback) {
                     this.spriteThumbs = new Image();
                     this.spriteThumbs.onload = callback;
-                    this.spriteThumbs.src = isRetina ? thumbPath2x : thumbPath;
+                    this.spriteThumbs.src = thumbs[thumbIdx].path;
                 }
             },
 
@@ -314,7 +324,7 @@ define([
                 var me = this;
 
                 this.loadSprite(function() {
-                    spriteCols = Math.floor(me.spriteThumbs.width / (isRetina ? iconWidth  * 2 : iconWidth)) || 1;
+                    spriteCols = Math.floor(me.spriteThumbs.width / (thumbs[thumbIdx].width)) || 1;
                     me.store.set(store.toJSON());
 
                     me.rendered = false;
@@ -534,21 +544,16 @@ define([
                             var fontImage = document.createElement('canvas');
                             var context = fontImage.getContext('2d');
 
-                            fontImage.height = isRetina ? iconHeight * 2 : iconHeight;
-                            fontImage.width = isRetina ? iconWidth  * 2 : iconWidth;
+                            fontImage.height = thumbs[thumbIdx].height;
+                            fontImage.width = thumbs[thumbIdx].width;
 
                             fontImage.style.width = iconWidth + 'px';
                             fontImage.style.height = iconHeight + 'px';
 
                             index = Math.floor(me.store.at(j).get('imgidx')/spriteCols);
 
-                            if (isRetina) {
-                                context.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * index);
-                            } else {
-                                context.clearRect(0, 0, iconWidth, iconHeight);
-                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * index);
-                            }
+                            context.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+                            context.drawImage(me.spriteThumbs, 0, -thumbs[thumbIdx].height * index);
 
                             me.tiles[j] = fontImage;
                             $(listItems[j]).get(0).appendChild(fontImage);

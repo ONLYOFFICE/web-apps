@@ -151,7 +151,7 @@ define([
                         var modes = model.get('variations'),
                             guid = model.get('guid'),
                             icons = modes[model.get('currentVariation')].get('icons'),
-                            _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                            _icon_url = model.get('baseUrl') + icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
                             btn = new Common.UI.Button({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconImg: _icon_url,
@@ -289,7 +289,7 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+                icon_url = model.get('baseUrl') + icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
 
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
