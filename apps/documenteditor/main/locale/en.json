@@ -1808,7 +1808,7 @@
   "DE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",
   "DE.Views.HyperlinkSettingsDialog.txtHeadings": "Headings",
   "DE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
-  "DE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2084 characters",
+  "DE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2083 characters",
   "DE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "DE.Views.ImageSettings.textCrop": "Crop",
   "DE.Views.ImageSettings.textCropFill": "Fill",

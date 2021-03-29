@@ -135,7 +135,7 @@ define([
                 style       : 'width: 100%;',
                 validation  : function(value) {
                     var trimmed = $.trim(value);
-                    if (trimmed.length>2084) return me.txtSizeLimit;
+                    if (trimmed.length>2083) return me.txtSizeLimit;
 
                     var urltype = me.api.asc_getUrlType(trimmed);
                     me.isEmail = (urltype==2);
@@ -441,6 +441,6 @@ define([
         txtLast:            'Last Slide',
         textDefault:        'Selected text',
         textSlides: 'Slides',
-        txtSizeLimit: 'This field is limited to 2084 characters'
+        txtSizeLimit: 'This field is limited to 2083 characters'
     }, PE.Views.HyperlinkSettingsDialog || {}))
 });
