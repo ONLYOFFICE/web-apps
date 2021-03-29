@@ -151,7 +151,7 @@ define([
                         var modes = model.get('variations'),
                             guid = model.get('guid'),
                             icons = modes[model.get('currentVariation')].get('icons'),
-                            _icon_url = model.get('baseUrl') + icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                            _icon_url = model.get('baseUrl') + me.parseIcons(icons),
                             btn = new Common.UI.Button({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconImg: _icon_url,
@@ -280,6 +280,65 @@ define([
         _onAppReady: function (mode) {
         },
 
+        parseIcons: function(icons) {
+            if (icons.length && typeof icons[0] !== 'string') {
+                var theme = Common.UI.Themes.current().toLowerCase(),
+                    style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
+                    idx = -1;
+                for (var i=0; i<icons.length; i++) {
+                    if (icons[i].theme && icons[i].theme.toLowerCase() == theme) {
+                        idx = i;
+                        break;
+                    }
+                }
+                if (idx<0)
+                    for (var i=0; i<icons.length; i++) {
+                        if (icons[i].style && icons[i].style.toLowerCase() == style) {
+                            idx = i;
+                            break;
+                        }
+                    }
+                (idx<0) && (idx = 0);
+
+                var ratio = Common.Utils.applicationPixelRatio()*100,
+                    current = icons[idx],
+                    bestDistance = 10000,
+                    currentDistance = 0,
+                    defUrl = '',
+                    bestUrl = '';
+                for (var key in current) {
+                    if (current.hasOwnProperty(key)) {
+                        if (key=='default') {
+                            defUrl = current[key];
+                        } else if (!isNaN(parseInt(key))) {
+                            currentDistance = Math.abs(ratio-parseInt(key));
+                            if (currentDistance < (bestDistance - 0.01))
+                            {
+                                bestDistance = currentDistance;
+                                bestUrl = current[key]['normal'];
+                            }
+                        }
+                    }
+                }
+                (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
+                return bestUrl;
+            } else { // old version
+                return icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)]
+            }
+        },
+
+        updatePluginButton: function(model) {
+            if (!model.get('visible'))
+                return null;
+
+            var modes = model.get('variations'),
+                icons = modes[model.get('currentVariation')].get('icons'),
+                btn = model.get('button');
+            if (btn && btn.cmpEl) {
+                btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + this.parseIcons(icons));
+            }
+        },
+
         createPluginButton: function (model) {
             if (!model.get('visible'))
                 return null;
@@ -289,8 +348,7 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                icon_url = model.get('baseUrl') + icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
-
+                icon_url = model.get('baseUrl') + this.parseIcons(icons);
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
                 if (variation.get('visible'))
