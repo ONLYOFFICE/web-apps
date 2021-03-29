@@ -832,7 +832,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
-                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
         },

@@ -114,6 +114,7 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
+
                 return this;
             },
 
@@ -254,7 +255,7 @@ define([
                 var me = this;
                 var usersArray = [];
                 _.each(editUsers, function(item){
-                    var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
+                    var name = AscCommon.UserInfoParser.getParsedName(item.asc_getUserName());
                     var initials = me.getInitials(name);
                     if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
@@ -698,7 +699,7 @@ define([
                             userColor = item.get_UserColor(),
                             goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
-                        var editable = me.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || me.checkUserGroups(item.get_UserName()));
+                        var editable = me.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
                         arr.push({date: date, user: user, usercolor: userColor, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
@@ -708,11 +709,6 @@ define([
                     dateChange = [];
                 }
                 this.updateInfoChange();
-            },
-
-            checkUserGroups: function(username) {
-                var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-                return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {
@@ -774,7 +770,7 @@ define([
             },
 
             getInitials: function(name) {
-                var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
+                var fio = AscCommon.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
                 for (var i=fio.length-1; i>0; i--) {
                     if (fio[i][0]!=='(' && fio[i][0]!==')') {
@@ -791,6 +787,16 @@ define([
                     comment = this.findCommentInGroup(uid);
                 } else if (this.collectionComments.length !== 0) {
                     comment = _.findWhere(this.collectionComments, {uid: uid});
+                }
+                return comment;
+            },
+
+            findVisibleComment: function(uid) {
+                var comment;
+                if (this.groupCollectionFilter.length !== 0) {
+                    comment = this.findVisibleCommentInGroup(uid);
+                } else if (this.collectionComments.length !== 0) {
+                    comment = _.findWhere(this.collectionComments, {uid: uid, hide: false});
                 }
                 return comment;
             },
@@ -992,12 +998,15 @@ define([
 
             onViewPrevComment: function() {
                 if (this.showComments && this.showComments.length > 0) {
-                    if (this.indexCurrentComment - 1 < 0) {
-                        this.indexCurrentComment = this.showComments.length - 1;
-                    } else {
-                        this.indexCurrentComment -= 1;
+                    for (var i=0; i<this.showComments.length; i++) {
+                        if (this.indexCurrentComment - 1 < 0) {
+                            this.indexCurrentComment = this.showComments.length - 1;
+                        } else {
+                            this.indexCurrentComment -= 1;
+                        }
+                        if (this.view.renderViewComments(this.showComments, this.indexCurrentComment))
+                            break;
                     }
-                    this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
                         $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
@@ -1009,12 +1018,15 @@ define([
 
             onViewNextComment: function() {
                 if (this.showComments && this.showComments.length > 0) {
-                    if (this.indexCurrentComment + 1 === this.showComments.length) {
-                        this.indexCurrentComment = 0;
-                    } else {
-                        this.indexCurrentComment += 1;
+                    for (var i=0; i<this.showComments.length; i++) {
+                        if (this.indexCurrentComment + 1 === this.showComments.length) {
+                            this.indexCurrentComment = 0;
+                        } else {
+                            this.indexCurrentComment += 1;
+                        }
+                        if (this.view.renderViewComments(this.showComments, this.indexCurrentComment))
+                            break;
                     }
-                    this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
                         $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
@@ -1135,16 +1147,18 @@ define([
                                 caption: me.textEdit,
                                 event: 'edit'
                             });
-                            if (!comment.resolved) {
-                                _menuItems.push({
-                                    caption: me.textResolve,
-                                    event: 'resolve'
-                                });
-                            } else {
-                                _menuItems.push({
-                                    caption: me.textReopen,
-                                    event: 'resolve'
-                                });
+                            if (comment.editable) {
+                                if (!comment.resolved) {
+                                    _menuItems.push({
+                                        caption: me.textResolve,
+                                        event: 'resolve'
+                                    });
+                                } else {
+                                    _menuItems.push({
+                                        caption: me.textReopen,
+                                        event: 'resolve'
+                                    });
+                                }
                             }
                             if ($('.container-collaboration').length > 0) {
                                 _menuItems.push({
@@ -1544,8 +1558,9 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
-                            removable           : this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : (this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                            hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
                         });
                     }
                 }
@@ -1574,8 +1589,9 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId),
-                    removable           : this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)
+                    editable            : (this.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                    removable           : (this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                    hide                : !AscCommon.UserInfoParser.canViewComment(username)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1611,8 +1627,9 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
-                    comment.editable = me.appConfig.canEditComments || (data.asc_getUserId() == _userId);
-                    comment.removable = me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId);
+                    comment.editable = (me.appConfig.canEditComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName());
+                    comment.removable = (me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName());
+                    comment.hide = !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName());
 
                     replies = _.clone(comment.replys);
 
@@ -1637,8 +1654,9 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
-                            removable           : me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : (me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
+                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
+                            hide                : !AscCommon.UserInfoParser.canViewComment(username)
                         });
                     }
                     comment.replys = replies;
@@ -1706,6 +1724,15 @@ define([
                     var store = this.groupCollectionComments[name];
                     var id = _.isArray(id) ? id[0] : id;
                     var model = _.findWhere(store, {uid: id});
+                    if (model) return model;
+                }
+            },
+
+            findVisibleCommentInGroup: function (id) {
+                for (var name in this.groupCollectionComments) {
+                    var store = this.groupCollectionComments[name];
+                    var id = _.isArray(id) ? id[0] : id;
+                    var model = _.findWhere(store, {uid: id, hide: false});
                     if (model) return model;
                 }
             },

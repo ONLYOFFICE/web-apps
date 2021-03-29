@@ -1206,7 +1206,7 @@ define([
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
-                    this.lblModifyBy.text(Common.Utils.UserInfoParser.getParsedName(value));
+                    this.lblModifyBy.text(AscCommon.UserInfoParser.getParsedName(value));
                 visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
                 $('tr.divider.modify', this.el)[visible?'show':'hide']();
 

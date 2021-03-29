@@ -762,10 +762,12 @@ define([
 
                 me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroups ||
                                                         me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
-                Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
-                Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
-                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
-
+                me.appOptions.canUseCommentPermissions = me.appOptions.canLicense && !!me.permissions.commentGroups;
+                AscCommon.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions || me.appOptions.canUseCommentPermissions);
+                AscCommon.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
+                me.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
+                me.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(me.permissions.commentGroups);
+                
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
@@ -1276,8 +1278,8 @@ define([
             onUserConnection: function(change){
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
-                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
-                        Common.Utils.UserInfoParser.setCurrentName(name);
+                    if (name && name !== AscCommon.UserInfoParser.getCurrentName() ) {
+                        AscCommon.UserInfoParser.setCurrentName(name);
                     }
                 }
             },

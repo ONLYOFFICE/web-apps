@@ -1081,10 +1081,12 @@ define([
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                             this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
-                    Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
-                    Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
-                    this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
+                    this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
+                    AscCommon.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
+                    AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                    this.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
+                    this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
+                    this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -2265,10 +2267,10 @@ define([
             onUserConnection: function(change){
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
-                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                    if (name && name !== AscCommon.UserInfoParser.getCurrentName() ) {
                         this._renameDialog && this._renameDialog.close();
-                        Common.Utils.UserInfoParser.setCurrentName(name);
-                        this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+                        AscCommon.UserInfoParser.setCurrentName(name);
+                        this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(name));
 
                         var idx1 = name.lastIndexOf('('),
                             idx2 = name.lastIndexOf(')'),

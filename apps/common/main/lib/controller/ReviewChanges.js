@@ -464,7 +464,7 @@ define([
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
                         goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
-                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || me.checkUserGroups(item.get_UserName()))
+                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()))
                     });
 
                 arr.push(change);
@@ -472,15 +472,10 @@ define([
             return arr;
         },
 
-        checkUserGroups: function(username) {
-            var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-            return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
-        },
-
         getUserName: function(id){
             if (this.userCollection && id!==null){
                 var rec = this.userCollection.findUser(id);
-                if (rec) return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                if (rec) return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return '';
         },
@@ -581,7 +576,7 @@ define([
                 this.view.turnChanges(state, global);
                 if (userId && this.userCollection) {
                     var rec = this.userCollection.findOriginalUser(userId);
-                    rec && this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, Common.Utils.UserInfoParser.getParsedName(rec.get('username'))));
+                    rec && this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, AscCommon.UserInfoParser.getParsedName(rec.get('username'))));
                 }
             }
         },

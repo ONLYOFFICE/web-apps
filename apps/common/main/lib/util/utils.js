@@ -724,7 +724,7 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
-    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
+    _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
     _user.guest = _.isEmpty(_user.name);
     return _user;
 };
@@ -982,12 +982,42 @@ Common.Utils.UserInfoParser = new(function() {
     var parse = false,
         separator = String.fromCharCode(160),
         username = '',
-        usergroups,
-        reviewPermissions,
-        reviewGroups;
+        _reviewPermissions,
+        reviewGroups,
+        commentGroups;
+
+    var _intersection = function (arr1, arr2) {
+        if (arr1 && arr2) {
+            for (var i=0; i<arr2.length; i++) {
+                if (arr1.indexOf(arr2[i])>-1)
+                    return true;
+            }
+        }
+        return false;
+    };
+
+    var _getParsedGroups = function(username) {
+        if (parse && username) {
+            var idx = username.indexOf(separator),
+                groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+            for (var i=0; i<groups.length; i++)
+                groups[i] = groups[i].trim();
+            return groups;
+        }
+    };
+
     return {
         setParser: function(value) {
             parse = !!value;
+        },
+
+        setCurrentName: function(name) {
+            username = name;
+            _reviewPermissions && this.setReviewPermissions(null, _reviewPermissions); // old version of review permissions
+        },
+
+        getCurrentName: function() {
+            return username;
         },
 
         getSeparator: function() {
@@ -995,51 +1025,65 @@ Common.Utils.UserInfoParser = new(function() {
         },
 
         getParsedName: function(username) {
-            if (parse && username) {
-                return username.substring(username.indexOf(separator)+1);
-            } else
-                return username;
-        },
-
-        getParsedGroups: function(username) {
-            if (parse && username) {
-                var idx = username.indexOf(separator),
-                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
-                for (var i=0; i<groups.length; i++)
-                    groups[i] = groups[i].trim();
-                return groups;
-            } else
-                return undefined;
-        },
-
-        setCurrentName: function(name) {
-            username = name;
-            this.setReviewPermissions(reviewGroups, reviewPermissions);
-        },
-
-        getCurrentName: function() {
-            return username;
+            return (parse && username) ? username.substring(username.indexOf(separator)+1) : username;
         },
 
         setReviewPermissions: function(groups, permissions) {
             if (groups) {
                 if  (typeof groups == 'object' && groups.length>0)
-                    usergroups = groups;
-                reviewGroups = groups;
-            } else if (permissions) {
+                    reviewGroups = groups;
+            } else if (permissions) { // old version of review permissions
                 var arr = [],
-                    arrgroups  =  this.getParsedGroups(username);
+                    arrgroups  =  _getParsedGroups(username);
                 arrgroups && arrgroups.forEach(function(group) {
                     var item = permissions[group.trim()];
                     item && (arr = arr.concat(item));
                 });
-                usergroups = arr;
-                reviewPermissions = permissions;
+                reviewGroups = arr;
+                _reviewPermissions = permissions;
             }
         },
 
-        getCurrentGroups: function() {
-            return usergroups;
+        setCommentPermissions: function(groups) {
+            if (groups && typeof groups == 'object') {
+                commentGroups = {
+                    view: (typeof groups.view == 'object' && groups.view.length>0) ? groups.view : null,
+                    edit: (typeof groups.edit == 'object' && groups.edit.length>0) ? groups.edit : null,
+                    remove: (typeof groups.remove == 'object' && groups.remove.length>0) ? groups.remove : null
+                };
+            }
+        },
+
+        canEditReview: function(username) {
+            if (!parse || !reviewGroups) return true;
+
+            var groups = _getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(reviewGroups, groups);
+        },
+
+        canViewComment: function(username) {
+            if (!parse || !commentGroups || !commentGroups.view) return true;
+
+            var groups = _getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.view, groups);
+        },
+
+        canEditComment: function(username) {
+            if (!parse || !commentGroups || !commentGroups.edit) return true;
+
+            var groups = _getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.edit, groups);
+        },
+
+        canDeleteComment: function(username) {
+            if (!parse || !commentGroups || !commentGroups.remove) return true;
+
+            var groups = _getParsedGroups(username);
+            groups && (groups.length==0) && (groups = [""]);
+            return _intersection(commentGroups.remove, groups);
         }
     }
 })();
