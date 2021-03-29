@@ -70,7 +70,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         const sheets_count = api.asc_getWorksheetsCount();
         const active_index = api.asc_getActiveWorksheetIndex();
 
-        let i = -1, items = [], hiddentems = [];
+        let i = -1, items = [];
 
         while (++i < sheets_count) {
             const tab = {
@@ -82,13 +82,11 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
                 color       : api.asc_getWorksheetTabColor(i)
             };
 
-            (api.asc_isWorksheetHidden(i) ? hiddentems : items).push(tab);
-            // items.push(tab);
+            // (api.asc_isWorksheetHidden(i) ? hiddentems : items).push(tab);
+            items.push(tab);
         }
 
         sheets.resetSheets(items);
-        sheets.resetHiddenSheets(hiddentems);
-    
         updateTabsColors();
     };
 
@@ -107,6 +105,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     };
 
     const setTabLineColor = (tab, color) => {
+        console.log(tab);
         if (tab) {
             if (null !== color) {
                 color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -121,9 +120,9 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
                     color = '0px 4px 0 ' + color + ' inset';
                 }
                 
-                $$('.sheet-tabs .tab').eq(tab.index).css('box-shadow', color);
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
             } else {
-                $$('.sheet-tabs .tab').eq(tab.index).css('box-shadow', '');
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
             }
         }
     };

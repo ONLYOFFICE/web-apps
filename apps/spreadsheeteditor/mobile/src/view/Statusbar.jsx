@@ -14,7 +14,7 @@ const StatusbarView = inject('sheets')(observer(props => {
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
     const { sheets } = props;
-    const hiddenSheets = sheets.hiddensheets;
+    const hiddenSheets = sheets.hiddenWorksheets();
     const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
     // const $boxTabs = $$('.sheet-tabs');
     // const $statusBar = $$('.statusbar');
