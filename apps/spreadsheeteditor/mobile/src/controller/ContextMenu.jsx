@@ -12,7 +12,8 @@ import { Device } from '../../../../common/mobile/utils/device';
     isEdit: stores.storeAppOptions.isEdit,
     canViewComments: stores.storeAppOptions.canViewComments,
     users: stores.users,
-    isDisconnected: stores.users.isDisconnected
+    isDisconnected: stores.users.isDisconnected,
+    storeSheets: stores.sheets
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -129,7 +130,16 @@ class ContextMenu extends ContextMenuController {
                     const nameSheet = linkinfo.asc_getSheet();
                     const curActiveSheet = api.asc_getActiveWorksheetIndex();
                     api.asc_setWorksheetRange(linkinfo);
-                    //SSE.getController('Statusbar').onLinkWorksheetRange(nameSheet, curActiveSheet);
+                    const {storeSheets} = this.props;
+                    const tab = storeSheets.sheets.find((sheet) => sheet.name === nameSheet);
+                    if (tab) {
+                        const sdkIndex = tab.index;
+                        if (sdkIndex !== curActiveSheet) {
+                            const index = storeSheets.sheets.indexOf(tab);
+                            storeSheets.setActiveWorksheet(index);
+                            Common.Notifications.trigger('sheet:active', sdkIndex);
+                        }
+                    }
                 } else {
                     const url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
                     api.asc_getUrlType(url) > 0 && this.openLink(url);
