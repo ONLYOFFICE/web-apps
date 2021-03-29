@@ -10,6 +10,7 @@ export class storeAppOptions {
         });
     }
 
+    isEdit = false;
     config = {};
 
     isEdit = false;

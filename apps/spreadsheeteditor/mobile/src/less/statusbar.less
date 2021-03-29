@@ -6,7 +6,6 @@
     height: @statusbar-height;
     min-height: @statusbar-height;
     background-color: @background-normal;
-
     display: flex;
 
     .tab {
@@ -26,13 +25,23 @@
     }
 
     .statusbar--box-tabs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        &::-webkit-scrollbar {
+            -webkit-appearance: none;
+            display: none;
+            // width: 0;
+            // height: 0;
+        }
         > ul {
             padding: 0;
             margin: 0;
             height: 100%;
             white-space: pre;
-            overflow: hidden;
-
+            // overflow: hidden;
+            // position: absolute;
+            // left: 0;
+            // top: 0;
             > li {
                 a {
                     font-size: 12px;

@@ -21,18 +21,26 @@ class Worksheet {
 
 export class storeWorksheets {
     sheets;
+    hiddensheets;
 
     constructor() {
         makeObservable(this, {
             sheets: observable,
-            reset: action,
+            hiddensheets: observable,
+            resetSheets: action,
+            resetHiddenSheets: action,
             setActiveWorksheet: action
         });
         this.sheets = [];
+        this.hiddensheets = [];
     }
 
-    reset(sheets) {
+    resetSheets(sheets) {
         this.sheets = Object.values(sheets)
+    }
+
+    resetHiddenSheets(hiddensheets) {
+        this.hiddensheets = Object.values(hiddensheets)
     }
 
     setActiveWorksheet(i) {
@@ -56,5 +64,9 @@ export class storeWorksheets {
 
     hiddenWorksheets() {
         return this.sheets.filter(model => model.hidden);
+    }
+
+    visibleWorksheets() {
+        return this.sheets.filter(model => !model.hidden);
     }
 }

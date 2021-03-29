@@ -10,6 +10,7 @@ import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
 import { Device } from '../../../../common/mobile/utils/device';
 import { Search, SearchSettings } from '../controller/Search';
+import { f7 } from 'framework7-react';
 
 import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
@@ -27,6 +28,8 @@ export default class MainPage extends Component {
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
+        f7.popover.close('.document-menu.modal-in', false);
+
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
