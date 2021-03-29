@@ -1715,6 +1715,10 @@
 		"a": "( lookup-value  ,  table-array  ,  col-index-num  [  ,  [  range-lookup-flag  ] ] )",
 		"d": "Lookup and reference function used to perform the vertical search for a value in the left-most column of a table or an array and return the value in the same row based on a specified column index number"
 	},
+	"XLOOKUP": {
+		"a": "( lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode] )",
+		"d": "Lookup and reference function used to search a range or an array, and then return the item corresponding to the first match it finds; if no match exists, then XLOOKUP can return the closest (approximate) match"
+	},
 	"CELL": {
 		"a": "(info_type, [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
