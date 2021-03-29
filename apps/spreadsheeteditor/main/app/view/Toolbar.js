@@ -725,7 +725,7 @@ define([
                 me.btnInsertSparkline = new Common.UI.Button({
                     id          : 'tlbtn-insertsparkline',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-insert-sparkline',
+                    iconCls     : 'toolbar__icon btn-sparkline',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot],
                     caption     : me.capInsertSpark,
                     menu        : true
