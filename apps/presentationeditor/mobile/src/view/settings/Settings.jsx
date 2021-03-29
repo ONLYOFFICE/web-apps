@@ -9,7 +9,8 @@ import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
 import { PresentationColorSchemes } from "./PresentationSettings";
-import PresentationAboutController from '../../controller/settings/PresentationAbout';
+// import PresentationAboutController from '../../controller/settings/PresentationAbout';
+import About from '../../../../../common/mobile/lib/view/About';
 
 const routes = [
     {
@@ -42,7 +43,7 @@ const routes = [
     },
     {
         path: '/about/',
-        component: PresentationAboutController
+        component: About
     }
     /*{
         path: '/presentation-settings/',

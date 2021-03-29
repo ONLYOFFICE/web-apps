@@ -9,7 +9,8 @@ import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo
 import {DownloadWithTranslation} from '../../controller/settings/Download.jsx';
 import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from './SpreadsheetSettings.jsx';
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
-import SpreadsheetAbout from './SpreadsheetAbout.jsx';
+// import SpreadsheetAbout from './SpreadsheetAbout.jsx';
+import About from '../../../../../common/mobile/lib/view/About';
 
 const routes = [
     {
@@ -57,8 +58,8 @@ const routes = [
         component: SpreadsheetInfoController
     },
     {
-        path: '/spreadsheet-about/',
-        component: SpreadsheetAbout
+        path: '/about/',
+        component: About
     }
 ];
 
@@ -137,7 +138,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textHelp} link="#" onClick={showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/spreadsheet-about/")}>
+                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>
                 </List>
