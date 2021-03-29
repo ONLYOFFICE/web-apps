@@ -126,6 +126,10 @@ if (Common === undefined) {
 
             'setFavorite': function(data) {
                 $me.trigger('setfavorite', data);
+            },
+
+            'requestClose': function(data) {
+                $me.trigger('requestclose', data);
             }
         };
 

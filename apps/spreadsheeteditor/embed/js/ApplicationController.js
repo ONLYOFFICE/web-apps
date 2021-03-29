@@ -210,6 +210,7 @@ SSE.ApplicationController = new(function(){
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('requestclose',       onRequestClose);
 
         SSE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -497,6 +498,10 @@ SSE.ApplicationController = new(function(){
                 api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
             }
         }
+    }
+
+    function onRequestClose() {
+        Common.Gateway.requestClose();
     }
 
     function onDownloadAs() {

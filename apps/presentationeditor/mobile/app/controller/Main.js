@@ -351,6 +351,10 @@ define([
                 this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
             },
 
+            onRequestClose: function() {
+                Common.Gateway.requestClose();
+            },
+
             goBack: function(current) {
                 if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
                     Common.Gateway.requestClose();
@@ -579,6 +583,7 @@ define([
                 Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
 
                 Common.Gateway.sendInfo({
                     mode: me.appOptions.isEdit ? 'edit' : 'view'

@@ -706,32 +706,36 @@ define([
                 app.getController('Viewport').SetDisabled(disable);
             },
 
+            onRequestClose: function() {
+                var me = this;
+                if (this.api.isDocumentModified()) {
+                    this.api.asc_stopSaving();
+                    Common.UI.warning({
+                        closable: false,
+                        width: 500,
+                        title: this.notcriticalErrorTitle,
+                        msg: this.leavePageTextOnClose,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_undoAllChanges();
+                                Common.Gateway.requestClose();
+                                // Common.Controllers.Desktop.requestClose();
+                            } else
+                                me.api.asc_continueSaving();
+                        }
+                    });
+                } else {
+                    Common.Gateway.requestClose();
+                    // Common.Controllers.Desktop.requestClose();
+                }
+            },
+
             goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
-                        if (this.api.isDocumentModified()) {
-                            var me = this;
-                            this.api.asc_stopSaving();
-                            Common.UI.warning({
-                                closable: false,
-                                width: 500,
-                                title: this.notcriticalErrorTitle,
-                                msg: this.leavePageTextOnClose,
-                                buttons: ['ok', 'cancel'],
-                                primary: 'ok',
-                                callback: function(btn) {
-                                    if (btn == 'ok') {
-                                        me.api.asc_undoAllChanges();
-                                        Common.Gateway.requestClose();
-                                        // Common.Controllers.Desktop.requestClose();
-                                    } else
-                                        me.api.asc_continueSaving();
-                                }
-                            });
-                        } else {
-                            Common.Gateway.requestClose();
-                            // Common.Controllers.Desktop.requestClose();
-                        }
+                        this.onRequestClose();
                     } else {
                         var href = this.appOptions.customization.goback.url;
                         if (!current && this.appOptions.customization.goback.blank!==false) {
@@ -1167,6 +1171,7 @@ define([
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
+                Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 

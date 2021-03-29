@@ -657,6 +657,13 @@
             });
         };
 
+        var _requestClose = function(data) {
+            _sendCommand({
+                command: 'requestClose',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -703,7 +710,8 @@
             insertImage         : _insertImage,
             setMailMergeRecipients: _setMailMergeRecipients,
             setRevisedFile      : _setRevisedFile,
-            setFavorite         : _setFavorite
+            setFavorite         : _setFavorite,
+            requestClose        : _requestClose
         }
     };
 
