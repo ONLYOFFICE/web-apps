@@ -292,6 +292,7 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.btnMultilevels.menu.on('show:after',                _.bind(this.onMultilevelsShowAfter, this));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
@@ -1352,6 +1353,17 @@ define([
             if (this.api)
                 this.api.asc_ChangeTextCase(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMultilevelsShowAfter: function(menu) {
+            var store = this.toolbar.mnuMultilevelPicker.store;
+            var arr = [];
+            store.each(function(item){
+                arr.push(item.get('id'));
+            });
+            if (this.api) {
+                this.api.SetDrawImagePreviewBulletForMenu(arr, 2);
+            }
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
