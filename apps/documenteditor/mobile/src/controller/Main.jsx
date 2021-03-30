@@ -124,13 +124,13 @@ class MainController extends Component {
 
                 // Common.SharedSettings.set('document', data.doc);
 
-                // if (data.doc) {
-                //     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
-                //     if (data.doc.info) {
-                //         data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                //         data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-                //     }
-                // }
+                if (data.doc) {
+                    Common.Notifications.trigger('setdoctitle', data.doc.title);
+                    if (data.doc.info) {
+                       data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                       data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                   }
+                }
             };
 
             const onEditorPermissions = params => {

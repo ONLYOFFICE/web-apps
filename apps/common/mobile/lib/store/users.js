@@ -1,5 +1,5 @@
 
-import {makeObservable, observable, action} from 'mobx';
+import {makeObservable, observable, action, computed} from 'mobx';
 
 export class storeUsers {
     constructor() {
@@ -10,7 +10,8 @@ export class storeUsers {
             setCurrentUser: action,
             connection: action,
             isDisconnected: observable,
-            resetDisconnected: action
+            resetDisconnected: action,
+            hasEditUsers: computed
         })
     }
 
@@ -79,5 +80,15 @@ export class storeUsers {
             }
         });
         return user;
+    }
+
+    get hasEditUsers () {
+        let length = 0;
+        this.users.forEach((item) => {
+            if ((item.asc_getState()!==false) && !item.asc_getView()) {
+                length++;
+            }
+        });
+        return (length >= 1);
     }
 }
