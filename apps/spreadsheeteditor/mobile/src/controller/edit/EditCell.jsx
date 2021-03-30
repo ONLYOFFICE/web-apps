@@ -47,7 +47,7 @@ class EditCellController extends Component {
         if (isDecrement) {
             typeof size === 'undefined' ? api.asc_decreaseFontSize() : size = Math.max(1, --size);
         } else {
-            typeof size === 'undefined' ? api.asc_increaseFontSize() : size = Math.min(100, ++size);
+            typeof size === 'undefined' ? api.asc_increaseFontSize() : size = Math.min(409, ++size);
         }
 
         if (typeof size !== 'undefined') {
