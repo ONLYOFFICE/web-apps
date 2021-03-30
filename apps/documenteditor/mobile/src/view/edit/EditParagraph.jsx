@@ -138,7 +138,7 @@ const PageBackgroundColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-paragraph-custom-color/');
+            props.f7router.navigate('/edit-paragraph-custom-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
         }
     };
     return(

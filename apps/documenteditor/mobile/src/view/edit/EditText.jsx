@@ -258,7 +258,7 @@ const PageFontColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-text-custom-font-color/');
+            props.f7router.navigate('/edit-text-custom-font-color/', {props: {onTextColor: props.onTextColor}});
         }
     };
     return(
@@ -317,7 +317,7 @@ const PageBackgroundColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-text-custom-back-color/');
+            props.f7router.navigate('/edit-text-custom-back-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
         }
     };
     return(

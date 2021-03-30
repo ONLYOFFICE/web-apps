@@ -204,7 +204,7 @@ const PageTextColorCell = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-cell-text-custom-color/');
+            props.f7router.navigate('/edit-cell-text-custom-color/', {props: {onTextColor: props.onTextColor}});
         }
     };
   
@@ -245,7 +245,7 @@ const PageFillColorCell = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-cell-fill-custom-color/');
+            props.f7router.navigate('/edit-cell-fill-custom-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
   
@@ -572,7 +572,7 @@ const PageBorderColorCell = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-border-custom-color-cell/');
+            props.f7router.navigate('/edit-border-custom-color-cell/', {props: {onBorderStyle: props.onBorderStyle}});
         }
     };
   

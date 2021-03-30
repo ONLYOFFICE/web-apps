@@ -49,7 +49,7 @@ const PaletteFill = inject("storeFocusObjects", "storeChartSettings", "storePale
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-chart-custom-fill-color/');
+            props.f7router.navigate('/edit-chart-custom-fill-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
 
@@ -109,7 +109,7 @@ const PageBorderColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-chart-custom-border-color/');
+            props.f7router.navigate('/edit-chart-custom-border-color/', {props: {onBorderColor: props.onBorderColor}});
         }
     };
 
@@ -208,7 +208,7 @@ const PageStyle = props => {
                     </div>
                 </Tab>
                 <Tab key={"sse-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">
-                    <PaletteFill onFillColor={props.onFillColor}/>
+                    <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
                 </Tab>
                 <Tab key={"sse-tab-chart-border"} id={"edit-chart-border"} className="page-content no-padding-top">
                     <List>

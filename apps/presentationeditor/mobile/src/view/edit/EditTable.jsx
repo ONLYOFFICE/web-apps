@@ -125,7 +125,7 @@ const TabFillColor = inject("storeFocusObjects", "storeTableSettings", "storePal
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-table-custom-fill-color/');
+            props.f7router.navigate('/edit-table-custom-fill-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
 
@@ -309,7 +309,7 @@ const PageStyle = props => {
                     </List>
                 </Tab>
                 <Tab key={"pe-tab-table-fill"} id={"edit-table-fill"} className="page-content no-padding-top">
-                    <TabFillColor onFillColor={props.onFillColor}/>
+                    <TabFillColor onFillColor={props.onFillColor} f7router={props.f7router}/>
                 </Tab>
                 <Tab key={"pe-tab-table-border"} id={"edit-table-border"} className="page-content no-padding-top">
                     <TabBorder onBorderTypeClick={props.onBorderTypeClick}/>

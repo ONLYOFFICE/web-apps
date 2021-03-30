@@ -250,7 +250,7 @@ const TabFillColor = inject("storeFocusObjects", "storeTableSettings", "storePal
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-table-custom-fill-color/');
+            props.f7router.navigate('/edit-table-custom-fill-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
     return(

@@ -45,7 +45,7 @@ const PaletteFill = inject("storeFocusObjects", "storeShapeSettings", "storePale
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-shape-custom-fill-color/');
+            props.f7router.navigate('/edit-shape-custom-fill-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
     return(
@@ -98,7 +98,7 @@ const PageBorderColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-shape-custom-border-color/');
+            props.f7router.navigate('/edit-shape-custom-border-color/', {props: {onBorderColor: props.onBorderColor}});
         }
     };
     return(
@@ -150,7 +150,7 @@ const PageStyle = props => {
             </Navbar>
             <Tabs animated>
                 <Tab key={"de-tab-shape-fill"} id={"edit-shape-fill"} className="page-content no-padding-top" tabActive={true}>
-                    <PaletteFill onFillColor={props.onFillColor}/>
+                    <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router} />
                 </Tab>
                 <Tab key={"de-tab-shape-border"} id={"edit-shape-border"} className="page-content no-padding-top">
                     <List>

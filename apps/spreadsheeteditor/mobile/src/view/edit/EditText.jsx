@@ -178,7 +178,7 @@ const PageFontColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-text-custom-font-color/');
+            props.f7router.navigate('/edit-text-custom-font-color/', {props: {onTextColor: props.onTextColor}});
         }
     };
 

@@ -397,7 +397,7 @@ const PageFillColor = props => {
             }
         } else {
             // open custom color menu
-            props.f7router.navigate('/edit-custom-color/');
+            props.f7router.navigate('/edit-custom-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
   
