@@ -712,6 +712,7 @@
   "PE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "PE.Controllers.Main.txtErrorLoadHistory": "History loading failed",
+  "PE.Controllers.Main.leavePageTextOnClose": "All unsaved changes in this presentation will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.textAccent": "Accents",

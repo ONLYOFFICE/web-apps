@@ -486,12 +486,38 @@ define([
                 }
             },
 
+            onRequestClose: function() {
+                var me = this;
+                if (this.api.isDocumentModified()) {
+                    this.api.asc_stopSaving();
+                    Common.UI.warning({
+                        closable: false,
+                        width: 500,
+                        title: this.notcriticalErrorTitle,
+                        msg: this.leavePageTextOnClose,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_undoAllChanges();
+                                me.api.asc_continueSaving();
+                                Common.Gateway.requestClose();
+                                // Common.Controllers.Desktop.requestClose();
+                            } else
+                                me.api.asc_continueSaving();
+                        }
+                    });
+                } else {
+                    Common.Gateway.requestClose();
+                    // Common.Controllers.Desktop.requestClose();
+                }
+            },
+
             goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose) {
-                        Common.Gateway.requestClose();
-                        // Common.Controllers.Desktop.requestClose();
+                        me.onRequestClose();
                     } else {
                         var href = me.appOptions.customization.goback.url;
                         if (!current && me.appOptions.customization.goback.blank!==false) {
@@ -871,7 +897,7 @@ define([
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
-                
+                Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
@@ -2648,7 +2674,8 @@ define([
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
-            txtErrorLoadHistory: 'Loading history failed'
+            txtErrorLoadHistory: 'Loading history failed',
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
         }
     })(), PE.Controllers.Main || {}))
 });
