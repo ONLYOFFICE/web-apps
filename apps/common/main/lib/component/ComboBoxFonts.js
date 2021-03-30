@@ -64,8 +64,9 @@ define([
             applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
         if (typeof window['AscDesktopEditor'] === 'object') {
-            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite();
-            thumbs[1].path = thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite(true);
+            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite('');
+            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
+            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
