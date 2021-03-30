@@ -893,9 +893,9 @@ define([
 
                     me.listTheme = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
-                        itemWidth: 85,
+                        itemWidth: 88,
                         enableKeyEvents: true,
-                        itemHeight: 38,
+                        itemHeight: 40,
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                         beforeOpenHandler: function (e) {
                             var cmp = this,
