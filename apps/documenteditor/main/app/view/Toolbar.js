@@ -1757,9 +1757,9 @@ define([
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 90px',
+                        style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 177px; margin: 0 9px;"></div>')},
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
@@ -1897,12 +1897,12 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 2, subtype: -1}},
-                        {offsety: 304, data: {type: 2, subtype: 1}},
-                        {offsety: 342, data: {type: 2, subtype: 2}},
-                        {offsety: 380, data: {type: 2, subtype: 3}}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist" style=""></div>')
                 });
                 _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
