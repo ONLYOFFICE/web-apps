@@ -1931,7 +1931,7 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        { template: _.template('<div id="id-docholder-menu-changetheme" style="width: 280px; margin: 0 4px;"></div>') }
+                        { template: _.template('<div id="id-docholder-menu-changetheme" style="width: 289px; margin: 0 4px;"></div>') }
                     ]
                 })
             });

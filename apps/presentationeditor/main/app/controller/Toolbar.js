@@ -2280,13 +2280,13 @@ define([
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
                         tip     : tip,
-                        offsety     : index * 38
+                        offsety     : index * 40
                     }));
                     arr2.push({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
                         tip     : tip,
-                        offsety     : index * 38
+                        offsety     : index * 40
                     });
                 });
                 _.each(docThemes, function(theme) {
