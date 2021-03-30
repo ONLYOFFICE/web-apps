@@ -10,7 +10,6 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     const {sheets, storeAppOptions, users} = props;
     const {t} = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
-    // console.log(props);
 
     let isEdit = storeAppOptions.isEdit;
     let isDisconnected = users.isDisconnected;
@@ -18,7 +17,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
-            api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
+            // api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
@@ -44,7 +43,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             Common.Notifications.off('document:ready', onApiSheetsChanged);
 
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
+            // api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_unregisterCallback('asc_onWorkbookLocked', onWorkbookLocked);
             api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_unregisterCallback('asc_onSheetsChanged', onApiSheetsChanged);
@@ -63,7 +62,8 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     };
 
     const onWorksheetLocked = (index, locked) => {
-        let model = sheets.sheets.find(sheet => sheet.index === index);
+        // let model = sheets.sheets.find(sheet => sheet.index === index);
+        let model = sheets.at(index);
         if(model && model.locked != locked)
             model.locked = locked;
     };
@@ -87,58 +87,57 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
                 color       : api.asc_getWorksheetTabColor(i)
             };
 
-            // (api.asc_isWorksheetHidden(i) ? hiddentems : items).push(tab);
             items.push(tab);
         }
 
         sheets.resetSheets(items);
-        updateTabsColors();
+        // updateTabsColors();
     };
 
-    const loadTabColor = sheetindex => {
-        const api = Common.EditorApi.get();
-        let tab = sheets.sheets.find(sheet => sheet.index === sheetindex);
+    // const loadTabColor = sheetindex => {
+    //     const api = Common.EditorApi.get();
+    //     let tab = sheets.sheets.find(sheet => sheet.index === sheetindex);
 
-        if (tab) {
-            setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
-        }
+    //     if (tab) {
+    //         setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
+    //     }
         
-    };
+    // };
 
-    const onApiUpdateTabColor = index => {
-        loadTabColor(index);
-    };
+    // const onApiUpdateTabColor = index => {
+    //     loadTabColor(index);
+    // };
 
-    const setTabLineColor = (tab, color) => {
-        console.log(tab);
-        if (tab) {
-            if (null !== color) {
-                color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-            } else {
-                color = '';
-            }
+    // const setTabLineColor = (tab, color) => {
+    //     console.log(color);
+    //     if (tab) {
+    //         if (null !== color) {
+    //             color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+    //         } else {
+    //             color = '';
+    //         }
 
-            if (color.length) {
-                if (!tab.active) {
-                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
-                } else {
-                    color = '0px 4px 0 ' + color + ' inset';
-                }
+    //         if (color.length) {
+    //             if (!tab.active) {
+    //                 color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+    //             } else {
+    //                 color = '0px 4px 0 ' + color + ' inset';
+    //             }
                 
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
-            } else {
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
-            }
-        }
-    };
+    //             $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
+    //         } else {
+    //             $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
+    //         }
+    //     }
+    // };
 
-    const updateTabsColors = () => {
-        const api = Common.EditorApi.get();
+    // const updateTabsColors = () => {
+    //     const api = Common.EditorApi.get();
 
-        sheets.sheets.forEach(model => {
-            setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
-        });
-    };
+    //     sheets.sheets.forEach(model => {
+    //         setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
+    //     });
+    // };
 
     const onTabClicked = i => {
         const model = sheets.at(i);
@@ -195,7 +194,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         } else {
             f7.popover.close('#idx-tab-context-menu-popover', false);
             onTabClicked(i);
-            Common.Notifications.trigger('sheet:active', index);
+            // Common.Notifications.trigger('sheet:active', index);
         }
     };
 
@@ -305,7 +304,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         } else {
             f7.popover.close('#idx-hidden-sheets-popover');
             api['asc_showWorksheet'](index);
-            loadTabColor(index);
+            // loadTabColor(index);
         }
     };
 
