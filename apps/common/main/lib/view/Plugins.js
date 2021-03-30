@@ -250,6 +250,7 @@ define([
                 var _btn = model.get('button');
                 if (_btn) {
                     _btn.toggle(true);
+                    this.updatePluginButton(model);
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStop);
                     }
@@ -265,6 +266,7 @@ define([
                 var _btn = model.get('button');
                 if (_btn) {
                     _btn.toggle(false);
+                    this.updatePluginButton(model);
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStart);
                     }
@@ -304,8 +306,8 @@ define([
                     current = icons[idx],
                     bestDistance = 10000,
                     currentDistance = 0,
-                    defUrl = '',
-                    bestUrl = '';
+                    defUrl,
+                    bestUrl;
                 for (var key in current) {
                     if (current.hasOwnProperty(key)) {
                         if (key=='default') {
@@ -315,27 +317,44 @@ define([
                             if (currentDistance < (bestDistance - 0.01))
                             {
                                 bestDistance = currentDistance;
-                                bestUrl = current[key]['normal'];
+                                bestUrl = current[key];
                             }
                         }
                     }
                 }
                 (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
-                return bestUrl;
+                return {
+                    'normal': bestUrl['normal'],
+                    'hover': bestUrl['hover'] || bestUrl['normal'],
+                    'active': bestUrl['active'] || bestUrl['normal']
+                };
             } else { // old version
-                return icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)]
+                var url = icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+                return {
+                    'normal': url,
+                    'hover': url,
+                    'active': url
+                };
             }
+        },
+
+        updatePluginIcons: function(model) {
+            if (!model.get('visible'))
+                return null;
+
+            var modes = model.get('variations'),
+                icons = modes[model.get('currentVariation')].get('icons');
+            model.set('parsedIcons', this.parseIcons(icons));
+            this.updatePluginButton(model);
         },
 
         updatePluginButton: function(model) {
             if (!model.get('visible'))
                 return null;
 
-            var modes = model.get('variations'),
-                icons = modes[model.get('currentVariation')].get('icons'),
-                btn = model.get('button');
+            var btn = model.get('button');
             if (btn && btn.cmpEl) {
-                btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + this.parseIcons(icons));
+                btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
             }
         },
 
@@ -348,7 +367,9 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                icon_url = model.get('baseUrl') + this.parseIcons(icons);
+                parsedIcons = this.parseIcons(icons),
+                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+            model.set('parsedIcons', parsedIcons);
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
                 if (variation.get('visible'))

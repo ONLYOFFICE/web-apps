@@ -289,7 +289,7 @@ define([
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 me = this;
             storePlugins.each(function(item){
-                me.panelPlugins.updatePluginButton(item);
+                me.panelPlugins.updatePluginIcons(item);
             });
         },
 
