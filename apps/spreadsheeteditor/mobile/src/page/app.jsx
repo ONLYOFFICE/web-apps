@@ -34,9 +34,8 @@ export default class extends React.Component {
         return (
             <App { ...f7params } >
                 {/* Your main view, should have "view-main" class */}
-                <View main className="safe-areas" url="/">
-                    <MainController />
-                </View>
+                <View main className="safe-areas" url="/" />
+                <MainController />
             </App>
         )
     }

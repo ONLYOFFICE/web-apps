@@ -15,6 +15,7 @@ import {storeAppOptions} from "./appOptions";
 // import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeSpreadsheetSettings} from "./spreadsheetSettings";
+import {storeComments} from "../../../../common/mobile/lib/store/comments";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
@@ -30,8 +31,9 @@ export const stores = {
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),
     storePalette: new storePalette(),
-    storeCellSettings: new storeCellSettings()
+    storeCellSettings: new storeCellSettings(),
     // storeImageSettings: new storeImageSettings(),
     // storeTableSettings: new storeTableSettings()
+    storeComments: new storeComments()
 };
 

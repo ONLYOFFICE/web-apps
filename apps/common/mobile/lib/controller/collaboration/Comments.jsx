@@ -60,12 +60,12 @@ class CommentsController extends Component {
             api.asc_registerCallback('asc_onChangeCommentData', this.changeCommentData.bind(this));
             api.asc_registerCallback('asc_onShowComment', this.changeShowComments.bind(this));
             api.asc_registerCallback('asc_onHideComment', this.hideComments.bind(this));
-        });
 
-        Common.Notifications.on('comments:filterchange', this.onFilterChange.bind(this)); // for sse
-
-        Common.Notifications.on('configOptionsFill', () => {
-            this.curUserId = this.appOptions.user.id;
+            if (window.editorType === 'sse') {
+                api.asc_registerCallback('asc_onActiveSheetChanged', this.onApiActiveSheetChanged.bind(this));
+                Common.Notifications.on('comments:filterchange', this.onFilterChange.bind(this));
+                Common.Notifications.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
+            }
         });
 
         Common.Notifications.on('document:ready', () => {
@@ -77,7 +77,12 @@ class CommentsController extends Component {
                 isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
                 /** coauthoring end **/
             }
+
+            this.curUserId = this.props.users.currentUser.asc_getIdOriginal();
         });
+    }
+    onApiActiveSheetChanged (index) {
+        this.onFilterChange(['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)]);
     }
     addComment (id, data) {
         const comment = this.readSDKComment(id, data);
@@ -238,6 +243,9 @@ class AddCommentController extends Component {
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
+        if (!this.currentUser) {
+            this.currentUser = this.props.users.setCurrentUser(this.props.storeAppOptions.user.id);
+        }
         const name = this.currentUser.asc_getUserName();
         return {
             name: name,
@@ -264,10 +272,7 @@ class AddCommentController extends Component {
             !!comment.asc_putDocumentFlag && comment.asc_putDocumentFlag(documentFlag);
 
             api.asc_addComment(comment);
-
-            return true;
         }
-        return false;
     }
     render() {
         return(
@@ -308,10 +313,10 @@ class EditCommentController extends Component {
                 ascComment.asc_putDocumentFlag(comment.unattached);
             }
 
-            var reply = comment.replies;
+            const reply = comment.replies;
             if (reply && reply.length > 0) {
                 reply.forEach((reply) => {
-                    var addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    const addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
                     if (addReply) {
                         addReply.asc_putText(reply.reply);
                         addReply.asc_putTime(utcDateToString(new Date(reply.time)));

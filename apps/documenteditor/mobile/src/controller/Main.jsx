@@ -13,6 +13,8 @@ import {
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 
+import patch from '../lib/patch'
+
 @inject(
     "storeAppOptions",
     "storeDocumentSettings",
@@ -56,6 +58,7 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
+                patch.isSupportEditFeature();
                 console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);

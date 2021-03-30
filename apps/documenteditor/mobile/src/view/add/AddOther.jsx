@@ -4,51 +4,6 @@ import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, S
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
-const PageLink = props => {
-    const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
-
-    let display = props.getDisplayLinkText();
-    display = typeof display === 'string' ? display : '';
-
-    const [stateLink, setLink] = useState('');
-    const [stateDisplay, setDisplay] = useState(display);
-    const [stateTip, setTip] = useState('');
-    return (
-        <Page>
-            <Navbar title={_t.textAddLink} backLink={_t.textBack}></Navbar>
-            <List inlineLabels className='inputs-list'>
-                <ListInput
-                    label={_t.textLink}
-                    type="text"
-                    placeholder={_t.textLink}
-                    value={stateLink}
-                    onChange={(event) => {setLink(event.target.value)}}
-                ></ListInput>
-                <ListInput
-                    label={_t.textDisplay}
-                    type="text"
-                    placeholder={_t.textDisplay}
-                    value={stateDisplay}
-                    onChange={(event) => {setDisplay(event.target.value)}}
-                ></ListInput>
-                <ListInput
-                    label={_t.textScreenTip}
-                    type="text"
-                    placeholder={_t.textScreenTip}
-                    value={stateTip}
-                    onChange={(event) => {setTip(event.target.value)}}
-                ></ListInput>
-            </List>
-            <List>
-                <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textInsert} onClick={() => {
-                    props.onInsertLink(stateLink, stateDisplay, stateTip)
-                }}></ListButton>
-            </List>
-        </Page>
-    )
-};
-
 const PageNumber = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
@@ -240,7 +195,6 @@ const AddOther = props => {
 const AddOtherContainer = inject("storeComments")(observer(AddOther));
 
 export {AddOtherContainer as AddOther,
-        PageLink as PageAddLink,
         PageNumber as PageAddNumber,
         PageBreak as PageAddBreak,
         PageSectionBreak as PageAddSectionBreak,

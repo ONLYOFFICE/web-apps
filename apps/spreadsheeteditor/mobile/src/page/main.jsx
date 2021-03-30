@@ -10,8 +10,10 @@ import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
 import { Device } from '../../../../common/mobile/utils/device';
 import { Search, SearchSettings } from '../controller/Search';
+import { f7 } from 'framework7-react';
 
 import {FunctionGroups} from "../controller/add/AddFunction";
+import ContextMenu from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -26,6 +28,8 @@ export default class MainPage extends Component {
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
+        f7.popover.close('.document-menu.modal-in', false);
+
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
@@ -70,7 +74,7 @@ export default class MainPage extends Component {
                         <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
                         <Link id='btn-add' icon='icon-plus' href={false} onClick={e => this.handleClickToOpenOptions('add')}></Link>
                         { Device.phone ? null : <Link icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
-                        <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
+                        <Link id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
                         <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                     </NavRight>
                     <Search useSuspense={false} />
@@ -98,6 +102,7 @@ export default class MainPage extends Component {
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
+                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
             </Page>
       )
   }

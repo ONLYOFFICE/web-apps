@@ -84,6 +84,15 @@
     }
 }
 
+.about {
+    .content-block {
+        margin: 0 auto 15px;
+        a {
+            color: @black;
+        }
+    }
+}
+
 .content-block {
     margin: 32px 0;
     padding: 0 16px;
@@ -666,6 +675,22 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
     .right-text {
         margin-left: 10px;
+    }
+}
+
+.username-tip {
+    height: 20px;
+    color: @white;
+    padding: 0 10px;
+    position: absolute;
+    z-index: 900;
+    display: none;
+    pointer-events: none;
+    transition: opacity 0.1ms ease-out;
+    opacity: 0;
+    &.active {
+        display: block;
+        opacity: 1;
     }
 }
 

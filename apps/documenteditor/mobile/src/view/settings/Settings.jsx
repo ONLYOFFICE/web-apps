@@ -11,6 +11,7 @@ import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";
+import About from '../../../../../common/mobile/lib/view/About';
 
 const routes = [
     {
@@ -48,6 +49,10 @@ const routes = [
     {
         path: '/color-schemes/',
         component: DocumentColorSchemes
+    },
+    {
+        path: '/about/',
+        component: About
     }
 ];
 
@@ -176,7 +181,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                         </ListItem>
                     }
                     {_canAbout &&
-                        <ListItem title={_t.textAbout} link="#">
+                        <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                             <Icon slot="media" icon="icon-about"></Icon>
                         </ListItem>
                     }

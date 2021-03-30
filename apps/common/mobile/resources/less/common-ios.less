@@ -391,6 +391,10 @@
         }
     }
 
+    .content-block {
+        color: @blockTitleColor;
+    }
+
     .dataview, #add-table, #add-shape, #add-slide, #add-chart {
         &.page-content, .page-content {
             background-color: @white;
@@ -489,5 +493,18 @@
                 }
             }
         } 
+    }
+
+    .actions-button {
+        background: rgba(255,255,255,.95);
+    }
+    
+    .actions-button-text {
+        height: 57px;
+        line-height: 57px;
+        font-size: 20px;
+        color: @themeColor;
+        white-space: normal;
+        text-overflow: ellipsis;
     }
 }

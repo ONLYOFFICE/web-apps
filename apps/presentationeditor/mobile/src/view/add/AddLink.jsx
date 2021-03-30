@@ -103,7 +103,7 @@ const PageLink = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLink} backLink={_t.textBack}/>
+            {!props.noNavbar && <Navbar title={_t.textLink} backLink={_t.textBack}/>}
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/add-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                     changeType: changeType,
