@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { f7 } from 'framework7-react';
-import { Page, View } from 'framework7-react';
+import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { inject } from "mobx-react";
 
 import EditOptions from '../view/edit/Edit';
@@ -65,7 +65,13 @@ export default class MainPage extends Component {
       return (
           <Page name="home">
               {/* Top Navbar */}
-              <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
+              <Navbar id='editor-navbar' className='main-navbar'>
+                  <div className="main-logo"><Icon icon="icon-logo"></Icon></div>
+                  <Subnavbar>
+                    <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
+                    <Search useSuspense={false} />
+                  </Subnavbar>
+              </Navbar>
               {/* Page content */}
               <View id="editor_sdk">
             

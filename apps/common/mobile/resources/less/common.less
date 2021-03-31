@@ -8,6 +8,20 @@
 @red: #f00;
 @autoColor: @black;
 
+.navbar.main-navbar {
+    height: 26px;
+    .navbar-inner {
+        display: flex;
+        justify-content: center;
+        padding-top: 8px;
+    }
+    .navbar-bg {
+        &:before, &:after {
+            content: none;
+        }
+    }
+}
+
 .popup, .popover, .sheet-modal {
     .list {
         &:first-child {

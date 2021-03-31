@@ -6,6 +6,7 @@
     @darkGreen: #40865c;
 
     --f7-navbar-link-color: @themeColor;
+    --f7-subnavbar-link-color: @themeColor;
     --f7-navbar-text-color: @black;
     --f7-navbar-title-line-height: 44px;
     --f7-navbar-link-line-height: 44px;
@@ -30,7 +31,7 @@
         margin-left: 0;
     }
 
-    .navbar {
+    .navbar, .subnavbar {
         a.btn-doc-back {
             width: 22px;
         }
@@ -38,7 +39,7 @@
         .title {
             font-weight: 600;
         }
-        .navbar-inner {
+        .navbar-inner, .subnavbar-inner {
             z-index: auto;
         }
         .sheet-close {
