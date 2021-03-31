@@ -273,7 +273,8 @@
       "textSearch": "Search",
       "textCaseSensitive": "Case Sensitive",
       "textHighlight": "Highlight Results",
-      "textNoTextFound": "Text not Found"
+      "textNoTextFound": "Text not Found",
+      "textSelectObjectToEdit": "Select object to edit"
     }
   },
   "Common": {
