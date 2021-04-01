@@ -22,10 +22,17 @@ define([
             if ( !!window.DE ) {
                 var color_background_normal = style.getPropertyValue('--background-normal');
                 this.api.asc_setSkin({
-                    "RulerOutline": style.getPropertyValue('--border-toolbar')
-                    , "RulerMarkersFillColor": color_background_normal
-                    , "RulerMarkersFillColorOld": color_background_normal
-                    , "RulerTableColor1": color_background_normal
+                    "RulerOutline": style.getPropertyValue('--border-toolbar'),
+                    "RulerMarkersFillColor": color_background_normal,
+                    "RulerMarkersFillColorOld": color_background_normal,
+                    "RulerTableColor1": color_background_normal,
+                    "RulerLight": style.getPropertyValue("--canvas-ruler-background"),
+                    "RulerDark": style.getPropertyValue("--canvas-ruler-margins-background"),
+                    "RulerTextColor": style.getPropertyValue("--canvas-ruler-mark"),
+                    "RulerTableColor2": style.getPropertyValue("--canvas-ruler-handle-border"),
+                    "RulerTableColor2Old": style.getPropertyValue("--canvas-ruler-handle-border-disabled"),
+                    "RulerTabsColor": style.getPropertyValue("--canvas-high-contrast"),
+                    "RulerTabsColorOld": style.getPropertyValue("--canvas-high-contrast-disabled"),
                 });
             }
         }
