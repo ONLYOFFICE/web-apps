@@ -722,6 +722,15 @@ define([
                     menu        : true
                 });
 
+                me.btnInsertSparkline = new Common.UI.Button({
+                    id          : 'tlbtn-insertsparkline',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-sparkline',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot],
+                    caption     : me.capInsertSpark,
+                    menu        : true
+                });
+
                 me.btnInsertShape = new Common.UI.Button({
                     id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1461,7 +1470,7 @@ define([
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                    me.btnInsertChart, me.btnColorSchemas,
+                    me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
@@ -1661,6 +1670,7 @@ define([
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
+            _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
@@ -1720,6 +1730,7 @@ define([
             _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
+            _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
             _updateHint(this.btnInsertText, this.tipInsertText);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
@@ -1917,6 +1928,34 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
+            }
+
+            if ( this.btnInsertSparkline ) {
+                this.btnInsertSparkline.setMenu(new Common.UI.Menu({
+                    style: 'width: 166px;padding: 5px 0 10px;',
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-insertspark" class="menu-insertchart"></div>') }
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insertspark'),
+                        parentMenu: menu,
+                        showLast: false,
+                        restoreHeight: 50,
+                        // groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
+                        store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:spark', [record.get('type')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                this.btnInsertSparkline.menu.on('show:before', onShowBefore);
             }
 
             if (this.btnInsertTextArt) {
@@ -2648,6 +2687,8 @@ define([
         tipEditChartData: 'Select Data',
         tipEditChartType: 'Change Chart Type',
         textAutoColor: 'Automatic',
-        textItems: 'Items'
+        textItems: 'Items',
+        tipInsertSpark: 'Insert sparkline',
+        capInsertSpark: 'Sparklines'
     }, SSE.Views.Toolbar || {}));
 });
