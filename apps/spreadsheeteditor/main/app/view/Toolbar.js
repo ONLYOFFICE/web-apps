@@ -568,7 +568,7 @@ define([
                 me.btnMerge = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-merge',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-merge',
+                    iconCls     : 'toolbar__icon btn-merge-cells',
                     enableToggle: true,
                     allowDepress: true,
                     split       : true,
