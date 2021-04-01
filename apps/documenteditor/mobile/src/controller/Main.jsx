@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {inject} from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
 import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
@@ -140,20 +141,19 @@ class MainController extends Component {
 
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
-                this.props.storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                const storeAppOptions = this.props.storeAppOptions;
 
-                //Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
 
-                //me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
-                //me.appOptions.isRestrictedEdit && this.appOptions.canComments && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-                //me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                this.applyMode(storeAppOptions);
 
-                this.api.asc_setViewMode(false);
                 this.api.asc_LoadDocument();
                 this.api.Resize();
             };
 
             const onDocumentContentReady = () => {
+                this.applyLicense();
+
                 Common.Gateway.documentReady();
                 f7.emit('resize');
 
@@ -202,6 +202,58 @@ class MainController extends Component {
         };
 
         document.body.appendChild(script);
+    }
+
+    applyMode (appOptions) {
+        this.api.asc_enableKeyEvents(appOptions.isEdit);
+        this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
+        appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+        appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+
+        // Set units
+        let value = LocalStorage.getItem('de-mobile-settings-unit');
+        value = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+        (value === undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+        Common.Utils.Metric.setCurrentMetric(value);
+        this.api.asc_SetDocumentUnits((value === Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value===Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+        //me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
+        //me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
+
+        //if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
+        //    me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+        //} else if (!this._isDocReady) {
+        //    me.hidePreloader();
+        //    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        //}
+
+        // Message on window close
+        window.onbeforeunload = this.onBeforeUnload.bind(this);
+        window.onunload = this.onUnload.bind(this);
+    }
+
+    onBeforeUnload () {
+        LocalStorage.save();
+
+        if (this.api.isDocumentModified()) {
+            this.api.asc_stopSaving();
+            this.continueSavingTimer = window.setTimeout(() => {
+                this.api.asc_continueSaving();
+            }, 500);
+
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true})
+            return _t.leavePageText;
+        }
+    }
+
+    onUnload () {
+        if (this.continueSavingTimer)
+            clearTimeout(this.continueSavingTimer);
+    }
+
+    applyLicense () {
+
     }
 
     bindEvents() {

@@ -158,9 +158,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         deactivateEditControls(enableDownload);
         setCanUndo(false);
         setCanRedo(false);
-        //props.closeOptions('add');
-        //props.closeOptions('edit');
-        //props.closeOptions('settings');
+        f7.popover.close();
+        f7.sheet.close();
+        f7.popup.close();
     };
 
     return (
