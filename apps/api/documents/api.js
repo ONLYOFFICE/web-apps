@@ -161,7 +161,9 @@
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
-                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor)
+                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor),
+                    modeCoAuthoring: <coauthoring mode>, 'fast' (default) or 'strict'. if 'fast' and 'autosave'=false -> set 'autosave'=true
+                    changeCoAuthoring: true // can change co-authoring mode
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

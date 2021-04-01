@@ -219,6 +219,8 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.appConfig = options.mode;
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 if ( this.appConfig.canReview ) {
                     this.btnAccept = new Common.UI.Button({
@@ -318,7 +320,7 @@ define([
                     });
                 }
 
-                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
+                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring && Common.Utils.InternalSettings.get(this.appPrefix + "settings-change-coauthmode")) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
@@ -355,9 +357,6 @@ define([
                         iconCls: 'toolbar__icon btn-rem-comment'
                     });
                 }
-
-                var filter = Common.localStorage.getKeysFilter();
-                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -502,12 +501,13 @@ define([
                             }));
                         me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
 
-                        var value = Common.localStorage.getItem(me.appPrefix + "settings-coauthmode");
-                        if (value===null && !Common.localStorage.itemExists(me.appPrefix + "settings-autosave") &&
-                            config.customization && config.customization.autosave===false) {
-                            value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
-                        }
-                        me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
+                        // var value = Common.localStorage.getItem(me.appPrefix + "settings-coauthmode");
+                        // if (value===null && !Common.localStorage.itemExists(me.appPrefix + "settings-autosave") &&
+                        //     config.customization && config.customization.autosave===false) {
+                        //     value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                        // }
+                        // me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
+                        me.turnCoAuthMode(Common.Utils.InternalSettings.get(me.appPrefix + "settings-coauthmode"));
                     }
 
                     if (me.btnCommentRemove) {

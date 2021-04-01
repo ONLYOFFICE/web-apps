@@ -444,11 +444,15 @@ define([
             Common.Utils.InternalSettings.set("de-settings-inputmode", value);
             this.api.SetTextBoxInputMode(value);
 
+            var canChangeCoAuth = Common.Utils.InternalSettings.get("de-settings-change-coauthmode");
+            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
-                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
-                this.api.asc_SetFastCollaborative(fast_coauth);
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
+                if (canChangeCoAuth) {
+                    fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                    this.api.asc_SetFastCollaborative(fast_coauth);
+                }
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                 Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
@@ -484,9 +488,11 @@ define([
             }
 
             if (this.mode.isEdit) {
-                value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
-                Common.Utils.InternalSettings.set("de-settings-autosave", value);
-                this.api.asc_setAutoSaveGap(value);
+                if (canChangeCoAuth || !fast_coauth) {// can change co-auth. mode or for strict mode
+                    value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
+                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
+                    this.api.asc_setAutoSaveGap(value);
+                }
 
                 value = Common.localStorage.getBool("de-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
