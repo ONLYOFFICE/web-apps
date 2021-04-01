@@ -843,6 +843,7 @@
   "DE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.leavePageTextOnClose": "All unsaved changes in this document will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
+  "DE.Controllers.Main.txtNone": "None",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",

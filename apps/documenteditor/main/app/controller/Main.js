@@ -141,7 +141,8 @@ define([
                     "Choose an item": this.txtChoose,
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
-                    "Click to load image": this.txtClickToLoad
+                    "Click to load image": this.txtClickToLoad,
+                    "None": this.txtNone
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2877,7 +2878,8 @@ define([
             textGuest: 'Guest',
             errorSubmit: 'Submit failed.',
             txtClickToLoad: 'Click to load image',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+            txtNone: 'None'
         }
     })(), DE.Controllers.Main || {}))
 });
