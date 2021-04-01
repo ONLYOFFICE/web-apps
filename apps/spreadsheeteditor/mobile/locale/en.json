@@ -360,6 +360,8 @@
             "textCustomColors": "Custom Colors"
         },
         "Collaboration": {
+            "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
+            "notcriticalErrorTitle": "Warning",
             "textCollaboration": "Collaboration",
             "textBack": "Back",
             "textUsers": "Users",

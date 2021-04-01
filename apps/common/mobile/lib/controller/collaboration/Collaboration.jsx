@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { f7 } from 'framework7-react';
 import {observer, inject} from "mobx-react"
 import { LocalStorage } from '../../../utils/LocalStorage';
+import { withTranslation } from 'react-i18next';
 
 class CollaborationController extends Component {
     constructor(props){
@@ -11,6 +13,8 @@ class CollaborationController extends Component {
             api.asc_registerCallback('asc_onParticipantsChanged',     this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onConnectionStateChanged',  this.onUserConnection.bind(this));
             api.asc_registerCallback('asc_onCoAuthoringDisconnect',  this.onCoAuthoringDisconnect.bind(this));
+
+            api.asc_registerCallback('asc_OnTryUndoInFastCollaborative', this.onTryUndoInFastCollaborative.bind(this));
         });
 
         Common.Notifications.on('document:ready', this.onDocumentReady.bind(this));
@@ -74,9 +78,15 @@ class CollaborationController extends Component {
         this.props.users.resetDisconnected(true);
     }
 
+    onTryUndoInFastCollaborative() {
+        const { t } = this.props;
+        const _t = t("Common.Collaboration", { returnObjects: true });
+        f7.dialog.alert(_t.textTryUndoRedo, _t.notcriticalErrorTitle);
+    }
+
     render() {
         return null
     }
 }
 
-export default inject('users', 'storeAppOptions')(observer(CollaborationController));
+export default inject('users', 'storeAppOptions')(observer(withTranslation()(CollaborationController)));
