@@ -568,7 +568,7 @@ define([
                 me.btnMerge = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-merge',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-merge',
+                    iconCls     : 'toolbar__icon btn-merge-and-center',
                     enableToggle: true,
                     allowDepress: true,
                     split       : true,
@@ -577,18 +577,22 @@ define([
                         items: [
                             {
                                 caption : me.txtMergeCenter,
+                                iconCls     : 'menu__icon btn-merge-and-center',
                                 value   : Asc.c_oAscMergeOptions.MergeCenter
                             },
                             {
                                 caption : me.txtMergeAcross,
+                                iconCls     : 'menu__icon btn-merge-across',
                                 value   : Asc.c_oAscMergeOptions.MergeAcross
                             },
                             {
                                 caption : me.txtMergeCells,
+                                iconCls     : 'menu__icon btn-merge',
                                 value   : Asc.c_oAscMergeOptions.Merge
                             },
                             {
                                 caption : me.txtUnmerge,
+                                iconCls     : 'menu__icon btn-unmerge-cells',
                                 value   : Asc.c_oAscMergeOptions.None
                             }
                         ]
