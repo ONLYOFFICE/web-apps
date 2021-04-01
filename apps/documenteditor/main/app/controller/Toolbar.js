@@ -292,7 +292,9 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
-            toolbar.btnMultilevels.menu.on('show:after',                _.bind(this.onMultilevelsShowAfter, this));
+            toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+            toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
+            toolbar.btnMultilevels.menu.on('show:after',                _.bind(this.onListShowAfter, this, 2, toolbar.mnuMultilevelPicker));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
@@ -1355,14 +1357,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onMultilevelsShowAfter: function(menu) {
-            var store = this.toolbar.mnuMultilevelPicker.store;
+        onListShowAfter: function(type, picker) {
+            var store = picker.store;
             var arr = [];
             store.each(function(item){
                 arr.push(item.get('id'));
             });
             if (this.api) {
-                this.api.SetDrawImagePreviewBulletForMenu(arr, 2);
+                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
         },
 
