@@ -13,10 +13,10 @@
         font-size:  @font-size-base;
         line-height: @line-height-base;
 
-        -o-transition: border-color ease-in-out .15s;
-        -webkit-transition: border-color ease-in-out .15s;
-        -moz-transition: border-color ease-in-out .15s;
-        transition: border-color ease-in-out .15s;
+        //-o-transition: border-color ease-in-out .15s;
+        //-webkit-transition: border-color ease-in-out .15s;
+        //-moz-transition: border-color ease-in-out .15s;
+        //transition: border-color ease-in-out .15s;
 
         border-top-right-radius: 2px !important;
         border-bottom-right-radius: 2px !important;
@@ -153,6 +153,14 @@
     .dropdown-menu.show-top {
         top: auto;
         bottom: 100%;
+    }
+
+    .masked & {
+        &:disabled {
+            &, .btn-default {
+                opacity: 1;
+            }
+        }
     }
 }
 
