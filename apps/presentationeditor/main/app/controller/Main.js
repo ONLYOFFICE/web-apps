@@ -123,7 +123,8 @@ define([
                         'Slide title': this.txtSlideTitle,
                         'Loading': this.txtLoading,
                         'Click to add notes': this.txtAddNotes,
-                        'Click to add first slide': this.txtAddFirstSlide
+                        'Click to add first slide': this.txtAddFirstSlide,
+                        'None': this.txtNone
                     };
 
                 themeNames.forEach(function(item){
@@ -2675,7 +2676,8 @@ define([
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
             txtErrorLoadHistory: 'Loading history failed',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+            txtNone: 'None'
         }
     })(), PE.Controllers.Main || {}))
 });

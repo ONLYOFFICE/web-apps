@@ -298,6 +298,8 @@ define([
             toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
+            toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+            toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
@@ -1298,6 +1300,17 @@ define([
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onListShowAfter: function(type, picker) {
+            var store = picker.store;
+            var arr = [];
+            store.each(function(item){
+                arr.push(item.get('id'));
+            });
+            if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
+                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
         },
 
