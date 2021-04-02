@@ -102,6 +102,8 @@ define([
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
+            Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
         },
 
         loadConfig: function(data) {
@@ -282,6 +284,14 @@ define([
             } else {
                 console.error('toolbar panel isnot created');
             }
+        },
+
+        updatePluginsButtons: function() {
+            var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
+                me = this;
+            storePlugins.each(function(item){
+                me.panelPlugins.updatePluginIcons(item);
+            });
         },
 
         onSelectPlugin: function(picker, item, record, e){

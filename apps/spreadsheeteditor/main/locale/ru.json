@@ -2076,6 +2076,7 @@
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Параметры гиперссылки",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "Это поле необходимо заполнить",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
+  "SSE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Это поле может содержать не более 2083 символов",
   "SSE.Views.ImageSettings.textAdvanced": "Дополнительные параметры",
   "SSE.Views.ImageSettings.textCrop": "Обрезать",
   "SSE.Views.ImageSettings.textCropFill": "Заливка",

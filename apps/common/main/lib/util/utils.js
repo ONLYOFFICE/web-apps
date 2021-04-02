@@ -151,8 +151,10 @@ Common.Utils = _.extend(new(function() {
             me.zoom = scale.correct ? scale.zoom : 1;
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
+            me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
         };
         me.zoom = 1;
+        me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
         if ( isIE )
@@ -227,6 +229,7 @@ Common.Utils = _.extend(new(function() {
         documentSettingsType: documentSettingsType,
         importTextType: importTextType,
         zoom: function() {return me.zoom;},
+        applicationPixelRatio: function() {return me.applicationPixelRatio;},
         topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
         innerHeight: function() {return me.innerHeight;},

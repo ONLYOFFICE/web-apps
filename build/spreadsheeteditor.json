@@ -208,7 +208,8 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/**/*.svg"
+                "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/**/*.svg",
+                "!../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/**/*_s.svg"
             ]
         }
     },
