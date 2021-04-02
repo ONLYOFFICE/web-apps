@@ -905,6 +905,7 @@ define([
                             if (menu.cmpEl) {
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
                                 var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = itemMargin + 1/Common.Utils.applicationPixelRatio());
                                 var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
                                     (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
                                     parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
