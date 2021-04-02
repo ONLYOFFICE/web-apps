@@ -320,7 +320,7 @@ define([
                     });
                 }
 
-                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring && Common.Utils.InternalSettings.get(this.appPrefix + "settings-change-coauthmode")) {
+                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring && this.appConfig.canChangeCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
@@ -500,13 +500,6 @@ define([
                                 ]
                             }));
                         me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
-
-                        // var value = Common.localStorage.getItem(me.appPrefix + "settings-coauthmode");
-                        // if (value===null && !Common.localStorage.itemExists(me.appPrefix + "settings-autosave") &&
-                        //     config.customization && config.customization.autosave===false) {
-                        //     value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
-                        // }
-                        // me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
                         me.turnCoAuthMode(Common.Utils.InternalSettings.get(me.appPrefix + "settings-coauthmode"));
                     }
 

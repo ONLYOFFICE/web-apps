@@ -55,7 +55,8 @@
                          view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
-                    }
+                    },
+                    changeCoAuthoring: true // can change co-authoring mode
                 }
             },
             editorConfig: {
@@ -163,7 +164,6 @@
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     hideRulers: false, // hide or show rulers on first loading (presentation or document editor),
                     modeCoAuthoring: <coauthoring mode>, 'fast' (default) or 'strict'. if 'fast' and 'autosave'=false -> set 'autosave'=true
-                    changeCoAuthoring: true // can change co-authoring mode
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

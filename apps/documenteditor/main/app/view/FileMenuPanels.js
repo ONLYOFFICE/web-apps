@@ -247,7 +247,7 @@ define([
                 '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
                     '<td class="right"><span id="fms-cmb-theme"></span></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -522,11 +522,10 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
-            var canChangeCoAuth = Common.Utils.InternalSettings.get("de-settings-change-coauthmode");
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
 
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
-            $('tr.autosave', this.el)[mode.isEdit && (canChangeCoAuth || !fast_coauth) ? 'show' : 'hide']();
+            $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
@@ -534,7 +533,7 @@ define([
             }
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
-            $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && canChangeCoAuth ? 'show' : 'hide']();
+            $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
@@ -612,7 +611,6 @@ define([
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
 
-            var canChangeCoAuth = Common.Utils.InternalSettings.get("de-settings-change-coauthmode");
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
 
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
@@ -623,7 +621,7 @@ define([
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                canChangeCoAuth && Common.localStorage.setItem("de-settings-coauthmode", this.cmbCoAuthMode.getValue());
+                this.mode.canChangeCoAuthoring && Common.localStorage.setItem("de-settings-coauthmode", this.cmbCoAuthMode.getValue());
                 Common.localStorage.setItem(this.cmbCoAuthMode.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", this.cmbShowChanges.getValue());
             }
             /** coauthoring end **/
@@ -631,7 +629,7 @@ define([
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("de-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
-            if (canChangeCoAuth || !fast_coauth)
+            if (this.mode.canChangeCoAuthoring || !fast_coauth)
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
