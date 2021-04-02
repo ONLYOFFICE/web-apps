@@ -1388,6 +1388,7 @@
   "PE.Views.HyperlinkSettingsDialog.txtNext": "Следующий слайд",
   "PE.Views.HyperlinkSettingsDialog.txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Предыдущий слайд",
+  "PE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Это поле может содержать не более 2083 символов",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Слайд",
   "PE.Views.ImageSettings.textAdvanced": "Дополнительные параметры",
   "PE.Views.ImageSettings.textCrop": "Обрезать",
