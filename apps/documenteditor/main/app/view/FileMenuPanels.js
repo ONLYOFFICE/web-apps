@@ -610,9 +610,6 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
-
-            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
-
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
@@ -629,7 +626,7 @@ define([
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("de-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
-            if (this.mode.canChangeCoAuthoring || !fast_coauth)
+            if (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("de-settings-coauthmode"))
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);

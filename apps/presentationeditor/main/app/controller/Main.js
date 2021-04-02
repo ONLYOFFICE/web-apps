@@ -774,22 +774,9 @@ define([
                 me.api.SetTextBoxInputMode(value);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
-                    value = Common.localStorage.getItem("pe-settings-coauthmode");
-                    if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
-                        me.appOptions.customization && me.appOptions.customization.autosave===false) {
-                        value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
-                    }
-                    me._state.fastCoauth = (value===null || parseInt(value) == 1);
-                } else {
-                    me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit);
-                    if (me._state.fastCoauth) {
-                        me.api.asc_setAutoSaveGap(1);
-                        Common.Utils.InternalSettings.set("pe-settings-autosave", 1);
-                    }
-                }
+                me._state.fastCoauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
-                Common.Utils.InternalSettings.set("pe-settings-coauthmode", me._state.fastCoauth);
+                me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("pe-settings-autosave"));
                 /** coauthoring end **/
 
                 Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
@@ -826,13 +813,6 @@ define([
                 application.getController('Viewport').getView('DocumentPreview').setApi(me.api).setMode(me.appOptions).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
-                    value = Common.localStorage.getItem("pe-settings-autosave");
-                    if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
-                        value = 0;
-                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
-                    me.api.asc_setAutoSaveGap(value);
-                    Common.Utils.InternalSettings.set("pe-settings-autosave", value);
-
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", me.appOptions.canForcesave);
                         Common.Utils.InternalSettings.set("pe-settings-forcesave", me.appOptions.forcesave);
@@ -1085,6 +1065,9 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
 
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && (this.permissions.changeCoAuthoring!==false);
+
+                this.loadCoAuthSettings();
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
@@ -1098,6 +1081,46 @@ define([
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 (this.appOptions.isRestrictedEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
+            },
+
+            loadCoAuthSettings: function() {
+                var fastCoauth = true,
+                    autosave = 1,
+                    value;
+
+                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use customization.modeCoAuthoring or 'fast' by default
+                        value = (this.appOptions.customization && this.appOptions.customization.modeCoAuthoring!==undefined) ? (this.appOptions.customization.modeCoAuthoring==='strict' ? 0 : 1) : null;
+                        if (value===null && this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                            value = 0; // use customization.autosave only when modeCoAuthoring are null
+                        }
+                    } else {
+                        value = Common.localStorage.getItem("pe-settings-coauthmode");
+                        if (value===null) {
+                            value = (this.appOptions.customization && this.appOptions.customization.modeCoAuthoring!==undefined) ? (this.appOptions.customization.modeCoAuthoring==='strict' ? 0 : 1) : null;
+                            if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
+                                this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                                value = 0; // use customization.autosave only when de-settings-coauthmode and pe-settings-autosave are null
+                            }
+                        }
+                    }
+                    fastCoauth = (value===null || parseInt(value) == 1);
+                } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
+                    fastCoauth = true;
+                } else {
+                    fastCoauth = false;
+                    autosave = 0;
+                }
+
+                if (this.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("pe-settings-autosave");
+                    if (value === null && this.appOptions.customization && this.appOptions.customization.autosave === false)
+                        value = 0;
+                    autosave = (!fastCoauth && value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? 1 : 0);
+                }
+
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", fastCoauth);
+                Common.Utils.InternalSettings.set("pe-settings-autosave", autosave);
             },
 
             applyModeCommonElements: function() {
@@ -1888,10 +1911,10 @@ define([
                 if (!window.localStorage.getBool("pe-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
-                        msg: this.textTryUndoRedo,
+                        msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: ['custom', 'cancel'],
-                        primary: 'custom',
+                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
                         customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
@@ -2675,7 +2698,8 @@ define([
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
             txtErrorLoadHistory: 'Loading history failed',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.'
         }
     })(), PE.Controllers.Main || {}))
 });
