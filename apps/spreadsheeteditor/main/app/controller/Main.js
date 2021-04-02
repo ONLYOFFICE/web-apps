@@ -1619,8 +1619,12 @@ define([
                         config.msg = this.errorSetPassword;
                         break;
 
-                    case Asc.c_oAscError.ID.PivotGroup :
+                    case Asc.c_oAscError.ID.PivotGroup:
                         config.msg = this.errorPivotGroup;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasteMultiSelectError:
+                        config.msg = this.errorPasteMultiSelect;
                         break;
 
                     default:
@@ -2837,7 +2841,8 @@ define([
             txtMonths: 'Months',
             txtQuarters: 'Quarters',
             txtYears: 'Years',
-            errorPivotGroup: 'Cannot group that selection.'
+            errorPivotGroup: 'Cannot group that selection.',
+            errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });
