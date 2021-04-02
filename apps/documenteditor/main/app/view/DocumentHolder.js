@@ -2707,7 +2707,7 @@ define([
             }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-merge',
+                iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
                 if (me.api)

@@ -1651,8 +1651,12 @@ define([
                         config.msg = this.errorSetPassword;
                         break;
 
-                    case Asc.c_oAscError.ID.PivotGroup :
+                    case Asc.c_oAscError.ID.PivotGroup:
                         config.msg = this.errorPivotGroup;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasteMultiSelectError:
+                        config.msg = this.errorPasteMultiSelect;
                         break;
 
                     default:
@@ -2898,7 +2902,8 @@ define([
             txtQuarters: 'Quarters',
             txtYears: 'Years',
             errorPivotGroup: 'Cannot group that selection.',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+            errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });
