@@ -1709,6 +1709,7 @@ define([
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
+                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
                                 menu: new Common.UI.Menu({
                                     cls: 'list-settings-level',
                                     menuAlign: 'tl-tr',
@@ -1738,6 +1739,7 @@ define([
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
+                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
                                 menu: new Common.UI.Menu({
                                     cls: 'list-settings-level',
                                     menuAlign: 'tl-tr',
