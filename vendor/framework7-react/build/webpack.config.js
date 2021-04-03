@@ -77,6 +77,8 @@ module.exports = {
           resolvePath('node_modules/template7'),
           resolvePath('node_modules/dom7'),
           resolvePath('node_modules/ssr-window'),
+
+          resolvePath('../../../web-apps-mobile/word'),
         ],
       },
 

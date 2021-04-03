@@ -1,10 +1,14 @@
 
-const patch = () => {
+const EditorUIController = () => {
     return null
 };
 
-patch.isSupportEditFeature = () => {
+EditorUIController.isSupportEditFeature = () => {
     return false
 };
 
-export default patch;
+EditorUIController.getToolbarOptions = () => {
+    return null
+};
+
+export default EditorUIController;
