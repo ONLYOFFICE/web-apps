@@ -225,6 +225,7 @@ define([
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
+                view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
@@ -3451,6 +3452,21 @@ define([
             });
             view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
+        },
+
+        onBulletMenuShowAfter: function() {
+            var store = this.documentHolder.paraBulletsPicker.store;
+            var arrNum = [], arrMarker = [];
+            store.each(function(item){
+                if (item.get('group')=='menu-list-bullet-group')
+                    arrMarker.push(item.get('id'));
+                else
+                    arrNum.push(item.get('id'));
+            });
+            if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
+                this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
+                this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
         },
 
         onSignatureClick: function(item) {
