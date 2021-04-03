@@ -925,7 +925,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 184px; margin: 0 4px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 372px; margin: 4px 6px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
@@ -940,24 +940,29 @@ define([
                     ]
                 })
             });
+
             me.paraBulletsPicker = {
                 conf: {rec: null},
                 store       : new Common.UI.DataViewStore([
-                    {offsety: 38, type: 0, subtype: 1},
-                    {offsety: 76, type: 0, subtype: 2},
-                    {offsety: 114, type: 0, subtype: 3},
-                    {offsety: 152, type: 0, subtype: 4},
-                    {offsety: 190, type: 0, subtype: 5},
-                    {offsety: 228, type: 0, subtype: 6},
-                    {offsety: 266, type: 0, subtype: 7},
-                    {offsety: 684, type: 0, subtype: 8},
-                    {offsety: 570, type: 1, subtype: 4},
-                    {offsety: 532, type: 1, subtype: 5},
-                    {offsety: 608, type: 1, subtype: 6},
-                    {offsety: 418, type: 1, subtype: 1},
-                    {offsety: 456, type: 1, subtype: 2},
-                    {offsety: 494, type: 1, subtype: 3},
-                    {offsety: 646, type: 1, subtype: 7}
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7}
+                ]),
+                groups: new Common.UI.DataViewGroupStore([
+                    {id: 'menu-list-bullet-group', caption: this.textBullets},
+                    {id: 'menu-list-number-group', caption: this.textNumbering}
                 ]),
                 selectRecord: function (rec) {
                     this.conf.rec = rec;
@@ -1240,7 +1245,9 @@ define([
         textVar: 'Var',
         textMore: 'More functions',
         txtCustomSort: 'Custom sort',
-        txtCondFormat: 'Conditional Formatting'
+        txtCondFormat: 'Conditional Formatting',
+        textBullets: 'Bullets',
+        textNumbering: 'Numbering',
 
     }, SSE.Views.DocumentHolder || {}));
 });

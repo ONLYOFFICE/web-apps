@@ -3441,8 +3441,13 @@ define([
             view.paraBulletsPicker = new Common.UI.DataView({
                 el          : $('#id-docholder-menu-bullets'),
                 parentMenu  : view.menuParagraphBullets.menu,
+                groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
-                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<% if (type==0) { %>' +
+                                            '<div id="<%= id %>" class="item-markerlist"></div>' +
+                                        '<% } else if (type==1) { %>' +
+                                            '<div id="<%= id %>" class="item-multilevellist"></div>' +
+                                        '<% } %>')
             });
             view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
