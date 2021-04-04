@@ -14,8 +14,7 @@ import {
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import About from '../../../../common/mobile/lib/view/About';
-
-import patch from '../lib/patch'
+import EditorUIController from '../lib/patch';
 
 @inject(
     "storeAppOptions",
@@ -67,7 +66,7 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                patch.isSupportEditFeature();
+                EditorUIController.isSupportEditFeature();
                 console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
@@ -288,7 +287,7 @@ class MainController extends Component {
     applyLicense () {
         const _t = this._t;
         const appOptions = this.props.storeAppOptions;
-        if (appOptions.config.mode !== 'view' && !patch.isSupportEditFeature()) {
+        if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
