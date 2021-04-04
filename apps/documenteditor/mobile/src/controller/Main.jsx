@@ -13,6 +13,7 @@ import {
     EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
+import About from '../../../../common/mobile/lib/view/About';
 
 import patch from '../lib/patch'
 
@@ -30,6 +31,13 @@ class MainController extends Component {
     constructor(props) {
         super(props);
         window.editorType = 'de';
+
+        this._state = {
+            licenseType: false
+        };
+
+        const { t } = this.props;
+        this._t = t('Main', {returnObjects:true});
     }
 
     initSdk() {
@@ -112,7 +120,7 @@ class MainController extends Component {
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 this.api.asc_registerCallback('asc_onDocumentContentReady', onDocumentContentReady);
-                // this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged', this.onLicenseChanged.bind(this));
                 // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -138,6 +146,20 @@ class MainController extends Component {
                 const licType = params.asc_getLicenseType();
 
                 // check licType
+                if (Asc.c_oLicenseResult.Expired === licType ||
+                    Asc.c_oLicenseResult.Error === licType ||
+                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    f7.dialog.create({
+                        title   : this._t.titleLicenseExp,
+                        text    : this._t.warnLicenseExp
+                    }).open();
+                    return;
+                }
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
+                    this._state.licenseType = licType;
+                }
+
+                if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
 
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
@@ -158,6 +180,8 @@ class MainController extends Component {
                 f7.emit('resize');
 
                 Common.Notifications.trigger('document:ready');
+
+                this._isDocReady = true;
             };
 
             const _process_array = (array, fn) => {
@@ -241,9 +265,7 @@ class MainController extends Component {
                 this.api.asc_continueSaving();
             }, 500);
 
-            const { t } = this.props;
-            const _t = t('Main', {returnObjects:true})
-            return _t.leavePageText;
+            return this._t.leavePageText;
         }
     }
 
@@ -252,8 +274,118 @@ class MainController extends Component {
             clearTimeout(this.continueSavingTimer);
     }
 
-    applyLicense () {
+    onLicenseChanged (params) {
+        const appOptions = this.props.storeAppOptions;
+        const licType = params.asc_getLicenseType();
+        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
+            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
+                || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
+            this._state.licenseType = licType;
+        if (this._isDocReady && this._state.licenseType)
+            this.applyLicense();
+    }
 
+    applyLicense () {
+        const _t = this._t;
+        const appOptions = this.props.storeAppOptions;
+        if (appOptions.config.mode !== 'view' && !patch.isSupportEditFeature()) {
+            let value = LocalStorage.getItem("de-opensource-warning");
+            value = (value !== null) ? parseInt(value) : 0;
+            const now = (new Date).getTime();
+            if (now - value > 86400000) {
+                LocalStorage.setItem("de-opensource-warning", now);
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text : _t.errorOpensource,
+                    buttons: [{text: 'OK'}]
+                }).open();
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+            return;
+        }
+
+        if (this._state.licenseType) {
+            let license = this._state.licenseType;
+            let buttons = [{text: 'OK'}];
+            if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                (license === Asc.c_oLicenseResult.SuccessLimit ||
+                    license === Asc.c_oLicenseResult.ExpiredLimited ||
+                    appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
+            ) {
+                license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
+            } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
+                license = (license===Asc.c_oLicenseResult.Connections) ? _t.warnLicenseExceeded : _t.warnLicenseUsersExceeded;
+            } else {
+                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? _t.warnNoLicense : _t.warnNoLicenseUsers;
+                buttons = [{
+                    text: _t.textBuyNow,
+                    bold: true,
+                    onClick: function() {
+                        window.open(`${__PUBLISHER_URL__}`, "_blank");
+                    }
+                },
+                    {
+                        text: _t.textContactUs,
+                        onClick: function() {
+                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
+                        }
+                    }];
+            }
+            if (this._state.licenseType === Asc.c_oLicenseResult.SuccessLimit) {
+                Common.Notifications.trigger('toolbar:activatecontrols');
+            } else {
+                Common.Notifications.trigger('toolbar:activatecontrols');
+                Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                Common.Notifications.trigger('api:disconnect');
+            }
+
+            let value = LocalStorage.getItem("de-license-warning");
+            value = (value !== null) ? parseInt(value) : 0;
+            const now = (new Date).getTime();
+
+            if (now - value > 86400000) {
+                LocalStorage.setItem("de-license-warning", now);
+                f7.dialog.create({
+                    title: _t.textNoLicenseTitle,
+                    text : license,
+                    buttons: buttons
+                }).open();
+            }
+        } else {
+            if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
+                appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
+                f7.dialog.create({
+                    title: _t.textPaidFeature,
+                    text  : _t.textCustomLoader,
+                    buttons: [{
+                        text: _t.textContactUs,
+                        bold: true,
+                        onClick: () => {
+                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
+                        }
+                    },
+                        { text: _t.textClose }]
+                }).open();
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+        }
+    }
+
+    onServerVersion (buildVersion) {
+        if (this.changeServerVersion) return true;
+        const _t = this._t;
+
+        if (About.appVersion() !== buildVersion && !window.compareVersions) {
+            this.changeServerVersion = true;
+            f7.dialog.alert(
+                _t.errorServerVersion,
+                _t.titleServerVersion,
+                () => {
+                    setTimeout(() => {Common.Gateway.updateVersion()}, 0);
+                });
+            return true;
+        }
+        return false;
     }
 
     bindEvents() {

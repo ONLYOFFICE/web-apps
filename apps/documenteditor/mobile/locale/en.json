@@ -26,7 +26,25 @@
       "List Paragraph": "List Paragraph",
       "footnote text": "Footnote Text"
     },
-    "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes."
+    "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
+    "titleLicenseExp": "License expired",
+    "warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
+    "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
+    "titleServerVersion": "Editor updated",
+    "notcriticalErrorTitle": "Warning",
+    "errorOpensource": "Using the free Community version you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
+    "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please contact your administrator.",
+    "warnLicenseLimitedRenewed": "License needs to be renewed. You have a limited access to document editing functionality.<br>Please contact your administrator to get full access",
+    "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
+    "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
+    "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+    "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
+    "textBuyNow": "Visit website",
+    "textContactUs": "Contact sales",
+    "textNoLicenseTitle": "License limit reached",
+    "textPaidFeature": "Paid feature",
+    "textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader. Please contact our Sales Department to get a quote.",
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "You leave the application",

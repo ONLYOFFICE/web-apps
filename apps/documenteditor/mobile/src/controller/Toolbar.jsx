@@ -22,6 +22,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
             api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
+            Common.Notifications.on('toolbar:activatecontrols', activateControls);
+            Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         };
         if ( !Common.EditorApi ) {
             Common.Notifications.on('document:ready', onDocumentReady);
@@ -35,6 +37,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
+            Common.Notifications.off('toolbar:activatecontrols', activateControls);
+            Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
 
             const api = Common.EditorApi.get();
             api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
@@ -163,6 +167,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         f7.popup.close();
     };
 
+    const [disabledControls, setDisabledControls] = useState(true);
+    const activateControls = () => {
+        setDisabledControls(false);
+    };
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      docTitle={docTitle}
@@ -174,6 +183,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      onRedo={onRedo}
                      isObjectLocked={isObjectLocked}
                      stateDisplayMode={stateDisplayMode}
+                     disabledControls={disabledControls}
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
