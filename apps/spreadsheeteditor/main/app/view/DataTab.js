@@ -102,6 +102,12 @@ define([
             me.btnCustomSort.on('click', function (b, e) {
                 me.fireEvent('data:sortcustom');
             });
+            me.btnDataFromText.menu ?
+            me.btnDataFromText.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('data:fromtext', [item.value]);
+            }) : me.btnDataFromText.on('click', function (b, e) {
+                me.fireEvent('data:fromtext', ['file']);
+            });
         }
 
         return {
@@ -116,6 +122,17 @@ define([
                 var me = this,
                     $host = me.toolbar.$el,
                     _set = SSE.enumLock;
+
+                this.btnDataFromText = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-data-from-text'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-import-data',
+                    caption: this.capDataFromText,
+                    menu: !this.toolbar.mode.isDesktopApp,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth]
+                });
+                this.lockedControls.push(this.btnDataFromText);
 
                 this.btnGroup = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-group'),
@@ -251,6 +268,15 @@ define([
                     });
                     me.btnGroup.setMenu(_menu);
 
+                    me.btnDataFromText.updateHint(me.tipDataFromText);
+                    me.btnDataFromText.menu && me.btnDataFromText.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniFromFile, value: 'file' },
+                            { caption: me.mniFromUrl,  value: 'url' }
+                            // { caption: me.mniImageFromStorage, value: 'storage'}
+                        ]
+                    }));
+
                     me.btnTextToColumns.updateHint(me.tipToColumns);
                     me.btnRemoveDuplicates.updateHint(me.tipRemDuplicates);
                     me.btnDataValidation.updateHint(me.tipDataValidation);
@@ -326,7 +352,11 @@ define([
             capBtnTextRemDuplicates: 'Remove Duplicates',
             tipRemDuplicates: 'Remove duplicate rows from a sheet',
             capBtnTextDataValidation: 'Data Validation',
-            tipDataValidation: 'Data validation'
+            tipDataValidation: 'Data validation',
+            capDataFromText: 'From Text/CSV',
+            tipDataFromText: 'Get data from Text/CSV file',
+            mniFromFile: 'Get Data from File',
+            mniFromUrl: 'Get Data from URL'
         }
     }()), SSE.Views.DataTab || {}));
 });

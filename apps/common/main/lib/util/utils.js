@@ -114,7 +114,8 @@ Common.Utils = _.extend(new(function() {
             CSV: 1,
             TXT: 2,
             Paste: 3,
-            Columns: 4
+            Columns: 4,
+            Data: 5
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
