@@ -231,6 +231,8 @@ define([
                         validateOnBlur: false
                     });
                     this.txtDestRange.on('button:click', _.bind(this.onSelectData, this));
+                    this.dataDestValid = this.api.asc_getActiveRangeStr(Asc.referenceType.A, true);
+                    this.txtDestRange.setValue(this.dataDestValid);
                 }
 
                 this.onPrimary = function() {
@@ -243,13 +245,15 @@ define([
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 
+            var me = this;
              if (this.type == Common.Utils.importTextType.DRM) {
-                 var me = this;
                  setTimeout(function(){
                      me.inputPwd.cmpEl.find('input').focus();
                      if (me.validatePwd)
                          me.inputPwd.checkValidate();
                  }, 500);
+             } else if (this.type == Common.Utils.importTextType.Data) {
+                 setTimeout(function(){me.txtDestRange.focus();}, 500);
              }
         },
 
