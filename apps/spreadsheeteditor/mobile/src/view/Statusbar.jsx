@@ -14,8 +14,30 @@ const StatusbarView = inject('sheets')(observer(props => {
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
     const { sheets } = props;
-    const hiddenSheets = sheets.hiddensheets;
+    const hiddenSheets = sheets.hiddenWorksheets();
+    const allSheets = sheets.sheets;
     const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
+
+    const getTabColor = model => {
+        let color = model.color;
+
+        if (color) {
+            color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+        } else {
+            color = '';
+        }
+
+        if (color.length) {
+            if (!model.active) {
+                color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+            } else {
+                color = '0px 4px 0 ' + color + ' inset';
+            }
+        } 
+
+        return color;
+    }
+
     // const $boxTabs = $$('.sheet-tabs');
     // const $statusBar = $$('.statusbar');
 
@@ -102,11 +124,12 @@ const StatusbarView = inject('sheets')(observer(props => {
                 </div>
                 <div className="statusbar--box-tabs">
                     <ul className="sheet-tabs bottom">
-                        {sheets.sheets.map((model,i) =>
-                            model.hidden ? null :
+                        {allSheets.map((model,i) => 
+                            model.hidden ? null : 
                                 <li className={getTabClassList(model)} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
-                                    <a /* onClick={e => props.onTabClicked(i)} */>{model.name}</a>
+                                    <a style={{boxShadow: getTabColor(model)}}>{model.name}</a>
                                 </li>
+                            
                         )}
                     </ul>
                 </div>

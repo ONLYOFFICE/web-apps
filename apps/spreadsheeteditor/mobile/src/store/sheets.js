@@ -21,26 +21,18 @@ class Worksheet {
 
 export class storeWorksheets {
     sheets;
-    hiddensheets;
 
     constructor() {
         makeObservable(this, {
             sheets: observable,
-            hiddensheets: observable,
             resetSheets: action,
-            resetHiddenSheets: action,
             setActiveWorksheet: action
         });
         this.sheets = [];
-        this.hiddensheets = [];
     }
 
     resetSheets(sheets) {
         this.sheets = Object.values(sheets)
-    }
-
-    resetHiddenSheets(hiddensheets) {
-        this.hiddensheets = Object.values(hiddensheets)
     }
 
     setActiveWorksheet(i) {
