@@ -128,7 +128,8 @@ define([
                     'comment:addDummyComment':  _.bind(this.onAddDummyComment, this)
                 },
                 'Common.Views.ReviewChanges': {
-                    'comment:removeComments':           _.bind(this.onRemoveComments, this)
+                    'comment:removeComments':           _.bind(this.onRemoveComments, this),
+                    'comment:resolveComments':          _.bind(this.onResolveComments, this)
                 }
             });
 
@@ -241,6 +242,13 @@ define([
                 this.api.asc_RemoveAllComments(type=='my' || !this.mode.canDeleteComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
+
+        onResolveComments: function (type) {
+            if (this.api) {
+                this.api.asc_ResolveAllComments(type=='my' || !this.mode.canEditComments, type=='current');// 1 param = true if resolve only my comments, 2 param - resolve current comments
+            }
+        },
+
         onResolveComment: function (uid) {
             var t = this,
                 reply = null,
