@@ -272,6 +272,10 @@ define([
                 if (!Common.Utils.isIE) {
                     var img = document.createElement('div');
                     event.dataTransfer.setDragImage(img, 0, 0);
+                } else {
+                    this.bar.selectTabs.forEach(function (tab) {
+                        tab.$el.find('span').prop('title', '');
+                    });
                 }
                 event.dataTransfer.effectAllowed = 'move';
                 this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
