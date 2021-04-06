@@ -170,7 +170,7 @@ define([
 
                 var obj = get_current_theme_colors(name_colors);
                 obj.type = themes_map[theme_name];
-                obj.name = name;
+                obj.name = theme_name;
                 api.asc_setSkin(obj);
 
                 // app.eventbus.addListeners({
