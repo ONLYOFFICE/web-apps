@@ -214,7 +214,7 @@ define([
         onFieldsDragStart: function (item, index, event) {
             this._state.field = {record: item.model};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
-            event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
+            !Common.Utils.isIE && event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.pivotIndex = index;
             this.fromListView = this.fieldsList.$el[0].id;
         },
@@ -222,7 +222,7 @@ define([
         onItemsDragStart: function (type, listview, item, index, event) {
             this._state.field = {record: item.model, type: type};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
-            event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
+            !Common.Utils.isIE && event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.itemIndex = index;
             this.pivotIndex = listview.store.at(index).attributes.pivotIndex;
             this.fromListView = listview.$el[0].id;
