@@ -205,6 +205,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+                plugin.set_MinVersion(item.get('minVersion'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -576,7 +577,8 @@ define([
                             currentVariation: 0,
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
-                            groupRank: (item.group) ? item.group.rank : 0
+                            groupRank: (item.group) ? item.group.rank : 0,
+                            minVersion: item.minVersion
                         }));
                     }
                 });

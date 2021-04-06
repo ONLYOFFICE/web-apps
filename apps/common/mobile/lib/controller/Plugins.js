@@ -238,6 +238,7 @@ define([
                     plugin.set_Name(item['name']);
                     plugin.set_Guid(item['guid']);
                     plugin.set_BaseUrl(item['baseUrl']);
+                    plugin.set_MinVersion(item['minVersion']);
 
                     var variations = item['variations'],
                         variationsArr = [];
