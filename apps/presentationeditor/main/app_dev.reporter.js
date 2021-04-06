@@ -93,11 +93,9 @@ require([
 
     var api = new Asc.asc_docs_api({
         'id-view'  : 'editor_sdk',
-        using      : 'reporter'
+        using      : 'reporter',
+        skin       : (localStorage.getItem("ui-theme") == "theme-dark") ? "flatDark" : "flat"
     });
-
-    var value = localStorage.getItem("ui-theme");
-    api.asc_setSkin(value == "theme-dark" ? 'flatDark' : "flat");
 
     var setDocumentTitle = function(title) {
         (title) && (window.document.title += (' - ' + title));
