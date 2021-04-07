@@ -922,6 +922,7 @@
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
+  "SSE.Controllers.Main.errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
   "SSE.Controllers.Print.textFirstRow": "First row",
