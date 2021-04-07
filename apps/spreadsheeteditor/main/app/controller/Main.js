@@ -1627,6 +1627,10 @@ define([
                         config.msg = this.errorPasteMultiSelect;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotWithoutUnderlyingData:
+                        config.msg = this.errorPivotWithoutUnderlying;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2842,7 +2846,8 @@ define([
             txtQuarters: 'Quarters',
             txtYears: 'Years',
             errorPivotGroup: 'Cannot group that selection.',
-            errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.'
+            errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
+            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.'
         }
     })(), SSE.Controllers.Main || {}))
 });
