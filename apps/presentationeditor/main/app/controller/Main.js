@@ -1065,7 +1065,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
 
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && (this.permissions.changeCoAuthoring!==false);
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -1089,15 +1089,15 @@ define([
                     value;
 
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use customization.modeCoAuthoring or 'fast' by default
-                        value = (this.appOptions.customization && this.appOptions.customization.modeCoAuthoring!==undefined) ? (this.appOptions.customization.modeCoAuthoring==='strict' ? 0 : 1) : null;
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'fast' by default
+                        value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
                         if (value===null && this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                            value = 0; // use customization.autosave only when modeCoAuthoring are null
+                            value = 0; // use customization.autosave only when coEditing.mode is null
                         }
                     } else {
                         value = Common.localStorage.getItem("pe-settings-coauthmode");
                         if (value===null) {
-                            value = (this.appOptions.customization && this.appOptions.customization.modeCoAuthoring!==undefined) ? (this.appOptions.customization.modeCoAuthoring==='strict' ? 0 : 1) : null;
+                            value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
                             if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
                                 this.appOptions.customization && this.appOptions.customization.autosave===false) {
                                 value = 0; // use customization.autosave only when de-settings-coauthmode and pe-settings-autosave are null
