@@ -65,6 +65,7 @@ define([
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-comment-remove"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-comment-resolve"></span>' +
                 '</div>' +
                 '<div class="separator long comments"></div>' +
                 '<div class="group">' +
@@ -206,6 +207,15 @@ define([
 
                 this.btnCommentRemove.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('comment:removeComments', [item.value]);
+                });
+            }
+            if (this.btnCommentResolve) {
+                this.btnCommentResolve.on('click', function (e) {
+                    me.fireEvent('comment:resolveComments', ['current']);
+                });
+
+                this.btnCommentResolve.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('comment:resolveComments', [item.value]);
                 });
             }
         }
@@ -353,6 +363,12 @@ define([
                         caption: this.txtCommentRemove,
                         split: true,
                         iconCls: 'toolbar__icon btn-rem-comment'
+                    });
+                    this.btnCommentResolve = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.txtCommentResolve,
+                        split: true,
+                        iconCls: 'toolbar__icon btn-resolve-all'
                     });
                 }
 
@@ -532,6 +548,28 @@ define([
                         me.btnCommentRemove.updateHint([me.tipCommentRemCurrent, me.tipCommentRem]);
                     }
 
+                     if (me.btnCommentResolve) {
+                        var items = [
+                            {
+                                caption: config.canEditComments ? me.txtCommentResolveCurrent : me.txtCommentResolveMyCurrent,
+                                value: 'current'
+                            },
+                            {
+                                caption: me.txtCommentResolveMy,
+                                value: 'my'
+                            }
+                        ];
+                        if (config.canEditComments)
+                            items.push({
+                                caption: me.txtCommentResolveAll,
+                                value: 'all'
+                            });
+                        me.btnCommentResolve.setMenu(
+                            new Common.UI.Menu({items: items})
+                        );
+                        me.btnCommentResolve.updateHint([me.tipCommentResolveCurrent, me.tipCommentResolve]);
+                    }
+
                     var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
                         separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
                         separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
@@ -591,6 +629,7 @@ define([
                 this.btnHistory && this.btnHistory.render(this.$el.find('#slot-btn-history'));
                 this.btnChat && this.btnChat.render(this.$el.find('#slot-btn-chat'));
                 this.btnCommentRemove && this.btnCommentRemove.render(this.$el.find('#slot-comment-remove'));
+                this.btnCommentResolve && this.btnCommentResolve.render(this.$el.find('#slot-comment-resolve'));
 
                 return this.$el;
             },
@@ -742,6 +781,7 @@ define([
                 // this.btnChat && this.btnChat.setDisabled(state);
 
                 this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
+                this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },
 
             onLostEditRights: function() {
@@ -804,6 +844,13 @@ define([
             txtCommentRemMyCurrent: 'Remove My Current Comments',
             txtCommentRemMy: 'Remove My Comments',
             txtCommentRemAll: 'Remove All Comments',
+            txtCommentResolve: 'Resolve',
+            tipCommentResolveCurrent: 'Resolve current comments',
+            tipCommentResolve: 'Resolve comments',
+            txtCommentResolveCurrent: 'Resolve Current Comments',
+            txtCommentResolveMyCurrent: 'Resolve My Current Comments',
+            txtCommentResolveMy: 'Resolve My Comments',
+            txtCommentResolveAll: 'Resolve All Comments',
             txtOnGlobal: 'ON for me and everyone',
             txtOffGlobal: 'OFF for me and everyone',
             txtOn: 'ON for me',
