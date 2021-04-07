@@ -368,7 +368,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentResolve,
                         split: true,
-                        iconCls: 'toolbar__icon btn-resolve-comment'
+                        iconCls: 'toolbar__icon btn-resolve-all'
                     });
                 }
 
