@@ -4,6 +4,7 @@ import {inject} from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import IrregularStack from '../../../../common/mobile/utils/IrregularStack';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
 import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
@@ -35,8 +36,15 @@ class MainController extends Component {
             licenseType: false
         };
 
+        this.stackLongActions = new IrregularStack({
+            strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+            weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
+        });
+
         const { t } = this.props;
         this._t = t('Main', {returnObjects:true});
+
+        this.LoadingDocument = -256;
     }
 
     initSdk() {
@@ -181,6 +189,9 @@ class MainController extends Component {
                 Common.Notifications.trigger('document:ready');
 
                 this._isDocReady = true;
+
+                f7.dialog.close(this.loadMask.el);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             };
 
             const _process_array = (array, fn) => {
@@ -388,6 +399,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        this.api.asc_registerCallback('asc_onStartAction', this.onLongActionBegin.bind(this));
+        this.api.asc_registerCallback('asc_onEndAction', this.onLongActionEnd.bind(this));
+        this.api.asc_registerCallback('asc_onOpenDocumentProgress', this.onOpenDocument.bind(this));
+
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
             Common.Utils.ThemeColor.setColors(colors, standart_colors);
         });
@@ -517,6 +532,153 @@ class MainController extends Component {
             const _t = t("Settings", { returnObjects: true });
             onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
         });
+    }
+
+    onLongActionBegin (type, id) {
+        const action = {id: id, type: type};
+        this.stackLongActions.push(action);
+        this.setLongActionView(action);
+    }
+
+    onLongActionEnd (type, id) {
+        let action = {id: id, type: type};
+        this.stackLongActions.pop(action);
+
+        //this.updateWindowTitle(true);
+
+        action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
+
+        if (action) {
+            this.setLongActionView(action)
+        }
+
+        action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
+
+        if (action) {
+            this.setLongActionView(action)
+        } else {
+            this.loadMask.el && this.loadMask.el.classList.contains('modal-in') && f7.dialog.close(this.loadMask.el);
+        }
+    }
+
+    setLongActionView (action) {
+        const _t = this._t;
+        let title = '';
+        let text = '';
+        switch (action.id) {
+            case Asc.c_oAscAsyncAction['Open']:
+                title   = _t.openTitleText;
+                text    = _t.openTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['Save']:
+                title   = _t.saveTitleText;
+                text    = _t.saveTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
+                title   = _t.loadFontsTitleText;
+                text    = _t.loadFontsTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['LoadDocumentImages']:
+                title   = _t.loadImagesTitleText;
+                text    = _t.loadImagesTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['LoadFont']:
+                title   = _t.loadFontTitleText;
+                text    = _t.loadFontTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['LoadImage']:
+                title   = _t.loadImageTitleText;
+                text    = _t.loadImageTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['DownloadAs']:
+                title   = _t.downloadTitleText;
+                text    = _t.downloadTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['Print']:
+                title   = _t.printTitleText;
+                text    = _t.printTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['UploadImage']:
+                title   = _t.uploadImageTitleText;
+                text    = _t.uploadImageTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['ApplyChanges']:
+                title   = _t.applyChangesTitleText;
+                text    = _t.applyChangesTextText;
+                break;
+
+            case Asc.c_oAscAsyncAction['PrepareToSave']:
+                title   = _t.savePreparingText;
+                text    = _t.savePreparingTitle;
+                break;
+
+            case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
+                title   = _t.mailMergeLoadFileText;
+                text    = _t.mailMergeLoadFileTitle;
+                break;
+
+            case Asc.c_oAscAsyncAction['DownloadMerge']:
+                title   = _t.downloadMergeTitle;
+                text    = _t.downloadMergeText;
+                break;
+
+            case Asc.c_oAscAsyncAction['SendMailMerge']:
+                title   = _t.sendMergeTitle;
+                text    = _t.sendMergeText;
+                break;
+
+            case Asc.c_oAscAsyncAction['Waiting']:
+                title   = _t.waitText;
+                text    = _t.waitText;
+                break;
+
+            case ApplyEditRights:
+                title   = _t.txtEditingMode;
+                text    = _t.txtEditingMode;
+                break;
+
+            case LoadingDocument:
+                title   = _t.loadingDocumentTitleText;
+                text    = _t.loadingDocumentTextText;
+                break;
+            default:
+                if (typeof action.id == 'string'){
+                    title   = action.id;
+                    text    = action.id;
+                }
+                break;
+        }
+
+        if (action.type === Asc.c_oAscAsyncActionType['BlockInteraction']) {
+            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges']) {
+                return;
+            }
+
+            if (this.loadMask && this.loadMask.el && this.loadMask.el.classList.contains('modal-in')) {
+                this.loadMask.el.getElementsByClassName('dialog-title')[0].innerHTML = title;
+            } else {
+                this.loadMask = f7.dialog.preloader(title);
+            }
+        }
+
+    }
+
+    onOpenDocument (progress) {
+        if (this.loadMask && this.loadMask.el) {
+            const $title = this.loadMask.el.getElementsByClassName('dialog-title')[0];
+            const proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
+
+            $title.innerHTML = `${this._t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
+        }
     }
 
     render() {
