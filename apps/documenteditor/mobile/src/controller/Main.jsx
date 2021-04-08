@@ -223,6 +223,9 @@ class MainController extends Component {
                         'translate': t('Main.SDK', {returnObjects:true})
                     });
 
+                    Common.Notifications.trigger('engineCreated', this.api);
+                    Common.EditorApi = {get: () => this.api};
+
                     this.appOptions   = {};
                     this.bindEvents();
 
@@ -230,9 +233,6 @@ class MainController extends Component {
                     // Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                     Common.Gateway.on('opendocument',   loadDocument);
                     Common.Gateway.appReady();
-
-                    Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -423,34 +423,12 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocSize', (w, h) => {
             storeDocumentSettings.changeDocSize(w, h);
         });
-        const storeFocusObjects = this.props.storeFocusObjects;
-        this.api.asc_registerCallback('asc_onFocusObject', objects => {
-            storeFocusObjects.resetFocusObjects(objects);
-        });
 
         //text settings
         const storeTextSettings = this.props.storeTextSettings;
-        this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
-            storeTextSettings.initEditorFonts(fonts, select);
-        });
-        this.api.asc_registerCallback('asc_onFontFamily', (font) => {
-            storeTextSettings.resetFontName(font);
-        });
-        this.api.asc_registerCallback('asc_onFontSize', (size) => {
-            storeTextSettings.resetFontSize(size);
-        });
-        this.api.asc_registerCallback('asc_onBold', (isBold) => {
-            storeTextSettings.resetIsBold(isBold);
-        });
-        this.api.asc_registerCallback('asc_onItalic', (isItalic) => {
-            storeTextSettings.resetIsItalic(isItalic);
-        });
-        this.api.asc_registerCallback('asc_onUnderline', (isUnderline) => {
-            storeTextSettings.resetIsUnderline(isUnderline);
-        });
-        this.api.asc_registerCallback('asc_onStrikeout', (isStrikeout) => {
-            storeTextSettings.resetIsStrikeout(isStrikeout);
-        });
+        EditorUIController.initFonts(storeTextSettings);
+        EditorUIController.initFocusObjects(this.props.storeFocusObjects);
+
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
@@ -482,23 +460,14 @@ class MainController extends Component {
         });
 
         //paragraph settings
-        this.api.asc_setParagraphStylesSizes(330, 38);
-        const storeParagraphSettings = this.props.storeParagraphSettings;
-        this.api.asc_registerCallback('asc_onInitEditorStyles', (styles) => {
-            storeParagraphSettings.initEditorStyles(styles);
-        });
-        this.api.asc_registerCallback('asc_onParaStyleName', (name) => {
-            storeParagraphSettings.changeParaStyleName(name);
-        });
+        EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
 
         //table settings
-        const storeTableSettings = this.props.storeTableSettings;
-        this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
-            storeTableSettings.initTableTemplates(templates);
-        });
+        EditorUIController.initTableTemplates(this.props.storeTableSettings);
 
         //chart settings
         const storeChartSettings = this.props.storeChartSettings;
+        const storeFocusObjects = this.props.storeFocusObjects;
         this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
             if (storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties()) {
                 storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));

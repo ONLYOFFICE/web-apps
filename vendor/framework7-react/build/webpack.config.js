@@ -168,9 +168,11 @@ module.exports = {
 
     ...(env === 'production' ? [
       new CssMinimizerPlugin({
-        processorOptions: {
-          safe: true,
-          map: { inline: false },
+        minimizerOptions: {
+            processorOptions: {
+                safe: true,
+                map: { inline: false },
+            },
         },
       }),
       new webpack.optimize.ModuleConcatenationPlugin(),
