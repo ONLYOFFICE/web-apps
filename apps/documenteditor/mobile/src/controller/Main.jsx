@@ -16,6 +16,7 @@ import {
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import About from '../../../../common/mobile/lib/view/About';
 import EditorUIController from '../lib/patch';
+import ErrorController from "./Error";
 
 @inject(
     "storeAppOptions",
@@ -33,7 +34,8 @@ class MainController extends Component {
         window.editorType = 'de';
 
         this._state = {
-            licenseType: false
+            licenseType: false,
+            isFromGatewayDownloadAs: false
         };
 
         this.stackLongActions = new IrregularStack({
@@ -192,6 +194,11 @@ class MainController extends Component {
 
                 f7.dialog.close(this.loadMask.el);
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+
+                Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
+                Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
+                Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
+                Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
             };
 
             const _process_array = (array, fn) => {
@@ -406,6 +413,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
             Common.Utils.ThemeColor.setColors(colors, standart_colors);
         });
+
+        this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
 
         const storeDocumentSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
@@ -681,9 +690,70 @@ class MainController extends Component {
         }
     }
 
+    onProcessSaveResult (data) {
+        this.api.asc_OnSaveEnd(data.result);
+
+        if (data && data.result === false) {
+            const _t = this._t;
+            f7.dialog.alert(
+                (!data.message) ? _t.errorProcessSaveResult : data.message,
+                _t.criticalErrorTitle
+            );
+        }
+    }
+
+    onProcessRightsChange (data) {
+        if (data && data.enabled === false) {
+            const appOptions = this.props.storeAppOptions;
+            const old_rights = appOptions.lostEditingRights;
+            appOptions.changeEditingRights(!old_rights);
+            this.api.asc_coAuthoringDisconnect();
+            Common.Notifications.trigger('api:disconnect');
+
+            if (!old_rights) {
+                const _t = this._t;
+                f7.dialog.alert(
+                    (!data.message) ? _t.warnProcessRightsChange : data.message,
+                    _t.notcriticalErrorTitle,
+                    () => { appOptions.changeEditingRights(false); }
+                );
+            }
+        }
+    }
+
+    onDownloadAs () {
+        const appOptions = this.props.storeAppOptions;
+        if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this._t.errorAccessDeny);
+            return;
+        }
+
+        this._state.isFromGatewayDownloadAs = true;
+        const type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+
+        if (type && typeof type[1] === 'string') {
+            this.api.asc_DownloadOrigin(true);
+        } else {
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+        }
+    }
+
+    onDownloadUrl () {
+        if (this._state.isFromGatewayDownloadAs) {
+            Common.Gateway.downloadAs(url);
+        }
+
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onRequestClose () {
+        Common.Gateway.requestClose();
+    }
+
     render() {
         return (
             <Fragment>
+                <ErrorController />
                 <CollaborationController />
                 <ReviewController />
                 <CommentsController />
