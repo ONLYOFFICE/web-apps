@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import LongActionsController from "./LongActions";
 
-const ErrorController = inject('storeAppOptions')(({storeAppOptions}) => {
+const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
     const {t} = useTranslation();
     const _t = t("Error", { returnObjects: true });
 
@@ -27,8 +28,8 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions}) => {
             return;
         }
 
-        //this.hidePreloader();
-        //this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         const api = Common.EditorApi.get();
 
