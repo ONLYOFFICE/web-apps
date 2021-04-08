@@ -1301,12 +1301,9 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.ForceSaveButton:
-                        config.msg = this.errorForceSave;
-                        break;
-
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;
-                        console.warn(config.msg);
+                        config.maxwidth = 600;
                         break;
 
                     case Asc.c_oAscError.ID.DataEncrypted:
@@ -1399,10 +1396,8 @@ define([
                     }, this);
                 }
 
-                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
-                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
-                        Common.UI.alert(config).$window.attr('data-value', id);
-                }
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
