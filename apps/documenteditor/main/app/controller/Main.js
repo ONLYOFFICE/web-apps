@@ -1156,12 +1156,6 @@ define([
                 $('.doc-placeholder').remove();
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
-                $('#header-logo').children(0).click(function(e) {
-                    e.stopImmediatePropagation();
-                    Common.UI.Themes.toggleTheme();
-
-                    // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
-                })
             },
 
             onLicenseChanged: function(params) {
