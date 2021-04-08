@@ -551,7 +551,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons,
+                                icons: itemVar.icons2 || itemVar.icons,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
