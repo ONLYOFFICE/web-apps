@@ -134,7 +134,7 @@
                     anonymous: { // set name for anonymous user
                         request: bool (default: true), // enable set name
                         label: string (default: "Guest") // postfix for user name
-                    }
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,
@@ -161,8 +161,12 @@
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
-                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor)
+                    hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                 },
+                 coEditing: {
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
+                     change: true, // can change co-authoring mode
+                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
                     pluginsData: [

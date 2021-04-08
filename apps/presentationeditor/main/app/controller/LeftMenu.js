@@ -340,11 +340,14 @@ define([
             Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
             this.api.SetTextBoxInputMode(value);
 
+            var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getBool("pe-settings-coauthmode", true);
-                Common.Utils.InternalSettings.set("pe-settings-coauthmode", value);
-                this.api.asc_SetFastCollaborative(value);
+                if (this.mode.canChangeCoAuthoring) {
+                    fast_coauth = Common.localStorage.getBool("pe-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
+                    this.api.asc_SetFastCollaborative(fast_coauth);
+                }
             }
             /** coauthoring end **/
 
@@ -357,9 +360,11 @@ define([
             this.api.SetFontRenderingMode(parseInt(value));
 
             if (this.mode.isEdit) {
-                value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
-                Common.Utils.InternalSettings.set("pe-settings-autosave", value);
-                this.api.asc_setAutoSaveGap(value);
+                if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
+                    value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
+                    Common.Utils.InternalSettings.set("pe-settings-autosave", value);
+                    this.api.asc_setAutoSaveGap(value);
+                }
 
                 value = Common.localStorage.getBool("pe-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
