@@ -2076,6 +2076,7 @@
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Hyperlink-Einstellungen",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "Dieses Feld ist erforderlich",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "Dieses Feld muss eine URL im Format \"http://www.example.com\" enthalten",
+  "SSE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Dieses Feld soll maximal 2083 Zeichen beinhalten",
   "SSE.Views.ImageSettings.textAdvanced": "Erweiterte Einstellungen anzeigen",
   "SSE.Views.ImageSettings.textCrop": "Zuschneiden",
   "SSE.Views.ImageSettings.textCropFill": "Ausfüllen",

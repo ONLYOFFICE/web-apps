@@ -1388,6 +1388,7 @@
   "PE.Views.HyperlinkSettingsDialog.txtNext": "Nächste Folie",
   "PE.Views.HyperlinkSettingsDialog.txtNotUrl": "Dieses Feld muss eine URL im Format \"http://www.example.com\" enthalten",
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Vorherige Folie",
+  "PE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Dieses Feld soll maximal 2083 Zeichen beinhalten",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Folie",
   "PE.Views.ImageSettings.textAdvanced": "Erweiterte Einstellungen anzeigen",
   "PE.Views.ImageSettings.textCrop": "Zuschneiden",
