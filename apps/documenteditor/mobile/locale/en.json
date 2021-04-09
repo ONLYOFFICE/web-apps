@@ -49,7 +49,10 @@
     "errorProcessSaveResult": "Saving is failed.",
     "criticalErrorTitle": "Error",
     "warnProcessRightsChange": "You have been denied the right to edit the file.",
-    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator."
+    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
+
+    "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
+    "titleUpdateVersion": "Version changed"
   },
   "Error": {
     "criticalErrorTitle": "Error",

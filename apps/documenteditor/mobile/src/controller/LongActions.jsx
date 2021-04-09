@@ -32,6 +32,7 @@ class LongActions extends Component {
             api.asc_registerCallback('asc_onOpenDocumentProgress', this.onOpenDocument);
         });
         Common.Notifications.on('preloader:endAction', this.onLongActionEnd);
+        Common.Notifications.on('preloader:beginAction', this.onLongActionBegin);
         Common.Notifications.on('preloader:close', this.closePreloader);
     }
 
@@ -42,6 +43,7 @@ class LongActions extends Component {
         api.asc_unregisterCallback('asc_onOpenDocumentProgress', this.onOpenDocument);
 
         Common.Notifications.off('preloader:endAction', this.onLongActionEnd);
+        Common.Notifications.off('preloader:beginAction', this.onLongActionBegin);
         Common.Notifications.off('preloader:close', this.closePreloader);
     }
 

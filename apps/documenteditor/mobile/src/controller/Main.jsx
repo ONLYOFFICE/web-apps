@@ -37,8 +37,11 @@ class MainController extends Component {
 
         this._state = {
             licenseType: false,
-            isFromGatewayDownloadAs: false
+            isFromGatewayDownloadAs: false,
+            isDocModified: false
         };
+
+        this.defaultTitleText = __APP_TITLE_TEXT__;
 
         const { t } = this.props;
         this._t = t('Main', {returnObjects:true});
@@ -178,6 +181,10 @@ class MainController extends Component {
             };
 
             const onDocumentContentReady = () => {
+                if (this.props.storeAppOptions.isEdit && this.needToUpdateVersion) {
+                    Common.Notifications.trigger('api:disconnect');
+                }
+
                 this.applyLicense();
 
                 Common.Gateway.documentReady();
@@ -221,11 +228,24 @@ class MainController extends Component {
                     Common.Notifications.trigger('engineCreated', this.api);
                     Common.EditorApi = {get: () => this.api};
 
+                    // Set font rendering mode
+                    let value = LocalStorage.getItem("de-settings-fontrender");
+                    if (value === null) {
+                        value = window.devicePixelRatio > 1 ? '1' : '0';
+                    }
+                    switch (value) {
+                        case '0': this.api.SetFontRenderingMode(3); break;
+                        case '1': this.api.SetFontRenderingMode(1); break;
+                        case '2': this.api.SetFontRenderingMode(2); break;
+                    }
+
+                    Common.Utils.Metric.setCurrentMetric(1); //pt
+
                     this.appOptions   = {};
                     this.bindEvents();
 
                     Common.Gateway.on('init',           loadConfig);
-                    // Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
+                    Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
                     Common.Gateway.appReady();
                 }, error => {
@@ -401,6 +421,11 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
+        this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
+        this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
+        this.api.asc_registerCallback('asc_onPrintUrl', this.onPrintUrl.bind(this));
+
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
             Common.Utils.ThemeColor.setColors(colors, standart_colors);
         });
@@ -485,10 +510,6 @@ class MainController extends Component {
           storeDocumentInfo.switchIsLoaded(true);
         });
 
-        this.api.asc_registerCallback('asc_onDocumentName', (name) => {
-            // console.log(name);
-        });
-
         // Color Schemes
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
@@ -561,6 +582,83 @@ class MainController extends Component {
 
     onRequestClose () {
         Common.Gateway.requestClose();
+    }
+
+    onUpdateVersion (callback) {
+        const _t = this._t;
+
+        this.needToUpdateVersion = true;
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+
+        f7.dialog.alert(
+            _t.errorUpdateVersion,
+            _t.titleUpdateVersion,
+            () => {
+                Common.Gateway.updateVersion();
+                if (callback) {
+                    callback.call(this);
+                }
+                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+            });
+    }
+
+    onDocumentName () {
+        this.updateWindowTitle(true);
+    }
+
+    updateWindowTitle (force) {
+        const isModified = this.api.isDocumentModified();
+        if (this._state.isDocModified !== isModified || force) {
+            const title = this.defaultTitleText;
+
+            if (window.document.title != title) {
+                window.document.title = title;
+            }
+
+            this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
+            this._state.isDocModified = isModified;
+        }
+    }
+
+    onPrintUrl (url) {
+        if (this.iframePrint) {
+            this.iframePrint.parentNode.removeChild(this.iframePrint);
+            this.iframePrint = null;
+        }
+
+        if (!this.iframePrint) {
+            this.iframePrint = document.createElement("iframe");
+            this.iframePrint.id = "id-print-frame";
+            this.iframePrint.style.display = 'none';
+            this.iframePrint.style.visibility = "hidden";
+            this.iframePrint.style.position = "fixed";
+            this.iframePrint.style.right = "0";
+            this.iframePrint.style.bottom = "0";
+            document.body.appendChild(this.iframePrint);
+            this.iframePrint.onload = function() {
+                this.iframePrint.contentWindow.focus();
+                this.iframePrint.contentWindow.print();
+                this.iframePrint.contentWindow.blur();
+                window.focus();
+            };
+        }
+
+        if (url) {
+            this.iframePrint.src = url;
+        }
+    }
+
+    onExternalMessage (msg) {
+        if (msg && msg.msg) {
+            msg.msg = (msg.msg).toString();
+            f7.notification.create({
+                //title: uiApp.params.modalTitle,
+                text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
+                closeButton: true
+            }).open();
+
+            Common.component.Analytics.trackEvent('External Error');
+        }
     }
 
     render() {
