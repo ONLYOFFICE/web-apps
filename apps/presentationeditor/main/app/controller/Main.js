@@ -123,7 +123,8 @@ define([
                         'Slide title': this.txtSlideTitle,
                         'Loading': this.txtLoading,
                         'Click to add notes': this.txtAddNotes,
-                        'Click to add first slide': this.txtAddFirstSlide
+                        'Click to add first slide': this.txtAddFirstSlide,
+                        'None': this.txtNone
                     };
 
                 themeNames.forEach(function(item){
@@ -2699,7 +2700,8 @@ define([
             textGuest: 'Guest',
             txtErrorLoadHistory: 'Loading history failed',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.'
+            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
+            txtNone: 'None'
         }
     })(), PE.Controllers.Main || {}))
 });

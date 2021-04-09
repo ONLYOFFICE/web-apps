@@ -1736,7 +1736,7 @@ define([
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
@@ -1760,9 +1760,9 @@ define([
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 90px',
+                        style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 177px; margin: 0 9px;"></div>')},
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
@@ -1859,17 +1859,17 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 0, subtype: -1}},
-                        {offsety: 38, data: {type: 0, subtype: 1}},
-                        {offsety: 76, data: {type: 0, subtype: 2}},
-                        {offsety: 114, data: {type: 0, subtype: 3}},
-                        {offsety: 152, data: {type: 0, subtype: 4}},
-                        {offsety: 190, data: {type: 0, subtype: 5}},
-                        {offsety: 228, data: {type: 0, subtype: 6}},
-                        {offsety: 266, data: {type: 0, subtype: 7}},
-                        {offsety: 684, data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
@@ -1880,16 +1880,16 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 1, subtype: -1}},
-                        {offsety: 570, data: {type: 1, subtype: 4}},
-                        {offsety: 532, data: {type: 1, subtype: 5}},
-                        {offsety: 608, data: {type: 1, subtype: 6}},
-                        {offsety: 418, data: {type: 1, subtype: 1}},
-                        {offsety: 456, data: {type: 1, subtype: 2}},
-                        {offsety: 494, data: {type: 1, subtype: 3}},
-                        {offsety: 646, data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
@@ -1900,12 +1900,12 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 2, subtype: -1}},
-                        {offsety: 304, data: {type: 2, subtype: 1}},
-                        {offsety: 342, data: {type: 2, subtype: 2}},
-                        {offsety: 380, data: {type: 2, subtype: 3}}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
