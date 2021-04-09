@@ -1247,7 +1247,7 @@ define([
         txtCustomSort: 'Custom sort',
         txtCondFormat: 'Conditional Formatting',
         textBullets: 'Bullets',
-        textNumbering: 'Numbering',
+        textNumbering: 'Numbering'
 
     }, SSE.Views.DocumentHolder || {}));
 });
