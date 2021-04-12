@@ -106,7 +106,7 @@ const PageMacrosSettings = props => {
 
     const changeMacros = value => {
         store.changeMacrosSettings(value);
-        // props.setMacrosSettings(value);
+        props.setMacrosSettings(value);
     };
 
     return (

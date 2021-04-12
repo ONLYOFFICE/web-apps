@@ -26,7 +26,8 @@ import LongActionsController from "./LongActions";
     "storeParagraphSettings",
     "storeTableSettings",
     "storeDocumentInfo",
-    "storeChartSettings"
+    "storeChartSettings",
+    "storeApplicationSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -82,6 +83,15 @@ class MainController extends Component {
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
+
+                let value = LocalStorage.getItem("de-mobile-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
+                } else {
+                    value = parseInt(value);
+                }
+                this.props.storeApplicationSettings.changeMacrosSettings(value);
 
                 Common.Notifications.trigger('configOptionsFill');
             };
