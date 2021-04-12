@@ -319,6 +319,12 @@ class MainController extends Component {
 
     applyLicense () {
         const _t = this._t;
+        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
+        const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
+        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
+        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
+
         const appOptions = this.props.storeAppOptions;
         if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
             let value = LocalStorage.getItem("de-opensource-warning");
@@ -346,9 +352,9 @@ class MainController extends Component {
             ) {
                 license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
-                license = (license===Asc.c_oLicenseResult.Connections) ? _t.warnLicenseExceeded : _t.warnLicenseUsersExceeded;
+                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
             } else {
-                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? _t.warnNoLicense : _t.warnNoLicenseUsers;
+                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
                     text: _t.textBuyNow,
                     bold: true,
@@ -378,7 +384,7 @@ class MainController extends Component {
             if (now - value > 86400000) {
                 LocalStorage.setItem("de-license-warning", now);
                 f7.dialog.create({
-                    title: _t.textNoLicenseTitle,
+                    title: textNoLicenseTitle,
                     text : license,
                     buttons: buttons
                 }).open();
