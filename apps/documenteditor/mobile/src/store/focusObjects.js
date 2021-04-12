@@ -24,11 +24,10 @@ export class storeFocusObjects {
     _headerType = 1;
 
     resetFocusObjects (objects) {
-        this._focusObjects = objects;
     }
 
     get settings() {
-        return EditorUIController.filterFocusObjects(this._focusObjects);
+        return !!this.intf ? this.intf.filterFocusObjects() : null;
     }
 
     get headerType() {
@@ -42,83 +41,23 @@ export class storeFocusObjects {
     }
 
     get headerObject() {
-        const headers = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Header) {
-                headers.push(object);
-            }
-        }
-        if (headers.length > 0) {
-            const object = headers[headers.length - 1]; // get top
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getHeaderObject() : null;
     }
 
     get paragraphObject() {
-        const paragraphs = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
-                paragraphs.push(object);
-            }
-        }
-        if (paragraphs.length > 0) {
-            const object = paragraphs[paragraphs.length - 1]; // get top
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getParagraphObject() : null;
     }
 
     get shapeObject() {
-        const shapes = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
-                if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
-                    shapes.push(object);
-                }
-            }
-        }
-        if (shapes.length > 0) {
-            const object = shapes[shapes.length - 1]; // get top
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getShapeObject() : null;
     }
 
     get imageObject() {
-        const images = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                const imageObject = object.get_ObjectValue();
-                if (imageObject && imageObject.get_ShapeProperties() === null && imageObject.get_ChartProperties() === null) {
-                    images.push(object);
-                }
-            }
-        }
-        if (images.length > 0) {
-            const object = images[images.length - 1]; // get top
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getImageObject() : null;
     }
 
     get tableObject() {
-        const tables = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
-                tables.push(object);
-            }
-        }
-        if (tables.length > 0) {
-            const object = tables[tables.length - 1]; // get top table
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getTableObject() : null;
     }
 
     get isTableInStack() {
@@ -131,32 +70,10 @@ export class storeFocusObjects {
     }
 
     get chartObject() {
-        const charts = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
-                charts.push(object);
-            }
-        }
-        if (charts.length > 0) {
-            const object = charts[charts.length - 1]; // get top table
-            return object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getChartObject() : null;
     }
     
     get linkObject() {
-        const links = [];
-        for (let object of this._focusObjects) {
-            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                links.push(object);
-            }
-        }
-        if (links.length > 0) {
-            const object = links[links.length - 1]; // get top
-            return  object.get_ObjectValue();
-        } else {
-            return undefined;
-        }
+        return !!this.intf ? this.intf.getLinkObject() : null;
     }
 }

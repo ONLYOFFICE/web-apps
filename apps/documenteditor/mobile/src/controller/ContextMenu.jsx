@@ -7,6 +7,7 @@ import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import { Device } from '../../../../common/mobile/utils/device';
+import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
@@ -64,28 +65,25 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
+        if ( EditorUIController.ContextMenu.handleMenuItemClick(this, action) )
+            return;
+
         const api = Common.EditorApi.get();
         switch (action) {
             case 'cut':
-                if (!api.Cut() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-                }
+
                 break;
             case 'copy':
-                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-                }
+
                 break;
             case 'paste':
-                if (!api.Paste() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-                }
-                break;
-            case 'addcomment':
-                Common.Notifications.trigger('addcomment');
-                break;
-            case 'viewcomment':
-                Common.Notifications.trigger('viewcomment');
+
                 break;
             case 'review':
                 setTimeout(() => {
@@ -97,17 +95,8 @@ class ContextMenu extends ContextMenuController {
                     this.props.openOptions('coauth', 'cm-review-change');
                 }, 400);
                 break;
-            case 'merge':
-                api.MergeCells();
-                break;
             case 'split':
                 this.showSplitModal();
-                break;
-            case 'delete':
-                api.asc_Remove();
-                break;
-            case 'deletetable':
-                api.remTable();
                 break;
             case 'edit':
                 setTimeout(() => {
@@ -117,17 +106,7 @@ class ContextMenu extends ContextMenuController {
             case 'addlink':
                 setTimeout(() => {
                     this.props.openOptions('add', 'link');
-                }, 400)
-                break;
-            case 'openlink':
-                const stack = Common.EditorApi.get().getSelectedElements();
-                let value;
-                stack.forEach((item) => {
-                    if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                        value = item.get_ObjectValue().get_Value();
-                    }
-                });
-                value && this.openLink(value);
+                }, 400);
                 break;
         }
 
@@ -228,196 +207,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { t } = this.props;
-        const _t = t("ContextMenu", { returnObjects: true });
-
-        const { isEdit, canViewComments, canReview, isDisconnected } = this.props;
-
-        const api = Common.EditorApi.get();
-        const stack = api.getSelectedElements();
-        const canCopy = api.can_CopyCut();
-
-        let itemsIcon = [],
-            itemsText = [];
-
-        if ( canCopy ) {
-            itemsIcon.push({
-                event: 'copy',
-                icon: 'icon-copy'
-            });
-        }
-
-        if ( canViewComments && this.isComments && !isEdit ) {
-            itemsText.push({
-                caption: _t.menuViewComment,
-                event: 'viewcomment'
-            });
-        }
-
-        let isText = false,
-            isTable = false,
-            isImage = false,
-            isChart = false,
-            isShape = false,
-            isLink = false,
-            lockedText = false,
-            lockedTable = false,
-            lockedImage = false,
-            lockedHeader = false;
-
-        stack.forEach(item => {
-            const objectType = item.get_ObjectType(),
-                    objectValue = item.get_ObjectValue();
-
-            if ( objectType == Asc.c_oAscTypeSelectElement.Header ) {
-                lockedHeader = objectValue.get_Locked();
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Paragraph ) {
-                lockedText = objectValue.get_Locked();
-                isText = true;
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Image ) {
-                lockedImage = objectValue.get_Locked();
-                if ( objectValue && objectValue.get_ChartProperties() ) {
-                    isChart = true;
-                } else
-                if ( objectValue && objectValue.get_ShapeProperties() ) {
-                    isShape = true;
-                } else {
-                    isImage = true;
-                }
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Table ) {
-                lockedTable = objectValue.get_Locked();
-                isTable = true;
-            } else
-            if ( objectType == Asc.c_oAscTypeSelectElement.Hyperlink ) {
-                isLink = true;
-            }
-        });
-
-        if ( stack.length > 0 ) {
-            const swapItems = function(items, indexBefore, indexAfter) {
-                items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
-            };
-
-            if ( isEdit && !isDisconnected ) {
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy ) {
-                    itemsIcon.push({
-                        event: 'cut',
-                        icon: 'icon-cut'
-                    });
-
-                    // Swap 'Copy' and 'Cut'
-                    swapItems(itemsIcon, 0, 1);
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
-                    itemsIcon.push({
-                        event: 'paste',
-                        icon: 'icon-paste'
-                    });
-                }
-
-                if ( isTable && api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
-                    itemsText.push({
-                        caption: _t.menuMerge,
-                        event: 'merge'
-                    });
-                }
-
-                if ( isTable && api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader ) {
-                    itemsText.push({
-                        caption: _t.menuSplit,
-                        event: 'split'
-                    });
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ) {
-                    itemsText.push({
-                        caption: _t.menuDelete,
-                        event: 'delete'
-                    });
-                }
-
-                if ( isTable && !lockedTable && !lockedText && !lockedHeader ) {
-                    itemsText.push({
-                        caption: _t.menuDeleteTable,
-                        event: 'deletetable'
-                    });
-                }
-
-                if ( !lockedText && !lockedTable && !lockedImage && !lockedHeader ){
-                    itemsText.push({
-                        caption: _t.menuEdit,
-                        event: 'edit'
-                    });
-                }
-
-                if ( !!api.can_AddHyperlink() && !lockedHeader) {
-                    itemsText.push({
-                        caption: _t.menuAddLink,
-                        event: 'addlink'
-                    });
-                }
-
-                if ( canReview ) {
-                    if (this.inRevisionChange) {
-                        itemsText.push({
-                            caption: _t.menuReviewChange,
-                            event: 'reviewchange'
-                        });
-                    } else {
-                        itemsText.push({
-                            caption: _t.menuReview,
-                            event: 'review'
-                        });
-                    }
-                }
-
-                if ( this.isComments && canViewComments ) {
-                    itemsText.push({
-                        caption: _t.menuViewComment,
-                        event: 'viewcomment'
-                    });
-                }
-
-                const isObject = isShape || isChart || isImage || isTable;
-                const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
-                if ( !hideAddComment ) {
-                    itemsText.push({
-                        caption: _t.menuAddComment,
-                        event: 'addcomment'
-                    });
-                }
-            }
-        }
-
-        if ( isLink ) {
-            itemsText.push({
-                caption: _t.menuOpenLink,
-                event: 'openlink'
-            });
-        }
-
-        if ( Device.phone && itemsText.length > 2 ) {
-            this.extraItems = itemsText.splice(2,itemsText.length, {
-                caption: _t.menuMore,
-                event: 'showActionSheet'
-            });
-        }
-
-        return itemsIcon.concat(itemsText);
-        // return [{
-        //         caption: 'Edit',
-        //         event: 'edit'
-        //     }, {
-        //         caption: 'View',
-        //         event: 'view'
-        //     }, {
-        //         icon: 'icon-paste',
-        //         event: 'review'
-        //     }];
+        return EditorUIController.ContextMenu.mapMenuItems(this);
     }
 
     initExtraItems () {
