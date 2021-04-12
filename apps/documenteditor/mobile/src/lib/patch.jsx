@@ -14,7 +14,10 @@ EditorUIController.getToolbarOptions = () => {
 EditorUIController.initFonts = () => null;
 EditorUIController.initEditorStyles = () => null;
 EditorUIController.initFocusObjects = () => null;
-EditorUIController.filterFocusObjects = () => [];
 EditorUIController.initTableTemplates = () => null;
+EditorUIController.ContextMenu = {
+    mapMenuItems: () => [],
+    handleMenuItemClick: () => true,
+};
 
 export default EditorUIController;
