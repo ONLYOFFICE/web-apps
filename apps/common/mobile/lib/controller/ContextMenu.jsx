@@ -109,15 +109,17 @@ class ContextMenuController extends Component {
                 extraItems: this.initExtraItems()
             });
 
-            this.$targetEl.css({left: `${x}px`, top: `${y}px`});
-            const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
+            if ( this.state.items.length > 0 ) {
+                this.$targetEl.css({left: `${x}px`, top: `${y}px`});
+                const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
-            if ( Device.android )
-                this.offsetPopoverTop(popover);
+                if (Device.android)
+                    this.offsetPopoverTop(popover);
 
-            this.setState(state => {
-                return {opened: true}
-            });
+                this.setState(state => {
+                    return {opened: true}
+                });
+            }
         }
     }
 
