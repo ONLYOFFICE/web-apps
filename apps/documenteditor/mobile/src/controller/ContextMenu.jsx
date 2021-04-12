@@ -164,14 +164,13 @@ class ContextMenu extends ContextMenuController {
         const dialog = f7.dialog.create({
             title: _t.menuSplit,
             text: '',
-            content:
-                '<div class="content-block">' +
-                '<div class="row">' +
-                '<div class="col-50">' + _t.textColumns + '</div>' +
-                '<div class="col-50">' + _t.textRows + '</div>' +
-                '</div>' +
-                '<div id="picker-split-size"></div>' +
-                '</div>',
+            content: `<div class="content-block">
+                        <div class="row">
+                            <div class="col-50">${_t.textColumns}</div>
+                            <div class="col-50">${_t.textRows}</div>
+                        </div>
+                        <div id="picker-split-size"></div>
+                    </div>`,
             buttons: [
                 {
                     text: _t.menuCancel
