@@ -209,6 +209,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
         }
 
         f7.dialog.create({
+            cssClass: 'error-dialog',
             title   : config.title,
             text    : config.msg,
             buttons: [

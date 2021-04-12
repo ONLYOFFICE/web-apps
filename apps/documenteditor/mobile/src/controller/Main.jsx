@@ -124,21 +124,21 @@ class MainController extends Component {
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
-                    // var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
-                    // docInfo.asc_putIsEnabledMacroses(!!enable);
-                    // enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
-                    // docInfo.asc_putIsEnabledPlugins(!!enable);
+                    let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                    // let type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
-                    // if (type && typeof type[1] === 'string') {
-                    //     this.permissions.edit = this.permissions.review = false;
-                    // }
+                    const type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    if (type && typeof type[1] === 'string') {
+                        this.permissions.edit = this.permissions.review = false;
+                    }
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 this.api.asc_registerCallback('asc_onDocumentContentReady', onDocumentContentReady);
                 this.api.asc_registerCallback('asc_onLicenseChanged', this.onLicenseChanged.bind(this));
-                // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', this.onRunAutostartMacroses.bind(this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -258,6 +258,19 @@ class MainController extends Component {
                     Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
                     Common.Gateway.appReady();
+
+                    Common.Gateway.on('internalcommand', function(data) {
+                        if (data.command === 'hardBack') {
+                            if ($$('.modal-in').length > 0) {
+                                if ( !($$('.error-dialog.modal-in').length > 0) ) {
+                                    f7.dialog.close();
+                                }
+                                Common.Gateway.internalMessage('hardBack', false);
+                            } else
+                                Common.Gateway.internalMessage('hardBack', true);
+                        }
+                    });
+                    Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -674,6 +687,52 @@ class MainController extends Component {
             }).open();
 
             Common.component.Analytics.trackEvent('External Error');
+        }
+    }
+
+    onRunAutostartMacroses () {
+        const config = this.props.storeAppOptions.config;
+        const enable = !config.customization || (config.customization.macros !== false);
+        if (enable) {
+            const value = this.props.storeApplicationSettings.macrosMode;
+            if (value === 1) {
+                this.api.asc_runAutostartMacroses();
+            } else if (value === 0) {
+                const _t = this._t;
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: _t.textHasMacros,
+                    content: `<div class="checkbox-in-modal">
+                      <label class="checkbox">
+                        <input type="checkbox" name="checkbox-show-macros" />
+                        <i class="icon-checkbox"></i>
+                      </label>
+                      <span class="right-text">${_t.textRemember}</span>
+                      </div>`,
+                    buttons: [{
+                        text: _t.textYes,
+                        onClick: () => {
+                            const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                            if (dontshow) {
+                                this.props.storeApplicationSettings.changeMacrosSettings(1);
+                                LocalStorage.setItem("de-mobile-macros-mode", 1);
+                            }
+                            setTimeout(() => {
+                                this.api.asc_runAutostartMacroses();
+                            }, 1);
+                        }},
+                        {
+                            text: _t.textNo,
+                            onClick: () => {
+                                const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                                if (dontshow) {
+                                    this.props.storeApplicationSettings.changeMacrosSettings(2);
+                                    LocalStorage.setItem("de-mobile-macros-mode", 2);
+                                }
+                            }
+                        }]
+                }).open();
+            }
         }
     }
 

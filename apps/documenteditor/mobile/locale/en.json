@@ -52,7 +52,11 @@
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
 
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
-    "titleUpdateVersion": "Version changed"
+    "titleUpdateVersion": "Version changed",
+    "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
+    "textRemember": "Remember my choice",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Error": {
     "criticalErrorTitle": "Error",
