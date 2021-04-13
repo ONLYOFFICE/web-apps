@@ -22,8 +22,9 @@
             margin-top: auto;
 
             + span {
-                border: @scaled-one-px-value-ie dotted transparent;
-                border: @scaled-one-px-value dotted transparent;
+                outline: @scaled-one-px-value-ie dotted transparent;
+                outline: @scaled-one-px-value dotted transparent;
+                display: inline-block;
             }
         }
 
@@ -78,8 +79,8 @@
                 border-color: @border-control-focus;
 
                 + span {
-                    border-color: @border-control-focus-ie;
-                    border-color: @border-control-focus;
+                    outline-color: @border-control-focus-ie;
+                    outline-color: @border-control-focus;
                 }
             }
         }
