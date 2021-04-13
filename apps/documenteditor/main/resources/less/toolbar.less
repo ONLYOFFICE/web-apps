@@ -44,10 +44,8 @@
 
     > li > a.item-contents {
         div {
-            //.background-ximage-v2('toolbar/contents.png', 246px, @commonimage: false);
             background-color: #fff;
             width: 248px;
-            //height: @contents-menu-item-height;
 
             .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
             .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
@@ -56,6 +54,10 @@
             &.selected {
                 .box-shadow(0 0 0 2px @border-control-focus-ie);
                 .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
+            }
+
+            canvas {
+                vertical-align: middle;
             }
         }
 
@@ -68,18 +70,6 @@
             }
         }
     }
-    //
-    //.loop(@counter) when (@counter > 0) {
-    //    .loop((@counter - 1));
-    //    li:nth-child(@{counter}) > a.item-contents {
-    //        div {
-    //            @incr-height: (@counter - 1)*@contents-menu-item-height;
-    //            background-position: 0 ~"calc(var(--bckgHOffset) - @{incr-height})";
-    //        }
-    //    }
-    //}
-
-    //.loop(2);
 }
 
 // page number position
