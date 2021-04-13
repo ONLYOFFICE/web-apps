@@ -191,26 +191,59 @@ class MainController extends Component {
             };
 
             const onDocumentContentReady = () => {
-                if (this.props.storeAppOptions.isEdit && this.needToUpdateVersion) {
-                    Common.Notifications.trigger('api:disconnect');
-                }
+                const appOptions = this.props.storeAppOptions;
+                const appSettings = this.props.storeApplicationSettings;
 
-                this.applyLicense();
-
-                Common.Gateway.documentReady();
                 f7.emit('resize');
-
-                Common.Notifications.trigger('document:ready');
 
                 this._isDocReady = true;
 
+                this.api.SetDrawingFreeze(false);
+
                 Common.Notifications.trigger('preloader:close');
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+
+                let value = LocalStorage.getItem("de-settings-zoom");
+                const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
+                (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+
+                value = LocalStorage.getBool("de-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck === false));
+                appSettings.changeSpellCheck(value);
+                this.api.asc_setSpellCheck(value);
+
+                this.updateWindowTitle(true);
+
+                this.api.SetTextBoxInputMode(LocalStorage.getBool("de-settings-inputmode"));
+
+                value = LocalStorage.getBool("de-mobile-no-characters");
+                appSettings.changeNoCharacters(value);
+                this.api.put_ShowParaMarks(value);
+
+                value = LocalStorage.getBool("de-mobile-hidden-borders");
+                appSettings.changeShowTableEmptyLine(value);
+                this.api.put_ShowTableEmptyLine(value);
+
+                if (appOptions.isEdit && this.needToUpdateVersion) {
+                    Common.Notifications.trigger('api:disconnect');
+                }
 
                 Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
+
+                Common.Gateway.sendInfo({
+                    mode: appOptions.isEdit ? 'edit' : 'view'
+                });
+
+                this.api.Resize();
+                this.api.zoomFitToWidth();
+                this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);
+
+                this.applyLicense();
+
+                Common.Notifications.trigger('document:ready');
+                Common.Gateway.documentReady();
             };
 
             const _process_array = (array, fn) => {

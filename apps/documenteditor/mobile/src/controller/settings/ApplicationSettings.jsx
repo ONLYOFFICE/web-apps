@@ -18,20 +18,17 @@ class ApplicationSettingsController extends Component {
     }
 
     switchSpellCheck(value) {
-        const api = Common.EditorApi.get();
-        // let state = value === '1' ? true : false;
-        // Common.localStorage.setItem("de-mobile-spellcheck", value ? 1 : 0);
-        api.asc_setSpellCheck(value);
+        LocalStorage.setBool("de-mobile-spellcheck", value);
+        Common.EditorApi.get().asc_setSpellCheck(value);
     }
 
     switchNoCharacters(value) {
-        LocalStorage.setItem("de-mobile-no-characters", value);
-
+        LocalStorage.setBool("de-mobile-no-characters", value);
         Common.EditorApi.get().put_ShowParaMarks(value);
     }
 
     switchShowTableEmptyLine(value) {
-        LocalStorage.setItem("de-mobile-hidden-borders", value);
+        LocalStorage.setBool("de-mobile-hidden-borders", value);
         Common.EditorApi.get().put_ShowTableEmptyLine(value);
     }
 
