@@ -95,7 +95,7 @@ define([
         value       : 'unchecked',
 
         template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
-                                    '<label for="<%= id %>" class="checkbox__shape"></label><span><%= labelText %></span></label>'),
+                                    '<label for="<%= id %>" class="checkbox__shape"></label><span></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -108,7 +108,6 @@ define([
             var me = this;
             if (!me.rendered) {
                 var elem = this.template({
-                    labelText: this.options.labelText,
                     id: Common.UI.getId('chb-')
                 });
                 if (parentEl) {
@@ -120,6 +119,7 @@ define([
 
                 this.$chk = me.$el.find('input[type=checkbox]');
                 this.$label = me.$el.find('label.checkbox-indeterminate');
+                this.$span = me.$label.find('span');
                 this.$chk.on('click', this.onItemCheck.bind(this));
                 this.$label.on('keydown', this.onKeyDown.bind(this));
 
@@ -131,6 +131,8 @@ define([
 
             if (this.options.value!==undefined)
                 this.setValue(this.options.value, true);
+
+            this.setCaption(this.options.labelText);
 
             // handle events
             return this;
@@ -144,6 +146,12 @@ define([
             if (disabled !== this.disabled) {
                 this.$label.toggleClass('disabled', disabled);
                 (disabled) ? this.$chk.attr({disabled: disabled}) : this.$chk.removeAttr('disabled');
+                if (disabled) {
+                    this.tabindex = this.$label.attr('tabindex');
+                    this.$label.attr('tabindex', -1);
+                } else if (this.tabindex) {
+                    this.$label.attr('tabindex', this.tabindex);
+                }
             }
 
             this.disabled = disabled;
@@ -194,7 +202,8 @@ define([
         },
 
         setCaption: function(text) {
-            this.$label.find('span').text(text);
+            this.$span.text(text);
+            this.$span.css('visibility', text ? 'visible' : 'hidden');
         },
 
         onKeyDown: function(e) {
