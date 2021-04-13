@@ -148,7 +148,7 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
 
         getFocusedComponents: function() {
             return [
-                this.spnAngle,  // 0 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];
         },

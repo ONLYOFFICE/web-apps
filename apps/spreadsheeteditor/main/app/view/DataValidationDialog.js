@@ -265,9 +265,9 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
         getFocusedComponents: function() {
             return [
-                this.cmbAllow, this.cmbData, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, // 0 tab
-                this.inputInputTitle, this.textareaInput,  // 1 tab
-                this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
+                this.cmbAllow, this.cmbData, this.chIgnore, this.chShowDropDown, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, this.chApply, // 0 tab
+                this.chShowInput, this.inputInputTitle, this.textareaInput,  // 1 tab
+                this.chShowError, this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
             ];
         },
 
@@ -281,10 +281,16 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                         me.cmbAllow.focus();
                         break;
                     case 1:
-                        me.inputInputTitle.focus();
+                        if (!me.inputInputTitle.isDisabled())
+                            me.inputInputTitle.focus();
+                        else
+                            me.chShowInput.focus();
                         break;
                     case 2:
-                        me.cmbStyle.focus();
+                        if (!me.cmbStyle.isDisabled())
+                            me.cmbStyle.focus();
+                        else
+                            me.chShowError.focus();
                         break;
                 }
             }, 10);

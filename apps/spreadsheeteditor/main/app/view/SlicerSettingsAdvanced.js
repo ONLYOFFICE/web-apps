@@ -386,7 +386,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.inputHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+                this.inputHeader, this.chHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+                this.chHideNoData, this.chIndNoData, this.chShowNoData, // 1 tab
                 this.inputName,  // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 4 tab
             ];
@@ -400,6 +401,9 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 switch (index) {
                     case 0:
                         me.inputHeader.focus();
+                        break;
+                    case 1:
+                        me.chHideNoData.focus();
                         break;
                     case 2:
                         me.inputName.focus();

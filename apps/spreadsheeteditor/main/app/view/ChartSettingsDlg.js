@@ -1016,20 +1016,22 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
         getFocusedComponents: function() {
             return [
-                this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.txtSeparator, // 1 tab
+                this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.chSeriesName, this.chCategoryName, this.chValue, this.txtSeparator, // 1 tab
                 this.cmbVertTitle[0], this.cmbVertGrid[0],
-                this.cmbMinType[0], this.spnMinValue[0], this.cmbMaxType[0], this.spnMaxValue[0], this.cmbVCrossType[0], this.spnVAxisCrosses[0],
-                this.cmbUnits[0] , this.cmbVMajorType[0], this.cmbVMinorType[0], this.cmbVLabelPos[0], // 2 tab
+                this.chVertHide[0], this.cmbMinType[0], this.spnMinValue[0], this.cmbMaxType[0], this.spnMaxValue[0], this.cmbVCrossType[0], this.spnVAxisCrosses[0],
+                this.chVReverse[0], this.cmbUnits[0] , this.cmbVMajorType[0], this.cmbVMinorType[0], this.cmbVLabelPos[0], // 2 tab
                 this.cmbVertTitle[1], this.cmbVertGrid[1],
-                this.cmbMinType[1] , this.spnMinValue[1], this.cmbMaxType[1], this.spnMaxValue[1], this.cmbVCrossType[1], this.spnVAxisCrosses[1],
-                this.cmbUnits[1] , this.cmbVMajorType[1], this.cmbVMinorType[1], this.cmbVLabelPos[1], // 3 tab
-                this.cmbHorTitle[0], this.cmbHorGrid[0],
-                this.cmbHCrossType[0] , this.spnHAxisCrosses[0], this.cmbAxisPos[0], this.cmbHMajorType[0], this.cmbHMinorType[0], this.spnMarksInterval[0],
+                this.chVertHide[1], this.cmbMinType[1] , this.spnMinValue[1], this.cmbMaxType[1], this.spnMaxValue[1], this.cmbVCrossType[1], this.spnVAxisCrosses[1],
+                this.chVReverse[1], this.cmbUnits[1] , this.cmbVMajorType[1], this.cmbVMinorType[1], this.cmbVLabelPos[1], // 3 tab
+                this.chHorHide[0], this.cmbHorTitle[0], this.cmbHorGrid[0],
+                this.cmbHCrossType[0] , this.spnHAxisCrosses[0], this.cmbAxisPos[0], this.chHReverse[0], this.cmbHMajorType[0], this.cmbHMinorType[0], this.spnMarksInterval[0],
                 this.cmbHLabelPos[0] , this.spnLabelDist[0], this.cmbLabelInterval[0], this.spnLabelInterval[0], // 4 tab
-                this.cmbHorTitle[1], this.cmbHorGrid[1],
-                this.cmbHCrossType[1] , this.spnHAxisCrosses[1], this.cmbAxisPos[1], this.cmbHMajorType[1], this.cmbHMinorType[1], this.spnMarksInterval[1],
+                this.chHorHide[1], this.cmbHorTitle[1], this.cmbHorGrid[1],
+                this.cmbHCrossType[1] , this.spnHAxisCrosses[1], this.cmbAxisPos[1], this.chHReverse[1], this.cmbHMajorType[1], this.cmbHMinorType[1], this.spnMarksInterval[1],
                 this.cmbHLabelPos[1] , this.spnLabelDist[1], this.cmbLabelInterval[1], this.spnLabelInterval[1], // 5 tab
-                this.inputAltTitle, this.textareaAltDescription  // 7 tab
+                this.cmbEmptyCells, this.chShowEmpty, // 6 tab
+                this.chShowAxis, this.chReverse, this.cmbSparkMinType, this.spnSparkMinValue, this.cmbSparkMaxType, this.spnSparkMaxValue, // 7 tab
+                this.inputAltTitle, this.textareaAltDescription  // 9 tab
             ];
         },
 
@@ -1051,6 +1053,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     case 5:
                         me.onHCategoryClick(index-4);
                         me.cmbHCrossType[index-4].focus();
+                        break;
+                    case 6:
+                        me.cmbEmptyCells.focus();
+                        break;
+                    case 7:
+                        me.chShowAxis.focus();
                         break;
                     case 9:
                         me.inputAltTitle.focus();
