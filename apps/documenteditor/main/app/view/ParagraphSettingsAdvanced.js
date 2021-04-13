@@ -680,9 +680,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         getFocusedComponents: function() {
             return [
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
-                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
-                this.numSpacing, this.numPosition, // 3 tab
-                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, {cmp: this.tabList, selector: '.listview'}, // 4 tab
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
+                this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
+                this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, // 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
             ];
         },
@@ -696,8 +697,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     case 0:
                         me.cmbTextAlignment.focus();
                         break;
+                    case 1:
+                        me.chBreakBefore.focus();
+                        break;
                     case 3:
-                        me.numSpacing.focus();
+                        me.chStrike.focus();
                         break;
                     case 4:
                         me.numDefaultTab.focus();

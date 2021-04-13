@@ -121,6 +121,7 @@ define([
                 this.$chk = me.$el.find('input[type=checkbox]');
                 this.$label = me.$el.find('label.checkbox-indeterminate');
                 this.$chk.on('click', this.onItemCheck.bind(this));
+                this.$label.on('keydown', this.onKeyDown.bind(this));
 
                 this.rendered = true;
             }
@@ -194,6 +195,18 @@ define([
 
         setCaption: function(text) {
             this.$label.find('span').text(text);
+        },
+
+        onKeyDown: function(e) {
+            if (e.isDefaultPrevented())
+                return;
+
+            if (e.keyCode === Common.UI.Keys.SPACE)
+                this.onItemCheck(e);
+        },
+
+        focus: function() {
+            this.$label && this.$label.focus();
         }
     });
 });
