@@ -188,7 +188,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFormat, this.cmbLang, this.inputFixed, this.inputFooter ];
+            return [ this.chDateTime, this.cmbFormat, this.cmbLang, this.inputFixed, this.chSlide, this.chFooter, this.inputFooter, this.chNotTitle ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -198,6 +198,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 return this.inputFixed;
             else if (!this.inputFooter.isDisabled())
                 return this.inputFooter;
+            else
+                return this.chDateTime;
         },
 
         focusControls: function() {
