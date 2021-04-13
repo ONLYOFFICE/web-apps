@@ -176,7 +176,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbLang, {cmp: this.listFormats, selector: '.listview'}];
+            return [this.cmbLang, this.listFormats, this.chUpdate];
         },
 
         getDefaultFocusableComponent: function () {

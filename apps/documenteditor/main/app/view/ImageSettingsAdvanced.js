@@ -1155,13 +1155,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         getFocusedComponents: function() {
             return [
                 this.spnWidth, this.spnHeight, // 0 tab
-                this.spnShapeWidth , this.spnShapeWidthPc, this.cmbWidthPc, this.spnShapeHeight, this.spnShapeHeightPc, this.cmbHeightPc, // 1 tab
-                this.spnAngle,  // 2 tab
+                this.spnShapeWidth , this.spnShapeWidthPc, this.cmbWidthPc, this.spnShapeHeight, this.spnShapeHeightPc, this.cmbHeightPc, this.chRatio, // 1 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
                 this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 3 tab
                 this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition, this.spnXPc, this.cmbHPositionPc,
-                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, // 4 tab
+                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, this.chMove, this.chOverlap, // 4 tab
                 this.cmbCapType, this.cmbJoinType, // 5 tab
-                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
+                this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
                 this.inputAltTitle, this.textareaAltDescription  // 7 tab
             ];
         },
@@ -1196,7 +1196,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         me.cmbCapType.focus();
                         break;
                     case 6:
-                        me.spnMarginTop.focus();
+                        me.chAutofit.focus();
                         break;
                     case 7:
                         me.inputAltTitle.focus();

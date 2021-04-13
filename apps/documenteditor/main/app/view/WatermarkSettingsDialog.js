@@ -383,7 +383,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.cmbScale ];
+            return [ this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.cmbFontSize, this.cmbScale ];
         },
 
         getDefaultFocusableComponent: function () {

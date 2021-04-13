@@ -143,7 +143,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions];
+            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions, this.chDate];
         },
 
         getDefaultFocusableComponent: function () {

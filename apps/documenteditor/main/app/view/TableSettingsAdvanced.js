@@ -1010,10 +1010,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
         getFocusedComponents: function() {
             return [
-                this.nfWidth, this.cmbUnit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.nfSpacing, // 0 tab
-                this.nfPrefWidth, this.cmbPrefWidthUnit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 1 tab
+                this.chWidth, this.nfWidth, this.cmbUnit, this.chAutofit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.chAllowSpacing, this.nfSpacing, // 0 tab
+                this.chPrefWidth, this.nfPrefWidth, this.cmbPrefWidthUnit, this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, this.chWrapText, // 1 tab
                 this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition,
-                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, // 3 tab
+                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.chMove, this.chOverlap, // 3 tab
                 this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
                 this.inputAltTitle, this.textareaAltDescription  // 5 tab
             ];
@@ -1035,8 +1035,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                         me.onCellCategoryClick(btn);
                         if (!me.nfPrefWidth.isDisabled())
                             me.nfPrefWidth.focus();
-                        else if (!me.spnMarginTop.isDisabled())
-                            me.spnMarginTop.focus();
+                        else
+                            me.chPrefWidth.focus();
                         break;
                     case 3:
                         if (!me.cmbHAlign.isDisabled())

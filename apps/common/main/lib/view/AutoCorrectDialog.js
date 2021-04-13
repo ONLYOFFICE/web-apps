@@ -337,6 +337,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
+            this.btnsCategory[2].on('click', _.bind(this.onAutoformatCategoryClick, this, false));
 
             this.afterRender();
         },
@@ -351,10 +352,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [
-                this.inputReplace, this.inputBy, {cmp: this.mathList, selector: '.listview'}, // 0 tab
-                this.inputRecFind, {cmp: this.mathRecList, selector: '.listview'} // 1 tab
-            ];
+            var arr = [
+                    this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, // 0 tab
+                    this.inputRecFind, this.mathRecList // 1 tab
+                ];
+            arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
+            return arr;
         },
 
         getSettings: function() {
@@ -395,6 +398,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var value = this.getActiveCategory();
             if (value==0) this.onMathCategoryClick(true);
             else if (value==1) this.onRecCategoryClick(true);
+            else if (value==2) this.onAutoformatCategoryClick(true);
         },
 
         close: function() {
@@ -415,6 +419,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     me.mathList.onResetItems();
                 },delay ? 100 : 10);
             }
+        },
+
+        onAutoformatCategoryClick: function(delay) {
+            var me = this;
+            _.delay(function(){
+                me.chNewRows ? me.chNewRows.focus() : me.chQuotes.focus();
+            },delay ? 50 : 0);
         },
 
         onDelete: function() {

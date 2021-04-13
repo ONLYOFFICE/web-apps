@@ -340,7 +340,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.cmbAlign, this.cmbSize, {cmp: this.levelsList, selector: '.listview'}];
+            return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.levelsList];
         },
 
         getDefaultFocusableComponent: function () {

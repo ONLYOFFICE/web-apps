@@ -249,7 +249,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, {cmp: this.bookmarksList, selector: '.listview'}];
+            return [this.txtName, this.bookmarksList, this.chHidden];
         },
 
         afterRender: function() {

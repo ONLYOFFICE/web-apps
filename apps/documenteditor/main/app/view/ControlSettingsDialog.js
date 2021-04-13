@@ -358,8 +358,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         getFocusedComponents: function() {
             return [
                 this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, // 0 tab
-                {cmp: this.list, selector: '.listview'}, // 2 tab
-                this.txtDate, {cmp: this.listFormats, selector: '.listview'}, this.cmbLang // 3 tab
+                this.chLockDelete , this.chLockEdit, // 1 tab
+                this.list, // 2 tab
+                this.txtDate, this.listFormats, this.cmbLang // 3 tab
             ];
         },
 
@@ -370,6 +371,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             setTimeout(function(){
                 if (index==0) {
                     me.txtName.focus();
+                } else if (index==1) {
+                    me.chLockDelete.focus();
                 } else if (index==2) {
                     me.list.focus();
                 } else if (index==3)
