@@ -4,6 +4,7 @@ import { inject } from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
+import EditorUIController from '../lib/patch';
 import {
     CommentsController,
     AddCommentController,
@@ -44,6 +45,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
+                EditorUIController.isSupportEditFeature();
+
                 console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
