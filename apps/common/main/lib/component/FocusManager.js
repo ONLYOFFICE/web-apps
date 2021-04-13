@@ -58,7 +58,6 @@ Common.UI.FocusManager = new(function() {
         }
         fields.forEach(function(field) {
             if (field) {
-                // var item = (field.cmp && typeof field.selector == 'string') ? field : {cmp: field, selector: '.form-control'};
                 var item = {};
                 if (field.cmp && typeof field.selector == 'string')
                     item = field;
@@ -68,6 +67,8 @@ Common.UI.FocusManager = new(function() {
                         item.selector = '.listview';
                     else if (field instanceof Common.UI.CheckBox)
                         item.selector = '.checkbox-indeterminate';
+                    else if (field instanceof Common.UI.TreeView)
+                        item.selector = '.treeview';
                     else
                         item.selector = '.form-control';
                 }

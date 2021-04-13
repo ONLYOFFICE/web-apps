@@ -172,7 +172,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, {cmp: this.rangeList, selector: '.listview'} ];
+            return [ this.cmbFilter, this.rangeList ];
         },
 
         getDefaultFocusableComponent: function () {
