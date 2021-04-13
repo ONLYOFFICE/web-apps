@@ -312,7 +312,7 @@ define([
         },
 
         onTableContentsOpen: function(menu) {
-            this.api.asc_getButtonsTOC(menu.items[0].id, menu.items[1].id);
+            this.api.asc_getButtonsTOC(menu.items[0].options.previewId, menu.items[1].options.previewId);
         },
 
         onNotesClick: function(type) {
