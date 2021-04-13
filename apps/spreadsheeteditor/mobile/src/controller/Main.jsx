@@ -5,6 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx'
 import { onAdvancedOptions } from './settings/Download.jsx';
+import EditorUIController from '../lib/patch';
 import {
     AddCommentController,
     CommentsController,
@@ -51,6 +52,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
+                EditorUIController.isSupportEditFeature();
+
                 let me = this;
 
                 me.editorConfig = Object.assign({}, this.editorConfig, data.config);
