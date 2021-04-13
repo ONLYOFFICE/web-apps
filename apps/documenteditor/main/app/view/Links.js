@@ -56,11 +56,17 @@ define([
                 button.on('click', function (b, e) {
                     me.fireEvent('links:contents', [0]);
                 });
+                button.menu.on('show:after', function (menu, e) {
+                    me.fireEvent('links:contents-open', [menu]);
+                });
             });
             this.contentsMenu.on('item:click', function (menu, item, e) {
                 setTimeout(function(){
                     me.fireEvent('links:contents', [item.value, true]);
                 }, 10);
+            });
+            this.contentsMenu.on('show:after', function (menu, e) {
+                me.fireEvent('links:contents-open', [menu]);
             });
 
             this.btnContentsUpdate.menu.on('item:click', function (menu, item, e) {
@@ -236,8 +242,8 @@ define([
                         var _menu = new Common.UI.Menu({
                             cls: 'toc-menu shifted-left',
                             items: [
-                                {template: contentsTemplate, offsety: 0, value: 0},
-                                {template: contentsTemplate, offsety: 72, value: 1},
+                                {template: contentsTemplate, offsety: 0, value: 0, id: 'id-toolbar-toc-0'},
+                                {template: contentsTemplate, offsety: 72, value: 1, id: 'id-toolbar-toc-1'},
                                 {caption: me.textContentsSettings, value: 'settings'},
                                 {caption: me.textContentsRemove, value: 'remove'}
                             ]
@@ -249,8 +255,8 @@ define([
                     me.contentsMenu = new Common.UI.Menu({
                         cls: 'toc-menu shifted-left',
                         items: [
-                            {template: contentsTemplate, offsety: 0, value: 0},
-                            {template: contentsTemplate, offsety: 72, value: 1},
+                            {template: contentsTemplate, offsety: 0, value: 0, id: 'id-toolbar-toc-menu-0'},
+                            {template: contentsTemplate, offsety: 72, value: 1, id: 'id-toolbar-toc-menu-1'},
                             {caption: me.textContentsSettings, value: 'settings'},
                             {caption: me.textContentsRemove, value: 'remove'}
                         ]

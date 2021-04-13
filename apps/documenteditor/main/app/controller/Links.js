@@ -67,6 +67,7 @@ define([
             this.addListeners({
                 'Links': {
                     'links:contents': this.onTableContents,
+                    'links:contents-open': this.onTableContentsOpen,
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
@@ -79,6 +80,7 @@ define([
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
                     'links:update': this.onTableContentsUpdate,
+                    'links:contents-open': this.onTableContentsOpen,
                     'links:caption': this.onCaptionClick
                 }
             });
@@ -307,6 +309,10 @@ define([
                 this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTableContentsOpen: function(menu) {
+            this.api.asc_getButtonsTOC(menu.items[0].id, menu.items[1].id);
         },
 
         onNotesClick: function(type) {
