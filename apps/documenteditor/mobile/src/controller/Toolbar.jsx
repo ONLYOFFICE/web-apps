@@ -13,6 +13,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
     const displayMode = props.storeReview.displayMode;
     const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
+    const readerMode = appOptions.readerMode;
 
     useEffect(() => {
         const onDocumentReady = () => {
@@ -188,6 +189,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
+                     readerMode={readerMode}
         />
     )
 });

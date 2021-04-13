@@ -1,6 +1,6 @@
 import React, {Component, useEffect} from 'react';
-import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,ListItem,List} from 'framework7-react';
-import { withTranslation } from 'react-i18next';
+import {View, Page, Navbar, NavRight, Link, Popup, Popover, Icon,ListItem, List, Toggle} from 'framework7-react';
+import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -57,8 +57,8 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions")( observer( withTranslation()( props => {
-    const {t} = props;
+const SettingsList = inject("storeAppOptions")(observer(props => {
+    const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const navbar = <Navbar title={_t.textSettings}>
                     {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
@@ -113,14 +113,14 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal}>
+                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
                     {_canReader &&
                         <ListItem title={_t.textReaderMode}> {/*ToDo*/}
                             <Icon slot="media" icon="icon-reader"></Icon>
-                            <Toggle checked={false} onToggleChange={() => {}}/>
+                            <Toggle checked={appOptions.readerMode} onChange={() => {props.onReaderMode()}}/>
                         </ListItem>
                     }
                     {/*ToDo: settings-orthography*/}
@@ -143,7 +143,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                     </ListItem>
                     }
                     {_canPrint &&
-                        <ListItem title={_t.textPrint}>
+                        <ListItem title={_t.textPrint} onClick={props.onPrint} link='#' className='no-indicator'>
                             <Icon slot="media" icon="icon-print"></Icon>
                         </ListItem>
                     }
@@ -164,7 +164,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
             </Page>
         </View>
     )
-})));
+}));
 
 class SettingsView extends Component {
     constructor(props) {
@@ -182,37 +182,13 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} />
+                    <SettingsList onOptionClick={this.onoptionclick} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint}/>
                 </Popup>
         )
     }
 }
 
-const Settings = props => {
-    useEffect(() => {
-        if ( Device.phone )
-            f7.popup.open('.settings-popup');
-        else f7.popover.open('#settings-popover', '#btn-settings');
-
-        return () => {
-            // component will unmount
-        }
-    });
-
-
-    const onviewclosed = () => {
-        if ( props.onclosed )
-            props.onclosed();
-    };
-
-    // if ( Device.phone ) {
-    //     return <SettingsPopup onclosed={onviewclosed} />
-    // }
-
-    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} />
-};
-
-export default Settings;
+export default SettingsView;

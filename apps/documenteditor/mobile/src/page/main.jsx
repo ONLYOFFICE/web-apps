@@ -6,7 +6,7 @@ import { inject } from "mobx-react";
 
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
-import Settings from '../view/settings/Settings';
+import Settings from '../controller/settings/Settings';
 import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';

@@ -11,7 +11,10 @@ export class storeAppOptions {
             setCanViewReview: action,
 
             lostEditingRights: observable,
-            changeEditingRights: action
+            changeEditingRights: action,
+
+            readerMode: observable,
+            changeReaderMode: action
         });
     }
 
@@ -22,6 +25,11 @@ export class storeAppOptions {
     lostEditingRights = false;
     changeEditingRights (value) {
         this.lostEditingRights = value;
+    }
+
+    readerMode = false;
+    changeReaderMode () {
+        this.readerMode = !this.readerMode;
     }
 
     config = {};
