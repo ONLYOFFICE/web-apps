@@ -8,6 +8,8 @@ export class storeAppOptions {
             canReview: observable,
             setConfigOptions: action,
             setPermissionOptions: action,
+
+            canViewReview: observable,
             setCanViewReview: action,
 
             lostEditingRights: observable,
@@ -21,6 +23,7 @@ export class storeAppOptions {
     isEdit = false;
     canViewComments = false;
     canReview = false;
+    canViewReview = false;
 
     lostEditingRights = false;
     changeEditingRights (value) {

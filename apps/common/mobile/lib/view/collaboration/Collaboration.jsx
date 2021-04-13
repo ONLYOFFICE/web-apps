@@ -87,6 +87,7 @@ const routes = [
 const PageCollaboration = inject('storeAppOptions')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
+    const appOptions = props.storeAppOptions;
     return (
         <View style={props.style} stackPages={true} routes={routes} url={props.page && `/${props.page}/`}>
             <Page name="collab__main">
@@ -103,12 +104,12 @@ const PageCollaboration = inject('storeAppOptions')(observer(props => {
                     <ListItem link={'/users/'} title={_t.textUsers}>
                         <Icon slot="media" icon="icon-users"></Icon>
                     </ListItem>
-                    {props.storeAppOptions.canViewComments &&
+                    {appOptions.canViewComments &&
                         <ListItem link='/comments/' title={_t.textComments}>
                             <Icon slot="media" icon="icon-insert-comment"></Icon>
                         </ListItem>
                     }
-                    {window.editorType === 'de' &&
+                    {window.editorType === 'de' && (appOptions.canReview || appOptions.canViewReview) &&
                         <ListItem link={'/review/'} title={_t.textReview}>
                             <Icon slot="media" icon="icon-review"></Icon>
                         </ListItem>
