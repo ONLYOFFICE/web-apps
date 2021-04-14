@@ -61,7 +61,7 @@
                 opacity: @component-disabled-opacity;
             }
 
-            &:hover {
+            &:hover:not(:disabled):not(.disabled) {
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
