@@ -1031,6 +1031,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.cmbHLabelPos[1] , this.spnLabelDist[1], this.cmbLabelInterval[1], this.spnLabelInterval[1], // 5 tab
                 this.cmbEmptyCells, this.chShowEmpty, // 6 tab
                 this.chShowAxis, this.chReverse, this.cmbSparkMinType, this.spnSparkMinValue, this.cmbSparkMaxType, this.spnSparkMaxValue, // 7 tab
+                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 8 tab
                 this.inputAltTitle, this.textareaAltDescription  // 9 tab
             ];
         },
@@ -1059,6 +1060,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         break;
                     case 7:
                         me.chShowAxis.focus();
+                        break;
+                    case 8:
+                        me.radioTwoCell.focus();
                         break;
                     case 9:
                         me.inputAltTitle.focus();

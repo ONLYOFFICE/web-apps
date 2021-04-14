@@ -351,6 +351,16 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.radioAll, this.radioFormulas, this.radioValues, this.radioFormats, this.radioComments, this.radioColWidth,
+                this.radioWBorders, this.radioFFormat, this.radioFWidth, this.radioFNFormat, this.radioVNFormat, this.radioVFormat,
+                this.radioNone, this.radioAdd, this.radioMult, this.radioSub, this.radioDiv, this.chBlanks, this.chTranspose];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.radioAll;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },

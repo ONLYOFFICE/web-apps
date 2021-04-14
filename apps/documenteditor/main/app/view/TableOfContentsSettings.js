@@ -453,8 +453,8 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.chPages, this.chAlign, this.cmbLeader, this.chLinks, this.spnLevels, this.stylesList, this.cmbStyles,
-                     this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption];
+            return [ this.chPages, this.chAlign, this.cmbLeader, this.chLinks, this.radioLevels, this.radioStyles, this.spnLevels, this.stylesList, this.cmbStyles,
+                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption];
         },
 
         getDefaultFocusableComponent: function () {
