@@ -357,7 +357,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         getFocusedComponents: function() {
             return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, // 0 tab
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
                 this.list, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang // 3 tab

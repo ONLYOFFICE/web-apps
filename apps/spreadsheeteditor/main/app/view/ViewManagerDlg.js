@@ -123,7 +123,8 @@ define([
                                 '<div class="lock-user"><%=lockuser%></div>',
                             '<% } %>',
                         '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.viewList.on('item:select', _.bind(this.onSelectItem, this))
                          .on('item:keydown', _.bind(this.onKeyDown, this))
@@ -156,6 +157,14 @@ define([
             });
             
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.viewList;
         },
 
         afterRender: function() {
@@ -286,7 +295,9 @@ define([
                             rec.get('view').asc_setName(value);
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.getDefaultFocusableComponent().focus();
+                }).show();
             }
         },
 

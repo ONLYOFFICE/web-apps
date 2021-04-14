@@ -154,6 +154,7 @@ define([
                             Common.localStorage.setItem("de-settings-datetime-default", value);
                             Common.Utils.InternalSettings.set("de-settings-datetime-default", value);
                         }
+                        this.listFormats.focus();
                     }, this)
                 });
             }, this));
@@ -176,7 +177,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbLang, this.listFormats, this.chUpdate];
+            return [this.cmbLang, this.listFormats, this.chUpdate, this.btnDefault];
         },
 
         getDefaultFocusableComponent: function () {

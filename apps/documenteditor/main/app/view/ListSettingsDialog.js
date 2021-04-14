@@ -340,7 +340,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.levelsList];
+            return [this.btnEdit, this.cmbFormat, this.cmbAlign, this.cmbSize, this.levelsList];
         },
 
         getDefaultFocusableComponent: function () {

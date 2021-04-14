@@ -214,6 +214,10 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         _setDefaults: function (props) {
             Common.UI.FocusManager.add(this, this.cmbScope);
             Common.UI.FocusManager.add(this, this.rulesList);
+            Common.UI.FocusManager.add(this, this.btnNew);
+            Common.UI.FocusManager.add(this, this.btnEdit);
+            Common.UI.FocusManager.add(this, this.btnDelete);
+
 
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));

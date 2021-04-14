@@ -353,8 +353,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
         getFocusedComponents: function() {
             var arr = [
-                    this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, // 0 tab
-                    this.inputRecFind, this.mathRecList // 1 tab
+                    this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
+                    this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec // 1 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
             return arr;
