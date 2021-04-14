@@ -216,6 +216,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             Common.UI.FocusManager.add(this, this.rulesList);
             Common.UI.FocusManager.add(this, this.btnNew);
             Common.UI.FocusManager.add(this, this.btnEdit);
+            Common.UI.FocusManager.add(this, this.btnUp);
+            Common.UI.FocusManager.add(this, this.btnDown);
             Common.UI.FocusManager.add(this, this.btnDelete);
 
 
