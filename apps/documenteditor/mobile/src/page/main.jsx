@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { f7 } from 'framework7-react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
-import { inject } from "mobx-react";
+import { observer, inject } from "mobx-react";
 
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
@@ -13,7 +13,7 @@ import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 
-export default class MainPage extends Component {
+class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -62,14 +62,17 @@ export default class MainPage extends Component {
     };
 
   render() {
+      const appOptions = this.props.storeAppOptions;
+      const config = appOptions.config;
+      const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       return (
-          <Page name="home">
+          <Page name="home" className={showLogo && 'page-with-logo'}>
               {/* Top Navbar */}
-              <Navbar id='editor-navbar' className='main-navbar'>
-                  <div className="main-logo"><Icon icon="icon-logo"></Icon></div>
+              <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
+                  {showLogo && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}
                   <Subnavbar>
-                    <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
-                    <Search useSuspense={false} />
+                      <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
+                      <Search useSuspense={false}/>
                   </Subnavbar>
               </Navbar>
               {/* Page content */}
@@ -100,4 +103,6 @@ export default class MainPage extends Component {
           </Page>
       )
   }
-};
+}
+
+export default inject("storeAppOptions")(observer(MainPage));

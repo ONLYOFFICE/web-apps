@@ -9,7 +9,10 @@
 @autoColor: @black;
 
 .navbar.main-navbar {
-    height: 26px;
+    height: 0;
+    &.navbar-with-logo {
+        height: 26px;
+    }
     .navbar-inner {
         display: flex;
         justify-content: center;
@@ -22,8 +25,13 @@
     }
 }
 
-.page.page-with-subnavbar .page-content {
-    --f7-page-subnavbar-offset: 26px;
+.page.page-with-subnavbar {
+    .page-content {
+        --f7-page-subnavbar-offset: 0px;
+    }
+    &.page-with-logo .page-content {
+        --f7-page-subnavbar-offset: 26px;
+    }
 }
 
 .popup, .popover, .sheet-modal {

@@ -16,7 +16,9 @@ export class storeAppOptions {
             changeEditingRights: action,
 
             readerMode: observable,
-            changeReaderMode: action
+            changeReaderMode: action,
+
+            canBrandingExt: observable
         });
     }
 
@@ -34,6 +36,8 @@ export class storeAppOptions {
     changeReaderMode () {
         this.readerMode = !this.readerMode;
     }
+
+    canBrandingExt = false;
 
     config = {};
     setConfigOptions (config) {
