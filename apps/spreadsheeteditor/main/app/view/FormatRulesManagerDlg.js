@@ -186,7 +186,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#format-manager-btn-up'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
@@ -194,7 +194,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             this.btnDown = new Common.UI.Button({
                 parentEl: $('#format-manager-btn-down'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
                 hint: this.textDown
             });

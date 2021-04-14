@@ -23,8 +23,8 @@
                 <td class="padding-large">
                     <button type="button" class="btn btn-text-default" id="format-manager-btn-new" style="min-width: 100px;margin-right:5px;"><%= scope.textNew %></button>
                     <button type="button" class="btn btn-text-default" id="format-manager-btn-edit" style="min-width: 100px;margin-right:5px;"><%= scope.textEdit %></button>
-                    <div id="format-manager-btn-up" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;"></div>
-                    <div id="format-manager-btn-down" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;"></div>
+                    <div id="format-manager-btn-up" style="display: inline-block;"></div>
+                    <div id="format-manager-btn-down" style="display: inline-block;"></div>
                 </td>
                 <td class="padding-large" style="text-align: right;width:90px;">
                     <button type="button" class="btn btn-text-default" id="format-manager-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>

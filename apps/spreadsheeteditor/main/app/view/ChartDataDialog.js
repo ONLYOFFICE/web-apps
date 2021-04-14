@@ -85,8 +85,8 @@ define([
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete" style="min-width: 70px;margin-right:5px;">', me.textDelete, '</button>',
                                         '<div style="display: inline-block; float: right;">',
-                                        '<div id="chart-dlg-btn-up" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;margin-right: 2px;"></div>',
-                                        '<div id="chart-dlg-btn-down" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;"></div>',
+                                        '<div id="chart-dlg-btn-up" style="display: inline-block;margin-right: 2px;"></div>',
+                                        '<div id="chart-dlg-btn-down" style="display: inline-block;"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',
@@ -175,7 +175,7 @@ define([
 
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#chart-dlg-btn-up'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
@@ -183,7 +183,7 @@ define([
 
             this.btnDown = new Common.UI.Button({
                 parentEl: $('#chart-dlg-btn-down'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
                 hint: this.textDown
             });
