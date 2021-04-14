@@ -188,7 +188,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.chDateTime, this.cmbFormat, this.cmbLang, this.inputFixed, this.chSlide, this.chFooter, this.inputFooter, this.chNotTitle ];
+            return [ this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide, this.chFooter, this.inputFooter, this.chNotTitle ];
         },
 
         getDefaultFocusableComponent: function () {

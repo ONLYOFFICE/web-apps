@@ -179,7 +179,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chAddLineNumbering, this.spnStartAt, this.spnFromText, this.spnCountBy, this.cmbApply];
+            return [this.chAddLineNumbering, this.spnStartAt, this.spnFromText, this.spnCountBy, this.rbRestartEachPage, this.rbRestartEachSection, this.rbContinuous, this.cmbApply];
         },
 
         getDefaultFocusableComponent: function () {

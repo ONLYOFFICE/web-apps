@@ -383,7 +383,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.cmbFontSize, this.cmbScale ];
+            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbFontSize, this.cmbScale ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -391,6 +391,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 return this.cmbLang;
             else if (!this.cmbScale.isDisabled())
                 return this.cmbScale;
+            else
+                return this.radioNone;
         },
 
         focusControls: function() {

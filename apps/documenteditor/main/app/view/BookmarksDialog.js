@@ -249,7 +249,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.bookmarksList, this.chHidden];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.chHidden];
         },
 
         afterRender: function() {
