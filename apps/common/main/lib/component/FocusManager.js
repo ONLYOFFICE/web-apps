@@ -75,7 +75,7 @@ Common.UI.FocusManager = new(function() {
                         item.selector = '.form-control';
                 }
                 item.el = (item.cmp.$el || $(item.cmp.el || item.cmp)).find(item.selector).addBack().filter(item.selector);
-                item.el && item.el.attr && item.el.attr('tabindex', _tabindex.toString());
+                item.el && item.el.attr && (item.cmp.setTabIndex ? item.cmp.setTabIndex(_tabindex) : item.el.attr('tabindex', _tabindex.toString()));
                 arr.push(item);
             }
         });

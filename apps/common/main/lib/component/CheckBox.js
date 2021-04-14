@@ -146,11 +146,9 @@ define([
             if (disabled !== this.disabled) {
                 this.$label.toggleClass('disabled', disabled);
                 (disabled) ? this.$chk.attr({disabled: disabled}) : this.$chk.removeAttr('disabled');
-                if (disabled) {
-                    this.tabindex = this.$label.attr('tabindex');
-                    this.$label.attr('tabindex', -1);
-                } else if (this.tabindex) {
-                    this.$label.attr('tabindex', this.tabindex);
+                if (this.tabindex!==undefined) {
+                    disabled && (this.tabindex = this.$label.attr('tabindex'));
+                    this.$label.attr('tabindex', disabled ? "-1" : this.tabindex);
                 }
             }
 
@@ -216,6 +214,14 @@ define([
 
         focus: function() {
             this.$label && this.$label.focus();
+        },
+
+        setTabIndex: function(tabindex) {
+            if (!this.rendered)
+                return;
+
+            this.tabindex = tabindex.toString();
+            !this.disabled && this.$label.attr('tabindex', this.tabindex);
         }
     });
 });
