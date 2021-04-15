@@ -17,7 +17,7 @@ const ToolbarView = props => {
             </NavLeft>
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
-                <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false}></Link>
+                <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
                 {props.isEdit && EditorUIController.getToolbarOptions({
                     disabledAdd: props.disabledAdd || props.disabledControls,
                     disabledEdit: props.disabledEdit || props.disabledControls,

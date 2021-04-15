@@ -6,6 +6,7 @@ import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx';
+import { Preview } from "../controller/Preview";
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
@@ -18,6 +19,7 @@ class MainPage extends Component {
             addOptionsVisible: false,
             settingsVisible: false,
             collaborationVisible: false,
+            previewVisible: false
         };
     }
 
@@ -35,7 +37,9 @@ class MainPage extends Component {
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
             else if ( opts == 'coauth' )
-                return {collaborationVisible: true}
+                return {collaborationVisible: true};
+            else if ( opts == 'preview' )
+                return {previewVisible: true};
         });
     };
 
@@ -50,6 +54,8 @@ class MainPage extends Component {
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false}
+                else if ( opts == 'preview' )
+                    return {previewVisible: false};
             })
         })();
     };
@@ -89,6 +95,10 @@ class MainPage extends Component {
                 !this.state.collaborationVisible ? null :
                     <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
             }
+             {
+                 !this.state.previewVisible ? null :
+                     <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />
+             }
             <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
          </Page>
     )
