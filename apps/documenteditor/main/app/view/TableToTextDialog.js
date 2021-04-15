@@ -80,8 +80,7 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
-            var $window = this.getChild(),
-                me = this;
+            var $window = this.getChild();
 
             this.rbPara = new Common.UI.RadioBox({
                 el: $window.find('#id-table-text-radio-para'),
@@ -118,16 +117,8 @@ define([
                 maxLength: 1,
                 validateOnChange: true,
                 validateOnBlur: false,
-                value: '-'
-            }).on ('changing', function(input, newValue) {
-                if (me.props && newValue) {
-                    me.props.put_SeparatorType(3, true);
-                    var size = me.props.put_Separator(newValue.charCodeAt(0), true);
-                    if (size) {
-                        me.spnColumns.setValue(size.cols, true);
-                        me.spnRows.setValue(size.rows, true);
-                    }
-                }
+                value: '-',
+                disabled: true
             });
 
             this.chNested = new Common.UI.CheckBox({
@@ -135,8 +126,7 @@ define([
                 labelText: this.textNested,
                 value: true,
                 disabled: true
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-            }, this));
+            });
 
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },

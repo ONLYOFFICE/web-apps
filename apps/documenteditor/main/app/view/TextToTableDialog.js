@@ -182,7 +182,7 @@ define([
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $window.find('#id-text-table-spn-fixed'),
                 step: 0.1,
-                width: 64,
+                width: 80,
                 defaultUnit : 'cm',
                 value: 'Auto',
                 autoText    : this.txtAutoText,
