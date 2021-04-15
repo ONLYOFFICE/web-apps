@@ -205,7 +205,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
-                plugin.set_MinVersion(item.get('minVersion'));
+                plugin.set_MinVersion && plugin.set_MinVersion(item.get('minVersion'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -513,7 +513,7 @@ define([
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit,
                 editor = me.editor,
-                apiVersion = me.api.GetVersion();
+                apiVersion = me.api.GetVersion ? me.api.GetVersion() : null;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
