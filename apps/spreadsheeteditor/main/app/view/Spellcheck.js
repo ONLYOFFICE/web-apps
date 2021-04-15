@@ -89,7 +89,7 @@ define([
 
             this.buttonNext = new Common.UI.Button({
                 parentEl: $('#spellcheck-next'),
-                style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
+                style: 'margin-left: 5px;',
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'toolbar__icon btn-nextitem',
                 hint: this.txtNextTip
