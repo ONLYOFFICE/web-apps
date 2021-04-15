@@ -73,17 +73,27 @@ class ContextMenu extends ContextMenuController {
             case 'cut':
                 if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-
                 break;
             case 'copy':
-                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-
                 break;
             case 'paste':
                 if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
                     this.showCopyCutPasteModal();
-
+                break;
+            case 'viewcomment':
+                Common.Notifications.trigger('viewcomment');
+                break;
+            case 'openlink':
+                const stack = api.getSelectedElements();
+                let value;
+                stack.forEach((item) => {
+                    if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                        value = item.get_ObjectValue().get_Value();
+                    }
+                });
+                value && this.openLink(value);
                 break;
             case 'review':
                 setTimeout(() => {
@@ -93,19 +103,6 @@ class ContextMenu extends ContextMenuController {
             case 'reviewchange':
                 setTimeout(() => {
                     this.props.openOptions('coauth', 'cm-review-change');
-                }, 400);
-                break;
-            case 'split':
-                this.showSplitModal();
-                break;
-            case 'edit':
-                setTimeout(() => {
-                    this.props.openOptions('edit');
-                }, 0);
-                break;
-            case 'addlink':
-                setTimeout(() => {
-                    this.props.openOptions('add', 'link');
                 }, 400);
                 break;
         }
@@ -206,8 +203,53 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
+        const { isEdit } = this.props;
 
-        return EditorUIController.ContextMenu.mapMenuItems(this);
+        if (isEdit) {
+            return EditorUIController.ContextMenu.mapMenuItems(this);
+        } else {
+            const { t } = this.props;
+            const _t = t("ContextMenu", {returnObjects: true});
+            const { canViewComments } = this.props;
+
+            const api = Common.EditorApi.get();
+            const stack = api.getSelectedElements();
+            const canCopy = api.can_CopyCut();
+
+            let itemsIcon = [],
+                itemsText = [];
+
+            if ( canCopy ) {
+                itemsIcon.push({
+                    event: 'copy',
+                    icon: 'icon-copy'
+                });
+            }
+
+            if ( canViewComments && this.isComments ) {
+                itemsText.push({
+                    caption: _t.menuViewComment,
+                    event: 'viewcomment'
+                });
+            }
+
+            let isLink = false;
+            stack.forEach(item => {
+                const objectType = item.get_ObjectType();
+                if ( objectType === Asc.c_oAscTypeSelectElement.Hyperlink ) {
+                    isLink = true;
+                }
+            });
+
+            if ( isLink ) {
+                itemsText.push({
+                    caption: _t.menuOpenLink,
+                    event: 'openlink'
+                });
+            }
+
+            return itemsIcon.concat(itemsText);
+        }
     }
 
     initExtraItems () {
