@@ -144,7 +144,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                                 '<% } %>',
                             '</div>',
                         '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.sortList.createNewItem = function(record) {
                 return new _CustomItem({
@@ -199,6 +200,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         afterRender: function() {
             this._setDefaults(this.props);
+        },
+
+        getFocusedComponents: function() {
+            return [ this.btnAdd, this.btnDelete, this.btnCopy, this.btnOptions, this.btnUp, this.btnDown, this.sortList ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.sortList;
         },
 
         _setDefaults: function (props) {

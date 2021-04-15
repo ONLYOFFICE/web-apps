@@ -242,18 +242,31 @@ define([
             }
         },
 
+        getFocusedComponents: function() {
+            var arr = [];
+            this.inputPwd && arr.push(this.inputPwd);
+            this.cmbEncoding && arr.push(this.cmbEncoding);
+            this.cmbDelimiter && arr.push(this.cmbDelimiter);
+            this.inputDelimiter && arr.push(this.inputDelimiter);
+            this.btnAdvanced && arr.push(this.btnAdvanced);
+            this.txtDestRange && arr.push(this.txtDestRange);
+
+            return arr;
+        },
+
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 
             var me = this;
              if (this.type == Common.Utils.importTextType.DRM) {
                  setTimeout(function(){
-                     me.inputPwd.cmpEl.find('input').focus();
+                     me.inputPwd.focus();
                      if (me.validatePwd)
                          me.inputPwd.checkValidate();
                  }, 500);
-             } else if (this.type == Common.Utils.importTextType.Data) {
-                 setTimeout(function(){me.txtDestRange.focus();}, 500);
+             } else {
+                 var cmp = me.txtDestRange ? me.txtDestRange : (me.cmbEncoding ? me.cmbEncoding : me.cmbDelimiter);
+                 cmp && setTimeout(function(){cmp.focus();}, 500);
              }
         },
 
@@ -346,7 +359,8 @@ define([
                     editable: false,
                     disabled: true,
                     search: true,
-                    itemsTemplate: itemsTemplate
+                    itemsTemplate: itemsTemplate,
+                    takeFocusOnClose: true
                 });
 
                 this.cmbEncoding.setDisabled(false);
@@ -378,7 +392,8 @@ define([
                         {value: 1, displayValue: this.txtTab},
                         {value: 5, displayValue: this.txtSpace},
                         {value: -1, displayValue: this.txtOther}],
-                    editable: false
+                    editable: false,
+                    takeFocusOnClose: true
                 });
                 this.cmbDelimiter.setValue( (this.settings && this.settings.asc_getDelimiter()) ? this.settings.asc_getDelimiter() : 4);
                 this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
