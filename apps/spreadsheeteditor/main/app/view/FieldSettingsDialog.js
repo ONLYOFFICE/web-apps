@@ -212,6 +212,29 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.inputCustomName, this.radioTabular, this.radioOutline, this.chCompact, this.chRepeat, this.chBlank, this.chSubtotals, this.radioTop, this.radioBottom, this.chEmpty, // 0 tab
+                this.chSum, this.chCount, this.chAve, this.chMax, this.chMin, this.chProduct, this.chNum, this.chDev, this.chDevp, this.chVar, this.chVarp  // 1 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.inputCustomName.focus();
+                        break;
+                    case 1:
+                        me.chSum.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
             if (this.storageName) {

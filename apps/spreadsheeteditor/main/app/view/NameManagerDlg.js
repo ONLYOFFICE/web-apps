@@ -172,7 +172,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, {cmp: this.rangeList, selector: '.listview'} ];
+            return [ this.cmbFilter, this.rangeList, this.btnNewRange, this.btnEditRange, this.btnDeleteRange ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -321,6 +321,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 }
             }).on('close', function() {
                 me.show();
+                setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
             });
             
             me.hide();

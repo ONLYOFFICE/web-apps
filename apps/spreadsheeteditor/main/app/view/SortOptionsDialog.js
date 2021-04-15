@@ -130,6 +130,14 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.chHeaders, this.radioTop, this.radioLeft];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.radioTop;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },

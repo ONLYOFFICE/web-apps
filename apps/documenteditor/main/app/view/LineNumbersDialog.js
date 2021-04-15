@@ -163,6 +163,7 @@ define([
                 el: $('#line-numbers-combo-apply'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
+                takeFocusOnClose: true,
                 editable: false,
                 data: [
                     { displayValue: this.textSection,   value: Asc.c_oAscSectionApplyType.Current },
@@ -175,6 +176,14 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+        },
+
+        getFocusedComponents: function() {
+            return [this.chAddLineNumbering, this.spnStartAt, this.spnFromText, this.spnCountBy, this.rbRestartEachPage, this.rbRestartEachSection, this.rbContinuous, this.cmbApply];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.chAddLineNumbering;
         },
 
         afterRender: function() {

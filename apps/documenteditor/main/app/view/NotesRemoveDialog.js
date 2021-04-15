@@ -88,6 +88,14 @@ define([
             });
         },
 
+        getFocusedComponents: function() {
+            return [this.chFootnote, this.chEndnote];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.chFootnote;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);

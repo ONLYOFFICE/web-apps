@@ -255,7 +255,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputRange, this.inputDisplay, this.inputTip];
+            return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
         setSettings: function(settings) {

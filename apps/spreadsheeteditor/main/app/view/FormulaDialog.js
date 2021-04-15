@@ -125,7 +125,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputSearch, this.cmbFuncGroup, {cmp: this.cmbListFunctions, selector: '.listview'}];
+            return [this.inputSearch, this.cmbFuncGroup, this.cmbListFunctions];
         },
 
         getDefaultFocusableComponent: function () {

@@ -216,7 +216,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputStart, this.inputEnd, this.inputBy, {cmp: this.listDate, selector: '.listview'}, this.spnDays];
+            return [this.chStart, this.inputStart, this.chEnd, this.inputEnd, this.inputBy, this.listDate, this.spnDays];
         },
 
         getDefaultFocusableComponent: function () {

@@ -222,8 +222,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.spnX, this.spnY,// 0 tab
-                this.spnAngle,  // 1 tab
+                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.spnY,// 0 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];
         },

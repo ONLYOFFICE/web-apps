@@ -72,7 +72,7 @@ define([
         rendered    : false,
 
         template    : _.template('<label class="radiobox"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
-                                    '<label for="<%= id %>" class="radiobox__shape"></label><span><%= labelText %></span></label>'),
+                                    '<label for="<%= id %>" class="radiobox__shape"></label><span></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -89,6 +89,8 @@ define([
             if (this.options.checked!==undefined)
                 this.setValue(this.options.checked, true);
 
+            this.setCaption(this.options.labelText);
+
             // handle events
             this.$radio.on('click', _.bind(this.onItemCheck, this));
         },
@@ -103,6 +105,8 @@ define([
 
             this.$radio = el.find('input[type=radio]');
             this.$label = el.find('label.radiobox');
+            this.$span = this.$label.find('span');
+            this.$label.on('keydown', this.onKeyDown.bind(this));
             this.rendered = true;
 
             return this;
@@ -116,6 +120,10 @@ define([
                 this.$label.toggleClass('disabled', disabled);
                 this.$radio.toggleClass('disabled', disabled);
                 (disabled) ? this.$radio.attr({disabled: disabled}) : this.$radio.removeAttr('disabled');
+                if (this.tabindex!==undefined) {
+                    disabled && (this.tabindex = this.$label.attr('tabindex'));
+                    this.$label.attr('tabindex', disabled ? "-1" : this.tabindex);
+                }
             }
 
             this.disabled = disabled;
@@ -152,7 +160,28 @@ define([
         },
 
         setCaption: function(text) {
-            this.$label.find('span').text(text);
+            this.$span.text(text);
+            this.$span.css('visibility', text ? 'visible' : 'hidden');
+        },
+
+        onKeyDown: function(e) {
+            if (e.isDefaultPrevented())
+                return;
+
+            if (e.keyCode === Common.UI.Keys.SPACE)
+                this.onItemCheck(e);
+        },
+
+        focus: function() {
+            this.$label && this.$label.focus();
+        },
+
+        setTabIndex: function(tabindex) {
+            if (!this.rendered)
+                return;
+
+            this.tabindex = tabindex.toString();
+            !this.disabled && this.$label.attr('tabindex', this.tabindex);
         }
     });
 });

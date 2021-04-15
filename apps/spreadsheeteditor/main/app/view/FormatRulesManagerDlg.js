@@ -186,7 +186,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#format-manager-btn-up'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
@@ -194,7 +194,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             this.btnDown = new Common.UI.Button({
                 parentEl: $('#format-manager-btn-down'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
                 hint: this.textDown
             });
@@ -213,7 +213,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         _setDefaults: function (props) {
             Common.UI.FocusManager.add(this, this.cmbScope);
-            Common.UI.FocusManager.add(this, {cmp: this.rulesList, selector: '.listview'});
+            Common.UI.FocusManager.add(this, this.rulesList);
+            Common.UI.FocusManager.add(this, this.btnNew);
+            Common.UI.FocusManager.add(this, this.btnEdit);
+            Common.UI.FocusManager.add(this, this.btnUp);
+            Common.UI.FocusManager.add(this, this.btnDown);
+            Common.UI.FocusManager.add(this, this.btnDelete);
+
 
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));

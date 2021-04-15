@@ -807,6 +807,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.chIconShow.on('change', function(field, newValue, oldValue, eOpts){
             });
+            Common.UI.FocusManager.add(this, this.chIconShow);
 
             this.btnReverse = new Common.UI.Button({
                 el: $('#format-rules-edit-btn-icon-reverse')
@@ -916,6 +917,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.chFill.on('change', function(field, newValue, oldValue, eOpts){
                 me.btnNegFill.setDisabled(field.getValue()=='checked');
             });
+            Common.UI.FocusManager.add(this, this.chFill);
 
             // Border
             this.cmbBorder = new Common.UI.ComboBox({
@@ -966,6 +968,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.chBorder.on('change', function(field, newValue, oldValue, eOpts){
                 me.btnNegBorder.setDisabled(field.getValue()=='checked');
             });
+            Common.UI.FocusManager.add(this, this.chBorder);
 
             // Axis
             this.cmbBarDirection = new Common.UI.ComboBox({
@@ -993,6 +996,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 el: $('#format-rules-edit-chk-show-bar'),
                 labelText: this.textShowBar
             });
+            Common.UI.FocusManager.add(this, this.chShowBar);
 
             this.cmbAxisPos = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-axis-pos'),

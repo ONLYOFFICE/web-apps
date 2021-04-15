@@ -168,7 +168,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbScaleWidth, this.cmbScaleHeight, this.spnScale];
+            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale];
         },
 
         getDefaultFocusableComponent: function () {

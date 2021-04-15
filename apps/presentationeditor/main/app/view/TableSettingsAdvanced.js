@@ -317,7 +317,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
+                this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
                 this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 0 tab
                 this.inputAltTitle, this.textareaAltDescription  // 1 tab
             ];

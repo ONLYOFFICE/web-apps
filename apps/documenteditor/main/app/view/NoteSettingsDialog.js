@@ -291,7 +291,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFootnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
+            return [this.radioFootnote, this.cmbFootnote, this.radioEndnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
         },
 
         getDefaultFocusableComponent: function () {
