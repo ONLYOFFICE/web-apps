@@ -186,8 +186,8 @@
     &.active:not(.disabled) {
         .caret-up, .caret-down {
             &::after {
-                border-color: @background-normal-ie;
-                border-color: @background-normal;
+                border-color: @text-normal-pressed-ie;
+                border-color: @text-normal-pressed;
             }
         }
 
@@ -331,8 +331,14 @@
     .btn.small;
 
     &.bg-white {
+        width: 22px;
+        height: 22px;
+
         background-color: @background-normal-ie;
         background-color: @background-normal;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
+        .border-radius(@border-radius-small);
     }
 
     &:before,

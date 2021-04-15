@@ -6,8 +6,8 @@
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-add"><%= scope.textAdd %></button>
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-delete"><%= scope.textDelete %></button>
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-copy"><%= scope.textCopy %></button>
-                    <div id="sort-dialog-btn-up" class="sort-dialog-btn-caret"></div>
-                    <div id="sort-dialog-btn-down" class="sort-dialog-btn-caret"></div>
+                    <div id="sort-dialog-btn-up" style="display: inline-block;"></div>
+                    <div id="sort-dialog-btn-down" style="display: inline-block;"></div>
                     <button type="button" class="btn btn-text-default" id="sort-dialog-btn-options" style="min-width: 100px;"><%= scope.textOptions %></button>
                 </td>
             </tr>
