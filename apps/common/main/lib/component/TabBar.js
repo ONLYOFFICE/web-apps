@@ -268,9 +268,15 @@ define([
         });
         tab.$el.children().on(
             {dragstart: $.proxy(function (e) {
-                var event = e.originalEvent,
-                    img = document.createElement('div');
-                event.dataTransfer.setDragImage(img, 0, 0);
+                var event = e.originalEvent;
+                if (!Common.Utils.isIE) {
+                    var img = document.createElement('div');
+                    event.dataTransfer.setDragImage(img, 0, 0);
+                } else {
+                    this.bar.selectTabs.forEach(function (tab) {
+                        tab.$el.find('span').prop('title', '');
+                    });
+                }
                 event.dataTransfer.effectAllowed = 'move';
                 this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
             }, this),
@@ -279,8 +285,14 @@ define([
                 if (!this.bar.isEditFormula) {
                     this.bar.$el.find('.mousemove').removeClass('mousemove right');
                     $(e.currentTarget).parent().addClass('mousemove');
-                    var data = event.dataTransfer.getData("onlyoffice");
-                    event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                    var data;
+                    if (!Common.Utils.isIE) {
+                        data = event.dataTransfer.getData('onlyoffice');
+                        event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                    } else {
+                        data = event.dataTransfer.getData('text');
+                        event.dataTransfer.dropEffect = data === 'sheet' ? 'move' : 'none';
+                    }
                 } else {
                     event.dataTransfer.dropEffect = 'none';
                 }
@@ -356,8 +368,14 @@ define([
                 event.dataTransfer.effectAllowed = 'move';
             }, this));
             addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
-                var data = event.dataTransfer.getData("onlyoffice");
-                event.dataTransfer.dropEffect = (!this.isEditFormula && data) ? 'move' : 'none';
+                var data;
+                if (!Common.Utils.isIE) {
+                    data = event.dataTransfer.getData('onlyoffice');
+                    event.dataTransfer.dropEffect = (!this.isEditFormula && data) ? 'move' : 'none';
+                } else {
+                    data = event.dataTransfer.getData('text');
+                    event.dataTransfer.dropEffect = (data === 'sheet' && !this.isEditFormula) ? 'move' : 'none';
+                }
             }, this));
             addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
                 if (event.preventDefault) {

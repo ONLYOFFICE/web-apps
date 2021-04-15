@@ -658,6 +658,7 @@
   "SSE.Controllers.Main.errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
   "SSE.Controllers.Main.errorPivotGroup": "Cannot group that selection.",
   "SSE.Controllers.Main.errorPivotOverlap": "A pivot table report cannot overlap a table.",
+  "SSE.Controllers.Main.errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Unfortunately, it is not possible to print more than 1500 pages at once in the current program version.<br>This restriction will be removed in the upcoming releases.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Saving failed",
   "SSE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",

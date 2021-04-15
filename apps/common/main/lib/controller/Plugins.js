@@ -205,6 +205,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+                plugin.set_MinVersion(item.get('minVersion'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -511,7 +512,8 @@ define([
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit,
-                editor = me.editor;
+                editor = me.editor,
+                apiVersion = me.api.GetVersion();
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
@@ -550,7 +552,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons,
+                                icons: itemVar.icons2 || itemVar.icons,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -565,6 +567,9 @@ define([
                         if (typeof item.nameLocale == 'object')
                             name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
 
+                        if (pluginVisible)
+                            pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
+
                         arr.push(new Common.Models.Plugin({
                             name : name,
                             guid: item.guid,
@@ -573,7 +578,8 @@ define([
                             currentVariation: 0,
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
-                            groupRank: (item.group) ? item.group.rank : 0
+                            groupRank: (item.group) ? item.group.rank : 0,
+                            minVersion: item.minVersion
                         }));
                     }
                 });
@@ -608,6 +614,25 @@ define([
                 this.refreshPluginsList();
                 this.runAutoStartPlugins();
             }
+        },
+
+        checkPluginVersion: function(apiVersion, pluginVersion) {
+            if (apiVersion && apiVersion!=='develop' && pluginVersion && typeof pluginVersion == 'string') {
+                var res = pluginVersion.match(/^([0-9]+)(?:.([0-9]+))?(?:.([0-9]+))?$/),
+                    apires = apiVersion.match(/^([0-9]+)(?:.([0-9]+))?(?:.([0-9]+))?$/);
+                if (res && res.length>1 && apires && apires.length>1) {
+                    for (var i=0; i<3; i++) {
+                        var pluginVer = res[i+1] ? parseInt(res[i+1]) : 0,
+                            apiVer = apires[i+1] ? parseInt(apires[i+1]) : 0;
+                        if (pluginVer>apiVer)
+                            return false;
+                        if (pluginVer<apiVer)
+                            return true;
+                    }
+                }
+
+            }
+            return true;
         },
 
         getPlugins: function(pluginsData, fetchFunction) {

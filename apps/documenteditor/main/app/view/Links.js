@@ -56,11 +56,17 @@ define([
                 button.on('click', function (b, e) {
                     me.fireEvent('links:contents', [0]);
                 });
+                button.menu.on('show:after', function (menu, e) {
+                    me.fireEvent('links:contents-open', [menu]);
+                });
             });
             this.contentsMenu.on('item:click', function (menu, item, e) {
                 setTimeout(function(){
                     me.fireEvent('links:contents', [item.value, true]);
                 }, 10);
+            });
+            this.contentsMenu.on('show:after', function (menu, e) {
+                me.fireEvent('links:contents-open', [menu]);
             });
 
             this.btnContentsUpdate.menu.on('item:click', function (menu, item, e) {
@@ -229,15 +235,15 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div id="<%= options.previewId %>"></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
                             cls: 'toc-menu shifted-left',
                             items: [
-                                {template: contentsTemplate, offsety: 0, value: 0},
-                                {template: contentsTemplate, offsety: 72, value: 1},
+                                {template: contentsTemplate, offsety: 0, value: 0, previewId: 'id-toolbar-toc-0'},
+                                {template: contentsTemplate, offsety: 72, value: 1, previewId: 'id-toolbar-toc-1'},
                                 {caption: me.textContentsSettings, value: 'settings'},
                                 {caption: me.textContentsRemove, value: 'remove'}
                             ]
@@ -249,8 +255,8 @@ define([
                     me.contentsMenu = new Common.UI.Menu({
                         cls: 'toc-menu shifted-left',
                         items: [
-                            {template: contentsTemplate, offsety: 0, value: 0},
-                            {template: contentsTemplate, offsety: 72, value: 1},
+                            {template: contentsTemplate, offsety: 0, value: 0, previewId: 'id-toolbar-toc-menu-0'},
+                            {template: contentsTemplate, offsety: 72, value: 1, previewId: 'id-toolbar-toc-menu-1'},
                             {caption: me.textContentsSettings, value: 'settings'},
                             {caption: me.textContentsRemove, value: 'remove'}
                         ]

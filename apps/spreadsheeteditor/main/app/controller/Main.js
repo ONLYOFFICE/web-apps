@@ -952,11 +952,6 @@ define([
                 Common.Gateway.documentReady();
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && (Common.Utils.InternalSettings.get("guest-username")===null))
                     this.showRenameUserDialog();
-
-                $('#header-logo').children(0).click(function(e) {
-                    e.stopImmediatePropagation();
-                    Common.UI.Themes.toggleTheme();
-                })
             },
 
             onLicenseChanged: function(params) {
@@ -1566,12 +1561,9 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.ForceSaveButton:
-                        config.msg = this.errorForceSave;
-                        break;
-
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;
-                        console.warn(config.msg);
+                        config.maxwidth = 600;
                         break;
 
                     case Asc.c_oAscError.ID.DataEncrypted:
@@ -1679,6 +1671,10 @@ define([
                         config.msg = this.errorPasteMultiSelect;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotWithoutUnderlyingData:
+                        config.msg = this.errorPivotWithoutUnderlying;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1725,10 +1721,8 @@ define([
                     }, this);
                 }
 
-                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
-                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
-                        Common.UI.alert(config).$window.attr('data-value', id);
-                }
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
@@ -2924,7 +2918,8 @@ define([
             errorPivotGroup: 'Cannot group that selection.',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
-            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.'
+            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
+            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.'
         }
     })(), SSE.Controllers.Main || {}))
 });

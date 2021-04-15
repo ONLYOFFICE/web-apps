@@ -221,13 +221,15 @@ define([
                         '</div>');
                 }
 
-                var $parent = this.labelDocName.parent();
-                var _left_width = $parent.position().left,
-                    _right_width = $parent.next().outerWidth();
+                if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
+                    var $parent = this.labelDocName.parent();
+                    var _left_width = $parent.position().left,
+                        _right_width = $parent.next().outerWidth();
 
-                if ( _left_width < _right_width )
-                    this.labelDocName.parent().css('padding-left', _right_width - _left_width);
-                else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
+                    if ( _left_width < _right_width )
+                        this.labelDocName.parent().css('padding-left', _right_width - _left_width);
+                    else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
+                }
             }
         }
 
