@@ -51,7 +51,8 @@ define([
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
     'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/TableFormulaDialog'
+    'documenteditor/main/app/view/TableFormulaDialog',
+    'documenteditor/main/app/view/TableToTextDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -421,6 +422,16 @@ define([
             this.lockedControls.push(this.btnAddFormula);
             this.btnAddFormula.on('click', _.bind(this.onAddFormula, this));
 
+            this.btnConvert = new Common.UI.Button({
+                parentEl: $('#table-btn-convert-to-text'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                caption     : this.textConvert,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnConvert.on('click', _.bind(this.onConvertTable, this));
+            this.lockedControls.push(this.btnConvert);
+
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -788,6 +799,21 @@ define([
             }
         },
 
+        onConvertTable: function(e) {
+            var me = this;
+            if (me.api && !this._locked){
+                (new DE.Views.TableToTextDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var settings = dlg.getSettings();
+                            me.api.asc_ConvertTableToText(settings.type, settings.separator, settings.nested);
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -858,7 +884,8 @@ define([
         txtTable_Light: 'Light',
         txtTable_Dark: 'Dark',
         txtTable_Colorful: 'Colorful',
-        txtTable_Accent: 'Accent'
+        txtTable_Accent: 'Accent',
+        textConvert: 'Convert Table to Text'
 
     }, DE.Views.TableSettings || {}));
 });

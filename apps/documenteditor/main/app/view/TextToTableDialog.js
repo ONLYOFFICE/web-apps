@@ -284,22 +284,27 @@ define([
                 val = props.get_AutoFitType();
                 (val===1) ? this.rbFixed.setValue(true, true) : (val===2 ? this.rbContents.setValue(true, true) : this.rbWindow.setValue(true, true));
                 (val===1) && this.spnWidth.setValue(props.get_Fit()>-1 ? Common.Utils.Metric.fnRecalcFromMM(props.get_Fit()) : -1, true);
+                this.spnWidth.setDisabled(val!==1);
 
                 val = props.get_SeparatorType();
                 switch (val) {
                     case 1:
                         this.rbPara.setValue(true, true);
+                        this.inputOther.setDisabled(true);
                         break;
                     case 2:
                         this.rbTabs.setValue(true, true);
+                        this.inputOther.setDisabled(true);
                         break;
                     case 3:
                         val = String.fromCharCode(props.get_Separator());
-                        if (val == ',')
+                        if (val == ',') {
                             this.rbSemi.setValue(true, true);
-                        else {
+                            this.inputOther.setDisabled(true);
+                        } else {
                             this.rbOther.setValue(true, true);
                             this.inputOther.setValue(val);
+                            this.inputOther.setDisabled(false);
                         }
                         break;
                 }
