@@ -79,6 +79,8 @@ module.exports = {
           resolvePath('node_modules/ssr-window'),
 
           resolvePath('../../../web-apps-mobile/word'),
+          resolvePath('../../../web-apps-mobile/slide'),
+          resolvePath('../../../web-apps-mobile/cell')
         ],
       },
 
