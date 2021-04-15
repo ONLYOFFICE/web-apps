@@ -105,13 +105,9 @@ class MainController extends Component {
 
                 // Common.SharedSettings.set('document', data.doc);
 
-                // if (data.doc) {
-                //     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
-                //     if (data.doc.info) {
-                //         data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                //         data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-                //     }
-                // }
+                if (data.doc) {
+                    Common.Notifications.trigger('setdoctitle', data.doc.title);
+                }
             };
 
             const onEditorPermissions = params => {
@@ -335,12 +331,13 @@ class MainController extends Component {
     }
 
     _onDocumentContentReady() {
-        const me = this;
-        me.api.SetDrawingFreeze(false);
+        this.api.SetDrawingFreeze(false);
 
-        me.api.Resize();
-        me.api.zoomFitToPage();
+        this.api.Resize();
+        this.api.zoomFitToPage();
         // me.api.asc_GetDefaultTableStyles && _.defer(function () {me.api.asc_GetDefaultTableStyles()});
+
+        this.applyLicense();
 
         Common.Gateway.documentReady();
         f7.emit('resize');
@@ -355,6 +352,11 @@ class MainController extends Component {
 
             // $title.text(this.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
         // }
+    }
+
+    applyLicense() {
+        /* TO DO */
+        Common.Notifications.trigger('toolbar:activatecontrols');
     }
 
     render() {
