@@ -84,7 +84,8 @@ const SettingsList = withTranslation()(props => {
 
     const showHelp = () => {
         // let url = '{{HELP_URL}}';
-        let url = 'https://helpcenter.onlyoffice.com';
+        let url = __HELP_URL__;
+        // let url = 'https://helpcenter.onlyoffice.com';
 
         if (url.charAt(url.length-1) !== '/') {
             url += '/';

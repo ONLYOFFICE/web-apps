@@ -517,10 +517,15 @@ class MainController extends Component {
             switch (type) {
                 case 0:
                     storeTextSettings.resetBullets(subtype);
+                    storeTextSettings.resetNumbers(-1);
                     break;
                 case 1:
                     storeTextSettings.resetNumbers(subtype);
+                    storeTextSettings.resetBullets(-1);
                     break;
+                default: 
+                    storeTextSettings.resetBullets(-1);
+                    storeTextSettings.resetNumbers(-1);
             }
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {

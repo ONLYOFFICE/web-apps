@@ -60,24 +60,24 @@ const PageStyleOptions = props => {
             <Navbar title={_t.textOptions} backLink={_t.textBack}/>
             <List>
                 <ListItem title={_t.textHeaderRow}>
-                    <Toggle checked={isFirstRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
+                    <Toggle checked={isFirstRow} onChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
                 </ListItem>
                 <ListItem title={_t.textTotalRow}>
-                    <Toggle checked={isLastRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 1, !isLastRow)}}/>
+                    <Toggle checked={isLastRow} onChange={() => {props.onCheckTemplateChange(tableLook, 1, !isLastRow)}}/>
                 </ListItem>
                 <ListItem title={_t.textBandedRow}>
-                    <Toggle checked={isBandHor} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 2, !isBandHor)}}/>
+                    <Toggle checked={isBandHor} onChange={() => {props.onCheckTemplateChange(tableLook, 2, !isBandHor)}}/>
                 </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textFirstColumn}>
-                    <Toggle checked={isFirstCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 3, !isFirstCol)}}/>
+                    <Toggle checked={isFirstCol} onChange={() => {props.onCheckTemplateChange(tableLook, 3, !isFirstCol)}}/>
                 </ListItem>
                 <ListItem title={_t.textLastColumn}>
-                    <Toggle checked={isLastCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 4, !isLastCol)}}/>
+                    <Toggle checked={isLastCol} onChange={() => {props.onCheckTemplateChange(tableLook, 4, !isLastCol)}}/>
                 </ListItem>
                 <ListItem title={_t.textBandedColumn}>
-                    <Toggle checked={isBandVer} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 5, !isBandVer)}}/>
+                    <Toggle checked={isBandVer} onChange={() => {props.onCheckTemplateChange(tableLook, 5, !isBandVer)}}/>
                 </ListItem>
             </List>
         </Page>

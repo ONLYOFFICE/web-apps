@@ -167,7 +167,8 @@ module.exports = {
       __PUBLISHER_URL__: JSON.stringify('https://www.onlyoffice.com'),
       __PUBLISHER_NAME__: JSON.stringify('Ascensio System SIA'),
       __APP_TITLE_TEXT__: JSON.stringify(process.env.APP_TITLE_TEXT ? process.env.APP_TITLE_TEXT : 'ONLYOFFICE'),
-      __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE')
+      __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE'),
+      __HELP_URL__: JSON.stringify('https://helpcenter.onlyoffice.com')
     }),
 
     ...(env === 'production' ? [

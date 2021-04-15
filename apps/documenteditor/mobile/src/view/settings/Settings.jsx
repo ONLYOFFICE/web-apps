@@ -151,7 +151,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
                     {_canHelp &&
-                        <ListItem title={_t.textHelp} link="#">
+                        <ListItem title={_t.textHelp} link="#" onClick={props.showHelp}>
                             <Icon slot="media" icon="icon-help"></Icon>
                         </ListItem>
                     }
@@ -182,10 +182,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint}/>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint}/>
+                    <SettingsList onOptionClick={this.onoptionclick} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
                 </Popup>
         )
     }

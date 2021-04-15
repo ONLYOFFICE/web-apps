@@ -116,6 +116,12 @@
     }
 }
 
+.dialog {
+    .content-block {
+        padding: 0;
+    }
+}
+
 .about {
     .content-block {
         margin: 0 auto 15px;
@@ -224,6 +230,7 @@
         height: 38px;
         margin-top: 14px;
         background-image: url(../img/themes/themes.png);
+        display: block;
     }
     .item-theme.active:before {
         content: '';
@@ -724,6 +731,24 @@ input[type="number"]::-webkit-inner-spin-button {
         display: block;
         opacity: 1;
     }
+}
+
+
+.picker-3d { 
+    .picker-item {
+        padding: 0;
+        text-align: left;
+        font-size: 16px;
+        span {
+            padding: 0;
+        }
+    }
+}
+
+.picker-center-highlight {
+    width: 100%;
+    left: 0;
+    right: 0;
 }
 
 
