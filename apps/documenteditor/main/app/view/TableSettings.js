@@ -367,7 +367,7 @@ define([
             this.numHeight = new Common.UI.MetricSpinner({
                 el: $('#table-spin-cell-height'),
                 step: .1,
-                width: 115,
+                width: 90,
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
@@ -385,7 +385,7 @@ define([
             this.numWidth = new Common.UI.MetricSpinner({
                 el: $('#table-spin-cell-width'),
                 step: .1,
-                width: 115,
+                width: 90,
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
@@ -401,7 +401,10 @@ define([
             this.spinners.push(this.numWidth);
 
             this.btnDistributeRows = new Common.UI.Button({
-                el: $('#table-btn-distrub-rows')
+                parentEl: $('#table-btn-distrub-rows', me.$el),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-distrub-rows',
+                hint: this.textDistributeRows
             });
             this.lockedControls.push(this.btnDistributeRows);
             this.btnDistributeRows.on('click', _.bind(function(btn){
@@ -409,7 +412,10 @@ define([
             }, this));
 
             this.btnDistributeCols = new Common.UI.Button({
-                el: $('#table-btn-distrub-cols')
+                parentEl: $('#table-btn-distrub-cols', me.$el),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-distrub-cols',
+                hint: this.textDistributeCols
             });
             this.lockedControls.push(this.btnDistributeCols);
             this.btnDistributeCols.on('click', _.bind(function(btn){
