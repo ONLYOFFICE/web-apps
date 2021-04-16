@@ -382,7 +382,8 @@ define([
                         isCustomWindow = variation.get_CustomWindow(),
                         arrBtns = variation.get_Buttons(),
                         newBtns = [],
-                        size = variation.get_Size();
+                        size = variation.get_Size(),
+                        isModal = variation.get_Modal();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
@@ -403,7 +404,8 @@ define([
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this),
-                        help: !!help
+                        help: !!help,
+                        modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
