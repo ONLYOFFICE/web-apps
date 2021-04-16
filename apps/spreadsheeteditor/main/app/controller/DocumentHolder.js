@@ -73,7 +73,8 @@ define([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog'
+    'spreadsheeteditor/main/app/view/PivotGroupDialog',
+    'spreadsheeteditor/main/app/view/MacroDialog'
 ], function () {
     'use strict';
 
@@ -244,7 +245,7 @@ define([
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
-
+                view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -985,6 +986,22 @@ define([
                         })).show();
                 }
             }
+        },
+
+        onImgMacro: function(item) {
+            var me = this;
+
+            (new SSE.Views.MacroDialog({
+                props: {macroList: me.api.asc_getAllMacrosNames(), current: me.api.asc_getCurrentDrawingMacrosName()},
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_assignMacrosToCurrentDrawing(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
         },
 
         onApiCoAuthoringDisconnect: function() {
@@ -1806,6 +1823,8 @@ define([
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
+
+                documentHolder.menuImgMacro.setDisabled(isObjLocked);
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
