@@ -231,7 +231,7 @@ define([
                 el: $window.find('#id-text-table-radio-semi'),
                 labelText: this.textSemicolon,
                 name: 'asc-radio-text-table-separator',
-                value: ','
+                value: ';'
             }).on('change', _.bind(this.onRadioSeparatorChange, this));
 
             this.rbOther = new Common.UI.RadioBox({
@@ -298,7 +298,7 @@ define([
                         break;
                     case 3:
                         val = String.fromCharCode(props.get_Separator());
-                        if (val == ',') {
+                        if (val == ';') {
                             this.rbSemi.setValue(true, true);
                             this.inputOther.setDisabled(true);
                         } else {
@@ -317,7 +317,7 @@ define([
                 this.rbFixed.getValue() && this.props.put_Fit(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
             }
 
-            return {props: this.props};
+            return this.props;
         },
 
         onDlgBtnClick: function(event) {
@@ -365,14 +365,14 @@ define([
             if (newValue && this.props) {
                 this.inputOther.setDisabled(value!==3);
                 if (typeof value === 'string') {
-                    this.props.put_SeparatorType(3, true);
                     size = this.props.put_Separator(value.charCodeAt(0), true);
                 } else {
-                    size = this.props.put_SeparatorType(value, true);
                     if (value==3) {
                         if (this.inputOther.getValue())
                             size = this.props.put_Separator(this.inputOther.getValue().charCodeAt(0), true);
                         setTimeout(function(){ me.inputOther.focus(); }, 1);
+                    } else {
+                        size = this.props.put_SeparatorType(value, true);
                     }
                 }
                 if (size) {
