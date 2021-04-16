@@ -41,7 +41,7 @@ module.exports = {
     },
     modules: [path.resolve(__dirname, '..', 'node_modules'), 'node_modules'],
   },
-  watch: true,
+  watch: env == 'development',
   watchOptions: {
       aggregateTimeout: 600,
       poll: 1000,
@@ -50,7 +50,7 @@ module.exports = {
       jquery: 'jQuery'
   },
 
-  devtool: env === 'production' ? 'source-map' : 'source-map',
+  devtool: env === 'production' ? false : 'source-map',
   optimization: {
     minimizer: [new TerserPlugin({
       sourceMap: true,
