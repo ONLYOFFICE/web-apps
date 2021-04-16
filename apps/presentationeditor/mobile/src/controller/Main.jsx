@@ -180,6 +180,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocumentContentReady', this._onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onOpenDocumentProgress', this._onOpenDocumentProgress.bind(this));
 
+        EditorUIController.initThemeColors && EditorUIController.initThemeColors();
+
         const storePresentationSettings = this.props.storePresentationSettings;
 
         this.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
@@ -190,15 +192,15 @@ class MainController extends Component {
             storePresentationSettings.addSchemes(arr);
         });
 
-        EditorUIController.initFocusObjects(this.props.storeFocusObjects);
+        EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
-        EditorUIController.initEditorStyles(this.props.storeSlideSettings);
+        EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeSlideSettings);
 
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
 
-        EditorUIController.initFonts(storeTextSettings);
+        EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
 
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
@@ -257,17 +259,11 @@ class MainController extends Component {
 
         // Table settings
 
-        EditorUIController.initTableTemplates(this.props.storeTableSettings);
+        EditorUIController.initTableTemplates && EditorUIController.initTableTemplates(this.props.storeTableSettings);
 
         // Chart settings
 
-        const storeChartSettings = this.props.storeChartSettings;
-
-        this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
-            if (storeFocusObjects.chartObject) {
-                storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.getType()));
-            }
-        });
+        EditorUIController.updateChartStyles && EditorUIController.updateChartStyles(this.props.storeChartSettings, this.props.storeFocusObjects);
     }
 
     _onDocumentContentReady() {
@@ -304,8 +300,7 @@ class MainController extends Component {
             <Fragment>
                 <CollaborationController />
                 <CommentsController />
-                <AddCommentController />
-                <EditCommentController />
+                {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
             </Fragment>
             )

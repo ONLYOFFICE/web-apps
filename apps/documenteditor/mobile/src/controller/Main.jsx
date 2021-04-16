@@ -9,8 +9,6 @@ import {InitReviewController as ReviewController} from '../../../../common/mobil
 import { onAdvancedOptions } from './settings/Download.jsx';
 import {
     CommentsController,
-    AddCommentController,
-    EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import About from '../../../../common/mobile/lib/view/About';
@@ -488,9 +486,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl', this.onPrintUrl.bind(this));
 
-        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
-            Common.Utils.ThemeColor.setColors(colors, standart_colors);
-        });
+        EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
         this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
 
@@ -504,8 +500,8 @@ class MainController extends Component {
 
         //text settings
         const storeTextSettings = this.props.storeTextSettings;
-        EditorUIController.initFonts(storeTextSettings);
-        EditorUIController.initFocusObjects(this.props.storeFocusObjects);
+        EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
+        EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
@@ -543,19 +539,13 @@ class MainController extends Component {
         });
 
         //paragraph settings
-        EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
+        EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
 
         //table settings
-        EditorUIController.initTableTemplates(this.props.storeTableSettings);
+        EditorUIController.initTableTemplates && EditorUIController.initTableTemplates(this.props.storeTableSettings);
 
         //chart settings
-        const storeChartSettings = this.props.storeChartSettings;
-        const storeFocusObjects = this.props.storeFocusObjects;
-        this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
-            if (storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties()) {
-                storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));
-            }
-        });
+        EditorUIController.updateChartStyles && EditorUIController.updateChartStyles(this.props.storeChartSettings, this.props.storeFocusObjects);
 
         // Document Info
 
@@ -782,8 +772,7 @@ class MainController extends Component {
                 <CollaborationController />
                 <ReviewController />
                 <CommentsController />
-                <AddCommentController />
-                <EditCommentController />
+                {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
             </Fragment>
             )

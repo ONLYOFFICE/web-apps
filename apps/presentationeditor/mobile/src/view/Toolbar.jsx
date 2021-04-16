@@ -8,7 +8,7 @@ const ToolbarView = props => {
         <Fragment>
             <NavLeft>
                 {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
-                {props.isEdit && EditorUIController.getUndoRedo({
+                {props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo,
                     disabledRedo: !props.isCanRedo,
                     onUndoClick: props.onUndo,
@@ -18,7 +18,7 @@ const ToolbarView = props => {
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
                 <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
-                {props.isEdit && EditorUIController.getToolbarOptions({
+                {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
                     disabledAdd: props.disabledAdd || props.disabledControls,
                     disabledEdit: props.disabledEdit || props.disabledControls,
                     onEditClick: () => props.openOptions('edit'),

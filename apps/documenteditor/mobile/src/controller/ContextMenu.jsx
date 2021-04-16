@@ -65,7 +65,7 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
-        if ( EditorUIController.ContextMenu.handleMenuItemClick(this, action) )
+        if ( EditorUIController.ContextMenu && EditorUIController.ContextMenu.handleMenuItemClick(this, action) )
             return;
 
         const api = Common.EditorApi.get();
@@ -205,7 +205,7 @@ class ContextMenu extends ContextMenuController {
         if ( !Common.EditorApi ) return [];
         const { isEdit } = this.props;
 
-        if (isEdit) {
+        if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
             const { t } = this.props;
