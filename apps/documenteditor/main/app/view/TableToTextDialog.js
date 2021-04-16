@@ -101,7 +101,7 @@ define([
                 el: $window.find('#id-table-text-radio-semi'),
                 labelText: this.textSemicolon,
                 name: 'asc-radio-table-text-separator',
-                value: ','
+                value: ';'
             }).on('change', _.bind(this.onRadioSeparatorChange, this));
 
             this.rbOther = new Common.UI.RadioBox({
@@ -166,7 +166,7 @@ define([
 
         getSettings: function() {
             var type = this.rbPara.getValue() ? 1 : (this.rbTabs.getValue() ? 2 : 3),
-                separator = this.rbSemi.getValue() ? ','.charCodeAt(0) : (this.rbOther.getValue() ? this.inputOther.getValue().charCodeAt(0) : undefined);
+                separator = this.rbSemi.getValue() ? ';'.charCodeAt(0) : (this.rbOther.getValue() ? this.inputOther.getValue().charCodeAt(0) : undefined);
 
             return {type: type, separator: separator, nested: this.chNested.getValue()==='checked'};
         },
