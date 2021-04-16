@@ -1388,6 +1388,7 @@
   "PE.Views.HyperlinkSettingsDialog.txtNext": "Diapositive suivante",
   "PE.Views.HyperlinkSettingsDialog.txtNotUrl": "Ce champ doit être une URL au format \"http://www.example.com\"",
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Diapositive précédente",
+  "PE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Ce champ est limité à 2083 caractères.",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Diapositive",
   "PE.Views.ImageSettings.textAdvanced": "Afficher les paramètres avancés",
   "PE.Views.ImageSettings.textCrop": "Rogner",

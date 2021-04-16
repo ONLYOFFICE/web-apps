@@ -2076,6 +2076,7 @@
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Paramètres du lien hypertexte",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "Ce champ est obligatoire",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
+  "SSE.Views.HyperlinkSettingsDialog.txtSizeLimit": "Ce champ est limité à 2083 caractères.",
   "SSE.Views.ImageSettings.textAdvanced": "Afficher les paramètres avancés",
   "SSE.Views.ImageSettings.textCrop": "Rogner",
   "SSE.Views.ImageSettings.textCropFill": "Remplissage",
