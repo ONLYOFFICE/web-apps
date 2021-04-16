@@ -7,6 +7,7 @@ import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import { Device } from '../../../../common/mobile/utils/device';
+import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
@@ -57,10 +58,13 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
+        if ( EditorUIController.ContextMenu.handleMenuItemClick(this, action) )
+            return;
+
         const api = Common.EditorApi.get();
         switch (action) {
             case 'cut':
-                if (!api.Cut() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
                     this.showCopyCutPasteModal();
                 }
                 break;
@@ -70,28 +74,12 @@ class ContextMenu extends ContextMenuController {
                 }
                 break;
             case 'paste':
-                if (!api.Paste() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
                     this.showCopyCutPasteModal();
                 }
                 break;
-            case 'addcomment':
-                Common.Notifications.trigger('addcomment');
-                break;
             case 'viewcomment':
                 Common.Notifications.trigger('viewcomment');
-                break;
-            case 'delete':
-                api.asc_Remove();
-                break;
-            case 'edit':
-                setTimeout(() => {
-                    this.props.openOptions('edit');
-                }, 0);
-                break;
-            case 'addlink':
-                setTimeout(() => {
-                    this.props.openOptions('add', 'link');
-                }, 400)
                 break;
             case 'openlink':
                 const stack = Common.EditorApi.get().getSelectedElements();
@@ -104,8 +92,6 @@ class ContextMenu extends ContextMenuController {
                 value && this.openLink(value);
                 break;
         }
-
-        console.log("click context menu item: " + action);
     }
 
     showCopyCutPasteModal() {
@@ -154,152 +140,77 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { t } = this.props;
-        const _t = t("ContextMenu", { returnObjects: true });
+        const { isEdit } = this.props;
 
-        const { isEdit, canViewComments, isDisconnected } = this.props;
+        if (isEdit) {
+            return EditorUIController.ContextMenu.mapMenuItems(this);
+        } else {
+            const { t } = this.props;
+            const _t = t("ContextMenu", { returnObjects: true });
 
-        const api = Common.EditorApi.get();
-        const stack = api.getSelectedElements();
-        const canCopy = api.can_CopyCut();
+            const { canViewComments, isDisconnected } = this.props;
 
-        let itemsIcon = [],
-            itemsText = [];
+            const api = Common.EditorApi.get();
+            const stack = api.getSelectedElements();
+            const canCopy = api.can_CopyCut();
 
-        let isText = false,
-            isTable = false,
-            isImage = false,
-            isChart = false,
-            isShape = false,
-            isLink = false,
-            isSlide = false,
-            isObject = false;
+            let itemsIcon = [],
+                itemsText = [];
 
-        stack.forEach(item => {
-            const objectType = item.get_ObjectType(),
-                objectValue = item.get_ObjectValue();
+            let isText = false,
+                isTable = false,
+                isImage = false,
+                isChart = false,
+                isShape = false,
+                isLink = false,
+                isSlide = false,
+                isObject = false;
 
-            if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
-                isText = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
-                isImage = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Chart) {
-                isChart = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Shape) {
-                isShape = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
-                isTable = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                isLink = true;
-            } else if (objectType == Asc.c_oAscTypeSelectElement.Slide) {
-                isSlide = true;
-            }
-        });
+            stack.forEach(item => {
+                const objectType = item.get_ObjectType(),
+                    objectValue = item.get_ObjectValue();
 
-        isObject = isText || isImage || isChart || isShape || isTable;
-
-        if (canCopy && isObject) {
-            itemsIcon.push({
-                event: 'copy',
-                icon: 'icon-copy'
-            });
-        }
-        if (canViewComments && this.isComments && !isEdit) {
-            itemsText.push({
-                caption: _t.menuViewComment,
-                event: 'viewcomment'
-            });
-        }
-
-        if ( stack.length > 0 ) {
-            let topObject = stack[stack.length - 1],
-                topObjectType = topObject.get_ObjectType(),
-                topObjectValue = topObject.get_ObjectValue(),
-                objectLocked = typeof topObjectValue.get_Locked === 'function' ? topObjectValue.get_Locked() : false;
-
-            !objectLocked && (objectLocked = typeof topObjectValue.get_LockDelete === 'function' ? topObjectValue.get_LockDelete() : false);
-
-            const swapItems = function(items, indexBefore, indexAfter) {
-                items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
-            };
-
-            if (!objectLocked && isEdit && !isDisconnected) {
-                if (canCopy && isObject) {
-                    itemsIcon.push({
-                        event: 'cut',
-                        icon: 'icon-cut'
-                    });
-
-                    // Swap 'Copy' and 'Cut'
-                    swapItems(itemsIcon, 0, 1);
+                if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
+                    isText = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                    isImage = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Chart) {
+                    isChart = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Shape) {
+                    isShape = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
+                    isTable = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                    isLink = true;
+                } else if (objectType == Asc.c_oAscTypeSelectElement.Slide) {
+                    isSlide = true;
                 }
+            });
 
+            isObject = isText || isImage || isChart || isShape || isTable;
+
+            if (canCopy && isObject) {
                 itemsIcon.push({
-                    event: 'paste',
-                    icon: 'icon-paste'
+                    event: 'copy',
+                    icon: 'icon-copy'
                 });
-
-                if (isObject)
-                    itemsText.push({
-                        caption: _t.menuDelete,
-                        event: 'delete'
-                    });
-
-                itemsText.push({
-                    caption: _t.menuEdit,
-                    event: 'edit'
-                });
-
-                if (!isLink && api.can_AddHyperlink() !== false) {
-                    itemsText.push({
-                        caption: _t.menuAddLink,
-                        event: 'addlink'
-                    });
-                }
-
-                if (this.isComments && canViewComments) {
-                    itemsText.push({
-                        caption: _t.menuViewComment,
-                        event: 'viewcomment'
-                    });
-                }
-
-                const hideAddComment = (isText && isChart) || api.can_AddQuotedComment() === false || !canViewComments;
-                if (!hideAddComment) {
-                    itemsText.push({
-                        caption: _t.menuAddComment,
-                        event: 'addcomment'
-                    });
-                }
             }
+            if (canViewComments && this.isComments && !isEdit) {
+                itemsText.push({
+                    caption: _t.menuViewComment,
+                    event: 'viewcomment'
+                });
+            }
+
+            if (isLink) {
+                itemsText.push({
+                    caption: _t.menuOpenLink,
+                    event: 'openlink'
+                });
+            }
+
+            return itemsIcon.concat(itemsText);
         }
-
-        if (isLink) {
-            itemsText.push({
-                caption: _t.menuOpenLink,
-                event: 'openlink'
-            });
-        }
-
-
-        if ( Device.phone && itemsText.length > 2 ) {
-            this.extraItems = itemsText.splice(2,itemsText.length, {
-                caption: _t.menuMore,
-                event: 'showActionSheet'
-            });
-        }
-
-        return itemsIcon.concat(itemsText);
-        // return [{
-        //         caption: 'Edit',
-        //         event: 'edit'
-        //     }, {
-        //         caption: 'View',
-        //         event: 'view'
-        //     }, {
-        //         icon: 'icon-paste',
-        //         event: 'review'
-        //     }];
     }
 
     initExtraItems () {

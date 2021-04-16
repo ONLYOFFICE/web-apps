@@ -144,6 +144,8 @@ class MainController extends Component {
                         'translate': t('Controller.Main.SDK', {returnObjects:true})
                     });
 
+                    Common.EditorApi = {get: () => this.api};
+
                     this.appOptions   = {};
                     this.bindEvents();
 
@@ -160,7 +162,6 @@ class MainController extends Component {
                     Common.Gateway.appReady();
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -174,89 +175,30 @@ class MainController extends Component {
     }
 
     bindEvents() {
-        const me = this;
        
         // me.api.asc_registerCallback('asc_onError',                      _.bind(me.onError, me));
-        me.api.asc_registerCallback('asc_onDocumentContentReady',       me._onDocumentContentReady.bind(me));
-        me.api.asc_registerCallback('asc_onOpenDocumentProgress',       me._onOpenDocumentProgress.bind(me));
+        this.api.asc_registerCallback('asc_onDocumentContentReady', this._onDocumentContentReady.bind(this));
+        this.api.asc_registerCallback('asc_onOpenDocumentProgress', this._onOpenDocumentProgress.bind(this));
 
         const storePresentationSettings = this.props.storePresentationSettings;
 
-        me.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
+        this.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
             storePresentationSettings.changeSizeIndex(width, height);
         });
 
-        me.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
+        this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
             storePresentationSettings.addSchemes(arr);
         });
 
-        // api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
-        // me.api.asc_registerCallback('asc_onDocumentUpdateVersion',      _.bind(me.onUpdateVersion, me));
-        // me.api.asc_registerCallback('asc_onServerVersion',              _.bind(me.onServerVersion, me));
-        // me.api.asc_registerCallback('asc_onAdvancedOptions',            _.bind(me.onAdvancedOptions, me));
-        // me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
-        // me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
-        // me.api.asc_registerCallback('asc_onThumbnailsShow',             _.bind(me.onThumbnailsShow, me));
-        // me.api.asc_registerCallback('asc_onMeta',                       _.bind(me.onMeta, me));
+        EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
-        const storeFocusObjects = this.props.storeFocusObjects;
-        const storeSlideSettings = this.props.storeSlideSettings;
-        
-        this.api.asc_registerCallback('asc_onFocusObject', objects => {
-            // console.log(objects);
-            storeFocusObjects.resetFocusObjects(objects);
-        });
-
-        this.api.asc_registerCallback('asc_onInitEditorStyles', themes => {
-            // console.log(themes);
-            storeSlideSettings.addArrayThemes(themes);
-        });
-
-        this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
-            // console.log(themeId);
-            storeSlideSettings.changeSlideThemeIndex(themeId);
-        });
-
-        this.api.asc_registerCallback('asc_onUpdateLayout', layouts => {
-            // console.log(layouts);
-            storeSlideSettings.addArrayLayouts(layouts);
-        });
-
-        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
-            Common.Utils.ThemeColor.setColors(colors, standart_colors);
-        });
+        EditorUIController.initEditorStyles(this.props.storeSlideSettings);
 
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
 
-        this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
-            storeTextSettings.initEditorFonts(fonts, select);
-        });
-
-        this.api.asc_registerCallback('asc_onFontFamily', (font) => {
-            storeTextSettings.resetFontName(font);
-        });
-
-        this.api.asc_registerCallback('asc_onFontSize', (size) => {
-            storeTextSettings.resetFontSize(size);
-        });
-
-        this.api.asc_registerCallback('asc_onBold', (isBold) => {
-            storeTextSettings.resetIsBold(isBold);
-        });
-
-        this.api.asc_registerCallback('asc_onItalic', (isItalic) => {
-            storeTextSettings.resetIsItalic(isItalic);
-        });
-
-        this.api.asc_registerCallback('asc_onUnderline', (isUnderline) => {
-            storeTextSettings.resetIsUnderline(isUnderline);
-        });
-
-        this.api.asc_registerCallback('asc_onStrikeout', (isStrikeout) => {
-            storeTextSettings.resetIsStrikeout(isStrikeout);
-        });
+        EditorUIController.initFonts(storeTextSettings);
 
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
@@ -315,11 +257,7 @@ class MainController extends Component {
 
         // Table settings
 
-        const storeTableSettings = this.props.storeTableSettings;
-        
-        this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
-            storeTableSettings.initTableTemplates(templates);
-        });
+        EditorUIController.initTableTemplates(this.props.storeTableSettings);
 
         // Chart settings
 
