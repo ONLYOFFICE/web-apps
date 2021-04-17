@@ -15,6 +15,7 @@ define([
 
         var themes_map = {
             'theme-light': 'light',
+            'theme-classic-light': 'light',
             'theme-dark': 'dark'
         }
 
@@ -128,6 +129,7 @@ define([
 
         return {
             THEME_LIGHT_ID: 'theme-light',
+            THEME_CLASSIC_LIGHT_ID: 'theme-classic-light',
             THEME_DARK_ID: 'theme-dark',
 
             init: function (api) {

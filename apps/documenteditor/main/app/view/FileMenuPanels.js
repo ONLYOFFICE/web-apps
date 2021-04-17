@@ -466,6 +466,7 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.UI.Themes.THEME_LIGHT_ID, displayValue: this.txtThemeLight },
+                    { value: Common.UI.Themes.THEME_CLASSIC_LIGHT_ID, displayValue: "Classic light" },
                     { value: Common.UI.Themes.THEME_DARK_ID, displayValue: this.txtThemeDark }
                 ]
             });
