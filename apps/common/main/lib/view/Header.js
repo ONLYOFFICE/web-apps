@@ -782,7 +782,6 @@ define([
             textAdvSettings: 'Advanced Settings',
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
-            textDarkTheme: 'Dark theme',
             textAddFavorite: 'Mark as favorite'
         }
     }(), Common.Views.Header || {}))
