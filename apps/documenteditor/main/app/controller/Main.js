@@ -102,7 +102,7 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption'],
+                                  'Caption', 'endnote text'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -142,7 +142,9 @@ define([
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
                     "Click to load image": this.txtClickToLoad,
-                    "No table of figures entries found.": this.txtNoTableOfFigures
+                    "No table of figures entries found.": this.txtNoTableOfFigures,
+                    "table of figures": this.txtTableOfFigures,
+                    "TOC Heading": this.txtTOCHeading
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2838,7 +2840,10 @@ define([
             textGuest: 'Guest',
             errorSubmit: 'Submit failed.',
             txtClickToLoad: 'Click to load image',
-            txtNoTableOfFigures: "No table of figures entries found."
+            txtNoTableOfFigures: "No table of figures entries found.",
+            txtTableOfFigures: 'Table of figures',
+            txtStyle_endnote_text: 'Endnote Text',
+            txtTOCHeading: 'TOC Heading'
         }
     })(), DE.Controllers.Main || {}))
 });
