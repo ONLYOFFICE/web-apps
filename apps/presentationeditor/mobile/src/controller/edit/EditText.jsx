@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { f7 } from 'framework7-react';
-import {Device} from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
+import { Device } from '../../../../../common/mobile/utils/device';
+import { observer, inject } from "mobx-react";
 
 import { EditText } from '../../view/edit/EditText';
 
 class EditTextController extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
@@ -33,7 +33,7 @@ class EditTextController extends Component {
     onParagraphAlign(type) {
         const api = Common.EditorApi.get();
         let value;
-        
+
         switch (type) {
             case 'just':
                 value = 3;
@@ -56,7 +56,7 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         let value;
 
-        switch(type) {
+        switch (type) {
             case 'top':
                 value = Asc.c_oAscVAlign.Top;
                 break;
@@ -74,7 +74,7 @@ class EditTextController extends Component {
     onParagraphMove(type) {
         const api = Common.EditorApi.get();
 
-        if(type === 'left') {
+        if (type === 'left') {
             api.DecreaseIndent();
         } else {
             api.IncreaseIndent();
@@ -94,7 +94,7 @@ class EditTextController extends Component {
 
         const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
-        if(isDecrement) {
+        if (isDecrement) {
             newDistance = Math.max(-1, distance - step);
         } else {
             newDistance = (distance < 0) ? 0 : Math.min(maxValue, distance + step);
@@ -116,7 +116,7 @@ class EditTextController extends Component {
 
         const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
-        if(isDecrement) {
+        if (isDecrement) {
             newDistance = Math.max(-1, distance - step);
         } else {
             newDistance = (distance < 0) ? 0 : Math.min(maxValue, distance + step);
@@ -185,12 +185,12 @@ class EditTextController extends Component {
 
     onAdditionalScript(type, value) {
         const api = Common.EditorApi.get();
-        
+
         if ('superscript' === type) {
             api.put_TextPrBaseline(value ? 1 : 0);
         } else {
             api.put_TextPrBaseline(value ? 2 : 0);
-        }   
+        }
     }
 
     changeLetterSpacing(curSpacing, isDecrement) {
@@ -198,11 +198,11 @@ class EditTextController extends Component {
         let spacing = curSpacing;
 
         if (isDecrement) {
-            spacing = (spacing === null || spacing === undefined) ? 0 : Math.max(-100, --spacing);
+            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.max(-100, --spacing);
         } else {
-            spacing = (spacing === null || spacing === undefined) ? 0 : Math.min(100, ++spacing);
+            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.min(100, ++spacing);
         }
-    
+
         const properties = new Asc.asc_CParagraphProperty();
         properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(spacing));
         api.paraApply(properties);
@@ -224,7 +224,7 @@ class EditTextController extends Component {
         api.put_PrLineSpacing(LINERULE_AUTO, value);
     }
 
-    render () {
+    render() {
         return (
             <EditText
                 toggleBold={this.toggleBold}

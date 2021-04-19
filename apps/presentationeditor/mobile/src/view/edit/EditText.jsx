@@ -329,14 +329,14 @@ const PageAdditionalFormatting = props => {
             </List>
             <List>
                 <ListItem title={_t.textLetterSpacing}>
-                    {!isAndroid && <div slot='after-start'>{letterSpacing.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
+                    {!isAndroid && <div slot='after-start'>{Number(letterSpacing).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement item-link' onClick={() => { props.changeLetterSpacing(letterSpacing.toFixed(2), true) }}>
+                            <Button outline className='decrement item-link' onClick={() => { props.changeLetterSpacing(letterSpacing, true) }}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
-                            <Button outline className='increment item-link' onClick={() => { props.changeLetterSpacing(letterSpacing.toFixed(2), false) }}>
+                            {isAndroid && <label>{Number(letterSpacing).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            <Button outline className='increment item-link' onClick={() => { props.changeLetterSpacing(letterSpacing, false) }}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
                         </Segmented>
