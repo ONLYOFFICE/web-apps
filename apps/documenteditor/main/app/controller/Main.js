@@ -141,7 +141,8 @@ define([
                     "Choose an item": this.txtChoose,
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
-                    "Click to load image": this.txtClickToLoad
+                    "Click to load image": this.txtClickToLoad,
+                    "No table of figures entries found.": this.txtNoTableOfFigures
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2836,7 +2837,8 @@ define([
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
             errorSubmit: 'Submit failed.',
-            txtClickToLoad: 'Click to load image'
+            txtClickToLoad: 'Click to load image',
+            txtNoTableOfFigures: "No table of figures entries found."
         }
     })(), DE.Controllers.Main || {}))
 });
