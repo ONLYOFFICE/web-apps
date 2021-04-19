@@ -70,7 +70,7 @@ class MainPage extends Component {
 
         return (
             <Fragment>
-                {this.state.previewVisible ? <Preview onClosePreview={this.onClosePreview} previewVisible={this.state.previewVisible} /> : null}
+                {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
                 <Page name="home" className={showLogo && 'page-with-logo'}>
                     {/* Top Navbar */}
                     <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
@@ -100,10 +100,6 @@ class MainPage extends Component {
                     {
                         !this.state.collaborationVisible ? null :
                             <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
-                    }
-                    {
-                        !this.state.previewVisible ? null :
-                            <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />
                     }
                     <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
                 </Page>

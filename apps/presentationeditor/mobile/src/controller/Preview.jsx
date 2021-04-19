@@ -92,8 +92,7 @@ const PreviewController = props => {
     // API Handlers
 
     const onEndDemonstration = () => {
-        if(props.previewVisible)
-            props.onClosePreview();
+        props.onclosed();
     };
 
     return (
