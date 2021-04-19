@@ -247,7 +247,9 @@ define([
             this.numIndentsRight.on('change', this.onNumIndentsRightChange.bind(this));
             this.numSpecialBy.on('change', this.onFirstLineChange.bind(this));
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
-
+            this.numIndentsLeft.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numIndentsRight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpecialBy.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.linkAdvanced = $markup.findById('#paragraph-advanced-link');
             this.linkAdvanced.toggleClass('disabled', this._locked);
@@ -379,7 +381,6 @@ define([
             props.get_Ind().put_FirstLine(specialBy);
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         onNumIndentsLeftChange: function(field, newValue, oldValue, eOpts){
@@ -392,7 +393,6 @@ define([
             props.get_Ind().put_Left(Common.Utils.Metric.fnRecalcToMM(left));
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         onNumIndentsRightChange: function(field, newValue, oldValue, eOpts){
@@ -401,7 +401,6 @@ define([
             props.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         ChangeSettings: function(prop) {
