@@ -403,7 +403,7 @@ define([
             this.btnDistributeRows = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-rows', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-distrub-rows',
+                iconCls: 'toolbar__icon distribute-rows',
                 hint: this.textDistributeRows
             });
             this.lockedControls.push(this.btnDistributeRows);
@@ -414,7 +414,7 @@ define([
             this.btnDistributeCols = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-cols', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-distrub-cols',
+                iconCls: 'toolbar__icon distribute-columns',
                 hint: this.textDistributeCols
             });
             this.lockedControls.push(this.btnDistributeCols);
@@ -431,7 +431,7 @@ define([
             this.btnConvert = new Common.UI.Button({
                 parentEl: $('#table-btn-convert-to-text'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                iconCls     : 'toolbar__icon table-to-text',
                 caption     : this.textConvert,
                 style       : 'width: 100%;text-align: left;'
             });
