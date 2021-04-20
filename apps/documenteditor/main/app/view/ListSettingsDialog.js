@@ -131,7 +131,7 @@ define([
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview" style="margin-top: 2px; height:208px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
