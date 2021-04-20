@@ -356,19 +356,20 @@ define([
                 var me = this;
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
                 if (this.__name !== name) {
+                    this.__name = name;
                     if (!this.__nameId) {
                         this.__nameId = setTimeout(function () {
-                            me.onApiChangeFontInternal(name);
+                            me.onApiChangeFontInternal(me.__name);
                             me.__nameId = null;
                         }, 100);
                     }
+
                 }
             },
 
             onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
 
-                this.__name = name;
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
                         name: name
