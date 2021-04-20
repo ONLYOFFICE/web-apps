@@ -718,7 +718,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
                 <div slot='footer'>
                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'><pre>{comment.comment}</pre></div>
+                    <div className='comment-text'><a onClick={() => window.open(comment.comment)}>{comment.comment}</a></div>
                     {comment.replies.length > 0 &&
                     <ul className='reply-list'>
                         {comment.replies.map((reply, indexReply) => {
