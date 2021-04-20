@@ -467,7 +467,7 @@ class MainController extends Component {
         if (this.changeServerVersion) return true;
         const _t = this._t;
 
-        if (About.appVersion() !== buildVersion && !window.compareVersions) {
+        if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
             f7.dialog.alert(
                 _t.errorServerVersion,
