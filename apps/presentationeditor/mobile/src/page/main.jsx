@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 
@@ -10,7 +10,6 @@ import { Preview } from "../controller/Preview";
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
-
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -21,6 +20,10 @@ class MainPage extends Component {
             collaborationVisible: false,
             previewVisible: false
         };
+    }
+
+    onClosePreview = () => {
+        this.setState({previewVisible: false});
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
@@ -60,49 +63,49 @@ class MainPage extends Component {
         })();
     };
 
-  render() {
-      const appOptions = this.props.storeAppOptions;
-      const config = appOptions.config;
-      const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
-      return (
-         <Page name="home" className={showLogo && 'page-with-logo'}>
-            {/* Top Navbar */}
-            <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
-                {showLogo && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}
-                <Subnavbar>
-                    <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
-                    <Search useSuspense={false}/>
-                </Subnavbar>
-            </Navbar>
-            {/* Page content */}
-            <View id="editor_sdk" />
+    render() {
+        const appOptions = this.props.storeAppOptions;
+        const config = appOptions.config;
+        const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
 
-            <SearchSettings useSuspense={false} />
+        return (
+            <Fragment>
+                {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
+                <Page name="home" className={showLogo && 'page-with-logo'}>
+                    {/* Top Navbar */}
+                    <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
+                        {showLogo && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}
+                        <Subnavbar>
+                            <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
+                            <Search useSuspense={false}/>
+                        </Subnavbar>
+                    </Navbar>
+                    {/* Page content */}
+                    <View id="editor_sdk" />
 
-            {
-                !this.state.editOptionsVisible ? null :
-                    <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
-            }
-            {
-                !this.state.addOptionsVisible ? null :
-                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
-            }
-            {
-                !this.state.settingsVisible ? null :
-                    <Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
-            }
-            {
-                !this.state.collaborationVisible ? null :
-                    <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
-            }
-             {
-                 !this.state.previewVisible ? null :
-                     <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />
-             }
-            <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
-         </Page>
-    )
-  }
+                    <SearchSettings useSuspense={false} />
+
+                    {
+                        !this.state.editOptionsVisible ? null :
+                            <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                    }
+                    {
+                        !this.state.addOptionsVisible ? null :
+                            <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                    }
+                    {
+                        !this.state.settingsVisible ? null :
+                            <Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
+                    }
+                    {
+                        !this.state.collaborationVisible ? null :
+                            <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                    }
+                    <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                </Page>
+            </Fragment>
+        )
+    }
 }
 
 export default inject("storeAppOptions")(observer(MainPage));

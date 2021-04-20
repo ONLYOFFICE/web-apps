@@ -274,7 +274,8 @@
       "textCaseSensitive": "Case Sensitive",
       "textHighlight": "Highlight Results",
       "textNoTextFound": "Text not Found",
-      "textSelectObjectToEdit": "Select object to edit"
+      "textSelectObjectToEdit": "Select object to edit",
+      "textFinalMessage": "The end of slide preview. Click to exit."
     }
   },
   "Common": {
