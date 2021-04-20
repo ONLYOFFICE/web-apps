@@ -20,7 +20,7 @@ class LongActions extends Component {
     }
 
     closePreloader() {
-        if (this.loadMask.el) {
+        if (this.loadMask && this.loadMask.el) {
             f7.dialog.close(this.loadMask.el);
         }
     }
@@ -70,7 +70,7 @@ class LongActions extends Component {
         if (action) {
             this.setLongActionView(action)
         } else {
-            this.loadMask.el && this.loadMask.el.classList.contains('modal-in') && f7.dialog.close(this.loadMask.el);
+            this.loadMask && this.loadMask.el && this.loadMask.el.classList.contains('modal-in') && f7.dialog.close(this.loadMask.el);
         }
     }
 

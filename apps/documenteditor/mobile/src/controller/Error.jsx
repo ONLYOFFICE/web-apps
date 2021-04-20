@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
-import LongActionsController from "./LongActions";
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
     const {t} = useTranslation();
@@ -22,7 +21,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
             f7.notification.create({
                 title: _t.criticalErrorTitle,
-                text: _t.criticalErrorTitle,
+                text: _t.scriptLoadError,
                 closeButton: true
             }).open();
             return;
@@ -183,7 +182,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             // report only critical errors
             Common.Gateway.reportError(id, config.msg);
 
-            config.title = this.criticalErrorTitle;
+            config.title = _t.criticalErrorTitle;
 
             if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp) {
                 config.msg += '</br></br>' + _t.criticalErrorExtText;

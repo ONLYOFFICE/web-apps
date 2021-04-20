@@ -189,6 +189,9 @@ class MainController extends Component {
             };
 
             const onDocumentContentReady = () => {
+                if (this._isDocReady)
+                    return;
+
                 const appOptions = this.props.storeAppOptions;
                 const appSettings = this.props.storeApplicationSettings;
 
@@ -327,8 +330,8 @@ class MainController extends Component {
         Common.Utils.Metric.setCurrentMetric(value);
         this.api.asc_SetDocumentUnits((value === Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value===Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-        //me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
-        //me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
+        this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
+        this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
 
         //if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
         //    me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
@@ -340,6 +343,19 @@ class MainController extends Component {
         // Message on window close
         window.onbeforeunload = this.onBeforeUnload.bind(this);
         window.onunload = this.onUnload.bind(this);
+    }
+
+    onDocumentModifiedChanged () {
+        const isModified = this.api.asc_isDocumentCanSave();
+        if (this._state.isDocModified !== isModified) {
+            this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+        }
+
+        this.updateWindowTitle();
+    }
+
+    onDocumentCanSaveChanged (isCanSave) {
+        //
     }
 
     onBeforeUnload () {
@@ -485,6 +501,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl', this.onPrintUrl.bind(this));
+        this.api.asc_registerCallback('asc_onPrint', this.onPrint.bind(this));
 
         EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
@@ -675,6 +692,14 @@ class MainController extends Component {
             this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
             this._state.isDocModified = isModified;
         }
+    }
+
+    onPrint () {
+        if (!this.props.storeAppOptions.canPrint) return;
+
+        if (this.api)
+            this.api.asc_Print();
+        Common.component.Analytics.trackEvent('Print');
     }
 
     onPrintUrl (url) {
