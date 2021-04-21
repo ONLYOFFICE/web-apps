@@ -198,9 +198,9 @@ class EditTextController extends Component {
         let spacing = curSpacing;
 
         if (isDecrement) {
-            spacing = (spacing === null || spacing === undefined) ? 0 : Math.max(-100, --spacing);
+            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.max(-100, --spacing);
         } else {
-            spacing = (spacing === null || spacing === undefined) ? 0 : Math.min(100, ++spacing);
+            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.min(100, ++spacing);
         }
     
         const properties = new Asc.asc_CParagraphProperty();
