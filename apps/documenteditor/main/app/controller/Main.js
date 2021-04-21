@@ -52,7 +52,8 @@ define([
     'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
-    'documenteditor/main/app/collection/EquationGroups'
+    'documenteditor/main/app/collection/EquationGroups',
+    'common/main/lib/component/HintManager'
 ], function () {
     'use strict';
 
@@ -174,6 +175,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init();
                 Common.UI.Themes.init(this.api);
 
                 if (this.api){
