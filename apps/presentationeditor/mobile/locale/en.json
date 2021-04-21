@@ -138,6 +138,12 @@
     "errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
     "textDoNotShowAgain": "Don't show again"
   },
+  "Toolbar": {
+    "dlgLeaveTitleText": "You leave the application",
+    "dlgLeaveMsgText": "You have unsaved changes in this document. Click \\'Stay on this Page\\' to await the autosave of the document. Click \\'Leave this Page\\' to discard all the unsaved changes.",
+    "leaveButtonText": "Leave this Page",
+    "stayButtonText": "Stay on this Page"
+  },
   "View": {
     "Settings": {
       "textDone": "Done",
