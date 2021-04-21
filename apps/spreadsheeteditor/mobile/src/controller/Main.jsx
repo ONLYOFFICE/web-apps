@@ -278,6 +278,8 @@ class MainController extends Component {
         me.api.asc_getWorksheetsCount();
         me.api.asc_showWorksheet(me.api.asc_getActiveWorksheetIndex());
 
+        this.applyLicense();
+
         Common.Gateway.documentReady();
         f7.emit('resize');
     }
@@ -289,6 +291,10 @@ class MainController extends Component {
 
             // $title.text(this.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
         // }
+    }
+
+    applyLicense () {
+        Common.Notifications.trigger('toolbar:activatecontrols');
     }
 
     render() {
