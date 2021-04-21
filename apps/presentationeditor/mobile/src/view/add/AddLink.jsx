@@ -72,6 +72,7 @@ const PageLinkTo = props => {
 const PageLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const regx = /["https://"]/g
 
     const [typeLink, setTypeLink] = useState(1);
     const textType = typeLink === 1 ? _t.textExternalLink : _t.textSlideInThisPresentation;
@@ -114,7 +115,13 @@ const PageLink = props => {
                                type="text"
                                placeholder={_t.textLink}
                                value={link}
-                               onChange={(event) => {setLink(event.target.value)}}
+                               onChange={(event) => {
+                                if (link.includes('https://')) {
+                                    setDisplay(link)
+                                }
+                                setLink(event.target.value)
+                                setDisplay(event.target.value)
+                            }}
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
                         changeTo: changeTo,
