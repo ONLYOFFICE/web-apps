@@ -115,14 +115,12 @@ Common.UI.HintManager = new(function() {
     var _init = function() {
         $(document).on('keyup', function(e) {
             if (e.keyCode == Common.UI.Keys.ALT &&_isAlt) {
-                console.log('   keyup ALT');
                 e.preventDefault();
                 _showHints();
             }
             _isAlt = false;
         });
         $(document).on('keydown', function(e) {
-            console.log('keydown ' + e.keyCode);
             if (_hintVisible) {
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     _showHints();
@@ -131,7 +129,6 @@ Common.UI.HintManager = new(function() {
                     for (var i = 0; i < _currentControls.length; i++) {
                         var item = _currentControls[i];
                         if (item.attr('data-hint-title').charCodeAt(0) == e.keyCode) { // for latin chars
-                        // if (item.attr('data-hint-title').charAt(0) == e.key.toUpperCase()) { // for all chars
                             curr = item;
                             break;
                         }
