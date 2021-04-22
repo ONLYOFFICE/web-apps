@@ -9,7 +9,6 @@ define([
 
     Common.UI.Themes = new (function(locale) {
         !locale && (locale = {});
-        var id_default_theme = 'theme-classic-light';
         var themes_map = {
             'theme-light': {
                 text: locale.txtThemeLight || 'Light',
@@ -24,6 +23,8 @@ define([
                 type: 'dark'
             },
         }
+        var id_default_light_theme = 'theme-classic-light',
+            id_default_dark_theme = 'theme-dark';
 
         var name_colors = [
             "background-normal",
@@ -205,7 +206,7 @@ define([
                 })
 
                 this.api = api;
-                var theme_name = Common.localStorage.getItem('ui-theme', id_default_theme);
+                var theme_name = Common.localStorage.getItem('ui-theme', id_default_light_theme);
 
                 if ( !$('body').hasClass(theme_name) ) {
                     $('body').addClass(theme_name);
@@ -232,19 +233,19 @@ define([
             },
 
             currentThemeId: function () {
-                return Common.localStorage.getItem('ui-theme') || id_default_theme;
+                return Common.localStorage.getItem('ui-theme') || id_default_light_theme;
             },
 
-            defaultThemeId: function () {
-                return id_default_theme;
+            defaultThemeId: function (type) {
+                return type == 'dark' ? id_default_dark_theme : id_default_light_theme;
             },
 
-            defaultTheme: function () {
-                return themes_map[id_default_theme]
+            defaultTheme: function (type) {
+                return themes_map[this.defaultThemeId(type)]
             },
 
             isDarkTheme: function () {
-                return themes_map[this.current()] == 'dark';
+                return themes_map[this.currentThemeId()].type == 'dark';
             },
 
             setTheme: function (id) {
@@ -266,7 +267,7 @@ define([
             },
 
             toggleTheme: function () {
-                this.setTheme(this.current() == 'theme-dark' ? id_default_theme : 'theme-dark');
+                this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
             }
         }
     })(Common.UI.Themes);
