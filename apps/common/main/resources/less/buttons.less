@@ -77,6 +77,8 @@
     &.active:not(.disabled){
         .caret {
             transform: rotate(45deg);
+            border-color: @icon-normal-pressed-ie;
+            border-color: @icon-normal-pressed;
         }
     }
 
@@ -356,8 +358,8 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        color: @text-normal-ie;
-        color: @text-normal;
+        color: @text-normal-pressed-ie;
+        color: @text-normal-pressed;
         background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
     }
