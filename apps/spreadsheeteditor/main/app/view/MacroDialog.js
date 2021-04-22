@@ -154,8 +154,15 @@ define([
         },
 
         refreshList: function() {
-            if (this.props) {
-                this.props.macroList && this.macroList.store.reset(this.props.macroList);
+            if (this.props && this.props.macroList) {
+                var list = this.props.macroList;
+                var arr = [];
+                for (var i=0; i<list.length; i++) {
+                    arr.push({
+                        value: list[i]
+                    });
+                }
+                this.macroList.store.reset(arr);
                 if (this.props.current) {
                     this.txtName.setValue(this.props.current);
                     this.findMacro(this.props.current);
