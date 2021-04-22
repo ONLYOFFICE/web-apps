@@ -47,6 +47,8 @@ const PageTheme = props => {
     const slideThemeIndex = storeSlideSettings.slideThemeIndex;
     const defaultThemes = arrayThemes[0];
     const docThemes = arrayThemes[1];
+
+    console.log(arrayThemes);
    
     // console.log(slideThemeIndex);
     // console.log(arrayThemes);
@@ -63,7 +65,7 @@ const PageTheme = props => {
                     {defaultThemes.map((elem, index) => {
                         return (
                             <ListItem key={elem.Index} className={elem.Index === slideThemeIndex ? "item-theme active" : "item-theme"} 
-                                style={{backgroundPosition: "0 " + index * -38 + "px"}} 
+                                style={{backgroundPosition: "0 " + index * -40 + "px"}} 
                                 onClick={() => {
                                     storeSlideSettings.changeSlideThemeIndex(elem.Index);
                                     props.onThemeClick(elem.Index);
