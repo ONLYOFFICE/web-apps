@@ -99,6 +99,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false
                     });
                     this.repeatPwd = new Common.UI.InputField({
@@ -106,6 +107,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;

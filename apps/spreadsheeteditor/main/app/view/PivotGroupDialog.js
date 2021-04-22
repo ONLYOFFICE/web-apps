@@ -242,9 +242,11 @@ define([
             if (rangePr) {
                 this.chStart.setValue(rangePr.asc_getAutoStart(), true);
                 this.chEnd.setValue(rangePr.asc_getAutoEnd(), true);
-                this.inputStart.setValue((dateTypes ? rangePr.asc_getStartDateText() : rangePr.asc_getStartNum()) || '');
-                this.inputEnd.setValue((dateTypes ? rangePr.asc_getEndDateText() : rangePr.asc_getEndNum()) || '');
-                !dateTypes && this.inputBy.setValue(rangePr.asc_getGroupInterval() || '');
+                var value = dateTypes ? rangePr.asc_getStartDateText() : rangePr.asc_getStartNum();
+                this.inputStart.setValue(value!==null && value!==undefined ? value : '');
+                value = dateTypes ? rangePr.asc_getEndDateText() : rangePr.asc_getEndNum();
+                this.inputEnd.setValue(value!==null && value!==undefined ? value : '');
+                !dateTypes && this.inputBy.setValue(rangePr.asc_getGroupInterval());
                 this.rangePr = rangePr;
                 if (defRangePr) {
                     this.defRangePr = {start: dateTypes ? defRangePr.asc_getStartDateText() : defRangePr.asc_getStartNum(), end: dateTypes ? defRangePr.asc_getEndDateText() : defRangePr.asc_getEndNum()};
@@ -259,7 +261,7 @@ define([
                     if (item == Asc.c_oAscGroupBy.Days)
                         isDays = true;
                 });
-                this.spnDays.setValue(rangePr.asc_getGroupInterval() || '');
+                this.spnDays.setValue(rangePr.asc_getGroupInterval());
                 this.spnDays.setDisabled(!isDays || dateTypes.length>1);
                 this.btnOk.setDisabled(dateTypes.length<1);
                 this.dateTypes = dateTypes;

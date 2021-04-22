@@ -301,6 +301,9 @@ define([
             toolbar.mnuNumberChangeLevel && toolbar.mnuNumberChangeLevel.menu &&
             toolbar.mnuNumberChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 1));
             toolbar.mnuNumberChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 1));
+            toolbar.mnuMultiChangeLevel && toolbar.mnuMultiChangeLevel.menu &&
+            toolbar.mnuMultiChangeLevel.menu.on('show:after',           _.bind(this.onChangeLevelShowAfter, this, 2));
+            toolbar.mnuMultiChangeLevel.menu.on('item:click',           _.bind(this.onChangeLevelClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -526,6 +529,7 @@ define([
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx;
@@ -561,6 +565,7 @@ define([
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1409,7 +1414,6 @@ define([
         onChangeLevelShowAfter: function(type, menu) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
-                level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
             if (props) {
                 this.api.SetDrawImagePreviewBulletChangeListLevel(menu.options.previewIds, props);
@@ -2387,6 +2391,7 @@ define([
             this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
             this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
             this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
+            this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
         },
 
         _getApiTextSize: function () {
