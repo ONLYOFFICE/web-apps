@@ -12,12 +12,16 @@ import {
     EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
+import LongActionsController from "./LongActions";
+import ErrorController from "./Error";
 
 @inject("storeAppOptions", "storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings", "storeSpreadsheetInfo")
 class MainController extends Component {
     constructor(props) {
         super(props);
         window.editorType = 'sse';
+
+        this.LoadingDocument = -256;
     }
 
     initSdk() {
@@ -300,6 +304,8 @@ class MainController extends Component {
     render() {
         return (
             <Fragment>
+                <LongActionsController />
+                <ErrorController LoadingDocument={this.LoadingDocument}/>
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />
