@@ -250,7 +250,7 @@ define([
 
             setTheme: function (id) {
                 if ( !!themes_map[id] ) {
-                    var classname = document.documentElement.className.replace(/theme-\w+\s?/, '');
+                    var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
 
                     $('body').addClass(id);
