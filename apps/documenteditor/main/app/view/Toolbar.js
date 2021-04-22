@@ -1707,6 +1707,7 @@ define([
                         style: 'min-width: 139px',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
@@ -1727,7 +1728,7 @@ define([
                     })
                 );
 
-                items = [], ids = [];
+                items = []; ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-numbering-level-' + i);
                     items.push({template: levelTemplate, previewId: ids[i], level: i });
@@ -1737,6 +1738,7 @@ define([
                         cls: 'shifted-left',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
@@ -1756,13 +1758,29 @@ define([
                         ]
                     })
                 );
-
+                items = []; ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-multilevels-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                }
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         style: 'min-width: 90px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
+                            this.mnuMultiChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
