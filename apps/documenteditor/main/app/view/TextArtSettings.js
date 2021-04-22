@@ -89,7 +89,8 @@ define([
                 GradColor: '000000',
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 FormId: null,
-                DisabledControls: false
+                DisabledControls: false,
+                applicationPixelRatio: Common.Utils.applicationPixelRatio()
             };
             this.lockedControls = [];
             this._locked = false;
@@ -121,6 +122,8 @@ define([
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
+
+            $(window).on('resize', _.bind(this.onWindowResize, this));
         },
 
         setApi: function(api) {
@@ -1126,22 +1129,17 @@ define([
         },
 
         fillTransform: function(transforms) {
-            if (transforms && transforms.length>1 && transforms[1]){
-                var me = this,
-                    artStore = [],
-                    arrTransforms = transforms[1];
-                for (var i=0; i<arrTransforms.length; i++) {
-                    var arr = arrTransforms[i];
-                    if (arr && arr.length>0)
-                        _.each(arr, function(item){
-                            artStore.push({
-                                imageUrl: item.Image,
-                                type    : item.Type,
-                                selected: false
-                            });
-                        });
+            if (transforms){
+                var artStore = [];
+                for (var i=0; i<transforms.length; i++) {
+                    var item = transforms[i];
+                    artStore.push({
+                        imageUrl: item.Image,
+                        type    : item.Type,
+                        selected: false
+                    });
                 }
-                this.cmbTransform.menuPicker.store.add(artStore);
+                this.cmbTransform.menuPicker.store.reset(artStore);
                 if (this.cmbTransform.menuPicker.store.length > 0) {
                     this.cmbTransform.fillComboView(this.cmbTransform.menuPicker.store.at(0),true);
                 }
@@ -1292,6 +1290,13 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
+        },
+
+        onWindowResize: function() {
+            if (!this._initSettings && this._state.applicationPixelRatio !== Common.Utils.applicationPixelRatio())
+                this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+
+            this._state.applicationPixelRatio = Common.Utils.applicationPixelRatio();
         },
 
         txtNoBorders            : 'No Line',
