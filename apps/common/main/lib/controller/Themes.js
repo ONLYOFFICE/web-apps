@@ -125,6 +125,75 @@ define([
             return out_object;
         }
 
+        var create_colors_css = function (id, colors) {
+            if ( !!colors && !!id ) {
+                var _css_array = [':root .', id, '{'];
+                for (var c in colors) {
+                    _css_array.push('--', c, ':', colors[c], ';');
+                }
+
+                _css_array.push('}');
+                return _css_array.join('');
+            }
+        }
+
+        var write_theme_css = function (css) {
+            if ( !!css ) {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = css;
+                document.getElementsByTagName('head')[0].appendChild(style);
+            }
+        }
+
+        var parse_themes_object = function (obj) {
+            if ( !!obj.themes && obj.themes instanceof Array ) {
+                obj.themes.forEach(function (item) {
+                    if ( !!item.id ) {
+                        themes_map[item.id] = {text: item.name, type: item.type};
+                        write_theme_css(create_colors_css(item.id, item.colors));
+                    } else
+                    if ( typeof item == 'string' ) {
+                        get_themes_config(item)
+                    }
+                });
+            } else
+            if ( obj.id ) {
+                themes_map[obj.id] = {text: obj.name, type: obj.type};
+                write_theme_css( create_colors_css(obj.id, obj.colors) );
+            }
+        }
+
+        var get_themes_config = function (url) {
+            fetch(url, {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            }).then(function(response) {
+                if (!response.ok) {
+                    throw new Error('server error');
+                }
+                return response.json();
+            }).then(function(response) {
+                if ( response.then ) {
+                    // return response.json();
+                } else {
+                    parse_themes_object(response);
+
+                    /* to break promises chain */
+                    throw new Error('loaded');
+                }
+            }).catch(function(e) {
+                if ( e.message == 'loaded' ) {
+                } else console.log('fetch error: ' + e);
+            });
+        }
+
+        var on_document_ready = function (el) {
+            // get_themes_config('../../common/main/resources/themes/themes.json')
+        }
+
         return {
             init: function (api) {
                 var me = this;
@@ -146,6 +215,8 @@ define([
                 obj.type = themes_map[theme_name];
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
+
+                Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
             available: function () {
