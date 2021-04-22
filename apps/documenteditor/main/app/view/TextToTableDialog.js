@@ -163,7 +163,7 @@ define([
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (me.props) {
                     var size = me.props.put_ColsCount(field.getNumberValue(), true);
-                    size && me.spnRows.setValue(size.rows, true);
+                    size && me.spnRows.setValue(size[0], true);
                 }
             });
 
@@ -253,8 +253,8 @@ define([
                     me.props.put_SeparatorType(3, true);
                     var size = me.props.put_Separator(newValue.charCodeAt(0), true);
                     if (size) {
-                        me.spnColumns.setValue(size.cols, true);
-                        me.spnRows.setValue(size.rows, true);
+                        me.spnColumns.setValue(size[1], true);
+                        me.spnRows.setValue(size[0], true);
                     }
                 }
             });
@@ -278,8 +278,8 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 var val = props.get_Size();
-                this.spnColumns.setValue(val.cols, true);
-                this.spnRows.setValue(val.rows, true);
+                this.spnColumns.setValue(val[1], true);
+                this.spnRows.setValue(val[0], true);
 
                 val = props.get_AutoFitType();
                 (val===1) ? this.rbFixed.setValue(true, true) : (val===2 ? this.rbContents.setValue(true, true) : this.rbWindow.setValue(true, true));
@@ -376,8 +376,8 @@ define([
                     }
                 }
                 if (size) {
-                    this.spnColumns.setValue(size.cols, true);
-                    this.spnRows.setValue(size.rows, true);
+                    this.spnColumns.setValue(size[1], true);
+                    this.spnRows.setValue(size[0], true);
                 }
             }
         },
