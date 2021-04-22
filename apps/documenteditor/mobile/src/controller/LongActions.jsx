@@ -1,82 +1,75 @@
-import React, { Component } from 'react';
-import { inject } from 'mobx-react';
+import React, { useEffect } from 'react';
 import { f7 } from 'framework7-react';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import IrregularStack from "../../../../common/mobile/utils/IrregularStack";
 
-class LongActions extends Component {
-    constructor(props) {
-        super(props);
+const LongActionsController = () => {
+    const {t} = useTranslation();
+    const _t = t("LongActions", { returnObjects: true });
 
-        this.stackLongActions = new IrregularStack({
-            strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
-            weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
-        });
+    const stackLongActions = new IrregularStack({
+        strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+        weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
+    });
 
-        this.onLongActionBegin = this.onLongActionBegin.bind(this);
-        this.onLongActionEnd = this.onLongActionEnd.bind(this);
-        this.onOpenDocument = this.onOpenDocument.bind(this);
-        this.closePreloader = this.closePreloader.bind(this);
-    }
+    let loadMask = null;
 
-    closePreloader() {
-        if (this.loadMask && this.loadMask.el) {
-            f7.dialog.close(this.loadMask.el);
+    const closePreloader = () => {
+        if (loadMask && loadMask.el) {
+            f7.dialog.close(loadMask.el);
         }
     }
 
-    componentDidMount() {
+    useEffect( () => {
         Common.Notifications.on('engineCreated', (api) => {
-            api.asc_registerCallback('asc_onStartAction', this.onLongActionBegin);
-            api.asc_registerCallback('asc_onEndAction', this.onLongActionEnd);
-            api.asc_registerCallback('asc_onOpenDocumentProgress', this.onOpenDocument);
+            api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
+            api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
+            api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
         });
-        Common.Notifications.on('preloader:endAction', this.onLongActionEnd);
-        Common.Notifications.on('preloader:beginAction', this.onLongActionBegin);
-        Common.Notifications.on('preloader:close', this.closePreloader);
-    }
+        Common.Notifications.on('preloader:endAction', onLongActionEnd);
+        Common.Notifications.on('preloader:beginAction', onLongActionBegin);
+        Common.Notifications.on('preloader:close', closePreloader);
 
-    componentWillUnmount() {
-        const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onStartAction', this.onLongActionBegin);
-        api.asc_unregisterCallback('asc_onEndAction', this.onLongActionEnd);
-        api.asc_unregisterCallback('asc_onOpenDocumentProgress', this.onOpenDocument);
+        return ( () => {
+            const api = Common.EditorApi.get();
+            api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
+            api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
+            api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
 
-        Common.Notifications.off('preloader:endAction', this.onLongActionEnd);
-        Common.Notifications.off('preloader:beginAction', this.onLongActionBegin);
-        Common.Notifications.off('preloader:close', this.closePreloader);
-    }
+            Common.Notifications.off('preloader:endAction', onLongActionEnd);
+            Common.Notifications.off('preloader:beginAction', onLongActionBegin);
+            Common.Notifications.off('preloader:close', closePreloader);
+        })
+    });
 
-    onLongActionBegin (type, id) {
+    const onLongActionBegin = (type, id) => {
         const action = {id: id, type: type};
-        this.stackLongActions.push(action);
-        this.setLongActionView(action);
-    }
+        stackLongActions.push(action);
+        setLongActionView(action);
+    };
 
-    onLongActionEnd (type, id) {
+    const onLongActionEnd = (type, id) => {
         let action = {id: id, type: type};
-        this.stackLongActions.pop(action);
+        stackLongActions.pop(action);
 
         //this.updateWindowTitle(true);
 
-        action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
+        action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
 
         if (action) {
-            this.setLongActionView(action)
+            setLongActionView(action)
         }
 
-        action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
+        action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
 
         if (action) {
-            this.setLongActionView(action)
+            setLongActionView(action)
         } else {
-            this.loadMask && this.loadMask.el && this.loadMask.el.classList.contains('modal-in') && f7.dialog.close(this.loadMask.el);
+            loadMask && loadMask.el && loadMask.el.classList.contains('modal-in') && f7.dialog.close(loadMask.el);
         }
-    }
+    };
 
-    setLongActionView (action) {
-        const { t } = this.props;
-        const _t = t("LongActions", { returnObjects: true });
+    const setLongActionView = (action) => {
         let title = '';
         let text = '';
         switch (action.id) {
@@ -177,31 +170,25 @@ class LongActions extends Component {
                 return;
             }
 
-            if (this.loadMask && this.loadMask.el && this.loadMask.el.classList.contains('modal-in')) {
-                this.loadMask.el.getElementsByClassName('dialog-title')[0].innerHTML = title;
+            if (loadMask && loadMask.el && loadMask.el.classList.contains('modal-in')) {
+                loadMask.el.getElementsByClassName('dialog-title')[0].innerHTML = title;
             } else {
-                this.loadMask = f7.dialog.preloader(title);
+                loadMask = f7.dialog.preloader(title);
             }
         }
 
-    }
+    };
 
-    onOpenDocument (progress) {
-        if (this.loadMask && this.loadMask.el) {
-            const $title = this.loadMask.el.getElementsByClassName('dialog-title')[0];
+    const onOpenDocument = (progress) => {
+        if (loadMask && loadMask.el) {
+            const $title = loadMask.el.getElementsByClassName('dialog-title')[0];
             const proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
 
-            const { t } = this.props;
-            const _t = t("LongActions", { returnObjects: true });
             $title.innerHTML = `${_t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
         }
     }
 
-    render() {
-        return null;
-    }
-}
-
-const LongActionsController = withTranslation()(LongActions);
+    return null;
+};
 
 export default LongActionsController;
