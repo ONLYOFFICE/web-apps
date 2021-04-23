@@ -18,6 +18,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
     });
 
     const onError = (id, level, errData) => {
+
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
             f7.notification.create({
                 title: _t.criticalErrorTitle,
@@ -70,16 +71,150 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = _t.uploadImageFileCountMessage;
                 break;
 
-            case Asc.c_oAscError.ID.SplitCellMaxRows:
-                config.msg = _t.splitMaxRowsErrorText.replace('%1', errData.get_Value());
+            case Asc.c_oAscError.ID.PastInMergeAreaError:
+                config.msg = _t.pastInMergeAreaError;
                 break;
 
-            case Asc.c_oAscError.ID.SplitCellMaxCols:
-                config.msg = _t.splitMaxColsErrorText.replace('%1', errData.get_Value());
+            case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
+                config.msg = _t.errorWrongBracketsCount;
+                config.closable = true;
                 break;
 
-            case Asc.c_oAscError.ID.SplitCellRowsDivider:
-                config.msg = _t.splitDividerErrorText.replace('%1', errData.get_Value());
+            case Asc.c_oAscError.ID.FrmlWrongOperator:
+                config.msg = _t.errorWrongOperator;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
+                config.msg = _t.errorCountArgExceed;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlWrongCountArgument:
+                config.msg = _t.errorCountArg;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlWrongFunctionName:
+                config.msg = _t.errorFormulaName;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlAnotherParsingError:
+                config.msg = _t.errorFormulaParsing;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
+                config.msg = _t.errorArgsRange;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.UnexpectedGuid:
+                config.msg = _t.errorUnexpectedGuid;
+                break;
+
+            case Asc.c_oAscError.ID.FileRequest:
+                config.msg = _t.errorFileRequest;
+                break;
+
+            case Asc.c_oAscError.ID.FileVKey:
+                config.msg = _t.errorFileVKey;
+                break;
+
+            case Asc.c_oAscError.ID.MaxDataPointsError:
+                config.msg = _t.errorMaxPoints;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlOperandExpected:
+                config.msg = _t.errorOperandExpected;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.CannotMoveRange:
+                config.msg = _t.errorMoveRange;
+                break;
+
+            case Asc.c_oAscError.ID.AutoFilterDataRangeError:
+                config.msg = _t.errorAutoFilterDataRange;
+                break;
+
+            case Asc.c_oAscError.ID.AutoFilterChangeFormatTableError:
+                config.msg = _t.errorAutoFilterChangeFormatTable;
+                break;
+
+            case Asc.c_oAscError.ID.AutoFilterChangeError:
+                config.msg = _t.errorAutoFilterChange;
+                break;
+
+            case Asc.c_oAscError.ID.AutoFilterMoveToHiddenRangeError:
+                config.msg = _t.errorAutoFilterHiddenRange;
+                break;
+
+            case Asc.c_oAscError.ID.CannotFillRange:
+                config.msg = _t.errorFillRange;
+                break;
+
+            case Asc.c_oAscError.ID.InvalidReferenceOrName:
+                config.msg = _t.errorInvalidRef;
+                break;
+
+            case Asc.c_oAscError.ID.LockCreateDefName:
+                config.msg = _t.errorCreateDefName;
+                break;
+
+            case Asc.c_oAscError.ID.PasteMaxRangeError:
+                config.msg = _t.errorPasteMaxRange;
+                break;
+
+            case Asc.c_oAscError.ID.LockedAllError:
+                config.msg = _t.errorLockedAll;
+                break;
+
+            case Asc.c_oAscError.ID.LockedWorksheetRename:
+                config.msg = _t.errorLockedWorksheetRename;
+                break;
+
+            case Asc.c_oAscError.ID.OpenWarning:
+                config.msg = _t.errorOpenWarning;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlWrongReferences:
+                config.msg = _t.errorFrmlWrongReferences;
+                config.closable = true;
+                break;
+
+            case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                config.msg = _t.errorCopyMultiselectArea;
+                break;
+
+            case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                config.msg = _t.errorPrintMaxPagesCount;
+                break;
+
+            case Asc.c_oAscError.ID.CannotChangeFormulaArray:
+                config.msg = _t.errorChangeArray;
+                break;
+
+            case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                config.msg = _t.errorMultiCellFormula;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlMaxTextLength:
+                config.msg = _t.errorFrmlMaxTextLength;
+                break;
+
+            case  Asc.c_oAscError.ID.FrmlMaxLength:
+                config.msg = _t.errorFrmlMaxLength;
+                break;
+
+            case Asc.c_oAscError.ID.FrmlMaxReference:
+                config.msg = _t.errorFrmlMaxReference;
+                break;
+
+            case Asc.c_oAscError.ID.DataValidate:
+                errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : _t.errorDataValidate;
                 break;
 
             case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -122,14 +257,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 }
                 storeAppOptions.changeEditingRights(true);
                 config.msg = _t.errorUserDrop;
-                break;
-
-            case Asc.c_oAscError.ID.MailMergeLoadFile:
-                config.msg = _t.errorMailMergeLoadFile;
-                break;
-
-            case Asc.c_oAscError.ID.MailMergeSaveFile:
-                config.msg = _t.errorMailMergeSaveFile;
                 break;
 
             case Asc.c_oAscError.ID.Warning:
@@ -198,10 +325,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
         else {
             Common.Gateway.reportWarning(id, config.msg);
 
-            config.title    = _t.notcriticalErrorTitle;
+            config.title    = config.title || _t.notcriticalErrorTitle;
             config.callback = (btn) => {
-                if (id === Asc.c_oAscError.ID.Warning && btn === 'ok' && (storeAppOptions.canDownload || storeAppOptions.canDownloadOrigin)) {
-                    api.asc_DownloadOrigin();
+                if (id == Asc.c_oAscError.ID.DataValidate) {
+                    api.asc_closeCellEditor(true);
                 }
                 storeAppOptions.changeEditingRights(false);
             };

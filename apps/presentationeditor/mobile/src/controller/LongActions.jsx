@@ -5,7 +5,7 @@ import IrregularStack from "../../../../common/mobile/utils/IrregularStack";
 
 const LongActionsController = () => {
     const {t} = useTranslation();
-    const _t = t("LongActions", { returnObjects: true });
+    const _t = t("LongActions", {returnObjects: true});
 
     const stackLongActions = new IrregularStack({
         strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
@@ -18,7 +18,7 @@ const LongActionsController = () => {
         if (loadMask && loadMask.el) {
             f7.dialog.close(loadMask.el);
         }
-    }
+    };
 
     useEffect( () => {
         Common.Notifications.on('engineCreated', (api) => {
@@ -30,7 +30,7 @@ const LongActionsController = () => {
         Common.Notifications.on('preloader:beginAction', onLongActionBegin);
         Common.Notifications.on('preloader:close', closePreloader);
 
-        return ( () => {
+        return (() => {
             const api = Common.EditorApi.get();
             api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
             api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
@@ -128,21 +128,6 @@ const LongActionsController = () => {
                 text    = _t.savePreparingTitle;
                 break;
 
-            case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
-                title   = _t.mailMergeLoadFileText;
-                text    = _t.mailMergeLoadFileTitle;
-                break;
-
-            case Asc.c_oAscAsyncAction['DownloadMerge']:
-                title   = _t.downloadMergeTitle;
-                text    = _t.downloadMergeText;
-                break;
-
-            case Asc.c_oAscAsyncAction['SendMailMerge']:
-                title   = _t.sendMergeTitle;
-                text    = _t.sendMergeText;
-                break;
-
             case Asc.c_oAscAsyncAction['Waiting']:
                 title   = _t.waitText;
                 text    = _t.waitText;
@@ -186,7 +171,7 @@ const LongActionsController = () => {
 
             $title.innerHTML = `${_t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
         }
-    }
+    };
 
     return null;
 };

@@ -12,12 +12,16 @@ import {
     EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
+import LongActionsController from "./LongActions";
+import ErrorController from "./Error";
 
 @inject("storeAppOptions", "storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings", "storeSpreadsheetInfo")
 class MainController extends Component {
     constructor(props) {
         super(props);
         window.editorType = 'sse';
+
+        this.LoadingDocument = -256;
     }
 
     initSdk() {
@@ -187,6 +191,8 @@ class MainController extends Component {
                         // 'translate': translate
                     });
 
+                    Common.EditorApi = {get: () => this.api};
+
                     this.appOptions = {};
                     this.bindEvents();
 
@@ -202,7 +208,6 @@ class MainController extends Component {
                     Common.Gateway.appReady();
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -227,58 +232,21 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
         me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
 
-        const storeSpreadsheetSettings = this.props.storeSpreadsheetSettings;
-        const storeFocusObjects = this.props.storeFocusObjects;
-        const storeCellSettings = this.props.storeCellSettings;
-        const storeTextSettings = this.props.storeTextSettings;
-        const storeChartSettings = this.props.storeChartSettings;
-        const styleSize = storeCellSettings.styleSize;
-       
-        this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
-            console.log(cellInfo);
-            
-            storeFocusObjects.resetCellInfo(cellInfo);
-            storeCellSettings.initCellSettings(cellInfo);
-            storeTextSettings.initTextSettings(cellInfo);
+        EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
-            let selectedObjects = Common.EditorApi.get().asc_getGraphicObjectProps();
+        EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
-            if(selectedObjects.length) {
-                storeFocusObjects.resetFocusObjects(selectedObjects);
+        EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeCellSettings);
 
-                // Chart Settings
+        EditorUIController.initFonts && EditorUIController.initFonts(this.props);
 
-                if (storeFocusObjects.chartObject) { 
-                    storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));
-                }
-            }
-        });
-
+        const styleSize = this.props.storeCellSettings.styleSize;
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
-
-        this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
-            storeCellSettings.initEditorFonts(fonts, select);
-            storeTextSettings.initEditorFonts(fonts, select);
-        });
-
-        this.api.asc_registerCallback('asc_onEditorSelectionChanged', fontObj => {
-            console.log(fontObj)
-            storeCellSettings.initFontInfo(fontObj);
-            storeTextSettings.initFontInfo(fontObj);
-        });
-
-        this.api.asc_registerCallback('asc_onInitEditorStyles', styles => {
-            storeCellSettings.initCellStyles(styles);
-        });
-
-        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
-            Common.Utils.ThemeColor.setColors(colors, standart_colors);
-        });
 
         // Spreadsheet Settings
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
-            storeSpreadsheetSettings.addSchemes(schemes);
+            this.props.storeSpreadsheetSettings.addSchemes(schemes);
         });
 
         // Downloaded Advanced Options
@@ -314,6 +282,8 @@ class MainController extends Component {
         me.api.asc_getWorksheetsCount();
         me.api.asc_showWorksheet(me.api.asc_getActiveWorksheetIndex());
 
+        this.applyLicense();
+
         Common.Gateway.documentReady();
         f7.emit('resize');
     }
@@ -327,9 +297,15 @@ class MainController extends Component {
         // }
     }
 
+    applyLicense () {
+        Common.Notifications.trigger('toolbar:activatecontrols');
+    }
+
     render() {
         return (
             <Fragment>
+                <LongActionsController />
+                <ErrorController LoadingDocument={this.LoadingDocument}/>
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />

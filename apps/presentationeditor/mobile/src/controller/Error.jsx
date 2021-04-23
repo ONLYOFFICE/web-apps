@@ -18,6 +18,8 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
     });
 
     const onError = (id, level, errData) => {
+        if (id === -82) return; // format error
+
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
             f7.notification.create({
                 title: _t.criticalErrorTitle,
@@ -122,14 +124,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 }
                 storeAppOptions.changeEditingRights(true);
                 config.msg = _t.errorUserDrop;
-                break;
-
-            case Asc.c_oAscError.ID.MailMergeLoadFile:
-                config.msg = _t.errorMailMergeLoadFile;
-                break;
-
-            case Asc.c_oAscError.ID.MailMergeSaveFile:
-                config.msg = _t.errorMailMergeSaveFile;
                 break;
 
             case Asc.c_oAscError.ID.Warning:

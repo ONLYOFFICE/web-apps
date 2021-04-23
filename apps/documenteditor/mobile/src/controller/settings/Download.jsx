@@ -55,6 +55,8 @@ class DownloadController extends Component {
 const DownloadWithTranslation = withTranslation()(DownloadController);
 
 const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequestClose) => {
+    if ($$('.dlg-adv-options.modal-in').length > 0) return;
+
     const api = Common.EditorApi.get();
     if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
         let picker;
@@ -97,7 +99,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                 '</div>' +
                 '<div id="txt-encoding"></div>' +
                 '</div>',
-            buttons: buttons
+            buttons: buttons,
+            cssClass: 'dlg-adv-options'
         }).open();
         dialog.on('opened', () => {
             picker = f7.picker.create({
@@ -122,7 +125,7 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                 const password = document.getElementById('modal-password').value;
                 api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
                 //if (!me._isDocReady) {
-                    //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                    //Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
                 //}
             }
         }];
@@ -138,7 +141,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
             text: _t.txtProtected,
             content:
                 '<div class="input-field"><input type="password" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>',
-            buttons: buttons
+            buttons: buttons,
+            cssClass: 'dlg-adv-options'
         }).open();
     }
 };
