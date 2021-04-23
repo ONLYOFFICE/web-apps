@@ -292,7 +292,7 @@ define([
             var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined),
                 argres = res ? res.asc_getArgumentsResult() : undefined;
             argres = argres ? argres[index] : undefined;
-            arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
+            arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + arg.argTypeName + '</span>' ));
 
             var result = res ? res.asc_getFunctionResult() : undefined;
             me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
