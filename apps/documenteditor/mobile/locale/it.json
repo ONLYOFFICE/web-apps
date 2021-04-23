@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Contatta il reparto vendite.",
   "DE.Controllers.Main.textCustomLoader": "Si prega di notare che, in base ai termini della licenza, non si ha il diritto di modificare il caricatore.<br>Si prega di contattare il nostro reparto vendite per ottenere un preventivo.",
   "DE.Controllers.Main.textDone": "Fatto",
+  "DE.Controllers.Main.textGuest": "Ospite",
   "DE.Controllers.Main.textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
   "DE.Controllers.Main.textLoadingDocument": "Caricamento del documento",
   "DE.Controllers.Main.textNo": "No",
