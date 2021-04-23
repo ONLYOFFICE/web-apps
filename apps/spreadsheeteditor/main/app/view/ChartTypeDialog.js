@@ -285,14 +285,19 @@ define([
                 return;
             }
 
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this.currentChartType = rawData.type;
-            this.chartSettings.changeType(this.currentChartType);
-            this.ShowHideSettings(this.currentChartType);
-            if (isCombo)
-                this.updateSeriesList(this.chartSettings.getSeries());
-            else
-                this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+            var res = this.chartSettings.changeType(rawData.type);
+            if (res) {
+                this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
+                this.currentChartType = rawData.type;
+                this.ShowHideSettings(this.currentChartType);
+                if (isCombo)
+                    this.updateSeriesList(this.chartSettings.getSeries());
+                else
+                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+            } else {
+                picker.selectRecord(picker.store.findWhere({type: this.currentChartType}), true);
+            }
+
         },
 
         updateChartStyles: function(styles) {
