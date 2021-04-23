@@ -144,15 +144,14 @@ div {
 			var fileInfo = <%- JSON.stringify(fileInfo) %>;
 			var userAuth = <%- JSON.stringify(userAuth) %>;
 			var token = "<%- token %>";
-			var documentType = "<%- documentType %>";
-			var mode = "<%- mode %>";
+			var queryParams = <%- JSON.stringify(queryParams) %>;
 			
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
 			var config = {
 				"width": "100%",
 				"height": "100%",
 				"type": "desktop",
-				"documentType": documentType,
+				"documentType": queryParams.documenttype,
 				"token": token,
 				"document": {
 					"title": fileInfo.BaseFileName,
@@ -177,7 +176,7 @@ div {
 				},
 				"editorConfig": {
 					"actionLink": "null",
-					"mode": mode,
+					"mode": queryParams.mode,
 					"lang": "en",
 					"callbackUrl": JSON.stringify(userAuth),
 					"user": {
