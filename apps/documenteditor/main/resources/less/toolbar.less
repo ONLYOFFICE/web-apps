@@ -218,11 +218,16 @@
         background-color: @canvas-content-background;
     }
 
-    a:hover {
+    a:hover, a:focus, a.checked {
         background-color: transparent;
         .menu-list-preview {
             .box-shadow(0 0 0 2px @border-control-focus-ie);
             .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
+        }
+    }
+    a.checked {
+        &:before {
+            display: none !important;
         }
     }
 }
