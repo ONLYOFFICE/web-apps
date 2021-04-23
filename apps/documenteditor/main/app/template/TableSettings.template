@@ -113,23 +113,15 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textHeight %></label>
+            <div id="table-btn-distrub-rows" style="display: inline-block; float:right; margin-left: 4px;"></div>
             <div id="table-spin-cell-height" style="display: inline-block; float:right;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textWidth %></label>
+            <div id="table-btn-distrub-cols" style="display: inline-block; float:right; margin-left: 4px;"></div>
             <div id="table-spin-cell-width" style="display: inline-block; float:right;"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;"><%= scope.textDistributeRows %></button>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;"><%= scope.textDistributeCols %></button>
         </td>
     </tr>
     <tr>
@@ -150,6 +142,16 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div id="table-checkbox-repeat-row"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="table-btn-convert-to-text" style="width:100%;"></div>
         </td>
     </tr>
     <tr>

@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
-    'documenteditor/main/app/view/LineNumbersDialog'
+    'documenteditor/main/app/view/LineNumbersDialog',
+    'documenteditor/main/app/view/TextToTableDialog'
 ], function () {
     'use strict';
 
@@ -1511,9 +1512,8 @@ define([
         },
 
         onInsertTableClick: function(menu, item, e) {
+            var me = this;
             if (item.value === 'custom') {
-                var me = this;
-
                 (new Common.Views.InsertTableDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1534,6 +1534,16 @@ define([
             } else if (item.value == 'erase') {
                 item.isChecked() && menu.items[2].setChecked(false, true);
                 this.api.SetTableEraseMode(item.isChecked());
+            } else if (item.value == 'convert') {
+                (new DE.Views.TextToTableDialog({
+                    props: this.api.asc_PreConvertTextToTable(),
+                    handler: function(result, value) {
+                        if (result == 'ok' && me.api) {
+                            me.api.asc_ConvertTextToTable(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 

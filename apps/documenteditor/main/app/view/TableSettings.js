@@ -51,7 +51,8 @@ define([
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
     'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/TableFormulaDialog'
+    'documenteditor/main/app/view/TableFormulaDialog',
+    'documenteditor/main/app/view/TableToTextDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -366,7 +367,7 @@ define([
             this.numHeight = new Common.UI.MetricSpinner({
                 el: $('#table-spin-cell-height'),
                 step: .1,
-                width: 115,
+                width: 90,
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
@@ -384,7 +385,7 @@ define([
             this.numWidth = new Common.UI.MetricSpinner({
                 el: $('#table-spin-cell-width'),
                 step: .1,
-                width: 115,
+                width: 90,
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
@@ -400,7 +401,10 @@ define([
             this.spinners.push(this.numWidth);
 
             this.btnDistributeRows = new Common.UI.Button({
-                el: $('#table-btn-distrub-rows')
+                parentEl: $('#table-btn-distrub-rows', me.$el),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon distribute-rows',
+                hint: this.textDistributeRows
             });
             this.lockedControls.push(this.btnDistributeRows);
             this.btnDistributeRows.on('click', _.bind(function(btn){
@@ -408,7 +412,10 @@ define([
             }, this));
 
             this.btnDistributeCols = new Common.UI.Button({
-                el: $('#table-btn-distrub-cols')
+                parentEl: $('#table-btn-distrub-cols', me.$el),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon distribute-columns',
+                hint: this.textDistributeCols
             });
             this.lockedControls.push(this.btnDistributeCols);
             this.btnDistributeCols.on('click', _.bind(function(btn){
@@ -420,6 +427,16 @@ define([
             });
             this.lockedControls.push(this.btnAddFormula);
             this.btnAddFormula.on('click', _.bind(this.onAddFormula, this));
+
+            this.btnConvert = new Common.UI.Button({
+                parentEl: $('#table-btn-convert-to-text'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon table-to-text',
+                caption     : this.textConvert,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnConvert.on('click', _.bind(this.onConvertTable, this));
+            this.lockedControls.push(this.btnConvert);
 
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
@@ -788,6 +805,21 @@ define([
             }
         },
 
+        onConvertTable: function(e) {
+            var me = this;
+            if (me.api && !this._locked){
+                (new DE.Views.TableToTextDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var settings = dlg.getSettings();
+                            me.api.asc_ConvertTableToText(settings.type, settings.separator, settings.nested);
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -858,7 +890,8 @@ define([
         txtTable_Light: 'Light',
         txtTable_Dark: 'Dark',
         txtTable_Colorful: 'Colorful',
-        txtTable_Accent: 'Accent'
+        txtTable_Accent: 'Accent',
+        textConvert: 'Convert Table to Text'
 
     }, DE.Views.TableSettings || {}));
 });

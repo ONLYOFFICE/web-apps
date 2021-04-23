@@ -457,7 +457,8 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
                                 {caption: this.mniDrawTable, value: 'draw', checkable: true},
-                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true},
+                                {caption: this.mniTextToTable, value: 'convert'}
                             ]
                         })
                     });
@@ -2451,7 +2452,8 @@ define([
             mniUpperCase: 'UPPERCASE',
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
-            textChangeLevel: 'Change List Level'
+            textChangeLevel: 'Change List Level',
+            mniTextToTable: 'Convert Text to Table'
         }
     })(), DE.Views.Toolbar || {}));
 });
