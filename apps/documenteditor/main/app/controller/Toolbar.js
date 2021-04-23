@@ -1414,7 +1414,11 @@ define([
         onChangeLevelShowAfter: function(type, menu) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            var item = _.find(menu.items, function(item) { return item.options.level == level; });
+            menu.clearAll();
+            item && item.setChecked(true);
             if (props) {
                 this.api.SetDrawImagePreviewBulletChangeListLevel(menu.options.previewIds, props);
             }

@@ -1699,7 +1699,7 @@ define([
                 var items = [], ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-markers-level-' + i);
-                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1731,7 +1731,7 @@ define([
                 items = []; ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-numbering-level-' + i);
-                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
@@ -1761,7 +1761,7 @@ define([
                 items = []; ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-multilevels-level-' + i);
-                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
