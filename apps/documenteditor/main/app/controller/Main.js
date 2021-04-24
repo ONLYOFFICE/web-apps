@@ -1340,7 +1340,7 @@ define([
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
-                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));

@@ -132,7 +132,7 @@ define([
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                     this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 }
-                if (this.appConfig.canReview && !this.appConfig.isReviewOnly)
+                if (this.appConfig.canReview)
                     this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));
                 this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
@@ -562,6 +562,7 @@ define([
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
+                state = (state=='off') ? false : state; // support of prev. version (on/off)
                 if (!!global) {
                     this.api.asc_SetLocalTrackRevisions(null);
                     this.api.asc_SetGlobalTrackRevisions(!!state);

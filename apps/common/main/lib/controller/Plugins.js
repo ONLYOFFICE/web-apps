@@ -167,8 +167,9 @@ define([
             return this;
         },
 
-        setMode: function(mode) {
+        setMode: function(mode, api) {
             this.appOptions = mode;
+            this.api = api;
             this.customPluginsComplete = !this.appOptions.canBrandingExt;
             if (this.appOptions.canBrandingExt)
                 this.getAppCustomPlugins(this.configPlugins);
@@ -514,7 +515,7 @@ define([
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit,
                 editor = me.editor,
-                apiVersion = me.api.GetVersion();
+                apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];

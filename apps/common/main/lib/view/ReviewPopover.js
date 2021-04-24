@@ -258,12 +258,12 @@ define([
                         }
 
                         var arr = [],
-                            btns = $(view.el).find('.btn-resolve');
+                            btns = $(view.el).find('.btn-resolve:not(.comment-resolved)');
                         btns.tooltip({title: me.textResolve, placement: 'cursor'});
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
-                        btns = $(view.el).find('.btn-resolve-check');
+                        btns = $(view.el).find('.comment-resolved');
                         btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
@@ -451,14 +451,7 @@ define([
 
                                 readdresolves();
 
-                            } else if (btn.hasClass('btn-resolve', false)) {
-                                var tip = btn.data('bs.tooltip');
-                                if (tip) tip.dontShow = true;
-
-                                me.fireEvent('comment:resolve', [commentId]);
-
-                                readdresolves();
-                            } else if (btn.hasClass('btn-resolve-check', false)) {
+                            } else if (btn.hasClass('btn-resolve')) {
                                 var tip = btn.data('bs.tooltip');
                                 if (tip) tip.dontShow = true;
 
