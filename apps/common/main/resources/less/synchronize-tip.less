@@ -360,6 +360,16 @@
     color: @text-link-ie;
     color: @text-link;
     cursor: pointer;
+
+    &:hover:not(:disabled) {
+        color: @text-link-hover;
+        border-bottom-color: dotted @text-link-hover;
+    }
+
+    &:active {
+        color: @text-link-active;
+        border-bottom-color: dotted @text-link-hover;
+    }
 }
 
 .asc-synchronizetip .close {
