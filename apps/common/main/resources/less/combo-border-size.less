@@ -3,6 +3,13 @@
         cursor: pointer;
     }
 
+    &.input-group-nr {
+        .form-control:not(input) {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
     li {
         a {
             white-space: normal;
@@ -28,7 +35,7 @@
         height: 100%;
         display: inline-block;
         background-color: transparent;
-        margin: -1px 0 0 -3px;
+        margin: 0 0 0 -3px;
     }
 
     img, .image {

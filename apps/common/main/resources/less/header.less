@@ -327,11 +327,22 @@
     }
 
     .btn& {
+        &:not(:disabled) .icon {
+            opacity: @header-component-normal-icon-opacity;
+        }
+
         &:active, &.active {
             .icon.toolbar__icon {
                 &.icon--inverse {
                     background-position-x: @button-header-active-icon-offset-x-ie;
+                    opacity: @header-component-active-icon-opacity;
                 }
+            }
+        }
+
+        &:hover:not(:disabled) {
+            .icon {
+                opacity: @header-component-hover-icon-opacity;
             }
         }
     }
