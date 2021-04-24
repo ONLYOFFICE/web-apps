@@ -12,16 +12,38 @@ import {
     EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import LongActionsController from "./LongActions";
 import ErrorController from "./Error";
+import app from "../page/app";
+import About from "../../../../common/mobile/lib/view/About";
 
-@inject("storeAppOptions", "storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings", "storeSpreadsheetInfo")
+@inject(
+    "storeAppOptions",
+    "storeFocusObjects",
+    "storeCellSettings",
+    "storeTextSettings",
+    "storeChartSettings",
+    "storeSpreadsheetSettings",
+    "storeSpreadsheetInfo",
+    "storeApplicationSettings"
+    )
 class MainController extends Component {
     constructor(props) {
         super(props);
         window.editorType = 'sse';
 
         this.LoadingDocument = -256;
+
+        this._state = {
+            licenseType: false,
+            isDocModified: false
+        };
+
+        this.defaultTitleText = __APP_TITLE_TEXT__;
+
+        const { t } = this.props;
+        this._t = t('Controller.Main', {returnObjects:true});
     }
 
     initSdk() {
@@ -56,46 +78,52 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
+                const _t = this._t;
+
                 EditorUIController.isSupportEditFeature();
 
-                let me = this;
+                this.editorConfig = Object.assign({}, this.editorConfig, data.config);
+                this.appOptions.lang            = this.editorConfig.lang;
 
-                me.editorConfig = Object.assign({}, this.editorConfig, data.config);
-                me.appOptions.user = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, "Local.User"/*me.textAnonymous*/);
-/**/
-                me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
-                me.appOptions.lang            = me.editorConfig.lang;
+                const appOptions = this.props.storeAppOptions;
+                appOptions.setConfigOptions(this.editorConfig, _t);
 
-                this.props.storeAppOptions.setConfigOptions(this.editorConfig);
+                let value;
+                if (appOptions.canRenameAnonymous) {
+                    value = LocalStorage.getItem("guest-username");
+                    //Common.Utils.InternalSettings.set("guest-username", value);
+                    //Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
 
-                // var value = Common.localStorage.getItem("sse-settings-regional");
-                // if (value!==null)
-                //     this.api.asc_setLocale(parseInt(value));
-                // else {
-                //     value = me.appOptions.region;
-                //     value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                //     if (value!==null)
-                //         value = parseInt(value);
-                //     else
-                //         value = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.editorConfig.lang)) : 0x0409;
-                //     this.api.asc_setLocale(value);
-                // }
+                value = LocalStorage.getItem("sse-settings-regional");
+                if (value !== null) {
+                    this.api.asc_setLocale(parseInt(value));
+                } else {
+                     value = appOptions.region;
+                     value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                     if (value !== null) {
+                         value = parseInt(value);
+                     } else {
+                         value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
+                     }
+                     this.api.asc_setLocale(value);
+                }
 
-                // if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
-                //     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-                //
-                // if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
-                //     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
-                //
-                // var value = Common.localStorage.getItem("sse-mobile-macros-mode");
-                // if (value === null) {
-                //     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
-                //     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
-                // } else
-                //     value = parseInt(value);
-                // Common.Utils.InternalSettings.set("sse-mobile-macros-mode", value);
+                if (appOptions.location == 'us' || appOptions.location == 'ca') {
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                }
 
+                //if (!appOptions.customization || !(appOptions.customization.loaderName || appOptions.customization.loaderLogo))
+                    //$('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+
+                value = LocalStorage.getItem("sse-mobile-macros-mode");
+                if (value === null) {
+                     value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
+                     value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
+                } else {
+                    value = parseInt(value);
+                }
+                this.props.storeApplicationSettings.changeMacrosSettings(value);
             };
 
             const loadDocument = data => {
@@ -127,17 +155,16 @@ class MainController extends Component {
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
-                    // var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
-                    // docInfo.asc_putIsEnabledMacroses(!!enable);
-                    // enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
-                    // docInfo.asc_putIsEnabledPlugins(!!enable);
-
-                    // SSE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    const appOptions = this.props.storeAppOptions;
+                    let enable = !appOptions.customization || (appOptions.customization.macros !== false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !appOptions.customization || (appOptions.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
-                // this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
-                // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       this.onLicenseChanged.bind(this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', this.onRunAutostartMacroses.bind(this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
                 this.api.asc_enableKeyEvents(true);
@@ -152,21 +179,20 @@ class MainController extends Component {
             };
 
             const onEditorPermissions = params => {
-                let me = this;
                 const licType = params.asc_getLicenseType();
+                this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
-                me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+                const appOptions = this.props.storeAppOptions;
+                appOptions.setPermissionOptions(this.document, licType, params, this.permissions);
 
-                this.props.storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
-                // me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
-                //     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
-                //     (!me.appOptions.isReviewOnly || me.appOptions.canLicense) && // if isReviewOnly==true -> canLicense must be true
-                //     me.isSupportEditFeature();
-                // me.appOptions.isEdit          = me.appOptions.canLicense && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
+                this.applyMode(appOptions);
 
-                // me.api.asc_setViewMode(!me.appOptions.isEdit);
-                me.api.asc_setViewMode(false);
-                me.api.asc_LoadDocument();
+                this.api.asc_LoadDocument();
+
+                //if (!me.appOptions.isEdit) {
+                    //me.hidePreloader();
+                    //me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                //}
             };
 
             const _process_array = (array, fn) => {
@@ -184,30 +210,64 @@ class MainController extends Component {
             _process_array(dep_scripts, promise_get_script)
                 .then ( result => {
                     const {t} = this.props;
+                    const _t = t('Controller.Main.SDK', {returnObjects:true})
+                    const styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                            'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'];
+                    const translate = {
+                        'Series': _t.txtSeries,
+                        'Diagram Title': _t.txtDiagramTitle,
+                        'X Axis': _t.txtXAxis,
+                        'Y Axis': _t.txtYAxis,
+                        'Your text here': _t.txtArt
+                    };
+                    styleNames.forEach(function(item){
+                        translate[item] = _t['txtStyle_' + item.replace(/ /g, '_')] || item;
+                    });
+                    translate['Currency [0]'] = _t.txtStyle_Currency + ' [0]';
+                    translate['Comma [0]'] = _t.txtStyle_Comma + ' [0]';
+
+                    for (let i=1; i<7; i++) {
+                        translate['Accent'+i] = _t.txtAccent + i;
+                        translate['20% - Accent'+i] = '20% - ' + _t.txtAccent + i;
+                        translate['40% - Accent'+i] = '40% - ' + _t.txtAccent + i;
+                        translate['60% - Accent'+i] = '60% - ' + _t.txtAccent + i;
+                    }
                     this.api = new Asc.spreadsheet_api({
                         'id-view': 'editor_sdk',
                         'id-input': 'idx-cell-content',
-                        'mobile': true
-                        // 'translate': translate
+                        'mobile': true,
+                        'translate': translate
                     });
 
+                    Common.Notifications.trigger('engineCreated', this.api);
                     Common.EditorApi = {get: () => this.api};
 
                     this.appOptions = {};
                     this.bindEvents();
 
-                    let value = null /*Common.localStorage.getItem("sse-settings-fontrender")*/;
-                    if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                    let value = LocalStorage.getItem("sse-settings-fontrender");
+                    if (value === null) value = window.devicePixelRatio > 1 ? '1' : '3';
                     this.api.asc_setFontRenderingMode(parseInt(value));
 
                     Common.Utils.Metric.setCurrentMetric(Common.Utils.Metric.c_MetricUnits.pt); // TODO: beautify c_MetricUnits
 
-                    Common.Gateway.on('init',           loadConfig);
-                    // Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
+                    Common.Gateway.on('init', loadConfig);
+                    Common.Gateway.on('showmessage', this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
                     Common.Gateway.appReady();
 
-                    Common.Notifications.trigger('engineCreated', this.api);
+                    Common.Gateway.on('internalcommand', function(data) {
+                        if (data.command === 'hardBack') {
+                            if ($$('.modal-in').length > 0) {
+                                if ( !($$('.error-dialog.modal-in').length > 0) ) {
+                                    f7.dialog.close();
+                                }
+                                Common.Gateway.internalMessage('hardBack', false);
+                            } else
+                                Common.Gateway.internalMessage('hardBack', true);
+                        }
+                    });
+                    Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -221,18 +281,12 @@ class MainController extends Component {
     }
 
     bindEvents() {
-        const me = this;
-
-        // me.api.asc_registerCallback('asc_onError',                      _.bind(me.onError, me));
-        me.api.asc_registerCallback('asc_onOpenDocumentProgress',       me._onOpenDocumentProgress.bind(me));
-        // me.api.asc_registerCallback('asc_onAdvancedOptions',            _.bind(me.onAdvancedOptions, me));
-        // me.api.asc_registerCallback('asc_onDocumentUpdateVersion',      _.bind(me.onUpdateVersion, me));
-        // me.api.asc_registerCallback('asc_onServerVersion',              _.bind(me.onServerVersion, me));
-        // me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
-        // me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
-        me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
-
-        EditorUIController.initThemeColors && EditorUIController.initThemeColors();
+        this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
+        this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
+        this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
+        this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
+        this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
+        this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -263,42 +317,431 @@ class MainController extends Component {
         if ( type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open ) {
             Common.Gateway.internalMessage('documentReady', {});
             Common.Notifications.trigger('document:ready');
-            this._onDocumentContentReady();
+            this.onDocumentContentReady();
         }
     }
 
-    _onDocumentContentReady() {
-        const me = this;
+    onDocumentContentReady() {
+        if (this._isDocReady)
+            return;
 
-        me.api.asc_Resize();
+        const appOptions = this.props.storeAppOptions;
+        const appSettings = this.props.storeApplicationSettings;
 
-        let value = null /*(this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom")*/;
-        var zf = (value !== null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
+        this._isDocReady = true;
+
+        this.api.asc_showWorksheet(this.api.asc_getActiveWorksheetIndex());
+        this.api.asc_Resize();
+
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+
+        let value = (appOptions.isEditMailMerge || appOptions.isEditDiagram) ? 100 : LocalStorage.getItem("sse-settings-zoom");
+        var zf = (value !== null) ? parseInt(value)/100 : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom)/100 : 1);
         this.api.asc_setZoom(zf>0 ? zf : 1);
 
-        // this.api.asc_SetFastCollaborative(false);
+        this.updateWindowTitle(true);
 
-        me.api.asc_enableKeyEvents(true);
-        me.api.asc_getWorksheetsCount();
-        me.api.asc_showWorksheet(me.api.asc_getActiveWorksheetIndex());
+        if (appOptions.isEdit) {
+            if (this.needToUpdateVersion) {
+                Common.Notifications.trigger('api:disconnect');
+            }
+        }
+
+        if (appOptions.canAnalytics && false) {
+            Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
+        }
+
+        Common.Gateway.on('processsaveresult',      this.onProcessSaveResult.bind(this));
+        Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
+        Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
+        Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
+
+        Common.Gateway.sendInfo({
+            mode: appOptions.isEdit ? 'edit' : 'view'
+        });
 
         this.applyLicense();
+
+        //R1C1 reference style
+        value = LocalStorage.getBool('sse-settings-r1c1', false);
+        appSettings.changeRefStyle(value);
+        this.api.asc_setR1C1Mode(value);
 
         Common.Gateway.documentReady();
         f7.emit('resize');
     }
 
-    _onOpenDocumentProgress(progress) {
-        // if (this.loadMask) {
-        //     var $title = $$(this.loadMask).find('.modal-title'),
-        //         const proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
+    applyMode (appOptions) {
+        this.api.asc_enableKeyEvents(appOptions.isEdit);
 
-            // $title.text(this.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
-        // }
+        if (!appOptions.isEditMailMerge && !appOptions.isEditDiagram) {
+            EditorUIController.initThemeColors && EditorUIController.initThemeColors();
+            this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
+        }
+
+        this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
+        (appOptions.isRestrictedEdit && appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+
+        let value = LocalStorage.getItem('sse-mobile-settings-unit');
+        value = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+        (value === undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+        Common.Utils.Metric.setCurrentMetric(value);
+
+        this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
+        this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
+
+        //if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType.BlockInteraction})) {
+            //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, ApplyEditRights);
+        //} else if (!this._isDocReady) {
+            //me.hidePreloader();
+            //me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        //}
+
+        // Message on window close
+        window.onbeforeunload = this.onBeforeUnload.bind(this);
+        window.onunload = this.onUnload.bind(this);
+    }
+
+    onLicenseChanged (params) {
+        const appOptions = this.props.storeAppOptions;
+        if (appOptions.isEditDiagram || appOptions.isEditMailMerge) return;
+
+        const licType = params.asc_getLicenseType();
+        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
+            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
+                || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
+            this._state.licenseType = licType;
+
+        if (this._isDocReady && this._state.licenseType)
+            this.applyLicense();
     }
 
     applyLicense () {
-        Common.Notifications.trigger('toolbar:activatecontrols');
+        const _t = this._t;
+        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
+        const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
+        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
+        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
+
+        const appOptions = this.props.storeAppOptions;
+        if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
+            let value = LocalStorage.getItem("sse-opensource-warning");
+            value = (value !== null) ? parseInt(value) : 0;
+            const now = (new Date).getTime();
+            if (now - value > 86400000) {
+                LocalStorage.setItem("sse-opensource-warning", now);
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text : _t.errorOpensource,
+                    buttons: [{text: 'OK'}]
+                }).open();
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+            return;
+        }
+
+        if (this._state.licenseType) {
+            let license = this._state.licenseType;
+            let buttons = [{text: 'OK'}];
+            if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                (license === Asc.c_oLicenseResult.SuccessLimit ||
+                    license === Asc.c_oLicenseResult.ExpiredLimited ||
+                    appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
+            ) {
+                license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
+            } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
+                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
+            } else {
+                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
+                buttons = [{
+                    text: _t.textBuyNow,
+                    bold: true,
+                    onClick: function() {
+                        window.open(`${__PUBLISHER_URL__}`, "_blank");
+                    }
+                },
+                    {
+                        text: _t.textContactUs,
+                        onClick: function() {
+                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
+                        }
+                    }];
+            }
+            if (this._state.licenseType === Asc.c_oLicenseResult.SuccessLimit) {
+                Common.Notifications.trigger('toolbar:activatecontrols');
+            } else {
+                Common.Notifications.trigger('toolbar:activatecontrols');
+                Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                Common.Notifications.trigger('api:disconnect');
+            }
+
+            let value = LocalStorage.getItem("sse-license-warning");
+            value = (value !== null) ? parseInt(value) : 0;
+            const now = (new Date).getTime();
+
+            if (now - value > 86400000) {
+                LocalStorage.setItem("sse-license-warning", now);
+                f7.dialog.create({
+                    title: textNoLicenseTitle,
+                    text : license,
+                    buttons: buttons
+                }).open();
+            }
+        } else {
+            if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
+                appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
+                f7.dialog.create({
+                    title: _t.textPaidFeature,
+                    text  : _t.textCustomLoader,
+                    buttons: [{
+                        text: _t.textContactUs,
+                        bold: true,
+                        onClick: () => {
+                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
+                        }
+                    },
+                        { text: _t.textClose }]
+                }).open();
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+        }
+    }
+
+    onExternalMessage (msg) {
+        if (msg && msg.msg) {
+            msg.msg = (msg.msg).toString();
+            f7.notification.create({
+                //title: uiApp.params.modalTitle,
+                text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
+                closeButton: true
+            }).open();
+
+            Common.component.Analytics.trackEvent('External Error');
+        }
+    }
+
+    onRunAutostartMacroses () {
+        const appOptions = this.props.storeAppOptions;
+        const enable = !appOptions.customization || (appOptions.customization.macros !== false);
+        if (enable) {
+            const value = this.props.storeApplicationSettings.macrosMode;
+            if (value === 1) {
+                this.api.asc_runAutostartMacroses();
+            } else if (value === 0) {
+                const _t = this._t;
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: _t.textHasMacros,
+                    content: `<div class="checkbox-in-modal">
+                      <label class="checkbox">
+                        <input type="checkbox" name="checkbox-show-macros" />
+                        <i class="icon-checkbox"></i>
+                      </label>
+                      <span class="right-text">${_t.textRemember}</span>
+                      </div>`,
+                    buttons: [{
+                        text: _t.textYes,
+                        onClick: () => {
+                            const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                            if (dontshow) {
+                                this.props.storeApplicationSettings.changeMacrosSettings(1);
+                                LocalStorage.setItem("sse-mobile-macros-mode", 1);
+                            }
+                            setTimeout(() => {
+                                this.api.asc_runAutostartMacroses();
+                            }, 1);
+                        }},
+                        {
+                            text: _t.textNo,
+                            onClick: () => {
+                                const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                                if (dontshow) {
+                                    this.props.storeApplicationSettings.changeMacrosSettings(2);
+                                    LocalStorage.setItem("sse-mobile-macros-mode", 2);
+                                }
+                            }
+                        }]
+                }).open();
+            }
+        }
+    }
+
+    onDownloadUrl () {
+        if (this._state.isFromGatewayDownloadAs) {
+            Common.Gateway.downloadAs(url);
+        }
+
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onBeforeUnload () {
+        const _t = this._t;
+
+        LocalStorage.save();
+
+        const config = this.props.storeAppOptions.config;
+        const isEdit = this.permissions.edit !== false && config.mode !== 'view' && config.mode !== 'editdiagram';
+        if (isEdit && this.api.asc_isDocumentModified()) {
+            this.api.asc_stopSaving();
+            this.continueSavingTimer = window.setTimeout(() => {
+                this.api.asc_continueSaving();
+            }, 500);
+
+            return _t.leavePageText;
+        }
+    }
+
+    onUnload () {
+        if (this.continueSavingTimer)
+            clearTimeout(this.continueSavingTimer);
+    }
+
+    onUpdateVersion (callback) {
+        const _t = this._t;
+
+        this.needToUpdateVersion = true;
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+
+        f7.dialog.alert(
+            _t.errorUpdateVersion,
+            _t.titleUpdateVersion,
+            () => {
+                Common.Gateway.updateVersion();
+                if (callback) {
+                    callback.call(this);
+                }
+                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+            });
+    }
+
+    onServerVersion (buildVersion) {
+        if (this.changeServerVersion) return true;
+        const _t = this._t;
+
+        if (About.appVersion() !== buildVersion && !About.compareVersions()) {
+            this.changeServerVersion = true;
+            f7.dialog.alert(
+                _t.errorServerVersion,
+                _t.titleServerVersion,
+                () => {
+                    setTimeout(() => {Common.Gateway.updateVersion()}, 0);
+                });
+            return true;
+        }
+        return false;
+    }
+
+    onPrintUrl (url) {
+        if (this.iframePrint) {
+            this.iframePrint.parentNode.removeChild(this.iframePrint);
+            this.iframePrint = null;
+        }
+
+        if (!this.iframePrint) {
+            this.iframePrint = document.createElement("iframe");
+            this.iframePrint.id = "id-print-frame";
+            this.iframePrint.style.display = 'none';
+            this.iframePrint.style.visibility = "hidden";
+            this.iframePrint.style.position = "fixed";
+            this.iframePrint.style.right = "0";
+            this.iframePrint.style.bottom = "0";
+            document.body.appendChild(this.iframePrint);
+            this.iframePrint.onload = function() {
+                this.iframePrint.contentWindow.focus();
+                this.iframePrint.contentWindow.print();
+                this.iframePrint.contentWindow.blur();
+                window.focus();
+            };
+        }
+
+        if (url) {
+            this.iframePrint.src = url;
+        }
+    }
+
+    onDocumentName (name) {
+        this.updateWindowTitle(true);
+    }
+
+    updateWindowTitle (force) {
+        const isModified = this.api.asc_isDocumentModified();
+        if (this._state.isDocModified !== isModified || force) {
+            const title = this.defaultTitleText;
+
+            if (window.document.title !== title) {
+                window.document.title = title;
+            }
+
+            this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
+            this._state.isDocModified = isModified;
+        }
+    }
+
+    onDocumentModifiedChanged () {
+        const isModified = this.api.asc_isDocumentCanSave();
+        if (this._state.isDocModified !== isModified) {
+            this._isDocReady && Common.Gateway.setDocumentModified(this.api.asc_isDocumentModified());
+        }
+
+        this.updateWindowTitle();
+    }
+
+    onDocumentCanSaveChanged (isCanSave) {
+        //
+    }
+
+    onPrint () {
+        if (!this.props.storeAppOptions.canPrint) return;
+
+        if (this.api)
+            this.api.asc_Print();
+        Common.component.Analytics.trackEvent('Print');
+    }
+
+    onProcessSaveResult (data) {
+        this.api.asc_OnSaveEnd(data.result);
+
+        if (data && data.result === false) {
+            const _t = this._t;
+            f7.dialog.alert(
+                (!data.message) ? _t.errorProcessSaveResult : data.message,
+                _t.criticalErrorTitle
+            );
+        }
+    }
+
+    onProcessRightsChange (data) {
+        if (data && data.enabled === false) {
+            const appOptions = this.props.storeAppOptions;
+            const old_rights = appOptions.lostEditingRights;
+            appOptions.changeEditingRights(!old_rights);
+            this.api.asc_coAuthoringDisconnect();
+            Common.Notifications.trigger('api:disconnect');
+
+            if (!old_rights) {
+                const _t = this._t;
+                f7.dialog.alert(
+                    (!data.message) ? _t.warnProcessRightsChange : data.message,
+                    _t.notcriticalErrorTitle,
+                    () => { appOptions.changeEditingRights(false); }
+                );
+            }
+        }
+    }
+
+    onDownloadAs () {
+        if ( this.props.storeAppOptions.canDownload) {
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this._t.errorAccessDeny);
+            return;
+        }
+        this._state.isFromGatewayDownloadAs = true;
+        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+    }
+
+    onRequestClose () {
+        Common.Gateway.requestClose();
     }
 
     render() {
