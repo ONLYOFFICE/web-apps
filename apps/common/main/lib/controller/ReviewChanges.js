@@ -562,6 +562,7 @@ define([
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
+                state = (state=='off') ? false : state; // support of prev. version (on/off)
                 if (!!global) {
                     this.api.asc_SetLocalTrackRevisions(null);
                     this.api.asc_SetGlobalTrackRevisions(!!state);
