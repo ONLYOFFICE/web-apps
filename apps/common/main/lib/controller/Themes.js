@@ -206,7 +206,7 @@ define([
                 })
 
                 this.api = api;
-                var theme_name = Common.localStorage.getItem('ui-theme', id_default_light_theme);
+                var theme_name = Common.localStorage.getItem('ui-theme') || id_default_light_theme;
 
                 if ( !$('body').hasClass(theme_name) ) {
                     $('body').addClass(theme_name);
