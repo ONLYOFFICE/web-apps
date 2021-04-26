@@ -364,7 +364,23 @@ DE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
-        api.asc_setViewMode(true);
+        var licType = params.asc_getLicenseType();
+        // var canFillForms   = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && (permissions.fillForms===true) && (config.mode !== 'view');
+        var canFillForms   = true;
+        if (!canFillForms) {
+            $('#id-btn-prev-field').hide();
+            $('#id-btn-next-field').hide();
+        } else {
+            $('#id-btn-prev-field').on('click', function(){
+                api.asc_MoveToFillingForm(false);
+            });
+            $('#id-btn-next-field').on('click', function(){
+                api.asc_MoveToFillingForm(true);
+            });
+        }
+
+        api.asc_setViewMode(!canFillForms);
+        canFillForms && api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
         api.asc_LoadDocument();
         api.Resize();
     }
