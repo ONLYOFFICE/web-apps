@@ -13,6 +13,7 @@ import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import About from '../../../../common/mobile/lib/view/About';
+import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 
 @inject(
     "storeFocusObjects",
@@ -779,6 +780,7 @@ class MainController extends Component {
                 <CommentsController />
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
+                <PluginsController isEdit={this.props.storeAppOptions.isEdit} customization={this.props.storeAppOptions.customization} />
             </Fragment>
             )
     }
