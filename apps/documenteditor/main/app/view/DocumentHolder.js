@@ -4319,7 +4319,12 @@ define([
                 for (var i=0; i<count; i++) {
                     (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
-                        value       : specProps.get_ItemValue(i)
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
                     }));
                 }
                 if (!isForm && menu.items.length<1) {

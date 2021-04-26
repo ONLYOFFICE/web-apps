@@ -176,11 +176,11 @@ define([
                         '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
                     '<% } %>',
                     '<% if (isNotHeader) { %>',
-                        '<div class="name not-header"><%= name %></div>',
+                        '<div class="name not-header"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<% } else if (isEmptyItem) { %>',
                         '<div class="name empty">' + options.emptyItemText + '</div>',
                     '<% } else { %>',
-                        '<div class="name"><%= name %></div>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<% } %>',
                     '</div>'
                 ].join(''));
