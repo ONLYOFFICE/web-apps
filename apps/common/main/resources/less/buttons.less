@@ -934,6 +934,12 @@
     &.active {
         background-color: @background-normal-ie !important;
         background-color: @background-normal !important;
+
+        &:not(:disabled) {
+            svg.icon {
+                opacity: inherit;
+            }
+        }
     }
 
     &:active:not(.disabled),
