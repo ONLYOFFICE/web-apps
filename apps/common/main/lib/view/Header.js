@@ -783,7 +783,8 @@ define([
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
             textDarkTheme: 'Dark theme',
-            textAddFavorite: 'Mark as favorite'
+            textAddFavorite: 'Mark as favorite',
+            textHideNotes: 'Hide Notes'
         }
     }(), Common.Views.Header || {}))
 });
