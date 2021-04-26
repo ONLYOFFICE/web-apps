@@ -504,6 +504,7 @@ define([
                     this.inputDisplay.setValue(name);
                 } else {
                     var val = this.inputRange.getValue();
+                    name = this.api.asc_getEscapeSheetName(name);
                     name = (name + ((name!=='' && val!=='') ? '!' : '') + val);
                 }
                 name && Common.Gateway.requestMakeActionLink({
