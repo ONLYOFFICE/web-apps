@@ -123,7 +123,9 @@
     "txtEditingMode": "Set editing mode...",
     "loadingDocumentTitleText": "Loading document",
     "loadingDocumentTextText": "Loading document...",
-    "textLoadingDocument": "Loading document"
+    "textLoadingDocument": "Loading document",
+    "loadThemeTitleText": "Loading Theme",
+    "loadThemeTextText": "Loading theme..."
   },
   "ContextMenu": {
     "menuViewComment": "View Comment",

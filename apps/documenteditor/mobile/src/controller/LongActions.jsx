@@ -7,6 +7,9 @@ const LongActionsController = () => {
     const {t} = useTranslation();
     const _t = t("LongActions", { returnObjects: true });
 
+    const ApplyEditRights = -255;
+    const LoadingDocument = -256;
+
     const stackLongActions = new IrregularStack({
         strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
         weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
@@ -18,7 +21,7 @@ const LongActionsController = () => {
         if (loadMask && loadMask.el) {
             f7.dialog.close(loadMask.el);
         }
-    }
+    };
 
     useEffect( () => {
         Common.Notifications.on('engineCreated', (api) => {
