@@ -749,7 +749,6 @@ define([
                 me.api.asc_setSpellCheck(value);
 
                 value = Common.localStorage.getBool('pe-hidden-notes', this.appOptions.customization && this.appOptions.customization.hideNotes===true);
-                Common.Utils.InternalSettings.set("pe-hidden-notes", value);
                 me.api.asc_ShowNotes(!value);
 
                 function checkWarns() {

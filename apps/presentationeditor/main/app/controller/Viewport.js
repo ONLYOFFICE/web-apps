@@ -258,7 +258,7 @@ define([
 
                 me.header.mnuitemHideNotes = new Common.UI.MenuItem({
                     caption: me.header.textHideNotes,
-                    checked: Common.Utils.InternalSettings.get("pe-hidden-notes"),
+                    checked: Common.localStorage.getBool('pe-hidden-notes', config.customization && config.customization.hideNotes===true),
                     checkable: true,
                     value: 'notes'
                 });
@@ -464,7 +464,6 @@ define([
             case 'notes':
                 me.api.asc_ShowNotes(!item.isChecked());
                 Common.localStorage.setBool('pe-hidden-notes', item.isChecked());
-                Common.Utils.InternalSettings.set("pe-hidden-notes", item.isChecked());
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'zoom:page':
@@ -498,7 +497,6 @@ define([
         onNotesShow: function(bIsShow) {
             this.header && this.header.mnuitemHideNotes.setChecked(!bIsShow, true);
             Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
-            Common.Utils.InternalSettings.set("pe-hidden-notes", !bIsShow);
         },
 
         textFitPage: 'Fit to Page',
