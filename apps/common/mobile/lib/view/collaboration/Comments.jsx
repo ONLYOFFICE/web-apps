@@ -685,6 +685,10 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
         }
     };
 
+    let arrayComments = []
+    comment.comment && comment.comment.replace(/((?:https?:\/\/|ftps?:\/\/|\bwww\.)(?:(?![.,?!;:()]*(?:\s|$))[^\s]){2,})|(\n+|(?:(?!(?:https?:\/\/|ftp:\/\/|\bwww\.)(?:(?![.,?!;:()]*(?:\s|$))[^\s]){2,}).)+)/gim,
+    (match, link, text) => {console.log(match); arrayComments.push(link ? <a onClick={() => window.open(link)} href={(link[0]==="w" ? "//" : "") + link} key={arrayComments.length}>{link}</a> 
+    : text)})
     return (
         <Fragment>
             <Toolbar position='bottom'>
@@ -718,9 +722,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
                 <div slot='footer'>
                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'>{ (comment.comment).includes('https://')?
-                        <a onClick={() => window.open(comment.comment)}>{comment.comment}</a> :
-                        <pre>{comment.comment}</pre>}</div>
+                    <div className='comment-text'><pre>{arrayComments}</pre></div>
                     {comment.replies.length > 0 &&
                     <ul className='reply-list'>
                         {comment.replies.map((reply, indexReply) => {
