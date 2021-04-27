@@ -62,6 +62,8 @@ div {
     <script type="text/javascript" language="javascript">
 
         var docEditor;
+        var closeUrl;
+        var hostEditUrl;
 
         var innerAlert = function (message) {
             if (console && console.log)
@@ -77,25 +79,8 @@ div {
             document.title = title + (event.data ? "*" : "");
         };
 
-        var onMetaChange = function (event) {
-            var favorite = !!event.data.favorite;
-            var title = document.title.replace(/^\☆/g, "");
-            document.title = (favorite ? "☆" : "") + title;
-            docEditor.setFavorite(favorite);
-        };
-
         var onRequestEditRights = function () {
-            location.href = location.href.replace(RegExp("mode=view\&?", "i"), "");
-        };
-
-        var onRequestHistory = function (event) {
-        };
-
-        var onRequestHistoryData = function (data) {
-        };
-
-        var onRequestHistoryClose = function (event){
-            document.location.reload();
+            hostEditUrl && (location.href = hostEditUrl);
         };
 
         var onError = function (event) {
@@ -107,35 +92,8 @@ div {
             location.reload(true);
         };
 
-        var replaceActionLink = function(href, linkParam) {
-            var link;
-            var actionIndex = href.indexOf("&action=");
-            if (actionIndex != -1) {
-                var endIndex = href.indexOf("&", actionIndex + "&action=".length);
-                if (endIndex != -1) {
-                    link = href.substring(0, actionIndex) + href.substring(endIndex) + "&action=" + encodeURIComponent(linkParam);
-                } else {
-                    link = href.substring(0, actionIndex) + "&action=" + encodeURIComponent(linkParam);
-                }
-            } else {
-                link = href + "&action=" + encodeURIComponent(linkParam);
-            }
-            return link;
-        }
-
-        var onMakeActionLink = function (event) {
-            var actionData = event.data;
-            var linkParam = JSON.stringify(actionData);
-            docEditor.setActionLink(replaceActionLink(location.href, linkParam));
-        };
-
-        var onRequestInsertImage = function(event) {
-        };
-
-        var onRequestCompareFile = function() {
-        };
-
-        var onRequestMailMergeRecipients = function (event) {
+        var onRequestClose = function (event) {
+            closeUrl && (location.href = closeUrl);
         };
 
         var connectEditor = function () {
@@ -145,7 +103,7 @@ div {
 			var userAuth = <%- JSON.stringify(userAuth) %>;
 			var token = "<%- token %>";
 			var queryParams = <%- JSON.stringify(queryParams) %>;
-			
+
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
 			var config = {
 				"width": "100%",
@@ -154,72 +112,51 @@ div {
 				"documentType": queryParams.documenttype,
 				"token": token,
 				"document": {
-					"title": fileInfo.BaseFileName,
+					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
 					"url": userAuth.wopiSrc,
-					"fileType": fileType,
+					"fileType": fileInfo.FileExtension ? fileInfo.BaseFileName.substr(1) : fileType,
 					"key": key,
-					"info": {
-						"owner": "Me",
-						"uploaded": "Thu Nov 05 2020",
-						"favorite": "null"
-					},
+                    "info": {
+                        "folder": fileInfo.BreadcrumbFolderName
+                    },
 					"permissions": {
-						"comment": true,
-						"download": true,
-						"edit": true,
-						"fillForms": true,
-						"modifyFilter": true,
-						"modifyContentControl": true,
-						"review": true,
-						"reviewGroups": true
+						"edit": !fileInfo.ReadOnly && fileInfo.UserCanWrite,
+                        "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
+                        "print": !fileInfo.DisablePrint
 					}
 				},
 				"editorConfig": {
-					"actionLink": "null",
 					"mode": queryParams.mode,
-					"lang": "en",
+					"lang": queryParams.lang || "en",
 					"callbackUrl": JSON.stringify(userAuth),
+                    "sharingSettingsUrl": fileInfo.FileSharingUrl,
 					"user": {
-						"group": "",
-						"id": fileInfo.UserId,
+						"id": fileInfo.IsAnonymousUser ? "" : fileInfo.UserId,
 						"name": fileInfo.UserFriendlyName
-					},
-					"embedded": {
-						"saveUrl": "",
-						"embedUrl": "",
-						"shareUrl": "",
-						"toolbarDocked": "top"
 					},
 					"customization": {
 						"about": true,
-						"chat": true,
-						"comments": true,
-						"feedback": true,
-						"forcesave": true,
 						"goback": {
-							"url": "http://localhost/"
+							"url": fileInfo.BreadcrumbFolderUrl
 						},
-						"submitForm": false
-					},
-					"fileChoiceUrl": "",
-					"plugins": {"pluginsData":[]}
+                        "customer": {
+                            "name": fileInfo.BreadcrumbBrandName,
+                            "www": fileInfo.BreadcrumbBrandUrl
+                        }
+					}
 				},
 				events: {
                         "onAppReady": onAppReady,
                         "onDocumentStateChange": onDocumentStateChange,
                         'onRequestEditRights': onRequestEditRights,
                         "onError": onError,
-                        "onRequestHistory":  onRequestHistory,
-                        "onRequestHistoryData": onRequestHistoryData,
-                        "onRequestHistoryClose": onRequestHistoryClose,
                         "onOutdatedVersion": onOutdatedVersion,
-                        "onMakeActionLink": onMakeActionLink,
-                        "onMetaChange": onMetaChange,
-                        "onRequestInsertImage": onRequestInsertImage,
-                        "onRequestCompareFile": onRequestCompareFile,
-                        "onRequestMailMergeRecipients": onRequestMailMergeRecipients,
+                        "onRequestClose": onRequestClose
                     }
 			};
+
+            closeUrl = fileInfo.CloseUrl;
+            hostEditUrl = fileInfo.HostEditUrl;
 
             docEditor = new DocsAPI.DocEditor("iframeEditor", config);
 
