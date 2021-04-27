@@ -162,6 +162,7 @@
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
+                    hideNotes: false // hide or show notes panel on first loading (presentation editor)
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
