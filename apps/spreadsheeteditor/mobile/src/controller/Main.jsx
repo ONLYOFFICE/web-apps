@@ -17,6 +17,7 @@ import LongActionsController from "./LongActions";
 import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
+import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 
 @inject(
     "storeAppOptions",
@@ -754,6 +755,7 @@ class MainController extends Component {
                 <AddCommentController />
                 <EditCommentController />
                 <ViewCommentsController />
+                <PluginsController />
             </Fragment>
         )
     }

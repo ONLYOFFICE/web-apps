@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
-import { useTranslation } from 'react-i18next';
-import {Device} from '../../utils/device';
+import { Device } from '../../utils/device';
 
-const PluginsController = props => {
+const PluginsController = inject('storeAppOptions')(observer(props => {
+    const { storeAppOptions } = props;
     let configPlugins = {autostart:[]},
-        serverPlugins = {autostart:[]};
+        serverPlugins = {autostart:[]},
+        modal,
+        iframe;
 
     useEffect(() => {
         const onDocumentReady = () => {
-            Common.Notifications.trigger('engineCreated', api => {
+            Common.Notifications.on('engineCreated', api => {
                 api.asc_registerCallback("asc_onPluginShow", showPluginModal);
                 api.asc_registerCallback("asc_onPluginClose", pluginClose);
                 api.asc_registerCallback("asc_onPluginResize", pluginResize);
                 api.asc_registerCallback('asc_onPluginsInit', registerPlugins);
+
+                if(!storeAppOptions.customization || storeAppOptions.plugins !== false) {
+                    loadPlugins();
+                }
             });
     
             Common.Gateway.on('init', loadConfig);
-            console.log('success');
         };
 
         onDocumentReady();
-
-        if(!props.customization || props.plugins !== false) {
-            loadPlugins();
-        }
 
         return () => {
             const api = Common.EditorApi.get();
@@ -38,6 +39,12 @@ const PluginsController = props => {
             Common.Gateway.off('init', loadConfig);
         };
     });
+
+    const onDlgBtnClick = e => {
+        const api = Common.EditorApi.get();
+        let index = $$(e.currentTarget).index();
+        api.asc_pluginButtonClick(index);
+    };
 
 
     const showPluginModal = (plugin, variationIndex, frameId, urlAddition) => {
@@ -54,11 +61,11 @@ const PluginsController = props => {
             let isCustomWindow = variation.get_CustomWindow(),
                 arrBtns = variation.get_Buttons(),
                 newBtns = [],
-                size = variation.get_Size(); //size[0] - width, size[1] - height
+                size = variation.get_Size();
 
             if (arrBtns.length) {
                 arrBtns.forEach((b, index) => {
-                    if ((props.isEdit || b.isViewer)) {
+                    if ((storeAppOptions.isEdit || b.isViewer !== false)) {
                         newBtns[index] = {
                             text: b.text,
                             attributes: {result: index}
@@ -67,52 +74,45 @@ const PluginsController = props => {
                 });
             }
 
-            // uiApp.closeModal();
-            // f7.popover.close('.document-menu.modal-in', false);
+            f7.popover.close('.document-menu.modal-in', false);
 
-            f7.dialog.create({
+            modal = f7.dialog.create({
                 title: '',
                 text: '',
-                content:  '<div id="plugin-frame" class="">'+
-                '</div>',
+                content:  '<div id="plugin-frame" class="">'+'</div>',
                 buttons : isCustomWindow ? undefined : newBtns
             }).open();
 
-            $$('#plugin-frame').html('<div class="preloader"></div>');
-
-            let iframe = document.createElement("iframe");
+            iframe = document.createElement("iframe");
 
             iframe.id           = frameId;
             iframe.name         = 'pluginFrameEditor';
             iframe.width        = '100%';
             iframe.height       = '100%';
-            // iframe.align        = "top";
-            // iframe.frameBorder  = 0;
-            // iframe.scrolling    = "no";
+            iframe.align        = "top";
+            iframe.frameBorder  = 0;
+            iframe.scrolling    = "no";
             iframe.src = url;
 
-            // setTimeout(function () {
-            $$('#plugin-frame').html(iframe);
-            // }, 100);
+            $$('#plugin-frame').append(iframe);
+            
+            modal.$el.find('.dialog-button').on('click', onDlgBtnClick);
 
-            $$(modal).find('.modal-button').on('click', onDlgBtnClick);
-
-            $$(modal).css({
+            modal.$el.css({
                 margin: '0',
                 width: '90%',
                 left: '5%',
-                height: 'auto',
-                top: '20px'
+                height: 'auto'
             });
 
-            $$(modal).find('.modal-inner').css({padding: '0'});
+            modal.$el.find('.dialog-inner').css({padding: '0'});
 
-            if (Common.SharedSettings.get('phone')) {
+            if (Device.phone) {
                 let height = Math.min(size[1], 240);
-                $$(modal).find('#plugin-frame').css({height: height + 'px'});
+                modal.$el.find('#plugin-frame').css({height: height + 'px'});
             } else {
                 let height = Math.min(size[1], 500);
-                $$(modal).find('#plugin-frame').css({height: height + 'px'});
+                modal.$el.find('#plugin-frame').css({height: height + 'px'});
             }
 
             if (isAndroid) {
@@ -122,12 +122,6 @@ const PluginsController = props => {
         }
     };
 
-    const onDlgBtnClick = e => {
-        const api = Common.EditorApi.get();
-        let index = $$(e.currentTarget).index();
-        api.asc_pluginButtonClick(index);
-    };
-
     const pluginClose = plugin => {
         if (iframe) {
             iframe = null;
@@ -135,12 +129,12 @@ const PluginsController = props => {
     };
 
     const pluginResize = size => {
-        if (Common.SharedSettings.get('phone')) {
+        if (Device.phone) {
             let height = Math.min(size[1], 240);
-            $$(modal).find('#plugin-frame').css({height: height + 'px'});
+            modal.$el.find('#plugin-frame').css({height: height + 'px'});
         } else {
             let height = Math.min(size[1], 500);
-            $$(modal).find('#plugin-frame').css({height: height + 'px'});
+            modal.$el.find('#plugin-frame').css({height: height + 'px'});
         }
     };
 
@@ -189,7 +183,6 @@ const PluginsController = props => {
     };
 
     const registerPlugins = plugins => {
-        const api = Common.EditorApi.get();
         let arr = [];
 
         plugins.forEach(item => {
@@ -230,6 +223,7 @@ const PluginsController = props => {
             arr.push(plugin);
         });
 
+        const api = Common.EditorApi.get();
         api.asc_pluginsRegister('', arr);
     };
 
@@ -281,7 +275,7 @@ const PluginsController = props => {
     };
 
     return <></>
-};
+}));
 
 export default PluginsController;
 

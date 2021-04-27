@@ -15,6 +15,7 @@ import About from '../../../../common/mobile/lib/view/About';
 import EditorUIController from '../lib/patch';
 import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
+import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 
 @inject(
     "storeAppOptions",
@@ -799,6 +800,7 @@ class MainController extends Component {
                 <CommentsController />
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
+                <PluginsController />
             </Fragment>
             )
     }

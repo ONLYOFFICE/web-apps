@@ -780,7 +780,7 @@ class MainController extends Component {
                 <CommentsController />
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
-                <PluginsController isEdit={this.props.storeAppOptions.isEdit} customization={this.props.storeAppOptions.customization} />
+                <PluginsController />
             </Fragment>
             )
     }
