@@ -229,7 +229,7 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 4px;
+            padding: 0 2px;
             display: flex;
             align-items: center;
 
@@ -300,6 +300,14 @@
 
     div.inner-box-icon {
         height: 28px;           // TODO: clear. Firefox bug 984869. fixed. isn't released.
+    }
+}
+
+.icon-top.btn-group {
+    &.x-huge, .x-huge {
+        .inner-box-caption {
+            padding-right: 4px;
+        }
     }
 }
 
