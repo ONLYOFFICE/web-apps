@@ -5,7 +5,7 @@ import IrregularStack from "../../../../common/mobile/utils/IrregularStack";
 
 const LongActionsController = () => {
     const {t} = useTranslation();
-    const _t = t("LongActions", { returnObjects: true });
+    const _t = t("LongActions", {returnObjects: true});
 
     const ApplyEditRights = -255;
     const LoadingDocument = -256;
@@ -33,7 +33,7 @@ const LongActionsController = () => {
         Common.Notifications.on('preloader:beginAction', onLongActionBegin);
         Common.Notifications.on('preloader:close', closePreloader);
 
-        return ( () => {
+        return (() => {
             const api = Common.EditorApi.get();
             api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
             api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
@@ -121,6 +121,11 @@ const LongActionsController = () => {
                 text    = _t.uploadImageTextText;
                 break;
 
+            case Asc.c_oAscAsyncAction['LoadTheme']:
+                title   = _t.loadThemeTitleText;
+                text    = _t.loadThemeTextText;
+                break;
+
             case Asc.c_oAscAsyncAction['ApplyChanges']:
                 title   = _t.applyChangesTitleText;
                 text    = _t.applyChangesTextText;
@@ -129,21 +134,6 @@ const LongActionsController = () => {
             case Asc.c_oAscAsyncAction['PrepareToSave']:
                 title   = _t.savePreparingText;
                 text    = _t.savePreparingTitle;
-                break;
-
-            case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
-                title   = _t.mailMergeLoadFileText;
-                text    = _t.mailMergeLoadFileTitle;
-                break;
-
-            case Asc.c_oAscAsyncAction['DownloadMerge']:
-                title   = _t.downloadMergeTitle;
-                text    = _t.downloadMergeText;
-                break;
-
-            case Asc.c_oAscAsyncAction['SendMailMerge']:
-                title   = _t.sendMergeTitle;
-                text    = _t.sendMergeText;
                 break;
 
             case Asc.c_oAscAsyncAction['Waiting']:
@@ -169,7 +159,7 @@ const LongActionsController = () => {
         }
 
         if (action.type === Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges']) {
+            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges'] || action.id === Asc.c_oAscAsyncAction['LoadDocumentFonts']) {
                 return;
             }
 
@@ -179,7 +169,6 @@ const LongActionsController = () => {
                 loadMask = f7.dialog.preloader(title);
             }
         }
-
     };
 
     const onOpenDocument = (progress) => {
@@ -189,7 +178,7 @@ const LongActionsController = () => {
 
             $title.innerHTML = `${_t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
         }
-    }
+    };
 
     return null;
 };

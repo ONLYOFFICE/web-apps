@@ -9,8 +9,6 @@ import {InitReviewController as ReviewController} from '../../../../common/mobil
 import { onAdvancedOptions } from './settings/Download.jsx';
 import {
     CommentsController,
-    AddCommentController,
-    EditCommentController,
     ViewCommentsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import About from '../../../../common/mobile/lib/view/About';
@@ -191,6 +189,9 @@ class MainController extends Component {
             };
 
             const onDocumentContentReady = () => {
+                if (this._isDocReady)
+                    return;
+
                 const appOptions = this.props.storeAppOptions;
                 const appSettings = this.props.storeApplicationSettings;
 
@@ -329,8 +330,8 @@ class MainController extends Component {
         Common.Utils.Metric.setCurrentMetric(value);
         this.api.asc_SetDocumentUnits((value === Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value===Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-        //me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
-        //me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
+        this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
+        this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
 
         //if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
         //    me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
@@ -342,6 +343,19 @@ class MainController extends Component {
         // Message on window close
         window.onbeforeunload = this.onBeforeUnload.bind(this);
         window.onunload = this.onUnload.bind(this);
+    }
+
+    onDocumentModifiedChanged () {
+        const isModified = this.api.asc_isDocumentCanSave();
+        if (this._state.isDocModified !== isModified) {
+            this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+        }
+
+        this.updateWindowTitle();
+    }
+
+    onDocumentCanSaveChanged (isCanSave) {
+        //
     }
 
     onBeforeUnload () {
@@ -469,7 +483,7 @@ class MainController extends Component {
         if (this.changeServerVersion) return true;
         const _t = this._t;
 
-        if (About.appVersion() !== buildVersion && !window.compareVersions) {
+        if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
             f7.dialog.alert(
                 _t.errorServerVersion,
@@ -487,10 +501,9 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl', this.onPrintUrl.bind(this));
+        this.api.asc_registerCallback('asc_onPrint', this.onPrint.bind(this));
 
-        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
-            Common.Utils.ThemeColor.setColors(colors, standart_colors);
-        });
+        EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
         this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
 
@@ -504,8 +517,8 @@ class MainController extends Component {
 
         //text settings
         const storeTextSettings = this.props.storeTextSettings;
-        EditorUIController.initFonts(storeTextSettings);
-        EditorUIController.initFocusObjects(this.props.storeFocusObjects);
+        EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
+        EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
@@ -517,10 +530,15 @@ class MainController extends Component {
             switch (type) {
                 case 0:
                     storeTextSettings.resetBullets(subtype);
+                    storeTextSettings.resetNumbers(-1);
                     break;
                 case 1:
                     storeTextSettings.resetNumbers(subtype);
+                    storeTextSettings.resetBullets(-1);
                     break;
+                default: 
+                    storeTextSettings.resetBullets(-1);
+                    storeTextSettings.resetNumbers(-1);
             }
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
@@ -538,19 +556,13 @@ class MainController extends Component {
         });
 
         //paragraph settings
-        EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
+        EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
 
         //table settings
-        EditorUIController.initTableTemplates(this.props.storeTableSettings);
+        EditorUIController.initTableTemplates && EditorUIController.initTableTemplates(this.props.storeTableSettings);
 
         //chart settings
-        const storeChartSettings = this.props.storeChartSettings;
-        const storeFocusObjects = this.props.storeFocusObjects;
-        this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
-            if (storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties()) {
-                storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));
-            }
-        });
+        EditorUIController.updateChartStyles && EditorUIController.updateChartStyles(this.props.storeChartSettings, this.props.storeFocusObjects);
 
         // Document Info
 
@@ -682,6 +694,14 @@ class MainController extends Component {
         }
     }
 
+    onPrint () {
+        if (!this.props.storeAppOptions.canPrint) return;
+
+        if (this.api)
+            this.api.asc_Print();
+        Common.component.Analytics.trackEvent('Print');
+    }
+
     onPrintUrl (url) {
         if (this.iframePrint) {
             this.iframePrint.parentNode.removeChild(this.iframePrint);
@@ -777,8 +797,7 @@ class MainController extends Component {
                 <CollaborationController />
                 <ReviewController />
                 <CommentsController />
-                <AddCommentController />
-                <EditCommentController />
+                {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
             </Fragment>
             )

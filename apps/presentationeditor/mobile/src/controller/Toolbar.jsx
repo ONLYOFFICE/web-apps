@@ -4,16 +4,13 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(props => {
+const ToolbarController = inject('storeAppOptions', 'users')(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
-    const displayMode = props.storeReview.displayMode;
-    const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
-    const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
-    const readerMode = appOptions.readerMode;
+    const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
 
     useEffect(() => {
         const onDocumentReady = () => {
@@ -22,6 +19,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
             api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
+            api.asc_registerCallback('asc_onCountPages', onApiCountPages);
             Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('toolbar:activatecontrols', activateControls);
             Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
@@ -48,6 +46,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
             api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
+            api.asc_unregisterCallback('asc_onCountPages', onApiCountPages);
         }
     });
 
@@ -90,16 +89,18 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     };
     const goBack = (current) => {
-        if (appOptions.customization.goback.requestClose && appOptions.canRequestClose) {
-            Common.Gateway.requestClose();
-        } else {
-            const href = appOptions.customization.goback.url;
-            if (!current && appOptions.customization.goback.blank !== false) {
-                window.open(href, "_blank");
+        //if ( !Common.Controllers.Desktop.process('goback') ) {
+            if (appOptions.customization.goback.requestClose && appOptions.canRequestClose) {
+                Common.Gateway.requestClose();
             } else {
-                parent.location.href = href;
+                const href = appOptions.customization.goback.url;
+                if (!current && appOptions.customization.goback.blank !== false) {
+                    window.open(href, "_blank");
+                } else {
+                    parent.location.href = href;
+                }
             }
-        }
+        //}
     }
 
     // Undo and Redo
@@ -126,28 +127,36 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     }
 
-    const [isObjectLocked, setObjectLocked] = useState(false);
+    const [disabledAdd, setDisabledAdd] = useState(false);
+    const [disabledEdit, setDisabledEdit] = useState(false);
     const onApiFocusObject = (objects) => {
         if (isDisconnected) return;
 
         if (objects.length > 0) {
-            const getTopObject = (objects) => {
-                const arrObj = objects.reverse();
-                let obj;
-                for (let i=0; i<arrObj.length; i++) {
-                    if (arrObj[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck) {
-                        obj = arrObj[i];
-                        break;
-                    }
+            let slide_deleted = false,
+                slide_lock = false,
+                no_object = true,
+                objectLocked = false;
+            objects.forEach((object) => {
+                const type = object.get_ObjectType();
+                const objectValue = object.get_ObjectValue();
+                if (type === Asc.c_oAscTypeSelectElement.Slide) {
+                    slide_deleted = objectValue.get_LockDelete();
+                    slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming();
+                } else if (objectValue && typeof objectValue.get_Locked === 'function') {
+                    no_object = false;
+                    objectLocked = objectLocked || objectValue.get_Locked();
                 }
-                return obj;
-            };
-            const topObject = getTopObject(objects);
-            const topObjectValue = topObject.get_ObjectValue();
-            const objectLocked = (typeof topObjectValue.get_Locked === 'function') ? topObjectValue.get_Locked() : false;
+            });
 
-            setObjectLocked(objectLocked);
+            setDisabledAdd(slide_deleted);
+            setDisabledEdit(slide_deleted || (objectLocked || no_object) && slide_lock);
         }
+    };
+
+    const [disabledPreview, setDisabledPreview] = useState(false);
+    const onApiCountPages = (count) => {
+        setDisabledPreview(count <= 0);
     };
 
     const [disabledEditControls, setDisabledEditControls] = useState(false);
@@ -161,6 +170,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     };
 
+
+    const [disabledControls, setDisabledControls] = useState(true);
+    const activateControls = () => {
+        setDisabledControls(false);
+    };
+
     const onCoAuthoringDisconnect = (enableDownload) => {
         deactivateEditControls(enableDownload);
         setCanUndo(false);
@@ -168,11 +183,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         f7.popover.close();
         f7.sheet.close();
         f7.popup.close();
-    };
-
-    const [disabledControls, setDisabledControls] = useState(true);
-    const activateControls = () => {
-        setDisabledControls(false);
     };
 
     return (
@@ -185,13 +195,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}
                      onRedo={onRedo}
-                     isObjectLocked={isObjectLocked}
-                     stateDisplayMode={stateDisplayMode}
+                     disabledAdd={disabledAdd}
+                     disabledEdit={disabledEdit}
+                     disabledPreview={disabledPreview}
                      disabledControls={disabledControls}
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
-                     readerMode={readerMode}
         />
     )
 });

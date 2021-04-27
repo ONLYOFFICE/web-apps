@@ -4,7 +4,6 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
-    const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls;
     return (
         <Fragment>
             <NavLeft>
@@ -18,14 +17,16 @@ const ToolbarView = props => {
             </NavLeft>
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
+                <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                        disabled: disableEditBtn || props.disabledControls,
-                        onEditClick: e => props.openOptions('edit'),
-                        onAddClick: e => props.openOptions('add')
+                    disabledAdd: props.disabledAdd || props.disabledControls,
+                    disabledEdit: props.disabledEdit || props.disabledControls,
+                    onEditClick: () => props.openOptions('edit'),
+                    onAddClick: () => props.openOptions('add')
                 })}
-                { Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
-                {props.displayCollaboration && <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => props.openOptions('coauth')}></Link>}
-                <Link className={(props.disabledSettings || props.disabledControls) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={e => props.openOptions('settings')}></Link>
+                { Device.phone ? null : <Link className={props.disabledControls && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
+                {props.displayCollaboration && <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link>}
+                <Link className={(props.disabledSettings || props.disabledControls) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>
     )

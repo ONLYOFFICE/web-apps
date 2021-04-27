@@ -43,16 +43,35 @@ const Settings = props => {
                 closeModal();
             }, 1);
         }
-    }
+    };
 
     const onPrint = () => {
         setTimeout(() => {
             Common.EditorApi.get().asc_Print();
         }, 1);
         closeModal();
-    }
+    };
 
-    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} onReaderMode={onReaderMode} onPrint={onPrint}/>
+    const showHelp = () => {
+        let url = __HELP_URL__;
+        // let url = 'https://helpcenter.onlyoffice.com';
+
+        if (url.charAt(url.length-1) !== '/') {
+            url += '/';
+        }
+
+        if (Device.sailfish || Device.android) {
+            url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+        }
+        else {
+            url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
+        }
+
+        closeModal();
+        window.open(url, "_blank");
+    };
+
+    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} onReaderMode={onReaderMode} onPrint={onPrint} showHelp={showHelp}/>
 };
 
 export default inject("storeAppOptions")(observer(Settings));

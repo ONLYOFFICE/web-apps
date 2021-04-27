@@ -79,6 +79,8 @@ module.exports = {
           resolvePath('node_modules/ssr-window'),
 
           resolvePath('../../../web-apps-mobile/word'),
+          resolvePath('../../../web-apps-mobile/slide'),
+          resolvePath('../../../web-apps-mobile/cell')
         ],
       },
 
@@ -158,14 +160,15 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env),
       'process.env.TARGET': JSON.stringify(target),
-      __PRODUCT_VERSION__: JSON.stringify(process.env.PRODUCT_VERSION ? process.env.PRODUCT_VERSION : '6.2.0'),
+      __PRODUCT_VERSION__: JSON.stringify(process.env.PRODUCT_VERSION ? process.env.PRODUCT_VERSION : '6.2.0d'),
       __PUBLISHER_ADDRESS__: JSON.stringify('20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'),
       __SUPPORT_EMAIL__: JSON.stringify('support@onlyoffice.com'),
       __PUBLISHER_PHONE__: JSON.stringify('+371 633-99867'),
       __PUBLISHER_URL__: JSON.stringify('https://www.onlyoffice.com'),
       __PUBLISHER_NAME__: JSON.stringify('Ascensio System SIA'),
       __APP_TITLE_TEXT__: JSON.stringify(process.env.APP_TITLE_TEXT ? process.env.APP_TITLE_TEXT : 'ONLYOFFICE'),
-      __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE')
+      __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE'),
+      __HELP_URL__: JSON.stringify('https://helpcenter.onlyoffice.com')
     }),
 
     ...(env === 'production' ? [

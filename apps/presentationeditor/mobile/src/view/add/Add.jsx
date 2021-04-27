@@ -73,9 +73,11 @@ const AddLayoutContent = ({ tabs }) => {
 const AddTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const api = Common.EditorApi.get();
+    const countPages = api.getCountPages();
     const showPanels = props.showPanels;
     const tabs = [];
-    if (!showPanels) {
+    if (!showPanels && countPages) {
         tabs.push({
             caption: _t.textSlide,
             id: 'add-slide',
@@ -99,6 +101,14 @@ const AddTabs = props => {
             id: 'add-other',
             icon: 'icon-add-other',
             component: <AddOtherController/>
+        });
+    }
+    if(!showPanels && !countPages) {
+        tabs.push({
+            caption: _t.textSlide,
+            id: 'add-slide',
+            icon: 'icon-add-slide',
+            component: <AddSlideController />
         });
     }
     if (showPanels && showPanels === 'link') {

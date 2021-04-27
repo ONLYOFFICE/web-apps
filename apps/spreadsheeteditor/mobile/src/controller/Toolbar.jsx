@@ -4,32 +4,34 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo')(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
-    const displayMode = props.storeReview.displayMode;
-    const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
-    const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
-    const readerMode = appOptions.readerMode;
+    const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
+    const docTitle = props.storeSpreadsheetInfo.dataDoc ? props.storeSpreadsheetInfo.dataDoc.title : '';
 
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
-            api.asc_registerCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
+            api.asc_registerCallback('asc_onCanUndoChanged', onApiCanUndo);
+            api.asc_registerCallback('asc_onCanRedoChanged', onApiCanRedo);
+            api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged);
+            api.asc_registerCallback('asc_onWorkbookLocked', onApiSelectionChanged);
+            api.asc_registerCallback('asc_onWorksheetLocked', onApiSelectionChanged);
+            api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
+
             Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('toolbar:activatecontrols', activateControls);
             Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.on('goback', goBack);
+            Common.Notifications.on('sheet:active', onApiActiveSheetChanged);
         };
         if ( !Common.EditorApi ) {
             Common.Notifications.on('document:ready', onDocumentReady);
-            Common.Notifications.on('setdoctitle', setDocTitle);
             Common.Gateway.on('init', loadConfig);
         } else {
             onDocumentReady();
@@ -37,24 +39,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
 
         return () => {
             Common.Notifications.off('document:ready', onDocumentReady);
-            Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+            Common.Notifications.off('sheet:active', onApiActiveSheetChanged);
 
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
+            api.asc_unregisterCallback('asc_onCanUndoChanged', onApiCanUndo);
+            api.asc_unregisterCallback('asc_onCanRedoChanged', onApiCanRedo);
+            //api.asc_unregisterCallback('asc_onSelectionChanged', onApiSelectionChanged); TO DO
+            api.asc_unregisterCallback('asc_onWorkbookLocked', onApiSelectionChanged);
+            api.asc_unregisterCallback('asc_onWorksheetLocked', onApiSelectionChanged);
+            api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
         }
     });
-
-    const [docTitle, resetDocTitle] = useState('');
-    const setDocTitle = (title) => {
-        resetDocTitle(title);
-    }
 
     // Back button
     const [isShowBack, setShowBack] = useState(false);
@@ -67,7 +67,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
     };
     const onBack = () => {
         const api = Common.EditorApi.get();
-        if (api.isDocumentModified()) {
+        if (api.asc_isDocumentModified()) {
             f7.dialog.create({
                 title   : _t.dlgLeaveTitleText,
                 text    : _t.dlgLeaveMsgText,
@@ -90,6 +90,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     };
     const goBack = (current) => {
+        //if ( !Common.Controllers.Desktop.process('goback') ) {
         if (appOptions.customization.goback.requestClose && appOptions.canRequestClose) {
             Common.Gateway.requestClose();
         } else {
@@ -100,11 +101,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                 parent.location.href = href;
             }
         }
+        //}
     }
 
     // Undo and Redo
-    const [isCanUndo, setCanUndo] = useState(true);
-    const [isCanRedo, setCanRedo] = useState(true);
+    const [isCanUndo, setCanUndo] = useState(false);
+    const [isCanRedo, setCanRedo] = useState(false);
     const onApiCanUndo = (can) => {
         if (isDisconnected) return;
         setCanUndo(can);
@@ -116,41 +118,49 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
     const onUndo = () => {
         const api = Common.EditorApi.get();
         if (api) {
-            api.Undo();
+            api.asc_Undo();
         }
     };
     const onRedo = () => {
         const api = Common.EditorApi.get();
         if (api) {
-            api.Redo();
+            api.asc_Redo();
         }
     }
 
-    const [isObjectLocked, setObjectLocked] = useState(false);
-    const onApiFocusObject = (objects) => {
+    const [disabledEditControls, setDisabledEditControls] = useState(false);
+    const onApiSelectionChanged = (cellInfo) => {
         if (isDisconnected) return;
 
-        if (objects.length > 0) {
-            const getTopObject = (objects) => {
-                const arrObj = objects.reverse();
-                let obj;
-                for (let i=0; i<arrObj.length; i++) {
-                    if (arrObj[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck) {
-                        obj = arrObj[i];
-                        break;
+        const api = Common.EditorApi.get();
+        const info = !!cellInfo ? cellInfo : api.asc_getCellInfo();
+        let islocked = false;
+
+        switch (info.asc_getSelectionType()) {
+            case Asc.c_oAscSelectionType.RangeChart:
+            case Asc.c_oAscSelectionType.RangeImage:
+            case Asc.c_oAscSelectionType.RangeShape:
+            case Asc.c_oAscSelectionType.RangeChartText:
+            case Asc.c_oAscSelectionType.RangeShapeText:
+                const objects = api.asc_getGraphicObjectProps();
+                for ( let i in objects ) {
+                    if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
+                        if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
+                            break;
                     }
                 }
-                return obj;
-            };
-            const topObject = getTopObject(objects);
-            const topObjectValue = topObject.get_ObjectValue();
-            const objectLocked = (typeof topObjectValue.get_Locked === 'function') ? topObjectValue.get_Locked() : false;
-
-            setObjectLocked(objectLocked);
+                break;
+            default:
+                islocked = info.asc_getLocked();
         }
+
+        setDisabledEditControls(islocked);
     };
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
+    const onApiActiveSheetChanged = (index) => {
+        Common.Notifications.trigger('comments:filterchange', ['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)], false );
+    };
+
     const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
         setDisabledEditControls(true);
@@ -161,6 +171,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     };
 
+
+    const [disabledControls, setDisabledControls] = useState(true);
+    const activateControls = () => {
+        setDisabledControls(false);
+    };
+
     const onCoAuthoringDisconnect = (enableDownload) => {
         deactivateEditControls(enableDownload);
         setCanUndo(false);
@@ -168,11 +184,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         f7.popover.close();
         f7.sheet.close();
         f7.popup.close();
-    };
-
-    const [disabledControls, setDisabledControls] = useState(true);
-    const activateControls = () => {
-        setDisabledControls(false);
     };
 
     return (
@@ -185,13 +196,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}
                      onRedo={onRedo}
-                     isObjectLocked={isObjectLocked}
-                     stateDisplayMode={stateDisplayMode}
                      disabledControls={disabledControls}
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
-                     readerMode={readerMode}
         />
     )
 });

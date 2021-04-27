@@ -60,7 +60,7 @@ const LongActionsController = () => {
         action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
 
         if (action) {
-            setLongActionView(action)
+            this.setLongActionView(action)
         }
 
         action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -168,11 +168,7 @@ const LongActionsController = () => {
                 break;
         }
 
-        if (action.type === Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges']) {
-                return;
-            }
-
+        if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
             if (loadMask && loadMask.el && loadMask.el.classList.contains('modal-in')) {
                 loadMask.el.getElementsByClassName('dialog-title')[0].innerHTML = title;
             } else {

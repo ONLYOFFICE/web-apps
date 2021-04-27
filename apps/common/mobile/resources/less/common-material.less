@@ -7,6 +7,17 @@
     @darkGrey: #757575;
 
     --f7-navbar-shadow-image: none;
+
+    --f7-navbar-bg-color: @themeColor;
+    --f7-navbar-link-color: @navBarIconColor;
+    --f7-navbar-text-color: @navBarIconColor;
+    --f7-navbar-height: 56px;
+
+    --f7-subnavbar-bg-color: @themeColor;
+    --f7-subnavbar-link-color: @navBarIconColor;
+    --f7-subnavbar-text-color: @navBarIconColor;
+    --f7-subnavbar-height: 56px;
+
     --f7-radio-active-color: @themeColor;
     --f7-toggle-active-color: @themeColor;
     --f7-range-bar-active-bg-color: @themeColor;
@@ -29,6 +40,13 @@
             justify-content: center;
         }
     }
+
+    .page.page-with-subnavbar.page-with-logo {
+        .page-content {
+            --f7-page-navbar-offset: var(--f7-navbar-height);
+        }
+    }
+
     // Buttons
     .segmented {
         .decrement, .increment {
@@ -412,7 +430,7 @@
         }
         a.icon-only {
             width: auto;
-            height: 48px;
+            height: 56px;
         }
         .buttons-row-replace a {
             color: @white;
