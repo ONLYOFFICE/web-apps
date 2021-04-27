@@ -24,13 +24,13 @@ class DocumentSettingsController extends Component {
         }
     }
 
-    getMargins () {
+    getMargins() {
         const api = Common.EditorApi.get();
         if (api) {
             this.localSectionProps = api.asc_GetSectionProps();
             if (this.localSectionProps) {
-                this.maxMarginsH = this.localSectionProps.get_H() - 26;
-                this.maxMarginsW = this.localSectionProps.get_W() - 127;
+                this.maxMarginsH = this.localSectionProps.get_H() - 2.6;
+                this.maxMarginsW = this.localSectionProps.get_W() - 12.7;
 
                 const top = this.localSectionProps.get_TopMargin();
                 const bottom = this.localSectionProps.get_BottomMargin();
@@ -51,6 +51,7 @@ class DocumentSettingsController extends Component {
 
     applyMargins (align, value) {
         const api = Common.EditorApi.get();
+
         if (api) {
             switch (align) {
                 case 'left':

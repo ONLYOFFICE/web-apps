@@ -33,8 +33,8 @@ const EditText = props => {
         spaceAfter  = paragraphObj.get_Spacing().get_After() < 0 ? paragraphObj.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Spacing().get_After());
     }
 
-    const displayBefore = spaceBefore && spaceBefore < 0 ? _t.textAuto : spaceBefore + ' ' + metricText;
-    const displayAfter = spaceAfter && spaceAfter < 0 ? _t.textAuto : spaceAfter + ' ' + metricText;
+    const displayBefore = spaceBefore && spaceBefore < 0 ? _t.textAuto : parseFloat(spaceBefore.toFixed(2)) + ' ' + metricText;
+    const displayAfter = spaceAfter && spaceAfter < 0 ? _t.textAuto : parseFloat(spaceAfter.toFixed(2)) + ' ' + metricText;
 
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
