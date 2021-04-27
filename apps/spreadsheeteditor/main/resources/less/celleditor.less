@@ -55,7 +55,7 @@
                 &:active:not(.disabled),
                 &.active:not(.disabled){
                     .caret {
-                        background-position: @arrow-small-offset-x @arrow-small-offset-y;
+                        border-color: @icon-normal;
                     }
                 }
             }
@@ -142,8 +142,8 @@
     padding: 0 2px 0;
 
     .caret {
-        background-position: @arrow-small-offset-x @arrow-small-offset-y;
         transition: transform .2s;
+        border-color: @icon-normal;
     }
 
     &.btn-collapse {
