@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {List, ListItem, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, ListButton, Link, Tabs, Tab} from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -119,14 +120,19 @@ const PageStyle = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
-    const stroke = shapeObject.get_ShapeProperties().get_stroke();
+
+    let borderSize, borderType, transparent;
+    if (shapeObject) {
+        const stroke = shapeObject.get_ShapeProperties().get_stroke();
+        borderSize = stroke.get_width() * 72.0 / 25.4;
+        borderType = stroke.get_type();
+        transparent = shapeObject.get_ShapeProperties().get_fill().asc_getTransparent();
+    }
 
     // Init border size
     const borderSizeTransform = storeShapeSettings.borderSizeTransform();
-    const borderSize = stroke.get_width() * 72.0 / 25.4;
-    const borderType = stroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
@@ -135,9 +141,13 @@ const PageStyle = props => {
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
 
     // Init opacity
-    const transparent = shapeObject.get_ShapeProperties().get_fill().asc_getTransparent();
     const opacity = transparent !== null && transparent !== undefined ? transparent / 2.55 : 100;
     const [stateOpacity, setOpacity] = useState(Math.round(opacity));
+
+    if (!shapeObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -202,20 +212,28 @@ const PageStyleNoFill = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
-    const stroke = shapeObject.get_ShapeProperties().get_stroke();
+    let borderSize, borderType;
+    if (shapeObject) {
+        const stroke = shapeObject.get_ShapeProperties().get_stroke();
+        borderSize = stroke.get_width() * 72.0 / 25.4;
+        borderType = stroke.get_type();
+    }
 
     // Init border size
     const borderSizeTransform = storeShapeSettings.borderSizeTransform();
-    const borderSize = stroke.get_width() * 72.0 / 25.4;
-    const borderType = stroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
     // Init border color
     const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    if (!shapeObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -252,13 +270,20 @@ const PageWrap = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
-    const wrapType = storeShapeSettings.getWrapType(shapeObject);
-    const align = storeShapeSettings.getAlign(shapeObject);
-    const moveText = storeShapeSettings.getMoveText(shapeObject);
-    const overlap = storeShapeSettings.getOverlap(shapeObject);
-    const distance = Common.Utils.Metric.fnRecalcFromMM(storeShapeSettings.getWrapDistance(shapeObject));
+    let wrapType, align, moveText, overlap, distance;
+    if (shapeObject) {
+        wrapType = storeShapeSettings.getWrapType(shapeObject);
+        align = storeShapeSettings.getAlign(shapeObject);
+        moveText = storeShapeSettings.getMoveText(shapeObject);
+        overlap = storeShapeSettings.getOverlap(shapeObject);
+        distance = Common.Utils.Metric.fnRecalcFromMM(storeShapeSettings.getWrapDistance(shapeObject));
+    }
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+    if (!shapeObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
@@ -352,6 +377,13 @@ const PageReplace = props => {
     const storeShapeSettings = props.storeShapeSettings;
     let shapes = storeShapeSettings.getStyleGroups();
     shapes.splice(0, 1); // Remove line shapes
+
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    if (!shapeObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page className="shapes dataview">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
@@ -377,6 +409,13 @@ const PageReplace = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    if (!shapeObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
