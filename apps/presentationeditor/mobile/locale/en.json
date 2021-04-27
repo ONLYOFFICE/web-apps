@@ -200,7 +200,8 @@
       "textCaseSensitive": "Case Sensitive",
       "textHighlight": "Highlight Results",
       "textReplace": "Replace",
-      "textNoTextFound": "Text not Found"
+      "textNoTextFound": "Text not Found",
+      "textCollaboration": "Collaboration"
     },
     "Add": {
       "textSlide": "Slide",
