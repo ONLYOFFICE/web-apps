@@ -301,8 +301,7 @@ define([
             },
 
             onFillColor: function(palette, color) {
-                var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                var me = this;
 
                 if (me.api) {
                     var image = new Asc.asc_CImgProperty(),
@@ -327,7 +326,7 @@ define([
 
             onBorderColor: function (palette, color) {
                 var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                    currentShape = _shapeObject ? _shapeObject.get_ShapeProperties() : null;
 
                 $('#edit-shape-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
                 _borderInfo.color = color;
