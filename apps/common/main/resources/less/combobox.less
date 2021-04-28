@@ -1,5 +1,3 @@
-@img-borders-filter: var(--image-border-types-filter);
-@img-borders-filter-selected: var(--image-border-types-filter-selected);
 
 .combobox {
     display: block;
@@ -33,8 +31,8 @@
         float: none;
 
         .image {
-            -webkit-filter: @img-borders-filter;
-            filter: @img-borders-filter;
+            -webkit-filter: @img-border-type-filter;
+            filter: @img-border-type-filter;
         }
     }
 
@@ -136,22 +134,22 @@
     // ------------------------
     li {
         img {
-            -webkit-filter: @img-borders-filter;
-            filter: @img-borders-filter;
+            -webkit-filter: @img-border-type-filter;
+            filter: @img-border-type-filter;
         }
         canvas {
-            -webkit-filter: @img-borders-filter;
-            filter: @img-borders-filter;
+            -webkit-filter: @img-border-type-filter;
+            filter: @img-border-type-filter;
         }
 
         &.selected {
             img {
-                -webkit-filter: @img-borders-filter-selected;
-                filter: @img-borders-filter-selected;
+                -webkit-filter: @img-border-type-filter-selected;
+                filter: @img-border-type-filter-selected;
             }
             canvas {
-                -webkit-filter: @img-borders-filter-selected;
-                filter: @img-borders-filter-selected;
+                -webkit-filter: @img-border-type-filter-selected;
+                filter: @img-border-type-filter-selected;
             }
         }
 
