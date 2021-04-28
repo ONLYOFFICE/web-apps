@@ -336,7 +336,8 @@
     "textHighlightResults": "Highlight Results",
     "textSearch": "Search",
     "textMarginsW": "Left and right margins are too high for a given page width",
-    "textMarginsH": "Top and bottom margins are too high for a given page height"
+    "textMarginsH": "Top and bottom margins are too high for a given page height",
+    "textCollaboration": "Collaboration"
   },
   "Edit": {
     "textClose": "Close",

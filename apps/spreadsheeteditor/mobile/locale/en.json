@@ -490,7 +490,8 @@
             "textFormulas": "Formulas",
             "textValues": "Values",
             "textNoTextFound": "Text not found",
-            "textReplaceAll": "Replace All"
+            "textReplaceAll": "Replace All",
+            "textCollaboration": "Collaboration"
         }
     },
     "Statusbar": {
