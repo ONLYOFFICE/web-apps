@@ -114,7 +114,7 @@ div {
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
 					"url": userAuth.wopiSrc,
-					"fileType": fileInfo.FileExtension ? fileInfo.BaseFileName.substr(1) : fileType,
+					"fileType": fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType,
 					"key": key,
                     "info": {
                         "folder": fileInfo.BreadcrumbFolderName
@@ -131,8 +131,8 @@ div {
 					"callbackUrl": JSON.stringify(userAuth),
                     "sharingSettingsUrl": fileInfo.FileSharingUrl,
 					"user": {
-						"id": fileInfo.IsAnonymousUser ? "" : fileInfo.UserId,
-						"name": fileInfo.UserFriendlyName
+						"id": fileInfo.UserId,
+						"name": fileInfo.IsAnonymousUser ? "" : fileInfo.UserFriendlyName
 					},
 					"customization": {
 						"about": true,
