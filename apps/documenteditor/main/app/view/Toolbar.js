@@ -1696,7 +1696,7 @@ define([
                 // set menus
 
                 var me = this;
-                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 160px; height: 30px;"></div></a>');
+                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 200px; height: 30px;"></div></a>');
                 var items = [], ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-markers-level-' + i);
