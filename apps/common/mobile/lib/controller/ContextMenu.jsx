@@ -103,7 +103,7 @@ class ContextMenuController extends Component {
     }
 
     onApiOpenContextMenu(x, y) {
-        if ( !this.state.opened ) {
+        if ( !this.state.opened && $$('.dialog.modal-in').length < 1) {
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()
