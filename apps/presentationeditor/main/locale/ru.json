@@ -48,6 +48,8 @@
   "Common.define.chartData.textStock": "Биржевая",
   "Common.define.chartData.textSurface": "Поверхность",
   "Common.Translation.warnFileLocked": "Файл редактируется в другом приложении. Вы можете продолжить редактирование и сохранить его как копию.",
+  "Common.Translation.warnFileLockedBtnEdit": "Создать копию",
+  "Common.Translation.warnFileLockedBtnView": "Открыть на просмотр",
   "Common.UI.ColorButton.textAutoColor": "Автоматический",
   "Common.UI.ColorButton.textNewColor": "Пользовательский цвет",
   "Common.UI.ComboBorderSize.txtNoBorders": "Без границ",
