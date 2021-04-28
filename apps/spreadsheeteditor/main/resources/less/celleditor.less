@@ -4,20 +4,21 @@
     border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
     border-left: solid @scaled-one-px-value @border-toolbar;
     min-height: 20px;
-    background-color: @background-normal-ie;
-    background-color: @background-normal;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
 
     .ce-group-name {
         float: left;
         height: 20px;
-        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
-        border-bottom: @scaled-one-px-value solid @border-toolbar;
+        //border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        //border-bottom: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         #ce-cell-name {
             width: 100px;
             height: 19px;
+            height: calc(19px + (1px - 1px/var(--pixel-ratio-factor,1)));
             padding: 0px 19px 0 4px;
             vertical-align: top;
             display: inline-block;
@@ -26,6 +27,8 @@
             border-right: @scaled-one-px-value solid @border-toolbar;
             transition: none;
             -webkit-transition: none;
+            box-shadow: 0 @scaled-one-px-value-ie 0 0 @border-toolbar-ie;
+            box-shadow: 0 @scaled-one-px-value 0 0 @border-toolbar;
 
             &[disabled] {
                 color: @border-preview-select-ie;
@@ -53,7 +56,7 @@
                 &:active:not(.disabled),
                 &.active:not(.disabled){
                     .caret {
-                        background-position: @arrow-small-offset-x @arrow-small-offset-y;
+                        border-color: @icon-normal;
                     }
                 }
             }
@@ -75,9 +78,19 @@
         }
     }
 
+    &:not(.expanded) {
+        #ce-func-label {
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
+        }
+    }
+
     .ce-group-expand {
         float: right;
-        height: 20px;
+        //height: 20px;
+        height: 100%;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
     }
 
     .ce-group-content {
@@ -130,8 +143,8 @@
     padding: 0 2px 0;
 
     .caret {
-        background-position: @arrow-small-offset-x @arrow-small-offset-y;
         transition: transform .2s;
+        border-color: @icon-normal;
     }
 
     &.btn-collapse {
