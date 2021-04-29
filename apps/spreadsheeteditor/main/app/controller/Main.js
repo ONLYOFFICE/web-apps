@@ -139,7 +139,9 @@ define([
                         'Days': this.txtDays,
                         'Months': this.txtMonths,
                         'Quarters': this.txtQuarters,
-                        'Years': this.txtYears
+                        'Years': this.txtYears,
+                        '%1 or %2': this.txtOr,
+                        'Qtr': this.txtQuarter
                     };
 
                 styleNames.forEach(function(item){
@@ -2837,7 +2839,9 @@ define([
             txtYears: 'Years',
             errorPivotGroup: 'Cannot group that selection.',
             errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
-            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.'
+            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
+            txtQuarter: 'Qtr',
+            txtOr: '%1 or %2'
         }
     })(), SSE.Controllers.Main || {}))
 });

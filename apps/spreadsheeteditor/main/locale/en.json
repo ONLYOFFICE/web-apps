@@ -704,6 +704,8 @@
   "SSE.Controllers.Main.txtPreparedBy": "Prepared by",
   "SSE.Controllers.Main.txtPrintArea": "Print_Area",
   "SSE.Controllers.Main.txtQuarters": "Quarters",
+  "SSE.Controllers.Main.txtQuarter": "Qtr",
+  "SSE.Controllers.Main.txtOr": "%1 or %2",
   "SSE.Controllers.Main.txtRectangles": "Rectangles",
   "SSE.Controllers.Main.txtRow": "Row",
   "SSE.Controllers.Main.txtRowLbls": "Row Labels",
