@@ -20,6 +20,11 @@ export class storeParagraphSettings {
     styleName = undefined;
 
     initEditorStyles (styles) {
+        this.styles = styles.get_MergedStyles();
+        this.styleThumbSize = {
+            width   : styles.STYLE_THUMBNAIL_WIDTH,
+            height  : styles.STYLE_THUMBNAIL_HEIGHT
+        };
     }
 
     get paragraphStyles () {
@@ -34,6 +39,7 @@ export class storeParagraphSettings {
     }
 
     changeParaStyleName (name) {
+        this.styleName = name;
     }
 
     backColor = undefined;
