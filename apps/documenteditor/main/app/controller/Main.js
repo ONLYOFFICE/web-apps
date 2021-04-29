@@ -142,7 +142,7 @@ define([
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
                     "Click to load image": this.txtClickToLoad,
-                    "None": this.txtNone
+                    "None": this.txtNone,
                     "No table of figures entries found.": this.txtNoTableOfFigures,
                     "table of figures": this.txtTableOfFigures,
                     "TOC Heading": this.txtTOCHeading
@@ -2897,7 +2897,7 @@ define([
             txtClickToLoad: 'Click to load image',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            txtNone: 'None'
+            txtNone: 'None',
             txtNoTableOfFigures: "No table of figures entries found.",
             txtTableOfFigures: 'Table of figures',
             txtStyle_endnote_text: 'Endnote Text',
