@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -11,24 +11,31 @@ const PageAdvancedSettings = props => {
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeFocusObjects = props.storeFocusObjects;
     const paragraphObj = storeFocusObjects.paragraphObject;
-    if (paragraphObj.get_Ind()===null || paragraphObj.get_Ind()===undefined) {
-        paragraphObj.get_Ind().put_FirstLine(0);
+    let firstLine, spaceBefore, spaceAfter, spaceBeforeFix, spaceAfterFix, displayBefore, displayAfter, spaceBetween, breakBefore, orphanControl, keepTogether, keepWithNext;
+    if (paragraphObj) {
+        if (paragraphObj.get_Ind()===null || paragraphObj.get_Ind()===undefined) {
+            paragraphObj.get_Ind().put_FirstLine(0);
+        }
+        firstLine = parseFloat(Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Ind().get_FirstLine()).toFixed(2));
+
+        spaceBefore = paragraphObj.get_Spacing().get_Before() < 0 ? paragraphObj.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Spacing().get_Before());
+        spaceAfter  = paragraphObj.get_Spacing().get_After() < 0 ? paragraphObj.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Spacing().get_After());
+        spaceBeforeFix = parseFloat(spaceBefore.toFixed(2));
+        spaceAfterFix = parseFloat(spaceAfter.toFixed(2));
+        displayBefore = spaceBefore < 0 ? t('Edit.textAuto') : spaceBeforeFix + ' ' + metricText;
+        displayAfter = spaceAfter < 0 ? t('Edit.textAuto') : spaceAfterFix + ' ' + metricText;
+
+        spaceBetween = paragraphObj.get_ContextualSpacing();
+        breakBefore = paragraphObj.get_PageBreakBefore();
+        orphanControl = paragraphObj.get_WidowControl();
+        keepTogether = paragraphObj.get_KeepLines();
+        keepWithNext = paragraphObj.get_KeepNext();
+    } else {
+        if (Device.phone) {
+            $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+            return null;
+        }
     }
-    const firstLine = parseFloat(Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Ind().get_FirstLine()).toFixed(2));
-
-    const spaceBefore = paragraphObj.get_Spacing().get_Before() < 0 ? paragraphObj.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Spacing().get_Before());
-    const spaceAfter  = paragraphObj.get_Spacing().get_After() < 0 ? paragraphObj.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_Spacing().get_After());
-    const spaceBeforeFix = parseFloat(spaceBefore.toFixed(2));
-    const spaceAfterFix = parseFloat(spaceAfter.toFixed(2));
-    const displayBefore = spaceBefore < 0 ? t('Edit.textAuto') : spaceBeforeFix + ' ' + metricText;
-    const displayAfter = spaceAfter < 0 ? t('Edit.textAuto') : spaceAfterFix + ' ' + metricText;
-
-    const spaceBetween = paragraphObj.get_ContextualSpacing();
-    const breakBefore = paragraphObj.get_PageBreakBefore();
-    const orphanControl = paragraphObj.get_WidowControl();
-    const keepTogether = paragraphObj.get_KeepLines();
-    const keepWithNext = paragraphObj.get_KeepNext();
-
     return(
         <Page>
             <Navbar title={t('Edit.textAdvanced')} backLink={t('Edit.textBack')} />

@@ -75,13 +75,20 @@ const PageAdditionalFormatting = props => {
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const paragraph = storeFocusObjects.paragraphObject;
-    const isStrikeout = paragraph.get_Strikeout();
-    const isDStrikeout = paragraph.get_DStrikeout();
+    let isStrikeout, isDStrikeout, isSmallCaps, isAllCaps, letterSpacing;
+    if (paragraph) {
+        isStrikeout = paragraph.get_Strikeout();
+        isDStrikeout = paragraph.get_DStrikeout();
+        isSmallCaps = paragraph.get_SmallCaps();
+        isAllCaps = paragraph.get_AllCaps();
+        letterSpacing = Common.Utils.Metric.fnRecalcFromMM(paragraph.get_TextSpacing());
+    }
     const isSuperscript = storeTextSettings.isSuperscript;
     const isSubscript = storeTextSettings.isSubscript;
-    const isSmallCaps = paragraph.get_SmallCaps();
-    const isAllCaps = paragraph.get_AllCaps();
-    const letterSpacing = Common.Utils.Metric.fnRecalcFromMM(paragraph.get_TextSpacing());
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return(
         <Page>
             <Navbar title={t('Edit.textAdditional')} backLink={t('Edit.textBack')} />

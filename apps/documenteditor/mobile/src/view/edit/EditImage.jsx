@@ -11,13 +11,20 @@ const PageWrap = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeImageSettings = props.storeImageSettings;
     const imageObject = props.storeFocusObjects.imageObject;
-    const wrapType = storeImageSettings.getWrapType(imageObject);
-    const align = storeImageSettings.getAlign(imageObject);
-    const moveText = storeImageSettings.getMoveText(imageObject);
-    const overlap = storeImageSettings.getOverlap(imageObject);
-    const distance = Common.Utils.Metric.fnRecalcFromMM(storeImageSettings.getWrapDistance(imageObject));
+    let wrapType, align, moveText, overlap, distance;
+    if (imageObject) {
+        wrapType = storeImageSettings.getWrapType(imageObject);
+        align = storeImageSettings.getAlign(imageObject);
+        moveText = storeImageSettings.getMoveText(imageObject);
+        overlap = storeImageSettings.getOverlap(imageObject);
+        distance = Common.Utils.Metric.fnRecalcFromMM(storeImageSettings.getWrapDistance(imageObject));
+    }
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
@@ -143,6 +150,11 @@ const PageLinkSettings = props => {
 const PageReplace = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
@@ -163,6 +175,11 @@ const PageReplace = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
