@@ -687,7 +687,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -698,6 +698,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                     case 3:
                         me.numSpacing.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 4:
                         me.numDefaultTab.focus();
@@ -707,6 +709,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==3) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
@@ -891,8 +897,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.numSpacing.setValue((props.get_TextSpacing() !== null && props.get_TextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_TextSpacing()) : '', true);
                 this.numPosition.setValue((props.get_Position() !== null && props.get_Position() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Position()) : '', true);
-
-                this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
 
                 // Tabs
                 this.numDefaultTab.setValue((props.get_DefaultTab() !== null && props.get_DefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.get_DefaultTab().toFixed(1))) : '', true);

@@ -86,6 +86,8 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',         _.bind(this.onDlgBtnClick, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.btnsCategory = [];
             _.each($window.find('.btn-category'), function(item, index) {
                 var btnEl = $(item);
@@ -173,6 +175,10 @@ define([
             if (this.storageName)
                 Common.localStorage.setItem(this.storageName, this.getActiveCategory());
             Common.UI.Window.prototype.close.call(this, suppressevent);
+        },
+
+        onAnimateAfter: function() {
+
         }
     }, Common.Views.AdvancedSettingsWindow || {}));
 });
