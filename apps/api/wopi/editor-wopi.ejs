@@ -62,38 +62,113 @@ div {
     <script type="text/javascript" language="javascript">
 
         var docEditor;
-        var closeUrl;
-        var hostEditUrl;
+        var postMessageOrigin;
+        var lang = "en-US";
+        var startTime;
+        var editNotificationPostMessage;
 
         var innerAlert = function (message) {
             if (console && console.log)
                 console.log(message);
         };
 
+        var commandMap = {
+            'Blur_Focus': function (data) {
+                innerAlert('Blur_Focus');
+//                docEditor.blurFocus();
+            },
+            'Grab_Focus': function (data) {
+                innerAlert('Grab_Focus');
+//                docEditor.grabFocus();
+            },
+            'Host_PostmessageReady': function (data) {
+                innerAlert('Host_PostmessageReady');
+            }
+        };
+
+        var _postMessage = function(msgId, msgData) {
+            if (window.parent && window.JSON) {
+                msgData = msgData || {};
+                msgData["ui-language"] = lang;
+                msgData["wdUserSession"] = ""; // ???
+                var msg = {
+                    "MessageId": msgId,
+                    "SendTime": Date.now(),
+                    "Values": msgData
+                };
+                window.parent.postMessage(window.JSON.stringify(msg), postMessageOrigin);
+            }
+        };
+
+        var _onMessage = function(msg) {
+            // TODO: check message origin
+            if (msg.origin !== postMessageOrigin) return;
+
+            var data = msg.data;
+            if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
+                return;
+            }
+
+            var cmd, handler;
+
+            try {
+                cmd = window.JSON.parse(data)
+            } catch(e) {
+                cmd = '';
+            }
+
+            if (cmd) {
+                handler = commandMap[cmd.command];
+                if (handler) {
+                    handler.call(this, cmd.data);
+                }
+            }
+        };
+
+        var fn = function(e) { _onMessage(e); };
+
+        if (window.attachEvent) {
+            window.attachEvent('onmessage', fn);
+        } else {
+            window.addEventListener('message', fn, false);
+        }
+
         var onAppReady = function () {
-            innerAlert("Document editor ready");
+            _postMessage('App_LoadingStatus', {
+                "DocumentLoadedTime": Date.now() - startTime
+            });
+            innerAlert("App ready");
         };
 
         var onDocumentStateChange = function (event) {
-            var title = document.title.replace(/\*$/g, "");
-            document.title = title + (event.data ? "*" : "");
+            if (editNotificationPostMessage && event.data) {
+                _postMessage('Edit_Notification', {});
+            }
+        };
+
+        var onRequestRename = function (event) {
+            if (event.data) {
+                _postMessage('File_Rename', {
+                    "NewName": event.data
+                });
+            }
+        };
+
+        var onRequestClose = function () {
+            _postMessage('UI_Close', {});
         };
 
         var onRequestEditRights = function () {
-            hostEditUrl && (location.href = hostEditUrl);
+            _postMessage('UI_Edit', {});
+        };
+
+        var requestSharingSettings = function (event) {
+            _postMessage('UI_Sharing', {});
         };
 
         var onError = function (event) {
             if (event)
                 innerAlert(event.data);
-        };
-
-        var onOutdatedVersion = function (event) {
-            location.reload(true);
-        };
-
-        var onRequestClose = function (event) {
-            closeUrl && (location.href = closeUrl);
         };
 
         var connectEditor = function () {
@@ -127,7 +202,7 @@ div {
 				},
 				"editorConfig": {
 					"mode": queryParams.mode,
-					"lang": queryParams.lang || "en",
+					"lang": queryParams.lang || "en-US",
 					"callbackUrl": JSON.stringify(userAuth),
                     "sharingSettingsUrl": fileInfo.FileSharingUrl,
 					"user": {
@@ -143,21 +218,28 @@ div {
                             "name": fileInfo.BreadcrumbBrandName,
                             "www": fileInfo.BreadcrumbBrandUrl
                         }
-					}
+					},
+                    "coEditing": {
+                        "mode": "fast",
+                        "change": false
+                    }
 				},
 				events: {
                         "onAppReady": onAppReady,
                         "onDocumentStateChange": onDocumentStateChange,
-                        'onRequestEditRights': onRequestEditRights,
+                        'onRequestEditRights': fileInfo.EditModePostMessage ? onRequestEditRights : undefined,
                         "onError": onError,
-                        "onOutdatedVersion": onOutdatedVersion,
-                        "onRequestClose": onRequestClose
+                        "onRequestClose": fileInfo. ClosePostMessage ? onRequestClose : undefined,
+                        "onRequestRename": fileInfo.SupportsRename ? onRequestRename : undefined,
+                        "requestSharingSettings": fileInfo.FileSharingPostMessage  ? requestSharingSettings : undefined
                     }
 			};
 
-            closeUrl = fileInfo.CloseUrl;
-            hostEditUrl = fileInfo.HostEditUrl;
+            postMessageOrigin = fileInfo.PostMessageOrigin;
+            lang = config.editorConfig.lang;
+            editNotificationPostMessage = fileInfo.EditNotificationPostMessage;
 
+            startTime = Date.now();
             docEditor = new DocsAPI.DocEditor("iframeEditor", config);
 
             fixSize();
@@ -179,7 +261,6 @@ div {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
         }
-
     </script>
 </body>
 </html>
