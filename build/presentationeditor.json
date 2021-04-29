@@ -337,6 +337,18 @@
             "files": "../deploy/web-apps/apps/presentationeditor/mobile/**/*.json"
         },
         "copy": {
+            "assets": [
+                {
+                    "src": "../apps/presentationeditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/dist"
+                }
+            ],
             "template-backup": [
                 {
                     "expand": true,
@@ -356,8 +368,7 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html",
             },
             "localization": [
                 {
