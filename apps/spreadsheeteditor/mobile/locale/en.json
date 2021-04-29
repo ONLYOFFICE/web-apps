@@ -402,6 +402,7 @@
         },
         "Settings": {
             "textFindAndReplace": "Find and Replace",
+            "textFindAndReplaceAll": "Find and Replace All",
             "textSpreadsheetSettings": "Spreadsheet Settings",
             "textApplicationSettings": "Application Settings",
             "textDownload": "Download",
