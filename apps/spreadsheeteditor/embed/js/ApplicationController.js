@@ -165,7 +165,7 @@ SSE.ApplicationController = new(function(){
 
     function onPrint() {
         if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
     }
 
     function onPrintUrl(url) {
@@ -223,7 +223,7 @@ SSE.ApplicationController = new(function(){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -231,7 +231,7 @@ SSE.ApplicationController = new(function(){
 
         SSE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 Common.Analytics.trackEvent('Print');
             });
 

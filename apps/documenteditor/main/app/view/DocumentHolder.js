@@ -1857,7 +1857,7 @@ define([
             if (this.api){
                 var printopt = new Asc.asc_CAdjustPrint();
                 printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.fireEvent('editcomplete', this);
@@ -4319,7 +4319,12 @@ define([
                 for (var i=0; i<count; i++) {
                     (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
-                        value       : specProps.get_ItemValue(i)
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
                     }));
                 }
                 if (!isForm && menu.items.length<1) {

@@ -1128,14 +1128,16 @@ define([
                     expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
                 if (!(expr.exec(record.value)) || value<0.01 || value>1584) {
                     this._state.LineWeight = -1;
-                    Common.UI.error({
-                        msg: this.textBorderSizeErr,
-                        callback: function() {
-                            _.defer(function(btn) {
-                                Common.NotificationCenter.trigger('edit:complete', me);
-                            })
-                        }
-                    });
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textBorderSizeErr,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                })
+                            }
+                        });
+                    }, 10);
                 }
             } else
                 this.applyBorderSize(record.value);

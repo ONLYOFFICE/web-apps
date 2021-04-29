@@ -1154,6 +1154,10 @@ define([
                         config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : this.errorDataValidate;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellPivot:
+                        config.msg = this.errorLockedCellPivot;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1195,6 +1199,7 @@ define([
                     config.buttons = [{ text: 'OK' }, { text: this.textCancel, onClick: config.callback }];
                 } else {
                     config.buttons = [{ text: 'OK', onClick: config.callback }];
+                    $('#ce-cell-content').blur();
                 }
                 uiApp.modal({
                     title   : config.title,
@@ -1796,7 +1801,8 @@ define([
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
             textGuest: 'Guest',
-            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
+            errorLockedCellPivot: 'You cannot change data inside a pivot table.'
         }
     })(), SSE.Controllers.Main || {}))
 });

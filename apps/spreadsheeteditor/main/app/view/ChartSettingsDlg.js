@@ -394,10 +394,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         var value;
                         switch (record.value) {
                             case Asc.c_oAscCrossesRule.minValue:
-                                me.spnVAxisCrosses[i].setValue(me.spnMinValue.getNumberValue(), true);
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getNumberValue(), true);
                                 break;
                             case Asc.c_oAscCrossesRule.maxValue:
-                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue.getNumberValue(), true);
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getNumberValue(), true);
                                 break;
                             case Asc.c_oAscCrossesRule.auto:
                                 me.spnVAxisCrosses[i].setValue(me._originalAxisVValues[i].crossesAuto, true);

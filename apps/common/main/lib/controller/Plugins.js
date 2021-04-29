@@ -167,8 +167,9 @@ define([
             return this;
         },
 
-        setMode: function(mode) {
+        setMode: function(mode, api) {
             this.appOptions = mode;
+            this.api = api;
             this.customPluginsComplete = !this.appOptions.canBrandingExt;
             if (this.appOptions.canBrandingExt)
                 this.getAppCustomPlugins(this.configPlugins);
@@ -383,7 +384,8 @@ define([
                         isCustomWindow = variation.get_CustomWindow(),
                         arrBtns = variation.get_Buttons(),
                         newBtns = [],
-                        size = variation.get_Size();
+                        size = variation.get_Size(),
+                        isModal = variation.get_Modal();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
@@ -404,7 +406,8 @@ define([
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this),
-                        help: !!help
+                        help: !!help,
+                        modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
@@ -513,7 +516,7 @@ define([
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit,
                 editor = me.editor,
-                apiVersion = me.api.GetVersion ? me.api.GetVersion() : null;
+                apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];

@@ -77,6 +77,8 @@
     &.active:not(.disabled){
         .caret {
             transform: rotate(45deg);
+            border-color: @icon-normal-pressed-ie;
+            border-color: @icon-normal-pressed;
         }
     }
 
@@ -227,7 +229,7 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 4px;
+            padding: 0 2px;
             display: flex;
             align-items: center;
 
@@ -301,6 +303,14 @@
     }
 }
 
+.icon-top.btn-group {
+    &.x-huge, .x-huge {
+        .inner-box-caption {
+            padding-right: 4px;
+        }
+    }
+}
+
 .icon-top {
     &.x-huge  {
         .btn&, .btn-group& .btn-toolbar {
@@ -361,8 +371,8 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        color: @text-normal-ie;
-        color: @text-normal;
+        color: @text-normal-pressed-ie;
+        color: @text-normal-pressed;
         background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
     }
@@ -943,6 +953,12 @@
     &.active {
         background-color: @background-normal-ie !important;
         background-color: @background-normal !important;
+
+        &:not(:disabled) {
+            svg.icon {
+                opacity: inherit;
+            }
+        }
     }
 
     &:active:not(.disabled),

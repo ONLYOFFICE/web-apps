@@ -102,7 +102,7 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption'],
+                                  'Caption', 'endnote text'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -143,6 +143,9 @@ define([
                     "Type equation here": this.txtTypeEquation,
                     "Click to load image": this.txtClickToLoad,
                     "None": this.txtNone
+                    "No table of figures entries found.": this.txtNoTableOfFigures,
+                    "table of figures": this.txtTableOfFigures,
+                    "TOC Heading": this.txtTOCHeading
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -1346,7 +1349,7 @@ define([
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
-                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -2330,7 +2333,7 @@ define([
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2895,6 +2898,10 @@ define([
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             txtNone: 'None'
+            txtNoTableOfFigures: "No table of figures entries found.",
+            txtTableOfFigures: 'Table of figures',
+            txtStyle_endnote_text: 'Endnote Text',
+            txtTOCHeading: 'TOC Heading'
         }
     })(), DE.Controllers.Main || {}))
 });

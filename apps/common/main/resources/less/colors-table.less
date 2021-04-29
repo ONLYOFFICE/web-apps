@@ -49,6 +49,9 @@
     --text-secondary: fade(#000, 60%);
     --text-tertiary: fade(#000, 40%);
     --text-link: #445799;
+    --text-link-hover: #445799;
+    --text-link-active: #445799;
+    --text-link-visited: #445799;
     --text-inverse: #fff;
     --text-toolbar-header: #fff;
     --text-contrast-background: #fff;
@@ -127,6 +130,11 @@
     --component-active-icon-opacity: 1;
     --component-active-hover-icon-opacity: 1;
     --component-disabled-opacity: .4;
+
+    --header-component-normal-icon-opacity: 1;
+    --header-component-hover-icon-opacity: 1;
+    --header-component-active-icon-opacity: 1;
+    --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
 }
 
@@ -172,6 +180,9 @@
 @text-secondary: var(--text-secondary);
 @text-tertiary: var(--text-tertiary);
 @text-link: var(--text-link);
+@text-link-hover: var(--text-link-hover);
+@text-link-active: var(--text-link-active);
+@text-link-visited: var(--text-link-visited);
 @text-inverse: var(--text-inverse);
 @text-toolbar-header: var(--text-toolbar-header);
 @text-contrast-background: var(--text-contrast-background);
@@ -207,7 +218,14 @@
 @component-disabled-opacity: var(--component-disabled-opacity, .4);
 //@button-icon-opacity: var(--button-icon-opacity, 1);
 
+@header-component-normal-icon-opacity: var(--header-component-normal-icon-opacity, 1);
+@header-component-hover-icon-opacity: var(--header-component-hover-icon-opacity, 1);
+@header-component-active-icon-opacity: var(--header-component-active-icon-opacity, 1);
+@header-component-active-hover-icon-opacity: var(--header-component-active-hover-icon-opacity, 1);
+
 @menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
+@img-border-type-filter: var(--image-border-types-filter, none);
+@img-border-type-filter-selected: var(--image-border-types-filter-selected, none);
 
 // Canvas
 // ---------------------------

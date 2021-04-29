@@ -310,7 +310,7 @@ define([
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' ) {
-                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
+                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                         opts.asc_setAdvancedOptions(this.adjPrintParams);
                         this.api.asc_Print(opts);
                     } else {

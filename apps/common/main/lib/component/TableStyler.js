@@ -417,7 +417,7 @@ define([
                     '</div>',
                 '</div>',
 
-                '<div style="position: absolute; left: 0; bottom: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1pt dotted gray; border-right: 1pt dotted gray;"></div>',
+                '<div style="position: absolute; left: 0; bottom: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1px dotted gray; border-right: 1px dotted gray;"></div>',
                 '<div style="position: absolute; left: <%=scope.tablePadding%>px; bottom: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
                     '<div id="<%=scope.id%>-table-bottom-border-selector" style="position: absolute; z-index: 1; height: <%=scope.tablePadding%>px; left: 0; right: 0; bottom:  <%=scope.tablePadding * .5%>px;">',
                         '<table width="100%" height="100%">',
@@ -430,7 +430,7 @@ define([
                         '</table>',
                     '</div>',
                 '</div>',
-                '<div style="position: absolute; bottom: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1pt dotted gray; border-left: 1pt dotted gray;"></div>',
+                '<div style="position: absolute; bottom: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1px dotted gray; border-left: 1px dotted gray;"></div>',
             '</div>'
         ].join('')),
 

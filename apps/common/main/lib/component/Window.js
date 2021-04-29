@@ -769,6 +769,9 @@ define([
                             '-o-transform': 'scale(1)',
                             'opacity': '1'
                         });
+                        setTimeout(function () {
+                            me.fireEvent('animate:after', me);
+                        }, 210);
                     }, 1);
 
                     setTimeout(function () {
@@ -779,6 +782,9 @@ define([
                     this.$window.css({opacity: 1});
                     this.$window.addClass('notransform');
                     this.fireEvent('show', this);
+                    setTimeout(function () {
+                        me.fireEvent('animate:after', me);
+                    }, 10);
                 }
 
                 Common.NotificationCenter.trigger('window:show', this);

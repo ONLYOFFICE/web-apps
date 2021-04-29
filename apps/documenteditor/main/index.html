@@ -14,10 +14,14 @@
             --toolbar-header-document: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
-            --highlight-button-pressed: #606060;
+            --highlight-button-hover: #e0e0e0;
             --canvas-background: #666666;
             /*--canvas-content-background: #fff;*/
             --canvas-page-border: #555;
+        }
+
+        .theme-classic-light {
+            --highlight-button-hover: #d8dadc;
         }
 
         .loadmask {
@@ -91,7 +95,7 @@
 
         .loadmask > .sktoolbar li {
             background: #ccc;
-            background: var(--highlight-button-pressed, #ccc);
+            background: var(--highlight-button-hover, #ccc);
             border-radius: 3px;
             width: 20px;
             height: 20px;

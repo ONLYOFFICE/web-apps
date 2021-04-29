@@ -6,7 +6,7 @@
     </section>
     <section class="box-controls">
         <section class="panel static">
-            <div class="group no-mask">
+            <div class="group no-mask small">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="separator long"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
@@ -29,7 +29,7 @@
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
-                <div class="group">
+                <div class="group small">
                     <div class="elset font-attr-top">
                         <span class="btn-slot" id="slot-field-fontname"></span>
                         <span class="btn-slot" id="slot-field-fontsize"></span>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split-small" id="slot-btn-top"></span>
                         <span class="btn-slot split-small" id="slot-btn-middle"></span>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-formula"></span>
                     </div>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split slot-sortdesc"></span>
                         <span class="btn-slot slot-sortasc"></span>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-format" style="width: 100%"></span>
                     </div>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-cell-ins"></span>
                     </div>
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clear"></span>
                         <span class="btn-slot split" id="slot-btn-condformat"></span>
@@ -116,7 +116,7 @@
                         <span class="btn-slot split" id="slot-btn-table-tpl"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 168px;"></div>
+                <div class="group small" id="slot-field-styles" style="width: 100%; min-width: 168px;"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -213,7 +213,7 @@
                         <span class="btn-slot slot-sortasc"></span>
                     </div>
                 </div>
-                <div class="group" style="padding-left: 0;">
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-custom-sort"></span>
                 </div>
                 <div class="separator long"></div>
@@ -240,7 +240,7 @@
                 <div class="group sheet-views">
                     <span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>
                 </div>
-                <div class="group sheet-views" style="padding-left: 5px;">
+                <div class="group sheet-views small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-createview"></span>
                     </div>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <div class="separator long sheet-views"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset" style="display: flex;">
                         <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
                     </div>
@@ -262,7 +262,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-freeze"></span>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-formula"></span>
                     </div>
@@ -270,7 +270,7 @@
                         <span class="btn-slot text" id="slot-chk-heading"></span>
                     </div>
                 </div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-gridlines"></span>
                     </div>

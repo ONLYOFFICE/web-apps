@@ -212,7 +212,7 @@ define([
 
         onNoControlsColor: function(item) {
             if (!item.isChecked())
-                this.api.asc_SetSpecialFormsHighlightColor(255, 192, 0);
+                this.api.asc_SetSpecialFormsHighlightColor(201, 200, 255);
             else
                 this.api.asc_SetSpecialFormsHighlightColor();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

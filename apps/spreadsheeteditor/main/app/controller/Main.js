@@ -142,7 +142,9 @@ define([
                         'Days': this.txtDays,
                         'Months': this.txtMonths,
                         'Quarters': this.txtQuarters,
-                        'Years': this.txtYears
+                        'Years': this.txtYears,
+                        '%1 or %2': this.txtOr,
+                        'Qtr': this.txtQuarter
                     };
 
                 styleNames.forEach(function(item){
@@ -2919,7 +2921,9 @@ define([
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.'
+            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
+            txtQuarter: 'Qtr',
+            txtOr: '%1 or %2'
         }
     })(), SSE.Controllers.Main || {}))
 });
