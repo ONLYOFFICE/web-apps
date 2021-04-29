@@ -412,7 +412,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -423,12 +423,18 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                         break;
                     case 1:
                         me.numSpacing.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 2:
                         me.numDefaultTab.focus();
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==1) && this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
@@ -488,8 +494,6 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 this.chAllCaps.setValue((props.asc_getAllCaps() !== null && props.asc_getAllCaps() !== undefined) ? props.asc_getAllCaps() : 'indeterminate', true);
 
                 this.numSpacing.setValue((props.asc_getTextSpacing() !== null && props.asc_getTextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getTextSpacing()) : '', true);
-
-                this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
 
                 // Tabs
                 this.numDefaultTab.setValue((props.asc_getDefaultTab() !== null && props.asc_getDefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.asc_getDefaultTab().toFixed(1))) : '', true);

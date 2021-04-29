@@ -687,7 +687,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -698,8 +698,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                     case 3:
                         me.numSpacing.focus();
-                        var properties = (me._originalProps) ? me._originalProps : new Asc.asc_CParagraphProperty();
-                        me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 4:
                         me.numDefaultTab.focus();
@@ -709,6 +709,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==3) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
