@@ -1,13 +1,19 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
-const PageTypeLink = ({curType, changeType}) => {
+const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(curType);
+
+    const settings = !storeFocusObjects.focusOn ? [] : (storeFocusObjects.focusOn === 'obj' ? storeFocusObjects.objects : storeFocusObjects.selections);
+    if (storeFocusObjects.focusOn === 'obj' || settings.indexOf('hyperlink') === -1) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -20,10 +26,16 @@ const PageTypeLink = ({curType, changeType}) => {
     )
 };
 
-const PageSheet = ({curSheet, sheets, changeSheet}) => {
+const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [stateSheet, setSheet] = useState(curSheet.value);
+
+    const settings = !storeFocusObjects.focusOn ? [] : (storeFocusObjects.focusOn === 'obj' ? storeFocusObjects.objects : storeFocusObjects.selections);
+    if (storeFocusObjects.focusOn === 'obj' || settings.indexOf('hyperlink') === -1) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -146,8 +158,11 @@ const EditLink = props => {
     )
 };
 
+const _PageTypeLink = inject("storeFocusObjects")(observer(PageTypeLink));
+const _PageSheet = inject("storeFocusObjects")(observer(PageSheet));
+
 export {
     EditLink,
-    PageTypeLink,
-    PageSheet
+    _PageTypeLink as PageTypeLink,
+    _PageSheet as PageSheet
 };
