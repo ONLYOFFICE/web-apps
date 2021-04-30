@@ -169,7 +169,8 @@
         "name": "Fonctions de recherche et remplacement"
     },
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe" },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    {"src": "HelpfulHints/Password.htm", "name": "Protéger un classeur avec un mot de passe"},
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Spreadsheet Editor",

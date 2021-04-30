@@ -139,7 +139,8 @@
         "src": "HelpfulHints/SpellChecking.htm",
         "name": "Vérification de l'orthographe"
     },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    {"src": "HelpfulHints/Password.htm", "name": "Protéger une présentation avec un mot de passe"},
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Presentation Editor",

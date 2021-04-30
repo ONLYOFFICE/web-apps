@@ -20,10 +20,10 @@
     "src": "ProgramInterface/LayoutTab.htm",
     "name": "Onglet Mise en page"
   },
-  {
-    "src": "ProgramInterface/ReferencesTab.htm",
-    "name": "Onglet Références"
-  },
+    {
+        "src": "ProgramInterface/ReferencesTab.htm",
+        "name": "Onglet Références"
+    },
   {
     "src": "ProgramInterface/ReviewTab.htm",
     "name": "Onglet Collaboration"
@@ -174,7 +174,7 @@
         "src": "UsageInstructions/CreateTableOfContents.htm",
         "name": "Créer une table des matières"
     },
-    {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Insérer et mettre en forme un tableau des figures" },
+    { "src": "UsageInstructions/AddTableofFigures.htm", "name": "Insérer et mettre en forme un tableau des figures" },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Aligner et organiser des objets sur une page"
@@ -237,7 +237,8 @@
         "src": "HelpfulHints/SpellChecking.htm",
         "name": "Vérification de l'orthographe"
     },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
+    {"src": "HelpfulHints/Password.htm", "name": "Protéger un document avec un mot de passe"},
   {
     "src": "HelpfulHints/About.htm",
     "name": "À propos de Document Editor",
