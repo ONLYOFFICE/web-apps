@@ -32,6 +32,18 @@
     }
 }
 
+.navbar-hidden {
+    transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-subnavbar-height))), 0);
+}
+
+.navbar-hidden+.page>.page-content, .navbar-hidden+.page-content {
+    padding-top: 0;
+}
+
+.page.editor>.page-content {
+    transition: padding-top .3s ease-in;
+}
+
 .subnavbar {
     .subnavbar-inner {
         padding: 0;

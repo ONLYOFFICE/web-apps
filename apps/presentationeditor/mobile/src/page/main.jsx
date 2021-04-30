@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
+import { f7, Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
+import { Device } from '../../../../common/mobile/utils/device';
 
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
@@ -44,6 +45,10 @@ class MainPage extends Component {
             else if ( opts == 'preview' )
                 return {previewVisible: true};
         });
+
+        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.hide('.main-navbar');
+        }
     };
 
     handleOptionsViewClosed = opts => {
@@ -59,7 +64,10 @@ class MainPage extends Component {
                     return {collaborationVisible: false}
                 else if ( opts == 'preview' )
                     return {previewVisible: false};
-            })
+            });
+            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+                f7.navbar.show('.main-navbar');
+            }
         })();
     };
 
@@ -71,7 +79,7 @@ class MainPage extends Component {
         return (
             <Fragment>
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
-                <Page name="home" className={showLogo && 'page-with-logo'}>
+                <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
                     <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
                         {showLogo && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}
