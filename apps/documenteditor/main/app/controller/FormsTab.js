@@ -170,7 +170,7 @@ define([
         },
 
         onControlsSelect: function(type) {
-            if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl)) return;
+            if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl && this.toolbar.mode.canFeatureForms)) return;
 
             var oPr,
                 oFormPr = new AscCommon.CSdtFormPr();
