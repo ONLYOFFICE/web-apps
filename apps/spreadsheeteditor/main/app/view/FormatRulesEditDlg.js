@@ -767,11 +767,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (index>=len) return;
                 var values = [];
                 for (var i = 0; i < preset.length; i++) {
-                    var formatValueObject = new AscCommonExcel.CConditionalFormatValueObject();
+                    var formatValueObject = new Asc.CConditionalFormatValueObject();
                     formatValueObject.asc_setType(preset[i][0]);
                     formatValueObject.asc_setVal(preset[i][1]);
                     if (preset[i][2]) {
-                        // formatValueObject.asc_setFormula(new AscCommonExcel.CFormulaCF());
+                        // formatValueObject.asc_setFormula(new Asc.CFormulaCF());
                         // formatValueObject.asc_getFormula().asc_setText(preset[1][i][2]);
                     }
                     values.push(formatValueObject);
@@ -1251,7 +1251,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     this.cmbPercent.setValue(isPercent ? 1 : 0);
                 }
             }
-            var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
+            var xfs = this.xfsFormat ? this.xfsFormat : (new Asc.CellXfs());
             this.fillXfsFormatInfo(xfs);
             this.previewFormat();
         },
@@ -1315,7 +1315,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var rec = this.ruleStore.findWhere({index: this.cmbCategory.getValue()});
 
             if (rec) {
-                props = this._originalProps || new AscCommonExcel.CConditionalFormattingRule();
+                props = this._originalProps || new Asc.CConditionalFormattingRule();
                 var type = rec.get('type');
                 props.asc_setType(type);
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
@@ -1358,12 +1358,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setValue1(this.txtRange1.getValue());
                         break;
                     case Asc.c_oAscCFType.colorScale:
-                        var scaleProps = new AscCommonExcel.CColorScale();
+                        var scaleProps = new Asc.CColorScale();
                         var scalesCount = rec.get('num');
                         var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
                         var colors = [], scales = [];
                         for (var i=0; i<scalesCount; i++) {
-                            var scale = new AscCommonExcel.CConditionalFormatValueObject();
+                            var scale = new Asc.CConditionalFormatValueObject();
                             var controls = arr[i];
                             scale.asc_setType(controls.combo.getValue());
                             scale.asc_setVal(controls.range.getValue());
@@ -1375,11 +1375,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(scaleProps);
                         break;
                     case Asc.c_oAscCFType.dataBar:
-                        var barProps = new AscCommonExcel.CDataBar();
+                        var barProps = new Asc.CDataBar();
                         var arr = this.barControls;
                         var bars = [];
                         for (var i=0; i<arr.length; i++) {
-                            var bar = new AscCommonExcel.CConditionalFormatValueObject();
+                            var bar = new Asc.CConditionalFormatValueObject();
                             var controls = arr[i],
                                 bartype = controls.combo.getValue();
                             bar.asc_setType(bartype);
@@ -1411,7 +1411,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(barProps);
                         break;
                     case Asc.c_oAscCFType.iconSet:
-                        var iconsProps = new AscCommonExcel.CIconSet();
+                        var iconsProps = new Asc.CIconSet();
                         iconsProps.asc_setShowValue(this.chIconShow.getValue()!=='checked');
                         iconsProps.asc_setReverse(!!this.iconsProps.isReverse);
                         iconsProps.asc_setIconSet(this.iconsProps.iconsSet);
@@ -1422,7 +1422,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             values = [];
                         for (var i=0; i<len; i++) {
                             var controls = arr[i],
-                                value = new AscCommonExcel.CConditionalFormatValueObject();
+                                value = new Asc.CConditionalFormatValueObject();
                             value.asc_setType(controls.cmbType.getValue());
                             value.asc_setVal(controls.value.getValue());
                             value.asc_setGte(controls.cmbOperator.getValue());
@@ -1433,7 +1433,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     var items = this.collectionPresets.at(k).get('icons');
                                     for (var j=0; j<items.length; j++) {
                                         if (icon==items[j]) {
-                                            icon = new AscCommonExcel.CConditionalFormatIconSet();
+                                            icon = new Asc.CConditionalFormatIconSet();
                                             icon.asc_setIconSet(k);
                                             icon.asc_setIconId(j);
                                             this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
@@ -1469,7 +1469,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             if (rec) {
                 var type = rec.get('type');
-                this._changedProps = new AscCommonExcel.CConditionalFormattingRule();
+                this._changedProps = new Asc.CConditionalFormattingRule();
                 this._changedProps.asc_setType(type);
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
@@ -1480,19 +1480,19 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
                     var colors = [], scales = [];
                     for (var i=0; i<arr.length; i++) {
-                        var scale = new AscCommonExcel.CConditionalFormatValueObject();
+                        var scale = new Asc.CConditionalFormatValueObject();
                         var controls = arr[i];
                         scale.asc_setType(controls.combo.getValue());
                         scale.asc_setVal(controls.range.getValue());
                         scales.push(scale);
                         colors.push(Common.Utils.ThemeColor.getRgbColor(controls.colorPicker.currentColor));
                     }
-                    this.scaleProps = new AscCommonExcel.CColorScale();
+                    this.scaleProps = new Asc.CColorScale();
                     this.scaleProps.asc_setColors(colors);
                     this.scaleProps.asc_setCFVOs(scales);
                     this._changedProps.asc_setColorScaleOrDataBarOrIconSetRule(this.scaleProps);
                 } else if (type == Asc.c_oAscCFType.dataBar) {
-                    this.barProps = new AscCommonExcel.CDataBar();
+                    this.barProps = new Asc.CDataBar();
                     this.barProps.asc_setGradient(this.cmbFill.getValue());
                     this.barProps.asc_setColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosFill.colorPicker.currentColor));
                     var hasBorder = !this.cmbBorder.getValue();
@@ -1581,7 +1581,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         },
 
         onFormatsSelect: function(menu, item) {
-            var xfs = new AscCommonExcel.CellXfs();
+            var xfs = new Asc.CellXfs();
             var settings = item.options.presetSettings;
             settings && settings.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(settings.fontColor));
             settings && settings.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(settings.fillColor));
@@ -1604,29 +1604,29 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         clearFormat: function() {
             this.xfsFormat = null;
             this._changedProps && this._changedProps.asc_setDxf(null);
-            this.fillXfsFormatInfo(new AscCommonExcel.CellXfs());
+            this.fillXfsFormatInfo(new Asc.CellXfs());
             this.previewFormat();
         },
 
         onBoldClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
             this.previewFormat();
         },
 
         onItalicClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
             this.previewFormat();
         },
 
         onUnderlineClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
             this.previewFormat();
         },
         onStrikeoutClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
             this.previewFormat();
         },
@@ -1691,7 +1691,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 } else if (item.options.borderId != 'none') {
                     new_borders[item.options.borderId]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 }
-                !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+                !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
                 this.xfsFormat.asc_setBorder(new_borders);
                 this.previewFormat();
             }
@@ -1703,7 +1703,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
             picker.currentColor = color;
 
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
             this.previewFormat();
         },
@@ -1718,7 +1718,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
             picker.currentColor = color;
 
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
             this.previewFormat();
         },
@@ -1728,7 +1728,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         },
 
         onNumberFormatSelect: function(combo, record) {
-            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
             this.xfsFormat.asc_setNumFormatInfo(record.format);
             this.previewFormat();
         },
