@@ -102,6 +102,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-svgmin');
+    grunt.loadNpmTasks('grunt-exec');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -478,7 +479,10 @@ module.exports = function(grunt) {
                     files:[]
                         .concat(packageFile['mobile']['copy']['images-app'])
                         .concat(packageFile['mobile']['copy']['images-common'])
-                }
+                },
+                'webpack-dist': {
+                    files: packageFile.mobile.copy['assets']
+                },
             },
             
             replace: {
@@ -503,6 +507,25 @@ module.exports = function(grunt) {
                         to: '../mobile'
                     }]
                 }
+            },
+
+            exec: {
+                webpack_app_build: {
+                    options: {
+                        cwd: '../vendor/framework7-react',
+                    },
+                    cmd: function() {
+                        const editor = packageFile.name == 'presentationeditor' ? 'slide' :
+                                        packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
+                        return `npm run deploy-${editor}`;
+                    },
+                },
+                webpack_install: {
+                    options: {
+                        cwd: '../vendor/framework7-react',
+                    },
+                    cmd: 'npm i',
+                },
             }
         });
 
@@ -592,10 +615,10 @@ module.exports = function(grunt) {
                                                             'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
-                                                            'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
-                                                            'clean:template-backup', 'copy:localization', 'copy:index-page',
-                                                            'copy:images-app', 'json-minify',
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/
+                                                            'htmlmin', /*'requirejs',*/ 'exec:webpack_install', 'exec:webpack_app_build', /*'concat',*/ /*'copy:template-restore',*/
+                                                            /*'clean:template-backup',*/ 'copy:localization', 'copy:index-page',
+                                                            /*'copy:images-app',*/ 'copy:webpack-dist', 'json-minify',
                                                             'replace:writeVersion', 'replace:fixResourceUrl']);
 
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 

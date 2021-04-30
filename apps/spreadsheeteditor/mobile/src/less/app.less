@@ -1,0 +1,45 @@
+
+@themeColor: #40865c;
+
+@import '../../../../common/mobile/resources/less/variables.less';
+@import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
+
+@import '../../../../common/mobile/resources/less/_mixins.less';
+@import '../../../../common/mobile/resources/less/collaboration.less';
+@import '../../../../common/mobile/resources/less/common.less';
+@import '../../../../common/mobile/resources/less/common-ios.less';
+@import '../../../../common/mobile/resources/less/common-material.less';
+@import '../../../../common/mobile/resources/less/icons.less';
+@import '../../../../common/mobile/resources/less/dataview.less';
+@import '../../../../common/mobile/resources/less/search.less';
+@import '../../../../common/mobile/resources/less/contextmenu.less';
+@import '../../../../common/mobile/resources/less/comments.less';
+@import './app-material.less';
+@import './app-ios.less';
+@import './icons-ios.less';
+@import './icons-material.less';
+@import './icons-common.less';
+@import './celleditor.less';
+@import './statusbar.less';
+
+.page[data-name='home'] {
+    .page-content {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+};
+
+:root {
+    --f7-popover-width: 360px;
+    //--f7-page-content-extra-padding-top: 37px;
+}
+
+.function-info {
+    padding: 0 15px;
+}
+.page-function-info {
+    &.page-content, .page-content {
+        background-color: @white;
+    }
+}

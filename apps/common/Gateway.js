@@ -31,8 +31,8 @@
  *
 */
 
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
     Common.Gateway = new(function() {

@@ -1,0 +1,75 @@
+@statusBarBorderColor: #cbcbcb;
+
+.navbar {
+    .searchbar {
+        background-color: var(--f7-navbar-bg-color);
+
+        .buttons-row {
+            align-self: center;
+            display: flex;
+        }
+
+        .searchbar-bg {
+            .hairline(bottom, @statusBarBorderColor);
+        }
+    }
+
+    .searchbar-inner {
+        justify-content: space-between;
+        &__center {
+            display: flex;
+            align-items: center;
+            width: 81%;
+        }
+        &__right {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .searchbar-expandable {
+        transition-duration: 0s;
+    }
+
+    .buttons-row-replace {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // width: max-content;
+        width: 100%;
+        justify-content: center;
+        a {
+            font-size: 15px;
+            height: auto;
+            display: block;
+            line-height: normal;
+        }
+    }
+
+    @media(max-width: 550px)
+    {
+        .searchbar-expandable.searchbar-enabled {
+            .searchbar-inner {
+                &__left {
+                    min-width: 22px;
+                    max-width: 22px;
+                }
+                &__center {
+                    flex-direction: column;
+                }
+                &__right {
+                    flex-direction: column-reverse;
+                }
+            }
+            &.replace {
+                top: 0;
+                .searchbar-inner {
+                    height: 100%;
+                    &__left {
+                        align-self: flex-start;
+                    }
+                }
+            }
+        } 
+    }
+}

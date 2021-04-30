@@ -1,0 +1,24 @@
+.device-ios {
+  .comment-list {
+    .reply-item {
+      .item-inner:after {
+        content: none !important;
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        left: auto;
+        bottom: 0;
+        right: auto;
+        top: 0;
+        height: 1px;
+        width: 100%;
+        background-color: var(--f7-list-item-border-color);
+        display: block;
+        z-index: 15;
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+      }
+    }
+  }
+}

@@ -30,15 +30,26 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
 if (Common.Utils === undefined) {
     Common.Utils = {};
 }
 
-Common.Utils = _.extend(new(function() {
+function _extend_object(dest, source) {
+    if ( typeof _ != "undefined" ) {
+        return _.extend({}, dest, source);
+    } else
+    if ( !!Object ) {
+        return Object.assign({}, dest, source);
+    }
+
+    return source;
+}
+
+var utils = new(function() {
     var userAgent = navigator.userAgent.toLowerCase(),
         check = function(regex){
             return regex.test(userAgent);
@@ -237,7 +248,9 @@ Common.Utils = _.extend(new(function() {
         croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
                                         width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
-})(), Common.Utils || {});
+})();
+
+Common.Utils = _extend_object(Common.Utils, utils);
 
 Common.Utils.ThemeColor = new(function() {
     return {
@@ -322,7 +335,7 @@ Common.Utils.ThemeColor = new(function() {
     }
 })();
 
-Common.Utils.Metric = _.extend( new(function() {
+var metrics = new(function() {
     var me = this;
 
     me.c_MetricUnits = {
@@ -393,7 +406,9 @@ Common.Utils.Metric = _.extend( new(function() {
             return value;
         }
     }
-})(), Common.Utils.Metric || {});
+})();
+
+Common.Utils.Metric = _extend_object(Common.Utils.Metric, metrics);
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;
@@ -572,7 +587,8 @@ Common.Utils.String = new (function() {
         },
 
         htmlEncode: function(string) {
-            return _.escape(string);
+            //return _.escape(string);
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         },
 
         htmlDecode: function(string) {
@@ -727,9 +743,9 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
+    _user.fullname = !_user.name ? defname : _user.name;
     _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
-    _user.guest = _.isEmpty(_user.name);
+    _user.guest = !_user.name;
     return _user;
 };
 
@@ -978,6 +994,38 @@ Common.Utils.ModalWindow = new(function() {
 
         isVisible: function() {
             return count>0;
+        }
+    }
+})();
+
+Common.Utils.UserInfoParser = new(function() {
+    var parse = false;
+    var separator = String.fromCharCode(160);
+    return {
+        setParser: function(value) {
+            parse = !!value;
+        },
+
+        getSeparator: function() {
+            return separator;
+        },
+
+        getParsedName: function(username) {
+            if (parse && username) {
+                return username.substring(username.indexOf(separator)+1);
+            } else
+                return username;
+        },
+
+        getParsedGroups: function(username) {
+            if (parse && username) {
+                var idx = username.indexOf(separator),
+                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+                for (var i=0; i<groups.length; i++)
+                    groups[i] = groups[i].trim();
+                return groups;
+            } else
+                return undefined;
         }
     }
 })();
