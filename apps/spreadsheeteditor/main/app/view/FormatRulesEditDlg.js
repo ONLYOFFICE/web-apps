@@ -1251,7 +1251,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     this.cmbPercent.setValue(isPercent ? 1 : 0);
                 }
             }
-            var xfs = this.xfsFormat ? this.xfsFormat : (new Asc.CellXfs());
+            var xfs = this.xfsFormat ? this.xfsFormat : (new Asc.asc_CellXfs());
             this.fillXfsFormatInfo(xfs);
             this.previewFormat();
         },
@@ -1581,7 +1581,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         },
 
         onFormatsSelect: function(menu, item) {
-            var xfs = new Asc.CellXfs();
+            var xfs = new Asc.asc_CellXfs();
             var settings = item.options.presetSettings;
             settings && settings.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(settings.fontColor));
             settings && settings.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(settings.fillColor));
@@ -1604,29 +1604,29 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         clearFormat: function() {
             this.xfsFormat = null;
             this._changedProps && this._changedProps.asc_setDxf(null);
-            this.fillXfsFormatInfo(new Asc.CellXfs());
+            this.fillXfsFormatInfo(new Asc.asc_CellXfs());
             this.previewFormat();
         },
 
         onBoldClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
             this.previewFormat();
         },
 
         onItalicClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
             this.previewFormat();
         },
 
         onUnderlineClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
             this.previewFormat();
         },
         onStrikeoutClick: function() {
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
             this.previewFormat();
         },
@@ -1691,7 +1691,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 } else if (item.options.borderId != 'none') {
                     new_borders[item.options.borderId]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 }
-                !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+                !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
                 this.xfsFormat.asc_setBorder(new_borders);
                 this.previewFormat();
             }
@@ -1703,7 +1703,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
             picker.currentColor = color;
 
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
             this.previewFormat();
         },
@@ -1718,7 +1718,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
             picker.currentColor = color;
 
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
             this.previewFormat();
         },
@@ -1728,7 +1728,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         },
 
         onNumberFormatSelect: function(combo, record) {
-            !this.xfsFormat && (this.xfsFormat = new Asc.CellXfs());
+            !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setNumFormatInfo(record.format);
             this.previewFormat();
         },
