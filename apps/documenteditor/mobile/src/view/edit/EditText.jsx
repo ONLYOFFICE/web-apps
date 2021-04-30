@@ -28,6 +28,9 @@ const PageFonts = props => {
                 }}
         });
     };
+
+    console.log(curFontName);
+
     return (
         <Page>
             <Navbar title={t('Edit.textFonts')} backLink={t('Edit.textBack')} />
@@ -60,7 +63,7 @@ const PageFonts = props => {
                             checked={curFontName === item.name}
                             title={item.name}
                             style={{fontFamily: `${item.name}`}}
-                            onClick={() => {props.changeFontFamily(item.name)}}
+                            onClick={() => {storeTextSettings.changeFontFamily(item.name); props.changeFontFamily(item.name)}}
                         ></ListItem>
                     ))}
                 </ul>

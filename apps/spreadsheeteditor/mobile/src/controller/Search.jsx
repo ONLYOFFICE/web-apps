@@ -36,6 +36,8 @@ class SearchSettings extends SearchSettingsView {
                 <List>
                     <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
                     <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
+                    <ListItem radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
+                        onClick={() => this.onFindReplaceClick('replace-all')}></ListItem>
                 </List>
                 <BlockTitle>{_t.textSearchIn}</BlockTitle>
                 <List>

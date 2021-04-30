@@ -435,6 +435,9 @@
     // Find and Replace 
 
     .navbar {
+        .searchbar {
+            background: var(--f7-navbar-bg-color);
+        }
         .searchbar-input-wrap {
             margin-right: 10px;
             height: 28px;
@@ -462,6 +465,10 @@
     }
 
     .searchbar-inner {
+        &__left {
+            margin-right: 10px;
+            justify-content: center;
+        }
         &__right {
             .buttons-row a.next {
                 margin-left: 15px;
@@ -469,14 +476,25 @@
         }
     }
 
-    @media(max-width: 550px)
-    {
+    .searchbar-expandable.searchbar-enabled {
+        &.replace {
+            .searchbar-inner {
+                &__right {
+                    width: 28%;
+                }
+            }
+        }
+    } 
+
+    @media(max-width: 550px) {
+        .navbar {
+            .searchbar-input-wrap {
+                margin-right: 0; 
+            }
+        }
         .searchbar-expandable.searchbar-enabled {
             top: 0;
             .searchbar-inner {
-                &__left {
-                    margin-right: 15px;
-                }
                 &__center {
                     flex-direction: column;
                 }
@@ -492,6 +510,14 @@
                     &__center {
                         .searchbar-input-wrap {
                             margin: 8px 0;
+                        }
+                    }
+                    &__right {
+                        width: auto;
+                        height: 100%;
+                        justify-content: space-between;
+                        .buttons-row-replace {
+                            height: 50%;
                         }
                     }
                 }

@@ -36,7 +36,8 @@ export class storeTextSettings {
             resetTextColor: action,
             changeCustomTextColors: action,
             resetLineSpacing: action,
-            resetBackgroundColor: action
+            resetBackgroundColor: action,
+            changeFontFamily: action
         });
     }
 
@@ -154,6 +155,10 @@ export class storeTextSettings {
 
     changeCustomTextColors (colors) {
         this.customTextColors = colors;
+    }
+
+    changeFontFamily(name) {
+        this.fontName = name;
     }
 
     resetLineSpacing (vc) {

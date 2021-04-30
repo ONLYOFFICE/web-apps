@@ -150,7 +150,8 @@
     "Settings": {
       "textDone": "Done",
       "textSettings": "Settings",
-      "textFindAndReplace": "Find and replace",
+      "textFindAndReplace": "Find and Replace",
+      "textFindAndReplaceAll": "Find and Replace All",
       "textPresentationSettings": "Presentation Settings",
       "textApplicationSettings": "Application Settings",
       "textDownload": "Download",
