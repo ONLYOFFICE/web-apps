@@ -230,7 +230,7 @@ div {
                         'onRequestEditRights': fileInfo.EditModePostMessage ? onRequestEditRights : undefined,
                         "onError": onError,
                         "onRequestClose": fileInfo. ClosePostMessage ? onRequestClose : undefined,
-                        "onRequestRename": fileInfo.SupportsRename ? onRequestRename : undefined,
+                        "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                         "requestSharingSettings": fileInfo.FileSharingPostMessage  ? requestSharingSettings : undefined
                     }
 			};
