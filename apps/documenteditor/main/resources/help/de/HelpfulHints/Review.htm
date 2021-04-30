@@ -14,16 +14,31 @@
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>Dokumentenprüfung</h1>
-        <p>Wenn jemand eine Datei mit Überprüfungsberechtigung mit Ihnen teilt, müssen Sie die Funktion für die <b>Überprüfung</b> verwenden.</p>
+        <p>Wenn jemand eine Datei mit Überprüfungsberechtigung mit Ihnen teilt, müssen Sie die Funktion für die <b>Überprüfung</b> verwenden im <a target="_blank" href="https://www.onlyoffice.com/de/document-editor.aspx" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a>.</p>
         <p>Wenn Sie der Rezensent sind, können Sie die Option <b>Überprüfung</b> verwenden, um das Dokument zu überprüfen, Sätze, Phrasen und andere Seitenelemente zu ändern, die Rechtschreibung zu korrigieren und andere Aktionen im Dokument vorzunehmen, ohne es tatsächlich zu bearbeiten. Alle Änderungen werden gespeichert und der Person angezeigt, die Ihnen das Dokument gesendet hat.</p>
         <p>Wenn Sie die Datei für die Überprüfung gesendet haben, müssen Sie alle vorgenommenen Änderungen anzeigen lassen und entweder akzeptieren oder ablehnen.</p>
         <h3>Die Funktion Änderungen nachverfolgen aktivieren</h3>
         <p>Um Änderungen anzuzeigen, die von einem Rezensenten vorgeschlagen wurden, aktivieren Sie die Option <b>Änderungen nachverfolgen</b>:</p>
         <ul>
             <li>Klicken Sie in der rechten unteren Statusleiste auf das <img alt="Änderungen nachverfolgen" src="../images/trackchangesstatusbar.png" /> Symbol oder</li>
-            <li>Wechseln Sie in der oberen Symbolleiste in die Registerkarte <b>Zusammenarbeit</b> und klicken Sie auf <img alt="Änderungen nachverfolgen" src="../images/trackchangestoptoolbar.png" /> <b>Änderungen nachverfolgen</b>.</li>
+            <li>Wechseln Sie in der oberen Symbolleiste in die Registerkarte <b>Zusammenarbeit</b> und klicken Sie auf <img alt="Änderungen nachverfolgen" src="../images/trackchangestoptoolbar.png" /> <b>Änderungen nachverfolgen</b>.
+            <p class="note">Der Rezensent muss die Option <b>Änderungen nachverfolgen</b> nicht aktivieren. Die Funktion ist standardmäßig aktiviert und kann nicht deaktiviert werden, wenn das Dokument mit Zugriffsrechten nur für die Überprüfung freigegeben ist.</p></li>
+            <li>
+                im geöffneten Pop-Up-Menü stehen die folgenden Optionen zur Verfügung:
+                <ul>
+                    <li><b>AKTIVIERT für mich</b>: Das Verfolgen von Änderungen ist nur für den aktuellen Benutzer aktiviert. Die Option bleibt für die aktuelle Bearbeitungssitzung aktiviert, d. h. die Option wird deaktiviert, wenn Sie das Dokument neu laden oder erneut öffnen. Es wird nicht von anderen Benutzern beeinflusst, die die Option für allgemeine Nachverfolgung von Änderungen aktivieren oder deaktivieren.</li>
+                    <li><b>DEAKTIVIERT für mich</b>: Das Verfolgen von Änderungen ist nur für den aktuellen Benutzer deaktiviert. Die Option bleibt für die aktuelle Bearbeitungssitzung deaktiviert. Es wird nicht von anderen Benutzern beeinflusst, die die Option für allgemeine Nachverfolgung von Änderungen aktivieren oder deaktivieren.</li>
+                    <li>
+                        <b>AKTIVIERT für alle</b>: Die Nachverfolgung von Änderungen ist aktiviert und bleibt beim erneuten Laden oder erneuten Öffnen des Dokuments beibehalten (beim erneuten Laden des Dokuments wird die Nachverfolgung für alle Benutzer aktiviert). Wenn ein anderer Benutzer die Option für allgemeine Nachverfolgung von Änderungen in der Datei deaktiviert, wird der Status auf <b>DEAKTIVIERT für alle</b> geändert.
+                        <p><img alt="Verfolgen von Änderungen - Meldung" src="../images/track_changes_alert.png" /></p>
+                    </li>
+                    <li>
+                        <b>DEAKTIVIERT für alle</b> - Die Nachverfolgung von Änderungen ist deaktiviert und bleibt beibehalten, wenn Sie das Dokument neu laden oder erneut öffnen (wenn das Dokument neu geladen wird, ist die Nachverfolgung für alle Benutzer deaktiviert). Wenn ein anderer Benutzer die Option für allgemeine Nachverfolgung von Änderungen in der Datei aktiviert, wird der Status auf <b>AKTIVIERT für alle</b> geändert. Die entsprechende Warnmeldung wird jedem Mitautor angezeigt.
+                        <p><img alt="Verfolgen von Änderungen - Aktiviert" src="../images/track_changes_enabled.png" /></p>
+                    </li>
+                </ul>
+            </li>
         </ul>
-        <p class="note"><b>Hinweis</b>: Der Rezensent muss die Option <b>Änderungen nachverfolgen</b> nicht aktivieren. Die Funktion ist standardmäßig aktiviert und kann nicht deaktiviert werden, wenn das Dokument mit Zugriffsrechten nur für die Überprüfung freigegeben ist.</p>
         <h3 id="displaymode">Modus Änderungen anzeigen lassen</h3>
         <p>Klicken Sie in der oberen Symbolleiste auf das Symbol <img alt="Anzeigemodus" src="../images/review_displaymode.png" /> <b>Anzeigemodus</b> und wählen Sie einen der verfügbaren Modi aus der Liste aus:</p>
         <ul>
