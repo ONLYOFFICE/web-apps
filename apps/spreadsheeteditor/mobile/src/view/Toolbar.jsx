@@ -4,25 +4,21 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
+    const undo_box = props.isEdit && EditorUIController.toolbarOptions ? EditorUIController.toolbarOptions.getUndoRedo({
+            disabledUndo: !props.isCanUndo,
+            disabledRedo: !props.isCanRedo,
+            onUndoClick: props.onUndo,
+            onRedoClick: props.onRedo
+        }) : null;
     return (
         <Fragment>
             <NavLeft>
                 {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
-                {Device.ios && props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getUndoRedo({
-                    disabledUndo: !props.isCanUndo,
-                    disabledRedo: !props.isCanRedo,
-                    onUndoClick: props.onUndo,
-                    onRedoClick: props.onRedo
-                })}
+                {Device.ios && undo_box}
             </NavLeft>
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
-                {Device.android && props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getUndoRedo({
-                    disabledUndo: !props.isCanUndo,
-                    disabledRedo: !props.isCanRedo,
-                    onUndoClick: props.onUndo,
-                    onRedoClick: props.onRedo
-                })}
+                {Device.android && undo_box}
                 {props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getEditOptions({
                     disabled: props.disabledEditControls || props.disabledControls,
                     onEditClick: () => props.openOptions('edit'),
