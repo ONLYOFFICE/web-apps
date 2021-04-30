@@ -33,7 +33,8 @@
 	{"src": "HelpfulHints/Search.htm", "name": "Функция поиска"},
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Проверка орфографии" },
     {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Функции автозамены" },
-	{"src": "HelpfulHints/About.htm", "name": "О редакторе презентаций", "headername": "Полезные советы"},
+	{"src": "HelpfulHints/Password.htm", "name": "Защита с помощью пароля"},
+    {"src": "HelpfulHints/About.htm", "name": "О редакторе презентаций", "headername": "Полезные советы"},
 	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Поддерживаемые форматы электронных презентаций"},	
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Сочетания клавиш"}
 ]
