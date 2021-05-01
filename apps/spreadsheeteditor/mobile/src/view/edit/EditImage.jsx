@@ -32,6 +32,12 @@ const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
 
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((!storeFocusObjects.imageObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
@@ -57,6 +63,12 @@ const PageReorder = props => {
 const PageReplace = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((!storeFocusObjects.imageObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page className="images">

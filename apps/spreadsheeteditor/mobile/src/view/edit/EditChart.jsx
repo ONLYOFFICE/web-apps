@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, ListButton, ListInput, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab, NavTitle, NavRight} from 'framework7-react';
+import {f7, List, ListItem, ListButton, ListInput, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab, NavTitle, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -130,32 +130,41 @@ const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
-    const chartProperties = props.storeFocusObjects.chartObject.get_ChartProperties();
-    const shapeProperties = props.storeFocusObjects.shapeObject.get_ShapeProperties();
+    const storeFocusObjects = props.storeFocusObjects;
+    const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
+    const shapeProperties = storeFocusObjects.shapeObject && storeFocusObjects.shapeObject.get_ShapeProperties();
 
     const styles = storeChartSettings.styles;
     const types = storeChartSettings.types;
-    const curType = chartProperties.getType();
+    const curType = chartProperties && chartProperties.getType();
 
     // Init border size
 
-    const shapeStroke = shapeProperties.get_stroke();
+    let borderSize, borderType;
+    if (shapeProperties) {
+        const shapeStroke = shapeProperties.get_stroke();
+        borderSize = shapeStroke.get_width() * 72.0 / 25.4;
+        borderType = shapeStroke.get_type();
+    }
     const borderSizeTransform = storeChartSettings.borderSizeTransform();
-    const borderSize = shapeStroke.get_width() * 72.0 / 25.4;
-    const borderType = shapeStroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
     // Init border color
 
-    if(!storeChartSettings.borderColor) {
+    if(!storeChartSettings.borderColor && shapeProperties) {
         storeChartSettings.initBorderColor(shapeProperties);
     }
 
     const borderColor = storeChartSettings.borderColor;
     const displayBorderColor = borderColor == 'transparent' ? borderColor : `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}`;
+
+    if ((!chartProperties || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -242,7 +251,10 @@ const PageStyle = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-
+    if ((!props.storeFocusObjects.chartObject || props.storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
@@ -269,16 +281,27 @@ const PageLayout = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
     const chartObject = storeFocusObjects.chartObject;
-    const chartProperties = chartObject.get_ChartProperties();
-    const chartType = chartProperties.getType();
+    const chartProperties = chartObject && chartObject.get_ChartProperties();
+    const chartType = chartProperties && chartProperties.getType();
 
-    const [chartTitle, setTitle] = useState(chartProperties.getTitle());
-    const [chartLegend, setLegend] = useState(chartProperties.getLegendPos());
-    const [chartAxisHorTitle, setAxisHorTitle] = useState(chartProperties.getHorAxisLabel());
-    const [chartAxisVertTitle, setAxisVertTitle] = useState(chartProperties.getVertAxisLabel());
-    const [chartHorGridlines, setHorGridlines] = useState(chartProperties.getHorGridLines());
-    const [chartVertGridlines, setVertGridlines] = useState(chartProperties.getVertGridLines());
-    const [chartDataLabel, setDataLabel] = useState(chartProperties.getDataLabelsPos());
+    let title, legend, axisHorTitle, axisVertTitle, horGridlines, vertGridlines, dataLabel;
+    if (chartProperties) {
+        title = chartProperties.getTitle();
+        legend = chartProperties.getLegendPos();
+        axisHorTitle = chartProperties.getHorAxisLabel();
+        axisVertTitle = chartProperties.getVertAxisLabel();
+        horGridlines = chartProperties.getHorGridLines();
+        vertGridlines = chartProperties.getVertGridLines();
+        dataLabel = chartProperties.getDataLabelsPos();
+    }
+
+    const [chartTitle, setTitle] = useState(title);
+    const [chartLegend, setLegend] = useState(legend);
+    const [chartAxisHorTitle, setAxisHorTitle] = useState(axisHorTitle);
+    const [chartAxisVertTitle, setAxisVertTitle] = useState(axisVertTitle);
+    const [chartHorGridlines, setHorGridlines] = useState(horGridlines);
+    const [chartVertGridlines, setVertGridlines] = useState(vertGridlines);
+    const [chartDataLabel, setDataLabel] = useState(dataLabel);
 
     let dataLabelPos = [
         { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: _t.textNone },
@@ -368,6 +391,11 @@ const PageLayout = props => {
         5: `${_t.textInnerTop}`,
         7: `${_t.textOuterTop}`
     };
+
+    if ((!chartObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -620,7 +648,7 @@ const PageVerticalAxis = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
-    const chartProperty = api.asc_getChartObject();
+    const chartProperty = api.asc_getChartObject(true);
     const isIos = Device.ios;
     const verAxisProps = chartProperty.getVertAxisProps();
     const axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
@@ -683,6 +711,11 @@ const PageVerticalAxis = props => {
 
     const currentCrossesValue = axisProps.getCrosses();
     const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
+
+    if ((!props.storeFocusObjects.chartObject || props.storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -917,7 +950,7 @@ const PageHorizontalAxis = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
     const isIos = Device.ios;
-    const chartProperty = api.asc_getChartObject();
+    const chartProperty = api.asc_getChartObject(true);
     const horAxisProps = chartProperty.getHorAxisProps();
     const axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
     const crossValue = axisProps.getCrossesRule();
@@ -969,6 +1002,11 @@ const PageHorizontalAxis = props => {
 
     const currentCrossesValue = axisProps.getCrosses();
     const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
+
+    if ((!props.storeFocusObjects.chartObject || props.storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -1181,8 +1219,8 @@ const EditChart = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
-    const chartProperties = storeFocusObjects.chartObject.get_ChartProperties();
-    const chartType = chartProperties.getType();
+    const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
+    const chartType = chartProperties && chartProperties.getType();
 
     const disableSetting = (
         chartType == Asc.c_oAscChartTypeSettings.pie ||
@@ -1244,6 +1282,7 @@ const PageChartCustomBorderColor = inject("storeChartSettings", "storePalette")(
 const PageChartLayout = inject("storeFocusObjects")(observer(PageLayout));
 const PageChartVerticalAxis = inject("storeFocusObjects")(observer(PageVerticalAxis));
 const PageChartHorizontalAxis = inject("storeFocusObjects")(observer(PageHorizontalAxis));
+const PageChartReorder = inject("storeFocusObjects")(observer(PageReorder));
 
 export {
     PageEditChart as EditChart,
@@ -1251,7 +1290,7 @@ export {
     PageChartCustomFillColor,
     PageChartBorderColor,
     PageChartCustomBorderColor,
-    PageReorder as PageChartReorder,
+    PageChartReorder,
     PageChartLayout,
     PageLegend,
     PageChartTitle,

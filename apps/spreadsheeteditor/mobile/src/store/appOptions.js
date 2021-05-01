@@ -6,13 +6,21 @@ export class storeAppOptions {
             isEdit: observable,
             canViewComments: observable,
             setConfigOptions: action,
-            setPermissionOptions: action
+            setPermissionOptions: action,
+
+            lostEditingRights: observable,
+            changeEditingRights: action
         });
     }
 
     isEdit = false;
     config = {};
     canViewComments = false;
+
+    lostEditingRights = false;
+    changeEditingRights (value) {
+        this.lostEditingRights = value;
+    }
 
     setConfigOptions (config, _t) {
         this.config = config;

@@ -9,10 +9,8 @@ const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
-    // const selections = storeFocusObjects.selections;
-    // console.log(selections);
     const shapeObject = storeFocusObjects.shapeObject;
-    const canFill = shapeObject.get_ShapeProperties().asc_getCanFill();
+    const canFill = shapeObject && shapeObject.get_ShapeProperties().asc_getCanFill();
 
     return (
         <Fragment>
@@ -84,7 +82,8 @@ const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
-    const shapeObject = props.storeFocusObjects.shapeObject.get_ShapeProperties();
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject.get_ShapeProperties();
     const stroke = shapeObject.get_stroke();
     
     // Init border size
@@ -107,6 +106,11 @@ const PageStyle = props => {
     const transparent = shapeObject.get_fill().asc_getTransparent();
     const opacity = transparent !== null && transparent !== undefined ? transparent / 2.55 : 100;
     const [stateOpacity, setOpacity] = useState(Math.round(opacity));
+
+    if ((!shapeObject || storeFocusObjects.chartObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
    
     return (
         <Page>
@@ -248,6 +252,12 @@ const PageReplace = props => {
     let shapes = storeShapeSettings.getStyleGroups();
     shapes.splice(0, 1); // Remove line shapes
 
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((!storeFocusObjects.shapeObject || storeFocusObjects.chartObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page className="shapes dataview">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
@@ -273,6 +283,12 @@ const PageReplace = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((!storeFocusObjects.shapeObject || storeFocusObjects.chartObject || storeFocusObjects.focusOn === 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
