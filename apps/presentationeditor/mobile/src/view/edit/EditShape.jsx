@@ -8,7 +8,9 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const canFill = props.storeFocusObjects.shapeObject.get_CanFill();
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
+    const canFill = shapeObject && shapeObject.get_CanFill();
 
     return (
         <Fragment>
@@ -82,8 +84,9 @@ const PaletteFill = inject("storeFocusObjects", "storeShapeSettings", "storePale
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
     const storeShapeSettings = props.storeShapeSettings;
-    const shapeObject = props.storeFocusObjects.shapeObject;
+    const shapeObject = storeFocusObjects.shapeObject;
     const stroke = shapeObject.get_stroke();
     
     // Init border size
@@ -106,6 +109,11 @@ const PageStyle = props => {
     const transparent = shapeObject.get_fill().asc_getTransparent();
     const opacity = transparent !== null && transparent !== undefined ? transparent / 2.55 : 100;
     const [stateOpacity, setOpacity] = useState(Math.round(opacity));
+
+    if ((!shapeObject || storeFocusObjects.chartObject) && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
    
     return (
         <Page>
@@ -244,8 +252,15 @@ const PageReplace = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
+    const storeFocusObjects = props.storeFocusObjects;
+
     let shapes = storeShapeSettings.getStyleGroups();
     shapes.splice(0, 1); // Remove line shapes
+
+    if ((!storeFocusObjects.shapeObject || storeFocusObjects.chartObject) && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page className="shapes dataview">
@@ -272,6 +287,12 @@ const PageReplace = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+
+    if ((!storeFocusObjects.shapeObject || storeFocusObjects.chartObject) && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -297,6 +318,12 @@ const PageReorder = props => {
 const PageAlign = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+
+    if ((!storeFocusObjects.shapeObject || storeFocusObjects.chartObject) && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
