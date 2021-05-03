@@ -121,6 +121,7 @@ const PageAbout = props => {
 const About = inject("storeAppOptions")(observer(PageAbout));
 About.appVersion = () => (__PRODUCT_VERSION__);
 About.compareVersions = () => /d$/.test(__PRODUCT_VERSION__);
+About.developVersion = () => /(?:d|debug)$/.test(__PRODUCT_VERSION__);
 
 
 export default About;

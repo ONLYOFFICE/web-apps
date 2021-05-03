@@ -189,7 +189,8 @@ module.exports = {
     // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
-      template: `../../apps/${editor}/mobile/src/index_dev.html`,
+      template: env == 'development' ? `../../apps/${editor}/mobile/src/index_dev.html` :
+                        `../../apps/${editor}/mobile/src/index.html.deploy`,
       inject: true,
       minify: env === 'production' ? {
         collapseWhitespace: true,

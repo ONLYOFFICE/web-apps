@@ -48,15 +48,13 @@ class MainController extends Component {
     }
 
     initSdk() {
-        const script = document.createElement("script");
-        script.src = "../../../../sdkjs/develop/sdkjs/word/scripts.js";
-        script.async = true;
-        script.onload = () => {
+        const on_script_load = () => {
+            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
-                '../../../vendor/sockjs/sockjs.min.js',
-                '../../../vendor/jszip/jszip.min.js',
-                '../../../vendor/jszip-utils/jszip-utils.min.js'];
-            dep_scripts.push(...sdk_scripts);
+                                '../../../vendor/sockjs/sockjs.min.js',
+                                '../../../vendor/jszip/jszip.min.js',
+                                '../../../vendor/jszip-utils/jszip-utils.min.js'];
+            dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {
                 return new Promise((resolve, reject) => {
@@ -311,11 +309,19 @@ class MainController extends Component {
                 });
         };
 
-        script.onerror = () => {
-            console.log('error');
-        };
+        if ( About.developVersion() ) {
+            const script = document.createElement("script");
+            script.src = "../../../../sdkjs/develop/sdkjs/word/scripts.js";
+            script.async = true;
+            script.onload = on_script_load;
+            script.onerror = () => {
+                console.log('error on load scripts');
+            };
 
-        document.body.appendChild(script);
+            document.body.appendChild(script);
+        } else {
+            on_script_load();
+        }
     }
 
     applyMode (appOptions) {
