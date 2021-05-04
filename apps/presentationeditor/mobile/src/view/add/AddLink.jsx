@@ -135,8 +135,8 @@ const PageLink = props => {
                            onChange={(event) => {setScreenTip(event.target.value)}}
                 />
             </List>
-            <List>
-                <ListButton title={_t.textInsert}
+            <List className="buttons-list">
+                <ListItem title={_t.textInsert} href="#"
                             className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onInsertLink(typeLink, (typeLink === 1 ?

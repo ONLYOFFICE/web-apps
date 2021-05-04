@@ -158,8 +158,8 @@ const PageLink = props => {
                            onChange={(event) => {setScreenTip(event.target.value)}}
                 />
             </List>
-            <List>
-                <ListButton title={_t.textEditLink}
+            <List className="buttons-list">
+                <ListItem title={_t.textEditLink} href="#"
                             className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onEditLink(typeLink, (typeLink === 1 ?
@@ -167,7 +167,7 @@ const PageLink = props => {
                                     {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
                             }}
                 />
-                <ListButton title={_t.textRemoveLink}
+                <ListItem title={_t.textRemoveLink} href="#"
                             className={`button-fill button-red`}
                             onClick={() => {
                                 props.onRemoveLink()
