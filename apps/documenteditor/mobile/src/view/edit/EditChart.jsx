@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {List, ListItem, ListButton, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab} from 'framework7-react';
+import {f7} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -118,28 +119,35 @@ const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
-    const chartProperties = props.storeFocusObjects.chartObject.get_ChartProperties();
-
+    const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
     const types = storeChartSettings.types;
-    const curType = chartProperties.getType();
+    const curType = chartProperties ? chartProperties.getType() : null;
 
     const styles = storeChartSettings.styles;
 
     const shapeObject = props.storeFocusObjects.shapeObject;
-    const shapeStroke = shapeObject.get_ShapeProperties().get_stroke();
+    let borderSize, borderType, borderColor;
+    if (shapeObject) {
+        const shapeStroke = shapeObject.get_ShapeProperties().get_stroke();
+        borderSize = shapeStroke.get_width() * 72.0 / 25.4;
+        borderType = shapeStroke.get_type();
+        borderColor = !storeChartSettings.borderColor ? storeChartSettings.initBorderColor(shapeStroke) : storeChartSettings.borderColor;
+    }
 
     // Init border size
     const borderSizeTransform = storeChartSettings.borderSizeTransform();
-    const borderSize = shapeStroke.get_width() * 72.0 / 25.4;
-    const borderType = shapeStroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
     // Init border color
-    const borderColor = !storeChartSettings.borderColor ? storeChartSettings.initBorderColor(shapeStroke) : storeChartSettings.borderColor;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    if (!chartProperties && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -231,13 +239,20 @@ const PageWrap = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
     const chartObject = props.storeFocusObjects.chartObject;
-    const wrapType = storeChartSettings.getWrapType(chartObject);
-    const align = storeChartSettings.getAlign(chartObject);
-    const moveText = storeChartSettings.getMoveText(chartObject);
-    const overlap = storeChartSettings.getOverlap(chartObject);
-    const distance = Common.Utils.Metric.fnRecalcFromMM(storeChartSettings.getWrapDistance(chartObject));
+    let wrapType, align, moveText, overlap, distance;
+    if (chartObject) {
+        wrapType = storeChartSettings.getWrapType(chartObject);
+        align = storeChartSettings.getAlign(chartObject);
+        moveText = storeChartSettings.getMoveText(chartObject);
+        overlap = storeChartSettings.getOverlap(chartObject);
+        distance = Common.Utils.Metric.fnRecalcFromMM(storeChartSettings.getWrapDistance(chartObject));
+    }
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+    if (!chartObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
@@ -328,6 +343,11 @@ const PageWrap = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const chartObject = props.storeFocusObjects.chartObject;
+    if (!chartObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
@@ -382,6 +402,7 @@ const EditChart = props => {
 
 const PageChartStyle = inject("storeChartSettings", "storeFocusObjects")(observer(PageStyle));
 const PageChartWrap = inject("storeChartSettings", "storeFocusObjects")(observer(PageWrap));
+const PageChartReorder = inject("storeFocusObjects")(observer(PageReorder));
 const PageChartCustomFillColor = inject("storeChartSettings", "storePalette")(observer(PageCustomFillColor));
 const PageChartBorderColor = inject("storeChartSettings", "storePalette")(observer(PageBorderColor));
 const PageChartCustomBorderColor = inject("storeChartSettings", "storePalette")(observer(PageCustomBorderColor));
@@ -392,4 +413,4 @@ export {EditChart,
         PageChartBorderColor,
         PageChartCustomBorderColor,
         PageChartWrap,
-        PageReorder as PageChartReorder}
+        PageChartReorder}

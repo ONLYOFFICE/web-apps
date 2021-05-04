@@ -44,6 +44,10 @@ class MainPage extends Component {
                     collaborationPage: showOpts
                 };
         });
+
+        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.hide('.main-navbar');
+        }
     };
 
     handleOptionsViewClosed = opts => {
@@ -57,7 +61,10 @@ class MainPage extends Component {
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
-            })
+            });
+            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+                f7.navbar.show('.main-navbar');
+            }
         })();
     };
 
@@ -66,7 +73,7 @@ class MainPage extends Component {
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       return (
-          <Page name="home" className={showLogo && 'page-with-logo'}>
+          <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
               <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
                   {showLogo && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}

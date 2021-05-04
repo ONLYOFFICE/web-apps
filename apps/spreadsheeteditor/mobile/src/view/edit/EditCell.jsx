@@ -143,6 +143,12 @@ const PageFontsCell = props => {
         });
     };
 
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textFonts} backLink={_t.textBack} />
@@ -207,6 +213,12 @@ const PageTextColorCell = props => {
             props.f7router.navigate('/edit-cell-text-custom-color/', {props: {onTextColor: props.onTextColor}});
         }
     };
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
   
     return (
         <Page>
@@ -248,6 +260,12 @@ const PageFillColorCell = props => {
             props.f7router.navigate('/edit-cell-fill-custom-color/', {props: {onFillColor: props.onFillColor}});
         }
     };
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
   
     return (
         <Page>
@@ -325,6 +343,12 @@ const PageTextFormatCell = props => {
     const vAlignStr = storeCellSettings.vAlignStr;
     const isWrapText = storeCellSettings.isWrapText;
 
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textTextFormat} backLink={_t.textBack} />
@@ -391,6 +415,12 @@ const PageTextOrientationCell = props => {
     const isAndroid = Device.android;
     const storeCellSettings = props.storeCellSettings;
     const orientationStr = storeCellSettings.orientationStr;
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
    
     return (
         <Page>
@@ -460,6 +490,12 @@ const PageBorderStyleCell = props => {
         12: `${_t.textMedium}`,
         13: `${_t.textThick}`
     };
+
+    const storeFocusObjects = props.storeFocusObjects;
+    if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -826,10 +862,10 @@ const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObj
 const FillColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageFillColorCell));
 const CustomTextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageCustomTextColorCell));
 const CustomFillColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageCustomFillColorCell));
-const FontsCell = inject("storeCellSettings")(observer(PageFontsCell));
-const TextFormatCell = inject("storeCellSettings")(observer(PageTextFormatCell));
-const TextOrientationCell = inject("storeCellSettings")(observer(PageTextOrientationCell));
-const BorderStyleCell = inject("storeCellSettings")(observer(PageBorderStyleCell));
+const FontsCell = inject("storeCellSettings", "storeFocusObjects")(observer(PageFontsCell));
+const TextFormatCell = inject("storeCellSettings", "storeFocusObjects")(observer(PageTextFormatCell));
+const TextOrientationCell = inject("storeCellSettings", "storeFocusObjects")(observer(PageTextOrientationCell));
+const BorderStyleCell = inject("storeCellSettings", "storeFocusObjects")(observer(PageBorderStyleCell));
 const BorderColorCell = inject("storeCellSettings", "storePalette")(observer(PageBorderColorCell));
 const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observer(PageCustomBorderColorCell));
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));

@@ -24,6 +24,7 @@ export class storeFocusObjects {
     _headerType = 1;
 
     resetFocusObjects (objects) {
+        this._focusObjects = objects;
     }
 
     get settings() {

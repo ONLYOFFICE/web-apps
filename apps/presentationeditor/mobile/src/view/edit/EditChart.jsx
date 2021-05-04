@@ -128,30 +128,41 @@ const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
-    const chartProperties = props.storeFocusObjects.chartObject;
-
+    // const chartProperties = props.storeFocusObjects.chartObject;
+    const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
+    // console.log(chartProperties);
     const types = storeChartSettings.types;
-    const curType = chartProperties.getType();
-
+    // const curType = chartProperties.getType();
+    const curType = chartProperties ? chartProperties.getType() : null;
     const styles = storeChartSettings.styles;
-
     const shapeObject = props.storeFocusObjects.shapeObject;
-    const shapeStroke = shapeObject.get_stroke();
+
+    let borderSize, borderType, borderColor;
+
+    if(shapeObject) {
+        // const shapeStroke = shapeObject.get_stroke();
+        const shapeStroke = shapeObject.get_stroke();
+        borderSize = shapeStroke.get_width() * 72.0 / 25.4;
+        borderType = shapeStroke.get_type();
+        borderColor = !storeChartSettings.borderColor ? storeChartSettings.initBorderColor(shapeStroke) : storeChartSettings.borderColor;
+    }
 
     // Init border size
 
     const borderSizeTransform = storeChartSettings.borderSizeTransform();
-    const borderSize = shapeStroke.get_width() * 72.0 / 25.4;
-    const borderType = shapeStroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
     // Init border color
 
-    const borderColor = !storeChartSettings.borderColor ? storeChartSettings.initBorderColor(shapeStroke) : storeChartSettings.borderColor;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    if (!chartProperties && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -240,6 +251,13 @@ const PageStyle = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const chartObject = props.storeFocusObjects.chartObject;
+
+    if (!chartObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
@@ -264,6 +282,12 @@ const PageReorder = props => {
 const PageAlign = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const chartObject = props.storeFocusObjects.chartObject;
+
+    if (!chartObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -331,6 +355,8 @@ const PageChartStyle = inject("storeChartSettings", "storeFocusObjects")(observe
 const PageChartCustomFillColor = inject("storeChartSettings", "storePalette")(observer(PageCustomFillColor));
 const PageChartBorderColor = inject("storeChartSettings", "storePalette")(observer(PageBorderColor));
 const PageChartCustomBorderColor = inject("storeChartSettings", "storePalette")(observer(PageCustomBorderColor));
+const PageChartReorder = inject("storeFocusObjects")(observer(PageReorder));
+const PageChartAlign = inject("storeFocusObjects")(observer(PageAlign));
 
 export {
     EditChart,
@@ -338,6 +364,6 @@ export {
     PageChartCustomFillColor,
     PageChartBorderColor,
     PageChartCustomBorderColor,
-    PageReorder as PageChartReorder,
-    PageAlign as PageChartAlign
+    PageChartReorder,
+    PageChartAlign
 }
