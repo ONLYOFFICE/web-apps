@@ -59,7 +59,26 @@
             "errorProcessSaveResult": "Saving is failed.",
             "criticalErrorTitle": "Error",
             "warnProcessRightsChange": "You have been denied the right to edit the file.",
-            "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator."
+            "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
+            "confirmMoveCellRange": "The destination cell`s range can contain data. Continue the operation?",
+            "textOk": "Ok",
+            "confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.",
+
+            "openTitleText": "Opening Document",
+            "saveTitleText": "Saving Document",
+            "loadFontsTitleText": "Loading Data",
+            "loadImagesTitleText": "Loading Images",
+            "loadFontTitleText": "Loading Data",
+            "loadImageTitleText": "Loading Image",
+            "downloadTitleText": "Downloading Document",
+            "printTitleText": "Printing Document",
+            "uploadImageTitleText": "Uploading Image",
+            "titleRecalcFormulas": "Calculating formulas...",
+            "textPleaseWait": "It`s working hard. Please wait...",
+            "savePreparingText": "Preparing to save",
+            "waitText": "Please, wait...",
+            "txtEditingMode": "Set editing mode...",
+            "loadingDocumentTitleText": "Loading spreadsheet"
         }
     },
     "LongActions": {
