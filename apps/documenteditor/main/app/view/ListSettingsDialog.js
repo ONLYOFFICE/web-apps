@@ -383,7 +383,7 @@ define([
 
         onLikeTextColor: function(item, state) {
             if (!!state) {
-                var color = Common.Utils.ThemeColor.getHexColor(255, 255, 255);
+                var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
                 this.btnColor.setColor(color);
                 this.colors.clearSelection();
                 if (this._changedProps) {
@@ -539,7 +539,7 @@ define([
                         this.colors.select(color,true);
                 } else {
                     this.colors.clearSelection();
-                    color = (color && color.get_auto()) ? '000000' : 'ffffff';
+                    color = '000000';
                 }
                 this.btnColor.setColor(color);
             }
