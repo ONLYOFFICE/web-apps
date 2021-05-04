@@ -116,13 +116,12 @@ define([
             }
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputPwd, this.repeatPwd];
+        },
 
-            var me = this;
-            setTimeout(function(){
-                me.inputPwd.cmpEl.find('input').focus();
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.inputPwd;
         },
 
         onPrimary: function(event) {
