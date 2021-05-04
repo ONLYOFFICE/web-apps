@@ -428,8 +428,8 @@
         height: 3px;
         background-color: red;
         &.bordered {
-            border: 1px solid @border-regular-control-ie;
-            border: 1px solid @border-regular-control;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
         }
 
 
@@ -571,8 +571,8 @@
 
         &.over:not(.disabled),
         &.open {
-            box-shadow: inset 0 0 0 1px @highlight-button-hover-ie;
-            box-shadow: inset 0 0 0 1px @highlight-button-hover;
+            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
+            box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-hover;
 
             button:not(.active):not(.btn-text-split-default) {
                 background-color: transparent;
@@ -973,8 +973,8 @@
     color: @text-normal;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-    border: 1px solid @border-regular-control-ie;
-    border: 1px solid @border-regular-control;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
 
     &:hover:not(.disabled),
     &.hover:not(.disabled) {
