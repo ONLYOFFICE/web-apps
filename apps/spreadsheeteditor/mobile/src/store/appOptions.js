@@ -14,9 +14,18 @@ export class storeAppOptions {
     config = {};
     canViewComments = false;
 
-    setConfigOptions (config) {
+    setConfigOptions (config, _t) {
         this.config = config;
-        this.user = Common.Utils.fillUserInfo(config.user, config.lang, "Local.User"/*me.textAnonymous*/);
+        this.customization = config.customization;
+        this.canRenameAnonymous = !((typeof (this.customization) == 'object') && (typeof (this.customization.anonymous) == 'object') && (this.customization.anonymous.request===false));
+        this.guestName = (typeof (this.customization) == 'object') && (typeof (this.customization.anonymous) == 'object') &&
+        (typeof (this.customization.anonymous.label) == 'string') && this.customization.anonymous.label.trim()!=='' ?
+            Common.Utils.String.htmlEncode(this.customization.anonymous.label) : _t.textGuest;
+
+        const value = this.canRenameAnonymous ? Common.localStorage.getItem("guest-username") : null;
+        this.user = Common.Utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + this.guestName + ')' ) : _t.textAnonymous);
+
+        config.user = this.user;
         this.isDesktopApp = config.targetApp == 'desktop';
         this.canCreateNew = !!config.createUrl && !this.isDesktopApp;
         this.canOpenRecent = config.recent !== undefined && !this.isDesktopApp;

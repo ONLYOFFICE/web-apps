@@ -123,7 +123,9 @@
     "txtEditingMode": "Set editing mode...",
     "loadingDocumentTitleText": "Loading document",
     "loadingDocumentTextText": "Loading document...",
-    "textLoadingDocument": "Loading document"
+    "textLoadingDocument": "Loading document",
+    "loadThemeTitleText": "Loading Theme",
+    "loadThemeTextText": "Loading theme..."
   },
   "ContextMenu": {
     "menuViewComment": "View Comment",
@@ -148,7 +150,8 @@
     "Settings": {
       "textDone": "Done",
       "textSettings": "Settings",
-      "textFindAndReplace": "Find and replace",
+      "textFindAndReplace": "Find and Replace",
+      "textFindAndReplaceAll": "Find and Replace All",
       "textPresentationSettings": "Presentation Settings",
       "textApplicationSettings": "Application Settings",
       "textDownload": "Download",
@@ -198,7 +201,8 @@
       "textCaseSensitive": "Case Sensitive",
       "textHighlight": "Highlight Results",
       "textReplace": "Replace",
-      "textNoTextFound": "Text not Found"
+      "textNoTextFound": "Text not Found",
+      "textCollaboration": "Collaboration"
     },
     "Add": {
       "textSlide": "Slide",

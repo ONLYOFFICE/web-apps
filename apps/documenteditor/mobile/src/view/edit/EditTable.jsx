@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -12,10 +13,20 @@ const PageTableOptions = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const tableObject = storeFocusObjects.tableObject;
     const storeTableSettings = props.storeTableSettings;
-    const distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getCellMargins(tableObject));
+
+    let distance, isRepeat, isResize;
+    if (tableObject) {
+        distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getCellMargins(tableObject));
+        isRepeat = storeTableSettings.getRepeatOption(tableObject);
+        isResize = storeTableSettings.getResizeOption(tableObject);
+    }
     const [stateDistance, setDistance] = useState(distance);
-    const isRepeat = storeTableSettings.getRepeatOption(tableObject);
-    const isResize = storeTableSettings.getResizeOption(tableObject);
+
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textOptions} backLink={_t.textBack} />
@@ -60,12 +71,21 @@ const PageWrap = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const tableObject = props.storeFocusObjects.tableObject;
-    const wrapType = storeTableSettings.getWrapType(tableObject);
-    const align = storeTableSettings.getAlign(tableObject);
-    const moveText = storeTableSettings.getMoveText(tableObject);
-    const distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getWrapDistance(tableObject));
+    let wrapType, align, moveText, distance;
+    if (tableObject) {
+        wrapType = storeTableSettings.getWrapType(tableObject);
+        align = storeTableSettings.getAlign(tableObject);
+        moveText = storeTableSettings.getMoveText(tableObject);
+        distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getWrapDistance(tableObject));
+    }
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
@@ -177,13 +197,17 @@ const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyle
 const PageStyleOptions = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-    const tableLook = props.storeFocusObjects.tableObject.get_TableLook();
-    const isFirstRow = tableLook.get_FirstRow();
-    const isLastRow = tableLook.get_LastRow();
-    const isBandHor = tableLook.get_BandHor();
-    const isFirstCol = tableLook.get_FirstCol();
-    const isLastCol = tableLook.get_LastCol();
-    const isBandVer = tableLook.get_BandVer();
+    const tableObject = props.storeFocusObjects.tableObject;
+    let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
+    if (tableObject) {
+        tableLook = tableObject.get_TableLook();
+        isFirstRow = tableLook.get_FirstRow();
+        isLastRow = tableLook.get_LastRow();
+        isBandHor = tableLook.get_BandHor();
+        isFirstCol = tableLook.get_FirstCol();
+        isLastCol = tableLook.get_LastCol();
+        isBandVer = tableLook.get_BandVer();
+    }
     return (
         <Page>
             <Navbar title={_t.textOptions} backLink={_t.textBack}/>
@@ -217,9 +241,12 @@ const PageCustomFillColor = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
-    let fillColor = props.storeTableSettings.getFillColor(tableObject);
-    if (typeof fillColor === 'object') {
-        fillColor = fillColor.color;
+    let fillColor;
+    if (tableObject) {
+        fillColor = props.storeTableSettings.getFillColor(tableObject);
+        if (typeof fillColor === 'object') {
+            fillColor = fillColor.color;
+        }
     }
     const onAddNewColor = (colors, color) => {
         props.storePalette.changeCustomColors(colors);
@@ -405,6 +432,13 @@ const PageStyle = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const templates = storeTableSettings.styles;
+
+    const tableObject = props.storeFocusObjects.tableObject;
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar backLink={_t.textBack}>

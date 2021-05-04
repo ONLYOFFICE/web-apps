@@ -2,8 +2,64 @@
     "Controller" : {
         "Main" : {
             "SDK": {
+                "txtStyle_Normal": "Normal",
+                "txtStyle_Heading_1": "Heading 1",
+                "txtStyle_Heading_2": "Heading 2",
+                "txtStyle_Heading_3": "Heading 3",
+                "txtStyle_Heading_4": "Heading 4",
+                "txtStyle_Title": "Title",
+                "txtStyle_Neutral": "Neutral",
+                "txtStyle_Bad": "Bad",
+                "txtStyle_Good": "Good",
+                "txtStyle_Input": "Input",
+                "txtStyle_Output": "Output",
+                "txtStyle_Calculation": "Calculation",
+                "txtStyle_Check_Cell": "Check Cell",
+                "txtStyle_Explanatory_Text": "Explanatory Text",
+                "txtStyle_Note": "Note",
+                "txtStyle_Linked_Cell": "Linked Cell",
+                "txtStyle_Warning_Text": "Warning Text",
+                "txtStyle_Total": "Total",
+                "txtStyle_Currency": "Currency",
+                "txtStyle_Percent": "Percent",
+                "txtStyle_Comma": "Comma",
+                "txtSeries": "Series",
+                "txtDiagramTitle": "Chart Title",
+                "txtXAxis": "X Axis",
+                "txtYAxis": "Y Axis",
+                "txtArt": "Your text here",
+                "txtAccent": "Accent"
             },
-            "textAnonymous": "Anonymous"
+            "textGuest": "Guest",
+            "textAnonymous": "Anonymous",
+            "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
+            "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
+            "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+            "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
+            "textNoLicenseTitle": "License limit reached",
+            "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please contact your administrator.",
+            "warnLicenseLimitedRenewed": "License needs to be renewed. You have a limited access to document editing functionality.<br>Please contact your administrator to get full access",
+            "textBuyNow": "Visit website",
+            "textContactUs": "Contact sales",
+            "textPaidFeature": "Paid feature",
+            "textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader. Please contact our Sales Department to get a quote.",
+            "textClose": "Close",
+
+            "notcriticalErrorTitle": "Warning",
+            "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
+            "textRemember": "Remember my choice",
+            "textYes": "Yes",
+            "textNo": "No",
+
+            "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
+            "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
+            "titleUpdateVersion": "Version changed",
+            "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
+            "titleServerVersion": "Editor updated",
+            "errorProcessSaveResult": "Saving is failed.",
+            "criticalErrorTitle": "Error",
+            "warnProcessRightsChange": "You have been denied the right to edit the file.",
+            "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator."
         }
     },
     "LongActions": {
@@ -346,6 +402,7 @@
         },
         "Settings": {
             "textFindAndReplace": "Find and Replace",
+            "textFindAndReplaceAll": "Find and Replace All",
             "textSpreadsheetSettings": "Spreadsheet Settings",
             "textApplicationSettings": "Application Settings",
             "textDownload": "Download",
@@ -434,7 +491,8 @@
             "textFormulas": "Formulas",
             "textValues": "Values",
             "textNoTextFound": "Text not found",
-            "textReplaceAll": "Replace All"
+            "textReplaceAll": "Replace All",
+            "textCollaboration": "Collaboration"
         }
     },
     "Statusbar": {

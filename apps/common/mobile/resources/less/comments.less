@@ -23,6 +23,7 @@
 #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
   .dialog {
     --f7-dialog-width: 400px;
+    z-index: 13700;
     .dialog-inner {
       padding: 0;
       height: 400px;
@@ -193,5 +194,11 @@
           }
       }
     }
+  }
+}
+
+.dialog-backdrop.backdrop-in {
+  &.over-popover {
+    z-index: 13600;
   }
 }

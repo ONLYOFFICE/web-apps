@@ -7,6 +7,9 @@ const LongActionsController = () => {
     const {t} = useTranslation();
     const _t = t("LongActions", {returnObjects: true});
 
+    const ApplyEditRights = -255;
+    const LoadingDocument = -256;
+
     const stackLongActions = new IrregularStack({
         strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
         weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
@@ -118,6 +121,11 @@ const LongActionsController = () => {
                 text    = _t.uploadImageTextText;
                 break;
 
+            case Asc.c_oAscAsyncAction['LoadTheme']:
+                title   = _t.loadThemeTitleText;
+                text    = _t.loadThemeTextText;
+                break;
+
             case Asc.c_oAscAsyncAction['ApplyChanges']:
                 title   = _t.applyChangesTitleText;
                 text    = _t.applyChangesTextText;
@@ -151,7 +159,7 @@ const LongActionsController = () => {
         }
 
         if (action.type === Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges']) {
+            if (action.id === Asc.c_oAscAsyncAction['ApplyChanges'] || action.id === Asc.c_oAscAsyncAction['LoadDocumentFonts']) {
                 return;
             }
 
@@ -161,7 +169,6 @@ const LongActionsController = () => {
                 loadMask = f7.dialog.preloader(title);
             }
         }
-
     };
 
     const onOpenDocument = (progress) => {
