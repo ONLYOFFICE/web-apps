@@ -16,7 +16,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                 api.asc_registerCallback("asc_onPluginShow", showPluginModal);
                 api.asc_registerCallback("asc_onPluginClose", pluginClose);
                 api.asc_registerCallback("asc_onPluginResize", pluginResize);
-                api.asc_registerCallback('asc_onPluginsInit', registerPlugins);
+                api.asc_registerCallback('asc_onPluginsInit', onPluginsInit);
 
                 if(!storeAppOptions.customization || storeAppOptions.plugins !== false) {
                     loadPlugins();
@@ -34,7 +34,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
             api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
             api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
-            api.asc_unregisterCallback('asc_onPluginsInit', registerPlugins);
+            api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
 
             Common.Gateway.off('init', loadConfig);
         };
@@ -180,6 +180,11 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
     const loadConfig = data => {
         configPlugins.config = data.config.plugins;
+    };
+
+    const onPluginsInit = pluginsdata => {
+        !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
+        registerPlugins(pluginsdata)
     };
 
     const registerPlugins = plugins => {
