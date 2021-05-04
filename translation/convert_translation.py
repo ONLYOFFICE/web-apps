@@ -104,7 +104,8 @@ for i in range(len(app_names)):
             if os.path.isdir(src_path):
                 add_langs = os.listdir(src_path)
                 for l in range(len(langs)):
-                    add_langs.remove(langs[l])
+                    if add_langs.count(langs[l])>0:
+			add_langs.remove(langs[l])
                 for l in range(len(add_langs)):
                     lang = add_langs[l]
                     shutil.copyfile(src_path + lang, dest_path + lang)
