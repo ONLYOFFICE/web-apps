@@ -1715,6 +1715,10 @@
 		"a": "(Suchkriterium; Matrix; Spaltenindex; [Bereich_Verweis])",
 		"d": "Nachschlage- und Verweisfunktion - führt eine vertikale Suche nach einem Wert in der linken Spalte einer Tabelle oder eines Arrays aus und gibt den Wert in derselben Zeile basierend auf einer angegebenen Spaltenindexnummer zurück"
 	},
+	"XLOOKUP": {
+		"a": "(Suchkriterium; Suchmatrix; Rückgabematrix; [wenn_nicht_gefunden]; [Vergleichsmodus]; [Suchmodus])",
+		"d": "Nachschlage- und Verweisfunktion - durchsucht einen Bereich oder ein Array und gibt dann das Element zurück, das der ersten gefundenen Übereinstimmung entspricht; wenn keine Übereinstimmung vorhanden ist, kann XVERWEIS die nächste (ungefähre) Übereinstimmung zurückgeben"
+	},	
 	"CELL": {
 		"a": "(info_type; [reference])",
 		"d": "Informationsfunktion - werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben"
