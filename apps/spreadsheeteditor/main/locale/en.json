@@ -2690,7 +2690,7 @@
   "SSE.Views.Spellcheck.textIgnore": "Ignore",
   "SSE.Views.Spellcheck.textIgnoreAll": "Ignore All",
   "SSE.Views.Spellcheck.txtAddToDictionary": "Add To Dictionary",
-  "SSE.Views.Spellcheck.txtComplete": "Spellcheck has been complete",
+  "SSE.Views.Spellcheck.txtComplete": "Spellcheck has been completed",
   "SSE.Views.Spellcheck.txtDictionaryLanguage": "Dictionary Language",
   "SSE.Views.Spellcheck.txtNextTip": "Go to the next word",
   "SSE.Views.Spellcheck.txtSpelling": "Spelling",
