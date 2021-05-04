@@ -118,7 +118,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                        <ListItem disabled={appOptions.readerMode ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }

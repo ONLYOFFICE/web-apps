@@ -441,6 +441,9 @@ const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const canFill = props.storeFocusObjects.shapeObject.get_ShapeProperties().get_CanFill();
+    const storeShapeSettings = props.storeShapeSettings;
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    const wrapType = storeShapeSettings.getWrapType(shapeObject);
     return (
         <Fragment>
             <List>
@@ -466,7 +469,7 @@ const EditShape = props => {
                 <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
                     onReplace: props.onReplace
                 }}></ListItem>
-                <ListItem title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                <ListItem disabled={wrapType === 'inline' ? true : false } title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
@@ -477,7 +480,7 @@ const EditShape = props => {
     )
 };
 
-const EditShapeContainer = inject("storeFocusObjects")(observer(EditShape));
+const EditShapeContainer = inject("storeFocusObjects","storeShapeSettings")(observer(EditShape));
 const PageShapeStyle = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyle));
 const PageShapeStyleNoFill = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyleNoFill));
 const PageShapeCustomFillColor = inject("storeFocusObjects", "storeShapeSettings", "storePalette")(observer(PageCustomFillColor));
