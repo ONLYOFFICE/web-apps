@@ -34,6 +34,12 @@ const EditImage = props => {
 const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -59,6 +65,12 @@ const PageReorder = props => {
 const PageAlign = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -98,6 +110,12 @@ const PageAlign = props => {
 const PageReplace = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+    
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page className="images">
