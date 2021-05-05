@@ -100,7 +100,7 @@ define([
                     '</div>',
                     '<div style="float: right;">',
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
-                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
+                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
                 '</div>'
             ].join('');
