@@ -122,6 +122,9 @@ const PageStyle = props => {
     const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
     const types = storeChartSettings.types;
     const curType = chartProperties ? chartProperties.getType() : null;
+    const chartStyles = storeChartSettings.chartStyles;
+    // console.log(chartStyles, curType);
+    // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom);
 
     const styles = storeChartSettings.styles;
 
@@ -154,7 +157,7 @@ const PageStyle = props => {
             <Navbar backLink={_t.textBack}>
                 <div className="tab-buttons tabbar">
                     <Link key={"de-link-chart-type"}  tabLink={"#edit-chart-type"} tabLinkActive={true}>{_t.textType}</Link>
-                    <Link key={"de-link-chart-style"}  tabLink={"#edit-chart-style"}>{_t.textStyle}</Link>
+                    {chartStyles ? <Link key={"de-link-chart-style"}  tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
                     <Link key={"de-link-chart-fill"}  tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"de-link-chart-border"}  tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
                 </div>
@@ -181,26 +184,28 @@ const PageStyle = props => {
                         })}
                     </div>
                 </Tab>
-                <Tab key={"de-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
-                    <div className={'chart-styles'}>
-                        {styles ? styles.map((row, rowIndex) => {
-                            return (
-                                <ul className="row" key={`row-${rowIndex}`}>
-                                    {row.map((style, index)=>{
-                                        return(
-                                            <li key={`${rowIndex}-${index}`}
-                                                onClick={()=>{props.onStyle(style.asc_getName())}}>
-                                                <img src={`${style.asc_getImage()}`}/>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            )
-                        }) :
-                            <div className={'text-content'}>{_t.textNoStyles}</div>
-                        }
-                    </div>
-                </Tab>
+                {chartStyles ? 
+                    <Tab key={"de-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
+                        <div className={'chart-styles'}>
+                            {styles ? styles.map((row, rowIndex) => {
+                                return (
+                                    <ul className="row" key={`row-${rowIndex}`}>
+                                        {row.map((style, index)=>{
+                                            return(
+                                                <li key={`${rowIndex}-${index}`}
+                                                    onClick={()=>{props.onStyle(style.asc_getName())}}>
+                                                    <img src={`${style.asc_getImage()}`}/>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                )
+                            }) :
+                                <div className={'text-content'}>{_t.textNoStyles}</div>
+                            }
+                        </div>
+                    </Tab>
+                : null}
                 <Tab key={"de-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">
                     <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
                 </Tab>
@@ -372,6 +377,7 @@ const PageReorder = props => {
 const EditChart = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+
     return (
         <Fragment>
             <List>

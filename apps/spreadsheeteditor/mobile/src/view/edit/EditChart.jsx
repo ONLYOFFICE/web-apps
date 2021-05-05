@@ -137,6 +137,9 @@ const PageStyle = props => {
     const styles = storeChartSettings.styles;
     const types = storeChartSettings.types;
     const curType = chartProperties && chartProperties.getType();
+    const chartStyles = storeChartSettings.chartStyles;
+    // console.log(chartStyles, curType);
+    // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom); 
 
     // Init border size
 
@@ -171,7 +174,7 @@ const PageStyle = props => {
             <Navbar backLink={_t.textBack}>
                 <div className="tab-buttons tabbar">
                     <Link key={"sse-link-chart-type"} tabLink={"#edit-chart-type"} tabLinkActive={true}>{_t.textType}</Link>
-                    <Link key={"sse-link-chart-style"} tabLink={"#edit-chart-style"}>{_t.textStyle}</Link>
+                    {chartStyles ? <Link key={"sse-link-chart-style"} tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
                     <Link key={"sse-link-chart-fill"} tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"sse-link-chart-border"} tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
                 </div>
@@ -196,26 +199,28 @@ const PageStyle = props => {
                         })}
                     </div>
                 </Tab>
-                <Tab key={"sse-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
-                    <div className={'chart-styles'}>
-                        {styles ? styles.map((row, rowIndex) => {
-                            return (
-                                <ul className="row" key={`row-${rowIndex}`}>
-                                    {row.map((style, index)=>{
-                                        return(
-                                            <li key={`${rowIndex}-${index}`}
-                                                onClick={() => {props.onStyle(style.asc_getName())}}>
-                                                <img src={`${style.asc_getImage()}`}/>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            )
-                        }) :
-                            <div className={'text-content'}>{_t.textNoStyles}</div>
-                        }
-                    </div>
-                </Tab>
+                {chartStyles ? 
+                    <Tab key={"sse-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
+                        <div className={'chart-styles'}>
+                            {styles ? styles.map((row, rowIndex) => {
+                                return (
+                                    <ul className="row" key={`row-${rowIndex}`}>
+                                        {row.map((style, index)=>{
+                                            return(
+                                                <li key={`${rowIndex}-${index}`}
+                                                    onClick={() => {props.onStyle(style.asc_getName())}}>
+                                                    <img src={`${style.asc_getImage()}`}/>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                )
+                            }) :
+                                <div className={'text-content'}>{_t.textNoStyles}</div>
+                            }
+                        </div>
+                    </Tab>
+                : null}
                 <Tab key={"sse-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">
                     <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
                 </Tab>
