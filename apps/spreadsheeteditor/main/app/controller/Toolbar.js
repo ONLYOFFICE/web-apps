@@ -1088,32 +1088,36 @@ define([
                     var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
                     props = me.api.asc_getChartObject(true); // don't lock chart object
                     if (props) {
-                        (ischartedit) ? props.changeType(type) : props.putType(type);
-                        var range = props.getRange(),
-                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
-                        if (isvalid == Asc.c_oAscError.ID.No) {
-                            !ischartedit && me.api.asc_addChartDrawingObject(props);
-                        } else {
-                            var msg = me.txtInvalidRange;
-                            switch (isvalid) {
-                                case isvalid == Asc.c_oAscError.ID.StockChartError:
-                                    msg = me.errorStockChart;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
-                                    msg = me.errorMaxRows;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
-                                    msg = me.errorComboSeries;
-                                    break;
-                            }
-                            Common.UI.warning({
-                                msg: msg,
-                                callback: function() {
-                                    _.defer(function(btn) {
-                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                    })
+                        if (ischartedit)
+                            props.changeType(type);
+                        else {
+                            props.putType(type);
+                            var range = props.getRange(),
+                                isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
+                            if (isvalid == Asc.c_oAscError.ID.No) {
+                                me.api.asc_addChartDrawingObject(props);
+                            } else {
+                                var msg = me.txtInvalidRange;
+                                switch (isvalid) {
+                                    case Asc.c_oAscError.ID.StockChartError:
+                                        msg = me.errorStockChart;
+                                        break;
+                                    case Asc.c_oAscError.ID.MaxDataSeriesError:
+                                        msg = me.errorMaxRows;
+                                        break;
+                                    case Asc.c_oAscError.ID.ComboSeriesError:
+                                        msg = me.errorComboSeries;
+                                        break;
                                 }
-                            });
+                                Common.UI.warning({
+                                    msg: msg,
+                                    callback: function() {
+                                        _.defer(function(btn) {
+                                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                        })
+                                    }
+                                });
+                            }
                         }
                     }
                 }
