@@ -689,6 +689,22 @@
             });
         };
 
+        var _grabFocus = function(data) {
+            setTimeout(function(){
+                _sendCommand({
+                    command: 'grabFocus',
+                    data: data
+                });
+            }, 10);
+        };
+
+        var _blurFocus = function(data) {
+            _sendCommand({
+                command: 'blurFocus',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -721,7 +737,9 @@
             setMailMergeRecipients: _setMailMergeRecipients,
             setRevisedFile      : _setRevisedFile,
             setFavorite         : _setFavorite,
-            requestClose        : _requestClose
+            requestClose        : _requestClose,
+            grabFocus           : _grabFocus,
+            blurFocus           : _blurFocus
         }
     };
 

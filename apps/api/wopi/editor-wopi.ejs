@@ -65,7 +65,8 @@ div {
         var postMessageOrigin;
         var lang = "en-US";
         var startTime;
-        var editNotificationPostMessage;
+        var documentChanged;
+        var sendNotificationTimer;
 
         var innerAlert = function (message) {
             if (console && console.log)
@@ -75,11 +76,11 @@ div {
         var commandMap = {
             'Blur_Focus': function (data) {
                 innerAlert('Blur_Focus');
-//                docEditor.blurFocus();
+                docEditor.blurFocus();
             },
             'Grab_Focus': function (data) {
                 innerAlert('Grab_Focus');
-//                docEditor.grabFocus();
+                docEditor.grabFocus();
             },
             'Host_PostmessageReady': function (data) {
                 innerAlert('Host_PostmessageReady');
@@ -101,7 +102,6 @@ div {
         };
 
         var _onMessage = function(msg) {
-            // TODO: check message origin
             if (msg.origin !== postMessageOrigin) return;
 
             var data = msg.data;
@@ -118,9 +118,9 @@ div {
             }
 
             if (cmd) {
-                handler = commandMap[cmd.command];
+                handler = commandMap[cmd.MessageId];
                 if (handler) {
-                    handler.call(this, cmd.data);
+                    handler.call(this, cmd);
                 }
             }
         };
@@ -140,9 +140,18 @@ div {
             innerAlert("App ready");
         };
 
+        var sendEditNotification = function () {
+            documentChanged && _postMessage('Edit_Notification', {});
+            documentChanged = false;
+        };
+
         var onDocumentStateChange = function (event) {
-            if (editNotificationPostMessage && event.data) {
-                _postMessage('Edit_Notification', {});
+            if (event.data) {
+                documentChanged = true;
+                if (sendNotificationTimer===undefined) {
+                    sendNotificationTimer = setInterval(sendEditNotification, 30000);
+                    sendEditNotification();
+                }
             }
         };
 
@@ -226,7 +235,7 @@ div {
 				},
 				events: {
                         "onAppReady": onAppReady,
-                        "onDocumentStateChange": onDocumentStateChange,
+                        "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
                         'onRequestEditRights': fileInfo.EditModePostMessage ? onRequestEditRights : undefined,
                         "onError": onError,
                         "onRequestClose": fileInfo. ClosePostMessage ? onRequestClose : undefined,
@@ -236,8 +245,9 @@ div {
 			};
 
             postMessageOrigin = fileInfo.PostMessageOrigin;
+            if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
+                postMessageOrigin = postMessageOrigin.substring(0, postMessageOrigin.length - 1);
             lang = config.editorConfig.lang;
-            editNotificationPostMessage = fileInfo.EditNotificationPostMessage;
 
             startTime = Date.now();
             docEditor = new DocsAPI.DocEditor("iframeEditor", config);

@@ -199,6 +199,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
                     this.getApplication().getController('Viewport').setApi(this.api);
@@ -2325,6 +2326,10 @@ define([
 
             generateUserColor: function(color) {
                 return"#"+("000000"+color.toString(16)).substr(-6);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             // Translation

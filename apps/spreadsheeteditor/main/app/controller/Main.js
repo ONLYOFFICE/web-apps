@@ -226,6 +226,7 @@ define([
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
+                Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                 Common.Gateway.appReady();
 
                 this.getApplication().getController('Viewport').setApi(this.api);
@@ -2522,6 +2523,10 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

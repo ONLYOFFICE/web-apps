@@ -130,6 +130,14 @@ if (window.Common === undefined) {
 
             'requestClose': function(data) {
                 $me.trigger('requestclose', data);
+            },
+
+            'blurFocus': function(data) {
+                $me.trigger('blurfocus', data);
+            },
+
+            'grabFocus': function(data) {
+                $me.trigger('grabfocus', data);
             }
         };
 
