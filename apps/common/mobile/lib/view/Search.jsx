@@ -273,7 +273,7 @@ class SearchView extends Component {
                 {isIos ? <div className="searchbar-bg"></div> : null}
                 <div className="searchbar-inner">
                     <div className="buttons-row searchbar-inner__left">
-                        <a id="idx-btn-search-settings" className="link icon-only" onClick={this.onSettingsClick}>
+                        <a id="idx-btn-search-settings" className="link icon-only no-fastclick" onClick={this.onSettingsClick}>
                             <i className="icon icon-settings" />
                         </a>
                     </div>
@@ -305,10 +305,10 @@ class SearchView extends Component {
                             ) : null}
                         </div>
                         <div className="buttons-row">
-                            <a className={"link icon-only prev " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>
+                            <a className={"link icon-only prev no-fastclick " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>
                                 <i className="icon icon-prev" />
                             </a>
-                            <a className={"link icon-only next " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_FORWARD)}>
+                            <a className={"link icon-only next no-fastclick " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_FORWARD)}>
                                 <i className="icon icon-next" />
                             </a>
                         </div>
