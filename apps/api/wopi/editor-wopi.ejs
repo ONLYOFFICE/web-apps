@@ -205,6 +205,7 @@ div {
                     },
 					"permissions": {
 						"edit": !fileInfo.ReadOnly && fileInfo.UserCanWrite,
+                        "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint
 					}
