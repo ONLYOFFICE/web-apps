@@ -15,7 +15,8 @@ def sortByAlphabet(inputStr):
     return inputStr.lower()
 
 app_names = ['documenteditor', 'presentationeditor', 'spreadsheeteditor']
-app_types = ['embed', 'main', 'mobile']
+#app_types = ['embed', 'main', 'mobile']
+app_types = ['embed', 'main']
 prefix_apps = '../apps/'
 prefix_src = 'src/'
 prefix_dest = 'dest/'
