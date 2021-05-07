@@ -149,6 +149,12 @@
     --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig.png)";
     --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge.png)";
 
+    @safari-fix-base-path: "resources/img";
+    &.safari {
+        --big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig.png)";
+        --huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge.png)";
+    }
+
     --big-icon-background-image-width: 56px;
     --huge-icon-background-image-width: 80px;
 
