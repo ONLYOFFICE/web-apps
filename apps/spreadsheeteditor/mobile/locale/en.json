@@ -313,6 +313,7 @@
             "textRotateTextDown": "Rotate Text Down",
             "textNoBorder": "No Border",
             "textAllBorders": "All Borders",
+            "textOutsideBorders": "Outside Borders",
             "textBottomBorder": "Bottom Border",
             "textTopBorder": "Top Border",
             "textLeftBorder": "Left Border",
