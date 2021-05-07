@@ -1688,7 +1688,7 @@
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Отображать изменения при совместной работе",
   "DE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Включить проверку орфографии",
   "DE.Views.FileMenuPanels.Settings.strStrict": "Строгий",
-  "DE.Views.FileMenuPanels.Settings.strTheme": "Тема",
+  "DE.Views.FileMenuPanels.Settings.strTheme": "Тема интерфейса",
   "DE.Views.FileMenuPanels.Settings.strUnit": "Единица измерения",
   "DE.Views.FileMenuPanels.Settings.strZoom": "Стандартное значение масштаба",
   "DE.Views.FileMenuPanels.Settings.text10Minutes": "Каждые 10 минут",

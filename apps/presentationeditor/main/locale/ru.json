@@ -1325,7 +1325,7 @@
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Отображать изменения при совместной работе",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Включить проверку орфографии",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Строгий",
-  "PE.Views.FileMenuPanels.Settings.strTheme": "Тема",
+  "PE.Views.FileMenuPanels.Settings.strTheme": "Тема интерфейса",
   "PE.Views.FileMenuPanels.Settings.strUnit": "Единица измерения",
   "PE.Views.FileMenuPanels.Settings.strZoom": "Стандартное значение масштаба",
   "PE.Views.FileMenuPanels.Settings.text10Minutes": "Каждые 10 минут",

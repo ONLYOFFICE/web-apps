@@ -48,6 +48,7 @@
   "Common.define.chartData.textSurface": "表面",
   "Common.define.chartData.textWinLossSpark": "勝ち/負け",
   "Common.Translation.warnFileLocked": "文書が別のアプリで使用されています。編集を続けて、コピーとして保存できます。",
+  "Common.Translation.warnFileLockedBtnEdit": "コピーを作成する",
   "Common.UI.ColorButton.textAutoColor": "自動",
   "Common.UI.ColorButton.textNewColor": "ユーザー設定の色の追加",
   "Common.UI.ComboBorderSize.txtNoBorders": "枠線なし",
