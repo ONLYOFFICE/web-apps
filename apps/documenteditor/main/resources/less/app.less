@@ -195,12 +195,16 @@
 
 // Skeleton of document
 
+#editor-container {
+    background-color: @canvas-background;
+}
+
 .doc-placeholder {
-    background: #fbfbfb;
+    background: @canvas-content-background;
     width: 794px;
     margin: 46px auto;
     height: 100%;
-    border: 1px solid #bebebe;
+    border: 1px solid @canvas-page-border;
     padding-top: 50px;
     position: absolute;
     left: 0;
@@ -212,7 +216,7 @@
     > .line {
         height: 15px;
         margin: 30px 80px;
-        background: #e2e2e2;
+        background: fade(#000, 5%);
         overflow: hidden;
         position: relative;
     }
