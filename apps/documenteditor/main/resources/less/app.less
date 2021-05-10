@@ -144,37 +144,38 @@
 @import "sprites/iconssmall@1.5x";
 @import "sprites/iconsbig@1.5x";
 @import "sprites/iconshuge@1.5x";
+@import "sprites/iconshuge@2x";
 
 :root {
-    --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig.png)";
-    --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge.png)";
+    //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig.png)";
+    //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge.png)";
 
     --big-icon-background-image-width: 56px;
     --huge-icon-background-image-width: 80px;
 
-    @safari-fix-base-path: "resources/img";
+    //@safari-fix-base-path: "resources/img";
     .safari {
-        --big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig.png)";
-        --huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge.png)";
+        //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig.png)";
+        //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge.png)";
     }
 
     .pixel-ratio__1_5 {
-        --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@1.5x.png)";
-        --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@1.5x.png)";
+        //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@1.5x.png)";
+        //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@1.5x.png)";
 
         &.safari {
-            --big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@1.5x.png)";
-            --huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@1.5x.png)";
+            //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@1.5x.png)";
+            //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@1.5x.png)";
         }
     }
 
     .pixel-ratio__2 {
-        --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@2x.png)";
-        --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@2x.png)";
+        //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@2x.png)";
+        //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@2x.png)";
 
         &.safari {
-            --big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@2x.png)";
-            --huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@2x.png)";
+            //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@2x.png)";
+            //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@2x.png)";
         }
     }
 
