@@ -1537,7 +1537,7 @@ define([
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
                 if (this.api)
-                    this.api.asc_addImage();
+                    setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
