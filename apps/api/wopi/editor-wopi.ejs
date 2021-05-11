@@ -168,7 +168,7 @@ div {
         };
 
         var onRequestEditRights = function () {
-            _postMessage('UI_Edit', {});
+			_postMessage('UI_Edit', {});
         };
 
         var requestSharingSettings = function (event) {
@@ -239,9 +239,9 @@ div {
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
                     'onRequestEditRights': fileInfo.EditModePostMessage ? onRequestEditRights : undefined,
                     "onError": onError,
-                    "onRequestClose": fileInfo. ClosePostMessage ? onRequestClose : undefined,
+                    "onRequestClose": fileInfo.ClosePostMessage ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
-                    "requestSharingSettings": fileInfo.FileSharingPostMessage  ? requestSharingSettings : undefined
+                    "onRequestSharingSettings": fileInfo.FileSharingPostMessage  ? requestSharingSettings : undefined
                 }
 			};
 
