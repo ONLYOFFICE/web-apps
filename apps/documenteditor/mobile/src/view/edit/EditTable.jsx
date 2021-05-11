@@ -158,7 +158,8 @@ const PageWrap = props => {
 // Style
 
 const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyleClick, storeFocusObjects}) => {
-    const styleId = storeFocusObjects.tableObject.get_TableStyle();
+    const tableObject = storeFocusObjects.tableObject;
+    const styleId = tableObject && tableObject.get_TableStyle();
     const [stateId, setId] = useState(styleId);
 
     const widthContainer = document.querySelector(".page-content").clientWidth;

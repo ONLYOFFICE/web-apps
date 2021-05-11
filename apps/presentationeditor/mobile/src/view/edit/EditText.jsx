@@ -193,6 +193,12 @@ const PageFonts = props => {
         });
     };
 
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textFonts} backLink={_t.textBack} />
@@ -252,6 +258,12 @@ const PageFontColor = props => {
             props.f7router.navigate('/edit-text-custom-font-color/', {props: {onTextColor: props.onTextColor}});
         }
     };
+
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -315,6 +327,11 @@ const PageAdditionalFormatting = props => {
         letterSpacing = (paragraphObj.get_TextSpacing() === null || paragraphObj.get_TextSpacing() === undefined) ? paragraphObj.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_TextSpacing());
     }
 
+    if (!paragraphObj && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textAdditional} backLink={_t.textBack} />
@@ -366,6 +383,12 @@ const PageBullets = props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
 
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page className='bullets dataview'>
             <Navbar title={_t.textBullets} backLink={_t.textBack} />
@@ -408,6 +431,12 @@ const PageNumbers = props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
 
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page className='numbers dataview'>
             <Navbar title={_t.textNumbers} backLink={_t.textBack} />
@@ -435,6 +464,12 @@ const PageLineSpacing = props => {
     const storeTextSettings = props.storeTextSettings;
     const lineSpacing = storeTextSettings.lineSpacing;
 
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    if (!paragraph && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textLineSpacing} backLink={_t.textBack} />
@@ -452,12 +487,12 @@ const PageLineSpacing = props => {
 
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
-const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
+const PageTextFontColor = inject("storeTextSettings", "storePalette", "storeFocusObjects")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
-const PageTextBullets = inject("storeTextSettings")(observer(PageBullets));
-const PageTextNumbers = inject("storeTextSettings")(observer(PageNumbers));
-const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
+const PageTextBullets = inject("storeTextSettings", "storeFocusObjects")(observer(PageBullets));
+const PageTextNumbers = inject("storeTextSettings", "storeFocusObjects")(observer(PageNumbers));
+const PageTextLineSpacing = inject("storeTextSettings", "storeFocusObjects")(observer(PageLineSpacing));
 
 export {
     EditTextContainer as EditText,

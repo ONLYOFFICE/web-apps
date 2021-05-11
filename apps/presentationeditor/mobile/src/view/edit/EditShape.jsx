@@ -87,26 +87,27 @@ const PageStyle = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = storeFocusObjects.shapeObject;
-    const stroke = shapeObject.get_stroke();
-    
+
+    let borderSize, borderType, transparent;
+    if (shapeObject) {
+        const stroke = shapeObject.get_stroke();
+        borderSize = stroke.get_width() * 72.0 / 25.4;
+        borderType = stroke.get_type();
+        transparent = shapeObject.get_fill().asc_getTransparent();
+    }
+
     // Init border size
-    
     const borderSizeTransform = storeShapeSettings.borderSizeTransform();
-    const borderSize = stroke.get_width() * 72.0 / 25.4;
-    const borderType = stroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
     
     // Init border color
-    
     const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
     
     // Init opacity
-    
-    const transparent = shapeObject.get_fill().asc_getTransparent();
     const opacity = transparent !== null && transparent !== undefined ? transparent / 2.55 : 100;
     const [stateOpacity, setOpacity] = useState(Math.round(opacity));
 
@@ -201,16 +202,21 @@ const PageStyleNoFill = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
-    const shapeObject = props.storeFocusObjects.shapeObject;
-    const stroke = shapeObject.get_stroke();
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
+
+    let borderSize, borderType;
+    if (shapeObject) {
+        const stroke = shapeObject.get_stroke();
+        borderSize = stroke.get_width() * 72.0 / 25.4;
+        borderType = stroke.get_type();
+    }
 
     // Init border size
 
     const borderSizeTransform = storeShapeSettings.borderSizeTransform();
-    const borderSize = stroke.get_width() * 72.0 / 25.4;
-    const borderType = stroke.get_type();
-    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
-    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE || borderType === undefined) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
 
@@ -218,6 +224,11 @@ const PageStyleNoFill = props => {
 
     const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    if ((!shapeObject || storeFocusObjects.chartObject) && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>

@@ -128,11 +128,8 @@ const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
-    // const chartProperties = props.storeFocusObjects.chartObject;
     const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
-    // console.log(chartProperties);
     const types = storeChartSettings.types;
-    // const curType = chartProperties.getType();
     const curType = chartProperties ? chartProperties.getType() : null;
     const styles = storeChartSettings.styles;
     const shapeObject = props.storeFocusObjects.shapeObject;
@@ -140,7 +137,6 @@ const PageStyle = props => {
     let borderSize, borderType, borderColor;
 
     if(shapeObject) {
-        // const shapeStroke = shapeObject.get_stroke();
         const shapeStroke = shapeObject.get_stroke();
         borderSize = shapeStroke.get_width() * 72.0 / 25.4;
         borderType = shapeStroke.get_type();

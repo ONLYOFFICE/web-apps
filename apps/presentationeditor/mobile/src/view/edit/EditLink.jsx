@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -8,6 +8,12 @@ const PageTypeLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(props.curType);
+
+    const settings = props.storeFocusObjects.settings;
+    if (settings.indexOf('hyperlink') === -1) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -47,6 +53,12 @@ const PageLinkTo = props => {
         setNumberTo(value);
         props.changeTo(4, value);
     };
+
+    const settings = props.storeFocusObjects.settings;
+    if (settings.indexOf('hyperlink') === -1) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
@@ -178,6 +190,9 @@ const PageLink = props => {
     )
 };
 
+const _PageLinkTo = inject("storeFocusObjects")(observer(PageLinkTo));
+const _PageTypeLink = inject("storeFocusObjects")(observer(PageTypeLink));
+
 export {PageLink as EditLink,
-        PageLinkTo,
-        PageTypeLink}
+        _PageLinkTo as PageLinkTo,
+        _PageTypeLink as PageTypeLink}

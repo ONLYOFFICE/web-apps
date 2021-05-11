@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -8,7 +8,8 @@ import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile
 // Style
 
 const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyleClick, storeFocusObjects}) => {
-    const styleId = storeFocusObjects.tableObject.get_TableStyle();
+    const tableObject = storeFocusObjects.tableObject;
+    const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
 
     const widthContainer = document.querySelector(".page-content").clientWidth;
@@ -22,6 +23,11 @@ const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyle
         }
         styles[row].push(style);
     });
+
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <div className="dataview table-styles">
@@ -47,13 +53,18 @@ const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyle
 const PageStyleOptions = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const tableLook = props.storeFocusObjects.tableObject.get_TableLook();
-    const isFirstRow = tableLook.get_FirstRow();
-    const isLastRow = tableLook.get_LastRow();
-    const isBandHor = tableLook.get_BandHor();
-    const isFirstCol = tableLook.get_FirstCol();
-    const isLastCol = tableLook.get_LastCol();
-    const isBandVer = tableLook.get_BandVer();
+
+    const tableObject = props.storeFocusObjects.tableObject;
+    let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
+    if (tableObject) {
+        tableLook = tableObject.get_TableLook();
+        isFirstRow = tableLook.get_FirstRow();
+        isLastRow = tableLook.get_LastRow();
+        isBandHor = tableLook.get_BandHor();
+        isFirstCol = tableLook.get_FirstCol();
+        isLastCol = tableLook.get_LastCol();
+        isBandVer = tableLook.get_BandVer();
+    }
 
     return (
         <Page>
@@ -88,7 +99,7 @@ const PageCustomFillColor = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
-    let fillColor = props.storeTableSettings.getFillColor(tableObject);
+    let fillColor = tableObject && props.storeTableSettings.getFillColor(tableObject);
 
     if (typeof fillColor === 'object') {
         fillColor = fillColor.color;
@@ -112,7 +123,7 @@ const TabFillColor = inject("storeFocusObjects", "storeTableSettings", "storePal
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
-    const fillColor = props.storeTableSettings.getFillColor(tableObject);
+    const fillColor = tableObject && props.storeTableSettings.getFillColor(tableObject);
     const customColors = props.storePalette.customColors;
 
     const changeColor = (color, effectId, effectValue) => {
@@ -323,6 +334,12 @@ const PageReorder = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
 
+    const tableObject = props.storeFocusObjects.tableObject;
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
     return (
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
@@ -347,6 +364,12 @@ const PageReorder = props => {
 const PageAlign = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+
+    const tableObject = props.storeFocusObjects.tableObject;
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
 
     return (
         <Page>
