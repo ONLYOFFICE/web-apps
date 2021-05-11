@@ -39,7 +39,8 @@ Common.Locale = new(function() {
     var l10n = null;
     var loadcallback,
         apply = false,
-        currentLang = 'en';
+        defLang = '{{DEFAULT_LANG}}',
+        currentLang = defLang;
 
     var _applyLocalization = function(callback) {
         try {
@@ -83,7 +84,7 @@ Common.Locale = new(function() {
     };
 
     var _getCurrentLanguage = function() {
-        return (currentLang || 'en');
+        return (currentLang || defLang);
     };
 
     var _getUrlParameterByName = function(name) {
@@ -94,21 +95,21 @@ Common.Locale = new(function() {
     };
 
     var _requireLang = function () {
-        var lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+        var lang = (_getUrlParameterByName('lang') || defLang).split(/[\-_]/)[0];
         currentLang = lang;
         fetch('locale/' + lang + '.json')
             .then(function(response) {
                 if (!response.ok) {
-                    currentLang = 'en';
-                    if (lang != 'en')
+                    currentLang = defLang;
+                    if (lang != defLang)
                         /* load default lang if fetch failed */
-                        return fetch('locale/en.json');
+                        return fetch('locale/' + defLang + '.json');
 
                     throw new Error('server error');
                 }
                 return response.json();
             }).then(function(response) {
-                if ( response.then )
+                if ( response.json )
                     return response.json();
                 else {
                     l10n = response;
