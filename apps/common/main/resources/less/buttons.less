@@ -906,10 +906,6 @@
     &.template-table {
         width: 92px;
     }
-    &.sheet-template-table {
-        width: 83px;
-        height: 54px;
-    }
 
     .icon-template-slicer.icon {
         min-width: 36px;
@@ -928,6 +924,17 @@
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
+    }
+
+    &.sheet-template-table {
+        width: 83px;
+        height: 54px;
+
+        .icon {
+            border: none;
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+        }
     }
 
     svg.icon {
