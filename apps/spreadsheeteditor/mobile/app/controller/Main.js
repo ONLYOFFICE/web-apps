@@ -1603,10 +1603,10 @@ define([
 
             onLanguageLoaded: function() {
                 if (!Common.Locale.getCurrentLanguage()) {
-                    uiApp.alert(
-                        this.errorLang,
-                        this.notcriticalErrorTitle
-                    );
+                    uiApp.modal({
+                        title   : this.notcriticalErrorTitle,
+                        text    : this.errorLang
+                    });
                     return false;
                 }
                 return true;

@@ -2456,8 +2456,8 @@ define([
                 if (!Common.Locale.getCurrentLanguage()) {
                     Common.UI.warning({
                         msg: this.errorLang,
-                        callback: function() {
-                        }
+                        buttons: [],
+                        closable: false
                     });
                     return false;
                 }
