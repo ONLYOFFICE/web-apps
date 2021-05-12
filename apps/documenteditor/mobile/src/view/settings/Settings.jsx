@@ -122,8 +122,8 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    {window.matchMedia("(max-width: 389px)").matches ? 
-                        <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration}>
+                    {window.matchMedia("(max-width: 359px)").matches ?
+                        <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration} className='no-indicator'>
                             <Icon slot="media" icon="icon-collaboration"></Icon>
                         </ListItem> 
                     : null}
