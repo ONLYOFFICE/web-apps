@@ -84,7 +84,11 @@ Common.Locale = new(function() {
     };
 
     var _getCurrentLanguage = function() {
-        return (currentLang || defLang);
+        return currentLang;
+    };
+
+    var _getLoadedLanguage = function() {
+        return loadedLang;
     };
 
     var _getUrlParameterByName = function(name) {
@@ -109,9 +113,12 @@ Common.Locale = new(function() {
                 }
                 return response.json();
             }).then(function(response) {
-                if ( response.json )
+                if ( response.json ) {
+                    if (!response.ok)
+                        throw new Error('server error');
+
                     return response.json();
-                else {
+                } else {
                     l10n = response;
                     /* to break promises chain */
                     throw new Error('loaded');
@@ -123,8 +130,10 @@ Common.Locale = new(function() {
                 l10n = l10n || {};
                 apply && _applyLocalization();
                 if ( e.message == 'loaded' ) {
-                } else
+                } else {
+                    currentLang = null;
                     console.log('fetch error: ' + e);
+                }
             });
     };
 

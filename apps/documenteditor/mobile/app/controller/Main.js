@@ -783,7 +783,7 @@ define([
                 if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                     me._state.licenseType = licType;
 
-                if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( me.onServerVersion(params.asc_getBuildVersion()) || !me.onLanguageLoaded()) return;
 
                 me.appOptions.permissionsLicense = licType;
                 me.permissions.review         = (me.permissions.review === undefined) ? (me.permissions.edit !== false) : me.permissions.review;
@@ -1497,6 +1497,17 @@ define([
                 }
             },
 
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    uiApp.alert(
+                        this.errorLang,
+                        this.notcriticalErrorTitle
+                    );
+                    return false;
+                }
+                return true;
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -1643,7 +1654,8 @@ define([
             txtEvenPage: "Even Page",
             txtOddPage: "Odd Page",
             txtSameAsPrev: "Same as Previous",
-            txtCurrentDocument: "Current Document"
+            txtCurrentDocument: "Current Document",
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });
