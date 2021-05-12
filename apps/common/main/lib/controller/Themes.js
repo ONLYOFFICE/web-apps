@@ -254,7 +254,7 @@ define([
             },
 
             setTheme: function (id, force) {
-                if ( (currentThemeId != id || force) && !!themes_map[id] ) {
+                if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
 
