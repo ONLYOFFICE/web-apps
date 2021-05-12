@@ -176,6 +176,9 @@
                         "speech/config.json",
                         "clipart/config.json",
                     ]
+                },
+                wopi: { // only for wopi
+                    FileNameMaxLength: 250 // max filename length for rename, 250 by default
                 }
             },
             events: {
