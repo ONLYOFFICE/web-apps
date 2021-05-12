@@ -15,7 +15,7 @@ const PageUsers = inject("users")(observer(props => {
     const _t = t('Common.Collaboration', {returnObjects: true});
     const storeUsers = props.users;
     return (
-        <Page name="collab__users">
+        <Page name="collab__users" className='page-users'>
             <Navbar title={_t.textUsers} backLink={_t.textBack}>
                 {Device.phone &&
                 <NavRight>
@@ -29,8 +29,9 @@ const PageUsers = inject("users")(observer(props => {
             <List className="coauth__list">
                 {storeUsers.users.map((model, i) => (
                     <ListItem title={model.asc_getUserName()} key={i}>
-                        <Icon slot="media" icon="coauth__list__icon"
-                              style={{backgroundColor: model.asc_getColor()}}></Icon>
+                        <div slot="media" className='color' style={{backgroundColor: model.asc_getColor()}}>
+                            {storeUsers.getInitials(model.asc_getUserName())}
+                        </div>
                     </ListItem>
                 ))}
             </List>
