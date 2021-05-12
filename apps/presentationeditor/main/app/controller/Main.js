@@ -373,6 +373,8 @@ define([
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("pe-macros-mode", value);
 
+                this.appOptions.wopi = this.editorConfig.wopi;
+                
                 Common.Controllers.Desktop.init(this.appOptions);
             },
 
@@ -1982,6 +1984,11 @@ define([
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
                 this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
+
+                if (this.appOptions.wopi) {
+                    var idx = meta.title.lastIndexOf('.');
+                    Common.Gateway.requestRename(idx>0 ? meta.title.substring(0, idx) : meta.title);
+                }
             },
 
             onPrint: function() {

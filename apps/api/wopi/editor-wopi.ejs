@@ -67,6 +67,7 @@ div {
         var startTime;
         var documentChanged;
         var sendNotificationTimer;
+        var sessionId;
 
         var innerAlert = function (message) {
             if (console && console.log)
@@ -91,7 +92,7 @@ div {
             if (window.parent && window.JSON) {
                 msgData = msgData || {};
                 msgData["ui-language"] = lang;
-                msgData["wdUserSession"] = ""; // ???
+                msgData["wdUserSession"] = sessionId;
                 var msg = {
                     "MessageId": msgId,
                     "SendTime": Date.now(),
@@ -232,6 +233,9 @@ div {
                     "coEditing": {
                         "mode": "fast",
                         "change": false
+                    },
+                    "wopi": {
+                        "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250
                     }
 				},
 				"events": {
@@ -249,6 +253,7 @@ div {
             if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
                 postMessageOrigin = postMessageOrigin.substring(0, postMessageOrigin.length - 1);
             lang = config.editorConfig.lang;
+            sessionId = userAuth.userSessionId;
 
             startTime = Date.now();
             docEditor = new DocsAPI.DocEditor("iframeEditor", config);
