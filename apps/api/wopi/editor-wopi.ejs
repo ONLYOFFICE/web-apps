@@ -213,7 +213,8 @@ div {
 				},
 				"editorConfig": {
 					"mode": queryParams.mode,
-					"lang": queryParams.lang || "en-US",
+					"lang": queryParams.lang || queryParams.ui || "en-US",
+					"region": queryParams.rs,
 					"callbackUrl": JSON.stringify(userAuth),
                     "sharingSettingsUrl": fileInfo.FileSharingUrl,
 					"user": {
@@ -228,7 +229,9 @@ div {
                         "customer": {
                             "name": fileInfo.BreadcrumbBrandName,
                             "www": fileInfo.BreadcrumbBrandUrl
-                        }
+                        },
+                        "chat": queryParams.dchat!=="1",
+                        "uiTheme": queryParams.thm==="1" ? "theme-light" : (queryParams.thm==="2" ? "theme-dark" : undefined)
 					},
                     "coEditing": {
                         "mode": "fast",
