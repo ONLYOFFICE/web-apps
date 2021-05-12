@@ -905,17 +905,21 @@ define([
             if (this.appConfig.canRequestSharingSettings) {
                 Common.Gateway.requestSharingSettings();
             } else {
-                var me = this;
-                me._docAccessDlg = new Common.Views.DocumentAccessDialog({
-                    settingsurl: this.appConfig.sharingSettingsUrl
-                });
-                me._docAccessDlg.on('accessrights', function(obj, rights){
-                    me.setSharingSettings({sharingSettings: rights});
-                }).on('close', function(obj){
-                    me._docAccessDlg = undefined;
-                });
+                if (this.appConfig.wopi) {
+                    window.open(this.appConfig.sharingSettingsUrl, "_blank");
+                } else {
+                    var me = this;
+                    me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                        settingsurl: this.appConfig.sharingSettingsUrl
+                    });
+                    me._docAccessDlg.on('accessrights', function(obj, rights){
+                        me.setSharingSettings({sharingSettings: rights});
+                    }).on('close', function(obj){
+                        me._docAccessDlg = undefined;
+                    });
 
-                me._docAccessDlg.show();
+                    me._docAccessDlg.show();
+                }
             }
         },
 
