@@ -68,6 +68,7 @@ div {
         var documentChanged;
         var sendNotificationTimer;
         var sessionId;
+        var fileInfo;
 
         var innerAlert = function (message) {
             if (console && console.log)
@@ -165,15 +166,24 @@ div {
         };
 
         var onRequestClose = function () {
-            _postMessage('UI_Close', {});
+            if (fileInfo.ClosePostMessage)
+                _postMessage('UI_Close', {});
+            else if (fileInfo.CloseUrl)
+                window.parent.location.href = fileInfo.CloseUrl;
         };
 
         var onRequestEditRights = function () {
-			_postMessage('UI_Edit', {});
+            if (fileInfo.EditModePostMessage)
+                _postMessage('UI_Edit', {});
+            else if (fileInfo.HostEditUrl)
+                window.open(fileInfo.HostEditUrl, "_blank");
         };
 
         var requestSharingSettings = function (event) {
-            _postMessage('UI_Sharing', {});
+            if (fileInfo.FileSharingPostMessage)
+                _postMessage('UI_Sharing', {});
+            else if (fileInfo.FileSharingUrl)
+                window.open(fileInfo.FileSharingUrl, "_blank");
         };
 
         var onError = function (event) {
@@ -182,9 +192,10 @@ div {
         };
 
         var connectEditor = function () {
-		
+
+            fileInfo = <%- JSON.stringify(fileInfo) %>;
+
 			var key = "<%- key %>";
-			var fileInfo = <%- JSON.stringify(fileInfo) %>;
 			var userAuth = <%- JSON.stringify(userAuth) %>;
 			var token = "<%- token %>";
 			var queryParams = <%- JSON.stringify(queryParams) %>;
@@ -208,7 +219,7 @@ div {
 						"edit": !fileInfo.ReadOnly && fileInfo.UserCanWrite,
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
-                        "print": !fileInfo.DisablePrint
+                        "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
 					}
 				},
 				"editorConfig": {
@@ -216,7 +227,6 @@ div {
 					"lang": queryParams.lang || queryParams.ui || "en-US",
 					"region": queryParams.rs,
 					"callbackUrl": JSON.stringify(userAuth),
-                    "sharingSettingsUrl": fileInfo.FileSharingUrl,
 					"user": {
 						"id": fileInfo.UserId,
 						"name": fileInfo.IsAnonymousUser ? "" : fileInfo.UserFriendlyName
@@ -244,11 +254,11 @@ div {
 				"events": {
                     "onAppReady": onAppReady,
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
-                    'onRequestEditRights': fileInfo.EditModePostMessage ? onRequestEditRights : undefined,
+                    'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
                     "onError": onError,
-                    "onRequestClose": fileInfo.ClosePostMessage ? onRequestClose : undefined,
+                    "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
-                    "onRequestSharingSettings": fileInfo.FileSharingPostMessage  ? requestSharingSettings : undefined
+                    "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? requestSharingSettings : undefined
                 }
 			};
 
