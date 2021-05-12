@@ -133,7 +133,11 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                             <Toggle checked={appOptions.readerMode} onChange={() => {props.onReaderMode()}}/>
                         </ListItem>
                     }
-                    {/*ToDo: settings-orthography*/}
+                    {Device.sailfish && _isEdit &&
+                        <ListItem title={_t.textSpellcheck} onClick={() => {props.onOrthographyCheck()}} className='no-indicator' link="#">
+                            <Icon slot="media" icon="icon-spellcheck"></Icon>
+                        </ListItem>
+                    }
                     {_isEdit &&
                         <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
@@ -192,10 +196,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
+                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck}/>
                 </Popup>
         )
     }

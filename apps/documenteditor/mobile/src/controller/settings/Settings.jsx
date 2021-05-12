@@ -71,7 +71,19 @@ const Settings = props => {
         window.open(url, "_blank");
     };
 
-    return <SettingsView usePopover={!Device.phone} openOptions={props.openOptions} onclosed={onviewclosed} onReaderMode={onReaderMode} onPrint={onPrint} showHelp={showHelp}/>
+    const onOrthographyCheck = () => {
+        closeModal();
+        Common.EditorApi.get().asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
+    };
+
+    return <SettingsView usePopover={!Device.phone}
+                         openOptions={props.openOptions}
+                         onclosed={onviewclosed}
+                         onReaderMode={onReaderMode}
+                         onPrint={onPrint}
+                         showHelp={showHelp}
+                         onOrthographyCheck={onOrthographyCheck}
+    />
 };
 
 export default inject("storeAppOptions")(observer(Settings));
