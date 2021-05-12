@@ -49,7 +49,8 @@ class MainController extends Component {
 
     initSdk() {
         const on_load_scripts = () => {
-            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/cell/sdk-all-min.js']);
+            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/common/AllFonts.js',
+                                                           '../../../../../../sdkjs/cell/sdk-all-min.js']);
             let dep_scripts = [
                 '../../../vendor/jquery/jquery.min.js',
                 '../../../vendor/jquery.browser/dist/jquery.browser.min.js',
