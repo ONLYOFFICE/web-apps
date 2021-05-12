@@ -253,8 +253,8 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
-            setTheme: function (id) {
-                if ( !!themes_map[id] ) {
+            setTheme: function (id, force) {
+                if ( (currentThemeId != id || force) && !!themes_map[id] ) {
                     var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
 

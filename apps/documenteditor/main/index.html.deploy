@@ -212,11 +212,12 @@
         window.parentOrigin = params["parentOrigin"];
 
         if ( window.AscDesktopEditor ) {
-            window.desktop = window.AscDesktopEditor;
+            window.native = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
+            window.native.execCommand('webapps:entry', '');
         }
     </script>
 
@@ -229,7 +230,7 @@
     <div id="viewport"></div>
 
     <script>
-        if ( window.desktop ) {
+        if ( window.native ) {
             var logo = document.getElementsByClassName('loading-logo');
             if ( !!logo && logo.length ) {
                 logo[0].setAttribute('style','display:none;');
