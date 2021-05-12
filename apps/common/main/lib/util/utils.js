@@ -587,7 +587,7 @@ Common.Utils.String = new (function() {
         },
 
         htmlEncode: function(string) {
-            return !!_ ? _.escape(string) :
+            return (typeof _ !== 'undefined') ? _.escape(string) :
                             string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         },
 
