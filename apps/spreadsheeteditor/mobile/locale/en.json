@@ -194,6 +194,7 @@
         "menuFreezePanes": "Freeze Panes",
         "menuUnwrap": "Unwrap",
         "menuWrap": "Wrap",
+        "menuMerge": "Merge",
         "menuUnmerge": "Unmerge",
         "menuCell": "Cell",
         "menuShow": "Show",
