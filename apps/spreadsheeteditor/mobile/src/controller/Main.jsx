@@ -35,6 +35,9 @@ class MainController extends Component {
         window.editorType = 'sse';
 
         this.LoadingDocument = -256;
+        this.ApplyEditRights = -255;
+        this.InitApplication = -254;
+        this.isShowOpenDialog = false;
 
         this._state = {
             licenseType: false,
@@ -295,6 +298,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
+        // this.api.asc_registerCallback('asc_onStartAction',                this.onLongActionBegin.bind(this));
+        this.api.asc_registerCallback('asc_onConfirmAction',              this.onConfirmAction.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -319,6 +324,131 @@ class MainController extends Component {
             onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
         });
 
+    }
+
+    // onLongActionBegin(type, id) {
+    //     let action = {id: id, type: type};
+    //     this.setLongActionView(action);
+    // }
+
+    // setLongActionView(action) {
+    //     const _t = this._t;
+    //     let title = '';
+
+    //     switch (action.id) {
+    //         case Asc.c_oAscAsyncAction.Open:
+    //             title = _t.openTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.Save:
+    //             title = _t.saveTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.ForceSaveTimeout:
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.ForceSaveButton:
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.LoadDocumentFonts:
+    //             title = _t.loadFontsTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.LoadDocumentImages:
+    //             title = _t.loadImagesTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.LoadFont:
+    //             title = _t.loadFontTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.LoadImage:
+    //             title = _t.loadImageTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.DownloadAs:
+    //             title = _t.downloadTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.Print:
+    //             title = _t.printTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.UploadImage:
+    //             title = _t.uploadImageTitleText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.Recalc:
+    //             title = _t.titleRecalcFormulas;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction.SlowOperation:
+    //             title = _t.textPleaseWait;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction['PrepareToSave']:
+    //             title = _t.savePreparingText;
+    //             break;
+
+    //         case Asc.c_oAscAsyncAction['Waiting']:
+    //             title = _t.waitText;
+    //             break;
+
+    //         case this.ApplyEditRights:
+    //             title = _t.txtEditingMode;
+    //             break;
+
+    //         case this.LoadingDocument:
+    //             title = _t.loadingDocumentTitleText;
+    //             break;
+    //         default:
+    //             if (typeof action.id == 'string'){
+    //                 title = action.id;
+    //             }
+    //             break;
+    //     }
+
+    //     if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
+    //         // !this.loadMask && (this.loadMask = new Common.UI.LoadMask({owner: $$('#viewport')}));
+    //         // this.loadMask.setTitle(title);
+
+    //         if (!this.isShowOpenDialog) {
+    //             this.api.asc_enableKeyEvents(false);
+    //             // this.loadMask.show();
+    //         }
+    //     }
+    // }
+
+    onConfirmAction(id, apiCallback) {
+        const _t = this._t;
+
+        if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.confirmMoveCellRange,
+                buttons: [
+                    {text: _t.textYes,
+                    onClick: () => {
+                        if (apiCallback) apiCallback(true);
+                    }}, 
+                    {text: _t.textNo,
+                    onClick: () => {
+                        if (apiCallback) apiCallback(false);
+                    }}
+                ],
+                }).open();
+        } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.confirmPutMergeRange,
+                buttons: [
+                    {text: _t.textOk,
+                    onClick: () => {
+                        if (apiCallback) apiCallback();
+                    }}, 
+                ],
+                }).open();
+        }
     }
 
     _onLongActionEnd(type, id) {

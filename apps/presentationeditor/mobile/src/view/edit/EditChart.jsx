@@ -4,6 +4,7 @@ import {List, ListItem, ListButton, Icon, Row, Page, Navbar, BlockTitle, Toggle,
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
+import { f7 } from 'framework7-react';
 
 const PageCustomFillColor = props => {
     const { t } = useTranslation();
@@ -133,6 +134,9 @@ const PageStyle = props => {
     const curType = chartProperties ? chartProperties.getType() : null;
     const styles = storeChartSettings.styles;
     const shapeObject = props.storeFocusObjects.shapeObject;
+    const chartStyles = storeChartSettings.chartStyles;
+    // console.log(chartStyles, curType);
+    // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom);
 
     let borderSize, borderType, borderColor;
 
@@ -164,10 +168,10 @@ const PageStyle = props => {
         <Page>
             <Navbar backLink={_t.textBack}>
                 <div className="tab-buttons tabbar">
-                    <Link key={"pe-link-chart-type"}  tabLink={"#edit-chart-type"} tabLinkActive={true}>{_t.textType}</Link>
-                    <Link key={"pe-link-chart-style"}  tabLink={"#edit-chart-style"}>{_t.textStyle}</Link>
-                    <Link key={"pe-link-chart-fill"}  tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
-                    <Link key={"pe-link-chart-border"}  tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
+                    <Link key={"pe-link-chart-type"} tabLink={"#edit-chart-type"} tabLinkActive={true}>{_t.textType}</Link>
+                    {chartStyles ? <Link key={"pe-link-chart-style"} tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
+                    <Link key={"pe-link-chart-fill"} tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
+                    <Link key={"pe-link-chart-border"} tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
                 </div>
             </Navbar>
             <Tabs animated>
@@ -192,26 +196,28 @@ const PageStyle = props => {
                         })}
                     </div>
                 </Tab>
-                <Tab key={"pe-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
-                    <div className={'chart-styles'}>
-                        {styles ? styles.map((row, rowIndex) => {
-                            return (
-                                <ul className="row" key={`row-${rowIndex}`}>
-                                    {row.map((style, index)=>{
-                                        return(
-                                            <li key={`${rowIndex}-${index}`}
-                                                onClick={()=>{props.onStyle(style.asc_getName())}}>
-                                                <img src={`${style.asc_getImage()}`}/>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            )
-                        }) :
-                            <div className={'text-content'}>{_t.textNoStyles}</div>
-                        }
-                    </div>
-                </Tab>
+                {chartStyles ? 
+                    <Tab key={"pe-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
+                        <div className={'chart-styles'}>
+                            {styles ? styles.map((row, rowIndex) => {
+                                return (
+                                    <ul className="row" key={`row-${rowIndex}`}>
+                                        {row.map((style, index)=>{
+                                            return(
+                                                <li key={`${rowIndex}-${index}`}
+                                                    onClick={()=>{props.onStyle(style.asc_getName())}}>
+                                                    <img src={`${style.asc_getImage()}`}/>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                )
+                            }) :
+                                <div className={'text-content'}>{_t.textNoStyles}</div>
+                            }
+                        </div>
+                    </Tab>
+                : null}
                 <Tab key={"pe-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">
                     <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
                 </Tab>

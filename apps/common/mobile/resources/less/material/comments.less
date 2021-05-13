@@ -1,4 +1,17 @@
 .device-android {
+  .wrap-comment {
+    height: calc(100% - 72px);
+  }
+  .add-comment-popup, .add-reply-popup, .add-comment-dialog, .add-reply-dialog {
+    .wrap-textarea {
+      height: calc(100% - 41px);
+    }
+  }
+  .edit-comment-popup, .edit-reply-popup, .edit-comment-dialog, .edit-reply-dialog {
+    .wrap-textarea {
+      height: calc(100% - 56px);
+    }
+  }
   .wrap-comment, .comment-list, .reply-list {
     .comment-header, .reply-header {
       display: flex;

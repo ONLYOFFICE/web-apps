@@ -127,7 +127,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
         }).open();
     });
     return (
-        <div id='add-comment-dialog'></div>
+        <div id='add-comment-dialog' className="add-comment-dialog"></div>
     );
 }));
 
@@ -303,7 +303,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
         }).open();
     });
     return (
-        <div id='edit-comment-dialog'></div>
+        <div id='edit-comment-dialog' className="edit-comment-dialog"></div>
     );
 }));
 
@@ -428,7 +428,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
         }).open();
     });
     return (
-        <div id='add-reply-dialog'></div>
+        <div id='add-reply-dialog' className="add-reply-dialog"></div>
     );
 }));
 
@@ -559,7 +559,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
         }).open();
     });
     return (
-        <div id='edit-reply-dialog'></div>
+        <div id='edit-reply-dialog' className="edit-reply-dialog"></div>
     );
 }));
 

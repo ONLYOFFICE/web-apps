@@ -29,6 +29,17 @@ class EditChartController extends Component {
         this.onHorAxisTickMajor = this.onHorAxisTickMajor.bind(this);
         this.onHorAxisTickMinor = this.onHorAxisTickMinor.bind(this);
         this.onHorAxisLabelPos = this.onHorAxisLabelPos.bind(this);
+
+        const type = props.storeFocusObjects.chartObject.get_ChartProperties().getType();
+        if (type==Asc.c_oAscChartTypeSettings.comboBarLine ||
+            type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+            type==Asc.c_oAscChartTypeSettings.comboAreaBar ||
+            type==Asc.c_oAscChartTypeSettings.comboCustom) {
+            props.storeChartSettings.clearChartStyles();
+        } else {
+            const api = Common.EditorApi.get();
+            props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(type));
+        }
     }
 
     closeModal() {

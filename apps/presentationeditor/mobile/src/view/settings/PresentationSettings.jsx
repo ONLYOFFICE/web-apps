@@ -46,7 +46,7 @@ const PagePresentationColorSchemes = props => {
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
                         return (
-                            <ListItem radio={true} className="color-schemes-menu" key={index} title={scheme.get_name()} checked={stateScheme === index} 
+                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={scheme.get_name()} checked={stateScheme === index} 
                                 onChange={() => {
                                     if(index !== curScheme) {
                                         setScheme(index);

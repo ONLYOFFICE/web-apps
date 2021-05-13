@@ -513,11 +513,17 @@ const PageBorderStyleCell = props => {
                 }}>
                     <Icon slot="media" icon="icon-table-borders-all"></Icon>
                 </ListItem>
+                <ListItem title={_t.textOutsideBorders} onClick={() => {
+                    storeCellSettings.changeBorderStyle('outer');
+                    props.onBorderStyle('outer', borderInfo);
+                }}>  
+                    <Icon slot="media" icon="icon-table-borders-outer"></Icon> 
+                </ListItem>
                 <ListItem title={_t.textBottomBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('2');
                     props.onBorderStyle('2', borderInfo);
                 }}>  
-                    <Icon slot="media" icon="icon-table-borders-bottom"></Icon> 
+                    <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
                 </ListItem>
                 <ListItem title={_t.textTopBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('0');
