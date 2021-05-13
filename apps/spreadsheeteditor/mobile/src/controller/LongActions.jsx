@@ -28,6 +28,7 @@ const LongActionsController = () => {
             api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
             api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
+            api.asc_registerCallback('asc_onConfirmAction', onConfirmAction);
         });
         Common.Notifications.on('preloader:endAction', onLongActionEnd);
         Common.Notifications.on('preloader:beginAction', onLongActionBegin);
@@ -38,6 +39,7 @@ const LongActionsController = () => {
             api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
             api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
             api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
+            api.asc_unregisterCallback('asc_onConfirmAction', onConfirmAction);
 
             Common.Notifications.off('preloader:endAction', onLongActionEnd);
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
@@ -178,6 +180,36 @@ const LongActionsController = () => {
 
     };
 
+    const onConfirmAction = (id, apiCallback) => {
+        if (id === Asc.c_oAscConfirm.ConfirmReplaceRange) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.confirmMoveCellRange,
+                buttons: [
+                    {text: _t.textYes,
+                        onClick: () => {
+                            if (apiCallback) apiCallback(true);
+                        }},
+                    {text: _t.textNo,
+                        onClick: () => {
+                            if (apiCallback) apiCallback(false);
+                        }}
+                ],
+            }).open();
+        } else if (id === Asc.c_oAscConfirm.ConfirmPutMergeRange) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.confirmPutMergeRange,
+                buttons: [
+                    {text: _t.textOk,
+                        onClick: () => {
+                            if (apiCallback) apiCallback();
+                        }},
+                ],
+            }).open();
+        }
+    };
+
     const onOpenDocument = (progress) => {
         if (loadMask && loadMask.el) {
             const $title = loadMask.el.getElementsByClassName('dialog-title')[0];
@@ -185,7 +217,7 @@ const LongActionsController = () => {
 
             $title.innerHTML = `${_t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
         }
-    }
+    };
 
     return null;
 };
