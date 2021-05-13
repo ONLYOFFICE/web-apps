@@ -758,11 +758,13 @@ define([
         },
 
         showHistory: function() {
-            var maincontroller = PE.getController('Main');
-            if (!maincontroller.loadMask)
-                maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
-            maincontroller.loadMask.setTitle(this.textLoadHistory);
-            maincontroller.loadMask.show();
+            if (!this.mode.wopi) {
+                var maincontroller = PE.getController('Main');
+                if (!maincontroller.loadMask)
+                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
+                maincontroller.loadMask.setTitle(this.textLoadHistory);
+                maincontroller.loadMask.show();
+            }
             Common.Gateway.requestHistory();
         },
 

@@ -179,11 +179,18 @@ div {
                 window.open(fileInfo.HostEditUrl, "_blank");
         };
 
-        var requestSharingSettings = function (event) {
+        var onRequestSharingSettings = function (event) {
             if (fileInfo.FileSharingPostMessage)
                 _postMessage('UI_Sharing', {});
             else if (fileInfo.FileSharingUrl)
                 window.open(fileInfo.FileSharingUrl, "_blank");
+        };
+
+       var onRequestHistory = function (event) {
+            if (fileInfo.FileVersionPostMessage)
+                _postMessage('UI_FileVersions', {});
+            else if (fileInfo.FileVersionUrl)
+                window.open(fileInfo.FileVersionUrl, "_blank");
         };
 
         var onError = function (event) {
@@ -258,7 +265,8 @@ div {
                     "onError": onError,
                     "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
-                    "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? requestSharingSettings : undefined
+                    "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
+                    "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined
                 }
 			};
 
