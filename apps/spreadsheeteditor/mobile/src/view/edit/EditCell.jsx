@@ -9,12 +9,9 @@ const EditCell = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    // const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeCellSettings = props.storeCellSettings;
     const cellStyles = storeCellSettings.cellStyles;
     const styleName = storeCellSettings.styleName;
-    
-    // console.log(storeCellSettings);
 
     const fontInfo = storeCellSettings.fontInfo;
     const fontName = fontInfo.name || _t.textFonts;
@@ -22,8 +19,6 @@ const EditCell = props => {
     const fontColor = storeCellSettings.fontColor;
     const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const fillColor = storeCellSettings.fillColor;
-
-    // console.log(fillColor);
 
     const isBold = storeCellSettings.isBold;
     const isItalic = storeCellSettings.isItalic;
@@ -501,73 +496,73 @@ const PageBorderStyleCell = props => {
         <Page>
             <Navbar title={_t.textBorderStyle} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNoBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textNoBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('none');
                     props.onBorderStyle('none', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-none"></Icon>
                 </ListItem>
-                <ListItem title={_t.textAllBorders} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textAllBorders} onClick={() => {
                     storeCellSettings.changeBorderStyle('all');
                     props.onBorderStyle('all', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-all"></Icon>
                 </ListItem>
-                <ListItem title={_t.textOutsideBorders} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textOutsideBorders} onClick={() => {
                     storeCellSettings.changeBorderStyle('outer');
                     props.onBorderStyle('outer', borderInfo);
                 }}>  
                     <Icon slot="media" icon="icon-table-borders-outer"></Icon> 
                 </ListItem>
-                <ListItem title={_t.textBottomBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textBottomBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('2');
                     props.onBorderStyle('2', borderInfo);
                 }}>  
                     <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
                 </ListItem>
-                <ListItem title={_t.textTopBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textTopBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('0');
                     props.onBorderStyle('0', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-top"></Icon>  
                 </ListItem>
-                <ListItem title={_t.textLeftBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textLeftBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('3');
                     props.onBorderStyle('3', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-left"></Icon> 
                 </ListItem>
-                <ListItem title={_t.textRightBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textRightBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('1');
                     props.onBorderStyle('1', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-right"></Icon>
                 </ListItem>
-                <ListItem title={_t.textInsideBorders} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textInsideBorders} onClick={() => {
                     storeCellSettings.changeBorderStyle('inner');
                     props.onBorderStyle('inner', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-inner"></Icon>
                 </ListItem>
-                <ListItem title={_t.textInsideVerticalBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textInsideVerticalBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('6');
                     props.onBorderStyle('6', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-center"></Icon>
                 </ListItem>
-                <ListItem title={_t.textInsideHorizontalBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textInsideHorizontalBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('7');
                     props.onBorderStyle('7', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-middle"></Icon> 
                 </ListItem>
-                <ListItem title={_t.textDiagonalUpBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textDiagonalUpBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('5');
                     props.onBorderStyle('5', borderInfo);
                 }}>
                     <Icon slot="media" icon="icon-table-borders-dup"></Icon>
                 </ListItem>
-                <ListItem title={_t.textDiagonalDownBorder} onClick={() => {
+                <ListItem link='#' className='no-indicator' title={_t.textDiagonalDownBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('4');
                     props.onBorderStyle('4', borderInfo);
                 }}>
@@ -702,16 +697,16 @@ const PageFormatCell = props => {
         <Page>
             <Navbar title={_t.textFormat} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textGeneral} onClick={() => props.onCellFormat('R2VuZXJhbA==')}>
+                <ListItem link='#' className='no-indicator' title={_t.textGeneral} onClick={() => props.onCellFormat('R2VuZXJhbA==')}>
                     <Icon slot="media" icon="icon-format-general"></Icon>
                 </ListItem>
-                <ListItem title={_t.textNumber} onClick={() => props.onCellFormat('MC4wMA==')}>
+                <ListItem link='#' className='no-indicator' title={_t.textNumber} onClick={() => props.onCellFormat('MC4wMA==')}>
                     <Icon slot="media" icon="icon-format-number"></Icon>
                 </ListItem>
-                <ListItem title={_t.textInteger} onClick={() => props.onCellFormat('JTIzMA==')}>
+                <ListItem link='#' className='no-indicator' title={_t.textInteger} onClick={() => props.onCellFormat('JTIzMA==')}>
                     <Icon slot="media" icon="icon-format-integer"></Icon>
                 </ListItem>
-                <ListItem title={_t.textScientific} onClick={() => props.onCellFormat('MC4wMEUlMkIwMA==')}>
+                <ListItem link='#' className='no-indicator' title={_t.textScientific} onClick={() => props.onCellFormat('MC4wMEUlMkIwMA==')}>
                     <Icon slot="media" icon="icon-format-scientific"></Icon>
                 </ListItem>
                 <ListItem title={_t.textAccounting} link="/edit-accounting-format-cell/" routeProps={{
@@ -734,10 +729,10 @@ const PageFormatCell = props => {
                 }}>
                     <Icon slot="media" icon="icon-format-time"></Icon>
                 </ListItem>
-                <ListItem title={_t.textPercentage} onClick={() => props.onCellFormat('MC4wMCUyNQ==')}>
+                <ListItem link='#' className='no-indicator' title={_t.textPercentage} onClick={() => props.onCellFormat('MC4wMCUyNQ==')}>
                     <Icon slot="media" icon="icon-format-percentage"></Icon>
                 </ListItem>
-                <ListItem title={_t.textText} onClick={() => props.onCellFormat('JTQw')}>
+                <ListItem link='#' className='no-indicator' title={_t.textText} onClick={() => props.onCellFormat('JTQw')}>
                     <Icon slot="media" icon="icon-format-text"></Icon>
                 </ListItem>
             </List>
@@ -753,19 +748,19 @@ const PageAccountingFormatCell = props => {
         <Page>
             <Navbar title={_t.textAccounting} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textDollar} after='$' 
+                <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
                     onClick={() => props.onCellFormat('XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
                 </ListItem>
-                <ListItem title={_t.textEuro} after='€' 
+                <ListItem link='#' className='no-indicator' title={_t.textEuro} after='€'
                     onClick={() => props.onCellFormat('XyglRTIlODIlQUMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglRTIlODIlQUMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglRTIlODIlQUMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
                 </ListItem>
-                <ListItem title={_t.textPound} after='£'
+                <ListItem link='#' className='no-indicator' title={_t.textPound} after='£'
                     onClick={() => props.onCellFormat('XyglQzIlQTMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}> 
                 </ListItem>
-                <ListItem title={_t.textRouble} after='₽'
+                <ListItem link='#' className='no-indicator' title={_t.textRouble} after='₽'
                     onClick={() => props.onCellFormat('Xy0qJTIwJTIzJTJDJTIzJTIzMC4wMCU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0ItKiUyMCUyMyUyQyUyMyUyMzAuMDAlNUIlMjQlRDElODAuLTQxOSU1RF8tJTNCXy0qJTIwJTIyLSUyMiUzRiUzRiU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0JfLSU0MF8t')}>
                 </ListItem>
-                <ListItem title={_t.textYen} after='¥'
+                <ListItem link='#' className='no-indicator' title={_t.textYen} after='¥'
                     onClick={() => props.onCellFormat('XyglQzIlQTUqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTUqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTUqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
                 </ListItem>
             </List>
@@ -781,19 +776,19 @@ const PageCurrencyFormatCell = props => {
         <Page>
             <Navbar title={_t.textAccounting} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textDollar} after='$' 
+                <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
                     onClick={() => props.onCellFormat('JTI0JTIzJTJDJTIzJTIzMC4wMA==')}>
                 </ListItem>
-                <ListItem title={_t.textEuro} after='€'
+                <ListItem link='#' className='no-indicator' title={_t.textEuro} after='€'
                     onClick={() => props.onCellFormat('JUUyJTgyJUFDJTIzJTJDJTIzJTIzMC4wMA==')}>
                 </ListItem>
-                <ListItem title={_t.textPound} after='£'
+                <ListItem link='#' className='no-indicator' title={_t.textPound} after='£'
                     onClick={() => props.onCellFormat('JUMyJUEzJTIzJTJDJTIzJTIzMC4wMA==')}>
                 </ListItem>
-                <ListItem title={_t.textRouble} after='₽'
+                <ListItem link='#' className='no-indicator' title={_t.textRouble} after='₽'
                     onClick={() => props.onCellFormat('JTIzJTJDJTIzJTIzMC4wMCUyMiVEMSU4MC4lMjI=')}>
                 </ListItem>
-                <ListItem title={_t.textYen} after='¥' 
+                <ListItem link='#' className='no-indicator' title={_t.textYen} after='¥'
                     onClick={() => props.onCellFormat('JUMyJUE1JTIzJTJDJTIzJTIzMC4wMA==')}>
                 </ListItem>
             </List>
@@ -809,24 +804,24 @@ const PageDateFormatCell = props => {
         <Page>
             <Navbar title={_t.textDate} backLink={_t.textBack} />
             <List>
-                <ListItem title='07-24-88' after='MM-dd-yy' 
+                <ListItem link='#' className='no-indicator' title='07-24-88' after='MM-dd-yy'
                     onClick={() => props.onCellFormat('TU0tZGQteXk=')}></ListItem>
-                <ListItem title='07-24-1988' after='MM-dd-yyyy' 
+                <ListItem link='#' className='no-indicator' title='07-24-1988' after='MM-dd-yyyy'
                     onClick={() => props.onCellFormat('TU0tZGQteXl5eQ==')}>
                 </ListItem>
-                <ListItem title='24-07-88' after='dd-MM-yy' 
+                <ListItem link='#' className='no-indicator' title='24-07-88' after='dd-MM-yy'
                     onClick={() => props.onCellFormat('ZGQtTU0teXk=')}>
                 </ListItem>
-                <ListItem title='24-07-1988' after='dd-MM-yyyy' 
+                <ListItem link='#' className='no-indicator' title='24-07-1988' after='dd-MM-yyyy'
                     onClick={() => props.onCellFormat('ZGQtTU0teXl5eQ==')}>
                 </ListItem>
-                <ListItem title='24-Jul-1988' after='dd-MMM-yyyy' 
+                <ListItem link='#' className='no-indicator' title='24-Jul-1988' after='dd-MMM-yyyy'
                     onClick={() => props.onCellFormat('ZGQtTU1NLXl5eXk=')}>
                 </ListItem>
-                <ListItem title='24-Jul' after='dd-MMM' 
+                <ListItem link='#' className='no-indicator' title='24-Jul' after='dd-MMM'
                     onClick={() => props.onCellFormat('ZGQtTU1N')}>
                 </ListItem>
-                <ListItem title='Jul-88' after='MMM-yy' 
+                <ListItem link='#' className='no-indicator' title='Jul-88' after='MMM-yy'
                     onClick={() => props.onCellFormat('TU1NLXl5')}>
                 </ListItem>
             </List>
@@ -842,19 +837,19 @@ const PageTimeFormatCell = props => {
         <Page>
             <Navbar title={_t.textTime} backLink={_t.textBack} />
             <List>
-                <ListItem title='10:56' after='HH:mm'
+                <ListItem link='#' className='no-indicator' title='10:56' after='HH:mm'
                     onClick={() => props.onCellFormat('aCUzQW1tJTNCJTQw')}>
                 </ListItem>
-                <ListItem title='21:56:00' after='HH:MM:ss'
+                <ListItem link='#' className='no-indicator' title='21:56:00' after='HH:MM:ss'
                     onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlM0IlNDA=')}>
                 </ListItem>
-                <ListItem title='05:56 AM' after='hh:mm tt' 
+                <ListItem link='#' className='no-indicator' title='05:56 AM' after='hh:mm tt'
                     onClick={() => props.onCellFormat('aCUzQW1tJTIwQU0lMkZQTSUzQiU0MA==')}>
                 </ListItem>
-                <ListItem title='05:56:00 AM' after='hh:mm:ss tt' 
+                <ListItem link='#' className='no-indicator' title='05:56:00 AM' after='hh:mm:ss tt'
                     onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlMjBBTSUyRlBNJTNCJTQw')}>
                 </ListItem>
-                <ListItem title='38:56:00' after='[h]:mm:ss' 
+                <ListItem link='#' className='no-indicator' title='38:56:00' after='[h]:mm:ss'
                     onClick={() => props.onCellFormat('JTVCaCU1RCUzQW1tJTNBc3MlM0IlNDA=')}>
                 </ListItem>
             </List>
