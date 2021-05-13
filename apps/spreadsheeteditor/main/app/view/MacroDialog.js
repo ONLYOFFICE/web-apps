@@ -111,7 +111,8 @@ define([
                 el: $('#macro-dlg-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
             });
             this.macroList.on('item:dblclick', _.bind(this.onDblClickMacro, this));
             this.macroList.on('entervalue', _.bind(this.onPrimary, this));

@@ -174,7 +174,8 @@ define([
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
                 return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));

@@ -115,7 +115,6 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;height: 20px;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div style="width:100%;"><%= Common.Utils.String.htmlEncode(name) %></div>',

@@ -54,11 +54,12 @@ define([
                 showLast: true,
                 simpleAddMode: false,
                 keyMoveDirection: 'vertical',
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>'),
+                cls: ''
             },
 
             template: _.template([
-                '<div class="listview inner"></div>'
+                '<div class="listview inner <%= cls %>"></div>'
             ].join('')),
 
             onResetItems : function() {

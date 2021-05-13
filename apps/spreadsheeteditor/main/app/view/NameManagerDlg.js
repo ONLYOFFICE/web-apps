@@ -119,7 +119,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
