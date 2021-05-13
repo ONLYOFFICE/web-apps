@@ -271,7 +271,7 @@ class MainController extends Component {
                 }, error => {
                     console.log('promise failed ' + error);
                 });
-        }
+        };
 
         if ( About.developVersion() ) {
             const script = document.createElement("script");
@@ -284,7 +284,7 @@ class MainController extends Component {
 
             document.body.appendChild(script);
         } else {
-            on_script_load();
+            on_load_scripts();
         }
     }
 
