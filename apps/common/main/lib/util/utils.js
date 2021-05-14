@@ -120,9 +120,10 @@ Common.Utils = _.extend(new(function() {
         me = this,
         checkSize = function() {
             var scale = {};
-            if ( !!window.AscCommon && !!window.AscCommon.checkDeviceScale )
+            if ( !!window.AscCommon && !!window.AscCommon.checkDeviceScale ) {
                 scale = window.AscCommon.checkDeviceScale();
-            else {
+                AscCommon.correctApplicationScale(scale);
+            } else {
                 var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
                         "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
