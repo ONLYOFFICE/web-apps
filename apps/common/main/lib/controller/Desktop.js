@@ -48,7 +48,7 @@ define([
         uithemes: true
     };
 
-    var native = window.native || window.AscDesktopEditor;
+    var native = window.desktop || window.AscDesktopEditor;
     !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
