@@ -198,6 +198,7 @@ class MainController extends Component {
                 f7.emit('resize');
 
                 this._isDocReady = true;
+                appOptions.changeDocReady(true);
 
                 this.api.SetDrawingFreeze(false);
 
@@ -602,7 +603,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
+            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose);
         });
     }
 

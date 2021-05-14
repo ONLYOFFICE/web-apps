@@ -18,7 +18,9 @@ export class storeAppOptions {
             readerMode: observable,
             changeReaderMode: action,
 
-            canBrandingExt: observable
+            canBrandingExt: observable,
+
+            isDocReady: observable
         });
     }
 
@@ -38,6 +40,11 @@ export class storeAppOptions {
     }
 
     canBrandingExt = false;
+
+    isDocReady = false;
+    changeDocReady (value) {
+        this.isDocReady = value;
+    }
 
     config = {};
     setConfigOptions (config) {

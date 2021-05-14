@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Download from "../../view/settings/Download";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { f7 } from 'framework7-react';
-import { withTranslation, useTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
+import { observer, inject } from "mobx-react";
 
 class DownloadController extends Component {
     constructor(props) {
@@ -28,9 +29,10 @@ class DownloadController extends Component {
                 f7.dialog.confirm(
                     (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
                     _t.notcriticalErrorTitle,
-                    function () {
+                    () => {
                         if (format == Asc.c_oAscFileType.TXT) {
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t);
+                            const isDocReady = this.props.storeAppOptions.isDocReady;
+                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
                         }
                         else {
                             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
@@ -52,9 +54,10 @@ class DownloadController extends Component {
         );
     }
 }
-const DownloadWithTranslation = withTranslation()(DownloadController);
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequestClose) => {
+const DownloadWithTranslation = inject("storeAppOptions")(observer(withTranslation()(DownloadController)));
+
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose) => {
     if ($$('.dlg-adv-options.modal-in').length > 0) return;
 
     const api = Common.EditorApi.get();
@@ -66,7 +69,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
             pages.push(page.asc_getCodePage());
             pagesName.push(page.asc_getCodePageName());
         }
-        //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
         const buttons = [];
         if (mode === 2) {
             buttons.push({
@@ -84,9 +88,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                 } else {
                     api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
                 }
-                //if (!me._isDocReady) {
-                        //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         });
         const dialog = f7.dialog.create({
@@ -117,16 +121,17 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
             });
         });
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-        //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
         const buttons = [{
             text: 'OK',
             bold: true,
             onClick: function () {
                 const password = document.getElementById('modal-password').value;
                 api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-                //if (!me._isDocReady) {
-                    //Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         }];
         if (canRequestClose)
