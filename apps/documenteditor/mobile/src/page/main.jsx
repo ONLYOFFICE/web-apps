@@ -72,6 +72,7 @@ class MainPage extends Component {
       const appOptions = this.props.storeAppOptions;
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+      const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
       return (
           <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
@@ -83,9 +84,37 @@ class MainPage extends Component {
                   </Subnavbar>
               </Navbar>
               {/* Page content */}
+
               <View id="editor_sdk">
-            
               </View>
+
+              {showPlaceholder ?
+                  <div className="doc-placeholder-container">
+                      <div className="doc-placeholder">
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                          <div className="line"></div>
+                      </div>
+                  </div> : null
+              }
+
               {/* {
                   Device.phone ? null : <SearchSettings />
               } */}

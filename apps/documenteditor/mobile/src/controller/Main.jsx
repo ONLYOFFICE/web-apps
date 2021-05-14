@@ -198,7 +198,6 @@ class MainController extends Component {
                 f7.emit('resize');
 
                 this._isDocReady = true;
-                appOptions.changeDocReady(true);
 
                 this.api.SetDrawingFreeze(false);
 
@@ -246,6 +245,7 @@ class MainController extends Component {
 
                 Common.Notifications.trigger('document:ready');
                 Common.Gateway.documentReady();
+                appOptions.changeDocReady(true);
             };
 
             const _process_array = (array, fn) => {
