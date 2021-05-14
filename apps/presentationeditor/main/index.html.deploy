@@ -259,12 +259,12 @@
         }
 
         if ( window.AscDesktopEditor ) {
-            window.native = window.AscDesktopEditor;
+            window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
-            window.native.execCommand('webapps:entry', '');
+            window.desktop.execCommand('webapps:entry', '');
         }
     </script>
 
@@ -288,7 +288,7 @@
     <div id="viewport"></div>
 
     <script>
-        if ( window.native ) {
+        if ( window.desktop ) {
             var logo = document.getElementsByClassName('loading-logo');
             if ( !!logo && logo.length ) {
                 logo[0].setAttribute('style','display:none;');
