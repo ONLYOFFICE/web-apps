@@ -1,419 +1,419 @@
 {
 	"DATE": {
-		"a": "( año, mes, día )",
-		"d": "Función de fecha y hora es utilizada para añadir fechas en el formato por defecto MM/dd/aaaa"
+		"a": "(año; mes; día)",
+		"d": "Devuelve el número que representa la fecha en código de fecha y hora de Microsoft Excel"
 	},
 	"DATEDIF": {
 		"a": "( fecha-inicio , fecha-final , unidad )",
 		"d": "Función de fecha y hora es utilizada para devolver la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
 	},
 	"DATEVALUE": {
-		"a": "( fecha-hora-cadena )",
-		"d": "Función de fecha y hora es utilizada para devolver un número de serie de la fecha especificada"
+		"a": "(texto_de_fecha)",
+		"d": "Convierte una fecha en forma de texto en un número que representa la fecha en código de fecha y hora de Microsoft Excel"
 	},
 	"DAY": {
-		"a": "( fecha-valor )",
-		"d": "Función de fecha y hora devuelve el día (un número del 1 al 31) de la fecha dada en el formato numérico (MM/dd/aaaa por defecto)"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve el día del mes (un número de 1 a 31)."
 	},
 	"DAYS": {
-		"a": "( fecha-inicio , fecha-final )",
-		"d": "Función de fecha y hora es utilizada para devolver el número de días entre dos fechas"
+		"a": "(fecha_inicial; fecha_final)",
+		"d": "Devuelve la cantidad de días entre las dos fechas."
 	},
 	"DAYS360": {
-		"a": "( fecha-inicio , fecha-final [ , método-marcador ] )",
-		"d": "Función de fecha y hora es utilizada para devolver el número de días entre dos fechas (fecha de inicio y fecha final) basada en un año de 360 días utilizando uno de los métodos de cálculo (EE.UU. o Europeo)."
+		"a": "(fecha_inicial; fecha_final; [método])",
+		"d": "Calcula el número de días entre dos fechas basándose en un año de 360 días (doce meses de 30 días)"
 	},
 	"EDATE": {
-		"a": "( fecha-inicio , mes-compensado )",
-		"d": "Función de fecha y hora es utilizada para devolver el número de serie de la fecha en la que viene el número indicado de meses (mes-compensado) antes o después de la fecha especificada (fecha de inicio)"
+		"a": "(fecha_inicial; meses)",
+		"d": "Devuelve el número de serie de la fecha que es el número indicado de meses antes o después de la fecha inicial"
 	},
 	"EOMONTH": {
-		"a": "( fecha-inicio , mes-compensado )",
-		"d": "Función de fecha y hora es utilizada para devolver el número de serie del último día del mes en que viene el número indicado de meses antes o después de la fecha de inicio especificada."
+		"a": "(fecha_inicial; meses)",
+		"d": "Devuelve el número de serie del último día del mes antes o después del número especificado de meses"
 	},
 	"HOUR": {
-		"a": "( valor-tiempo )",
-		"d": "Función de fecha y hora que devuelve la hora (un número de 0 a 23) del valor de tiempo"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve la hora como un número de 0 (12:00 a.m.) a 23 (11:00 p.m.)."
 	},
 	"ISOWEEKNUM": {
-		"a": "( fecha )",
-		"d": "Función de fecha y hora utilizada para devolver el número de la semana ISO del año para una fecha determinada"
+		"a": "(fecha)",
+		"d": "Devuelve el número de semana ISO del año para una fecha determinada"
 	},
 	"MINUTE": {
-		"a": "( valor-tiempo )",
-		"d": "Función de fecha y hora que devuelve el minuto (un número del 0 al 59) del valor de la hora"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve el minuto, un número de 0 a 59."
 	},
 	"MONTH": {
-		"a": "(fecha-valor)",
-		"d": "Función de fecha y hora que devuelve el mes (un número del 1 al 12) de la fecha dada en el formato numérico (MM/dd/aaaa por defecto)"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve el mes, un número entero de 1 (enero) a 12 (diciembre)."
 	},
 	"NETWORKDAYS": {
-		"a": "(fecha-inicio, fecha-final [,vacaciones])",
-		"d": "Función de fecha y hora utilizada para devolver el número de días laborables entre dos fechas (fecha de inicio y fecha final), excluyendo los fines de semana y las fechas consideradas como días festivos."
+		"a": "(fecha_inicial; fecha_final; [vacaciones])",
+		"d": "Devuelve el número total de días laborables entre dos fechas"
 	},
 	"NETWORKDAYS.INTL": {
-		"a": "(fecha_inicio, fecha_final, [, fin de semana], [, vacaciones])",
-		"d": "Función de fecha y hora utilizada para devolver el número de días laborables completos entre dos fechas utilizando parámetros para indicar qué y cuántos días son días de fin de semana"
+		"a": "(fecha_inicial; fecha_final; [fin_de_semana]; [días_no_laborables])",
+		"d": "Devuelve el número de días laborables completos entre dos fechas con parámetros de fin de semana personalizados"
 	},
 	"NOW": {
 		"a": "()",
-		"d": "Función de fecha y hora utilizada para devolver el número de serie de la fecha y hora actuales; si el formato de celda era General antes de que se introdujera la función, la aplicación cambia el formato de celda para que coincida con el formato de fecha y hora de sus ajustes regionales."
+		"d": "Devuelve la fecha y hora actuales con formato de fecha y hora."
 	},
 	"SECOND": {
-		"a": "( valor-tiempo )",
-		"d": "Función de fecha y hora que devuelve el segundo (un número de 0 a 59) del valor de tiempo"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve el segundo, un número de 0 a 59."
 	},
 	"TIME": {
-		"a": "(hora, minuto, segundo)",
-		"d": "Función de fecha y hora usada para agregar una hora en particular en el formato seleccionado (hh:mm tt por defecto)"
+		"a": "(hora; minuto; segundo)",
+		"d": "Convierte horas, minutos y segundos dados como números en un número de serie de Excel, con formato de hora"
 	},
 	"TIMEVALUE": {
-		"a": "(fecha-hora-cadena)",
-		"d": "Función de fecha y hora utilizada para devolver el número de serie de una hora"
+		"a": "(texto_de_hora)",
+		"d": "Convierte una hora de texto en un número de serie de Excel para una hora, un número de 0 (12:00:00 a.m.) a 0.999988426 (11:59:59 p.m.). Da formato al número con un formato de hora después de introducir la fórmula"
 	},
 	"TODAY": {
 		"a": "()",
-		"d": "Función de fecha y hora utilizada para añadir el día actual en el siguiente formato MM/dd/aa. Esta función no requiere ningún argumento."
+		"d": "Devuelve la fecha actual con formato de fecha."
 	},
 	"WEEKDAY": {
-		"a": "(valor-de-serie [,díadesemana-empezar-marcador])",
-		"d": "Función de fecha y hora utilizada para determinar qué día de la semana es la fecha especificada"
+		"a": "(núm_de_serie; [tipo])",
+		"d": "Devuelve un número de 1 a 7 que identifica el día de la semana."
 	},
 	"WEEKNUM": {
-		"a": "(valor-de-serie [,díadesemana-empezar-marcador])",
-		"d": "Función de fecha y hora utilizada para devolver el número de la semana en la que la fecha especificada se encuentra dentro del año"
+		"a": "(número_serie; [tipo_devuelto])",
+		"d": "Devuelve el número de semanas en el año"
 	},
 	"WORKDAY": {
-		"a": "(fecha-inicio, fecha-compensada [,vacaciones])",
-		"d": "Función de fecha y hora utilizada para devolver la fecha que viene con el número de días indicado (día compensado) antes o después de la fecha de inicio especificada, excluyendo los fines de semana y las fechas consideradas festivas."
+		"a": "(fecha_inicial; días; [vacaciones])",
+		"d": "Devuelve el número de serie de la fecha antes o después de un número especificado de días laborables"
 	},
 	"WORKDAY.INTL": {
-		"a": "(Fecha_inicio, días, [, fin de semana], [, vacaciones])",
-		"d": "Función de fecha y hora utilizada para devolver el número de serie de la fecha antes o después de un número especificado de días laborables con parámetros personalizados de fin de semana; los parámetros de fin de semana indican qué y cuántos días son días de fin de semana"
+		"a": "(fecha_inicial; días; [fin_de_semana]; [días_no_laborables])",
+		"d": "Devuelve el número de serie de la fecha anterior o posterior a un número especificado de días laborables con parámetros de fin de semana personalizados"
 	},
 	"YEAR": {
-		"a": "(fecha-valor)",
-		"d": "Función de fecha y hora que devuelve el año (un número de 1900 a 9999) de la fecha dada en el formato numérico (MM/dd/aaaa por defecto)"
+		"a": "(núm_de_serie)",
+		"d": "Devuelve el año, un número entero en el rango 1900-9999."
 	},
 	"YEARFRAC": {
-		"a": "(Fecha-inicio, fecha-fin [,base])",
-		"d": "Función de fecha y hora utilizada para devolver la fracción de un año representada por el número de días completos desde la fecha de inicio hasta la fecha final calculada sobre la base especificada."
+		"a": "(fecha_inicial; fecha_final; [base])",
+		"d": "Devuelve la fracción del año que representa el número de días completos entre la fecha_inicial y la fecha_final"
 	},
 	"BESSELI": {
-		"a": "( X , N )",
-		"d": "Función de ingeniería utilizada para devolver la función de Bessel modificada, que es equivalente a la función de Bessel evaluada para argumentos puramente imaginarios."
+		"a": "(x; n)",
+		"d": "Devuelve la función Bessel In(x) modificada"
 	},
 	"BESSELJ": {
-		"a": "( X , N )",
-		"d": "Función de ingeniería utilizada para devolver la función de Bessel"
+		"a": "(x; n)",
+		"d": "Devuelve la función Bessel Jn(x)"
 	},
 	"BESSELK": {
-		"a": "( X , N )",
-		"d": "Función de ingeniería utilizada para devolver Función de Bessel modificada, que es equivalente a las funciones de Bessel evaluadas para argumentos puramente imaginarios."
+		"a": "(x; n)",
+		"d": "Devuelve la función Bessel Kn(x) modificada"
 	},
 	"BESSELY": {
-		"a": "( X , N )",
-		"d": "Función de ingeniería utilizada para devolver la función de Bessel, que también se denomina función de Weber o la función de Neumann."
+		"a": "(x; n)",
+		"d": "Devuelve la función Bessel Yn(x)"
 	},
 	"BIN2DEC": {
-		"a": "( número )",
-		"d": "Función de ingeniería utilizada para convertir un número binario en un número decimal"
+		"a": "(número)",
+		"d": "Convierte un número binario en decimal"
 	},
 	"BIN2HEX": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número binario en un número hexadecimal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número binario en hexadecimal"
 	},
 	"BIN2OCT": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número binario en un número octal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número binario en octal"
 	},
 	"BITAND": {
-		"a": "(número1, número2)",
-		"d": "Función de ingeniería utilizada para devolver un modo de bits 'AND' de dos números"
+		"a": "(número1; número2)",
+		"d": "Devuelve un bit a bit 'And' de dos números"
 	},
 	"BITLSHIFT": {
-		"a": "(número, cantidad_desplazada)",
-		"d": "Función de ingeniería utilizada para devolver un número desplazado a la izquierda por el número especificado de bits"
+		"a": "(número; cambio_cantidad)",
+		"d": "Devuelve un número desplazado a la izquierda por bits de desplazamiento"
 	},
 	"BITOR": {
-		"a": "(número1, número2)",
-		"d": "Función de ingeniería utilizada para devolver un número de bits 'OR' de dos números"
+		"a": "(número1; número2)",
+		"d": "Devuelve un bit a bit 'Or' de dos números"
 	},
 	"BITRSHIFT": {
-		"a": "(número, cantidad_desplazada)",
-		"d": "Función de ingeniería utilizada para devolver un número desplazado hacia la derecha por el número especificado de bits"
+		"a": "(número; cambio_cantidad)",
+		"d": "Devuelve un número desplazado a la derecha por bits de desplazamiento"
 	},
 	"BITXOR": {
-		"a": "(número1, número2)",
-		"d": "Función de ingeniería utilizada para devolver un número de bits 'XOR' de dos números"
+		"a": "(número1; número2)",
+		"d": "Devuelve un bit a bit 'Exclusive Or' de dos números"
 	},
 	"COMPLEX": {
-		"a": "(número-real, número-imaginario [, sufijo])",
-		"d": "Función de ingeniería utilizada para convertir una parte real y una parte imaginaria en el número complejo expresado en forma de a + bi o a + bj."
+		"a": "(núm_real; i_núm; [sufijo])",
+		"d": "Convierte el coeficiente real e imaginario en un número complejo"
 	},
 	"CONVERT": {
-		"a": "( número , de-unidad , a-unidad )",
-		"d": "Función de ingeniería utilizada para convertir un número de un sistema de medida a otro; por ejemplo, CONVERTIR puede convertir una tabla de distancias en millas a una tabla de distancias en kilómetros"
+		"a": "(número; desde_unidad; a_unidad)",
+		"d": "Convierte un número de un sistema decimal a otro"
 	},
 	"DEC2BIN": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número decimal en un número binario"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número decimal en binario"
 	},
 	"DEC2HEX": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número decimal en un número hexadecimal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número decimal en hexadecimal"
 	},
 	"DEC2OCT": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número decimal en un número octal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número decimal en octal"
 	},
 	"DELTA": {
-		"a": "(número-1 [, número-2])",
-		"d": "Función de ingeniería utilizada para comprobar si dos números son iguales. Función devuelve 1 si los números son iguales y 0 si no lo son."
+		"a": "(número1; [número2])",
+		"d": "Prueba si los dos números son iguales"
 	},
 	"ERF": {
-		"a": "(límite-inferior [, límite-superior])",
-		"d": "Función de ingeniería utilizada para calcular la función de error integrada entre los límites inferior y superior especificados"
+		"a": "(límite_inferior; [límite_superior])",
+		"d": "Devuelve la función de error"
 	},
 	"ERF.PRECISE": {
-		"a": "( x )",
-		"d": "Función de ingeniería utilizada para devolver Función de error"
+		"a": "(X)",
+		"d": "Devuelve la función de error"
 	},
 	"ERFC": {
-		"a": "( límite-inferior )",
-		"d": "Función de ingeniería utilizada para calcular la función de error complementario integrada entre el límite inferior especificado y el infinito"
+		"a": "(x)",
+		"d": "Devuelve la función de error complementaria"
 	},
 	"ERFC.PRECISE": {
-		"a": "( x )",
-		"d": "Función de ingeniería utilizada para devolver Función ERF complementaria integrada entre x e infinito"
+		"a": "(X)",
+		"d": "Devuelve la función de error complementaria"
 	},
 	"GESTEP": {
-		"a": "(número [, paso])",
-		"d": "Función de ingeniería utilizada para comprobar si un número es mayor que un valor umbral. Función devuelve 1 si el número es mayor o igual que el valor umbral y 0 en caso contrario."
+		"a": "(número; [paso])",
+		"d": "Prueba si un número es mayor que el valor de referencia"
 	},
 	"HEX2BIN": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número hexadecimal en un número binario"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número hexadecimal en binario"
 	},
 	"HEX2DEC": {
-		"a": "( número )",
-		"d": "Función de ingeniería utilizada para convertir un número hexadecimal en un número decimal"
+		"a": "(número)",
+		"d": "Convierte un número hexadecimal en decimal"
 	},
 	"HEX2OCT": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número hexadecimal en un número octal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número hexadecimal en octal"
 	},
 	"IMABS": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el valor absoluto de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve el valor absoluto (módulo) de un número complejo"
 	},
 	"IMAGINARY": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la parte imaginaria del número complejo especificado"
+		"a": "(inúmero)",
+		"d": "Devuelve el coeficiente imaginario de un número complejo"
 	},
 	"IMARGUMENT": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el argumento Theta, un ángulo expresado en radianes"
+		"a": "(inúmero)",
+		"d": "Devuelve el argumento q, un ángulo expresado en radianes"
 	},
 	"IMCONJUGATE": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el complejo conjugado de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve el conjugado complejo de un número complejo"
 	},
 	"IMCOS": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el coseno de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve el coseno de un número complejo"
 	},
 	"IMCOSH": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el coseno hiperbólico de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve el coseno hiperbólico de un número complejo"
 	},
 	"IMCOT": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la cotangente de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la cotangente de un número complejo"
 	},
 	"IMCSC": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el cosecante de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la cosecante de un número complejo"
 	},
 	"IMCSCH": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el cosecante hiperbólico de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la cosecante hiperbólica de un número complejo"
 	},
 	"IMDIV": {
-		"a": "(número-complejo-1, número-complejo-2)",
-		"d": "Función de ingeniería utilizada para devolver el cociente de dos números complejos expresados en forma de a + bi o a + bj."
+		"a": "(inúmero1; inúmero2)",
+		"d": "Devuelve el cociente de dos números complejos"
 	},
 	"IMEXP": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la constante e elevada a la potencia especificada por un número complejo. La constante e es igual a 2,71828182845904."
+		"a": "(inúmero)",
+		"d": "Devuelve el valor exponencial de un número complejo"
 	},
 	"IMLN": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el logaritmo natural de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve el logaritmo natural de un número complejo"
 	},
 	"IMLOG10": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el logaritmo de un número complejo a una base de 10"
+		"a": "(inúmero)",
+		"d": "Devuelve el logaritmo de base 10 de un número complejo"
 	},
 	"IMLOG2": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el logaritmo de un número complejo a una base de 2"
+		"a": "(inúmero)",
+		"d": "Devuelve el logaritmo de base 2 de un número complejo"
 	},
 	"IMPOWER": {
-		"a": "(número-complejo, potencia)",
-		"d": "Función de ingeniería utilizada para devolver el resultado de un número complejo elevado a la potencia deseada."
+		"a": "(inúmero; número)",
+		"d": "Devuelve un número complejo elevado a la potencia del entero"
 	},
 	"IMPRODUCT": {
-		"a": "(lista-argumento)",
-		"d": "Función de ingeniería utilizada para devolver el producto de los números complejos especificados"
+		"a": "(inúmero1; [inúmero2]; ...)",
+		"d": "Devuelve el producto de 1 a 255 números complejos"
 	},
 	"IMREAL": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la parte real del número complejo especificado"
+		"a": "(inúmero)",
+		"d": "Devuelve el coeficiente real de un número complejo"
 	},
 	"IMSEC": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la secante de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la secante de un número complejo"
 	},
 	"IMSECH": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el secante hiperbólico de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la secante hiperbólica de un número complejo "
 	},
 	"IMSIN": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el seno de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve el seno de un número complejo"
 	},
 	"IMSINH": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver el seno hiperbólico de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve el seno hiperbólico de un número complejo"
 	},
 	"IMSQRT": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para devolver la raíz cuadrada de un número complejo"
+		"a": "(inúmero)",
+		"d": "Devuelve la raíz cuadrada de un número complejo"
 	},
 	"IMSUB": {
-		"a": "(número-complejo-1, número-complejo-2)",
-		"d": "Función de ingeniería utilizada para devolver la diferencia de dos números complejos expresados en forma de a + bi o a + bj"
+		"a": "(inúmero1; inúmero2)",
+		"d": "Devuelve la diferencia de dos números complejos"
 	},
 	"IMSUM": {
-		"a": "(lista-argumento)",
-		"d": "Función de ingeniería utilizada para devolver la suma de los números complejos especificados"
+		"a": "(inúmero1; [inúmero2]; ...)",
+		"d": "Devuelve la suma de números complejos"
 	},
 	"IMTAN": {
-		"a": "(número-complejo)",
-		"d": "Función de ingeniería utilizada para retornar a la tangente de un número complejo"
+		"a": "(númeroi)",
+		"d": "Devuelve la tangente de un número complejo"
 	},
 	"OCT2BIN": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número octal en un número binario"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número octal en binario"
 	},
 	"OCT2DEC": {
-		"a": "( número )",
-		"d": "Función de ingeniería utilizada para convertir un número octal a un número decimal"
+		"a": "(número)",
+		"d": "Convierte un número octal en decimal"
 	},
 	"OCT2HEX": {
-		"a": "(número [, núm-hex-dígitos])",
-		"d": "Función de ingeniería utilizada para convertir un número octal en un número hexadecimal"
+		"a": "(número; [posiciones])",
+		"d": "Convierte un número octal en hexadecimal"
 	},
 	"DAVERAGE": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para promediar los valores de un campo (columna) de registros de una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Obtiene el promedio de los valores de una columna, lista o base de datos que cumplen las condiciones especificadas"
 	},
 	"DCOUNT": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para contar las celdas que contienen números en un campo (columna) de registros en una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Cuenta las celdas que contienen números en el campo (columna) de registros de la base de datos que cumplen las condiciones especificadas"
 	},
 	"DCOUNTA": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para contar las celdas no en blanco en un campo (columna) de registros de una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Cuenta el número de celdas que no están en blanco en el campo (columna) de los registros de la base de datos que cumplen las condiciones especificadas"
 	},
 	"DGET": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para extraer un valor individual de una columna de una lista o base de datos que coincida con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Extrae de una base de datos un único registro que coincide con las condiciones especificadas"
 	},
 	"DMAX": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para devolver el mayor número en un campo (columna) de registros de una lista o base de datos que coincidan con las condiciones que especifique."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Devuelve el número máximo en el campo (columna) de registros de la base de datos que coinciden con las condiciones especificadas"
 	},
 	"DMIN": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para devolver el número más pequeño de un campo (columna) de registros de una lista o base de datos que coincida con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Devuelve el número menor del campo (columna) de registros de la base de datos que coincide con las condiciones especificadas"
 	},
 	"DPRODUCT": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para multiplicar los valores en un campo (columna) de registros en una lista o base de datos que coinciden con las condiciones que especifique."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Multiplica los valores del campo (columna) de registros en la base de datos que coinciden con las condiciones especificadas"
 	},
 	"DSTDEV": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para estimar la desviación estándar de una población basada en una muestra utilizando los números de un campo (columna) de registros de una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Calcula la desviación estándar basándose en una muestra de las entradas seleccionadas de una base de datos"
 	},
 	"DSTDEVP": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para calcular la desviación estándar de una población basada en toda la población utilizando los números de un campo (columna) de registros de una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Calcula la desviación estándar basándose en la población total de las entradas seleccionadas de una base de datos"
 	},
 	"DSUM": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para añadir los números en un campo (columna) de registros en una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Suma los números en el campo (columna) de los registros que coinciden con las condiciones especificadas"
 	},
 	"DVAR": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para estimar la varianza de una población basada en una muestra utilizando los números en un campo (columna) de registros en una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Calcula la varianza basándose en una muestra de las entradas seleccionadas de una base de datos"
 	},
 	"DVARP": {
-		"a": "(base de datos, campo, criterio)",
-		"d": "Función de base de datos utilizada para calcular la varianza de una población basada en toda la población utilizando los números de un campo (columna) de registros de una lista o base de datos que coinciden con las condiciones especificadas."
+		"a": "(base_de_datos; nombre_de_campo; criterios)",
+		"d": "Calcula la varianza basándose en la población total de las entradas seleccionadas de una base de datos"
 	},
 	"CHAR": {
-		"a": "( número )",
-		"d": "Función de texto y datos utilizada para devolver el carácter ASCII especificado por un número."
+		"a": "(número)",
+		"d": "Devuelve el carácter especificado por el número de código a partir del juego de caracteres establecido en su PC"
 	},
 	"CLEAN": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para eliminar todos los caracteres no imprimibles de la cadena seleccionada"
+		"a": "(texto)",
+		"d": "Quita todos los caracteres no imprimibles del texto"
 	},
 	"CODE": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para devolver el valor ASCII del carácter especificado o del primer carácter de una celda"
+		"a": "(texto)",
+		"d": "Devuelve el número de código del primer carácter del texto del juego de caracteres usados por su PC"
 	},
 	"CONCATENATE": {
-		"a": "(texto1, texto2, ...)",
-		"d": "Función de texto y datos utilizada para combinar los datos de dos o más celdas en una sola."
+		"a": "(texto1; [texto2]; ...)",
+		"d": "Une varios elementos de texto en uno solo"
 	},
 	"CONCAT": {
-		"a": "(texto1, texto2, ...)",
-		"d": "Función de texto y datos utilizada para combinar los datos de dos o más celdas en una sola. Esta función reemplaza a la función CONCATENAR"
+		"a": "(texto1; ...)",
+		"d": "Concatena una lista o rango de cadenas de texto"
 	},
 	"DOLLAR": {
-		"a": "(número [, núm-decimal])",
-		"d": "Función de texto y datos usada para convertir un número a texto, usando un formato de moneda $#.##"
+		"a": "(número; [núm_de_decimales])",
+		"d": "Convierte un número en texto usando formato de moneda"
 	},
 	"EXACT": {
-		"a": "(texto1, texto2)",
-		"d": "Función de texto y datos utilizada para comparar datos en dos celdas. La función devuelve VERDADERO si los datos son los mismos, y FALSO si no lo son."
+		"a": "(texto1; texto2)",
+		"d": "Comprueba si dos cadenas de texto son exactamente iguales y devuelve VERDADERO o FALSO. IGUAL distingue mayúsculas de minúsculas"
 	},
 	"FIND": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
-		"d": "Función de texto y datos utilizada para encontrar la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a idiomas que utilizan el juego de caracteres de un bit (SBCS)"
+		"a": "(texto_buscado; dentro_del_texto; [núm_inicial])",
+		"d": "Devuelve la posición inicial de una cadena de texto dentro de otra cadena de texto. ENCONTRAR distingue mayúsculas de minúsculas"
 	},
 	"FINDB": {
 		"a": "(cadena-1, cadena-2 [,posición-inicio])",
 		"d": "Función de texto y datos utilizada para encontrar la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"FIXED": {
-		"a": "(número [,[núm-decimal] [,suprimir-comas-marcador])",
-		"d": "Función de texto y datos utilizada para devolver la representación de texto de un número redondeado a un número específico de decimales"
+		"a": "(número; [decimales]; [no_separar_millares])",
+		"d": "Redondea un número al número especificado de decimales y devuelve el resultado como texto con o sin comas"
 	},
 	"LEFT": {
-		"a": "(cadena [, número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de bit único (SBCS)."
+		"a": "(texto; [núm_de_caracteres])",
+		"d": "Devuelve el número especificado de caracteres del principio de una cadena de texto"
 	},
 	"LEFTB": {
 		"a": "(cadena [, número-caracteres])",
 		"d": "Función de texto y datos utilizada para extraer la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LEN": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para analizar la cadena especificada y devolver el número de caracteres que contiene, y está destinada a idiomas que utilizan el juego de caracteres de bit único (SBCS)."
+		"a": "(texto)",
+		"d": "Devuelve el número de caracteres de una cadena de texto"
 	},
 	"LENB": {
 		"a": "( cadena )",
@@ -421,1422 +421,1422 @@
 	},
 	"LOWER": {
 		"a": "(texto)",
-		"d": "Función de texto y datos utilizada para convertir letras mayúsculas a minúsculas en la celda seleccionada."
+		"d": "Convierte todas las letras de una cadena de texto en minúsculas"
 	},
 	"MID": {
-		"a": "(cadena, posición-empiece, número-caracteres)",
-		"d": "Función de texto y datos utilizada para extraer los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de bit único (SBCS)."
+		"a": "(texto; posición_inicial; núm_de_caracteres)",
+		"d": "Devuelve los caracteres del centro de una cadena de texto, dada una posición y longitud iniciales"
 	},
 	"MIDB": {
 		"a": "(cadena, posición-empiece, número-caracteres)",
 		"d": "Función de texto y datos utilizada para extraer los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"NUMBERVALUE": {
-		"a": "(texto, [, [separador-decimal] [, [separador-grupal]])",
-		"d": "Función de texto y datos utilizada para convertir texto a un número, de forma independiente del lugar"
+		"a": "(texto; [separador_decimal]; [separador_grupo])",
+		"d": "Convierte texto a número de manera independiente a la configuración regional"
 	},
 	"PROPER": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para convertir el primer carácter de cada palabra en mayúsculas y el resto de caracteres en minúsculas."
+		"a": "(texto)",
+		"d": "Convierte una cadena de texto en mayúsculas o minúsculas, según corresponda; la primera letra de cada palabra en mayúscula y las demás letras en minúscula"
 	},
 	"REPLACE": {
-		"a": "(cadena-1, pos-inicio, número-caracteres, cadena-2)",
-		"d": "Función de texto y datos utilizada para sustituir un conjunto de caracteres, según el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de un solo bit (SBCS)."
+		"a": "(texto_original; núm_inicial; núm_de_caracteres; texto_nuevo)",
+		"d": "Reemplaza parte de una cadena de texto por otra"
 	},
 	"REPLACEB": {
 		"a": "(cadena-1, pos-inicio, número-caracteres, cadena-2)",
 		"d": "Función de texto y datos utilizada para reemplazar un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"REPT": {
-		"a": "(texto, número_de_veces)",
-		"d": "Función de texto y datos utilizada para repetir los datos en la celda seleccionada tantas veces como se desee"
+		"a": "(texto; núm_de_veces)",
+		"d": "Repite el texto un número determinado de veces. Use REPETIR para rellenar una celda con el número de repeticiones de una cadena de texto"
 	},
 	"RIGHT": {
-		"a": "(cadena [, número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer una subcadena de una cadena a partir del carácter situado más a la derecha, basada en el número de caracteres especificado y está destinada a idiomas que utilizan el juego de caracteres de bit único (SBCS)."
+		"a": "(texto; [núm_de_caracteres])",
+		"d": "Devuelve el número especificado de caracteres del final de una cadena de texto"
 	},
 	"RIGHTB": {
 		"a": "(cadena [, número-caracteres])",
 		"d": "Función de texto y datos utilizada para extraer una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SEARCH": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
-		"d": "Función de texto y datos utilizada para devolver la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de un bit (SBCS)"
+		"a": "(texto_buscado; dentro_del_texto; [núm_inicial])",
+		"d": "Devuelve el número de carácter en el que se encuentra un carácter o una cadena de texto en particular, leyendo de izquierda a derecha (no distingue mayúsculas de minúsculas)."
 	},
 	"SEARCHB": {
 		"a": "(cadena-1, cadena-2 [,posición-inicio])",
 		"d": "Función de texto y datos utilizada para devolver la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SUBSTITUTE": {
-		"a": "(cadena, cadena-antigua, cadena-nueva [, ocurrencia])",
-		"d": "Función de texto y datos utilizada para reemplazar un conjunto de caracteres por uno nuevo"
+		"a": "(texto; texto_original; texto_nuevo; [núm_de_repeticiones])",
+		"d": "Reemplaza el texto existente con texto nuevo en una cadena"
 	},
 	"T": {
-		"a": "( valor )",
-		"d": "Función de texto y datos utilizada para verificar si el valor en la celda (o utilizado como argumento) es texto o no. Si no es texto, la función devolverá el resultado en blanco. Si el valor/argumento es texto, la función devuelve el mismo valor de texto."
+		"a": "(valor)",
+		"d": "Comprueba si un valor es texto y devuelve texto si lo es o comillas dobles (sin texto) si no lo es"
 	},
 	"TEXT": {
-		"a": "(valor, formato)",
-		"d": "Función de texto y datos utilizada para convertir un valor en un texto en el formato especificado."
+		"a": "(valor; formato)",
+		"d": "Convierte un valor en texto, con un formato de número específico"
 	},
 	"TEXTJOIN": {
-		"a": "(delimitador, ignorar_vacío, texto1 [, texto2], …)",
-		"d": "Función de texto y datos utilizada para combinar el texto de múltiples rangos y/o cadenas, e incluye un delimitador que se especifica entre cada valor de texto que se combinará; si el delimitador es una cadena de texto vacía, esta función concatenará efectivamente los rangos."
+		"a": "(delimitador; ignorar_vacías; texto1; ...)",
+		"d": "Concatena una lista o rango de cadenas de texto mediante una cadena o carácter delimitador"
 	},
 	"TRIM": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para eliminar los espacios inicial y final de una cadena de texto"
+		"a": "(texto)",
+		"d": "Quita todos los espacios del texto excepto los espacios individuales entre palabras"
 	},
 	"UNICHAR": {
-		"a": "( número )",
-		"d": "Función de texto y datos utilizada para devolver el carácter Unicode al que se hace referencia mediante el valor numérico dado."
+		"a": "(número)",
+		"d": "Devuelve el carácter Unicode al que hace referencia el valor numérico dado"
 	},
 	"UNICODE": {
-		"a": "( texto )",
-		"d": "Función de texto y datos utilizada para devolver el número (punto de código) correspondiente al primer carácter del texto"
+		"a": "(texto)",
+		"d": "Devuelve el número (punto de código) que corresponde al primer carácter del texto"
 	},
 	"UPPER": {
 		"a": "(texto)",
-		"d": "Función de texto y datos utilizada para convertir letras minúsculas a mayúsculas en la celda seleccionada"
+		"d": "Convierte una cadena de texto en letras mayúsculas"
 	},
 	"VALUE": {
-		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para convertir un valor de texto que representa un número en un número. Si el texto convertido no es un número, la función devolverá un error #VALUE!."
+		"a": "(texto)",
+		"d": "Convierte un argumento de texto que representa un número en un número"
 	},
 	"AVEDEV": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver el promedio de las desviaciones absolutas de los números de su media."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el promedio de las desviaciones absolutas de la media de los puntos de datos. Los argumentos pueden ser números, nombres, matrices o referencias que contienen números"
 	},
 	"AVERAGE": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el valor medio"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el promedio (media aritmética) de los argumentos, los cuales pueden ser números, nombres, matrices o referencias que contengan números"
 	},
 	"AVERAGEA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos incluyendo texto y valores lógicos y encontrar el valor promedio. La función PROMEDIOA procesa texto y FALSO como 0 y VERDADERO como 1."
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Devuelve el promedio (media aritmética) de los argumentos; 0 evalúa el texto como FALSO; 1 como VERDADERO. Los argumentos pueden ser números, nombres, matrices o referencias"
 	},
 	"AVERAGEIF": {
-		"a": "(rango-de-celda, selección-de-criterio [,rango-promedio])",
-		"d": "Función estadística usada para analizar el rango de datos y encontrar el valor promedio de todos los números en un rango de celdas, basado en el criterio especificado."
+		"a": "(rango; criterio; [rango_promedio])",
+		"d": "Busca el promedio (media aritmética) de las celdas que cumplen un determinado criterio o condición"
 	},
 	"AVERAGEIFS": {
-		"a": "(rango-promedio, rango-criterio-1, criterio-1 [rango-criterio-2, criterio-2], ... )",
-		"d": "Función estadística usada para analizar el rango de datos y encontrar el valor promedio de todos los números en un rango de celdas, basado en múltiples criterios"
+		"a": "(rango_promedio; rango_criterios; criterio; ...)",
+		"d": "Busca el promedio (media aritmética) de las celdas que cumplen un determinado conjunto de condiciones o criterios"
 	},
 	"BETADIST": {
-		"a": " (x, alfa, beta, [,[A] [,[B]]) ",
-		"d": "Función estadística utilizada para devolver la función de densidad de probabilidad beta acumulativa"
+		"a": "(x; alfa; beta; [A]; [B])",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la función de densidad de probabilidad beta acumulativa"
 	},
 	"BETAINV": {
-		"a": " ( x , alpha , beta , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used return the inverse of the cumulative beta probability density function for a specified beta distribution"
+		"a": "(probabilidad; alfa; beta; [A]; [B])",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la función de densidad de probabilidad beta acumulativa (DISTR.BETA)"
 	},
 	"BETA.DIST": {
-		"a": " (x, alfa, beta,acumulativo [,[A] [,[B]]) ",
-		"d": "Función estadística utilizada para devolver la distribución beta"
+		"a": "(x; alfa; beta; acumulado; [A]; [B])",
+		"d": "Devuelve la función de distribución de probabilidad beta"
 	},
 	"BETA.INV": {
-		"a": " (probabilidad, alfa, beta, [,[A] [,[B]]) ",
-		"d": "Función estadística utilizada para devolver el inverso de la función de densidad de probabilidad acumulativa beta"
+		"a": "(probabilidad; alfa; beta; [A]; [B])",
+		"d": "Devuelve el inverso de la función de densidad de probabilidad beta acumulativa (DISTR.BETA.N)"
 	},
 	"BINOMDIST": {
-		"a": "(número-éxitos, número-intentos, éxito-probabilidad, acumulativo-bandera)",
-		"d": "Función estadística utilizada para devolver el término individual probabilidad de distribución binomial"
+		"a": "(núm_éxito; ensayos; prob_éxito; acumulado)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de la distribución binomial del término individual"
 	},
 	"BINOM.DIST": {
-		"a": "(número-s, pruebas, probabilidad-es, acumulativo)",
-		"d": "Función estadística utilizada para devolver el término individual probabilidad de distribución binomial"
+		"a": "(núm_éxito; ensayos; prob_éxito; acumulado)",
+		"d": "Devuelve la probabilidad de una variable aleatoria discreta siguiendo una distribución binomial"
 	},
 	"BINOM.DIST.RANGE": {
-		"a": "(pruebas, probabilidad-es, número-s [, número-s2])",
-		"d": "Función estadística usada para retornar la probabilidad del resultado de un ensayo usando una distribución binomial"
+		"a": "(ensayos; probabilidad_s; número_s; [número_s2])",
+		"d": "Devuelve la probabilidad de un resultado de prueba que usa una distribución binomial"
 	},
 	"BINOM.INV": {
-		"a": "(pruebas, probabilidad-es, alfa)",
-		"d": "Función estadística utilizada para devolver el valor más pequeño para el que la distribución binomial acumulada es mayor o igual que un valor criterio."
+		"a": "(ensayos; prob_éxito; alfa)",
+		"d": "Devuelve el menor valor cuya distribución binomial acumulativa es mayor o igual que un valor de criterio"
 	},
 	"CHIDIST": {
-		"a": "(x, grado-libertad)",
-		"d": "Función estadística utilizada para devolver la probabilidad de cola derecha de la distribución chi-cuadrado"
+		"a": "(x; grados_de_libertad)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de cola derecha de la distribución chi cuadrado"
 	},
 	"CHIINV": {
-		"a": "(probabilidad, grado-libertad)",
-		"d": "Función estadística usada para retornar el inverso de la probabilidad de cola derecha de la distribución chi-cuadrado"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de una probabilidad dada, de una cola derecha, en una distribución chi cuadrado"
 	},
 	"CHITEST": {
-		"a": "(rango-real, rango-esperado)",
-		"d": "Función estadística utilizada para devolver la prueba de independencia, valor de la distribución del chi-cuadrado (χ) para la estadística y los grados de libertad apropiados."
+		"a": "(rango_real; rango_esperado)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la prueba de independencia: el valor de distribución chi cuadrado para la estadística y los grados de libertad apropiados"
 	},
 	"CHISQ.DIST": {
-		"a": "(x, grado-libertad, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución chi-cuadrado"
+		"a": "(x; grados_de_libertad; acumulado)",
+		"d": "Devuelve la probabilidad de cola izquierda de la distribución chi cuadrado"
 	},
 	"CHISQ.DIST.RT": {
-		"a": "(x, grado-libertad)",
-		"d": "Función estadística utilizada para devolver la probabilidad de cola derecha de la distribución chi-cuadrado"
+		"a": "(x; grados_de_probabilidad)",
+		"d": "Devuelve la probabilidad de cola derecha de la distribución chi cuadrado"
 	},
 	"CHISQ.INV": {
-		"a": "(probabilidad, grado-libertad)",
-		"d": "Función estadística usada para retornar el inverso de la probabilidad de cola izquierda de la distribución chi-cuadrado"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Devuelve el inverso de la probabilidad de cola izquierda de la distribución chi cuadrado"
 	},
 	"CHISQ.INV.RT": {
-		"a": "(probabilidad, grado-libertad)",
-		"d": "Función estadística usada para retornar el inverso de la probabilidad de cola derecha de la distribución chi-cuadrado"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Devuelve el inverso de la probabilidad de cola derecha de la distribución chi cuadrado"
 	},
 	"CHISQ.TEST": {
-		"a": "(rango-real, rango-esperado)",
-		"d": "Función estadística utilizada para devolver la prueba de independencia, valor de la distribución del chi-cuadrado (χ) para la estadística y los grados de libertad apropiados."
+		"a": "(rango_real; rango_esperado)",
+		"d": "Devuelve la prueba de independencia: el valor de la distribución chi cuadrado para la estadística y los grados adecuados de libertad"
 	},
 	"CONFIDENCE": {
-		"a": "(alfa, desviación-estándar, tamaño)",
-		"d": "Función estadística utilizada para devolver el intervalo de confianza"
+		"a": "(alfa; desv_estándar; tamaño)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el rango de confianza para la media de una población, con una distribución normal"
 	},
 	"CONFIDENCE.NORM": {
-		"a": "(alfa, desviación-estándar, tamaño)",
-		"d": "Función estadística utilizada para devolver el intervalo de confianza para una media de población, utilizando una distribución normal"
+		"a": "(alfa; desv_estándar; tamaño)",
+		"d": "Devuelve el rango de confianza para una media de población con una distribución normal"
 	},
 	"CONFIDENCE.T": {
-		"a": "(alfa, desviación-estándar, tamaño)",
-		"d": "Función estadística utilizada para devolver el intervalo de confianza para la media de una población, utilizando la distribución t de Student"
+		"a": "(alfa; desv_estándar; tamaño)",
+		"d": "Devuelve el rango de confianza para una media de población con distribución de T de Student"
 	},
 	"CORREL": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver el coeficiente de correlación de dos rangos de celdas"
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve el coeficiente de correlación de dos conjuntos de datos"
 	},
 	"COUNT": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para contar el número de celdas seleccionadas que contienen números que ignoran las celdas vacías o las que contienen texto."
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Cuenta el número de celdas de un rango que contienen números"
 	},
 	"COUNTA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de celdas y contar el número de celdas que no están vacías"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Cuenta el número de celdas no vacías de un rango"
 	},
 	"COUNTBLANK": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de celdas y devolver el número de celdas vacías"
+		"a": "(rango)",
+		"d": "Cuenta el número de celdas en blanco dentro de un rango especificado"
 	},
 	"COUNTIF": {
-		"a": "(Rango-celda, criterios-de-selección)",
-		"d": "Función estadística utilizada para contar el número de celdas seleccionadas según el criterio especificado"
+		"a": "(rango; criterio)",
+		"d": "Cuenta las celdas en el rango que coinciden con la condición dada"
 	},
 	"COUNTIFS": {
-		"a": "(rango-de-criterio-1, criterio-1,[rango-de-criterio-2, criterio-2], ... )",
-		"d": "Función estadística utilizada para contar el número de celdas seleccionadas en función de los múltiples criterios"
+		"a": "(rango_criterios; criterio; ...)",
+		"d": "Cuenta el número de celdas que cumplen un determinado conjunto de condiciones o criterios"
 	},
 	"COVAR": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para obtener la covarianza de dos rangos de datos"
+		"a": "(matriz1; matriz2)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la covarianza, que es el promedio de los productos de las desviaciones de los pares de puntos de datos en dos conjuntos de datos"
 	},
 	"COVARIANCE.P": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para obtener la covarianza de la población, el promedio de los productos de las desviaciones de cada par de puntos de datos en dos conjuntos de datos; utilice la covarianza para determinar la relación entre dos conjuntos de datos."
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve la covarianza de población, el promedio de los productos de las desviaciones para cada pareja de puntos de datos en dos conjuntos de datos"
 	},
 	"COVARIANCE.S": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para obtener la covarianza de la muestra, el promedio de los productos de las desviaciones para cada par de puntos de datos en dos conjuntos de datos"
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve la covarianza, el promedio de los productos de las desviaciones para cada pareja de puntos de datos en dos conjuntos de datos"
 	},
 	"CRITBINOM": {
-		"a": "(número-de-pruebas, probabilidad-de-éxito, alfa)",
-		"d": "Función estadística utilizada para devolver el valor más pequeño para el cual la distribución binomial acumulada es mayor o igual que el valor alfa especificado."
+		"a": "(ensayos; prob_éxito; alfa)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el menor valor cuya distribución binomial acumulativa es mayor o igual que un valor de criterio"
 	},
 	"DEVSQ": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y sumar los cuadrados de las desviaciones de los números de su media."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la suma de los cuadrados de las desviaciones de los puntos de datos con respecto al promedio de la muestra"
 	},
 	"EXPONDIST": {
-		"a": "(x, lambda, marcador-acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución exponencial"
+		"a": "(x; lambda; acum)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución exponencial"
 	},
 	"EXPON.DIST": {
-		"a": "(x, lambda, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución exponencial"
+		"a": "(x; lambda; acum)",
+		"d": "Devuelve la distribución exponencial"
 	},
 	"FDIST": {
-		"a": "(x, grado-libertad1, grado-libertad2)",
-		"d": "Función estadística utilizada para obtener la distribución de probabilidad F (cola derecha) (grado de diversidad) de dos conjuntos de datos. Puede usar esta función para determinar si los dos conjuntos de datos tienen distintos grados de diversidad."
+		"a": "(x; grados_de_libertad1; grados_de_libertad2)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución de probabilidad F (grado de diversidad) (de cola derecha) de dos conjuntos de datos"
 	},
 	"FINV": {
-		"a": "(probabilidad, grado-libertad1, grado-libertad2)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución de probabilidad de F (de cola derecha); la distribución de F se puede utilizar en una prueba de F que compara el grado de variabilidad en dos conjuntos de datos"
+		"a": "(probabilidad; grados_de_libertad1; grados_de_libertad2)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución de probabilidad F (cola derecha): si p = DISTR.F (x,...), entonces INV.F(p,...) = x"
 	},
 	"FTEST": {
-		"a": "( conjunto1, conjunto2 )",
-		"d": "Función estadística utilizada para devolver el resultado de una prueba F Una prueba F devuelve la probabilidad doble de que las varianzas de los argumentos conjunto1 y conjunto2 no presenten diferencias significativas; use esta función para determinar si las varianzas de dos muestras son diferentes"
+		"a": "(matriz1; matriz2)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el resultado de una prueba F, la probabilidad de dos colas de que las varianzas en Matriz1 y Matriz2 no sean significativamente diferentes"
 	},
 	"F.DIST": {
-		"a": "(x, grado-libertad1, grado-libertad2, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución de probabilidad F. Puede usar esta función para determinar si los dos conjuntos de datos tienen distintos grados de diversidad."
+		"a": "(x; grados_de_libertad1; grados_de_libertad2; acumulado)",
+		"d": "Devuelve la distribución (de cola izquierda) de probabilidad F (grado de diversidad) para dos conjuntos de datos"
 	},
 	"F.DIST.RT": {
-		"a": "(x, grado-libertad1, grado-libertad2)",
-		"d": "Función estadística utilizada para obtener la distribución de probabilidad F (cola derecha) (grado de diversidad) de dos conjuntos de datos. Puede usar esta función para determinar si los dos conjuntos de datos tienen distintos grados de diversidad."
+		"a": "(x; grados_de_libertad1; grados_de_libertad2)",
+		"d": "Devuelve la distribución (de cola derecha) de probabilidad F (grado de diversidad) para dos conjuntos de datos"
 	},
 	"F.INV": {
-		"a": "(probabilidad, grado-libertad1, grado-libertad2)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución de probabilidad de F (de cola derecha); la distribución de F se puede utilizar en una prueba de F que compara el grado de variabilidad en dos conjuntos de datos"
+		"a": "(probabilidad; grados_de_libertad1; grados_de_libertad2)",
+		"d": "Devuelve el inverso de la distribución de probabilidad F (de cola izquierda): si p = DISTR.F(x,...), entonces INV.F(p,...) = x"
 	},
 	"F.INV.RT": {
-		"a": "(probabilidad, grado-libertad1, grado-libertad2)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución de probabilidad de F (de cola derecha); la distribución de F se puede utilizar en una prueba de F que compara el grado de variabilidad en dos conjuntos de datos"
+		"a": "(probabilidad; grados_de_libertad1; grados_de_libertad2)",
+		"d": "Devuelve el inverso de la distribución de probabilidad F (de cola derecha): si p = DISTR.F.CD(x,...), entonces INV.F.CD(p,...) = x"
 	},
 	"F.TEST": {
-		"a": "( conjunto1, conjunto2 )",
-		"d": "Función estadística utilizada para devolver el resultado de una prueba F, la probabilidad de dos colas de que las varianzas de los argumentos conjunto1 y conjunto2 no presenten diferencias significativas; use esta función para determinar si las varianzas de dos muestras son diferentes"
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve el resultado de una prueba F, la probabilidad de dos colas de que las varianzas en Matriz 1 y Matriz 2 no sean significativamente diferentes"
 	},
 	"FISHER": {
-		"a": "( número )",
-		"d": "Función estadística utilizada para devolver la transformación de Fisher de un número"
+		"a": "(x)",
+		"d": "Devuelve la transformación Fisher o coeficiente Z"
 	},
 	"FISHERINV": {
-		"a": "( número )",
-		"d": "Función estadística utilizada para realizar la transformación inversa de Fisher"
+		"a": "(y)",
+		"d": "Devuelve la función inversa de la transformación Fisher o coeficiente Z: si y = FISHER (x), entonces PRUEBA.FISHER.INV (y) = x"
 	},
 	"FORECAST": {
-		"a": "(x, conjunto-1, conjunto-2)",
-		"d": "Función estadística utilizada para predecir un valor futuro basado en los valores existentes proporcionados"
+		"a": "(x; conocido_y; conocido_x)",
+		"d": "Esta función admite compatibilidad con Excel 2013 y versiones anteriores.\r\nCalcula o predice un valor futuro en una tendencia lineal usando valores existentes"
 	},
 	"FORECAST.ETS": {
-		"a": "( fecha_destino, valores, línea_de_tiempo, [ estacionalidad ], [ llenado_datos ], [ agregación ] )",
-		"d": "Función estadística utilizada para calcular o predecir un valor futuro en base a valores (históricos) existentes mediante la versión AAA el algoritmo de Suavizado exponencial triple (ETS)"
+		"a": "(fecha_objetivo; valores; escaladetiempo; [estacionalidad]; [finalización_datos]; [agregación])",
+		"d": "Devuelve el valor previsto para una fecha objetivo usando el método de suavizado exponencial."
 	},
 	"FORECAST.ETS.CONFINT": {
-		"a": "( fecha_destino, valores, línea_de_tiempo, [ nivel_confianza ], [ estacionalidad ], [ llenado_datos ], [ agregación ] )",
-		"d": "Función estadística utilizada para devolver un intervalo de confianza para el valor previsto en una fecha futura específica"
+		"a": "(fecha_objetivo; valores; escaladetiempo; [nivel_confianza]; [estacionalidad]; [finalización_datos]; [agregación])",
+		"d": "Devuelve un rango de confianza para el valor previsto en la fecha objetivo especificada."
 	},
 	"FORECAST.ETS.SEASONALITY": {
-		"a": "( valores, línea_de_tiempo, [ llenado_datos ], [ agregación ] )",
-		"d": "Función estadística utilizada para devolver la longitud del patrón repetitivo que Excel detecta para la serie temporal especificada"
+		"a": "(valores; escaladetiempo; [finalización_datos]; [agregación])",
+		"d": "Devuelve la longitud del patrón repetitivo que Microsoft Excel detecta para la serie de tiempo especificado."
 	},
 	"FORECAST.ETS.STAT": {
-		"a": "( valores, línea_de_tiempo, tipo_estadístico, [ estacionalidad ], [ llenado_datos ], [ agregación ] )",
-		"d": "Función estadística utilizada para devolver un valor estadístico como resultado de la previsión de series temporales; el tipo estadístico indica qué estadística solicita esta función"
+		"a": "(valores; escaladetiempo; tipo_estadística; [estacionalidad]; [completación_datos]; [agregación])",
+		"d": "Devuelve la estadística requerida de la previsión."
 	},
 	"FORECAST.LINEAR": {
-		"a": "(x, ys_conocidas, xs_conocidas)",
-		"d": "Función estadística utilizada para calcular o predecir un valor futuro utilizando valores existentes; el valor predecido es un valor y para un valor x dado, los valores conocidos son valores x existentes y valores y, y el nuevo valor se predice mediante regresión lineal."
+		"a": "(x; conocido_y; conocido_x)",
+		"d": "Calcula o predice un valor futuro en una tendencia lineal usando valores existentes"
 	},
 	"FREQUENCY": {
-		"a": "(conjunto-datos, conjunto-recipiente)",
-		"d": "Función estadística usada para сalcular con qué frecuencia los valores ocurren dentro del rango seleccionado de celdas y muestra el primer valor de la matriz vertical de números devueltos."
+		"a": "(datos; grupos)",
+		"d": "Calcula la frecuencia con la que ocurre un valor dentro de un rango de valores y devuelve una matriz vertical de números con más de un elemento que grupos"
 	},
 	"GAMMA": {
-		"a": "( número )",
-		"d": "Función estadística utilizada para devolver el valor de la función gamma"
+		"a": "(x)",
+		"d": "Devuelve los valores de la función gamma"
 	},
 	"GAMMADIST": {
-		"a": "(x, alfa, beta, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución gamma"
+		"a": "(x; alfa; beta; acumulado)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución gamma"
 	},
 	"GAMMA.DIST": {
-		"a": "(x, alfa, beta, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución gamma"
+		"a": "(x; alfa; beta; acumulado)",
+		"d": "Devuelve la distribución gamma"
 	},
 	"GAMMAINV": {
-		"a": "(probabilidad, alfa, beta)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución acumulativa de gamma"
+		"a": "(prob; alfa; beta)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución gamma acumulativa: si p = DISTR.GAMMA(x,...), entonces INV.GAMMA(p,...) = x"
 	},
 	"GAMMA.INV": {
-		"a": "(probabilidad, alfa, beta)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución acumulativa de gamma"
+		"a": "(probabilidad; alfa; beta)",
+		"d": "Devuelve el inverso de la distribución gamma acumulativa: si p = DISTR.GAMMA.N(x,...), entonces INV.GAMMA(p,...) = x"
 	},
 	"GAMMALN": {
-		"a": "( número )",
-		"d": "Función estadística utilizada para devolver el logaritmo natural de la función gamma"
+		"a": "(x)",
+		"d": "Devuelve el logaritmo natural de la función gamma"
 	},
 	"GAMMALN.PRECISE": {
-		"a": "( x )",
-		"d": "Función estadística utilizada para devolver el logaritmo natural de la función gamma"
+		"a": "(x)",
+		"d": "Devuelve el logaritmo natural de la función gamma"
 	},
 	"GAUSS": {
-		"a": "( z )",
-		"d": "Función estadística utilizada para calcular la probabilidad de que un miembro de una población normal estándar se encuentre entre la media y las desviaciones estándar z de la media"
+		"a": "(x)",
+		"d": "Devuelve un 0,5 menos que la distribución acumulativa normal estándar"
 	},
 	"GEOMEAN": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para calcular la media geométrica de la lista de argumentos"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la media geométrica de una matriz o rango de datos numéricos positivos"
 	},
 	"GROWTH": {
-		"a": "(conocido_y, [conocido_x], [nueva_matriz_x], [constante])",
-		"d": "Función estadística utilizada para Calcula el crecimiento exponencial previsto a través de los datos existentes. Función devuelve los valores y de una serie de nuevos valores x especificados con valores x e y existentes."
+		"a": "(conocido_y; [conocido_x]; [nueva_matriz_x]; [constante])",
+		"d": "Devuelve números en una tendencia de crecimiento exponencial coincidente con puntos de datos conocidos"
 	},
 	"HARMEAN": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para calcular la media armónica de la lista de argumentos"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la media armónica de un conjunto de números positivos: el recíproco de la media aritmética de los recíprocos"
 	},
 	"HYPGEOM.DIST": {
-		"a": "(muestra_éxito, núm_de_muestra, población_éxito, núm_de_población, acumulado)",
-		"d": "Función estadística utilizada para devolver la distribución hipergeométrica, la probabilidad de un número dado de éxitos de la muestra, dado el tamaño de la muestra, los éxitos de la población y el tamaño de la población."
+		"a": "(muestra_éxito; núm_de_muestra; población_éxito; núm_de_población; acumulado)",
+		"d": "Devuelve la distribución hipergeométrica"
 	},
 	"HYPGEOMDIST": {
-		"a": "(éxitos-muestras , número-muestras , éxitos-población , número-población)",
-		"d": "Función estadística utilizada para devolver la distribución hipergeométrica, la probabilidad de un número dado de éxitos de la muestra, dado el tamaño de la muestra, los éxitos de la población y el tamaño de la población."
+		"a": "(muestra_éxito; núm_de_muestra; población_éxito; núm_de_población)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución hipergeométrica"
 	},
 	"INTERCEPT": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para analizar los valores de la primera matriz y los valores de la segunda matriz para calcular el punto de intersección"
+		"a": "(conocido_y; conocido_x)",
+		"d": "Calcula el punto en el cual una línea formará intersección con el eje Y usando una línea de regresión optimizada trazada a través de los valores conocidos de X e Y"
 	},
 	"KURT": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística usada para devolver la curtosis de la lista de argumentos"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la curtosis de un conjunto de datos."
 	},
 	"LARGE": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para analizar el rango de celdas y devolver el mayor valor"
+		"a": "(matriz; k)",
+		"d": "Devuelve el valor k-ésimo mayor de un conjunto de datos. Por ejemplo, el trigésimo número más grande"
 	},
 	"LINEST": {
-		"a": "(conocido_y, [conocido_x], [constante], [estadística])",
-		"d": "Función estadística utilizada para calcula las estadísticas de una línea con el método de los 'mínimos cuadrados' para calcular la línea recta que mejor se ajuste a los datos y después devuelve una matriz que describe la línea; debido a que esta función devuelve una matriz de valores, debe ser especificada como fórmula de matriz"
+		"a": "(conocido_y; [conocido_x]; [const]; [stats])",
+		"d": "Devuelve estadísticas que describen una tendencia lineal que coincide con puntos de datos conocidos, mediante una línea recta usando el método de mínimos cuadrados"
 	},
 	"LOGEST": {
-		"a": "(conocido_y, [conocido_x], [constante], [estadística])",
-		"d": "Función estadística utilizada, en el análisis de regresión, para calcula una curva exponencial que se ajusta a los datos y devuelve una matriz de valores que describe la curva. Debido a que esta función devuelve una matriz de valores, debe ser especificada como una fórmula de matriz."
+		"a": "(conocido_y; [conocido_x]; [constante]; [estadística])",
+		"d": "Devuelve estadísticas que describen una curva exponencial, coincidente con puntos de datos conocidos"
 	},
 	"LOGINV": {
-		"a": "(x, media, desviación-estándar)",
-		"d": "Función estadística utilizada para devolver el inverso de la función de distribución acumulativa logarítmica del valor x dado con los parámetros especificados"
+		"a": "(probabilidad; media; desv_estándar)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la función de distribución logarítmico-normal acumulativa de x, donde ln(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
 	},
 	"LOGNORM.DIST": {
-		"a": "(x , media , desviación-estándar , acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución logarítmica normal de x, donde ln(x) se distribuye normalmente con los parámetros Media y Desviación estándar"
+		"a": "(x; media; desv_estándar; acumulado)",
+		"d": "Devuelve la distribución logarítmico-normal de x, donde ln(x) se distribuye normalmente con los parámetros media y desv_estándar"
 	},
 	"LOGNORM.INV": {
-		"a": "(x, media, desviación-estándar)",
-		"d": "Función estadística utilizada para devolver el inverso de la función de distribución acumulativa logarítmica normal de x, donde ln(x) se distribuye normalmente con los parámetros Media y Desviación estándar"
+		"a": "(probabilidad; media; desv_estándar)",
+		"d": "Devuelve el inverso de la distribución logarítmico-normal de x, donde ln(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
 	},
 	"LOGNORMDIST": {
-		"a": "(x, media, desviación-estándar)",
-		"d": "Función estadística utilizada para analizar datos transformados logarítmicamente y devolver la función de distribución acumulativa logarítmica del valor x dado con los parámetros especificados."
+		"a": "(x; media; desv_estándar)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución logarítmico-normal acumulativa de x, donde In(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
 	},
 	"MAX": {
-		"a": "(número1, número2,...)",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el número más grande"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el valor máximo de una lista de valores. Omite los valores lógicos y el texto"
 	},
 	"MAXA": {
-		"a": "(número1, número2,...)",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el valor más grande"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Devuelve el valor máximo de un conjunto de valores. Incluye valores lógicos y texto"
 	},
 	"MAXIFS": {
-		"a": "(rango_max, criterio_rango1, criterio1 [, criterio_rango2, criterio2], ...)",
-		"d": "Función estadística utilizada para devolver el valor máximo entre celdas especificadas por un conjunto dado de condiciones o criterios"
+		"a": "(rango_max; rango_criterios; criterios; ...)",
+		"d": "Devuelve el valor máximo entre las celdas de un determinado conjunto de condiciones o criterios"
 	},
 	"MEDIAN": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para calcular la mediana de la lista de argumentos"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la mediana o el número central de un conjunto de números"
 	},
 	"MIN": {
-		"a": "(número1, número2,...)",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el número más pequeño"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el valor mínimo de una lista de valores. Omite los valores lógicos y el texto"
 	},
 	"MINA": {
-		"a": "(número1, número2,...)",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el valor más pequeño"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Devuelve el valor mínimo de un conjunto de valores. Incluye valores lógicos y texto"
 	},
 	"MINIFS": {
-		"a": "(rango_min, criterio_rango1, criterio1 [, criterio_rango2, criterio2], ...)",
-		"d": "Función estadística utilizada para devolver el valor mínimo entre celdas especificadas por un conjunto dado de condiciones o criterios."
+		"a": "(rango_min; rango_criterios; criterios; ...)",
+		"d": "Devuelve el valor mínimo entre las celdas de un determinado conjunto de condiciones o criterios"
 	},
 	"MODE": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver el valor que ocurre con más frecuencia"
+		"a": "(número1; [número2]; ...)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el valor más frecuente o que más se repite en una matriz o rango de datos"
 	},
 	"MODE.MULT": {
-		"a": "(número1, [,número2]... )",
-		"d": "Función estadística utilizada para obtener una matriz vertical de los valores más frecuentes o repetitivos de una matriz o rango de datos."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve una matriz vertical de los valores más frecuente o repetitivos de una matriz o rango de datos. Para una matriz horizontal, use =TRANSPONER(MODA.VARIOS(número1,número2,...))"
 	},
 	"MODE.SNGL": {
-		"a": "(número1, [,número2]... )",
-		"d": "Función estadística utilizada para devolver el valor más frecuente o repetitivo de una matriz o rango de datos."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el valor más frecuente o repetitivo de una matriz o rango de datos"
 	},
 	"NEGBINOM.DIST": {
-		"a": "((número-f, número-s, probabilidad-s, acumulativo)",
-		"d": "Función estadística usada para retornar la distribución binomial negativa, la probabilidad de que habrá fallas de Número-f antes del éxito de Número, con Probabilidad-s de probabilidad de éxito"
+		"a": "(núm_fracasos; núm_éxitos; prob_éxito; acumulado)",
+		"d": "Devuelve la distribución binomial negativa, la probabilidad de encontrar núm_fracasos antes que núm_éxito, con probabilidad probabilidad_s de éxito"
 	},
 	"NEGBINOMDIST": {
-		"a": "(número-fracasos, número-éxitos, probabilidad-éxito)",
-		"d": "Función estadística utilizada para devolver la distribución binomial negativa"
+		"a": "(núm_fracasos; núm_éxitos; prob_éxito)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución binomial negativa, la probabilidad de encontrar núm_fracasos antes que núm_éxito, con la probabilidad probabilidad_éxito de éxito"
 	},
 	"NORM.DIST": {
-		"a": "(x, media, desviación-estándar, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución normal para la media especificada y la desviación estándar"
+		"a": "(x; media; desv_estándar; acumulado)",
+		"d": "Devuelve la distribución normal para la media  y la desviación estándar especificadas"
 	},
 	"NORMDIST": {
-		"a": "(x , media , desviación-estándar , marcador-acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución normal para la media especificada y la desviación estándar"
+		"a": "(x; media; desv_estándar; acum)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución acumulativa normal para la media y desviación estándar especificadas"
 	},
 	"NORM.INV": {
-		"a": "(probabilidad, media, desviación-estándar)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución normal acumulativa para la media especificada y la desviación estándar"
+		"a": "(probabilidad; media; desv_estándar)",
+		"d": "Devuelve el inverso de la distribución acumulativa normal para la media y desviación estándar especificadas"
 	},
 	"NORMINV": {
-		"a": "(x, media, desviación-estándar)",
-		"d": "Función estadística utilizada para devolver el inverso de la distribución normal acumulativa para la media especificada y la desviación estándar"
+		"a": "(probabilidad; media; desv_estándar)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución acumulativa normal para la media y desviación estándar especificadas"
 	},
 	"NORM.S.DIST": {
-		"a": "(z, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución normal estándar (tiene una media de cero y una desviación estándar de uno)."
+		"a": "(z; acumulado)",
+		"d": "Devuelve la distribución normal estándar (tiene una media de cero y una desviación estándar de uno)"
 	},
 	"NORMSDIST": {
-		"a": "( número )",
-		"d": "Función estadística utilizada para devolver la función de distribución acumulativa normal estándar."
+		"a": "(z)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
 	},
 	"NORM.S.INV": {
-		"a": "( probabilidad )",
-		"d": "Función estadística utilizada para devolver la inversa de la distribución normal acumulativa estándar; la distribución tiene una media de cero y una desviación estándar de uno"
+		"a": "(probabilidad)",
+		"d": "Devuelve el inverso de la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
 	},
 	"NORMSINV": {
-		"a": "( probabilidad )",
-		"d": "Función estadística utilizada para devolver lo contrario de la distribución acumulativa normal estándar"
+		"a": "(probabilidad)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
 	},
 	"PEARSON": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para devolver el coeficiente de correlación de momento del producto Pearson"
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve el coeficiente de correlación producto o momento r de Pearson, r"
 	},
 	"PERCENTILE": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver el percentil k"
+		"a": "(matriz; k)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el percentil k-ésimo de los valores de un rango"
 	},
 	"PERCENTILE.EXC": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para devolver el percentil k de los valores en un rango, donde k está en el rango 0..1, exclusivo"
+		"a": "(matriz; k)",
+		"d": "Devuelve el percentil k-ésimo de los valores de un rango, donde k está en el rango 0..1, exclusivo"
 	},
 	"PERCENTILE.INC": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para devolver el percentil k de los valores en un rango, donde k está en el rango 0..1, exclusivo"
+		"a": "(matriz; k)",
+		"d": "Devuelve el percentil k-ésimo de los valores de un rango, donde k está en el rango 0..1, inclusive"
 	},
 	"PERCENTRANK": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para devolver el rango de un valor en conjunto de valores como un porcentaje del conjunto."
+		"a": "(matriz; x; [cifra_significativa])",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el rango de un valor en un conjunto de datos como porcentaje del conjunto"
 	},
 	"PERCENTRANK.EXC": {
-		"a": "(conjunto, x[, significado])",
-		"d": "Función estadística utilizada para devolver el rango de un valor en un conjunto de datos como porcentaje (0..1, exclusivo) del conjunto de datos."
+		"a": "(matriz; x; [cifra_significativa])",
+		"d": "Devuelve la jerarquía de un valor en un conjunto de datos como un porcentaje del conjunto de datos como un porcentaje (0..1, exclusivo) del conjunto de datos"
 	},
 	"PERCENTRANK.INC": {
-		"a": "(conjunto, x[, significado])",
-		"d": "Función estadística utilizada para devolver el rango de un valor en un conjunto de datos como porcentaje (0..1, inclusive) del conjunto de datos."
+		"a": "(matriz; x; [cifra_significativa])",
+		"d": "Devuelve la jerarquía de un valor en un conjunto de datos como un porcentaje del conjunto de datos como un porcentaje (0..1, inclusive) del conjunto de datos"
 	},
 	"PERMUT": {
-		"a": "(número, número-escogido)",
-		"d": "Función estadística utilizada para devolver el rango de un valor en un conjunto de datos como porcentaje (0..1, inclusive) del conjunto de datos."
+		"a": "(número; tamaño)",
+		"d": "Devuelve el número de permutaciones para un número determinado de objetos que pueden ser seleccionados de los objetos totales"
 	},
 	"PERMUTATIONA": {
-		"a": "(número, número-escogido)",
-		"d": "Función estadística utilizada para devolver el número de permutaciones para un número dado de objetos (con repeticiones) que se pueden seleccionar del total de objetos"
+		"a": "(número; número_elegido)",
+		"d": "Devuelve la cantidad de permutaciones de una cantidad determinada de objetos (con repeticiones) que pueden seleccionarse del total de objetos"
 	},
 	"PHI": {
-		"a": "( x )",
-		"d": "Función estadística utilizada para devolver el valor de la función de densidad para una distribución normal estándar"
+		"a": "(x)",
+		"d": "Devuelve el valor de la función de densidad para una distribución normal estándar"
 	},
 	"POISSON": {
-		"a": "(x, media, marcador-acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución de Poisson"
+		"a": "(x; media; acumulado)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución de Poisson"
 	},
 	"POISSON.DIST": {
-		"a": "(x, media, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución de Poisson; una aplicación común de la distribución de Poisson es predecir el número de eventos en un tiempo específico, como el número de coches que llegan a una plaza de peaje en 1 minuto."
+		"a": "(x; media; acumulado)",
+		"d": "Devuelve la distribución de Poisson"
 	},
 	"PROB": {
-		"a": "(x-rango, rango-probabilidad, límite-inferior[, límite-superior])",
-		"d": "Función estadística utilizada para obtener la probabilidad de que los valores de un rango se encuentren entre los límites inferior y superior"
+		"a": "(rango_x; rango_probabilidad; límite_inf; [límite_sup])",
+		"d": "Devuelve la probabilidad de que los valores de un rango se encuentren entre dos límites o sean iguales a un límite inferior"
 	},
 	"QUARTILE": {
-		"a": "(conjunto , categoría-resultado)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver el cuartil"
+		"a": "(matriz; cuartil)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el cuartil de un conjunto de datos"
 	},
 	"QUARTILE.INC": {
-		"a": "( conjunto , cuartil )",
-		"d": "Función estadística utilizada para devolver el cuartil de un conjunto de datos, basado en valores de percentiles desde 0..1, inclusive"
+		"a": "(matriz; cuartil)",
+		"d": "Devuelve el cuartil de un conjunto de datos en función de los valores del percentil de 0..1, inclusive"
 	},
 	"QUARTILE.EXC": {
-		"a": "( conjunto , cuartil )",
-		"d": "Función estadística utilizada para devolver el cuartil del conjunto de datos, basado en valores de percentiles desde 0..1, exclusivo"
+		"a": "(matriz; cuartil)",
+		"d": "Devuelve el cuartil de un conjunto de datos en función de los valores del percentil de 0..1, exclusivo"
 	},
 	"RANK": {
-		"a": "(número, ref [, orden])",
-		"d": "Función estadística utilizada para devolver el rango de un número en una lista de números; el rango de un número es su tamaño en relación con otros valores de una lista, por lo que si tuviera que ordenar la lista, el rango del número sería su posición."
+		"a": "(número; referencia; [orden])",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la jerarquía de un número dentro de una lista: su tamaño depende de los otros valores de la lista"
 	},
 	"RANK.AVG": {
-		"a": "(número, ref [, orden])",
-		"d": "Función estadística utilizada para devolver el rango de un número en una lista de números: su tamaño en relación con otros valores de la lista; si más de un valor tiene el mismo rango, se devuelve el rango medio."
+		"a": "(número; referencia; [orden])",
+		"d": "Devuelve la jerarquía de un número dentro de una lista de números: su tamaño en relación con otros valores de la lista; si más de un valor tiene la misma jerarquía, se devuelve el promedio de jerarquía"
 	},
 	"RANK.EQ": {
-		"a": "(número, ref [, orden])",
-		"d": "Función estadística utilizada para devolver el rango de un número en una lista de números: su tamaño es relativo a otros valores de la lista; si más de un valor tiene el mismo rango, se devuelve el rango superior de ese conjunto de valores."
+		"a": "(número; referencia; [orden])",
+		"d": "Devuelve la jerarquía de un número dentro de una lista de números: su tamaño en relación con otros valores de la lista; si más de un valor tiene la misma jerarquía, se devuelve la jerarquía superior de ese conjunto de valores"
 	},
 	"RSQ": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para devolver el cuadrado del coeficiente de correlación de momento del producto Pearson"
+		"a": "(conocido_y; conocido_x)",
+		"d": "Devuelve el cuadrado del coeficiente del momento de correlación del producto Pearson de los puntos dados"
 	},
 	"SKEW": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver la asimetría de una distribución de la lista de argumentos"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el sesgo de una distribución: una caracterización del grado de asimetría de una distribución alrededor de su media"
 	},
 	"SKEW.P": {
-		"a": "(númeror-1 [, número2],...)",
-		"d": "Función estadística utilizada para devolver la asimetría de una distribución basada en una población: una caracterización del grado de asimetría de una distribución alrededor de su media."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el sesgo de una distribución basado en una población: una caracterización del grado de asimetría de una distribución alrededor de su media"
 	},
 	"SLOPE": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función estadística utilizada para devolver la pendiente de la línea de regresión lineal a través de datos en dos matrices"
+		"a": "(conocido_y; conocido_x)",
+		"d": "Devuelve la pendiente de una línea de regresión lineal de los puntos dados"
 	},
 	"SMALL": {
-		"a": "( conjunto , k )",
-		"d": "Función estadística utilizada para analizar el rango de datos y encontrar el valor más pequeño"
+		"a": "(matriz; k)",
+		"d": "Devuelve el valor k-ésimo menor de un conjunto de datos. Por ejemplo, el trigésimo número menor"
 	},
 	"STANDARDIZE": {
-		"a": "(x, media, desviación-estándar)",
-		"d": "Función estadística utilizada para devolver un valor normalizado de una distribución caracterizada por los parámetros especificados"
+		"a": "(x; media; desv_estándar)",
+		"d": "Devuelve un valor normalizado de una distribución caracterizada por una media y desviación estándar"
 	},
 	"STDEV": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver la desviación estándar de una población basada en un conjunto de números"
+		"a": "(número1; [número2]; ...)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la desviación estándar de una muestra (se omiten los valores lógicos y el texto de la muestra)"
 	},
 	"STDEV.P": {
-		"a": "(número1 [, número2],... )",
-		"d": "Función estadística utilizada para calcular la desviación estándar basada en toda la población dada como argumento (ignora los valores lógicos y el texto)"
+		"a": "(número1; [número2]; ...)",
+		"d": "Calcula la desviación estándar en función de la población total proporcionada como argumentos (omite los valores lógicos y el texto)"
 	},
 	"STDEV.S": {
-		"a": "(número1 [, número2],... )",
-		"d": "Función estadística utilizada para estimar la desviación estándar basada en una muestra (ignora los valores lógicos y el texto de la muestra)"
+		"a": "(número1; [número2]; ...)",
+		"d": "Calcula la desviación estándar en función de una muestra (omite los valores lógicos y el texto)"
 	},
 	"STDEVA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver la desviación estándar de una población basada en un conjunto de números, texto y valores lógicos (VERDADERO o FALSO). La función STDEVA trata el texto y FALSO como un valor de 0 y VERDADERO como un valor de 1"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Calcula la desviación estándar de una muestra, incluidos valores lógicos y texto. El texto y el valor lógico FALSO tienen el valor 0. El valor lógico VERDADERO tiene el valor 1."
 	},
 	"STDEVP": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver la desviación estándar de toda una población"
+		"a": "(número1; [número2]; ...)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la desviación estándar de la población total proporcionada como argumentos (se omiten los valores lógicos y el texto)"
 	},
 	"STDEVPA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el rango de datos y devolver la desviación estándar de toda una población"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Calcula la desviación estándar a partir de toda una población, incluidos valores lógicos y texto. El texto y el valor lógico FALSO tienen el valor 0. El valor lógico VERDADERO tiene el valor 1."
 	},
 	"STEYX": {
-		"a": "(conocido-ys, conocido-xs)",
-		"d": "Función estadística utilizada para devolver el error estándar del valor y predicho para cada x en la línea de regresión"
+		"a": "(conocido_y; conocido_x)",
+		"d": "Devuelve el error típico del valor de Y previsto para cada X de la regresión"
 	},
 	"TDIST": {
-		"a": "(x, grado-libertad, colas)",
-		"d": "Función estadística utilizada para devolver los puntos porcentuales (probabilidad) de la distribución t de Student donde un valor numérico (x) es un valor calculado de t para el que deben calcularse los puntos porcentuales; la distribución-t se usa en la evaluación de la hipótesis de conjuntos de datos de muestras pequeñas"
+		"a": "(x; grados_de_libertad; colas)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución t de Student "
 	},
 	"TINV": {
-		"a": "( probabilidad , grado_libertad )",
-		"d": "Función estadística utilizada para devolver el inverso de dos colas de la distribución t de Student"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de dos colas de la distribución t de Student"
 	},
 	"T.DIST": {
-		"a": "(x, grado-libertad, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución t de cola izquierda de Student. La distribución-t se usa en la evaluación de la hipótesis de conjuntos de datos de muestras pequeñas. Use esta función en lugar de una tabla de valores críticos para la distribución-t."
+		"a": "(x; grados_de_libertad; acumulado)",
+		"d": "Devuelve la distribución t de Student de cola izquierda"
 	},
 	"T.DIST.2T": {
-		"a": "(x, grado-libertad)",
-		"d": "Función estadística utilizada para devolver la distribución t se Student de dos colas. La distribución t de Student se utiliza en la prueba de hipótesis de pequeños conjuntos de datos de muestra. Use esta función en lugar de una tabla de valores críticos para la distribución-t."
+		"a": "(x; grados_de_libertad)",
+		"d": "Devuelve la distribución t de Student de dos colas"
 	},
 	"T.DIST.RT": {
-		"a": "(x, grado-libertad)",
-		"d": "Función estadística utilizada para devolver la distribución t de Student de cola derecha. La distribución-t se usa en la evaluación de la hipótesis de conjuntos de datos de muestras pequeñas. Use esta función en lugar de una tabla de valores críticos para la distribución-t."
+		"a": "(x; grados_de_libertad)",
+		"d": "Devuelve la distribución t de Student de cola derecha"
 	},
 	"T.INV": {
-		"a": "(probabilidad, grado-libertad)",
-		"d": "Función estadística utilizada para devolver el inverso de cola izquierda de la distribución t de Student"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Devuelve el inverso de cola izquierda de la distribución t de Student"
 	},
 	"T.INV.2T": {
-		"a": "(probabilidad, grado-libertad)",
-		"d": "Función estadística utilizada para devolver el inverso de dos colas de la distribución t de Student"
+		"a": "(probabilidad; grados_de_libertad)",
+		"d": "Devuelve el inverso de dos colas de la distribución t de Student"
 	},
 	"T.TEST": {
-		"a": "(conjunto1, conjunto2, colas, tipo)",
-		"d": "Función estadística utilizada para obtener la probabilidad asociada con el t-Test de Student; utilice PRUEBA.T para determinar si es probable que dos muestras provengan de las mismas dos poblaciones subyacentes que tienen la misma media."
+		"a": "(matriz1; matriz2; colas; tipo)",
+		"d": "Devuelve la probabilidad asociada con la prueba t de Student"
 	},
 	"TREND": {
-		"a": "(conocido_y, [conocido_x], [nueva_matriz_x], [constante])",
-		"d": "Función estadística devuelve valores en una tendencia lineal. Se ajusta a una línea recta (usando el método de los mínimos cuadrados) al known_y de la matriz y known_x."
-	},	
+		"a": "(conocido_y; [conocido_x]; [nueva_matriz_x]; [constante])",
+		"d": "Devuelve números en una tendencia lineal que coincide con puntos de datos conocidos, usando el método de mínimos cuadrados"
+	},
 	"TRIMMEAN": {
-		"a": "(matriz, porcentaje)",
-		"d": "Función estadística utilizada para obtener la media del interior de un conjunto de datos; TRIMMEAN calcula la media tomada excluyendo un porcentaje de puntos de datos de las colas superior e inferior de un conjunto de datos."
+		"a": "(matriz; porcentaje)",
+		"d": "Devuelve la media de la porción interior de un conjunto de valores de datos"
 	},
 	"TTEST": {
-		"a": "(conjunto1, conjunto2, colas, tipo)",
-		"d": "Función estadística utilizada para obtener la probabilidad asociada con el t-Test de Student; utilice PRUEBA.T para determinar si es probable que dos muestras provengan de las mismas dos poblaciones subyacentes que tienen la misma media."
+		"a": "(matriz1; matriz2; colas; tipo)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad asociada con la prueba t de Student"
 	},
 	"VAR": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el conjunto de valores y calcular la desviación del muestreo"
+		"a": "(número1; [número2]; ...)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la varianza de una muestra (se omiten los valores lógicos y el texto de la muestra)"
 	},
 	"VAR.P": {
-		"a": "(número1 [, número2],... )",
-		"d": "Función estadística utilizada para calcular la desviación basada en toda la población (ignora los valores lógicos y el texto de la población)"
+		"a": "(número1; [número2]; ...)",
+		"d": "Calcula la varianza en función de la población total (omite los valores lógicos y el texto)"
 	},
 	"VAR.S": {
-		"a": "(número1 [, número2],... )",
-		"d": "Función estadística utilizada para estimar la varianza basada en un muestreo (ignora los valores lógicos y el texto en el muestreo)"
+		"a": "(número1; [número2]; ...)",
+		"d": "Calcula la varianza en función de una muestra (omite los valores lógicos y el texto)"
 	},
 	"VARA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el conjunto de valores y calcular la desviación del muestreo"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Calcula la varianza de una muestra, incluyendo valores lógicos y texto. Los valores lógicos y el texto con valor FALSO tiene valor asignado 0, los de valor lógico VERDADERO tienen valor 1"
 	},
 	"VARP": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el conjunto de valores y calcular la varianza de toda una población"
+		"a": "(número1; [número2]; ...)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la varianza de la población total (se omiten los valores lógicos y el texto de la población)"
 	},
 	"VARPA": {
-		"a": "(lista-argumento)",
-		"d": "Función estadística utilizada para analizar el conjunto de valores y devolver la varianza de toda una población"
+		"a": "(valor1; [valor2]; ...)",
+		"d": "Calcula la varianza de la población total, incluyendo valores lógicos y texto. Los valores lógicos y el texto con valor FALSO tienen el valor asignado 0, los de valor lógico VERDADERO tienen valor 1"
 	},
 	"WEIBULL": {
-		"a": "(x, alfa, beta, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución Weibull; utilice esta distribución en el análisis de fiabilidad, como el cálculo del tiempo medio de fallo de un dispositivo."
+		"a": "(x; alfa; beta; acumulado)",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de Weibull"
 	},
 	"WEIBULL.DIST": {
-		"a": "(x, alfa, beta, acumulativo)",
-		"d": "Función estadística utilizada para devolver la distribución Weibull; utilice esta distribución en el análisis de fiabilidad, como el cálculo del tiempo medio de fallo de un dispositivo."
+		"a": "(x; alfa; beta; acumulado)",
+		"d": "Devuelve la probabilidad de una variable aleatoria siguiendo una distribución de Weibull"
 	},
 	"Z.TEST": {
-		"a": "(conjunto, x[, sigma])",
-		"d": "Función estadística utilizada para obtener el valor P de una cola de un ensayo en z; para la media de una población hipotética dada, x, PRUEBA.Z obtiene la probabilidad de que la media de la muestra sea mayor que la media de las observaciones en el conjunto de datos (array), es decir, la media de la muestra observada."
+		"a": "(matriz; x; [sigma])",
+		"d": "Devuelve el valor P de una cola de una prueba z"
 	},
 	"ZTEST": {
-		"a": "(conjunto, x[, sigma])",
-		"d": "Función estadística utilizada para retornar el valor de probabilidad de una cola de una prueba z; para una población hipotética dada, μ, ZPRUEBA retorna la probabilidad de que la media de la muestra sea mayor que el promedio de las observaciones en el conjunto de datos (array) - es decir, la media de la muestra observada."
+		"a": "(matriz; x; [sigma])",
+		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el valor P de una cola de una prueba z"
 	},
 	"ACCRINT": {
-		"a": "(emisión, primer-interés, acuerdo, tasa, [nominal], frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el interés acumulado para un valor que paga intereses periódicos"
+		"a": "(emisión; primer_interés; liquidación; tasa; par; frecuencia; [base]; [método_calc])",
+		"d": "Devuelve el interés devengado de un valor bursátil que paga intereses periódicos."
 	},
 	"ACCRINTM": {
-		"a": "(emisión, acuerdo, tasa, [[nominal] [, [base]]])",
-		"d": "Función financiera utilizada para calcular los intereses devengados de un valor que paga intereses al vencimiento"
+		"a": "(emisión; liquidación; tasa; par; [base])",
+		"d": "Devuelve el interés devengado para un valor bursátil que paga intereses al vencimiento"
 	},
 	"AMORDEGRC": {
-		"a": "(costo, fecha-de-compra, primer-periodo, residuo, periodo, tasa[, [base]])",
-		"d": "Función financiera utilizada para calcular la depreciación de un activo fijo para cada período contable utilizando un método de depreciación decreciente"
+		"a": "(costo; fecha_compra; primer_período; valor_residual; período; tasa; [base])",
+		"d": "Devuelve la depreciación lineal prorrateada de un activo para cada período contable especificado."
 	},
 	"AMORLINC": {
-		"a": "(costo, fecha-de-compra, primer-periodo, residuo, periodo, tasa[, [base]])",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para cada período contable utilizando un método de amortización lineal."
+		"a": "(costo; fecha_compra; primer_período; valor_residual; período; tasa; [base])",
+		"d": "Devuelve la depreciación lineal prorrateada de un activo para cada período contable especificado."
 	},
 	"COUPDAYBS": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el número de días desde el inicio del período de cupón hasta la fecha de liquidación"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve el número de días del inicio del período nominal hasta la fecha de liquidación"
 	},
 	"COUPDAYS": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el número de días en el período de cupón que contiene la fecha de liquidación"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve el número de días en el período nominal que contiene la fecha de liquidación"
 	},
 	"COUPDAYSNC": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el número de días desde la fecha de la liquidación hasta el siguiente pago de cupón"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve el número de días de la fecha de liquidación hasta la siguiente fecha nominal"
 	},
 	"COUPNCD": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular la siguiente fecha de cupón después de la fecha de liquidación"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve la próxima fecha nominal después de la fecha de liquidación"
 	},
 	"COUPNUM": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el número de cupones entre la fecha de liquidación y la fecha de vencimiento"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve el número de cupones pagables entre la fecha de liquidación y la fecha de vencimiento"
 	},
 	"COUPPCD": {
-		"a": "(liquidación, vencimiento, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular la fecha de cupón anterior anterior a la fecha de liquidación"
+		"a": "(liquidación; vencimiento; frecuencia; [base])",
+		"d": "Devuelve la fecha de cupón anterior antes de la fecha de liquidación"
 	},
 	"CUMIPMT": {
-		"a": "( tasa , nper , pv , período-inicio , período-finalización , tipo)",
-		"d": "Función financiera utilizada para calcular el interés acumulado pagado por una inversión entre dos períodos basado en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; nper; va; período_inicial; período_final; tipo)",
+		"d": "Devuelve el pago de intereses acumulativo entre dos períodos"
 	},
 	"CUMPRINC": {
-		"a": "( tasa , nper , pv , período-inicio , período-finalización , tipo)",
-		"d": "Función financiera utilizada para calcular el capital acumulado pagado en una inversión entre dos períodos basada en un tipo de interés específico y un plan de pago constante."
+		"a": "(tasa; nper; va; período_inicial; período_final; tipo)",
+		"d": "Devuelve el principal acumulado pagado de un préstamo entre dos períodos"
 	},
 	"DB": {
-		"a": "(costo, residuo, vida, periodo[, [mes]])",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para un período contable específico utilizando el método de saldo fijo decreciente."
+		"a": "(costo; valor_residual; vida; período; [mes])",
+		"d": "Devuelve la depreciación de un activo durante un período específico usando el método de depreciación de saldo fijo"
 	},
 	"DDB": {
-		"a": "(costo, residuo, vida, periodo[, factor])",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para un período contable específico utilizando el método de saldo doblemente decreciente"
+		"a": "(costo; valor_residual; vida; período; [factor])",
+		"d": "Devuelve la depreciación de un activo en un período específico mediante el método de depreciación por doble disminución de saldo u otro método que se especifique"
 	},
 	"DISC": {
-		"a": "(liquidación, vencimiento, pr, reembolso[, [base]])",
-		"d": "Función financiera utilizada para calcular el tipo de descuento para un valor"
+		"a": "(liquidación; vencimiento; pr; amortización; [base])",
+		"d": "Devuelve la tasa de descuento del valor bursátil"
 	},
 	"DOLLARDE": {
-		"a": "(fraccional-dollar, fracción)",
-		"d": "Función financiera utilizada para convertir un precio en dólares representado como una fracción a un precio en dólares representado como un número decimal."
+		"a": "(dólar_fraccional; fracción)",
+		"d": "Convierte un precio en dólares expresado como fracción en un precio en dólares expresado como número decimal"
 	},
 	"DOLLARFR": {
-		"a": "(decimal-dollar, fracción)",
-		"d": "Función financiera utilizada para convertir un precio en dólares representado como un número decimal en un precio en dólares representado como una fracción."
+		"a": "(dólar_decimal; fracción)",
+		"d": "Convierte un precio en dólares expresado como número decimal en un precio en dólares expresado como fracción"
 	},
 	"DURATION": {
-		"a": "(liquidación, vencimiento, cupón, yld, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular la duración Macaulay de un valor con un valor nominal supuesto de $100."
+		"a": "(liquidación; vencimiento; cupón; rdto; frecuencia; [base])",
+		"d": "Devuelve la duración anual de un valor bursátil con pagos de interés periódicos"
 	},
 	"EFFECT": {
-		"a": "(tasa-nominal, npery)",
-		"d": "Función financiera utilizada para calcular la tasa de interés efectiva anual para un título basado en una tasa de interés nominal anual específica y el número de períodos de capitalización por año"
+		"a": "(tasa_nominal; núm_per_año)",
+		"d": "Devuelve la tasa de interés anual efectiva"
 	},
 	"FV": {
-		"a": "(tasa, nper, pmt [, [pv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular el valor futuro de una inversión basada en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; nper; pago; [va]; [tipo])",
+		"d": "Devuelve el valor futuro de una inversión basado en pagos periódicos y constantes, y una tasa de interés también constante."
 	},
 	"FVSCHEDULE": {
-		"a": "(principal, programa)",
-		"d": "Función financiera utilizada para calcular el valor futuro de una inversión basada en una serie de tipos de interés variables."
+		"a": "(principal; programación)",
+		"d": "Devuelve el valor futuro de un principal inicial después de aplicar una serie de tasas de interés compuestas"
 	},
 	"INTRATE": {
-		"a": "(liquidación, vencimiento, pr, reembolso[, [base]])",
-		"d": "Función financiera utilizada para calcular el tipo de interés de un valor totalmente invertido que paga intereses sólo al vencimiento."
+		"a": "(liquidación; vencimiento; inversión; amortización; [base])",
+		"d": "Devuelve la tasa de interés para la inversión total en un valor bursátil"
 	},
 	"IPMT": {
-		"a": "(tasa, per, nper, pv [, [fv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular la bonificación de intereses de una participación basada en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; período; nper; va; [vf]; [tipo])",
+		"d": "Devuelve el interés pagado por una inversión durante un período determinado, basado en pagos periódicos y constantes y una tasa de interés constante"
 	},
 	"IRR": {
-		"a": "(valores [,[suposición]])",
-		"d": "Función financiera utilizada para calcular la tasa interna de rendimiento para una serie de flujos de caja periódicos"
+		"a": "(valores; [estimar])",
+		"d": "Devuelve la tasa interna de retorno de una inversión para una serie de valores en efectivo"
 	},
 	"ISPMT": {
-		"a": "(tasa, per, nper, vp)",
-		"d": "Función financiera utilizada para calcular la bonificación de intereses para un período determinado de una inversión basada en un plan de pagos constante."
+		"a": "(tasa; período; nper; va)",
+		"d": "Devuelve el interés de un préstamo de pagos directos"
 	},
 	"MDURATION": {
-		"a": "(liquidación, vencimiento, cupón, yld, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular la duración Macaulay modificada de un valor con un valor nominal supuesto de $100"
+		"a": "(liquidación; vencimiento; cupón; rdto; frecuencia; [base])",
+		"d": "Devuelve la duración modificada de Macauley para un valor bursátil con un valor nominal asumido de 100 $"
 	},
 	"MIRR": {
-		"a": "(valores, tasa-financiera, tasa-reinvertir)",
-		"d": "Función financiera utilizada para calcular la tasa interna de rendimiento modificada para una serie de flujos de efectivo periódicos"
+		"a": "(valores; tasa_financiamiento; tasa_reinversión)",
+		"d": "Devuelve la tasa interna de retorno para una serie de flujos de efectivo periódicos, considerando costo de la inversión e interés al volver a invertir el efectivo"
 	},
 	"NOMINAL": {
-		"a": "(tasa-efecto, npery)",
-		"d": "Función financiera utilizada para calcular el tipo de interés nominal anual de un título basado en un tipo de interés efectivo anual especificado y el número de períodos de capitalización por año"
+		"a": "(tasa_efect; núm_per_año)",
+		"d": "Devuelve la tasa de interés nominal anual"
 	},
 	"NPER": {
-		"a": "(tasa, pmt, pv [, [fv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular el número de períodos de una inversión en función de un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; pago; va; [vf]; [tipo])",
+		"d": "Devuelve el número de pagos de una inversión, basado en pagos constantes y periódicos y una tasa de interés constante"
 	},
 	"NPV": {
-		"a": "(tasa, lista-argumento)",
-		"d": "Función financiera utilizada para calcular el valor actual neto de una participación basada en una tasa de descuento especificada"
+		"a": "(tasa; valor1; [valor2]; ...)",
+		"d": "Devuelve el valor neto presente de una inversión a partir de una tasa de descuento y una serie de pagos futuros (valores negativos) y entradas (valores positivos)"
 	},
 	"ODDFPRICE": {
-		"a": "(liquidación, vencimiento, emisión, primer-cupón, tasa, yld, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el precio por valor nominal de $100 para un valor que paga intereses periódicos pero tiene un primer período impar (es más corto o más largo que otros períodos)."
+		"a": "(liquidación; vencimiento; emisión; primer_cupón; tasa; rdto; amortización; frecuencia; [base])",
+		"d": "Devuelve el precio de un valor nominal de 100 $ de un valor bursátil con un período inicial impar"
 	},
 	"ODDFYIELD": {
-		"a": "(liquidación, vencimiento, emisión, primer-cupón, tasa, pr, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el rendimiento de un valor que paga intereses periódicos pero tiene un primer período impar (es más corto o más largo que otros períodos)."
+		"a": "(liquidación; vencimiento; emisión; primer_cupón; tasa; pr; amortización; frecuencia; [base])",
+		"d": "Devuelve el rendimiento de un valor bursátil con un primer período impar"
 	},
 	"ODDLPRICE": {
-		"a": "(liquidación, vencimiento, último-interés, tasa, yld, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el precio por valor nominal de $100 para un valor que paga intereses periódicos pero tiene un último período impar (es más corto o más largo que otros períodos)."
+		"a": "(liquidación; vencimiento; último_interés; tasa; rdto; amortización; frecuencia; [base])",
+		"d": "Devuelve el precio por un valor nominal de 100 $ de un valor bursátil con un período final impar"
 	},
 	"ODDLYIELD": {
-		"a": "(liquidación, vencimiento, último-interés, tasa, pr, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el rendimiento de un valor que paga intereses periódicos pero que tiene un último período impar (es más corto o más largo que otros períodos)."
+		"a": "(liquidación; vencimiento; último_interés; tasa; pr; amortización; frecuencia; [base])",
+		"d": "Devuelve la amortización de un valor bursátil con un período final impar"
 	},
 	"PDURATION": {
-		"a": "(tasa, pv, fv)",
-		"d": "Función financiera utilizada para devolver la cantidad de períodos necesarios para que una inversión alcance un valor especificado"
+		"a": "(tasa; va; vf)",
+		"d": "Devuelve la cantidad de períodos necesarios para que una inversión alcance un valor especificado"
 	},
 	"PMT": {
-		"a": "(tasa, nper, pv [, [fv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular el importe de pago de un préstamo basado en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; nper; va; [vf]; [tipo])",
+		"d": "Calcula el pago de un préstamo basado en pagos y tasa de interés constantes"
 	},
 	"PPMT": {
-		"a": "(tasa, per, nper, pv [, [fv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular el pago principal de una inversión basado en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; período; nper; va; [vf]; [tipo])",
+		"d": "Devuelve el pago del capital de una inversión determinada, basado en pagos constantes y periódicos, y una tasa de interés constante"
 	},
 	"PRICE": {
-		"a": "( liquidación, vencimiento, tasa, yld, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el precio por cada valor nominal de $100 de un valor que paga intereses periódicos"
+		"a": "(liquidación; vencimiento; tasa; rdto; amortización; frecuencia; [base])",
+		"d": "Devuelve el precio por 100 $ de valor nominal de un valor bursátil que paga una tasa de interés periódica"
 	},
 	"PRICEDISC": {
-		"a": "( liquidación, vencimiento, descuento, reembolso[, [base]])",
-		"d": "Función financiera utilizada para calcular el precio por cada valor nominal de $100 para un valor descontado"
+		"a": "(liquidación; vencimiento; descuento; amortización; [base])",
+		"d": "Devuelve el precio por 100 $ de un valor nominal de un valor bursátil con descuento"
 	},
 	"PRICEMAT": {
-		"a": "(liquidación, vencimiento, emisión, tasa, yld[, [base]])",
-		"d": "Función financiera utilizada para calcular el precio por cada $100 de valor nominal de un valor que paga intereses al vencimiento"
+		"a": "(liquidación; vencimiento; emisión; tasa; rdto; [base])",
+		"d": "Devuelve el precio por 100 $ de un valor nominal que genera intereses al vencimiento"
 	},
 	"PV": {
-		"a": "(tasa, nper, pmt [, [fv] [,[tipo]]])",
-		"d": "Función financiera utilizada para calcular el valor actual de una inversión basada en un tipo de interés específico y un plan de pagos constante."
+		"a": "(tasa; nper; pago; [vf]; [tipo])",
+		"d": "Devuelve el valor presente de una inversión: la suma total del valor actual de una serie de pagos futuros"
 	},
 	"RATE": {
-		"a": "( nper , pmt , pv  [ , [ [ fv ] [ , [ [ tipo] [ , [ suposición ] ] ] ] ] ] )",
-		"d": "Función financiera utilizada para calcular el tipo de interés de una inversión basada en un plan de pagos constantes."
+		"a": "(nper; pago; va; [vf]; [tipo]; [estimar])",
+		"d": "Devuelve la tasa de interés por período de un préstamo o una inversión. Por ejemplo, use 6%/4 para pagos trimestrales al 6% TPA"
 	},
 	"RECEIVED": {
-		"a": "(liquidación, vencimiento, inversión, descuento[, [base]])",
-		"d": "Función financiera utilizada para calcular el importe recibido al vencimiento por un valor totalmente invertido"
+		"a": "(liquidación; vencimiento; inversión; descuento; [base])",
+		"d": "Devuelve la cantidad recibida al vencimiento para un valor bursátil completamente invertido"
 	},
 	"RRI": {
-		"a": "(nper, pv, fv)",
-		"d": "Función financiera utilizada para devolver una tasa de interés equivalente para el crecimiento de una inversión."
+		"a": "(nper; va; vf)",
+		"d": "Devuelve una tasa de interés equivalente para el crecimiento de una inversión"
 	},
 	"SLN": {
-		"a": "(costo, residuo, vida)",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para un período contable utilizando el método de amortización lineal"
+		"a": "(costo; valor_residual; vida)",
+		"d": "Devuelve la depreciación por método directo de un activo en un período dado"
 	},
 	"SYD": {
-		"a": "(costo, residuo, vida, per)",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para un período contable específico utilizando el método de la suma de los dígitos de los años."
+		"a": "(costo; valor_residual; vida; período)",
+		"d": "Devuelve la depreciación por método de anualidades de un activo durante un período específico"
 	},
 	"TBILLEQ": {
-		"a": "(liquidación, vencimiento, descuento)",
-		"d": "Función financiera utilizada para calcular el rendimiento equivalente en bonos de una letra del Tesoro"
+		"a": "(liquidación; vencimiento; descuento)",
+		"d": "Devuelve el rendimiento para un bono equivalente a una letra de tesorería"
 	},
 	"TBILLPRICE": {
-		"a": "(liquidación, vencimiento, descuento)",
-		"d": "Función financiera utilizada para calcular el precio por cada $100 de valor nominal de una letra del Tesoro"
+		"a": "(liquidación; vencimiento; descuento)",
+		"d": "Devuelve el precio de un valor nominal de 100 $ para una letra de tesorería"
 	},
 	"TBILLYIELD": {
-		"a": "(liquidación, vencimiento, pr)",
-		"d": "Función financiera utilizada para calcular el rendimiento de una letra del Tesoro"
+		"a": "(liquidación; vencimiento; pr)",
+		"d": "Devuelve el rendimiento de una letra de tesorería"
 	},
 	"VDB": {
-		"a": "(costo, residuo, vida, periodo-inicio, periodo-final[, [[factor][, [marcador-no-cambiante]]]]])",
-		"d": "Función financiera utilizada para calcular la amortización de un activo fijo para un período contable específico o parcial utilizando el método de saldo decreciente variable"
+		"a": "(costo; valor_residual; vida; período_inicial; período_final; [factor]; [sin_cambios])",
+		"d": "Devuelve la depreciación de un activo para cualquier período especificado, incluyendo períodos parciales, usando el método de depreciación por doble disminución del saldo u otro método que especifique"
 	},
 	"XIRR": {
-		"a": "(valores, fechas [,[suposición]])",
-		"d": "Función financiera utilizada para calcular la tasa interna de rentabilidad de una serie de flujos de efectivo irregulares"
+		"a": "(valores; fechas; [estimar])",
+		"d": "Devuelve la tasa interna de retorno para un flujo de caja que no es necesariamente periódico"
 	},
 	"XNPV": {
-		"a": "(tasa, valores, fechas)",
-		"d": "Función financiera utilizada para calcular el valor actual neto de una inversión sobre la base de un tipo de interés específico y un calendario de pagos irregulares"
+		"a": "(tasa; valores; fechas)",
+		"d": "Devuelve el valor neto actual para un flujo de caja que no es necesariamente periódico"
 	},
 	"YIELD": {
-		"a": "(liquidación, vencimiento, tasa, pr, reembolso, frecuencia[, [base]])",
-		"d": "Función financiera utilizada para calcular el rendimiento de un valor que paga intereses periódicos"
+		"a": "(liquidación; vencimiento; tasa; pr; amortización; frecuencia; [base])",
+		"d": "Devuelve el rendimiento de un valor bursátil que obtiene intereses periódicos"
 	},
 	"YIELDDISC": {
-		"a": "(liquidación, vencimiento, pr, reembolso[, [base]])",
-		"d": "Función financiera utilizada para calcular el rendimiento anual de un valor descontado"
+		"a": "(liquidación; vencimiento; pr; amortización; [base])",
+		"d": "Devuelve el rendimiento anual para el valor bursátil con descuento. Por ejemplo, una letra de tesorería"
 	},
 	"YIELDMAT": {
-		"a": "(liquidación, vencimiento, emisión, tasa, pr [, [base]])",
-		"d": "Función financiera utilizada para calcular el rendimiento anual de un valor que paga intereses al vencimiento"
+		"a": "(liquidación; vencimiento; emisión; tasa; pr; [base])",
+		"d": "Devuelve el interés anual de un valor que genera intereses al vencimiento"
 	},
 	"ABS": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el valor absoluto de un número"
+		"a": "(número)",
+		"d": "Devuelve el valor absoluto de un número, es decir, un número sin signo"
 	},
 	"ACOS": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el arcocoseno de un número"
+		"a": "(número)",
+		"d": "Devuelve el arcoseno de un número, en radianes, dentro del rango de 0 a Pi. El arcoseno es el ángulo cuyo coseno es Número"
 	},
 	"ACOSH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el coseno hiperbólico inverso de un número"
+		"a": "(número)",
+		"d": "Devuelve el coseno hiperbólico inverso de un número"
 	},
 	"ACOT": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el valor principal de la arccotangente, o cotangente inversa, de un número"
+		"a": "(número)",
+		"d": "Devuelve el arco tangente de un número en radianes dentro del rango de 0 a Pi."
 	},
 	"ACOTH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la cotangente hiperbólica inversa de un número"
+		"a": "(número)",
+		"d": "Devuelve la cotangente hiperbólica inversa de un número"
 	},
 	"AGGREGATE": {
-		"a": "(función_núm, opciones, ref1 [, ref2], ...)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un agregado en una lista o base de datos; la función puede aplicar diferentes funciones de agregados a una lista o base de datos con la opción de ignorar filas ocultas y valores de error."
+		"a": "(núm_función; opciones; matriz; [k]!núm_función; opciones; ref1; ...)",
+		"d": "Devuelve un agregado de una lista o base de datos"
 	},
 	"ARABIC": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para convertir un número romano en un número arábigo"
+		"a": "(texto)",
+		"d": "Convierte un número romano en arábigo"
 	},
 	"ASC": {
 		"a": "( text )",
 		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
 	},
 	"ASIN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el arcoseno de un número"
+		"a": "(número)",
+		"d": "Devuelve el arcoseno de un número en radianes, dentro del rango -Pi/2 a Pi/2"
 	},
 	"ASINH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el seno hiperbólico inverso de un número"
+		"a": "(número)",
+		"d": "Devuelve el seno hiperbólico inverso de un número"
 	},
 	"ATAN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la arctangente de un número"
+		"a": "(número)",
+		"d": "Devuelve el arco tangente de un número en radianes, dentro del rango -Pi/2 a Pi/2"
 	},
 	"ATAN2": {
-		"a": "( x, y )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la arctangente de las coordenadas x e y"
+		"a": "(coord_x; coord_y)",
+		"d": "Devuelve el arco tangente de las coordenadas X e Y especificadas, en un valor en radianes comprendido entre -Pi y Pi, excluyendo -Pi"
 	},
 	"ATANH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la tangente hiperbólica inversa de un número"
+		"a": "(número)",
+		"d": "Devuelve la tangente hiperbólica inversa de un número"
 	},
 	"BASE": {
-		"a": "( número , base [ , largo-mínimo ] )",
+		"a": "(número; raíz; [longitud_mín])",
 		"d": "Convierte un número en una representación de texto con la base dada"
 	},
 	"CEILING": {
-		"a": "( x, significado)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hasta el múltiplo de significación más cercano"
+		"a": "(número; cifra_significativa)",
+		"d": "Redondea un número hacia arriba, hasta el múltiplo significativo más cercano"
 	},
 	"CEILING.MATH": {
-		"a": "(x [, [significado] [, [modo]])",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear un número hasta el entero más cercano o hasta el múltiplo de significación más cercano."
+		"a": "(número; [cifra_significativa]; [moda])",
+		"d": "Redondea un número hacia arriba, al entero más cercano o al múltiplo significativo más cercano"
 	},
 	"CEILING.PRECISE": {
 		"a": "( x [, significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"COMBIN": {
-		"a": "(número, número-escogido)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el número de combinaciones para un número específico de elementos"
+		"a": "(número; tamaño)",
+		"d": "Devuelve el número de combinaciones para un número determinado de elementos"
 	},
 	"COMBINA": {
-		"a": "(número, número-escogido)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el número de combinaciones (con repeticiones) para un número dado de elementos"
+		"a": "(número; número_elegido)",
+		"d": "Devuelve la cantidad de combinaciones con repeticiones de una cantidad determinada de elementos"
 	},
 	"COS": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el coseno de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve el coseno de un ángulo"
 	},
 	"COSH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el coseno hiperbólico de un número"
+		"a": "(número)",
+		"d": "Devuelve el coseno hiperbólico de un número"
 	},
 	"COT": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la cotangente de un ángulo especificado en radianes"
+		"a": "(número)",
+		"d": "Devuelve la cotangente de un ángulo"
 	},
 	"COTH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la cotangente hiperbólica de un ángulo hiperbólico"
+		"a": "(número)",
+		"d": "Devuelve la cotangente hiperbólica de un número"
 	},
 	"CSC": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el cosecante de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve la cosecante de un ángulo"
 	},
 	"CSCH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el cosecante hiperbólico de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve la cosecante hiperbólica de un ángulo"
 	},
 	"DECIMAL": {
-		"a": "(texto, base)",
-		"d": "Convierte una representación de texto de un número en una base dada en un número decimal."
+		"a": "(número; raíz)",
+		"d": "Convierte una representación de texto de un número en una base dada en un número decimal"
 	},
 	"DEGREES": {
-		"a": "( ángulo )",
-		"d": "Función de matemáticas y trigonometría utilizada para convertir radianes en grados"
+		"a": "(ángulo)",
+		"d": "Convierte radianes en grados"
 	},
 	"ECMA.CEILING": {
 		"a": "( x, significado)",
 		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hasta el múltiplo de significación más cercano"
 	},
 	"EVEN": {
-		"a": "( x )",
-		"d": "Función matemática y de trigonometría utilizada para redondear el número hasta el entero par más cercano"
+		"a": "(número)",
+		"d": "Redondea un número positivo hacia arriba y un número negativo hacia abajo hasta el próximo entero par. Los números negativos se ajustan alejándolos de cero"
 	},
 	"EXP": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la constante e elevada a la potencia deseada. La constante e es igual a 2,71828182845904."
+		"a": "(número)",
+		"d": "Devuelve e elevado a la potencia de un número determinado"
 	},
 	"FACT": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el factorial de un número"
+		"a": "(número)",
+		"d": "Devuelve el factorial de un número, igual a 1*2*3*...*Número"
 	},
 	"FACTDOUBLE": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el doble factorial de un número"
+		"a": "(número)",
+		"d": "Devuelve el factorial doble de un número"
 	},
 	"FLOOR": {
-		"a": "( x, significado)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hacia abajo hasta el múltiplo de significación más cercano"
+		"a": "(número; cifra_significativa)",
+		"d": "Redondea un número hacia abajo, hasta el múltiplo significativo más cercano"
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x [, significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"FLOOR.MATH": {
-		"a": "( x [, [significado] [, [modo]] )",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear un número hacia abajo al entero más cercano o al múltiplo de significación más cercano."
+		"a": "(número; [cifra_significativa]; [moda])",
+		"d": "Redondea un número hacia abajo, al entero más cercano o al múltiplo significativo más cercano"
 	},
 	"GCD": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el mayor divisor común de dos o más números"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el máximo común divisor"
 	},
 	"INT": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para analizar y devolver la parte entera del número especificado"
+		"a": "(número)",
+		"d": "Redondea un número hasta el entero inferior más próximo"
 	},
 	"ISO.CEILING": {
 		"a": "( número [, significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
 	},
 	"LCM": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el múltiplo común más bajo de uno o más números"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el mínimo común múltiplo"
 	},
 	"LN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el logaritmo natural de un número"
+		"a": "(número)",
+		"d": "Devuelve el logaritmo natural de un número"
 	},
 	"LOG": {
-		"a": "( x [, base])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el logaritmo de un número a una base especificada"
+		"a": "(número; [base])",
+		"d": "Devuelve el logaritmo de un número en la base especificada"
 	},
 	"LOG10": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el logaritmo de un número a una base de 10"
+		"a": "(número)",
+		"d": "Devuelve el logaritmo en base 10 de un número"
 	},
 	"MDETERM": {
-		"a": "( conjunto )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el determinante matricial de un conjunto"
+		"a": "(matriz)",
+		"d": "Devuelve el determinante matricial de una matriz"
 	},
 	"MINVERSE": {
-		"a": "( conjunto )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la matriz inversa para una matriz dada y mostrar el primer valor de la matriz de números devuelta."
+		"a": "(matriz)",
+		"d": "Devuelve la matriz inversa de una matriz dentro de una matriz"
 	},
 	"MMULT": {
-		"a": "(Conjunto1, conjunto2)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el producto de la matriz de dos matrices y mostrar el primer valor de la matriz de números devuelta"
+		"a": "(matriz1; matriz2)",
+		"d": "Devuelve el producto matricial de dos matrices, una matriz con el mismo número de filas que Matriz1 y columnas que Matriz2"
 	},
 	"MOD": {
-		"a": "( x, y )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el resto después de la división de un número por el divisor especificado"
+		"a": "(número; núm_divisor)",
+		"d": "Proporciona el residuo después de dividir un número por un divisor"
 	},
 	"MROUND": {
-		"a": "( x, múltiple)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número al múltiplo deseado"
+		"a": "(número; múltiplo)",
+		"d": "Devuelve un número redondeado al múltiplo deseado"
 	},
 	"MULTINOMIAL": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la relación entre el factorial de una suma de números y el producto de los factoriales."
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve el polinomio de un conjunto de números"
 	},
 	"MUNIT": {
-		"a": "(dimensión)",
-		"d": "Función de matemáticas y trigonometría para devolver la matriz de la unidad de la dimensión especificada."
+		"a": "(dimension)",
+		"d": "Devuelve la matriz de la unidad para la dimensión especificada"
 	},
 	"ODD": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría usada para redondear el número al número entero impar más cercano"
+		"a": "(número)",
+		"d": "Redondea un número positivo hacia arriba y un número negativo hacia abajo hasta el próximo entero impar"
 	},
 	"PI": {
 		"a": "()",
-		"d": "Funciones de matemática y trigonometría La función devuelve el constante matemático pi, que vale 3.14159265358979. No requiere ningún argumento."
+		"d": "Devuelve el valor Pi, 3,14159265358979, con precisión de 15 dígitos"
 	},
 	"POWER": {
-		"a": "( x, y )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el resultado de un número elevado a la potencia deseada"
+		"a": "(número; potencia)",
+		"d": "Devuelve el resultado de elevar el número a una potencia"
 	},
 	"PRODUCT": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para multiplicar todos los números en el rango seleccionado de celdas y devolver el producto"
+		"a": "(número1; [número2]; ...)",
+		"d": "Multiplica todos los números especificados como argumentos"
 	},
 	"QUOTIENT": {
-		"a": "(dividendo, divisor)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la parte entera de una división"
+		"a": "(numerador; denominador)",
+		"d": "Devuelve la parte entera de una división"
 	},
 	"RADIANS": {
-		"a": "( ángulo )",
-		"d": "Función de matemáticas y trigonometría utilizada para convertir grados en radianes"
+		"a": "(ángulo)",
+		"d": "Convierte grados en radianes"
 	},
 	"RAND": {
 		"a": "()",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número aleatorio mayor o igual que 0 y menor que 1. No requiere ningún argumento."
+		"d": "Devuelve un número aleatorio mayor o igual que 0 y menor que 1, distribuido (cambia al actualizarse)"
 	},
 	"RANDARRAY": {
-		"a": "([rows], [columns], [min], [max], [whole_number])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver una matriz de números aleatorios"
+		"a": "([filas]; [columnas]; [min]; [max]; [entero])",
+		"d": "Devuelve una matriz de números aleatorios"
 	},
 	"RANDBETWEEN": {
-		"a": "(límite-inferior, límite-superior)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número aleatorio mayor o igual que el del límite inferior y menor o igual que el del límite superior"
+		"a": "(inferior; superior)",
+		"d": "Devuelve el número aleatorio entre los números que especifique"
 	},
 	"ROMAN": {
-		"a": "(número, forma)",
-		"d": "Función de matemáticas y trigonometría utilizada para convertir un número en un número romano"
+		"a": "(número; [forma])",
+		"d": "Convierte un número arábigo en romano, en formato de texto"
 	},
 	"ROUND": {
-		"a": "(x , número-dígitos)",
-		"d": "Función matemática y de trigonometría utilizada para redondear el número al número deseado de dígitos"
+		"a": "(número; núm_decimales)",
+		"d": "Redondea un número al número de decimales especificado"
 	},
 	"ROUNDDOWN": {
-		"a": "(x , número-dígitos)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hacia abajo hasta el número deseado de dígitos"
+		"a": "(número; núm_decimales)",
+		"d": "Redondea un número hacia abajo, hacia cero"
 	},
 	"ROUNDUP": {
-		"a": "(x , número-dígitos)",
-		"d": "Función matemática y de trigonometría utilizada para redondear el número hasta el número deseado de dígitos"
+		"a": "(número; núm_decimales)",
+		"d": "Redondea un número hacia arriba, en dirección contraria a cero"
 	},
 	"SEC": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la secante de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve la secante de un ángulo"
 	},
 	"SECH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la secante hiperbólica de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve la secante hiperbólica de un ángulo"
 	},
 	"SERIESSUM": {
-		"a": "(valor-entrada, potencia-inicial, paso, coeficientes)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la suma de una serie de potencias"
+		"a": "(x; n; m; coeficientes)",
+		"d": "Devuelve la suma de una serie de potencias basándose en la fórmula"
 	},
 	"SIGN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el signo de un número. Si el número es positivo la función devolverá 1. Si el número es negativo la función devolverá -1. Si el número vale 0, la función devolverá 0."
+		"a": "(número)",
+		"d": "Devuelve el signo de un número: 1, si el número es positivo; cero, si el número es cero y -1, si el número es negativo"
 	},
 	"SIN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el seno de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve el seno de un ángulo determinado"
 	},
 	"SINH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver el seno hiperbólico de un número"
+		"a": "(número)",
+		"d": "Devuelve el seno hiperbólico de un número"
 	},
 	"SQRT": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la raíz cuadrada de un número"
+		"a": "(número)",
+		"d": "Devuelve la raíz cuadrada de un número"
 	},
 	"SQRTPI": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la raíz cuadrada de la constante pi (3.1415926565358979) multiplicada por el número especificado"
+		"a": "(número)",
+		"d": "Devuelve la raíz cuadrada de (número * Pi)"
 	},
 	"SUBTOTAL": {
-		"a": "(número-función, lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un subtotal en una lista o base de datos"
+		"a": "(núm_función; ref1; ...)",
+		"d": "Devuelve un subtotal dentro de una lista o una base de datos"
 	},
 	"SUM": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría usada para sumar todos los números en el rango seleccionado de celdas y devolver el resultado"
+		"a": "(número1; [número2]; ...)",
+		"d": "Suma todos los números en un rango de celdas"
 	},
 	"SUMIF": {
-		"a": "(rango-celda, criterio-selección [, rango-suma])",
-		"d": "Función de matemáticas y trigonometría utilizada para sumar todos los números en el rango seleccionado de celdas basado en el criterio especificado y devolver el resultado"
+		"a": "(rango; criterio; [rango_suma])",
+		"d": "Suma las celdas que cumplen determinado criterio o condición"
 	},
 	"SUMIFS": {
-		"a": "(suma-rango, criterio-rango1, criterio1, [criterio-rango2, criterio2], ... )",
-		"d": "Función de matemáticas y trigonometría usada para sumar todos los números en el rango seleccionado de celdas basado en múltiples criterios y devolver el resultado"
+		"a": "(rango_suma; rango_criterios; criterio; ...)",
+		"d": "Suma las celdas que cumplen un determinado conjunto de condiciones o criterios"
 	},
 	"SUMPRODUCT": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para multiplicar los valores en los rangos seleccionados de celdas o matrices y devolver la suma de los productos"
+		"a": "(matriz1; [matriz2]; [matriz3]; ...)",
+		"d": "Devuelve la suma de los productos de rangos o matrices correspondientes"
 	},
 	"SUMSQ": {
-		"a": "(lista-argumento)",
-		"d": "Función de matemáticas y trigonometría utilizada para sumar los cuadrados de los números y devolver el resultado"
+		"a": "(número1; [número2]; ...)",
+		"d": "Devuelve la suma de los cuadrados de los argumentos. Los argumentos pueden ser números, matrices, nombres o referencias a celdas que contengan números"
 	},
 	"SUMX2MY2": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función de matemáticas y trigonometría utilizada para sumar la diferencia de cuadrados entre dos matrices"
+		"a": "(matriz_x; matriz_y)",
+		"d": "Suma las diferencias entre cuadrados de dos rangos o matrices correspondientes"
 	},
 	"SUMX2PY2": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función de matemáticas y trigonometría usada para sumar los cuadrados de números en los conjuntos seleccionados y devolver la suma de los resultados."
+		"a": "(matriz_x; matriz_y)",
+		"d": "Devuelve la suma de total de las sumas de cuadrados de números en dos rangos o matrices correspondientes"
 	},
 	"SUMXMY2": {
-		"a": "(conjunto-1 , conjunto-2)",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la suma de los cuadrados de las diferencias entre los ítems correspondientes en los conjuntos"
+		"a": "(matriz_x; matriz_y)",
+		"d": "Suma los cuadrados de las diferencias en dos rangos correspondientes de matrices"
 	},
 	"TAN": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la tangente de un ángulo"
+		"a": "(número)",
+		"d": "Devuelve la tangente de un ángulo"
 	},
 	"TANH": {
-		"a": "( x )",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver la tangente hiperbólica de un número"
+		"a": "(número)",
+		"d": "Devuelve la tangente hiperbólica de un número"
 	},
 	"TRUNC": {
-		"a": "(x [,número-dígitos])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número truncado a un número específico de dígitos"
+		"a": "(número; [núm_decimales])",
+		"d": "Convierte un número decimal a uno entero al quitar la parte decimal o de fracción"
 	},
 	"ADDRESS": {
-		"a": "(fila-número, col-número[ , [ref-tipo] [, [A1-ref-tipo-indicador] [, nombre de la hoja]]])",
-		"d": "Función de búsqueda y referencia usada para devolver una representación de texto de una dirección de celda"
+		"a": "(fila; columna; [abs]; [a1]; [hoja])",
+		"d": "Crea una referencia de celda en forma de texto una vez especificados los números de fila y columna"
 	},
 	"CHOOSE": {
-		"a": "(índice, lista-argumento)",
-		"d": "Función de búsqueda y referencia utilizada para devolver un valor de una lista de valores basados en un índice específico (posición)"
+		"a": "(núm_índice; valor1; [valor2]; ...)",
+		"d": "Elige un valor o una acción de una lista de valores a partir de un número de índice"
 	},
 	"COLUMN": {
-		"a": "( [ referencia ] )",
-		"d": "Función de búsqueda y referencia utilizada para devolver el número de columna de una celda"
+		"a": "([ref])",
+		"d": "Devuelve el número de columna de una referencia"
 	},
 	"COLUMNS": {
-		"a": "( conjunto )",
-		"d": "Función de búsqueda y referencia usada para devolver el número de columnas en una referencia de celda"
+		"a": "(matriz)",
+		"d": "Devuelve el número de columnas en una matriz o referencia"
 	},
 	"FORMULATEXT": {
-		"a": "( referencia )",
-		"d": "Función de búsqueda y referencia utilizada para devolver una fórmula como una cadena"
+		"a": "(referencia)",
+		"d": "Devuelve una fórmula como una cadena"
 	},
 	"HLOOKUP": {
-		"a": "(buscar-valor, conjunto-tabla, núm-índice-fila[, [rango-buscar-marcador]])",
-		"d": "Función de búsqueda y referencia usada para realizar la búsqueda horizontal de un valor en la fila superior de una tabla o de un conjunto y devolver el valor en la misma columna basado en un número de índice de fila especificado."
+		"a": "(valor_buscado; matriz_buscar_en; indicador_filas; [ordenado])",
+		"d": "Busca en la primera fila de una tabla o matriz de valores y devuelve el valor en la misma columna desde una fila especificada"
 	},
 	"HYPERLINK": {
-		"a": "( link_location  ,  [  ,  [  friendly_name  ] ] )",
-		"d": "Lookup and reference function used to create a shortcut that jumps to another location in the current workbook, or opens a document stored on a network server, an intranet, or the Internet"
+		"a": "(ubicación_del_vínculo; [nombre_descriptivo])",
+		"d": "Crea un acceso directo o salto que abre un documento guardado en el disco duro, en un servidor de red o en Internet"
 	},
 	"INDEX": {
-		"a": "(conjunto, [número-fila][, [número-columna]])",
-		"d": "Función de búsqueda y referencia utilizada para devolver un valor dentro de un rango de celdas en la base de un número de línea y columna especificado. La función INDICE tiene dos formas."
+		"a": "(matriz; núm_fila; [núm_columna]!ref; núm_fila; [núm_columna]; [núm_área])",
+		"d": "Devuelve un valor o referencia de la celda en la intersección de una fila y columna en particular, en un rango especificado"
 	},
 	"INDIRECT": {
-		"a": "(texto-ref [, A1-estilo-ref-marcador])",
-		"d": "Función de búsqueda y referencia usada para devolver la referencia a una celda basada en su representación de cadena"
+		"a": "(ref; [a1])",
+		"d": "Devuelve una referencia especificada por un valor de texto"
 	},
 	"LOOKUP": {
-		"a": "(valor-buscar, vector-buscar, resultado-vector)",
-		"d": "Función de búsqueda y referencia utilizada para devolver un valor de un rango seleccionado (línea o columna que contiene los datos en orden ascendente)"
+		"a": "(valor_buscado; vector_de_comparación; [vector_resultado]!valor_buscado; matriz)",
+		"d": "Busca valores de un rango de una columna o una fila o desde una matriz. Proporcionado para compatibilidad con versiones anteriores"
 	},
 	"MATCH": {
-		"a": "(valor-buscar, conjunto-buscar[ , [tipo-coincidir]])",
-		"d": "Función de búsqueda y referencia utilizada para devolver una posición relativa de un artículo específico en un rango de celdas"
+		"a": "(valor_buscado; matriz_buscada; [tipo_de_coincidencia])",
+		"d": "Devuelve la posición relativa de un elemento en una matriz, que coincide con un valor dado en un orden especificado"
 	},
 	"OFFSET": {
-		"a": "(referencia, filas, columnas[, [altura] [, [ancho]]])",
-		"d": "Función de búsqueda y referencia utilizada para devolver una referencia a una celda desplazada de la celda especificada (o de la celda superior izquierda en el rango de celdas) a un cierto número de filas y columnas."
+		"a": "(ref; filas; columnas; [alto]; [ancho])",
+		"d": "Devuelve una referencia a un rango que es un número especificado de filas y columnas de una referencia dada"
 	},
 	"ROW": {
-		"a": "( [ referencia ] )",
-		"d": "Función de búsqueda y referencia usada para devolver el número de fila de una referencia de celda"
+		"a": "([ref])",
+		"d": "Devuelve el número de fila de una referencia"
 	},
 	"ROWS": {
-		"a": "( conjunto )",
-		"d": "Función de búsqueda y referencia usada para devolver el número de filas en una celda de referencia"
+		"a": "(matriz)",
+		"d": "Devuelve el número de filas de una referencia o matriz"
 	},
 	"TRANSPOSE": {
-		"a": "( conjunto )",
-		"d": "Función de búsqueda y referencia utilizada para devolver el primer elemento de un conjunto"
+		"a": "(matriz)",
+		"d": "Devuelve un rango vertical de celdas como un rango horizontal, o viceversa"
 	},
 	"UNIQUE": {
-		"a": "(matriz, [by_col], [exactly_once])",
-		"d": "Función de búsqueda y referencia para devolver una lista de valores únicos de una lista o rango"
+		"a": "(matriz; [by_col]; [exactly_once])",
+		"d": " Devuelve los valores únicos de un rango o matriz."
 	},
 	"VLOOKUP": {
-		"a": "(valor-buscar, tabla-conjunto, col-índice-núm[, [rango-buscar-marcador]])",
-		"d": "Función de búsqueda y referencia utilizada para realizar la búsqueda vertical de un valor en la columna de la izquierda de una tabla o conjunto y devolver el valor en la misma fila basado en un número de índice de columna especificado."
+		"a": "(valor_buscado; matriz_buscar_en; indicador_columnas; [ordenado])",
+		"d": "Busca un valor en la primera columna de la izquierda de una tabla y luego devuelve un valor en la misma fila desde una columna especificada. De forma predeterminada, la tabla se ordena de forma ascendente"
 	},
 	"XLOOKUP": {
-		"a": "(valor_buscado, matriz_buscada, matriz_devuelta, [si_no_se_encuentra], [modo_de_coincidencia], [modo_de_búsqueda])",
-		"d": "Función de búsqueda y referencia busca un rango o una matriz y, a continuación, devuelve el elemento correspondiente a la primera coincidencia que encuentra. Si no existe ninguna coincidencia, BUSCARX puede devolver la coincidencia más cercana (aproximada)"
-	},	
+		"a": "(valor_buscado; matriz_buscada; matriz_devuelta; [si_no_se_encuentra]; [modo_de_coincidencia]; [modo_de_búsqueda])",
+		"d": "Busca una coincidencia en un rango o una matriz y devuelve el elemento correspondiente de un segundo rango o matriz. De forma predeterminada, se usa una coincidencia exacta"
+	},
 	"CELL": {
 		"a": "(info_type, [reference])",
 		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {
-		"a": "(valor)",
-		"d": "Función de información utilizada para devolver la representación numérica de uno de los errores existentes"
+		"a": "(valor_de_error)",
+		"d": "Devuelve un número que coincide con un valor de error."
 	},
 	"ISBLANK": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para comprobar si la celda está vacía o no. Si la celda no contiene ningún valor, la función devolverá VERDADERO, en otro caso la función devolverá FALSO."
+		"d": "Comprueba si se refiere a una celda vacía y devuelve VERDADERO o FALSO"
 	},
 	"ISERR": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para comprobar un valor de error. Si la celda contiene un valor de error (excepto #N/A),la función devolverá VERDADERO, en otro caso la función devolverá FALSO."
+		"d": "Comprueba si un valor es un error diferente de #N/D y devuelve VERDADERO o FALSO"
 	},
 	"ISERROR": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para comprobar un valor de error. Si la celda contiene uno de los valores de error: #N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME? or #NULL, la función devolverá VERDADERO, en otro caso la función devolverá FALSO"
+		"d": "Comprueba si un valor es un error y devuelve VERDADERO o FALSO"
 	},
 	"ISEVEN": {
 		"a": "(número)",
-		"d": "Función de información utilizada para comprobar un valor par. Si la celda contiene un valor par, la función devolverá VERDADERO. Si el valor es impar, la función devolverá FALSO."
+		"d": "Devuelve verdadero si el número es par"
 	},
 	"ISFORMULA": {
-		"a": "( valor )",
-		"d": "Función de información utilizada para verificar si hay una referencia a una celda que contiene una fórmula y devuelve VERDADERO o FALSO"
+		"a": "(referencia)",
+		"d": "Comprueba si la referencia es a una celda que contiene una fórmula y devuelve VERDADERO o FALSO"
 	},
 	"ISLOGICAL": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para verificar un valor lógico (VERDADERO o FALSO). Si la celda contiene un valor lógico, la función devolverá VERDADERO, si no la función devolverá FALSO."
+		"d": "Comprueba si un valor es un valor lógico (VERDADERO o FALSO), y devuelve VERDADERO o FALSO"
 	},
 	"ISNA": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para comprobar la existencia de un error #N/A. Si la celda contiene un valor de error #N/A , la función devolverá VERDADERO, en otro caso la función devolverá FALSO."
+		"d": "Comprueba si un valor de error es #N/A (valor no aplicable) y devuelve VERDADERO o FALSO"
 	},
 	"ISNONTEXT": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para verificar un valor que no es un texto. Si la celda no contiene un valor de texto, la función devolverá VERDADERO, si no la función devolverá FALSO."
+		"d": "Comprueba si un valor no es texto (las celdas en blanco no son texto), y devuelve VERDADERO o FALSO"
 	},
 	"ISNUMBER": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para comprobar un valor numérico. Si la celda contiene un valor numérico, la función devolverá VERDADERO, si no la función devolverá FALSO."
+		"d": "Comprueba si un valor es un número y devuelve VERDADERO o FALSO"
 	},
 	"ISODD": {
 		"a": "(número)",
-		"d": "Función de información utilizada para comprobar un valor impar. Si la celda contiene un valor impar, la función devolverá VERDADERO. Si el valor es par, la función devolverá FALSO."
+		"d": "Devuelve VERDADERO si el número es impar"
 	},
 	"ISREF": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para verificar si el valor es una referencia de celda válida"
+		"d": "Comprueba si valor es una referencia y devuelve VERDADERO o FALSO"
 	},
 	"ISTEXT": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para verificar un valor de texto. Si la celda contiene un valor de texto, la función devolverá VERDADERO, si no la función devolverá FALSO."
+		"d": "Comprueba si un valor es texto y devuelve VERDADERO o FALSO"
 	},
 	"N": {
 		"a": "(valor)",
-		"d": "Función de información utilizada para convertir un valor en un número"
+		"d": "Convierte valores no numéricos en números, fechas en números de serie, VERDADERO en 1 y cualquier otro en 0 (cero)"
 	},
 	"NA": {
 		"a": "()",
-		"d": "Función de información utilizada para devolver el valor de error #N/A. Esta función no requiere ningún argumento."
+		"d": "Devuelve el valor de error #N/A (valor no disponible)"
 	},
 	"SHEET": {
-		"a": "( valor )",
-		"d": "Función de información utilizada para devolver el número de hoja de la hoja de referencia"
+		"a": "([valor])",
+		"d": "Devuelve el número de la hoja a la que se hace referencia"
 	},
 	"SHEETS": {
-		"a": "( referencia )",
-		"d": "Función de información utilizada para devolver el número de hojas de una referencia"
+		"a": "([referencia])",
+		"d": "Devuelve la cantidad de hojas de una referencia"
 	},
 	"TYPE": {
-		"a": "( valor )",
-		"d": "Función de información utilizada para determinar el tipo de valor resultante o visualizado"
+		"a": "(valor)",
+		"d": "Devuelve un entero que representa el tipo de datos de un valor: número = 1; texto = 2; valor lógico = 4; valor de error = 16; matriz = 64; datos compuestos = 128"
 	},
 	"AND": {
-		"a": "(lógico1, lógico2, ... )",
-		"d": "Función lógica utilizada para verificar si el valor lógico introducido es VERDADERO o FALSO. La función devolverá VERDADERO si todos los argumentos son VERDADEROS."
+		"a": "(valor_lógico1; [valor_lógico2]; ...)",
+		"d": "Comprueba si todos los argumentos son VERDADEROS, y devuelve VERDADERO si todos los argumentos son VERDADEROS"
 	},
 	"FALSE": {
 		"a": "()",
-		"d": "Funciones lógicas La función devolverá FALSO y no requiere ningún argumento."
+		"d": "Devuelve el valor lógico FALSO"
 	},
 	"IF": {
-		"a": "(prueba_lógica, valor_si_verdadero [ , valor_si_falso ] )",
-		"d": "Se usa para comprobar la expresión lógica y devolver un valor si es VERDADERO, u otro valor si es FALSO."
+		"a": "(prueba_lógica; [valor_si_verdadero]; [valor_si_falso])",
+		"d": "Comprueba si se cumple una condición y devuelve una valor si se evalúa como VERDADERO y otro valor si se evalúa como FALSO"
 	},
 	"IFS": {
-		"a": "( prueba_lógica1, valor_si_verdadero1, [ prueba_lógica2 , valor_si_verdadero2 ] , … )",
-		"d": "Función lógica utilizada para comprobar si se cumplen una o varias condiciones y devuelve un valor que corresponde a la primera condición VERDADERO"
+		"a": "(prueba_lógica; valor_si_verdadero; ...)",
+		"d": "Comprueba si se cumplen una o más condiciones y devuelve un valor correspondiente a la primera condición verdadera"
 	},
 	"IFERROR": {
-		"a": " (valor, valor_si_error,)",
-		"d": "Función lógica utilizada para comprobar si hay un error en la fórmula del primer argumento. La función devuelve el resultado de la fórmula si no hay ningún error, o el valor_si_error si hay uno"
+		"a": "(valor; valor_si_error)",
+		"d": "Devuelve valor_si_error si la expresión es un error y el valor de la expresión no lo es"
 	},
 	"IFNA": {
-		"a": "(Valor, valor_si_error)",
-		"d": "Función lógica utilizada para comprobar si hay un error en la fórmula del primer argumento. La función devolverá el valor que ha especificado si la fórmula devuelve el valor de error #N/A, si no, devuelve el resultado de la fórmula."
+		"a": "(valor; valor_si_nd)",
+		"d": "Devuelve el valor que especificas, si la expresión se convierte en #N/A. De lo contrario, devuelve el resultado de la expresión"
 	},
 	"NOT": {
-		"a": "( lógica )",
-		"d": "Función lógica utilizada para verificar si el valor lógico introducido es VERDADERO o FALSO. La función devolverá VERDADERO si el argumento es FALSO y FALSO si argumento es VERDADERO."
+		"a": "(valor_lógico)",
+		"d": "Cambia FALSO por VERDADERO y VERDADERO por FALSO"
 	},
 	"OR": {
-		"a": "(lógico1, lógico2, ...)",
-		"d": "Función lógica utilizada para verificar si el valor lógico introducido es VERDADERO o FALSO. La función devolverá FALSO si todos los argumentos son FALSO."
+		"a": "(valor_lógico1; [valor_lógico2]; ...)",
+		"d": "Comprueba si alguno de los argumentos es VERDADERO, y devuelve VERDADERO o FALSO. Devuelve FALSO si todos los argumentos son FALSOS"
 	},
 	"SWITCH": {
-		"a": "(expresión, valor1, resultado1[, [por-defecto o valor2] [, [resultado2]], ...[por-defecto o valor3, resultado3]])",
-		"d": "Función lógica utilizada para evaluar un valor (llamado expresión) contra una lista de valores, y devuelve el resultado correspondiente al primer valor coincidente; si no hay coincidencia, se puede devolver un valor predeterminado opcional."
+		"a": "(expresión; valor1; resultado1; [predeterminado_o_valor2]; [resultado2]; ...)",
+		"d": "Evalúa una expresión con una lista de valores y devuelve el resultado correspondiente al primer valor coincidente. Si no hay ninguna coincidencia, se devuelve un valor predeterminado opcional"
 	},
 	"TRUE": {
 		"a": "()",
-		"d": "Función lógica utilizada para devolver VERDADERO y no requiere ningún argumento"
+		"d": "Devuelve el valor lógico VERDADERO"
 	},
 	"XOR": {
-		"a": "(lógico1 [ , lógico2 ] , ... )",
-		"d": "Función lógica utilizada para devolver un lógico exclusivo O de todos los argumentos"
+		"a": "(lógico1; [lógico2]; ...)",
+		"d": "Devuelve una 'Exclusive Or' lógica de todos los argumentos"
 	}
 }
