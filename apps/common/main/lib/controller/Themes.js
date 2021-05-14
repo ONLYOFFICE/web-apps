@@ -226,7 +226,11 @@ define([
             },
 
             available: function () {
-                return !Common.Utils.isIE;
+                return !Common.Utils.isIE && !!this.locked;
+            },
+
+            setAvailable: function (value) {
+                this.locked = value;
             },
 
             map: function () {

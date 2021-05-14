@@ -86,6 +86,9 @@ define([
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
+                    } else
+                    if ( obj.lockthemes != undefined ) {
+                        Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
