@@ -62,7 +62,7 @@ const LongActionsController = () => {
         action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
 
         if (action) {
-            this.setLongActionView(action)
+            setLongActionView(action)
         }
 
         action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
