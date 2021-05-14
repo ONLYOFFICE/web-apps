@@ -11,7 +11,8 @@ export class storeUsers {
             connection: action,
             isDisconnected: observable,
             resetDisconnected: action,
-            hasEditUsers: computed
+            hasEditUsers: computed,
+            editUsers: computed
         })
     }
 
@@ -90,5 +91,39 @@ export class storeUsers {
             }
         });
         return (length >= 1);
+    }
+
+    get editUsers () {
+        const idArray = [];
+        const usersArray = [];
+        const curUserId = this.currentUser.asc_getIdOriginal();
+        this.users.forEach((item) => {
+            const name = AscCommon.UserInfoParser.getParsedName(item.asc_getUserName());
+            if((item.asc_getState() !== false) && !item.asc_getView()) {
+                const idOriginal = item.asc_getIdOriginal();
+                const ind = idArray.indexOf(idOriginal);
+                if (ind !== -1) {
+                    usersArray[ind].count = usersArray[ind].count + 1;
+                } else {
+                    const userAttr = {
+                        color: item.asc_getColor(),
+                        id: item.asc_getId(),
+                        idOriginal: item.asc_getIdOriginal(),
+                        name: name,
+                        view: item.asc_getView(),
+                        initials: this.getInitials(name),
+                        count: 1
+                    };
+                    if(idOriginal === curUserId) {
+                        usersArray.unshift(userAttr);
+                        idArray.unshift(idOriginal);
+                    } else {
+                        usersArray.push(userAttr);
+                        idArray.push(idOriginal);
+                    }
+                }
+            }
+        });
+        return usersArray;
     }
 }

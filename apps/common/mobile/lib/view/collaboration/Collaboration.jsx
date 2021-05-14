@@ -27,10 +27,10 @@ const PageUsers = inject("users")(observer(props => {
             </Navbar>
             <BlockTitle>{_t.textEditUser}</BlockTitle>
             <List className="coauth__list">
-                {storeUsers.users.map((model, i) => (
-                    <ListItem title={model.asc_getUserName()} key={i}>
-                        <div slot="media" className='color' style={{backgroundColor: model.asc_getColor()}}>
-                            {storeUsers.getInitials(model.asc_getUserName())}
+                {storeUsers.editUsers.map((user, i) => (
+                    <ListItem title={user.name + (user.count > 1 ? ` (${user.count})` : '')} key={i}>
+                        <div slot="media" className='color' style={{backgroundColor: user.color}}>
+                            {user.initials}
                         </div>
                     </ListItem>
                 ))}
