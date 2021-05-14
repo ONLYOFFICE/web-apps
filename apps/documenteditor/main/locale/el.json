@@ -615,6 +615,7 @@
   "DE.Controllers.Main.txtMissOperator": "Λείπει Τελεστής",
   "DE.Controllers.Main.txtNeedSynchronize": "Έχετε ενημερώσεις",
   "DE.Controllers.Main.txtNoTableOfContents": "Δεν υπάρχουν επικεφαλίδες στο έγγραφο. Εφαρμόστε μια τεχνοτροπία επικεφαλίδων στο κείμενο ώστε να εμφανίζεται στον πίνακα περιεχομένων.",
+  "DE.Controllers.Main.txtNoTableOfFigures": "Δεν βρέθηκε καταχώριση πίνακα απεικόνισης.",
   "DE.Controllers.Main.txtNoText": "Σφάλμα! Δεν υπάρχει κείμενο συγκεκριμένης τεχνοτροπίας στο έγγραφο.",
   "DE.Controllers.Main.txtNotInTable": "Δεν Είναι Στον Πίνακα",
   "DE.Controllers.Main.txtNotValidBookmark": "Σφάλμα! Μη έγκυρη αυτο-αναφορά σελιδοδείκτη.",
