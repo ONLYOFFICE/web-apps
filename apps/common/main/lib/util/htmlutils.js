@@ -32,7 +32,7 @@ var params = (function() {
     return urlParams;
 })();
 
-if ( !!params.uitheme && localStorage.getItem("ui-theme") != params.uitheme)
+if ( !!params.uitheme && !localStorage.getItem("ui-theme") )
     localStorage.setItem("ui-theme", params.uitheme);
 
 var ui_theme_name = localStorage.getItem("ui-theme");
