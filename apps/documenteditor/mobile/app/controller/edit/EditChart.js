@@ -308,6 +308,8 @@ define([
                     $target = $(e.currentTarget),
                     type = $target.data('type');
 
+                if (!me._chartObject) return;
+                
                 var image = new Asc.asc_CImgProperty(),
                     chart = me._chartObject.get_ChartProperties();
 
