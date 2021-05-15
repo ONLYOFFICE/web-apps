@@ -226,7 +226,7 @@ define([
             },
 
             available: function () {
-                return !Common.Utils.isIE && !!this.locked;
+                return !Common.Utils.isIE && !this.locked;
             },
 
             setAvailable: function (value) {
