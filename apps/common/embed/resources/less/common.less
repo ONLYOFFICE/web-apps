@@ -243,21 +243,25 @@
     background-origin: content-box;
     padding: 0 1px;
 
+    &.has-caption {
+        width: auto;
+        padding-right: 5px;
+    }
+
     &:active {
-        background-position-y: -@icon-height !important;
+        &, .btn-icon {
+            background-position-y: -@icon-height !important;
+        }
+
+        &.has-caption {
+            color: #ffffff
+        }
     }
 
-    //margin: 0;
-
-    &.no-caption {
-        padding: 1px 2px;
-    }
-
-// Hover state
+    // Hover state
     &:hover {
-        color: @toolbarHoverColor;
         text-decoration: none;
-        text-shadow: 0 1px 0 @toolbarBorderShadowColor;
+        background-color: @btnColor;
     }
 
 // Focus state for keyboard and accessibility
@@ -516,6 +520,12 @@
     float: left;
     margin: 0 15px 0 -35px;
 }
+.btn-icon {
+    width: 24px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
 
 .btn, button {
     &:focus, &:active:focus {
@@ -599,6 +609,7 @@
 }
 
 #box-tools {
+    display: inline-block;
     a {
         cursor: pointer;
     }

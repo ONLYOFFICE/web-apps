@@ -369,20 +369,30 @@ DE.ApplicationController = new(function(){
         }
         var licType = params.asc_getLicenseType();
         var canFillForms   = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && (permissions.fillForms===true) && (config.mode !== 'view');
+
+        api.asc_setViewMode(!canFillForms);
+
         if (!canFillForms) {
             $('#id-btn-prev-field').hide();
             $('#id-btn-next-field').hide();
+            $('#id-btn-clear-fields').hide();
         } else {
+            $('#id-btn-next-field .caption').text(me.textNext);
+            $('#id-btn-clear-fields .caption').text(me.textClear);
             $('#id-btn-prev-field').on('click', function(){
                 api.asc_MoveToFillingForm(false);
             });
             $('#id-btn-next-field').on('click', function(){
                 api.asc_MoveToFillingForm(true);
             });
+            $('#id-btn-clear-fields').on('click', function(){
+                api.asc_ClearAllSpecialForms();
+            });
+            api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+            api.asc_SetFastCollaborative(true);
+            api.asc_setAutoSaveGap(1);
         }
 
-        api.asc_setViewMode(!canFillForms);
-        canFillForms && api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
         api.asc_LoadDocument();
         api.Resize();
     }
@@ -623,6 +633,8 @@ DE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading document',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textNext: 'Next Field',
+        textClear: 'Clear All Fields'
     }
 })();
