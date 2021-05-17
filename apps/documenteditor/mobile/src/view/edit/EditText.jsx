@@ -1,6 +1,6 @@
 import React, {Fragment, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
@@ -29,11 +29,17 @@ const PageFonts = props => {
         });
     };
 
-    console.log(curFontName);
-
     return (
         <Page>
-            <Navbar title={t('Edit.textFonts')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textFonts')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={t('Edit.textSize')}>
                     {!isAndroid && <div slot='after-start'>{displaySize}</div>}
@@ -94,7 +100,15 @@ const PageAdditionalFormatting = props => {
     }
     return(
         <Page>
-            <Navbar title={t('Edit.textAdditional')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textAdditional')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={t('Edit.textStrikethrough')} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikeout', !isStrikeout)}}/>
                 <ListItem title={t('Edit.textDoubleStrikethrough')} radio checked={isDStrikeout} onClick={() => {props.onAdditionalStrikethrough('dbStrikeout', !isDStrikeout)}}/>
@@ -144,7 +158,15 @@ const PageBullets = props => {
     
     return(
         <Page className='bullets dataview'>
-            <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
@@ -189,7 +211,15 @@ const PageNumbers = props => {
     const typeNumbers = storeTextSettings.typeNumbers;
     return(
         <Page className='numbers dataview'>
-            <Navbar title={t('Edit.textNumbers')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textNumbers')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
@@ -220,7 +250,15 @@ const PageLineSpacing = props => {
     const lineSpacing = storeTextSettings.lineSpacing;
     return(
         <Page>
-            <Navbar title={t('Edit.textLineSpacing')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textLineSpacing')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem radio checked={lineSpacing === 1.0} title={1.0} onClick={() => {props.onLineSpacing(1.0)}}></ListItem>
                 <ListItem radio checked={lineSpacing === 1.15} title={1.15} onClick={() => {props.onLineSpacing(1.15)}}></ListItem>
@@ -249,7 +287,15 @@ const PageCustomFontColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -274,7 +320,15 @@ const PageFontColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textFontColors} backLink={_t.textBack} />
+            <Navbar title={_t.textFontColors} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem className={'item-color-auto' + (textColor === 'auto' ? ' active' : '')} title={_t.textAutomatic} onClick={() => {
                     props.onTextColorAuto();
@@ -308,7 +362,15 @@ const PageCustomBackColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={backgroundColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -333,7 +395,15 @@ const PageBackgroundColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textHighlightColor} backLink={_t.textBack} />
+            <Navbar title={_t.textHighlightColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{

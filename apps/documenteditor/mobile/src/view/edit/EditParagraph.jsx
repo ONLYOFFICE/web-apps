@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Toggle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -38,7 +38,15 @@ const PageAdvancedSettings = props => {
     }
     return(
         <Page>
-            <Navbar title={t('Edit.textAdvanced')} backLink={t('Edit.textBack')} />
+            <Navbar title={t('Edit.textAdvanced')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <BlockTitle>{t('Edit.textDistanceFromText')}</BlockTitle>
             <List>
                 <ListItem title={t('Edit.textBefore')}>
@@ -122,7 +130,15 @@ const PageCustomBackColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={backgroundColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -150,7 +166,15 @@ const PageBackgroundColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textBackground} backLink={_t.textBack} />
+            <Navbar title={_t.textBackground} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-paragraph-custom-color/'} routeProps={{

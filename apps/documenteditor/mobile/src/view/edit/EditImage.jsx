@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, ListInput, ListButton, Icon, Row, Col, Button, Page, Navbar, Segmented, BlockTitle, Toggle, Range} from 'framework7-react';
+import {List, ListItem, ListInput, ListButton, Icon, Row, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -27,7 +27,15 @@ const PageWrap = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textWrap} backLink={_t.textBack} />
+            <Navbar title={_t.textWrap} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}>
                     {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
@@ -129,7 +137,15 @@ const PageLinkSettings = props => {
     };
     return (
         <Page>
-            <Navbar title={_t.textLinkSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textLinkSettings} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <BlockTitle>{_t.textAddress}</BlockTitle>
             <List>
                 <ListInput
@@ -157,7 +173,15 @@ const PageReplace = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReplace} backLink={_t.textBack} />
+            <Navbar title={_t.textReplace} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
                     <Icon slot="media" icon="icon-link"></Icon>
@@ -182,7 +206,15 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>

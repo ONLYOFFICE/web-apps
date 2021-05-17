@@ -589,7 +589,15 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
     return (
         <Page>
-            <Navbar title={_t.textComments} backLink={_t.textBack}/>
+            <Navbar title={_t.textComments} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose=".coauth__sheet">
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {!sortComments ?
                 <div className='no-comments'>{_t.textNoComments}</div> :
                 <List className='comment-list'>

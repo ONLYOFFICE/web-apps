@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, ListButton, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab} from 'framework7-react';
+import {List, ListItem, ListButton, Icon, Row, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link, Tabs, Tab} from 'framework7-react';
 import {f7} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -21,7 +21,15 @@ const PageCustomFillColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -76,7 +84,15 @@ const PageCustomBorderColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -104,7 +120,15 @@ const PageBorderColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textColor} backLink={_t.textBack} />
+            <Navbar title={_t.textColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-chart-custom-border-color/'} routeProps={{
@@ -161,6 +185,13 @@ const PageStyle = props => {
                     <Link key={"de-link-chart-fill"}  tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"de-link-chart-border"}  tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
                 </div>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             <Tabs animated>
                 <Tab key={"de-tab-chart-type"} id={"edit-chart-type"} className="page-content no-padding-top dataview" tabActive={true}>
@@ -260,7 +291,15 @@ const PageWrap = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textWrap} backLink={_t.textBack} />
+            <Navbar title={_t.textWrap} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}>
                     {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
@@ -355,7 +394,15 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} onClick={() => {props.onReorder('all-up')}} link='#' className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>
