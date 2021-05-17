@@ -41,7 +41,11 @@ const LongActionsController = () => {
             api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
             api.asc_unregisterCallback('asc_onConfirmAction', onConfirmAction);
 
-            Common.Notifications.off('preloader:endAction', onLongActionEnd);
+            Common.Notifications.off('preloader:endAction', (type, id) => {
+                if (stackLongActions.exist({id: id, type: type})) {
+                    onLongActionEnd(type, id);
+                }
+            });
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
             Common.Notifications.off('preloader:close', closePreloader);
         })

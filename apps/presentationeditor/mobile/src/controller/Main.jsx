@@ -33,6 +33,7 @@ class MainController extends Component {
         window.editorType = 'pe';
 
         this.LoadingDocument = -256;
+        this.ApplyEditRights = -255;
 
         this._state = {
             licenseType: false,
@@ -244,12 +245,12 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
         this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
 
-        //if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
-        //    me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
-        //} else if (!this._isDocReady) {
-        //    me.hidePreloader();
-        //    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-        //}
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.ApplyEditRights);
+
+        if (!this._isDocReady) {
+            Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        }
 
         // Message on window close
         window.onbeforeunload = this.onBeforeUnload.bind(this);
