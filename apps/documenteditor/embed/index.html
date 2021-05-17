@@ -29,7 +29,7 @@
         .loadmask > .brendpanel {
             width: 100%;
             position: absolute;
-            height: 32px;
+            height: 48px;
             background-color: #e2e2e2;
         }
 
@@ -42,7 +42,7 @@
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
             height: 24px;
-            margin: 0 auto;
+            margin-left: 10px;
             text-align: center;
         }
 
@@ -52,6 +52,9 @@
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;
+        }
+        .loadmask > .brendpanel .doc-title {
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .circle {
@@ -111,7 +114,7 @@
   </head>
 
   <body class="embed-body">
-      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="brand-logo loading-logo"><img src=""></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
       <!-- debug begin -->
       <script type="text/javascript">var less=less||{};less.env='development';</script>
