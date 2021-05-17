@@ -39,7 +39,8 @@ DE.ApplicationController = new(function(){
         permissions = {},
         maxPages = 0,
         created = false,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        labelDocName;
 
     // Initialize analytics
     // -------------------------
@@ -121,7 +122,8 @@ DE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
-            $('#title-doc-name').text(embedConfig.docTitle || '');
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -392,6 +394,15 @@ DE.ApplicationController = new(function(){
             api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
         }
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
 
         api.asc_LoadDocument();
         api.Resize();
