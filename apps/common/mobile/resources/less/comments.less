@@ -165,9 +165,15 @@
 
 #view-comment-popover {
   background-color: @white;
-  .page .page-content {
-    padding: 16px;
-    padding-left: 0;
+  .pages {
+    position: absolute;
+  }
+  .page {
+    border-radius: var(--f7-popover-border-radius);
+    .page-content {
+      padding: 16px 16px 60px 0;
+      border-radius: var(--f7-popover-border-radius);
+    }
   }
   .comment-list {
     .item-content {
@@ -177,6 +183,9 @@
         }
       }
     }
+  }
+  .toolbar {
+    border-radius: 0 0 var(--f7-popover-border-radius) var(--f7-popover-border-radius);
   }
 }
 
@@ -200,10 +209,12 @@
   }
 }
 
+.dialog.modal-in {
+  z-index: 14000;
+}
+
 .dialog-backdrop.backdrop-in {
-  &.over-popover {
     z-index: 13600;
-  }
 }
 
 .no-comments {

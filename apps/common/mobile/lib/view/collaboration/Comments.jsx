@@ -726,6 +726,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                     <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
                 </div>
             </Toolbar>
+            <div className='pages'>
             <Page className='page-current-comment'>
             <List className='comment-list'>
             <ListItem>
@@ -794,6 +795,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
             <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
             <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
             </Page>
+            </div>
         </Fragment>
     )
 }));
@@ -830,7 +832,6 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
         }
     };
     const handleTouchEnd = (event) => {
-        console.log('end');
         const touchObj = event.changedTouches[0];
         const swipeEnd = parseInt(touchObj.clientY);
         const dist = swipeEnd - stateStartY;
