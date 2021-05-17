@@ -75,13 +75,8 @@ DE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
-            $('#id-btn-close').hide();
-
-            // Hide last separator
-            $('#toolbar .right .separator').hide();
-            $('#pages').css('margin-right', '12px');
-        }
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -126,6 +121,7 @@ DE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            $('#title-doc-name').text(embedConfig.docTitle || '');
         }
     }
 
@@ -239,14 +235,19 @@ DE.ApplicationController = new(function(){
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
+        if (!config.canBackToFolder)
+            $('#id-close').hide();
+
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
+        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -290,7 +291,8 @@ DE.ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Print');
             });
 
-        $('#id-btn-close').on('click', function(){
+        DE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
             if (config.customization && config.customization.goback) {
                 if (config.customization.goback.requestClose && config.canRequestClose)
                     Common.Gateway.requestClose();
@@ -366,8 +368,7 @@ DE.ApplicationController = new(function(){
             }
         }
         var licType = params.asc_getLicenseType();
-        // var canFillForms   = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && (permissions.fillForms===true) && (config.mode !== 'view');
-        var canFillForms   = true;
+        var canFillForms   = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && (permissions.fillForms===true) && (config.mode !== 'view');
         if (!canFillForms) {
             $('#id-btn-prev-field').hide();
             $('#id-btn-next-field').hide();

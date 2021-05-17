@@ -110,11 +110,15 @@
     z-index: 100;
     background-color: @toolbarTopColor;
 
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
     &.top {
         top: 0;
         left: 0;
         width: 100%;
-        height: 32px;
+        height: 48px;
 
         -webkit-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
         //-moz-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
@@ -133,11 +137,6 @@
     }
 
     .group {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        list-style-type: none;
         margin: 0;
         padding: 0;
 
@@ -161,6 +160,11 @@
             .item {
                 float: left;
             }
+
+            & > div {
+                display: inline-block;
+                vertical-align: middle;
+            }
         }
 
         &.right {
@@ -168,13 +172,21 @@
             padding-right: 10px;
 
             .item {
-                float: left;
+                display: inline-block;
             }
         }
 
         &.center {
-            left: 50%;
-            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 0 20px;
+
+            #title-doc-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .separator {
@@ -199,6 +211,12 @@
         }
     }
 
+    .margin-right-small {
+        margin-right: 8px;
+    }
+    .margin-right-large {
+        margin-right: 12px;
+    }
 }
 
 // Logo
@@ -219,6 +237,16 @@
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: 2px;
+
+    width: 24px;
+    height: 22px;
+    background-origin: content-box;
+    padding: 0 1px;
+
+    &:active {
+        background-position-y: -@icon-height !important;
+    }
+
     //margin: 0;
 
     &.no-caption {
@@ -473,34 +501,20 @@
     &.print {
         background-position: -@icon-width*11 0;
     }
-}
 
-.png-icon {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: transparent;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    width: 24px;
-    height: 22px;
-
-    &.prev {
-        background: data-uri('../../../../common/embed/resources/img/previous-field.png') no-repeat;
-        background-size: cover;
+    &.form-prev {
+        background-position: -@icon-width*7 0;
     }
-    &.next {
-        background: data-uri('../../../../common/embed/resources/img/next-field.png') no-repeat;
-        background-size: cover;
+    &.form-next {
+        background-position: -@icon-width*8 0;
     }
 }
 
 .mi-icon {
     width: @icon-width;
     height: @icon-height;
-    //display: inline-block;
     float: left;
-    margin: 0 15px 0 -15px;
+    margin: 0 15px 0 -35px;
 }
 
 .btn, button {
@@ -567,7 +581,7 @@
 
 .dropdown-menu {
     > li > a {
-        padding: 8px 20px 8px 31px;
+        padding: 8px 20px 8px 50px;
         &:hover, &:focus {
             background-color: @btnColor;
             outline: 0 none;
@@ -585,18 +599,6 @@
 }
 
 #box-tools {
-    display: inline-block;
-    button {
-        width: 24px;
-        height: 22px;
-        background-origin: content-box;
-        padding: 0 1px;
-
-        &:active {
-            background-position: 0 -@icon-height;
-        }
-    }
-
     a {
         cursor: pointer;
     }
