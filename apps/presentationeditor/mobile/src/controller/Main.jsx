@@ -432,6 +432,8 @@ class MainController extends Component {
         f7.emit('resize');
 
         Common.Notifications.trigger('document:ready');
+
+        appOptions.changeDocReady(true);
     }
 
     onLicenseChanged (params) {

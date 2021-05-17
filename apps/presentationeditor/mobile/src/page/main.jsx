@@ -75,7 +75,7 @@ class MainPage extends Component {
         const appOptions = this.props.storeAppOptions;
         const config = appOptions.config;
         const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
-
+        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
         return (
             <Fragment>
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
@@ -90,6 +90,21 @@ class MainPage extends Component {
                     </Navbar>
                     {/* Page content */}
                     <View id="editor_sdk" />
+
+                    {showPlaceholder ?
+                        <div className="doc-placeholder">
+                            <div className="slide-h">
+                                <div className="slide-v">
+                                    <div className="slide-container">
+                                        <div className="line"></div>
+                                        <div className="line empty"></div>
+                                        <div className="line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> :
+                        null
+                    }
 
                     <SearchSettings useSuspense={false} />
 

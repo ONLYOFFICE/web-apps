@@ -9,7 +9,10 @@ export class storeAppOptions {
             setPermissionOptions: action,
 
             lostEditingRights: observable,
-            changeEditingRights: action
+            changeEditingRights: action,
+
+            isDocReady: observable,
+            changeDocReady: action
         });
     }
 
@@ -20,6 +23,11 @@ export class storeAppOptions {
     lostEditingRights = false;
     changeEditingRights (value) {
         this.lostEditingRights = value;
+    }
+
+    isDocReady = false;
+    changeDocReady (value) {
+        this.isDocReady = value;
     }
 
     setConfigOptions (config) {
