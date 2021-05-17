@@ -409,12 +409,12 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             return [
                 this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
-                this.numSpacing, // 1 tab
-                this.numDefaultTab, this.numTab, this.cmbAlign, {cmp: this.tabList, selector: '.listview'} // 2 tab
+                this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, // 1 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll // 2 tab
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -424,13 +424,19 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                         me.cmbTextAlignment.focus();
                         break;
                     case 1:
-                        me.numSpacing.focus();
+                        me.chStrike.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 2:
                         me.numDefaultTab.focus();
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==1) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
@@ -493,8 +499,6 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.chAllCaps.setValue((props.get_AllCaps() !== null && props.get_AllCaps() !== undefined) ? props.get_AllCaps() : 'indeterminate', true);
 
                 this.numSpacing.setValue((props.get_TextSpacing() !== null && props.get_TextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_TextSpacing()) : '', true);
-
-                this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
 
                 // Tabs
                 this.numDefaultTab.setValue((props.get_DefaultTab() !== null && props.get_DefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.get_DefaultTab().toFixed(1))) : '', true);

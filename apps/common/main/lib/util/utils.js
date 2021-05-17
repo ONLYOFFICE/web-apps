@@ -30,15 +30,26 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
 if (Common.Utils === undefined) {
     Common.Utils = {};
 }
 
-Common.Utils = _.extend(new(function() {
+function _extend_object(dest, source) {
+    if ( typeof _ != "undefined" ) {
+        return _.extend({}, dest, source);
+    } else
+    if ( !!Object ) {
+        return Object.assign({}, dest, source);
+    }
+
+    return source;
+}
+
+var utils = new(function() {
     var userAgent = navigator.userAgent.toLowerCase(),
         check = function(regex){
             return regex.test(userAgent);
@@ -114,7 +125,8 @@ Common.Utils = _.extend(new(function() {
             CSV: 1,
             TXT: 2,
             Paste: 3,
-            Columns: 4
+            Columns: 4,
+            Data: 5
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
@@ -236,7 +248,9 @@ Common.Utils = _.extend(new(function() {
         croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
                                         width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
-})(), Common.Utils || {});
+})();
+
+Common.Utils = _extend_object(Common.Utils, utils);
 
 Common.Utils.ThemeColor = new(function() {
     return {
@@ -308,7 +322,7 @@ Common.Utils.ThemeColor = new(function() {
         },
 
         colorValue2EffectId: function(clr){
-            if (typeof(clr) == 'object' && clr.effectValue !== undefined && this.effectcolors) {
+            if (typeof(clr) == 'object' && clr && clr.effectValue !== undefined && this.effectcolors) {
                 for (var i = 0; i < this.effectcolors.length; i++) {
                     if (this.effectcolors[i].effectValue===clr.effectValue && clr.color.toUpperCase()===this.effectcolors[i].color.toUpperCase()) {
                         clr.effectId = this.effectcolors[i].effectId;
@@ -321,7 +335,7 @@ Common.Utils.ThemeColor = new(function() {
     }
 })();
 
-Common.Utils.Metric = _.extend( new(function() {
+var metrics = new(function() {
     var me = this;
 
     me.c_MetricUnits = {
@@ -392,7 +406,9 @@ Common.Utils.Metric = _.extend( new(function() {
             return value;
         }
     }
-})(), Common.Utils.Metric || {});
+})();
+
+Common.Utils.Metric = _extend_object(Common.Utils.Metric, metrics);
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;
@@ -571,7 +587,8 @@ Common.Utils.String = new (function() {
         },
 
         htmlEncode: function(string) {
-            return _.escape(string);
+            return (typeof _ !== 'undefined') ? _.escape(string) :
+                            string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         },
 
         htmlDecode: function(string) {
@@ -726,9 +743,9 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
-    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
-    _user.guest = _.isEmpty(_user.name);
+    _user.fullname = !_user.name ? defname : _user.name;
+    _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
+    _user.guest = !_user.name;
     return _user;
 };
 
@@ -982,12 +999,8 @@ Common.Utils.ModalWindow = new(function() {
 })();
 
 Common.Utils.UserInfoParser = new(function() {
-    var parse = false,
-        separator = String.fromCharCode(160),
-        username = '',
-        usergroups,
-        reviewPermissions,
-        reviewGroups;
+    var parse = false;
+    var separator = String.fromCharCode(160);
     return {
         setParser: function(value) {
             parse = !!value;
@@ -1013,36 +1026,6 @@ Common.Utils.UserInfoParser = new(function() {
                 return groups;
             } else
                 return undefined;
-        },
-
-        setCurrentName: function(name) {
-            username = name;
-            this.setReviewPermissions(reviewGroups, reviewPermissions);
-        },
-
-        getCurrentName: function() {
-            return username;
-        },
-
-        setReviewPermissions: function(groups, permissions) {
-            if (groups) {
-                if  (typeof groups == 'object' && groups.length>0)
-                    usergroups = groups;
-                reviewGroups = groups;
-            } else if (permissions) {
-                var arr = [],
-                    arrgroups  =  this.getParsedGroups(username);
-                arrgroups && arrgroups.forEach(function(group) {
-                    var item = permissions[group.trim()];
-                    item && (arr = arr.concat(item));
-                });
-                usergroups = arr;
-                reviewPermissions = permissions;
-            }
-        },
-
-        getCurrentGroups: function() {
-            return usergroups;
         }
     }
 })();

@@ -74,30 +74,23 @@
     display: inline-block;
 }
 
-#id-toolbar-mnu-item-border-width {
+#id-toolbar-mnu-item-border-width,
+#format-rules-borders-border-width {
     .border-size-item {
         background: ~"url(@{app-image-const-path}/toolbar/BorderSize.png) no-repeat scroll 0 0";
+        background-size: 60px auto;
         width: 60px;
         height: 20px;
         margin: -3px 10px -2px;
-        filter: @component-normal-icon-filter;
+        filter: @img-border-type-filter;
 
-        @media only screen {
-            //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-            //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-            //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-            //{
-            //    background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-            //    background-size:  60px auto;
-            //}
+        .pixel-ratio__1_5 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+            //background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+        }
 
-            @media (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 2dppx),
-            (min-resolution: 192dpi)
-            {
-                background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
-                background-size: 60px auto;
-            }
+        .pixel-ratio__2 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
         }
     }
 }
@@ -133,9 +126,23 @@
 }
 
 .item-markerlist {
-    .background-ximage-v2('toolbar/bullets-and-numbering.png', 38px);
     width: 38px;
     height: 38px;
+}
+
+.item-multilevellist {
+    width: 80px;
+    height: 80px;
+}
+
+#menu-list-number-group {
+    .item {
+        margin-right: 9px;
+        margin-bottom: 9px;
+    }
+    .group-items-container {
+        margin-bottom: 0;
+    }
 }
 
 #slot-field-zoom {

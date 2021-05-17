@@ -255,9 +255,10 @@ define([
                     documentCaption = me.api.asc_getDocumentName();
                 (new Common.Views.RenameDialog({
                     filename: documentCaption,
+                    maxLength: this.mode.wopi ? this.mode.wopi.FileNameMaxLength : undefined,
                     handler: function(result, value) {
                         if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
-                            Common.Gateway.requestRename(value);
+                            me.mode.wopi ? me.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
@@ -387,17 +388,22 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
             this.api.asc_setR1C1Mode(value);
 
+            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getBool("sse-settings-coauthmode", true);
-                Common.Utils.InternalSettings.set("sse-settings-coauthmode", value);
-                this.api.asc_SetFastCollaborative(value);
+                if (this.mode.canChangeCoAuthoring) {
+                    fast_coauth = Common.localStorage.getBool("sse-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("sse-settings-coauthmode", fast_coauth);
+                    this.api.asc_SetFastCollaborative(fast_coauth);
+                }
             }
             /** coauthoring end **/
 
             if (this.mode.isEdit) {
-                value = parseInt(Common.localStorage.getItem("sse-settings-autosave"));
-                Common.Utils.InternalSettings.set("sse-settings-autosave", value);
-                this.api.asc_setAutoSaveGap(value);
+                if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
+                    value = parseInt(Common.localStorage.getItem("sse-settings-autosave"));
+                    Common.Utils.InternalSettings.set("sse-settings-autosave", value);
+                    this.api.asc_setAutoSaveGap(value);
+                }
 
                 value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
                 Common.Utils.InternalSettings.set("sse-settings-paste-button", value);

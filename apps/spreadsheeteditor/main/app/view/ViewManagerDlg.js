@@ -115,7 +115,6 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;height: 20px;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div style="width:100%;"><%= Common.Utils.String.htmlEncode(name) %></div>',
@@ -123,7 +122,8 @@ define([
                                 '<div class="lock-user"><%=lockuser%></div>',
                             '<% } %>',
                         '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.viewList.on('item:select', _.bind(this.onSelectItem, this))
                          .on('item:keydown', _.bind(this.onKeyDown, this))
@@ -156,6 +156,14 @@ define([
             });
             
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.viewList;
         },
 
         afterRender: function() {
@@ -286,7 +294,9 @@ define([
                             rec.get('view').asc_setName(value);
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.getDefaultFocusableComponent().focus();
+                }).show();
             }
         },
 
@@ -300,7 +310,7 @@ define([
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
-                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
         },

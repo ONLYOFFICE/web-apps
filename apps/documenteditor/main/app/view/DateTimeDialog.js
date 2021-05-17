@@ -124,7 +124,8 @@ define([
                 el: $('#datetime-dlg-format'),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                cls: 'dbl-clickable'
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
@@ -154,6 +155,7 @@ define([
                             Common.localStorage.setItem("de-settings-datetime-default", value);
                             Common.Utils.InternalSettings.set("de-settings-datetime-default", value);
                         }
+                        this.listFormats.focus();
                     }, this)
                 });
             }, this));
@@ -176,7 +178,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbLang, {cmp: this.listFormats, selector: '.listview'}];
+            return [this.cmbLang, this.listFormats, this.chUpdate, this.btnDefault];
         },
 
         getDefaultFocusableComponent: function () {

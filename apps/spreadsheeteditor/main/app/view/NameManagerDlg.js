@@ -119,7 +119,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
@@ -172,7 +171,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, {cmp: this.rangeList, selector: '.listview'} ];
+            return [ this.cmbFilter, this.rangeList, this.btnNewRange, this.btnEditRange, this.btnDeleteRange ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -321,6 +320,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 }
             }).on('close', function() {
                 me.show();
+                setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
             });
             
             me.hide();
@@ -381,7 +381,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
-                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
         },

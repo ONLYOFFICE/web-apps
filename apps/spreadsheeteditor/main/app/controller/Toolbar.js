@@ -60,8 +60,10 @@ define([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog'
+    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
+    'spreadsheeteditor/main/app/view/CreateSparklineDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -78,6 +80,7 @@ define([
                 'Toolbar': {
                     'change:compact': this.onClickChangeCompact.bind(me),
                     'add:chart'     : this.onSelectChart,
+                    'add:spark'     : this.onSelectSpark,
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
@@ -138,6 +141,9 @@ define([
                 'FormulaTab': {
                     'function:namedrange': this.onNamedRangeMenu,
                     'function:namedrange-open': this.onNamedRangeMenuOpen
+                },
+                'CellSettings': {
+                    'cf:init': this.onShowBeforeCondFormat
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -186,7 +192,9 @@ define([
                 pgsize: [0, 0],
                 pgmargins: undefined,
                 pgorient: undefined,
-                lock_doc: undefined
+                lock_doc: undefined,
+                cf_locked: [],
+                selectedCells: 0
             };
             this.binding = {};
 
@@ -391,7 +399,9 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
-
+                if (toolbar.btnCondFormat.rendered) {
+                    toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
+                }
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -409,11 +419,14 @@ define([
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
                     Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                     Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
+                    this.api.asc_registerCallback('asc_onSelectionMathChanged',   _.bind(this.onApiMathChanged, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+                this.api.asc_registerCallback('asc_onLockCFManager',        _.bind(this.onLockCFManager, this));
+                this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit)
@@ -1069,56 +1082,82 @@ define([
             if (!this.editMode) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
-                seltype = info.asc_getSelectionType(),
-                isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
+                seltype = info.asc_getSelectionType();
 
             if (me.api) {
                 var win, props;
-                if (isSpark && (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
-                    seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax)) {
+                var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
+                props = me.api.asc_getChartObject(true); // don't lock chart object
+                if (props) {
+                    (ischartedit) ? props.changeType(type) : props.putType(type);
+                    var range = props.getRange(),
+                        isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
+                    if (isvalid == Asc.c_oAscError.ID.No) {
+                        (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
+                    } else {
+                        var msg = me.txtInvalidRange;
+                        switch (isvalid) {
+                            case isvalid == Asc.c_oAscError.ID.StockChartError:
+                                msg = me.errorStockChart;
+                                break;
+                            case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
+                                msg = me.errorMaxRows;
+                                break;
+                            case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
+                                msg = me.errorComboSeries;
+                                break;
+                        }
+                        Common.UI.warning({
+                            msg: msg,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                })
+                            }
+                        });
+                    }
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSelectSpark: function(type) {
+            if (!this.editMode) return;
+            var me = this,
+                info = me.api.asc_getCellInfo(),
+                seltype = info.asc_getSelectionType();
+
+            if (me.api) {
+                if (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
+                    seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax) {
                     var sparkLineInfo = info.asc_getSparklineInfo();
                     if (!!sparkLineInfo) {
                         var props = new Asc.sparklineGroup();
                         props.asc_setType(type);
                         this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
                     } else {
-                        // add sparkline
-                    }
-                } else if (!isSpark) {
-                    var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
-                    props = me.api.asc_getChartObject(true); // don't lock chart object
-                    if (props) {
-                        (ischartedit) ? props.changeType(type) : props.putType(type);
-                        var range = props.getRange(),
-                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
-                        if (isvalid == Asc.c_oAscError.ID.No) {
-                            (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
-                        } else {
-                            var msg = me.txtInvalidRange;
-                            switch (isvalid) {
-                                case isvalid == Asc.c_oAscError.ID.StockChartError:
-                                    msg = me.errorStockChart;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
-                                    msg = me.errorMaxRows;
-                                    break;
-                                case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
-                                    msg = me.errorComboSeries;
-                                    break;
-                            }
-                            Common.UI.warning({
-                                msg: msg,
-                                callback: function() {
-                                    _.defer(function(btn) {
-                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                    })
+                        var me = this;
+                        (new SSE.Views.CreateSparklineDialog(
+                            {
+                                api: me.api,
+                                props: {selectedCells: me._state.selectedCells},
+                                handler: function(result, settings) {
+                                    if (result == 'ok' && settings) {
+                                        me.view && me.view.fireEvent('insertspark', me.view);
+                                        if (settings.destination)
+                                            me.api.asc_addSparklineGroup(type, settings.source, settings.destination);
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me);
                                 }
-                            });
-                        }
+                            })).show();
                     }
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onApiMathChanged: function(info) {
+            this._state.selectedCells = info.asc_getCount(); // not empty cells
         },
 
         onInsertTextart: function (data) {
@@ -1582,6 +1621,182 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Style');
+            }
+        },
+
+        onShowBeforeCondFormat: function(cmp, id) {
+            if (cmp.mnuDataBars.menu.items.length>0) // menu is inited
+                return;
+
+            cmp.btnCondFormat.menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+            for (var i=0; i<7; i++) {
+                cmp.btnCondFormat.menu.items[i].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+            }
+            cmp.btnCondFormat.menu.items[15].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+
+            var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+            if (collectionPresets.length<1)
+                SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
+
+            var collectionIcons = SSE.getCollection('ConditionalFormatIcons');
+            if (collectionIcons.length<1)
+                SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
+
+
+            var me = this;
+            var menuItem = cmp.mnuDataBars;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
+            }));
+            var picker = new Common.UI.DataViewSimple({
+                el: $('#id-' + id + '-menu-databar', menuItem.$el),
+                parentMenu: menuItem.menu,
+                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.dataBar, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
+                }
+            });
+            var arr = [
+                { data: {name: 'gradient-blue', index: 0} },
+                { data: {name: 'gradient-green', index: 1} },
+                { data: {name: 'gradient-red', index: 2} },
+                { data: {name: 'gradient-yellow', index: 3} },
+                { data: {name: 'gradient-lightblue', index: 4} },
+                { data: {name: 'gradient-purple', index: 5} },
+                { data: {name: 'solid-blue', index: 6} },
+                { data: {name: 'solid-green', index: 7} },
+                { data: {name: 'solid-red', index: 8} },
+                { data: {name: 'solid-yellow', index: 9} },
+                { data: {name: 'solid-lightblue', index: 10} },
+                { data: {name: 'solid-purple', index: 11} }
+            ];
+            picker.setStore(new Common.UI.DataViewStore(arr));
+
+            menuItem = cmp.mnuColorScales;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
+            }));
+            picker = new Common.UI.DataViewSimple({
+                el: $('#id-' + id + '-menu-colorscales', menuItem.$el),
+                parentMenu: menuItem.menu,
+                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.colorScale, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
+                }
+            });
+            arr = [
+                { data: {name: 'green-yellow-red', index: 0} },
+                { data: {name: 'red-yellow-green', index: 1} },
+                { data: {name: 'green-white-red', index: 2} },
+                { data: {name: 'red-white-green', index: 3} },
+                { data: {name: 'blue-white-red', index: 4} },
+                { data: {name: 'red-white-blue', index: 5} },
+                { data: {name: 'white-red', index: 6} },
+                { data: {name: 'red-white', index: 7} },
+                { data: {name: 'green-white', index: 8} },
+                { data: {name: 'white-green', index: 9} },
+                { data: {name: 'green-yellow', index: 10} },
+                { data: {name: 'yellow-green', index: 11} }
+            ];
+            picker.setStore(new Common.UI.DataViewStore(arr));
+
+            menuItem = cmp.mnuIconSets;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-' + id + '-menu-iconsets" class="menu-iconsets" style="width: 227px;"></div>')
+            }));
+            arr = [];
+            var indexes = [Asc.EIconSetType.Arrows3, Asc.EIconSetType.Arrows3Gray, Asc.EIconSetType.Triangles3, Asc.EIconSetType.Arrows4Gray, Asc.EIconSetType.Arrows4, Asc.EIconSetType.Arrows5Gray, Asc.EIconSetType.Arrows5];
+            for (var i=0; i<indexes.length; i++) {
+                arr.push({group: 'menu-iconset-group-direct', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
+            }
+            indexes = [Asc.EIconSetType.Traffic3Lights1, Asc.EIconSetType.Traffic3Lights2, Asc.EIconSetType.Signs3, Asc.EIconSetType.Traffic4Lights, Asc.EIconSetType.RedToBlack4];
+            for (var i=0; i<indexes.length; i++) {
+                arr.push({group: 'menu-iconset-group-shape', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
+            }
+            indexes = [Asc.EIconSetType.Symbols3, Asc.EIconSetType.Symbols3_2, Asc.EIconSetType.Flags3];
+            for (var i=0; i<indexes.length; i++) {
+                arr.push({group: 'menu-iconset-group-indicator', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
+            }
+            indexes = [Asc.EIconSetType.Stars3, Asc.EIconSetType.Rating4, Asc.EIconSetType.Quarters5, Asc.EIconSetType.Rating5, Asc.EIconSetType.Boxes5];
+            for (var i=0; i<indexes.length; i++) {
+                arr.push({group: 'menu-iconset-group-rating', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
+            }
+            picker = new Common.UI.DataView({
+                el: $('#id-' + id + '-menu-iconsets', menuItem.$el),
+                parentMenu: menuItem.menu,
+                groups: new Common.UI.DataViewGroupStore([
+                    {id: 'menu-iconset-group-direct', caption: this.textDirectional},
+                    {id: 'menu-iconset-group-shape', caption: this.textShapes},
+                    {id: 'menu-iconset-group-indicator', caption: this.textIndicator},
+                    {id: 'menu-iconset-group-rating', caption: this.textRating}
+                ]),
+                store: new Common.UI.DataViewStore(arr),
+                showLast: false,
+                itemTemplate: _.template('<div class="item-iconset" id="<%= id %>">' +
+                                            '<% _.each(data.iconSet, function(icon) { %>' +
+                                                '<img src="<%= data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;">' +
+                                            '<% }) %>' +
+                                        '</div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.icons, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
+                }
+            });
+        },
+
+        onCondFormatMenu: function(menu, item) {
+            var me = this;
+            var value = this.api.asc_getLocale();
+            (!value) && (value = ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409));
+
+            if (item.value == 'manage') {
+                (new SSE.Views.FormatRulesManagerDlg({
+                    api: me.api,
+                    langId: value,
+                    locked: !!me._state.cf_locked[this.api.asc_getActiveWorksheetIndex()],
+                    handler: function (result, settings) {
+                        if (me && me.api && result=='ok') {
+                            me.api.asc_setCF(settings.rules, settings.deleted);
+                        }
+                    }
+                })).show();
+            } else if (item.value == 'clear') {
+                me.api.asc_clearCF(item.options.type);
+            } else {
+                (new SSE.Views.FormatRulesEditDlg({
+                    api: me.api,
+                    props   : null,
+                    type    : item.options.type,
+                    subtype : item.value,
+                    percent : item.options.percent,
+                    isEdit  : false,
+                    langId  : value,
+                    handler : function(result, settings) {
+                        if (result == 'ok' && settings) {
+                            me.api.asc_setCF([settings], []);
+                        }
+                    }
+                })).show();
             }
         },
 
@@ -2874,7 +3089,7 @@ define([
                         el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
                         store: shapesStore.at(i).get('groupStore'),
                         parentMenu: menu.items[i].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="21" height="21" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                     });
                     shapePicker.on('item:click', function(picker, item, record, e) {
                         if (me.api) {
@@ -3363,6 +3578,14 @@ define([
 
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(this.api.asc_getActiveWorksheetIndex()), {array: [this.toolbar.btnPrintArea]});
             this.toolbar.lockToolbar(SSE.enumLock.namedRangeLock, this._state.namedrange_locked, {array: [this.toolbar.btnPrintArea.menu.items[0], this.toolbar.btnPrintArea.menu.items[2]]});
+        },
+
+        onLockCFManager: function(index) {
+            this._state.cf_locked[index] = true;
+        },
+
+        onUnLockCFManager: function(index) {
+            this._state.cf_locked[index] = false;
         },
 
         activateControls: function() {
@@ -4117,7 +4340,11 @@ define([
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',
-        errorComboSeries: 'To create a combination chart, select at least two series of data.'
+        errorComboSeries: 'To create a combination chart, select at least two series of data.',
+        textDirectional: 'Directional',
+        textShapes: 'Shapes',
+        textIndicator: 'Indicators',
+        textRating: 'Ratings'
 
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -273,6 +273,7 @@ PE.ApplicationController = new(function(){
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('requestclose',       onRequestClose);
 
         PE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -591,6 +592,10 @@ PE.ApplicationController = new(function(){
                 );
             }
         }
+    }
+
+    function onRequestClose() {
+        Common.Gateway.requestClose();
     }
 
     function onDownloadAs() {

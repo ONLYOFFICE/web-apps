@@ -120,6 +120,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange', this.onApiZoomChange.bind(this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
+            this.api.asc_registerCallback('asc_onNotesShow', this.onNotesShow.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
@@ -146,11 +147,15 @@ define([
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
             $(window).on('resize', _.bind(this.onWindowResize, this));
 
-            var leftPanel = $('#left-menu');
+            var leftPanel = $('#left-menu'),
+                histPanel = $('#left-panel-history');
             this.viewport.hlayout.on('layout:resizedrag', function() {
                 this.api.Resize();
-                Common.localStorage.setItem('pe-mainmenu-width',leftPanel.width());
+                Common.localStorage.setItem('pe-mainmenu-width', histPanel.is(':visible') ? (histPanel.width()+SCALE_MIN) : leftPanel.width() );
             }, this);
+
+            this.boxSdk = $('#editor_sdk');
+            this.boxSdk.css('border-left', 'none');
 
             this.header.mnuitemFitPage = this.header.fakeMenuItem();
             this.header.mnuitemFitWidth = this.header.fakeMenuItem();
@@ -251,6 +256,13 @@ define([
                 if (!config.isEdit)
                     mnuitemHideRulers.hide();
 
+                me.header.mnuitemHideNotes = new Common.UI.MenuItem({
+                    caption: me.header.textHideNotes,
+                    checked: Common.localStorage.getBool('pe-hidden-notes', config.customization && config.customization.hideNotes===true),
+                    checkable: true,
+                    value: 'notes'
+                });
+
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
                     checkable: true,
@@ -288,6 +300,7 @@ define([
                             me.header.mnuitemCompactToolbar,
                             mnuitemHideStatusBar,
                             mnuitemHideRulers,
+                            me.header.mnuitemHideNotes,
                             {caption:'--'},
                             me.header.mnuitemFitPage,
                             me.header.mnuitemFitWidth,
@@ -327,10 +340,24 @@ define([
             case 'rightmenu':
                 this.viewport.hlayout.doLayout();
                 break;
+            case 'history':
+                var panel = this.viewport.hlayout.items[1];
+                if (panel.resize.el) {
+                    this.boxSdk.css('border-left', '');
+                    panel.resize.el.show();
+                }
+                this.viewport.hlayout.doLayout();
+                break;
             case 'leftmenu':
                 var panel = this.viewport.hlayout.items[0];
                 if (panel.resize.el) {
-                    panel.el.width() > 40 ? panel.resize.el.show() : panel.resize.el.hide();
+                    if (panel.el.width() > 40) {
+                        this.boxSdk.css('border-left', '');
+                        panel.resize.el.show();
+                    } else {
+                        panel.resize.el.hide();
+                        this.boxSdk.css('border-left', '0 none');
+                    }
                 }
                 this.viewport.hlayout.doLayout();
                 break;
@@ -434,6 +461,11 @@ define([
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
+            case 'notes':
+                me.api.asc_ShowNotes(!item.isChecked());
+                Common.localStorage.setBool('pe-hidden-notes', item.isChecked());
+                Common.NotificationCenter.trigger('edit:complete', me.header);
+                break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();
                 Common.NotificationCenter.trigger('edit:complete', me.header);
@@ -454,7 +486,17 @@ define([
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
+                this.header.lockHeaderBtns( 'rename-user', true);
             }
+        },
+
+        SetDisabled: function(disable) {
+            this.header && this.header.lockHeaderBtns( 'rename-user', disable);
+        },
+
+        onNotesShow: function(bIsShow) {
+            this.header && this.header.mnuitemHideNotes.setChecked(!bIsShow, true);
+            Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
         },
 
         textFitPage: 'Fit to Page',

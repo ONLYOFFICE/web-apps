@@ -116,13 +116,12 @@ define([
             }
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputPwd, this.repeatPwd];
+        },
 
-            var me = this;
-            setTimeout(function(){
-                me.inputPwd.cmpEl.find('input').focus();
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.inputPwd;
         },
 
         onPrimary: function(event) {
@@ -138,12 +137,12 @@ define([
             if (this.handler) {
                 if (state == 'ok') {
                     if (this.inputPwd.checkValidate() !== true)  {
-                        this.inputPwd.cmpEl.find('input').focus();
+                        this.inputPwd.focus();
                         return;
                     }
                     if (this.inputPwd.getValue() !== this.repeatPwd.getValue()) {
                         this.repeatPwd.checkValidate();
-                        this.repeatPwd.cmpEl.find('input').focus();
+                        this.repeatPwd.focus();
                         return;
                     }
                 }

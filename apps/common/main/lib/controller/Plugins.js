@@ -206,7 +206,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
-                plugin.set_MinVersion(item.get('minVersion'));
+                plugin.set_MinVersion && plugin.set_MinVersion(item.get('minVersion'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -241,6 +241,7 @@ define([
             this.api.asc_pluginsRegister('', arr);
             if (storePlugins.hasVisible())
                 Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
+            Common.Gateway.pluginsReady();
         },
 
         onAddPlugin: function (model) {

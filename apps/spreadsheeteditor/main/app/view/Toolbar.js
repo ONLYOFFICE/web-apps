@@ -568,7 +568,7 @@ define([
                 me.btnMerge = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-merge',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-merge-cells',
+                    iconCls     : 'toolbar__icon btn-merge-and-center',
                     enableToggle: true,
                     allowDepress: true,
                     split       : true,
@@ -577,18 +577,22 @@ define([
                         items: [
                             {
                                 caption : me.txtMergeCenter,
+                                iconCls     : 'menu__icon btn-merge-and-center',
                                 value   : Asc.c_oAscMergeOptions.MergeCenter
                             },
                             {
                                 caption : me.txtMergeAcross,
+                                iconCls     : 'menu__icon btn-merge-across',
                                 value   : Asc.c_oAscMergeOptions.MergeAcross
                             },
                             {
                                 caption : me.txtMergeCells,
+                                iconCls     : 'menu__icon btn-merge-cells',
                                 value   : Asc.c_oAscMergeOptions.Merge
                             },
                             {
                                 caption : me.txtUnmerge,
+                                iconCls     : 'menu__icon btn-unmerge-cells',
                                 value   : Asc.c_oAscMergeOptions.None
                             }
                         ]
@@ -719,6 +723,15 @@ define([
                     iconCls     : 'toolbar__icon btn-insertchart',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     caption     : me.capInsertChart,
+                    menu        : true
+                });
+
+                me.btnInsertSparkline = new Common.UI.Button({
+                    id          : 'tlbtn-insertsparkline',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-sparkline',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot],
+                    caption     : me.capInsertSpark,
                     menu        : true
                 });
 
@@ -1070,10 +1083,19 @@ define([
                     })
                 });
 
+                me.btnCondFormat = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-condformat',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-cond-format',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    menu        : true
+                });
+
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-colorschemas',
+                    caption     : me.capBtnColorSchemas,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -1451,9 +1473,9 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
+                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                    me.btnInsertChart, me.btnColorSchemas,
+                    me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
@@ -1653,6 +1675,7 @@ define([
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
+            _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
@@ -1667,6 +1690,7 @@ define([
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
             _injectComponent('#slot-btn-scale',         this.btnScale);
+            _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
@@ -1711,6 +1735,7 @@ define([
             _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
+            _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
             _updateHint(this.btnInsertText, this.tipInsertText);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
@@ -1741,6 +1766,7 @@ define([
             _updateHint(this.btnPrintArea, this.tipPrintArea);
             _updateHint(this.btnPrintTitles, this.tipPrintTitles);
             _updateHint(this.btnScale, this.tipScale);
+            _updateHint(this.btnCondFormat, this.tipCondFormat);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -1909,6 +1935,34 @@ define([
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
             }
 
+            if ( this.btnInsertSparkline ) {
+                this.btnInsertSparkline.setMenu(new Common.UI.Menu({
+                    style: 'width: 166px;padding: 5px 0 10px;',
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-insertspark" class="menu-insertchart"></div>') }
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insertspark'),
+                        parentMenu: menu,
+                        showLast: false,
+                        restoreHeight: 50,
+                        // groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
+                        store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:spark', [record.get('type')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                this.btnInsertSparkline.menu.on('show:before', onShowBefore);
+            }
+
             if (this.btnInsertTextArt) {
                 var onShowBeforeTextArt = function (menu) {
                     var collection = SSE.getCollection('Common.Collections.TextArt');
@@ -1929,6 +1983,166 @@ define([
                     menu.off('show:before', onShowBeforeTextArt);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+            }
+
+            if (this.btnCondFormat && this.btnCondFormat.rendered) {
+                this.btnCondFormat.setMenu( new Common.UI.Menu({
+                    items: [
+                        {
+                            caption     : Common.define.conditionalData.textValue,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    {   caption     : Common.define.conditionalData.textGreater,    type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.greaterThan },
+                                    {   caption     : Common.define.conditionalData.textGreaterEq,  type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.greaterThanOrEqual },
+                                    {   caption     : Common.define.conditionalData.textLess,       type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.lessThan },
+                                    {   caption     : Common.define.conditionalData.textLessEq,     type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.lessThanOrEqual },
+                                    {   caption     : Common.define.conditionalData.textEqual,      type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.equal },
+                                    {   caption     : Common.define.conditionalData.textNotEqual,   type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.notEqual },
+                                    {   caption     : Common.define.conditionalData.textBetween,    type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.between },
+                                    {   caption     : Common.define.conditionalData.textNotBetween, type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.notBetween }
+                                ]
+                            })
+                        },
+                        {
+                            caption     : Common.define.conditionalData.textTop + '/' + Common.define.conditionalData.textBottom,
+                            type        : Asc.c_oAscCFType.top10,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textTop + ' 10 ' + this.textItems,      type: Asc.c_oAscCFType.top10, value: 0, percent: false },
+                                    { caption: Common.define.conditionalData.textTop + ' 10%',      type: Asc.c_oAscCFType.top10, value: 0, percent: true },
+                                    { caption: Common.define.conditionalData.textBottom + ' 10 ' + this.textItems,   type: Asc.c_oAscCFType.top10, value: 1, percent: false },
+                                    { caption: Common.define.conditionalData.textBottom + ' 10%',   type: Asc.c_oAscCFType.top10, value: 1, percent: true }
+                                ]
+                            })
+                        },
+                        {
+                            caption: Common.define.conditionalData.textAverage,
+                            menu: new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textAbove, type: Asc.c_oAscCFType.aboveAverage, value: 0},
+                                    { caption: Common.define.conditionalData.textBelow, type: Asc.c_oAscCFType.aboveAverage, value: 1},
+                                    { caption: Common.define.conditionalData.textEqAbove, type: Asc.c_oAscCFType.aboveAverage, value: 2},
+                                    { caption: Common.define.conditionalData.textEqBelow, type: Asc.c_oAscCFType.aboveAverage,value: 3},
+                                    { caption: Common.define.conditionalData.text1Above, type: Asc.c_oAscCFType.aboveAverage, value: 4},
+                                    { caption: Common.define.conditionalData.text1Below, type: Asc.c_oAscCFType.aboveAverage, value: 5},
+                                    { caption: Common.define.conditionalData.text2Above, type: Asc.c_oAscCFType.aboveAverage, value: 6},
+                                    { caption: Common.define.conditionalData.text2Below, type: Asc.c_oAscCFType.aboveAverage, value: 7},
+                                    { caption: Common.define.conditionalData.text3Above, type: Asc.c_oAscCFType.aboveAverage, value: 8},
+                                    { caption: Common.define.conditionalData.text3Below, type: Asc.c_oAscCFType.aboveAverage, value: 9}
+                                ]
+                            })
+                        },
+                        {
+                            caption     : Common.define.conditionalData.textText,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textContains,   type: Asc.c_oAscCFType.containsText },
+                                    { caption: Common.define.conditionalData.textNotContains,   type: Asc.c_oAscCFType.notContainsText },
+                                    { caption: Common.define.conditionalData.textBegins,   type: Asc.c_oAscCFType.beginsWith },
+                                    { caption: Common.define.conditionalData.textEnds,   type: Asc.c_oAscCFType.endsWith }
+                                ]
+                            })
+                        },
+                        {
+                            caption     : Common.define.conditionalData.textDate,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textYesterday,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.yesterday },
+                                    { caption: Common.define.conditionalData.textToday,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.today},
+                                    { caption: Common.define.conditionalData.textTomorrow,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.tomorrow},
+                                    { caption: Common.define.conditionalData.textLast7days,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.last7Days},
+                                    { caption: Common.define.conditionalData.textLastWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastWeek},
+                                    { caption: Common.define.conditionalData.textThisWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisWeek},
+                                    { caption: Common.define.conditionalData.textNextWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextWeek},
+                                    { caption: Common.define.conditionalData.textLastMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastMonth},
+                                    { caption: Common.define.conditionalData.textThisMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisMonth},
+                                    { caption: Common.define.conditionalData.textNextMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextMonth}
+                                ]
+                            })
+                        },
+                        {
+                            caption: Common.define.conditionalData.textBlank + '/' + Common.define.conditionalData.textError,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textBlanks,   type: Asc.c_oAscCFType.containsBlanks },
+                                    { caption: Common.define.conditionalData.textNotBlanks,type: Asc.c_oAscCFType.notContainsBlanks },
+                                    { caption: Common.define.conditionalData.textErrors,   type: Asc.c_oAscCFType.containsErrors },
+                                    { caption: Common.define.conditionalData.textNotErrors,type: Asc.c_oAscCFType.notContainsErrors }
+                                ]
+                            })
+                        },
+                        {
+                            caption: Common.define.conditionalData.textDuplicate + '/' + Common.define.conditionalData.textUnique,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textDuplicate,    type: Asc.c_oAscCFType.duplicateValues },
+                                    { caption: Common.define.conditionalData.textUnique,       type: Asc.c_oAscCFType.uniqueValues }
+                                ]
+                            })
+                        },
+                        {caption: '--'},
+                        this.mnuDataBars = new Common.UI.MenuItem({
+                            caption     : this.textDataBars,
+                            type        : Asc.c_oAscCFType.dataBar,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
+                                items: []
+                            })
+                        }),
+                        this.mnuColorScales = new Common.UI.MenuItem({
+                            caption     : this.textColorScales,
+                            type        : Asc.c_oAscCFType.colorScale,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
+                                items: []
+                            })
+                        }),
+                        this.mnuIconSets = new Common.UI.MenuItem({
+                            caption     : Common.define.conditionalData.textIconSets,
+                            type        : Asc.c_oAscCFType.iconSet,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
+                                items: []
+                            })
+                        }),
+                        {caption: '--'},
+                        {
+                            caption     : Common.define.conditionalData.textFormula,
+                            type        : Asc.c_oAscCFType.expression
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textNewRule,
+                            value       : 'new'
+                        },
+                        {
+                            caption     : this.textClearRule,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.selection, caption: this.textSelection },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.worksheet, caption: this.textThisSheet },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.table, caption: this.textThisTable },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.pivot, caption: this.textThisPivot }
+                                ]
+                            })
+                        },
+                        {
+                            caption     : this.textManageRule,
+                            value       : 'manage'
+                        }
+                    ]
+                }));
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
@@ -2460,12 +2674,26 @@ define([
         txtAutosumTip: 'Summation',
         capBtnPrintTitles: 'Print Titles',
         tipPrintTitles: 'Print titles',
+        capBtnColorSchemas: 'Color Scheme',
+        tipCondFormat: 'Conditional formatting',
+        textDataBars: 'Data Bars',
+        textColorScales: 'Color Scales',
+        textNewRule: 'New Rule',
+        textClearRule: 'Clear Rules',
+        textSelection: 'From current selection',
+        textThisSheet: 'From this worksheet',
+        textThisTable: 'From this table',
+        textThisPivot: 'From this pivot',
+        textManageRule: 'Manage Rules',
         capBtnInsSlicer: 'Slicer',
         tipInsertSlicer: 'Insert slicer',
         textVertical: 'Vertical Text',
         textTabView: 'View',
         tipEditChartData: 'Select Data',
         tipEditChartType: 'Change Chart Type',
-        textAutoColor: 'Automatic'
+        textAutoColor: 'Automatic',
+        textItems: 'Items',
+        tipInsertSpark: 'Insert sparkline',
+        capInsertSpark: 'Sparklines'
     }, SSE.Views.Toolbar || {}));
 });

@@ -261,6 +261,7 @@ define([
                             callback: function(btn) {
                                 if (btn == 'ok') {
                                     me.api.asc_undoAllChanges();
+                                    me.api.asc_continueSaving();
                                     me.showHistory();
                                 } else
                                     me.api.asc_continueSaving();
@@ -275,9 +276,10 @@ define([
                     documentCaption = me.api.asc_getDocumentName();
                 (new Common.Views.RenameDialog({
                     filename: documentCaption,
+                    maxLength: this.mode.wopi ? this.mode.wopi.FileNameMaxLength : undefined,
                     handler: function(result, value) {
                         if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
-                            Common.Gateway.requestRename(value);
+                            me.mode.wopi ? me.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
@@ -443,11 +445,14 @@ define([
             Common.Utils.InternalSettings.set("de-settings-inputmode", value);
             this.api.SetTextBoxInputMode(value);
 
+            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
-                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
-                this.api.asc_SetFastCollaborative(fast_coauth);
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
+                if (this.mode.canChangeCoAuthoring) {
+                    fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                    this.api.asc_SetFastCollaborative(fast_coauth);
+                }
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                 Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
@@ -483,9 +488,11 @@ define([
             }
 
             if (this.mode.isEdit) {
-                value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
-                Common.Utils.InternalSettings.set("de-settings-autosave", value);
-                this.api.asc_setAutoSaveGap(value);
+                if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
+                    value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
+                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
+                    this.api.asc_setAutoSaveGap(value);
+                }
 
                 value = Common.localStorage.getBool("de-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
@@ -858,11 +865,13 @@ define([
         },
 
         showHistory: function() {
-            var maincontroller = DE.getController('Main');
-            if (!maincontroller.loadMask)
-                maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
-            maincontroller.loadMask.setTitle(this.textLoadHistory);
-            maincontroller.loadMask.show();
+            if (!this.mode.wopi) {
+                var maincontroller = DE.getController('Main');
+                if (!maincontroller.loadMask)
+                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
+                maincontroller.loadMask.setTitle(this.textLoadHistory);
+                maincontroller.loadMask.show();
+            }
             Common.Gateway.requestHistory();
         },
 

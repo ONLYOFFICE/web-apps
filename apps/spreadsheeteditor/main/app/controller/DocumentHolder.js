@@ -73,7 +73,8 @@ define([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog'
+    'spreadsheeteditor/main/app/view/PivotGroupDialog',
+    'spreadsheeteditor/main/app/view/MacroDialog'
 ], function () {
     'use strict';
 
@@ -197,6 +198,7 @@ define([
                 view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
                 view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
+                view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
@@ -224,6 +226,8 @@ define([
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
+                view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
+                view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
@@ -241,7 +245,7 @@ define([
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
-
+                view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -476,6 +480,24 @@ define([
 
         onReapply: function() {
             this.api.asc_reapplyAutoFilter(this.documentHolder.ssMenu.formatTableName);
+        },
+
+        onCondFormat: function() {
+            var me = this,
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+            (new SSE.Views.FormatRulesEditDlg({
+                api: me.api,
+                props   : null,
+                isEdit  : false,
+                langId  : value,
+                handler : function(result, settings) {
+                    if (result == 'ok' && settings) {
+                        me.api.asc_setCF([settings], []);
+                    }
+                }
+            })).show();
         },
 
         onGroupPivot: function(item) {
@@ -966,6 +988,22 @@ define([
             }
         },
 
+        onImgMacro: function(item) {
+            var me = this;
+
+            (new SSE.Views.MacroDialog({
+                props: {macroList: me.api.asc_getAllMacrosNames(), current: me.api.asc_getCurrentDrawingMacrosName()},
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_assignMacrosToCurrentDrawing(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
         onApiCoAuthoringDisconnect: function() {
             this.permissions.isEdit = false;
         },
@@ -1097,7 +1135,7 @@ define([
                     if (usersStore){
                         var rec = usersStore.findUser(id);
                         if (rec)
-                            return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                            return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
                     }
                     return me.guestText;
                 };
@@ -1786,6 +1824,8 @@ define([
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
+                documentHolder.menuImgMacro.setDisabled(isObjLocked);
+
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
                 documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
@@ -1910,6 +1950,7 @@ define([
                 documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor && !inPivot);
+                documentHolder.pmiCondFormat.setVisible(!iscelledit && !internaleditor);
                 documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
                 documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
@@ -1989,6 +2030,7 @@ define([
                 documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
                 documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
@@ -2571,16 +2613,12 @@ define([
                                 type: Common.Utils.importTextType.Paste,
                                 preview: true,
                                 api: me.api,
-                                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
+                                handler: function (result, settings) {
                                     if (result == 'ok') {
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-
-                                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                                            decimal && options.asc_setNumberDecimalSeparator(decimal);
-                                            thousands && options.asc_setNumberGroupSeparator(thousands);
-                                            props.asc_setAdvancedOptions(options);
+                                            props.asc_setAdvancedOptions(settings.textOptions);
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;
@@ -3420,11 +3458,31 @@ define([
             view.paraBulletsPicker = new Common.UI.DataView({
                 el          : $('#id-docholder-menu-bullets'),
                 parentMenu  : view.menuParagraphBullets.menu,
+                groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
-                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<% if (type==0) { %>' +
+                                            '<div id="<%= id %>" class="item-markerlist"></div>' +
+                                        '<% } else if (type==1) { %>' +
+                                            '<div id="<%= id %>" class="item-multilevellist"></div>' +
+                                        '<% } %>')
             });
             view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
+        },
+
+        onBulletMenuShowAfter: function() {
+            var store = this.documentHolder.paraBulletsPicker.store;
+            var arrNum = [], arrMarker = [];
+            store.each(function(item){
+                if (item.get('group')=='menu-list-bullet-group')
+                    arrMarker.push(item.get('id'));
+                else
+                    arrNum.push(item.get('id'));
+            });
+            if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
+                this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
+                this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
         },
 
         onSignatureClick: function(item) {

@@ -680,14 +680,15 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         getFocusedComponents: function() {
             return [
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
-                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
-                this.numSpacing, this.numPosition, // 3 tab
-                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, {cmp: this.tabList, selector: '.listview'}, // 4 tab
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
+                this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
+                this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll,// 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -696,8 +697,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     case 0:
                         me.cmbTextAlignment.focus();
                         break;
+                    case 1:
+                        me.chBreakBefore.focus();
+                        break;
                     case 3:
-                        me.numSpacing.focus();
+                        me.chStrike.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 4:
                         me.numDefaultTab.focus();
@@ -707,6 +713,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==3) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
@@ -891,8 +901,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.numSpacing.setValue((props.get_TextSpacing() !== null && props.get_TextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_TextSpacing()) : '', true);
                 this.numPosition.setValue((props.get_Position() !== null && props.get_Position() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Position()) : '', true);
-
-                this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
 
                 // Tabs
                 this.numDefaultTab.setValue((props.get_DefaultTab() !== null && props.get_DefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.get_DefaultTab().toFixed(1))) : '', true);

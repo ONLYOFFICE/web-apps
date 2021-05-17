@@ -58,9 +58,26 @@ Common.UI.FocusManager = new(function() {
         }
         fields.forEach(function(field) {
             if (field) {
-                var item = (field.cmp && typeof field.selector == 'string') ? field : {cmp: field, selector: '.form-control'};
+                var item = {};
+                if (field.cmp && typeof field.selector == 'string')
+                    item = field;
+                else {
+                    item.cmp = field;
+                    if (field instanceof Common.UI.ListView)
+                        item.selector = '.listview';
+                    else if (field instanceof Common.UI.CheckBox)
+                        item.selector = '.checkbox-indeterminate';
+                    else if (field instanceof Common.UI.RadioBox)
+                        item.selector = '.radiobox';
+                    else if (field instanceof Common.UI.TreeView)
+                        item.selector = '.treeview';
+                    else if (field instanceof Common.UI.Button)
+                        item.selector = 'button';
+                    else
+                        item.selector = '.form-control';
+                }
                 item.el = (item.cmp.$el || $(item.cmp.el || item.cmp)).find(item.selector).addBack().filter(item.selector);
-                item.el && item.el.attr && item.el.attr('tabindex', _tabindex.toString());
+                item.el && item.el.attr && (item.cmp.setTabIndex ? item.cmp.setTabIndex(_tabindex) : item.el.attr('tabindex', _tabindex.toString()));
                 arr.push(item);
             }
         });

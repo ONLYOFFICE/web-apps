@@ -204,6 +204,7 @@ define([
                 style       : 'width: 85px;',
                 menuStyle   : 'min-width: 85px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
@@ -271,6 +272,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;max-height: 233px;',
                     editable: false,
+                    takeFocusOnClose: true,
                     data: []
                 });
                 this.cmbCaptions.on('selected', _.bind(function(combo, record) {
@@ -283,6 +285,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;max-height: 233px;',
                     editable: false,
+                    takeFocusOnClose: true,
                     data: []
                 });
                 this.cmbTOFStyles.on('selected', _.bind(function(combo, record) {
@@ -373,6 +376,7 @@ define([
                         store: this.stylesLevels,
                         simpleAddMode: true,
                         showLast: false,
+                        tabindex: 1,
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
@@ -413,6 +417,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 95px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: arr
             });
             this.cmbStyles.setValue(this.type==1 ? Asc.c_oAscTOFStylesType.Current : Asc.c_oAscTOCStylesType.Current);
@@ -447,12 +452,17 @@ define([
             this.afterRender();
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getFocusedComponents: function() {
+            return [ this.chPages, this.chAlign, this.cmbLeader, this.chLinks, this.radioLevels, this.radioStyles, this.spnLevels, this.stylesList, this.cmbStyles,
+                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        getDefaultFocusableComponent: function () {
+            return this.chPages;
+        },
+
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         close: function() {

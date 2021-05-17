@@ -142,6 +142,7 @@ define([
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
                     "Click to load image": this.txtClickToLoad,
+                    "None": this.txtNone,
                     "No table of figures entries found.": this.txtNoTableOfFigures,
                     "table of figures": this.txtTableOfFigures,
                     "TOC Heading": this.txtTOCHeading
@@ -222,6 +223,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
 //                $(window.top).resize(_.bind(this.onDocumentResize, this));
@@ -410,6 +412,8 @@ define([
                 } else
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("de-macros-mode", value);
+
+                this.appOptions.wopi = this.editorConfig.wopi;
 
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -709,11 +713,37 @@ define([
                 app.getController('Viewport').SetDisabled(disable);
             },
 
+            onRequestClose: function() {
+                var me = this;
+                if (this.api.isDocumentModified()) {
+                    this.api.asc_stopSaving();
+                    Common.UI.warning({
+                        closable: false,
+                        width: 500,
+                        title: this.notcriticalErrorTitle,
+                        msg: this.leavePageTextOnClose,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_undoAllChanges();
+                                me.api.asc_continueSaving();
+                                Common.Gateway.requestClose();
+                                // Common.Controllers.Desktop.requestClose();
+                            } else
+                                me.api.asc_continueSaving();
+                        }
+                    });
+                } else {
+                    Common.Gateway.requestClose();
+                    // Common.Controllers.Desktop.requestClose();
+                }
+            },
+
             goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
-                        Common.Gateway.requestClose();
-                        // Common.Controllers.Desktop.requestClose();
+                        this.onRequestClose();
                     } else {
                         var href = this.appOptions.customization.goback.url;
                         if (!current && this.appOptions.customization.goback.blank!==false) {
@@ -1016,32 +1046,18 @@ define([
                 me.api.SetTextBoxInputMode(value);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
-                    value = Common.localStorage.getItem("de-settings-coauthmode");
-                    if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
-                        me.appOptions.customization && me.appOptions.customization.autosave===false) {
-                        value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
-                    }
-                    me._state.fastCoauth = (value===null || parseInt(value) == 1);
-                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                me._state.fastCoauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+                me.api.asc_SetFastCollaborative(me._state.fastCoauth);
 
-                    value = Common.localStorage.getItem((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
-                    if (value == null) value = me._state.fastCoauth ? 'none' : 'last';
-                    me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
-                                                        (value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges));
-                    Common.Utils.InternalSettings.set((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
-                } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
-                    me._state.fastCoauth = true;
-                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
-                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
-                    me.api.asc_setAutoSaveGap(1);
-                    Common.Utils.InternalSettings.set("de-settings-autosave", 1);
-                } else {
-                    me._state.fastCoauth = false;
-                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
-                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+                value = Common.Utils.InternalSettings.get((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                switch(value) {
+                    case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
+                    case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
+                    case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
+                    default: value = (me._state.fastCoauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
-                Common.Utils.InternalSettings.set("de-settings-coauthmode", me._state.fastCoauth);
+                me.api.SetCollaborativeMarksShowType(value);
+                me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("de-settings-autosave"));
                 me.api.asc_SetPerformContentControlActionByClick(me.appOptions.isRestrictedEdit && me.appOptions.canFillForms);
 
                 /** coauthoring end **/
@@ -1080,13 +1096,6 @@ define([
                 documentHolderController.getView().setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
-                    value = Common.localStorage.getItem("de-settings-autosave");
-                    if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
-                        value = 0;
-                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
-                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
-                    me.api.asc_setAutoSaveGap(value);
-
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
                         Common.Utils.InternalSettings.set("de-settings-forcesave", me.appOptions.forcesave);
@@ -1149,6 +1158,7 @@ define([
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
+                Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
@@ -1333,10 +1343,12 @@ define([
 
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                         this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
-                Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
-                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
+                this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
+                AscCommon.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
+                AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
+                this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
+                appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1346,6 +1358,9 @@ define([
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+
+                this.loadCoAuthSettings();
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
@@ -1360,6 +1375,49 @@ define([
                 this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_LoadDocument();
+            },
+
+            loadCoAuthSettings: function() {
+                var fastCoauth = true,
+                    autosave = 1,
+                    value;
+                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'fast' by default
+                        value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
+                        if (value===null && this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                            value = 0; // use customization.autosave only when coEditing.mode is null
+                        }
+                    } else {
+                        value = Common.localStorage.getItem("de-settings-coauthmode");
+                        if (value===null) {
+                            value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
+                            if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
+                                this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                                value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                            }
+                        }
+                    }
+                    fastCoauth = (value===null || parseInt(value) == 1);
+
+                    value = Common.localStorage.getItem((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                    if (value == null) value = fastCoauth ? 'none' : 'last';
+                    Common.Utils.InternalSettings.set((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
+                } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
+                    fastCoauth = true;
+                } else {
+                    fastCoauth = false;
+                    autosave = 0;
+                }
+
+                if (this.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("de-settings-autosave");
+                    if (value === null && this.appOptions.customization && this.appOptions.customization.autosave === false)
+                        value = 0;
+                    autosave = (!fastCoauth && value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? 1 : 0);
+                }
+
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", fastCoauth);
+                Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
             applyModeCommonElements: function() {
@@ -2142,15 +2200,15 @@ define([
                         codepages: advOptions.asc_getCodePages(),
                         settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
-                        handler: function (result, encoding) {
+                        handler: function (result, settings) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me && me.api) {
                                     if (mode==2) {
-                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(settings.textOptions);
                                         me.api.asc_DownloadAs(formatOptions);
                                     } else
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
+                                        me.api.asc_setAdvancedOptions(type, settings.textOptions);
                                     me.loadMask && me.loadMask.show();
                                 }
                             }
@@ -2169,7 +2227,7 @@ define([
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.api.asc_setAdvancedOptions(type, value.drmOptions);
                                     me.loadMask && me.loadMask.show();
                                 }
                             } else {
@@ -2193,10 +2251,10 @@ define([
                 if (!Common.localStorage.getBool("de-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
-                        msg: this.textTryUndoRedo,
+                        msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: ['custom', 'cancel'],
-                        primary: 'custom',
+                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
                         customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
@@ -2227,10 +2285,10 @@ define([
             onUserConnection: function(change){
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
-                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                    if (name && name !== AscCommon.UserInfoParser.getCurrentName() ) {
                         this._renameDialog && this._renameDialog.close();
-                        Common.Utils.UserInfoParser.setCurrentName(name);
-                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+                        AscCommon.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(name));
 
                         var idx1 = name.lastIndexOf('('),
                             idx2 = name.lastIndexOf(')'),
@@ -2272,6 +2330,11 @@ define([
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
                 this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
+
+                if (this.appOptions.wopi) {
+                    var idx = meta.title.lastIndexOf('.');
+                    Common.Gateway.requestRename(idx>0 ? meta.title.substring(0, idx) : meta.title);
+                }
             },
 
             onPrint: function() {
@@ -2473,6 +2536,10 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2840,6 +2907,9 @@ define([
             textGuest: 'Guest',
             errorSubmit: 'Submit failed.',
             txtClickToLoad: 'Click to load image',
+            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
+            txtNone: 'None',
             txtNoTableOfFigures: "No table of figures entries found.",
             txtTableOfFigures: 'Table of figures',
             txtStyle_endnote_text: 'Endnote Text',

@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
-    'documenteditor/main/app/view/LineNumbersDialog'
+    'documenteditor/main/app/view/LineNumbersDialog',
+    'documenteditor/main/app/view/TextToTableDialog'
 ], function () {
     'use strict';
 
@@ -292,6 +293,9 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+            toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
+            toolbar.btnMultilevels.menu.on('show:after',                _.bind(this.onListShowAfter, this, 2, toolbar.mnuMultilevelPicker));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
@@ -1359,6 +1363,17 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onListShowAfter: function(type, picker) {
+            var store = picker.store;
+            var arr = [];
+            store.each(function(item){
+                arr.push(item.get('id'));
+            });
+            if (this.api) {
+                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
+            }
+        },
+
         onSelectBullets: function(btn, picker, itemView, record) {
             var rawData = {},
                 isPickerSelect = _.isFunction(record.toJSON);
@@ -1505,9 +1520,8 @@ define([
         },
 
         onInsertTableClick: function(menu, item, e) {
+            var me = this;
             if (item.value === 'custom') {
-                var me = this;
-
                 (new Common.Views.InsertTableDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1528,6 +1542,16 @@ define([
             } else if (item.value == 'erase') {
                 item.isChecked() && menu.items[2].setChecked(false, true);
                 this.api.SetTableEraseMode(item.isChecked());
+            } else if (item.value == 'convert') {
+                (new DE.Views.TextToTableDialog({
+                    props: this.api.asc_PreConvertTextToTable(),
+                    handler: function(result, value) {
+                        if (result == 'ok' && me.api) {
+                            me.api.asc_ConvertTextToTable(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 

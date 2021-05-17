@@ -255,7 +255,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputRange, this.inputDisplay, this.inputTip];
+            return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
         setSettings: function(settings) {
@@ -504,6 +504,7 @@ define([
                     this.inputDisplay.setValue(name);
                 } else {
                     var val = this.inputRange.getValue();
+                    name = this.api.asc_getEscapeSheetName(name);
                     name = (name + ((name!=='' && val!=='') ? '!' : '') + val);
                 }
                 name && Common.Gateway.requestMakeActionLink({

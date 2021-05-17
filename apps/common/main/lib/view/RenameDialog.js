@@ -76,6 +76,7 @@ define([
                 el          : $('#id-dlg-newname'),
                 style       : 'width: 100%;',
                 validateOnBlur: false,
+                maxLength: me.options.maxLength,
                 validation  : function(value) {
                     return (/[\t*\+:\"<>?|\\\\/]/gim.test(value)) ? me.txtInvalidName + "*+:\"<>?|\/" : true;
                 }

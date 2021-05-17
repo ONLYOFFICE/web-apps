@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--
+  Customize this policy to fit your own app's needs. For more guidance, see:
+      https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+  Some notes:
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+      * Enable inline JS: add 'unsafe-inline' to default-src
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+
+  <meta name="theme-color" content="#007aff">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>Spreadsheet Editor</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
+  <link rel="icon" href="static/icons/favicon.png">
+  
+  
+  <!-- built styles file will be auto injected -->
+</head>
+<body>
+    <script>
+        const isAndroid = /Android/.test(navigator.userAgent);
+        if ( isAndroid && navigator.platform == 'Win32' )
+            // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
+            navigator.__defineGetter__('platform', () => 'Win32Debug');
+
+        const getUrlParams = () => {
+            let e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = s => decodeURIComponent(s.replace(a, " ")),
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        }
+
+        const encodeUrlParam = str => str.replace(/&/g, '&amp;')
+                                            .replace(/"/g, '&quot;')
+                                            .replace(/'/g, '&#39;')
+                                            .replace(/</g, '&lt;')
+                                            .replace(/>/g, '&gt;');
+
+        let params = getUrlParams(),
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null,
+            logoOO = null;
+        if (!logo) {
+            logoOO = isAndroid ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
+        }
+
+        window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
+        window.Common = {Locale: {currentLang: lang}};
+
+        let brendpanel = document.getElementsByClassName('brendpanel')[0];
+        if (brendpanel) {
+            if ( isAndroid ) {
+                brendpanel.classList.add('android');
+            }
+            brendpanel.classList.add('visible');
+
+            let elem = document.querySelector('.loading-logo');
+            if (elem) {
+                logo && (elem.innerHTML = '<img src=' + logo + '>');
+                logoOO && (elem.innerHTML = '<img src=' + logoOO + '>');
+                elem.style.opacity = 1;
+            }
+            var placeholder = document.getElementsByClassName('placeholder')[0];
+            if (placeholder && isAndroid) {
+                placeholder.classList.add('android');
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+
+  <div id="app"></div>
+  
+  <!-- built script files will be auto injected -->
+
+</body>
+</html>

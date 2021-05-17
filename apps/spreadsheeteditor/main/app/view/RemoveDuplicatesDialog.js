@@ -101,6 +101,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 scrollAlwaysVisible: true,
+                tabindex: 1,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div>',
@@ -249,6 +250,14 @@ define([
             }
         },
 
+        getFocusedComponents: function() {
+            return [this.chHeaders, this.columnsList];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.columnsList;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },
@@ -258,10 +267,6 @@ define([
                 this.chHeaders.setValue(!!props.asc_getHasHeaders(), true);
                 this.updateColumnsList();
             }
-            var me = this;
-            _.delay(function () {
-                me.columnsList.focus();
-            }, 100, this);
         },
 
         getSettings: function () {

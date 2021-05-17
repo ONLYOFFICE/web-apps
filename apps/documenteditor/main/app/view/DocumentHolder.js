@@ -359,7 +359,7 @@ define([
                 if (usersStore){
                     var rec = usersStore.findUser(id);
                     if (rec)
-                        return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                        return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
                 }
                 return me.guestText;
             };
@@ -2640,7 +2640,7 @@ define([
                         menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
                     }
-                    menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked);
+                    menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked);
 
                     if (me.api) {
                         mnuUnGroup.setDisabled(islocked || !me.api.CanUnGroup());

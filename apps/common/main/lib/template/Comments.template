@@ -22,9 +22,13 @@
 
         <!-- replys elements -->
 
+        <% var add_arrow = true; %>
         <% if (replys.length) { %>
-            <div class="reply-arrow img-commonctrl"></div>
             <% _.each(replys, function (item, index) { %>
+                <% if (!item.get("hide")) { %>
+                <% if (add_arrow) { add_arrow = false; %>
+                    <div class="reply-arrow img-commonctrl"></div>
+                <% } %>
                 <div class="reply-item-ct" <% if (scope.viewmode && index==replys.length-1) { %>style="padding-bottom: 0;" <% } %>;>
                     <div class="user-name">
                         <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(item.get("username")) %>
@@ -50,13 +54,14 @@
                         </div>
                     <% } %>
                 </div>
+                <% } %>
             <% }); %>
         <% } %>
 
         <!-- add reply button -->
 
         <% if (!showReply && !scope.viewmode) { %>
-            <% if (replys.length) { %>
+            <% if (replys.length && !add_arrow) { %>
                 <label class="user-reply" style="margin-left: 20px; margin-top: 5px;" role="presentation" tabindex="-1">textAddReply</label>
             <% } else { %>
                 <label class="user-reply" role="presentation" tabindex="-1">textAddReply</label>
@@ -73,7 +78,9 @@
                 <% if (removable) { %>
                     <div class="btn-delete img-commonctrl"></div>
                 <% } %>
+                <% if (editable) { %>
                 <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                <% } %>
             </div>
         <% } %>
 

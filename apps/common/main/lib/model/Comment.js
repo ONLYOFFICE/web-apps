@@ -98,7 +98,8 @@ define([
             editTextInPopover   : false,
             scope               : null,
             editable            : true,
-            removable           : true
+            removable           : true,
+            hide                : false
         }
     });
 });

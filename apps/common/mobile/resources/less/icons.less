@@ -1,0 +1,28 @@
+@import "./ios/icons";
+@import "./material/icons";
+
+i.icon {
+    &.icon-paste {
+        width: 24px;
+        height: 24px;
+        .encoded-svg-uncolored-mask('<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 2H0V20H9V24H24V7H19V2H14V3H18V7H9V19H1V3H5V2ZM10 8H23V23H10V8Z" /><path d="M5 0H14V5H5V0Z" /><path fill-rule="evenodd" clip-rule="evenodd" d="M21 12H12V11H21V12Z" /><path fill-rule="evenodd" clip-rule="evenodd" d="M21 16H12V15H21V16Z" /><path fill-rule="evenodd" clip-rule="evenodd" d="M21 20H12V19H21V20Z" /></svg>');
+    }
+    &.icon-copy {
+        width: 24px;
+        height: 24px;
+        .encoded-svg-uncolored-mask('<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1 1H15V7H16V0H0V17H8V16H1V1Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M23 8H9V23H23V8ZM8 7V24H24V7H8Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M13 5H3V4H13V5Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8 9H3V8H8V9Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8 13H3V12H8V13Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M21 12H11V11H21V12Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M21 16H11V15H21V16Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M21 20H11V19H21V20Z"/></svg>');
+    }
+    &.icon-cut {
+        width: 24px;
+        height: 24px;
+        .encoded-svg-uncolored-mask('<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#cut)"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.22427 22.2702C4.51527 23.1269 6.52738 22.7183 7.6592 21.0127C8.79101 19.3071 8.38572 17.2943 7.09472 16.4376C5.80372 15.5809 3.79161 15.9896 2.65979 17.6952C1.52798 19.4008 1.93328 21.4136 3.22427 22.2702ZM2.67135 23.1035C4.51208 24.325 7.11827 23.6364 8.49243 21.5656C9.8666 19.4948 9.48837 16.8259 7.64764 15.6044C5.80691 14.3829 3.20072 15.0714 1.82656 17.1422C0.452398 19.2131 0.830625 21.882 2.67135 23.1035Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M20.9158 22.2702C19.6248 23.1269 17.6127 22.7183 16.4809 21.0127C15.349 19.3071 15.7543 17.2943 17.0453 16.4376C18.3363 15.5809 20.3484 15.9896 21.4803 17.6952C22.6121 19.4008 22.2068 21.4136 20.9158 22.2702ZM21.4687 23.1035C19.628 24.325 17.0218 23.6364 15.6476 21.5656C14.2735 19.4948 14.6517 16.8259 16.4924 15.6044C18.3331 14.3829 20.9393 15.0714 22.3135 17.1422C23.6877 19.2131 23.3094 21.882 21.4687 23.1035Z"/><path d="M16.4924 15.6044L13.9037 12.4737L19.9552 0.675715C20.0693 0.446914 19.9552 0.172352 19.727 0.0808313C19.4416 -0.0106892 19.0993 0.0808312 18.9851 0.263872L12.0233 11.4212L5.17562 0.263872C5.06149 0.035071 4.71911 -0.0564496 4.43379 0.035071C4.14847 0.126592 4.03434 0.401153 4.14847 0.629955L10.2001 12.4279L7.64761 15.6044L9.2292 18L12.0233 13.4804L14.9108 18L16.4924 15.6044Z"/></g><defs><clipPath id="cut"><rect width="24" height="24"/></clipPath></defs></svg>');
+    }
+    &.icon-prev:after, &.icon-next:after {
+        content: none;
+    }
+    &.icon-collaboration {
+        width: 24px;
+        height: 24px;
+        .encoded-svg-background('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M15.9912 6C15.9912 8.34102 15.4074 10.1346 14.6055 11.3121C13.7983 12.4974 12.8249 13 11.9912 13C11.1575 13 10.1841 12.4974 9.37695 11.3121C8.57501 10.1346 7.99121 8.34102 7.99121 6C7.99121 3.61508 9.96974 2 11.9912 2C14.0127 2 15.9912 3.61508 15.9912 6ZM14.5015 12.9506C13.7365 13.6361 12.8649 14 11.9912 14C11.1195 14 10.2499 13.6378 9.48619 12.9554C7.78363 13.6081 6.36015 14.2591 5.26963 14.9224C3.55256 15.9667 3 16.8326 3 17.5C3 18.2545 3.4257 19.0877 4.82302 19.7879C6.25015 20.5031 8.57272 20.9999 12 21C15.4273 21 17.7499 20.5031 19.177 19.7879C20.5743 19.0877 21 18.2545 21 17.5C21 16.8326 20.4474 15.9667 18.7304 14.9224C17.6372 14.2575 16.2095 13.605 14.5015 12.9506ZM15.2272 12.1594C16.2765 10.7825 16.9912 8.67814 16.9912 6C16.9912 3 14.5 1 11.9912 1C9.48242 1 6.99121 3 6.99121 6C6.99121 8.68159 7.70777 10.7879 8.75931 12.1647C4.60309 13.7964 2 15.4951 2 17.5C2 19.9852 5 21.9999 12 22C19 22 22 19.9852 22 17.5C22 15.4929 19.3913 13.7927 15.2272 12.1594Z" fill="@{themeColor}"/></g></svg>');
+    }
+}

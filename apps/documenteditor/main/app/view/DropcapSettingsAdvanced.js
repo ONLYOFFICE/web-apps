@@ -718,7 +718,7 @@ define([
 
         getFocusedComponents: function() {
             return [
-                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, // 0 tab
+                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
                 this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
             ];

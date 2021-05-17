@@ -576,10 +576,11 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         getFocusedComponents: function() {
             return [
                 this.spnWidth, this.spnHeight, // 0 tab
-                this.spnAngle,  // 1 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
-                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
+                this.chAutofit, this.chOverflow, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
                 this.spnColumns, this.spnSpacing, // 4 tab
+                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
             ];
         },
@@ -604,6 +605,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                         break;
                     case 4:
                         me.spnColumns.focus();
+                        break;
+                    case 5:
+                        me.radioTwoCell.focus();
                         break;
                     case 6:
                         me.inputAltTitle.focus();

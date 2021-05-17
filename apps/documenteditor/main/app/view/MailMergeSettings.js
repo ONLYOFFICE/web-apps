@@ -41,7 +41,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/Switcher',
+    'common/main/lib/component/CheckBox',
     'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/SelectFileDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
@@ -167,14 +167,16 @@ define([
 
             this.lblAddRecipients = $('#mmerge-lbl-add-recipients');
 
-            this.chHighlight = new Common.UI.Switcher({
+            this.chHighlight = new Common.UI.CheckBox({
                 el: me.$el.find('#mmerge-switcher-highlight'),
+                labelText: this.textHighlight,
                 lock: [_set.noFields, _set.lostConnect]
             });
             this.chHighlight.on('change', _.bind(this.onCheckHighlightChange, this));
 
-            this.chPreview = new Common.UI.Switcher({
+            this.chPreview = new Common.UI.CheckBox({
                 el: me.$el.find('#mmerge-switcher-preview'),
+                labelText: this.textPreview,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
             this.chPreview.on('change', _.bind(this.onCheckPreviewChange, this));
@@ -455,13 +457,13 @@ define([
 
         onCheckHighlightChange: function(field, newValue, eOpts) {
             if (this.api)   {
-                this.api.asc_SetHighlightMailMergeFields(field.getValue());
+                this.api.asc_SetHighlightMailMergeFields(field.getValue()=='checked');
             }
             this.fireEvent('editcomplete', this);
         },
 
         onCheckPreviewChange: function(field, newValue, eOpts) {
-            var enable_preview = field.getValue();
+            var enable_preview = field.getValue()=='checked';
             var value = parseInt(this.txtFieldNum.getValue());
             if (this.api)   {
                 (enable_preview) ? this.api.asc_PreviewMailMergeResult(isNaN(value) ? 0 : value-1) :
@@ -732,7 +734,7 @@ define([
         },
 
         disableFieldBtns: function(num) {
-            var disabled_cmn = (this._state.recipientsCount<1 || !this.chPreview.getValue());
+            var disabled_cmn = (this._state.recipientsCount<1 || this.chPreview.getValue()!=='checked');
             var disabled = (disabled_cmn || num<1);
             if (this.btnFirst.isDisabled() !== disabled) this.btnFirst.setDisabled(disabled);
             if (this.btnPrev.isDisabled() !== disabled) this.btnPrev.setDisabled(disabled);
@@ -746,14 +748,14 @@ define([
         },
 
         onPreviewMailMergeResult: function(num) {
-            if (!this.chPreview.getValue())
+            if (this.chPreview.getValue()!=='checked')
                 this.chPreview.setValue(true);
             this.disableFieldBtns(num);
             this.disableEditing(true);
         },
 
         onEndPreviewMailMergeResult: function() {
-            if (this.chPreview.getValue())
+            if (this.chPreview.getValue()=='checked')
                 this.chPreview.setValue(false);
             this.disableFieldBtns(-1);
             this.disableEditing(false);
@@ -825,7 +827,7 @@ define([
         },
 
         disablePreviewMode: function() {
-            if (this.api && this.chPreview && this.chPreview.getValue())   {
+            if (this.api && this.chPreview && this.chPreview.getValue()=='checked')   {
                 this.api.asc_EndPreviewMailMergeResult();
             }
         },

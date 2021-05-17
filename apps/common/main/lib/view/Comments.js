@@ -656,7 +656,7 @@ define([
             return Common.Utils.String.ellipsis(Common.Utils.String.htmlEncode(quote), 120, true);
         },
         getUserName: function (username) {
-            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+            return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
         },
 
         pickLink: function (message) {

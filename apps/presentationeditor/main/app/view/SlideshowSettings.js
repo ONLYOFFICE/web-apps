@@ -85,6 +85,14 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
+        getFocusedComponents: function() {
+            return [ this.chLoop ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.chLoop;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);
