@@ -380,6 +380,8 @@ class MainController extends Component {
 
         Common.Gateway.documentReady();
         f7.emit('resize');
+
+        appOptions.changeDocReady(true);
     }
 
     applyMode (appOptions) {

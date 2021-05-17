@@ -72,6 +72,7 @@ class MainPage extends Component {
       const appOptions = this.props.storeAppOptions;
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+      const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
       return (
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
@@ -85,6 +86,13 @@ class MainPage extends Component {
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
                 {/* Page content */}
                 <View id="editor_sdk" />
+                {showPlaceholder ?
+                    <div className="doc-placeholder">
+                        <div className="columns"></div>
+                        <div className="columns"></div>
+                    </div> :
+                    null
+                }
                 <SearchSettings useSuspense={false} />
                 {
                     !this.state.editOptionsVisible ? null :
