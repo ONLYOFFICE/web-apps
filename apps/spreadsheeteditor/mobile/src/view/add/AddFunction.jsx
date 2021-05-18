@@ -68,7 +68,8 @@ const AddFunction = props => {
         {caption: 'MAX',   type: 'MAX'},
         {caption: 'COUNT', type: 'COUNT'}
     ];
-    if (functions) {
+
+    if (Object.keys(functions).length) {
         quickFunctions.forEach((quickFunction) => {
             const f = functions[quickFunction.type];
             quickFunction.caption = f.caption;
