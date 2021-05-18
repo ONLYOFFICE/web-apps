@@ -373,6 +373,7 @@ DE.ApplicationController = new(function(){
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
 
         api.asc_setViewMode(!appOptions.canFillForms);
 
@@ -380,9 +381,12 @@ DE.ApplicationController = new(function(){
             $('#id-btn-prev-field').hide();
             $('#id-btn-next-field').hide();
             $('#id-btn-clear-fields').hide();
+            $('#id-btn-submit').hide();
         } else {
+            $('#id-pages').hide();
             $('#id-btn-next-field .caption').text(me.textNext);
             $('#id-btn-clear-fields .caption').text(me.textClear);
+
             $('#id-btn-prev-field').on('click', function(){
                 api.asc_MoveToFillingForm(false);
             });
@@ -392,6 +396,15 @@ DE.ApplicationController = new(function(){
             $('#id-btn-clear-fields').on('click', function(){
                 api.asc_ClearAllSpecialForms();
             });
+
+            if (appOptions.canSubmitForms) {
+                $('#id-btn-submit .caption').text(me.textSubmit);
+                $('#id-btn-submit').on('click', function(){
+                    api.asc_SendForm();
+                });
+            } else
+                $('#id-btn-submit').hide();
+
             api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
@@ -648,6 +661,7 @@ DE.ApplicationController = new(function(){
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textNext: 'Next Field',
-        textClear: 'Clear All Fields'
+        textClear: 'Clear All Fields',
+        textSubmit: 'Submit'
     }
 })();
