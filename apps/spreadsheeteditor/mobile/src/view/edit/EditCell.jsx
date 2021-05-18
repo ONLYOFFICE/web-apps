@@ -146,7 +146,13 @@ const PageFontsCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textFonts} backLink={_t.textBack} />
+            <Navbar title={_t.textFonts} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textSize}>
                     {!isAndroid && <div slot='after-start'>{displaySize}</div>}
@@ -218,9 +224,11 @@ const PageTextColorCell = props => {
     return (
         <Page>
             <Navbar title={_t.textTextColor} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
             </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={fontColor} customColors={customColors} />
             <List>
@@ -265,9 +273,11 @@ const PageFillColorCell = props => {
     return (
         <Page>
             <Navbar title={_t.textFillColor} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
             </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={fillColor} customColors={customColors} transparent={true} />
             <List>
@@ -298,7 +308,13 @@ const PageCustomTextColorCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fontColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
@@ -323,7 +339,13 @@ const PageCustomFillColorCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
@@ -346,7 +368,13 @@ const PageTextFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textTextFormat} backLink={_t.textBack} />
+            <Navbar title={_t.textTextFormat} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textAlignLeft} radio checked={hAlignStr === 'left'} onChange={() => {
                     props.onHAlignChange('left');
@@ -419,7 +447,13 @@ const PageTextOrientationCell = props => {
    
     return (
         <Page>
-            <Navbar title={_t.textTextOrientation} backLink={_t.textBack} />
+            <Navbar title={_t.textTextOrientation} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textHorizontalText} radio checked={orientationStr === 'horizontal'}
                     after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null} onChange={() => {
@@ -494,7 +528,13 @@ const PageBorderStyleCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textBorderStyle} backLink={_t.textBack} />
+            <Navbar title={_t.textBorderStyle} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title={_t.textNoBorder} onClick={() => {
                     storeCellSettings.changeBorderStyle('none');
@@ -616,9 +656,11 @@ const PageBorderColorCell = props => {
     return (
         <Page>
             <Navbar backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
             </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors} />
             <List>
@@ -653,7 +695,13 @@ const PageCustomBorderColorCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
@@ -674,7 +722,13 @@ const PageBorderSizeCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textSize} backLink={_t.textBack} />
+            <Navbar title={_t.textSize} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(borderSizes).map(key => {
                     return (
@@ -695,7 +749,13 @@ const PageFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textFormat} backLink={_t.textBack} />
+            <Navbar title={_t.textFormat} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title={_t.textGeneral} onClick={() => props.onCellFormat('R2VuZXJhbA==')}>
                     <Icon slot="media" icon="icon-format-general"></Icon>
@@ -746,7 +806,13 @@ const PageAccountingFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAccounting} backLink={_t.textBack} />
+            <Navbar title={_t.textAccounting} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
                     onClick={() => props.onCellFormat('XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
@@ -774,7 +840,13 @@ const PageCurrencyFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAccounting} backLink={_t.textBack} />
+            <Navbar title={_t.textAccounting} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
                     onClick={() => props.onCellFormat('JTI0JTIzJTJDJTIzJTIzMC4wMA==')}>
@@ -802,7 +874,13 @@ const PageDateFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textDate} backLink={_t.textBack} />
+            <Navbar title={_t.textDate} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title='07-24-88' after='MM-dd-yy'
                     onClick={() => props.onCellFormat('TU0tZGQteXk=')}></ListItem>
@@ -835,7 +913,13 @@ const PageTimeFormatCell = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textTime} backLink={_t.textBack} />
+            <Navbar title={_t.textTime} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title='10:56' after='HH:mm'
                     onClick={() => props.onCellFormat('aCUzQW1tJTNCJTQw')}>

@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, ListButton, ListInput, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab, NavTitle, NavRight} from 'framework7-react';
+import {f7, List, ListItem, ListButton, ListInput, Icon, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link, Tabs, Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -23,7 +23,13 @@ const PageCustomFillColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -83,7 +89,13 @@ const PageCustomBorderColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -115,7 +127,13 @@ const PageBorderColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textColor} backLink={_t.textBack} />
+            <Navbar title={_t.textColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors} />
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-chart-custom-border-color/'} routeProps={{
@@ -178,6 +196,11 @@ const PageStyle = props => {
                     <Link key={"sse-link-chart-fill"} tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"sse-link-chart-border"} tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
                 </div>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
             </Navbar>
             <Tabs animated>
                 <Tab key={"sse-tab-chart-type"} id={"edit-chart-type"} className="page-content no-padding-top dataview" tabActive={true}>
@@ -262,7 +285,13 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} onClick={() => {props.onReorder('all-up')}} link='#' className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>
@@ -404,7 +433,13 @@ const PageLayout = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLayout} backLink={_t.textBack} />
+            <Navbar title={_t.textLayout} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textChartTitle} 
                     after={chartLayoutTitles[chartTitle]} link="/edit-chart-title/" routeProps={{
@@ -482,7 +517,13 @@ const PageChartTitle = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textChartTitle} backLink={_t.textBack} />
+            <Navbar title={_t.textChartTitle} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutTitles).map(key => {
                     return (
@@ -507,7 +548,13 @@ const PageLegend = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLegend} backLink={_t.textBack} />
+            <Navbar title={_t.textLegend} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutLegends).map(key => {
                     return (
@@ -532,7 +579,13 @@ const PageHorizontalAxisTitle = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textHorizontal} backLink={_t.textBack} />
+            <Navbar title={_t.textHorizontal} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutAxisTitleHorizontal).map(key => {
                     return (
@@ -557,7 +610,13 @@ const PageVerticalAxisTitle = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textVertical} backLink={_t.textBack} />
+            <Navbar title={_t.textVertical} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutAxisTitleVertical).map(key => {
                     return (
@@ -582,7 +641,13 @@ const PageHorizontalGridlines = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textHorizontal} backLink={_t.textBack} />
+            <Navbar title={_t.textHorizontal} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutGridlinesHorizontal).map(key => {
                     return (
@@ -607,7 +672,13 @@ const PageVerticalGridlines = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textVertical} backLink={_t.textBack} />
+            <Navbar title={_t.textVertical} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartLayoutGridlinesVertical).map(key => {
                     return (
@@ -632,7 +703,13 @@ const PageDataLabels = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textDataLabels} backLink={_t.textBack} />
+            <Navbar title={_t.textDataLabels} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {Object.keys(chartDataLabels).map(key => {
                     return (
@@ -724,7 +801,13 @@ const PageVerticalAxis = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
+            <Navbar title={_t.textAxisOptions} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List inlineLabels className="inputs-list">
                 <ListInput 
                     label={_t.textMinimumValue}
@@ -818,7 +901,13 @@ const PageVertAxisCrosses = props => {
 
     return (    
         <Page>
-            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack} />
+            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {axisCrosses.map((elem, index) => {
                     return (
@@ -846,7 +935,13 @@ const PageDisplayUnits = props => {
     
     return (
         <Page>
-            <Navbar title={_t.textDisplayUnits} backLink={_t.textBack} />
+            <Navbar title={_t.textDisplayUnits} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {vertAxisDisplayUnits.map((elem, index) => {
                     return (
@@ -874,7 +969,13 @@ const PageVertMajorType = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textMajorType} backLink={_t.textBack} />
+            <Navbar title={_t.textMajorType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {tickOptions.map((elem, index) => {
                     return (
@@ -902,7 +1003,13 @@ const PageVertMinorType = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textMinorType} backLink={_t.textBack} />
+            <Navbar title={_t.textMinorType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {tickOptions.map((elem, index) => {
                     return (
@@ -930,7 +1037,13 @@ const PageVertLabelPosition = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLabelPosition} backLink={_t.textBack} />
+            <Navbar title={_t.textLabelPosition} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {verticalAxisLabelsPosition.map((elem, index) => {
                     return (
@@ -1015,7 +1128,13 @@ const PageHorizontalAxis = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
+            <Navbar title={_t.textAxisOptions} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List inlineLabels className="inputs-list">
                 <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={currentAxisCrosses.display} routeProps={{
                     axisCrosses,
@@ -1088,7 +1207,13 @@ const PageHorAxisCrosses = props => {
 
     return (    
         <Page>
-            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack} />
+            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {axisCrosses.map((elem, index) => {
                     return (
@@ -1116,7 +1241,13 @@ const PageHorAxisPosition = props => {
 
     return (    
         <Page>
-            <Navbar title={_t.textAxisPosition} backLink={_t.textBack} />
+            <Navbar title={_t.textAxisPosition} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {horAxisPosition.map((elem, index) => {
                     return (
@@ -1144,7 +1275,13 @@ const PageHorMajorType = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textMajorType} backLink={_t.textBack} />
+            <Navbar title={_t.textMajorType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {tickOptions.map((elem, index) => {
                     return (
@@ -1172,7 +1309,13 @@ const PageHorMinorType = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textMinorType} backLink={_t.textBack} />
+            <Navbar title={_t.textMinorType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {tickOptions.map((elem, index) => {
                     return (
@@ -1200,7 +1343,13 @@ const PageHorLabelPosition = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLabelPosition} backLink={_t.textBack} />
+            <Navbar title={_t.textLabelPosition} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {horAxisLabelsPosition.map((elem, index) => {
                     return (

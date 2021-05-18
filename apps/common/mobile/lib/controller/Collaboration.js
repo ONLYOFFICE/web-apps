@@ -1558,8 +1558,7 @@ define([
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
                             editable            : (this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
-                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
-                            hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
+                            removable           : (this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username)
                         });
                     }
                 }
@@ -1654,8 +1653,7 @@ define([
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
                             editable            : (me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canEditComment(username),
-                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username),
-                            hide                : !AscCommon.UserInfoParser.canViewComment(username)
+                            removable           : (me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)) && AscCommon.UserInfoParser.canDeleteComment(username)
                         });
                     }
                     comment.replys = replies;

@@ -6,7 +6,11 @@
     @darkGreen: #40865c;
     @darkGrey: #757575;
 
+    @touchColor: rgba(255,255,255,0.1);
+
     --f7-navbar-shadow-image: none;
+
+    --f7-theme-color: @themeColor;
 
     --f7-navbar-bg-color: @themeColor;
     --f7-navbar-link-color: @navBarIconColor;
@@ -25,7 +29,12 @@
     --f7-range-knob-size: 16px;
 
     --f7-link-highlight-color: transparent;
-    --f7-touch-ripple-color: rgba(255,255,255,0.1);
+    --f7-touch-ripple-color: @touchColor;
+    --f7-link-touch-ripple-color: @touchColor;
+
+    .button {
+        --f7-touch-ripple-color: transparent;
+    }
 
     --f7-input-focused-border-color: @themeColor;
     --f7-label-focused-text-color: @themeColor;
