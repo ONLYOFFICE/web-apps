@@ -1,7 +1,7 @@
 {
     "DATE": {
         "a": "(rok; miesiąc; dzień)",
-        "d": "Zwraca liczbę reprezentującą datę w kodzie data-godzina programu Microsoft Excel"
+        "d": "Zwraca liczbę reprezentującą datę w kodzie data-godzina"
     },
     "DATEDIF": {
         "a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
     },
     "DATEVALUE": {
         "a": "(data_tekst)",
-        "d": "Konwertuje datę w postaci tekstu na liczbę reprezentującą datę w kodzie data-godzina programu Microsoft Excel"
+        "d": "Konwertuje datę w postaci tekstu na liczbę reprezentującą datę w kodzie data-godzina"
     },
     "DAY": {
         "a": "(kolejna_liczba)",
@@ -65,11 +65,11 @@
     },
     "TIME": {
         "a": "(godzina; minuta; sekunda)",
-        "d": "Konwertuje godziny, minuty i sekundy dane jako liczby na liczby kolejne programu Microsoft Excel, sformatowane za pomocą formatu czasu"
+        "d": "Konwertuje godziny, minuty i sekundy dane jako liczby na liczby kolejne, sformatowane za pomocą formatu czasu"
     },
     "TIMEVALUE": {
         "a": "(godzina_tekst)",
-        "d": "Konwertuje czas w formacie tekstowym na kolejną liczbę czasu programu Excel: liczbę od 0 (00:00:00) do 0,999988426 (23:59:59). Liczbę należy formatować za pomocą formatu czasu po wprowadzeniu formuły"
+        "d": "Konwertuje czas w formacie tekstowym na kolejną liczbę czasu: liczbę od 0 (00:00:00) do 0,999988426 (23:59:59). Liczbę należy formatować za pomocą formatu czasu po wprowadzeniu formuły"
     },
     "TODAY": {
         "a": "()",
@@ -525,11 +525,11 @@
     },
     "BETADIST": {
         "a": "(x; alfa; beta; [A]; [B])",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca funkcję gęstości skumulowanego rozkładu beta"
+        "d": "Zwraca funkcję gęstości skumulowanego rozkładu beta"
     },
     "BETAINV": {
         "a": "(prawdopodobieństwo; alfa; beta; [A]; [B])",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność funkcji gęstości skumulowanego rozkładu beta (ROZKŁAD.BETA)"
+        "d": "Zwraca odwrotność funkcji gęstości skumulowanego rozkładu beta (ROZKŁAD.BETA)"
     },
     "BETA.DIST": {
         "a": "(x; alfa; beta; skumulowany; [A]; [B])",
@@ -541,7 +541,7 @@
     },
     "BINOMDIST": {
         "a": "(liczba_s; próby; prawdopodob_s; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca pojedynczy składnik dwumianowego rozkładu prawdopodobieństwa"
+        "d": "Zwraca pojedynczy składnik dwumianowego rozkładu prawdopodobieństwa"
     },
     "BINOM.DIST": {
         "a": "(liczba_s; próby; prawdopodob_s; skumulowany)",
@@ -557,15 +557,15 @@
     },
     "CHIDIST": {
         "a": "(x; stopnie_swobody)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca prawostronne prawdopodobieństwo rozkładu chi-kwadrat"
+        "d": "Zwraca prawostronne prawdopodobieństwo rozkładu chi-kwadrat"
     },
     "CHIINV": {
         "a": "(prawdopodobieństwo; stopnie_swobody)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność prawostronnego prawdopodobieństwa rozkładu chi-kwadrat"
+        "d": "Zwraca odwrotność prawostronnego prawdopodobieństwa rozkładu chi-kwadrat"
     },
     "CHITEST": {
         "a": "(zakres_bieżący; zakres_przewidywany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca test na niezależność: wartość z rozkładu chi-kwadrat dla statystyki i odpowiednich stopni swobody"
+        "d": "Zwraca test na niezależność: wartość z rozkładu chi-kwadrat dla statystyki i odpowiednich stopni swobody"
     },
     "CHISQ.DIST": {
         "a": "(x; stopnie_swobody; skumulowany)",
@@ -589,7 +589,7 @@
     },
     "CONFIDENCE": {
         "a": "(alfa; odchylenie_std; rozmiar)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca przedział ufności dla średniej populacji, używając rozkładu normalnego"
+        "d": "Zwraca przedział ufności dla średniej populacji, używając rozkładu normalnego"
     },
     "CONFIDENCE.NORM": {
         "a": "(alfa; odchylenie_std; rozmiar)",
@@ -625,7 +625,7 @@
     },
     "COVAR": {
         "a": "(tablica1; tablica2)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca kowariancję, średnią z iloczynów odchyleń dla każdej pary punktów w dwóch zbiorach"
+        "d": "Zwraca kowariancję, średnią z iloczynów odchyleń dla każdej pary punktów w dwóch zbiorach"
     },
     "COVARIANCE.P": {
         "a": "(tablica1; tablica2)",
@@ -637,7 +637,7 @@
     },
     "CRITBINOM": {
         "a": "(próby; prawdopodob_s; alfa)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca najmniejszą wartość, dla której skumulowany rozkład dwumianowy jest większy lub równy podanej wartości progowej"
+        "d": "Zwraca najmniejszą wartość, dla której skumulowany rozkład dwumianowy jest większy lub równy podanej wartości progowej"
     },
     "DEVSQ": {
         "a": "(liczba1; [liczba2]; ...)",
@@ -645,7 +645,7 @@
     },
     "EXPONDIST": {
         "a": "(x; lambda; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład wykładniczy"
+        "d": "Zwraca rozkład wykładniczy"
     },
     "EXPON.DIST": {
         "a": "(x; lambda; skumulowany)",
@@ -653,15 +653,15 @@
     },
     "FDIST": {
         "a": "(x; stopnie_swobody1; stopnie_swobody2)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca (prawostronny) rozkład F prawdopodobieństwa (stopień zróżnicowania) dla dwóch zbiorów danych"
+        "d": "Zwraca (prawostronny) rozkład F prawdopodobieństwa (stopień zróżnicowania) dla dwóch zbiorów danych"
     },
     "FINV": {
         "a": "(prawdopodobieństwo; stopnie_swobody1; stopnie_swobody2)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność (prawostronnego) rozkładu F prawdopodobieństwa: jeśli p = ROZKŁAD.F(x,...), wówczas ROZKŁAD.F.ODW(p,...) = x"
+        "d": "Zwraca odwrotność (prawostronnego) rozkładu F prawdopodobieństwa: jeśli p = ROZKŁAD.F(x,...), wówczas ROZKŁAD.F.ODW(p,...) = x"
     },
     "FTEST": {
         "a": "(tablica1; tablica2)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca wynik testu F, dwustronnego prawdopodobieństwa, że wariancje w Tablicy1 i Tablicy2 nie są istotnie różne"
+        "d": "Zwraca wynik testu F, dwustronnego prawdopodobieństwa, że wariancje w Tablicy1 i Tablicy2 nie są istotnie różne"
     },
     "F.DIST": {
         "a": "(x; stopnie_swobody1; stopnie_swobody2; skumulowany)",
@@ -693,7 +693,7 @@
     },
     "FORECAST": {
         "a": "(x; znane_y; znane_x)",
-        "d": "Ta funkcja jest dostępna na potrzeby zachowania zgodności z programem Excel 2013 lub starszym.\r\nOblicza lub przewiduje wartość przyszłą przy założeniu trendu liniowego i przy użyciu istniejących wartości"
+        "d": "Oblicza lub przewiduje wartość przyszłą przy założeniu trendu liniowego i przy użyciu istniejących wartości"
     },
     "FORECAST.ETS": {
         "a": "(data_docelowa; wartości; oś_czasu; [sezonowość]; [kompletność_danych]; [agregacja])",
@@ -705,7 +705,7 @@
     },
     "FORECAST.ETS.SEASONALITY": {
         "a": "(wartości; oś_czasu; [kompletność_danych]; [agregacja])",
-        "d": "Zwraca długość powtarzającego się wzorca wykrywanego przez program Microsoft Excel dla określonego szeregu czasowego."
+        "d": "Zwraca długość powtarzającego się wzorca wykrywanego przez program dla określonego szeregu czasowego."
     },
     "FORECAST.ETS.STAT": {
         "a": "(wartości; oś_czasu; typ_statystyki; [sezonowość]; [kompletność_danych]; [agregacja])",
@@ -725,7 +725,7 @@
     },
     "GAMMADIST": {
         "a": "(x; alfa; beta; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład gamma"
+        "d": "Zwraca rozkład gamma"
     },
     "GAMMA.DIST": {
         "a": "(x; alfa; beta; skumulowany)",
@@ -733,7 +733,7 @@
     },
     "GAMMAINV": {
         "a": "(prawdopodobieństwo; alfa; beta)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność skumulowanego rozkładu gamma: jeśli p = ROZKŁAD.GAMMA(x,...), wówczas ROZKŁAD.GAMMA.ODW(p,...) = x"
+        "d": "Zwraca odwrotność skumulowanego rozkładu gamma: jeśli p = ROZKŁAD.GAMMA(x,...), wówczas ROZKŁAD.GAMMA.ODW(p,...) = x"
     },
     "GAMMA.INV": {
         "a": "(prawdopodobieństwo; alfa; beta)",
@@ -769,7 +769,7 @@
     },
     "HYPGEOMDIST": {
         "a": "(próbka_s; wielk_próbki; populacja_s; wielk_populacji)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nWyznacza rozkład hipergeometryczny"
+        "d": "Wyznacza rozkład hipergeometryczny"
     },
     "INTERCEPT": {
         "a": "(znane_y; znane_x)",
@@ -793,7 +793,7 @@
     },
     "LOGINV": {
         "a": "(prawdopodobieństwo; średnia; odchylenie_std)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność skumulowanego rozkładu logarytmiczno-normalnego x, gdzie ln(x) ma rozkład normalny o parametrach Średnia i Odchylenie_std"
+        "d": "Zwraca odwrotność skumulowanego rozkładu logarytmiczno-normalnego x, gdzie ln(x) ma rozkład normalny o parametrach Średnia i Odchylenie_std"
     },
     "LOGNORM.DIST": {
         "a": "(x; średnia; odchylenie_std; skumulowany)",
@@ -805,7 +805,7 @@
     },
     "LOGNORMDIST": {
         "a": "(x; średnia; odchylenie_std)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca skumulowany rozkład logarytmiczno-normalny x, gdzie ln(x) ma rozkład normalny o parametrach Średnia i Odchylenie_std"
+        "d": "Zwraca skumulowany rozkład logarytmiczno-normalny x, gdzie ln(x) ma rozkład normalny o parametrach Średnia i Odchylenie_std"
     },
     "MAX": {
         "a": "(liczba1; [liczba2]; ...)",
@@ -837,7 +837,7 @@
     },
     "MODE": {
         "a": "(liczba1; [liczba2]; ...)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca najczęściej występującą lub powtarzającą się wartość w tablicy albo zakresie danych"
+        "d": "Zwraca najczęściej występującą lub powtarzającą się wartość w tablicy albo zakresie danych"
     },
     "MODE.MULT": {
         "a": "(liczba1; [liczba2]; ...)",
@@ -853,7 +853,7 @@
     },
     "NEGBINOMDIST": {
         "a": "(liczba_p; liczba_s; prawdopodob_s)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład dwumianowy ujemny, prawdopodobieństwo, że wystąpi Liczba_p porażek przed sukcesem nr Liczba_s z prawdopodobieństwem sukcesu Prawdopodob_s"
+        "d": "Zwraca rozkład dwumianowy ujemny, prawdopodobieństwo, że wystąpi Liczba_p porażek przed sukcesem nr Liczba_s z prawdopodobieństwem sukcesu Prawdopodob_s"
     },
     "NORM.DIST": {
         "a": "(x; średnia; odchylenie_std; skumulowany)",
@@ -861,7 +861,7 @@
     },
     "NORMDIST": {
         "a": "(x; średnia; odchylenie_std; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca skumulowany rozkład normalny dla podanej średniej i odchylenia standardowego"
+        "d": "Zwraca skumulowany rozkład normalny dla podanej średniej i odchylenia standardowego"
     },
     "NORM.INV": {
         "a": "(prawdopodobieństwo; średnia; odchylenie_std)",
@@ -869,7 +869,7 @@
     },
     "NORMINV": {
         "a": "(prawdopodobieństwo; średnia; odchylenie_std)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność skumulowanego rozkładu normalnego dla podanej średniej i odchylenia standardowego"
+        "d": "Zwraca odwrotność skumulowanego rozkładu normalnego dla podanej średniej i odchylenia standardowego"
     },
     "NORM.S.DIST": {
         "a": "(z; skumulowany)",
@@ -877,7 +877,7 @@
     },
     "NORMSDIST": {
         "a": "(z)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca standardowy skumulowany rozkład normalny (o średniej zero i odchyleniu standardowym jeden)"
+        "d": "Zwraca standardowy skumulowany rozkład normalny (o średniej zero i odchyleniu standardowym jeden)"
     },
     "NORM.S.INV": {
         "a": "(prawdopodobieństwo)",
@@ -885,7 +885,7 @@
     },
     "NORMSINV": {
         "a": "(prawdopodobieństwo)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca odwrotność standardowego skumulowanego rozkładu normalnego (o średniej zero i odchyleniu standardowym jeden)"
+        "d": "Zwraca odwrotność standardowego skumulowanego rozkładu normalnego (o średniej zero i odchyleniu standardowym jeden)"
     },
     "PEARSON": {
         "a": "(tablica1; tablica2)",
@@ -893,7 +893,7 @@
     },
     "PERCENTILE": {
         "a": "(tablica; k)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nWyznacza k-ty percentyl wartości w zakresie"
+        "d": "Wyznacza k-ty percentyl wartości w zakresie"
     },
     "PERCENTILE.EXC": {
         "a": "(tablica; k)",
@@ -905,7 +905,7 @@
     },
     "PERCENTRANK": {
         "a": "(tablica; x; [istotność])",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nWyznacza pozycję procentową wartości w zbiorze danych"
+        "d": "Wyznacza pozycję procentową wartości w zbiorze danych"
     },
     "PERCENTRANK.EXC": {
         "a": "(tablica; x; [istotność])",
@@ -929,7 +929,7 @@
     },
     "POISSON": {
         "a": "(x; średnia; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład Poissona"
+        "d": "Zwraca rozkład Poissona"
     },
     "POISSON.DIST": {
         "a": "(x; średnia; skumulowany)",
@@ -941,7 +941,7 @@
     },
     "QUARTILE": {
         "a": "(tablica; kwarty)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nWyznacza kwartyl zbioru danych"
+        "d": "Wyznacza kwartyl zbioru danych"
     },
     "QUARTILE.INC": {
         "a": "(tablica; kwartyl)",
@@ -953,7 +953,7 @@
     },
     "RANK": {
         "a": "(liczba; lista; [lp])",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca pozycję liczby na liście liczb: jej rozmiar względem innych wartości na liście"
+        "d": "Zwraca pozycję liczby na liście liczb: jej rozmiar względem innych wartości na liście"
     },
     "RANK.AVG": {
         "a": "(liczba; odwołanie; [lp])",
@@ -989,7 +989,7 @@
     },
     "STDEV": {
         "a": "(liczba1; [liczba2]; ...)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nDokonuje oszacowania odchylenia standardowego dla podanej próbki (pomija wartości logiczne i tekstowe w próbce)"
+        "d": "Dokonuje oszacowania odchylenia standardowego dla podanej próbki (pomija wartości logiczne i tekstowe w próbce)"
     },
     "STDEV.P": {
         "a": "(liczba1; [liczba2]; ...)",
@@ -1005,7 +1005,7 @@
     },
     "STDEVP": {
         "a": "(liczba1; [liczba2]; ...)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nOblicza odchylenie standardowe na podstawie całej populacji zadanej jako argument (pomija wartości logiczne i tekstowe)"
+        "d": "Oblicza odchylenie standardowe na podstawie całej populacji zadanej jako argument (pomija wartości logiczne i tekstowe)"
     },
     "STDEVPA": {
         "a": "(wartość1; [wartość2]; ...)",
@@ -1017,11 +1017,11 @@
     },
     "TDIST": {
         "a": "(x; stopnie_swobody; strony)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład t-Studenta"
+        "d": "Zwraca rozkład t-Studenta"
     },
     "TINV": {
         "a": "(prawdopodobieństwo; stopnie_swobody)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca dwustronną odwrotność rozkładu t-Studenta"
+        "d": "Zwraca dwustronną odwrotność rozkładu t-Studenta"
     },
     "T.DIST": {
         "a": "(x; stopnie_swobody; skumulowany)",
@@ -1057,11 +1057,11 @@
     },
     "TTEST": {
         "a": "(tablica1; tablica2; strony; typ)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca prawdopodobieństwo związane z testem t-Studenta"
+        "d": "Zwraca prawdopodobieństwo związane z testem t-Studenta"
     },
     "VAR": {
         "a": "(liczba1; [liczba2]; ...)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nWyznacza wariancję na podstawie próbki (pomija wartości logiczne i tekstowe w próbce)"
+        "d": "Wyznacza wariancję na podstawie próbki (pomija wartości logiczne i tekstowe w próbce)"
     },
     "VAR.P": {
         "a": "(liczba1; [liczba2]; ...)",
@@ -1077,7 +1077,7 @@
     },
     "VARP": {
         "a": "(liczba1; [liczba2]; ...)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nOblicza wariancję na podstawie całej populacji (pomija wartości logiczne i tekstowe w próbce)"
+        "d": "Oblicza wariancję na podstawie całej populacji (pomija wartości logiczne i tekstowe w próbce)"
     },
     "VARPA": {
         "a": "(wartość1; [wartość2]; ...)",
@@ -1085,7 +1085,7 @@
     },
     "WEIBULL": {
         "a": "(x; alfa; beta; skumulowany)",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca rozkład Weibulla"
+        "d": "Zwraca rozkład Weibulla"
     },
     "WEIBULL.DIST": {
         "a": "(x; alfa; beta; skumulowany)",
@@ -1097,7 +1097,7 @@
     },
     "ZTEST": {
         "a": "(tablica; x; [sigma])",
-        "d": "Ta funkcja jest udostępniona w celu zachowania zgodności z programem Excel 2007 i jego wcześniejszymi wersjami.\r\nZwraca wartość P o jednej stronie oraz test z"
+        "d": "Zwraca wartość P o jednej stronie oraz test z"
     },
     "ACCRINT": {
         "a": "(emisja; pierwsze_odsetki; rozliczenie; stopa; cena_nom; częstość; [podstawa]; [metoda_obliczeń])",
