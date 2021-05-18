@@ -40,7 +40,8 @@ DE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         ttOffset = [0, -10],
-        labelDocName;
+        labelDocName,
+        appOptions = {};
 
     // Initialize analytics
     // -------------------------
@@ -234,21 +235,21 @@ DE.ApplicationController = new(function(){
         if ( permissions.print === false)
             $('#idt-print').hide();
 
-        if ( !embedConfig.shareUrl )
+        if ( !embedConfig.shareUrl || appOptions.canFillForms)
             $('#idt-share').hide();
 
         if (!config.canBackToFolder)
             $('#id-close').hide();
 
-        if ( !embedConfig.embedUrl )
+        if ( !embedConfig.embedUrl || appOptions.canFillForms)
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
-        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
             $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
@@ -370,11 +371,12 @@ DE.ApplicationController = new(function(){
             }
         }
         var licType = params.asc_getLicenseType();
-        var canFillForms   = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
 
-        api.asc_setViewMode(!canFillForms);
+        api.asc_setViewMode(!appOptions.canFillForms);
 
-        if (!canFillForms) {
+        if (!appOptions.canFillForms) {
             $('#id-btn-prev-field').hide();
             $('#id-btn-next-field').hide();
             $('#id-btn-clear-fields').hide();
