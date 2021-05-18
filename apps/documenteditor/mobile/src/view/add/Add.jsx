@@ -153,6 +153,8 @@ const Add = props => {
             f7.popup.open('.add-popup');
         else f7.popover.open('#add-popover', '#btn-add');
 
+        f7.tab.show('#add-other', false);
+
         return () => {
             // component will unmount
         }
