@@ -27,7 +27,7 @@
         .loadmask > .brendpanel {
             width: 100%;
             position: absolute;
-            height: 32px;
+            height: 48px;
             background-color: #e2e2e2;
         }
 
@@ -40,7 +40,7 @@
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
             height: 24px;
-            margin: 0 auto;
+            margin-left: 10px;
             text-align: center;
         }
 
@@ -50,6 +50,9 @@
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;
+        }
+        .loadmask > .brendpanel .doc-title {
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .circle {
@@ -109,7 +112,7 @@
   </head>
 
   <body class="embed-body">
-      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="brand-logo loading-logo"><img src=""></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
        <script>
             var  userAgent = navigator.userAgent.toLowerCase(),
@@ -176,17 +179,20 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
-              <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon tools"></button>
-              </div>
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
+              <button id="id-btn-prev-field" class="control-btn svg-icon arrow-up margin-right-small"></button><!--
+              --><button id="id-btn-next-field" class="control-btn has-caption margin-right-large"><span class="btn-icon svg-icon arrow-down"></span><span class="caption"></span></button><!--
+              --><button id="id-btn-clear-fields" class="control-btn has-caption"><span class="btn-icon svg-icon clear-style"></span><span class="caption"></span></button>
           </div>
           <div class="group center">
-              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+              <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
-              <div class="item separator"></div>
-              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+              <button id="id-btn-submit" class="control-btn has-caption margin-right-small colored"><span class="caption"></span></button>
+              <div id="id-pages" class="item margin-right-small"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon more-vertical"></button>
+              </div>
           </div>
       </div>
 
