@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -17,7 +17,13 @@ const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
 
     return (
         <Page>
-            <Navbar title={_t.textLinkType} backLink={_t.textBack}/>
+            <Navbar title={_t.textLinkType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {setTypeLink(1); changeType(1);}}></ListItem>
                 <ListItem title={_t.textInternalDataRange} radio checked={typeLink === 2} onClick={() => {setTypeLink(2); changeType(2);}}></ListItem>
@@ -39,7 +45,13 @@ const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
 
     return (
         <Page>
-            <Navbar title={_t.textSheet} backLink={_t.textBack}/>
+            <Navbar title={_t.textSheet} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 {sheets.map(sheet => {
                     return(

@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -9,14 +9,12 @@ const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    // const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeTextSettings = props.storeTextSettings;
     const textIn = storeTextSettings.textIn;
 
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
-    // console.log(fontColor);
 
     const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const isBold = storeTextSettings.isBold;
@@ -119,7 +117,13 @@ const PageFonts = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textFonts} backLink={_t.textBack} />
+            <Navbar title={_t.textFonts} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textSize}>
                     {!isAndroid && <div slot='after-start'>{displaySize}</div>}
@@ -184,7 +188,13 @@ const PageFontColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textTextColor} backLink={_t.textBack} />
+            <Navbar title={_t.textTextColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={textColor} customColors={customColors} />
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-font-color/'} routeProps={{
@@ -216,7 +226,13 @@ const PageCustomFontColor = props => {
     };
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )

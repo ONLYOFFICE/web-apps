@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, Tab, Tabs, ListInput, ListButton} from 'framework7-react';
-import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import {f7, Page, Navbar, NavRight, List, ListItem, BlockTitle, Icon, ListInput, ListButton, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
@@ -40,7 +39,13 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>
@@ -72,7 +77,13 @@ const PageReplace = props => {
 
     return (
         <Page className="images">
-            <Navbar title={_t.textReplace} backLink={_t.textBack} />
+            <Navbar title={_t.textReplace} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
                     <Icon slot="media" icon="icon-image-library"></Icon>
@@ -105,7 +116,13 @@ const PageLinkSettings = props => {
     };
     return (
         <Page>
-            <Navbar title={_t.textLinkSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textLinkSettings} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <BlockTitle>{_t.textAddress}</BlockTitle>
             <List>
                 <ListInput
