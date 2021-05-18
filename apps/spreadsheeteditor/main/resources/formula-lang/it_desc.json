@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(anno; mese; giorno)",
-		"d": "Restituisce il numero che rappresenta la data in codice data-ora di Microsoft Excel ."
+		"d": "Restituisce il numero che rappresenta la data in codice data-ora."
 	},
 	"DATEDIF": {
 		"a": "(data_inizio , data_fine , unit)",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(data)",
-		"d": "Converte una data in formato testo in un numero che rappresenta la data nel codice data-ora di Microsoft Excel."
+		"d": "Converte una data in formato testo in un numero che rappresenta la data nel codice data-ora."
 	},
 	"DAY": {
 		"a": "(num_seriale)",
@@ -65,7 +65,7 @@
 	},
 	"TIME": {
 		"a": "(ora; minuto; secondo)",
-		"d": "Converte ore, minuti e secondi forniti come numeri in un un numero seriale di Excel, formattato in modo appropriato."
+		"d": "Converte ore, minuti e secondi forniti come numeri in un un numero seriale, formattato in modo appropriato."
 	},
 	"TIMEval": {
 		"a": "(ora)",
@@ -497,7 +497,7 @@
 	},
 	"TTEST": {
 		"a": "(matrice1; matrice2; coda; tipo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la probabilità associata ad un test t di Student."
+		"d": "Restituisce la probabilità associata ad un test t di Student."
 	},
 	"UNICHAR": {
 		"a": "(num)",
@@ -537,11 +537,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nCalcola la funzione densità di probabilità cumulativa beta."
+		"d": "Calcola la funzione densità di probabilità cumulativa beta."
 	},
 	"BETAINV": {
 		"a": "(probabilità; alfa; beta; [A]; [B])",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della funzione densità di probabilità cumulativa beta (DISTRIB.BETA)."
+		"d": "Restituisce l'inversa della funzione densità di probabilità cumulativa beta (DISTRIB.BETA)."
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; cumulativa; [A]; [B])",
@@ -553,7 +553,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(num_successi; prove; probabilità_s; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione binomiale per il termine individuale."
+		"d": "Restituisce la distribuzione binomiale per il termine individuale."
 	},
 	"BINOM.DIST": {
 		"a": "(num_successi; prove; probabilità_s; cumulativo)",
@@ -569,15 +569,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; grad_libertà)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la probabilità a una coda destra per la distribuzione del chi quadrato."
+		"d": "Restituisce la probabilità a una coda destra per la distribuzione del chi quadrato."
 	},
 	"CHIINV": {
 		"a": "(probabilità; grado_libertà)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della probabilità a una coda destra per la distribuzione del chi quadrato."
+		"d": "Restituisce l'inversa della probabilità a una coda destra per la distribuzione del chi quadrato."
 	},
 	"CHITEST": {
 		"a": "(int_effettivo; int_previsto)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il test per l'indipendenza: il valore della distribuzione del chi quadrato per la statistica e i gradi di libertà appropriati."
+		"d": "Restituisce il test per l'indipendenza: il valore della distribuzione del chi quadrato per la statistica e i gradi di libertà appropriati."
 	},
 	"CHISQ.DIST": {
 		"a": "(x; grad_libertà; cumulativa)",
@@ -601,7 +601,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; dev_standard; dimensioni)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'intervallo di confidenza per una popolazione, utilizzando una distribuzione normale"
+		"d": "Restituisce l'intervallo di confidenza per una popolazione, utilizzando una distribuzione normale"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; dev_standard; dimensioni)",
@@ -637,7 +637,7 @@
 	},
 	"COVAR": {
 		"a": "(matrice1; matrice2)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nCalcola la covarianza, la media dei prodotti delle deviazioni di ciascuna coppia di coordinate in due set di dati."
+		"d": "Calcola la covarianza, la media dei prodotti delle deviazioni di ciascuna coppia di coordinate in due set di dati."
 	},
 	"COVARIANCE.P": {
 		"a": "(matrice1; matrice2)",
@@ -649,7 +649,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(prove; probabilità_s; alfa)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il più piccolo valore per il quale la distribuzione cumulativa binomiale risulta maggiore o uguale ad un valore di criterio."
+		"d": "Restituisce il più piccolo valore per il quale la distribuzione cumulativa binomiale risulta maggiore o uguale ad un valore di criterio."
 	},
 	"DEVSQ": {
 		"a": "(num1; [num2]; ...)",
@@ -661,15 +661,15 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione esponenziale."
+		"d": "Restituisce la distribuzione esponenziale."
 	},
 	"FDIST": {
 		"a": "(x; grad_libertà1; grad_libertà2)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione di probabilità F (coda destra) (grado di diversità) per due set di dati."
+		"d": "Restituisce la distribuzione di probabilità F (coda destra) (grado di diversità) per due set di dati."
 	},
 	"FINV": {
 		"a": "(probabilità; grado_libertà1; grado_libertà2)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione di probabilità F (coda destra): se p = FDIST(x,...), allora FINV(p,...) = x"
+		"d": "Restituisce l'inversa della distribuzione di probabilità F (coda destra): se p = FDIST(x,...), allora FINV(p,...) = x"
 	},
 	"F.DIST": {
 		"a": "(x; grad_libertà1; grad_libertà2; cumulativa)",
@@ -697,7 +697,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; y_note; x_note)",
-		"d": "Questa funzione è disponibile per la compatibilità con Excel 2013 e versioni precedenti.\r\nCalcola o prevede un valore futuro lungo una tendenza lineare usando i valori esistenti"
+		"d": "Calcola o prevede un valore futuro lungo una tendenza lineare usando i valori esistenti"
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; y_note; x_note)",
@@ -713,7 +713,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione gamma."
+		"d": "Restituisce la distribuzione gamma."
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; cumulativo)",
@@ -721,7 +721,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probabilità; alfa; beta)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione cumulativa gamma: se p = DISTRIB.GAMMA(x,...), allora INV.GAMMA(p,...) = x"
+		"d": "Restituisce l'inversa della distribuzione cumulativa gamma: se p = DISTRIB.GAMMA(x,...), allora INV.GAMMA(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(probabilità; alfa; beta)",
@@ -757,7 +757,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(s_esempio; num_esempio; s_pop; num_pop)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione ipergeometrica"
+		"d": "Restituisce la distribuzione ipergeometrica"
 	},
 	"INTERCEPT": {
 		"a": "(y_note; x_note)",
@@ -781,7 +781,7 @@
 	},
 	"LOGINV": {
 		"a": "(probabilità; media; dev_standard)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione lognormale di x, in cui ln(x) è distribuito normalmente con i parametri Media e Dev_standard."
+		"d": "Restituisce l'inversa della distribuzione lognormale di x, in cui ln(x) è distribuito normalmente con i parametri Media e Dev_standard."
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; media; dev_standard; cumulativa)",
@@ -793,7 +793,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; media; dev_standard)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione lognormale di x, in cui ln(x) è distribuito normalmente con i parametri Media e Dev_standard."
+		"d": "Restituisce la distribuzione lognormale di x, in cui ln(x) è distribuito normalmente con i parametri Media e Dev_standard."
 	},
 	"MAX": {
 		"a": "(num1; [num2]; ...)",
@@ -825,7 +825,7 @@
 	},
 	"MODE": {
 		"a": "(num1; [num2]; ...)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il valore più ricorrente in una matrice o intervallo di dati."
+		"d": "Restituisce il valore più ricorrente in una matrice o intervallo di dati."
 	},
 	"MODE.MULT": {
 		"a": "(num1; [num2]; ...)",
@@ -841,7 +841,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(num_insuccessi; num_successi; probabilità_s)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione binomiale negativa, la probabilità che un numero di insuccessi pari a Num_insuccessi si verifichi prima del successo Num_successi, data la probabilità di successo Probabilità_s."
+		"d": "Restituisce la distribuzione binomiale negativa, la probabilità che un numero di insuccessi pari a Num_insuccessi si verifichi prima del successo Num_successi, data la probabilità di successo Probabilità_s."
 	},
 	"NORM.DIST": {
 		"a": "(x; media; dev_standard; cumulativo)",
@@ -849,7 +849,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; media; dev_standard; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione normale cumulativa per la media e la deviazione standard specificate."
+		"d": "Restituisce la distribuzione normale cumulativa per la media e la deviazione standard specificate."
 	},
 	"NORM.INV": {
 		"a": "(probabilità; media; dev_standard)",
@@ -857,7 +857,7 @@
 	},
 	"NORMINV": {
 		"a": "(probabilità; media; dev_standard)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione normale cumulativa per la media e la deviazione standard specificate."
+		"d": "Restituisce l'inversa della distribuzione normale cumulativa per la media e la deviazione standard specificate."
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulativa)",
@@ -865,7 +865,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione normale standard cumulativa (ha media pari a zero e deviazione standard pari a 1)."
+		"d": "Restituisce la distribuzione normale standard cumulativa (ha media pari a zero e deviazione standard pari a 1)."
 	},
 	"NORMS.INV": {
 		"a": "(probabilità)",
@@ -873,7 +873,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probabilità)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione normale standard cumulativa (ha media pari a zero e deviazione standard pari a 1)."
+		"d": "Restituisce l'inversa della distribuzione normale standard cumulativa (ha media pari a zero e deviazione standard pari a 1)."
 	},
 	"PEARSON": {
 		"a": "(matrice1; matrice2)",
@@ -881,7 +881,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matrice; k)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il k-esimo dato percentile di valori in un intervallo."
+		"d": "Restituisce il k-esimo dato percentile di valori in un intervallo."
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matrice; k)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matrice; x; [cifre_signific])",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il rango di un valore in un set di dati come percentuale del set di dati."
+		"d": "Restituisce il rango di un valore in un set di dati come percentuale del set di dati."
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matrice; x; [cifre_signific])",
@@ -917,7 +917,7 @@
 	},
 	"POISSON": {
 		"a": "(x; media; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nCalcola la distribuzione di probabilità di Poisson"
+		"d": "Calcola la distribuzione di probabilità di Poisson"
 	},
 	"POISSON.DIST": {
 		"a": "(x; media; cumulativo)",
@@ -929,7 +929,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matrice; quarto)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il quartile di un set di dati."
+		"d": "Restituisce il quartile di un set di dati."
 	},
 	"QUARTILE.INC": {
 		"a": "(matrice; quarto)",
@@ -941,7 +941,7 @@
 	},
 	"RANK": {
 		"a": "(num; rif; [ordine])",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il rango di un numero in un elenco di numeri: la sua grandezza relativa agli altri valori nell'elenco."
+		"d": "Restituisce il rango di un numero in un elenco di numeri: la sua grandezza relativa agli altri valori nell'elenco."
 	},
 	"RANK.AVG": {
 		"a": "(num; rif; [ordine])",
@@ -977,7 +977,7 @@
 	},
 	"STDEV": {
 		"a": "(num1; [num2]; ...)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce una stima della deviazione standard sulla base di un campione. Ignora i valori logici e il testo nel campione."
+		"d": "Restituisce una stima della deviazione standard sulla base di un campione. Ignora i valori logici e il testo nel campione."
 	},
 	"STDEV.P": {
 		"a": "(num1; [num2]; ...)",
@@ -993,7 +993,7 @@
 	},
 	"STDEVP": {
 		"a": "(num1; [num2]; ...)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nCalcola la deviazione standard sulla base dell'intera popolazione, passata come argomenti (ignora i valori logici e il testo)."
+		"d": "Calcola la deviazione standard sulla base dell'intera popolazione, passata come argomenti (ignora i valori logici e il testo)."
 	},
 	"STDEVPA": {
 		"a": "(val1; [val2]; ...)",
@@ -1005,11 +1005,11 @@
 	},
 	"TDIST": {
 		"a": "(x; grad_libertà; code)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione t di Student."
+		"d": "Restituisce la distribuzione t di Student."
 	},
 	"TINV": {
 		"a": "(probabilità; grado_libertà)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce l'inversa della distribuzione t di Student."
+		"d": "Restituisce l'inversa della distribuzione t di Student."
 	},
 	"T.DIST": {
 		"a": "(x; grad_libertà; code)",
@@ -1033,7 +1033,7 @@
 	},
 	"VAR": {
 		"a": "(num1; [num2]; ...)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nStima la varianza sulla base di un campione. Ignora i valori logici e il testo nel campione."
+		"d": "Stima la varianza sulla base di un campione. Ignora i valori logici e il testo nel campione."
 	},
 	"VAR.P": {
 		"a": "(num1; [num2]; ...)",
@@ -1049,7 +1049,7 @@
 	},
 	"VARP": {
 		"a": "(num1; [num2]; ...)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nCalcola la varianza sulla base dell'intera popolazione. Ignora i valori logici e il testo nella popolazione."
+		"d": "Calcola la varianza sulla base dell'intera popolazione. Ignora i valori logici e il testo nella popolazione."
 	},
 	"VARPA": {
 		"a": "(val1; [val2]; ...)",
@@ -1057,7 +1057,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; cumulativo)",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce la distribuzione di Weibull."
+		"d": "Restituisce la distribuzione di Weibull."
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; cumulativo)",
@@ -1069,7 +1069,7 @@
 	},
 	"ZTEST": {
 		"a": "(matrice; x; [sigma])",
-		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e versioni precedenti.\r\nRestituisce il livello di significatività a una coda per un test z."
+		"d": "Restituisce il livello di significatività a una coda per un test z."
 	},
 	"ACCRINT": {
 		"a": "(emiss; primo_int; liquid; tasso_int; val_nom; num_rate; [base]; [metodo_calc])",
