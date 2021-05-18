@@ -814,8 +814,7 @@ define([
                         showReplyInPopover  : false,
                         scope               : t.view,
                         editable            : (t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getReply(i).asc_getUserName()),
-                        removable           : (t.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getReply(i).asc_getUserName()),
-                        hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
+                        removable           : (t.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getReply(i).asc_getUserName())
                     }));
                 }
 
@@ -1310,8 +1309,7 @@ define([
                         showReplyInPopover  : false,
                         scope               : this.view,
                         editable            : (this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getReply(i).asc_getUserName()),
-                        removable           : (this.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getReply(i).asc_getUserName()),
-                        hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getReply(i).asc_getUserName())
+                        removable           : (this.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getReply(i).asc_getUserName())
                     }));
                 }
             }
