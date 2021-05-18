@@ -40,7 +40,9 @@ PE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         currentPage = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        labelDocName,
+        appOptions = {};
 
     // Initialize analytics
     // -------------------------
@@ -76,13 +78,8 @@ PE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
-            $('#id-btn-close').hide();
-
-            // Hide last separator
-            $('#toolbar .right .separator').hide();
-            $('#pages').css('margin-right', '12px');
-        }
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -122,6 +119,8 @@ PE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -243,14 +242,19 @@ PE.ApplicationController = new(function(){
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
+        if (!config.canBackToFolder)
+            $('#id-close').hide();
+
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
+        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -298,6 +302,16 @@ PE.ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Print');
             });
 
+        PE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
+                if (config.customization && config.customization.goback) {
+                    if (config.customization.goback.requestClose && config.canRequestClose)
+                        Common.Gateway.requestClose();
+                    else if (config.customization.goback.url)
+                        window.parent.location.href = config.customization.goback.url;
+                }
+            });
+
         var $pagenum = $('#page-number');
         $pagenum.on({
             'keyup': function(e){
@@ -332,15 +346,6 @@ PE.ApplicationController = new(function(){
 
         $('#pages').on('click', function(e) {
             $pagenum.focus();
-        });
-
-        $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback) {
-                if (config.customization.goback.requestClose && config.canRequestClose)
-                    Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
-            }
         });
 
         $('#btn-left').on('click', function(){
@@ -440,6 +445,16 @@ PE.ApplicationController = new(function(){
             }
         }
         api.asc_setViewMode(true);
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
+        
         api.asc_LoadDocument();
         api.Resize();
     }
