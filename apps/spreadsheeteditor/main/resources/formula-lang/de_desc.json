@@ -1340,7 +1340,7 @@
 		"d": "Gibt den umgekehrten hyperbolischen Kotangens einer Zahl zurück"
 	},
 	"AGGREGATE": {
-		"a": "(Funktion; Optionen; Array; [k]!Funktion; Optionen; Bezug1; ...)",
+		"a": "(Funktion; Optionen; Bezug1; ...)",
 		"d": "Gibt ein Aggregat in einer Liste oder Datenbank zurück"
 	},
 	"ARABIC": {

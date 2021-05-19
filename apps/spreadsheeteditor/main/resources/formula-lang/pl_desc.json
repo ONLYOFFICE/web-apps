@@ -1340,7 +1340,7 @@
         "d": "Zwraca arcus cotangens hiperboliczny liczby."
     },
     "AGGREGATE": {
-        "a": "(nr_funkcji; opcje; tablica; [k]!nr_funkcji; opcje; odw1; ...)",
+        "a": "(nr_funkcji; opcje; odw1; ...)",
         "d": "Zwraca wartość zagregowaną z listy lub bazy danych"
     },
     "ARABIC": {

@@ -1340,7 +1340,7 @@
 		"d": "Returns the inverse hyperbolic cotangent of a number"
 	},
 	"AGGREGATE": {
-		"a": "(function_num; options; array; [k]!function_num; options; ref1; ...)",
+		"a": "(function_num; options; ref1; ...)",
 		"d": "Returns an aggregate in a list or database"
 	},
 	"ARABIC": {

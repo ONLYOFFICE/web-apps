@@ -1340,7 +1340,7 @@
 		"d": "Renvoie la cotangente hyperbolique inverse d'un nombre"
 	},
 	"AGGREGATE": {
-		"a": "(no_fonction; options; matrice; [k]!no_fonction; options; réf1; ...)",
+		"a": "(no_fonction; options; réf1; ...)",
 		"d": "Renvoie un agrégat dans une liste ou une base de données"
 	},
 	"ARABIC": {
