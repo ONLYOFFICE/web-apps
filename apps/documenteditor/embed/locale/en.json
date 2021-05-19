@@ -23,9 +23,15 @@
   "DE.ApplicationController.unknownErrorText": "Unknown error.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "DE.ApplicationController.waitText": "Please, wait...",
+  "DE.ApplicationController.textNext": "Next Field",
+  "DE.ApplicationController.textClear": "Clear All Fields",
+  "DE.ApplicationController.textSubmit": "Submit",
   "DE.ApplicationView.txtDownload": "Download",
   "DE.ApplicationView.txtEmbed": "Embed",
   "DE.ApplicationView.txtFullScreen": "Full Screen",
   "DE.ApplicationView.txtPrint": "Print",
-  "DE.ApplicationView.txtShare": "Share"
+  "DE.ApplicationView.txtShare": "Share",
+  "DE.ApplicationView.txtFileLocation": "Open file location",
+  "DE.ApplicationView.txtDownloadDocx": "Download as docx",
+  "DE.ApplicationView.txtDownloadPdf": "Download as pdf"
 }
