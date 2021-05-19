@@ -41,8 +41,7 @@ PE.ApplicationController = new(function(){
         created = false,
         currentPage = 0,
         ttOffset = [0, -10],
-        labelDocName,
-        appOptions = {};
+        labelDocName;
 
     // Initialize analytics
     // -------------------------
@@ -444,7 +443,6 @@ PE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
-        api.asc_setViewMode(true);
 
         var $parent = labelDocName.parent();
         var _left_width = $parent.position().left,
@@ -454,7 +452,8 @@ PE.ApplicationController = new(function(){
             $parent.css('padding-left', _right_width - _left_width);
         else
             $parent.css('padding-right', _left_width - _right_width);
-        
+
+        api.asc_setViewMode(true);
         api.asc_LoadDocument();
         api.Resize();
     }

@@ -29,7 +29,7 @@
         .loadmask > .brendpanel {
             width: 100%;
             position: absolute;
-            height: 32px;
+            height: 48px;
             background-color: #e2e2e2;
         }
 
@@ -42,7 +42,7 @@
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
             height: 24px;
-            margin: 0 auto;
+            margin-left: 10px;
             text-align: center;
         }
 
@@ -52,6 +52,9 @@
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;
+        }
+        .loadmask > .brendpanel .doc-title {
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .circle {
@@ -70,7 +73,7 @@
             font-size: 0;
             border: 1px solid #dfdfdf;
             white-space: nowrap;
-            padding-top: 32px;
+            padding-top: 48px;
         }
 
         .loadmask > .placeholder > .columns {
@@ -126,10 +129,10 @@
         <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
               <div>
-                  <div class="circle"></div>
                   <div class="brand-logo loading-logo">
                       <img src="">
                   </div>
+                  <div class="doc-title"></div>
                   <div class="circle"></div>
               </div>
           </div>
@@ -213,15 +216,15 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
-              <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon tools"></button>
-              </div>
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
           </div>
           <div class="group center">
-              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+              <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon more-vertical"></button>
+              </div>
           </div>
       </div>
 
