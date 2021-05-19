@@ -1766,6 +1766,8 @@
   "DE.Views.FormSettings.textUnlock": "Unlock",
   "DE.Views.FormSettings.textValue": "Value Options",
   "DE.Views.FormSettings.textWidth": "Cell width",
+  "DE.Views.FormSettings.textFixed": "Fixed size field",
+  "DE.Views.FormSettings.textRequired": "Required",
   "DE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "DE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "DE.Views.FormsTab.capBtnDropDown": "Dropdown",

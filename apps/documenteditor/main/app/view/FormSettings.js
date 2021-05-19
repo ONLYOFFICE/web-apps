@@ -189,6 +189,20 @@ define([
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
+            this.chRequired = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-required'),
+                labelText: this.textRequired
+            });
+            this.chRequired.on('change', this.onChRequired.bind(this));
+            this.lockedControls.push(this.chRequired);
+
+            this.chFixed = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-fixed'),
+                labelText: this.textFixed
+            });
+            this.chFixed.on('change', this.onChFixed.bind(this));
+            this.lockedControls.push(this.chFixed);
+
             // Radio props
             this.cmbGroupKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-group-key'),
@@ -429,6 +443,30 @@ define([
 
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onChRequired: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Required(checked);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFixed: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_FixedSize(checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -679,6 +717,12 @@ define([
                         this._state.help=val;
                     }
 
+                    val = formPr.get_Required();
+                    if ( this._state.Required!==val ) {
+                        this.chRequired.setValue(!!val, true);
+                        this._state.Required=val;
+                    }
+
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
@@ -713,6 +757,12 @@ define([
                         this.chComb.setValue(!!val, true);
                         this._state.Comb=val;
                     }
+                    //
+                    // val = formTextPr.get_FixedSize();
+                    // if ( this._state.Fixed!==val ) {
+                    //     this.chFixed.setValue(!!val, true);
+                    //     this._state.Fixed=val;
+                    // }
 
                     this.btnColor.setDisabled(!val);
 
@@ -915,7 +965,9 @@ define([
         textColor: 'Border color',
         textConnected: 'Fields connected',
         textDisconnect: 'Disconnect',
-        textNoBorder: 'No border'
+        textNoBorder: 'No border',
+        textFixed: 'Fixed size field',
+        textRequired: 'Required'
 
     }, DE.Views.FormSettings || {}));
 });
