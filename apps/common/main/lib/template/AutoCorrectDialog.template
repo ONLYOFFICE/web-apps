@@ -89,3 +89,10 @@
         </div>
     </div>
 </div>
+<div id="id-autocorrect-dialog-settings-autocorrect" class="settings-panel">
+    <div class="inner-content" style="width: 100%;">
+        <div class="padding-large">
+            <div id="id-autocorrect-dialog-chk-fl-sentence"></div>
+        </div>
+    </div>
+</div>

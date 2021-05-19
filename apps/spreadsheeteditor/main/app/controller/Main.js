@@ -2496,6 +2496,10 @@ define([
                 value = Common.localStorage.getBool("sse-settings-autoformat-new-rows", true);
                 Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
                 me.api.asc_setIncludeNewRowColTable(value);
+
+                value = Common.localStorage.getBool("sse-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("sse-settings-autoformat-fl-sentence", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
             },
 
             showRenameUserDialog: function() {

@@ -69,6 +69,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
 
+            items.push({panelId: 'id-autocorrect-dialog-settings-autocorrect',  panelCaption: this.textAutoCorrect});
+
             _.extend(this.options, {
                 title: this.textTitle,
                 storageName: this.appPrefix + 'autocorrect-dialog-category',
@@ -335,9 +337,22 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 });
             }
 
+            // AutoCorrect
+            this.chFLSentence = new Common.UI.CheckBox({
+                el: $('#id-autocorrect-dialog-chk-fl-sentence'),
+                labelText: this.textFLSentence,
+                value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-sentence")
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()==='checked');
+                Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+            });
+
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
             this.btnsCategory[2].on('click', _.bind(this.onAutoformatCategoryClick, this, false));
+            this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
 
             this.afterRender();
         },
@@ -354,7 +369,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         getFocusedComponents: function() {
             var arr = [
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
-                    this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec // 1 tab
+                    this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
+                    this.chFLSentence // 3 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
             return arr;
@@ -399,6 +415,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             if (value==0) this.onMathCategoryClick(true);
             else if (value==1) this.onRecCategoryClick(true);
             else if (value==2) this.onAutoformatCategoryClick(true);
+            else if (value==3) this.onAutocorrectCategoryClick(true);
         },
 
         close: function() {
@@ -425,6 +442,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var me = this;
             _.delay(function(){
                 me.chNewRows ? me.chNewRows.focus() : me.chQuotes.focus();
+            },delay ? 50 : 0);
+        },
+
+        onAutocorrectCategoryClick: function(delay) {
+            var me = this;
+            _.delay(function(){
+                me.chFLSentence.focus();
             },delay ? 50 : 0);
         },
 
@@ -790,7 +814,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textBulleted: 'Automatic bulleted lists',
         textNumbered: 'Automatic numbered lists',
         textApplyAsWork: 'Apply as you work',
-        textNewRowCol: 'Include new rows and columns in table'
+        textNewRowCol: 'Include new rows and columns in table',
+        textAutoCorrect: 'AutoCorrect',
+        textFLSentence: 'Capitalize first letter of sentences'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

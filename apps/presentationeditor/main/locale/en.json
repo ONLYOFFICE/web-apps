@@ -121,6 +121,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "The autocorrect entry for %1 already exists. Do you want to replace it?",
   "Common.Views.AutoCorrectDialog.warnReset": "Any autocorrect you added will be removed and the changed ones will be restored to their original values. Do you want to continue?",
   "Common.Views.AutoCorrectDialog.warnRestore": "The autocorrect entry for %1 will be reset to its original value. Do you want to continue?",
+  "Common.Views.AutoCorrectDialog.textAutoCorrect": "AutoCorrect",
+  "Common.Views.AutoCorrectDialog.textFLSentence": "Capitalize first letter of sentences",
   "Common.Views.Chat.textSend": "Send",
   "Common.Views.Comments.textAdd": "Add",
   "Common.Views.Comments.textAddComment": "Add Comment",

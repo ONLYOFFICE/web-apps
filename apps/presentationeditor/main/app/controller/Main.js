@@ -2148,6 +2148,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
+                value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
             },
 
             showRenameUserDialog: function() {
