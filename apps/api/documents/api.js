@@ -865,7 +865,7 @@
         path += app + "/";
         path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
-            : config.type === "embedded"
+            : (config.type === "embedded" || (app=='documenteditor') && (config.document.permissions.fillForms===true) && (config.document.permissions.edit === false) && (config.editorConfig.mode !== 'view'))
                 ? "embed"
                 : "main";
 

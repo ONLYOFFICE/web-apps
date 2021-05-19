@@ -39,7 +39,9 @@ DE.ApplicationController = new(function(){
         permissions = {},
         maxPages = 0,
         created = false,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        labelDocName,
+        appOptions = {};
 
     // Initialize analytics
     // -------------------------
@@ -75,13 +77,8 @@ DE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
-            $('#id-btn-close').hide();
-
-            // Hide last separator
-            $('#toolbar .right .separator').hide();
-            $('#pages').css('margin-right', '12px');
-        }
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -126,6 +123,8 @@ DE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -230,23 +229,56 @@ DE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
-        if ( !embedConfig.saveUrl && permissions.print === false)
-            $('#idt-download').hide();
+        var dividers = $('#box-tools .divider');
+        var itemsCount = $('#box-tools a').length;
 
-        if ( permissions.print === false)
+        if ( permissions.print === false) {
             $('#idt-print').hide();
+            $(dividers[0]).hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.shareUrl )
+        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
+            $('#idt-download').hide();
+            itemsCount--;
+        }
+
+        if ( !appOptions.canFillForms || permissions.download === false) {
+            $('#idt-download-docx').hide();
+            $('#idt-download-pdf').hide();
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+            itemsCount -= 2;
+        }
+
+        if ( !embedConfig.shareUrl || appOptions.canFillForms) {
             $('#idt-share').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.embedUrl )
+        if (!config.canBackToFolder) {
+            $('#idt-close').hide();
+            itemsCount--;
+        }
+
+        if (itemsCount<3)
+            $(dividers[2]).hide();
+
+        if ( !embedConfig.embedUrl || appOptions.canFillForms) {
             $('#idt-embed').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.fullscreenUrl )
+        if ( !embedConfig.fullscreenUrl ) {
             $('#idt-fullscreen').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if (itemsCount<1)
             $('#box-tools').addClass('hidden');
+        else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
+            $(dividers[2]).hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -290,7 +322,8 @@ DE.ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Print');
             });
 
-        $('#id-btn-close').on('click', function(){
+        DE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
             if (config.customization && config.customization.goback) {
                 if (config.customization.goback.requestClose && config.canRequestClose)
                     Common.Gateway.requestClose();
@@ -298,6 +331,20 @@ DE.ApplicationController = new(function(){
                     window.parent.location.href = config.customization.goback.url;
             }
         });
+
+        var downloadAs =  function(format){
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+            Common.Analytics.trackEvent('Save');
+        };
+
+        DE.ApplicationView.tools.get('#idt-download-docx')
+            .on('click', function(){
+                downloadAs(Asc.c_oAscFileType.DOCX);
+            });
+        DE.ApplicationView.tools.get('#idt-download-pdf')
+            .on('click', function(){
+                downloadAs(Asc.c_oAscFileType.PDF);
+            });
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
         $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
@@ -365,7 +412,55 @@ DE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
-        api.asc_setViewMode(true);
+        var licType = params.asc_getLicenseType();
+        appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
+
+        api.asc_setViewMode(!appOptions.canFillForms);
+
+        if (!appOptions.canFillForms) {
+            $('#id-btn-prev-field').hide();
+            $('#id-btn-next-field').hide();
+            $('#id-btn-clear-fields').hide();
+            $('#id-btn-submit').hide();
+        } else {
+            $('#id-pages').hide();
+            $('#id-btn-next-field .caption').text(me.textNext);
+            $('#id-btn-clear-fields .caption').text(me.textClear);
+
+            $('#id-btn-prev-field').on('click', function(){
+                api.asc_MoveToFillingForm(false);
+            });
+            $('#id-btn-next-field').on('click', function(){
+                api.asc_MoveToFillingForm(true);
+            });
+            $('#id-btn-clear-fields').on('click', function(){
+                api.asc_ClearAllSpecialForms();
+            });
+
+            if (appOptions.canSubmitForms) {
+                $('#id-btn-submit .caption').text(me.textSubmit);
+                $('#id-btn-submit').on('click', function(){
+                    api.asc_SendForm();
+                });
+            } else
+                $('#id-btn-submit').hide();
+
+            api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+            api.asc_SetFastCollaborative(true);
+            api.asc_setAutoSaveGap(1);
+        }
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
+
         api.asc_LoadDocument();
         api.Resize();
     }
@@ -606,6 +701,9 @@ DE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading document',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textNext: 'Next Field',
+        textClear: 'Clear All Fields',
+        textSubmit: 'Submit'
     }
 })();

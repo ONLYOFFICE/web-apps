@@ -42,7 +42,8 @@ SSE.ApplicationController = new(function(){
         iframePrint = null;
     var $ttEl,
         $tooltip,
-        ttOffset = [6, -15];
+        ttOffset = [6, -15],
+        labelDocName;
 
     // Initialize analytics
     // -------------------------
@@ -68,9 +69,6 @@ SSE.ApplicationController = new(function(){
 
         common.controller.modals.init(embedConfig);
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose)))
-            $('#id-btn-close').hide();
-
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
@@ -81,6 +79,9 @@ SSE.ApplicationController = new(function(){
             $('#toolbar').addClass('top');
             $('.viewer').addClass('top');
         }
+
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -120,6 +121,8 @@ SSE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -188,14 +191,19 @@ SSE.ApplicationController = new(function(){
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
+        if (!config.canBackToFolder)
+            $('#idt-close').hide();
+
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
+        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -235,14 +243,15 @@ SSE.ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Print');
             });
 
-        $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback) {
-                if (config.customization.goback.requestClose && config.canRequestClose)
-                    Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
-            }
-        });
+        SSE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
+                if (config.customization && config.customization.goback) {
+                    if (config.customization.goback.requestClose && config.canRequestClose)
+                        Common.Gateway.requestClose();
+                    else if (config.customization.goback.url)
+                        window.parent.location.href = config.customization.goback.url;
+                }
+            });
 
         $('#id-btn-zoom-in').on('click', function () {
             if (api){
@@ -337,6 +346,16 @@ SSE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
+
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
     }
