@@ -47,7 +47,9 @@ if (Common.UI === undefined) {
 }
 
 Common.UI.HintManager = new(function() {
-    var _isAlt = false,
+    var _lang = 'en',
+        _arrLetters = [],
+        _isAlt = false,
         _hintVisible = false,
         _currentLevel = -1,
         _controls = [],
@@ -113,6 +115,10 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function() {
+        Common.NotificationCenter.on('app:ready', function (mode) {
+            _lang = mode.lang;
+            _getAlphabetLetters();
+        }.bind(this));
         $(document).on('keyup', function(e) {
             if (e.keyCode == Common.UI.Keys.ALT &&_isAlt) {
                 e.preventDefault();
@@ -142,6 +148,12 @@ Common.UI.HintManager = new(function() {
             }
 
             _isAlt = (e.keyCode == Common.UI.Keys.ALT);
+        });
+    };
+
+    var _getAlphabetLetters = function () {
+        Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
+            _arrLetters = langsJson[_lang];
         });
     };
 
