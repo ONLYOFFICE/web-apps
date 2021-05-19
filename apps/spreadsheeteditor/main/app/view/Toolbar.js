@@ -116,7 +116,7 @@ define([
             var me = this,
                 options = {};
 
-            me.SchemeNames = [
+            me.SchemeNames = [me.txtScheme22,
                 me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                 me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                 me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -2263,7 +2263,7 @@ define([
                     schemecolors.push(clr);
                 }
 
-                if (index == 21) {
+                if (index == 22) {
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
@@ -2273,7 +2273,7 @@ define([
                     template: itemTemplate,
                     cls     : 'color-schemas-menu',
                     colors  : schemecolors,
-                    caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                    caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                     value: index,
                     checkable: true,
                     toggleGroup: 'menuSchema'
@@ -2694,6 +2694,7 @@ define([
         textAutoColor: 'Automatic',
         textItems: 'Items',
         tipInsertSpark: 'Insert sparkline',
-        capInsertSpark: 'Sparklines'
+        capInsertSpark: 'Sparklines',
+        txtScheme22: 'New Office'
     }, SSE.Views.Toolbar || {}));
 });
