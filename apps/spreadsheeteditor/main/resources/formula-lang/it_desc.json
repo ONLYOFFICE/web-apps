@@ -1308,7 +1308,7 @@
 		"d": "Restituisce la cotangente iperbolica inversa di un numero"
 	},
 	"AGGREGATE": {
-		"a": "(num_funzione; opzioni; matrice; [k]!num_funzione; opzioni; rif1; ...)",
+		"a": "(num_funzione; opzioni; rif1; ...)",
 		"d": "Restituisce un'aggregazione in un elenco o un database"
 	},
 	"ARABIC": {

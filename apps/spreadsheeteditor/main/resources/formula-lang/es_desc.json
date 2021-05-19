@@ -1340,7 +1340,7 @@
 		"d": "Devuelve la cotangente hiperbólica inversa de un número"
 	},
 	"AGGREGATE": {
-		"a": "(núm_función; opciones; matriz; [k]!núm_función; opciones; ref1; ...)",
+		"a": "(núm_función; opciones; ref1; ...)",
 		"d": "Devuelve un agregado de una lista o base de datos"
 	},
 	"ARABIC": {
