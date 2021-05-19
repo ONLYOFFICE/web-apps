@@ -192,7 +192,7 @@ SSE.ApplicationController = new(function(){
             $('#idt-share').hide();
 
         if (!config.canBackToFolder)
-            $('#id-close').hide();
+            $('#idt-close').hide();
 
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
@@ -355,7 +355,7 @@ SSE.ApplicationController = new(function(){
             $parent.css('padding-left', _right_width - _left_width);
         else
             $parent.css('padding-right', _left_width - _right_width);
-        
+
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
     }

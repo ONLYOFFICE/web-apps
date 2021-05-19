@@ -242,7 +242,7 @@ PE.ApplicationController = new(function(){
             $('#idt-share').hide();
 
         if (!config.canBackToFolder)
-            $('#id-close').hide();
+            $('#idt-close').hide();
 
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();

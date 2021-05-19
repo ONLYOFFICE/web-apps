@@ -229,28 +229,56 @@ DE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
-        if ( !embedConfig.saveUrl && permissions.print === false)
-            $('#idt-download').hide();
+        var dividers = $('#box-tools .divider');
+        var itemsCount = $('#box-tools a').length;
 
-        if ( permissions.print === false)
+        if ( permissions.print === false) {
             $('#idt-print').hide();
+            $(dividers[0]).hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.shareUrl || appOptions.canFillForms)
+        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
+            $('#idt-download').hide();
+            itemsCount--;
+        }
+
+        if ( !appOptions.canFillForms || permissions.download === false) {
+            $('#idt-download-docx').hide();
+            $('#idt-download-pdf').hide();
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+            itemsCount -= 2;
+        }
+
+        if ( !embedConfig.shareUrl || appOptions.canFillForms) {
             $('#idt-share').hide();
+            itemsCount--;
+        }
 
-        if (!config.canBackToFolder)
-            $('#id-close').hide();
+        if (!config.canBackToFolder) {
+            $('#idt-close').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.embedUrl || appOptions.canFillForms)
+        if (itemsCount<3)
+            $(dividers[2]).hide();
+
+        if ( !embedConfig.embedUrl || appOptions.canFillForms) {
             $('#idt-embed').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.fullscreenUrl )
+        if ( !embedConfig.fullscreenUrl ) {
             $('#idt-fullscreen').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if (itemsCount<1)
             $('#box-tools').addClass('hidden');
         else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
-            $('#box-tools .divider').hide();
+            $(dividers[2]).hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -303,6 +331,20 @@ DE.ApplicationController = new(function(){
                     window.parent.location.href = config.customization.goback.url;
             }
         });
+
+        var downloadAs =  function(format){
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+            Common.Analytics.trackEvent('Save');
+        };
+
+        DE.ApplicationView.tools.get('#idt-download-docx')
+            .on('click', function(){
+                downloadAs(Asc.c_oAscFileType.DOCX);
+            });
+        DE.ApplicationView.tools.get('#idt-download-pdf')
+            .on('click', function(){
+                downloadAs(Asc.c_oAscFileType.PDF);
+            });
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
         $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
