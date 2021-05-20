@@ -55,10 +55,11 @@
 
 @toolbarBorderColor:            #dbdbdb;
 @toolbarBorderShadowColor:      #FAFAFA;
-@toolbarTopColor:               #EBEBEB;
+@toolbarTopColor:               #F7F7F7;
 @toolbarBottomColor:            #CCCCCC;
 @toolbarHoverColor:             #7698DE;
 @toolbarFontSize:               12px;
+@buttonFontSize:                11px;
 @controlBtnHoverTopColor:       #6180C4;
 @controlBtnHoverBottomColor:    #8AACF1;
 @btnColor:                      #d8dadc;
@@ -246,6 +247,7 @@
     height: 22px;
     background-origin: content-box;
     padding: 0 1px;
+    font-size: @buttonFontSize;
 
     &.has-caption {
         width: auto;
@@ -253,11 +255,12 @@
     }
 
     &.colored {
-        padding: 0 14px;
+        padding: 0 16px;
         height: 28px;
         background-color: @btnColored;
         border-radius: 3px;
         color: #ffffff;
+        font-weight: 700;
     }
 
     // Hover state
@@ -547,7 +550,7 @@
     width: @icon-width;
     height: @icon-height;
     float: left;
-    margin: 0 15px 0 -35px;
+    margin: -3px 15px 0 -35px;
 }
 .btn-icon {
     width: 22px;
@@ -625,6 +628,11 @@
             background-color: @btnColor;
             outline: 0 none;
         }
+        font-size: @buttonFontSize;
+    }
+
+    .divider {
+        margin: 4px 0;
     }
 }
 
