@@ -35,7 +35,7 @@ const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
 const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const [stateSheet, setSheet] = useState(curSheet.value);
+    const [stateSheet, setSheet] = useState(curSheet);
 
     const settings = !storeFocusObjects.focusOn ? [] : (storeFocusObjects.focusOn === 'obj' ? storeFocusObjects.objects : storeFocusObjects.selections);
     if (storeFocusObjects.focusOn === 'obj' || settings.indexOf('hyperlink') === -1) {
@@ -59,10 +59,10 @@ const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
                             key={`sheet-${sheet.value}`}
                             title={sheet.caption}
                             radio
-                            checked={stateSheet === sheet.value}
-                            onClick={() => {
-                                setSheet(sheet.value);
-                                changeSheet(sheet);
+                            checked={stateSheet === sheet.caption}
+                            onChange={() => {
+                                setSheet(sheet.caption);
+                                changeSheet(sheet.caption);
                             }}
                         />
                     )
@@ -80,13 +80,20 @@ const EditLink = props => {
     const linkInfo = props.linkInfo;
     const isLock = props.isLock;
     const sheets = props.sheets;
-    const activeSheet = props.activeSheet;
     const currentSheet = props.currentSheet;
+
+    console.log(linkInfo);
+
     const valueLinkInfo = linkInfo.asc_getType();
     const linkSheet = (valueLinkInfo == Asc.c_oAscHyperlinkType.RangeLink) ? linkInfo.asc_getSheet() : currentSheet;
-    
+
+    console.log(valueLinkInfo);
+    console.log(currentSheet);
+    console.log(linkSheet);
+
     const [typeLink, setTypeLink] = useState(valueLinkInfo);
     const textType = typeLink != Asc.c_oAscHyperlinkType.RangeLink ? _t.textExternalLink : _t.textInternalDataRange;
+
     const changeType = (newType) => {
         setTypeLink(newType);
     };
@@ -98,7 +105,8 @@ const EditLink = props => {
    
     const [screenTip, setScreenTip] = useState(linkInfo.asc_getTooltip());
   
-    const [curSheet, setSheet] = useState(activeSheet);
+    const [curSheet, setSheet] = useState(linkSheet);
+
     const changeSheet = (sheet) => {
         setSheet(sheet);
     };
@@ -123,8 +131,8 @@ const EditLink = props => {
                     />
                 }
                 {typeLink == Asc.c_oAscHyperlinkType.RangeLink &&
-                    <ListItem link={'/edit-link-sheet/'} title={_t.textSheet} after={linkSheet} routeProps={{
-                        changeSheet: changeSheet,
+                    <ListItem link={'/edit-link-sheet/'} title={_t.textSheet} after={curSheet} routeProps={{
+                        changeSheet,
                         sheets,
                         curSheet
                     }}/>
@@ -158,8 +166,8 @@ const EditLink = props => {
                 <ListButton title={_t.textEditLink}
                             className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' && range.length < 1) && ' disabled'}`}
                             onClick={() => {props.onEditLink(typeLink === 1 ?
-                                {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
-                                {type: 2, url: range, sheet: curSheet.caption, text: stateDisplayText, tooltip: screenTip})}}
+                                {type: 1, url: link, text: stateDisplayText, tooltip: screenTip, isLock} :
+                                {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip, isLock})}}
                 />
                 <ListButton title={_t.textRemoveLink}
                             className={`button-fill button-red`}
