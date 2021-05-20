@@ -171,6 +171,7 @@
   "Common.Views.AutoCorrectDialog.warnRestore": "The autocorrect entry for %1 will be reset to its original value. Do you want to continue?",
   "Common.Views.AutoCorrectDialog.textAutoCorrect": "AutoCorrect",
   "Common.Views.AutoCorrectDialog.textFLSentence": "Capitalize first letter of sentences",
+  "Common.Views.AutoCorrectDialog.textHyperlink": "Internet and network paths with hyperlinks",
   "Common.Views.Chat.textSend": "Send",
   "Common.Views.Comments.textAdd": "Add",
   "Common.Views.Comments.textAddComment": "Add Comment",

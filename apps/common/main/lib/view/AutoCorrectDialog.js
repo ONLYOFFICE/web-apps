@@ -335,6 +335,17 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-new-rows", checked);
                     me.api.asc_setIncludeNewRowColTable(checked);
                 });
+
+                this.chHyperlink = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-hyperlink'),
+                    labelText: this.textHyperlink,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-hyperlink")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-hyperlink", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-hyperlink", checked);
+                    me.api.asc_setAutoCorrectHyperlinks(checked);
+                });
             }
 
             // AutoCorrect
@@ -372,7 +383,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
                     this.chFLSentence // 3 tab
                 ];
-            arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
+            arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
             return arr;
         },
 
@@ -441,7 +452,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         onAutoformatCategoryClick: function(delay) {
             var me = this;
             _.delay(function(){
-                me.chNewRows ? me.chNewRows.focus() : me.chQuotes.focus();
+                me.chHyperlink ? me.chHyperlink.focus() : me.chQuotes.focus();
             },delay ? 50 : 0);
         },
 
@@ -816,7 +827,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textApplyAsWork: 'Apply as you work',
         textNewRowCol: 'Include new rows and columns in table',
         textAutoCorrect: 'AutoCorrect',
-        textFLSentence: 'Capitalize first letter of sentences'
+        textFLSentence: 'Capitalize first letter of sentences',
+        textHyperlink: 'Internet and network paths with hyperlinks'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
