@@ -141,7 +141,6 @@ module.exports = {
           limit: 10000,
           name: 'images/[name].[ext]',
           outputPath: `../../../apps/${editor}/mobile/dist`,
-
         },
       },
       {
@@ -170,6 +169,7 @@ module.exports = {
       __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE'),
       __HELP_URL__: JSON.stringify('https://helpcenter.onlyoffice.com')
     }),
+    new webpack.BannerPlugin(`\n* Version: ${process.env.PRODUCT_VERSION} (build: ${process.env.BUILD_NUMBER})\n`),
 
     ...(env === 'production' ? [
       new CssMinimizerPlugin({
