@@ -79,7 +79,7 @@
     </tr>
     <tr style="vertical-align: top;">
         <td class="padding-large">
-            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;background-color: #fff;"></div>
+            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;"></div>
         </td>
         <td class="padding-large">
             <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>

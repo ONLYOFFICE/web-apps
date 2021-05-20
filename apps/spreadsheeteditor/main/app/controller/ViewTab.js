@@ -156,7 +156,12 @@ define([
                     caption : item.asc_getName(),
                     checkable: true,
                     allowDepress: false,
-                    checked : item.asc_getIsActive()
+                    checked : item.asc_getIsActive(),
+                    template    : _.template([
+                        '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                        '<%= Common.Utils.String.htmlEncode(caption) %>',
+                        '</a>'
+                    ].join(''))
                 }));
                 if (item.asc_getIsActive())
                     active = true;

@@ -376,10 +376,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#paragraphadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
             this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
+            this.btnBorderColor.on('auto:select', _.bind(this.onColorsBorderSelect, this));
 
             this.BordersImage = new Common.UI.TableStyler({
                 el: $('#id-deparagraphstyler'),
@@ -391,14 +393,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
 
             var _arrBorderPresets = [
-                ['lrtb',    'btn-borders-large btn-adv-paragraph-outer',    'paragraphadv-button-border-outer', this.tipOuter],
-                ['lrtbm',   'btn-borders-large btn-adv-paragraph-all',      'paragraphadv-button-border-all',    this.tipAll],
-                ['',        'btn-borders-large btn-adv-paragraph-none',     'paragraphadv-button-border-none',       this.tipNone],
-                ['l',       'btn-borders-large btn-adv-paragraph-left',     'paragraphadv-button-border-left',      this.tipLeft],
-                ['r',       'btn-borders-large btn-adv-paragraph-right',    'paragraphadv-button-border-right',     this.tipRight],
-                ['t',       'btn-borders-large btn-adv-paragraph-top',      'paragraphadv-button-border-top',         this.tipTop],
-                ['m',       'btn-borders-large btn-adv-paragraph-inner-hor', 'paragraphadv-button-border-inner-hor', this.tipInner],
-                ['b',       'btn-borders-large btn-adv-paragraph-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
+                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
+                ['lrtbm',   'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
+                ['',        'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
+                ['l',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
+                ['r',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
+                ['t',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
+                ['m',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
+                ['b',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
             ];
 
             this._btnsBorderPosition = [];
@@ -685,7 +687,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             ];
         },
 
-        onCategoryClick: function(btn, index) {
+        onCategoryClick: function(btn, index, cmp, e) {
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var me = this;
@@ -696,6 +698,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                     case 3:
                         me.numSpacing.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
                     case 4:
                         me.numDefaultTab.focus();
@@ -705,6 +709,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         break;
                 }
             }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==3) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
         },
 
         getSettings: function() {
@@ -781,7 +789,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             var horizontalAlign = this.cmbTextAlignment.getValue();
             this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
 
-            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -890,8 +898,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.numSpacing.setValue((props.get_TextSpacing() !== null && props.get_TextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_TextSpacing()) : '', true);
                 this.numPosition.setValue((props.get_Position() !== null && props.get_Position() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Position()) : '', true);
 
-                this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
-
                 // Tabs
                 this.numDefaultTab.setValue((props.get_DefaultTab() !== null && props.get_DefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.get_DefaultTab().toFixed(1))) : '', true);
 
@@ -962,14 +968,18 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                this.BordersImage.setVirtualBorderColor((typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor);
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                this.BordersImage.setVirtualBorderColor((typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color);
+
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 var rec = this.cmbBorderSize.getSelectedRecord();
                 if (rec)
                     this.onBorderSizeSelect(this.cmbBorderSize, rec);
-
-                this.colorsBorder.select(this.borderProps.borderColor,true);
             }
 
             for (var i=0; i<this.BordersImage.rows; i++) {
@@ -1167,7 +1177,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

@@ -166,7 +166,7 @@ define([
                             objectValue = object.get_ObjectValue();
                         if (type == Asc.c_oAscTypeSelectElement.Slide) {
                             slide_deleted = objectValue.get_LockDelete();
-                            slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTranzition() || objectValue.get_LockTiming();
+                            slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming();
                         } else if (objectValue && _.isFunction(objectValue.get_Locked)) {
                             no_object = false;
                             objectLocked = objectLocked || objectValue.get_Locked();

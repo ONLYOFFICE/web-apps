@@ -1102,8 +1102,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Giấy Letter (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Trên đầu",
   "PE.Views.SlideSizeSettings.txtStandard": "Tiêu chuẩn (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Màn hình rộng (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Màn hình rộng (16:10)",
   "PE.Views.Statusbar.goToPageText": "Đi tới Slide",
   "PE.Views.Statusbar.pageIndexText": "Slide {0} trên {1}",
   "PE.Views.Statusbar.tipAccessRights": "Quản lý quyền truy cập tài liệu",

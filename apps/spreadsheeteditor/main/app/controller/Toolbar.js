@@ -275,6 +275,7 @@ define([
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
                 toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
+                toolbar.btnEditChartType.on('click',                        _.bind(this.onEditChartType, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -309,11 +310,13 @@ define([
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.mnuBackColorPicker.on('select',                     _.bind(this.onBackColorSelect, this));
+                $('#id-toolbar-menu-auto-fontcolor').on('click',            _.bind(this.onAutoFontColor, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
                     toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
                     toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
+                    $('#id-toolbar-menu-auto-bordercolor').on('click',          _.bind(this.onAutoBorderColor, this));
                 }
                 toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Left));
                 toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
@@ -600,15 +603,13 @@ define([
         onTextColorSelect: function(picker, color, fromBtn) {
             this._state.clrtext_asccolor = this._state.clrtext = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnTextColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuTextColorPicker.currentColor = color;
             if (this.api) {
                 this.toolbar.btnTextColor.ischanged = (fromBtn!==true);
-                this.api.asc_setCellTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+                this.api.asc_setCellTextColor(color.isAuto ? color.color : Common.Utils.ThemeColor.getRgbColor(color));
                 this.toolbar.btnTextColor.ischanged = false;
             }
 
@@ -622,8 +623,8 @@ define([
             var clr = (typeof(color) == 'object') ? color.color : color;
 
             this.toolbar.btnBackColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', clr == 'transparent' ? 'transparent' : '#' + clr);
-
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
+            
             this.toolbar.mnuBackColorPicker.currentColor = color;
             if (this.api) {
                 this.toolbar.btnBackColor.ischanged = (fromBtn!==true);
@@ -646,6 +647,25 @@ define([
             this.toolbar.btnBorders.menu.hide();
             this.toolbar.btnBorders.toggle(false, true);
             this.toolbar.mnuBorderColorPicker.addNewColor();
+        },
+
+        onAutoFontColor: function(e) {
+            this._state.clrtext_asccolor = this._state.clrtext = undefined;
+
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+
+            this.toolbar.btnTextColor.currentColor = {color: color, isAuto: true};
+            this.toolbar.btnTextColor.setColor('000');
+
+            this.toolbar.mnuTextColorPicker.clearSelection();
+            this.toolbar.mnuTextColorPicker.currentColor = {color: color, isAuto: true};
+            if (this.api) {
+                this.api.asc_setCellTextColor(color);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
+            Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
         onBorders: function(btn) {
@@ -714,10 +734,27 @@ define([
         },
 
         onBordersColor: function(picker, color) {
-            $('#id-toolbar-mnu-item-border-color .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
             this.toolbar.mnuBorderColor.onUnHoverItem();
             this.toolbar.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
             this.toolbar.mnuBorderColorPicker.currentColor = color;
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
+        onAutoBorderColor: function(e) {
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#000');
+            this.toolbar.mnuBorderColor.onUnHoverItem();
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+            this.toolbar.btnBorders.options.borderscolor = color;
+            this.toolbar.mnuBorderColorPicker.clearSelection();
+            this.toolbar.mnuBorderColorPicker.currentColor = {color: color, isAuto: true};
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            !clr_item.hasClass('selected') && clr_item.addClass('selected');
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
@@ -821,7 +858,7 @@ define([
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
                 if (this.api)
-                    this.api.asc_addImage();
+                    setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
@@ -951,7 +988,7 @@ define([
                             {
                                 chartSettings: props,
                                 imageSettings: imageSettings,
-                                isDiagramMode: me.toolbar.mode.isEditDiagram,
+                                // isDiagramMode: me.toolbar.mode.isEditDiagram,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
@@ -999,6 +1036,35 @@ define([
             }
         },
 
+        onEditChartType: function(btn) {
+            if (!this.editMode) return;
+
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
         onSelectChart: function(group, type) {
             if (!this.editMode) return;
             var me = this,
@@ -1022,20 +1088,36 @@ define([
                     var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
                     props = me.api.asc_getChartObject(true); // don't lock chart object
                     if (props) {
-                        (ischartedit) ? props.changeType(type) : props.putType(type);
-                        var range = props.getRange(),
-                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType()) : Asc.c_oAscError.ID.No;
-                        if (isvalid == Asc.c_oAscError.ID.No) {
-                            (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
-                        } else {
-                            Common.UI.warning({
-                                msg: (isvalid == Asc.c_oAscError.ID.StockChartError) ? me.errorStockChart : ((isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) ? me.errorMaxRows : me.txtInvalidRange),
-                                callback: function() {
-                                    _.defer(function(btn) {
-                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                    })
+                        if (ischartedit)
+                            props.changeType(type);
+                        else {
+                            props.putType(type);
+                            var range = props.getRange(),
+                                isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
+                            if (isvalid == Asc.c_oAscError.ID.No) {
+                                me.api.asc_addChartDrawingObject(props);
+                            } else {
+                                var msg = me.txtInvalidRange;
+                                switch (isvalid) {
+                                    case Asc.c_oAscError.ID.StockChartError:
+                                        msg = me.errorStockChart;
+                                        break;
+                                    case Asc.c_oAscError.ID.MaxDataSeriesError:
+                                        msg = me.errorMaxRows;
+                                        break;
+                                    case Asc.c_oAscError.ID.ComboSeriesError:
+                                        msg = me.errorComboSeries;
+                                        break;
                                 }
-                            });
+                                Common.UI.warning({
+                                    msg: msg,
+                                    callback: function() {
+                                        _.defer(function(btn) {
+                                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                        })
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -1351,8 +1433,12 @@ define([
         },
 
         onClearStyleMenu: function(menu, item, e) {
-            if (this.api)
-                this.api.asc_emptyCells(item.value);
+            if (this.api) {
+                if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                    this.api.asc_RemoveAllComments(!this.mode.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
+                } else
+                    this.api.asc_emptyCells(item.value, item.value == Asc.c_oAscCleanOptions.All && !this.mode.canDeleteComments);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Clear');
@@ -1848,7 +1934,7 @@ define([
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData]});
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData, toolbar.btnEditChartType]});
             } else
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
@@ -2102,32 +2188,43 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = fontobj.asc_getFontColor();
                 if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                }
-                var type1 = typeof(clr),
-                    type2 = typeof(this._state.clrtext);
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
-                    (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                fontColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                            this._state.clrtext = 'auto';
                         }
-                        if (!isselected) fontColorPicker.clearSelection();
                     } else {
-                        fontColorPicker.select(clr, true);
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                            (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
                     }
-                    this._state.clrtext = clr;
                 }
                 this._state.clrtext_asccolor = color;
             }
@@ -2246,32 +2343,43 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = xfs.asc_getFontColor();
                 if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                }
-                var type1 = typeof(clr),
-                    type2 = typeof(this._state.clrtext);
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
-                    (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                fontColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                            this._state.clrtext = 'auto';
                         }
-                        if (!isselected) fontColorPicker.clearSelection();
                     } else {
-                        fontColorPicker.select(clr, true);
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                            (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
                     }
-                    this._state.clrtext = clr;
                 }
                 this._state.clrtext_asccolor = color;
             }
@@ -2583,7 +2691,7 @@ define([
 
             var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
                                 selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
-            this.toolbar.lockToolbar( SSE.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData]} );
+            this.toolbar.lockToolbar( SSE.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData, this.toolbar.btnEditChartType]} );
 
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
@@ -2685,18 +2793,17 @@ define([
             };
 
             updateColors(this.toolbar.mnuTextColorPicker, Common.Utils.ThemeColor.getStandartColors()[1]);
-            if (this.toolbar.btnTextColor.currentColor === undefined) {
+            if (this.toolbar.btnTextColor.currentColor === undefined || !this.toolbar.btnTextColor.currentColor.isAuto) {
                 this.toolbar.btnTextColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[1];
-            } else
-                this.toolbar.btnTextColor.currentColor = this.toolbar.mnuTextColorPicker.currentColor.color || this.toolbar.mnuTextColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + this.toolbar.btnTextColor.currentColor);
+                this.toolbar.btnTextColor.setColor(this.toolbar.btnTextColor.currentColor);
+            }
 
             updateColors(this.toolbar.mnuBackColorPicker, Common.Utils.ThemeColor.getStandartColors()[3]);
             if (this.toolbar.btnBackColor.currentColor === undefined) {
                 this.toolbar.btnBackColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[3];
             } else
                 this.toolbar.btnBackColor.currentColor = this.toolbar.mnuBackColorPicker.currentColor.color || this.toolbar.mnuBackColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', this.toolbar.btnBackColor.currentColor == 'transparent' ? 'transparent' : '#' + this.toolbar.btnBackColor.currentColor);
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
 
             if (this._state.clrtext_asccolor!==undefined || this._state.clrshd_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2708,9 +2815,14 @@ define([
             this._state.clrshd_asccolor = undefined;
 
             if (this.toolbar.mnuBorderColorPicker) {
-                updateColors(this.toolbar.mnuBorderColorPicker, Common.Utils.ThemeColor.getEffectColors()[1]);
-                this.toolbar.btnBorders.options.borderscolor = this.toolbar.mnuBorderColorPicker.currentColor.color || this.toolbar.mnuBorderColorPicker.currentColor;
-                $('#id-toolbar-mnu-item-border-color .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
+                updateColors(this.toolbar.mnuBorderColorPicker, {color: '000', isAuto: true});
+                var currentColor = this.toolbar.mnuBorderColorPicker.currentColor;
+                if (currentColor && currentColor.isAuto) {
+                    var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                }
+                this.toolbar.btnBorders.options.borderscolor = currentColor.color || currentColor;
+                $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
             }
         },
 
@@ -2819,9 +2931,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation">' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {
@@ -3309,8 +3421,10 @@ define([
             if ( !config.isEditDiagram && !config.isEditMailMerge ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                if ($panel)
+                if ($panel) {
                     me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                }
             }
 
             if ( config.isEdit ) {
@@ -4006,7 +4120,8 @@ define([
         txtTable_TableStyleLight: 'Table Style Light',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
-        txtDeleteCells: 'Delete Cells'
+        txtDeleteCells: 'Delete Cells',
+        errorComboSeries: 'To create a combination chart, select at least two series of data.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -81,7 +81,8 @@ define([
                     usersCount          : 1,
                     fastCoauth          : true,
                     lostEditingRights   : false,
-                    licenseType         : false
+                    licenseType         : false,
+                    isDocModified: false
                 };
 
                 // Initialize viewport
@@ -204,8 +205,19 @@ define([
 
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
+                me.appOptions.customization = me.editorConfig.customization;
+                me.appOptions.canRenameAnonymous = !((typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') && (me.appOptions.customization.anonymous.request===false));
+                me.appOptions.guestName = (typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') &&
+                (typeof (me.appOptions.customization.anonymous.label) == 'string') && me.appOptions.customization.anonymous.label.trim()!=='' ?
+                    Common.Utils.String.htmlEncode(me.appOptions.customization.anonymous.label) : me.textGuest;
+                var value;
+                if (me.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.appOptions.guestName + ')' ) : me.textAnonymous);
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
                 me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
@@ -220,14 +232,13 @@ define([
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
                 me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
-                me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
                     && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
-                var value = Common.localStorage.getItem("sse-settings-regional");
+                value = Common.localStorage.getItem("sse-settings-regional");
                 if (value!==null)
                     this.api.asc_setLocale(parseInt(value));
                 else {
@@ -297,10 +308,6 @@ define([
 
                 if (data.doc) {
                     SSE.getController('Toolbar').setDocumentTitle(data.doc.title);
-                    if (data.doc.info) {
-                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-                    }
                 }
             },
 
@@ -753,15 +760,24 @@ define([
                     me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
                     me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                     me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
-                    me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
+                    me.appOptions.canEditComments= me.appOptions.isOffline || !me.permissions.editCommentAuthorOnly;
+                    me.appOptions.canDeleteComments= me.appOptions.isOffline || !me.permissions.deleteCommentAuthorOnly;
+                    if ((typeof (this.editorConfig.customization) == 'object') && me.editorConfig.customization.commentAuthorOnly===true) {
+                        console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                        if (me.permissions.editCommentAuthorOnly===undefined && me.permissions.deleteCommentAuthorOnly===undefined)
+                            me.appOptions.canEditComments = me.appOptions.canDeleteComments = me.appOptions.isOffline;
+                    }
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
-                    me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
+                    me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroups ||
+                                                            me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
                     Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                    Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
+                    me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
@@ -809,6 +825,7 @@ define([
                 }
                 me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                 me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
             },
 
             applyModeEditorElements: function() {
@@ -1125,6 +1142,15 @@ define([
                         config.msg = this.errorFrmlMaxReference;
                         break;
 
+                    case Asc.c_oAscError.ID.DataValidate:
+                        errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                        config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : this.errorDataValidate;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedCellPivot:
+                        config.msg = this.errorLockedCellPivot;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1153,31 +1179,25 @@ define([
                 else {
                     Common.Gateway.reportWarning(id, config.msg);
 
-                    config.title    = this.notcriticalErrorTitle;
-//                    config.iconCls  = 'warn';
-//                    config.buttons  = ['ok'];
+                    config.title    = config.title || this.notcriticalErrorTitle;
                     config.callback = _.bind(function(btn){
-                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
-                            Common.UI.Menu.Manager.hideAll();
-                            if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
-                                this.api.asc_DownloadAs();
-                            else
-                                (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        if (id == Asc.c_oAscError.ID.DataValidate) {
+                            this.api.asc_closeCellEditor(true);
                         }
                         this._state.lostEditingRights = false;
                     }, this);
                 }
 
-//                Common.UI.alert(config);
+                if (id == Asc.c_oAscError.ID.DataValidate) {
+                    config.buttons = [{ text: 'OK' }, { text: this.textCancel, onClick: config.callback }];
+                } else {
+                    config.buttons = [{ text: 'OK', onClick: config.callback }];
+                    $('#ce-cell-content').blur();
+                }
                 uiApp.modal({
                     title   : config.title,
                     text    : config.msg,
-                    buttons: [
-                        {
-                            text: 'OK',
-                            onClick: config.callback
-                        }
-                    ]
+                    buttons : config.buttons
                 });
 
                 Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1195,7 +1215,7 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    Common.Gateway.setDocumentModified(isModified);
+                    this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
                     this._state.isDocModified = isModified;
                 }
             },
@@ -1203,7 +1223,7 @@ define([
             onDocumentModifiedChanged: function() {
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
-                    Common.Gateway.setDocumentModified(this.api.asc_isDocumentModified());
+                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.asc_isDocumentModified());
                 }
 
                 this.updateWindowTitle();
@@ -1462,6 +1482,15 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
+            },
+
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                    }
+                }
             },
 
             applySettings: function() {
@@ -1763,7 +1792,10 @@ define([
             errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
             errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            textGuest: 'Guest',
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
+            errorLockedCellPivot: 'You cannot change data inside a pivot table.'
         }
     })(), SSE.Controllers.Main || {}))
 });

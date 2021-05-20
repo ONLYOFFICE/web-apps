@@ -501,6 +501,8 @@ define([
                             var hyperProps = moveData.get_Hyperlink();
                             if (!hyperProps) return;
                             ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
                         } else if (type == Asc.c_oAscMouseMoveDataTypes.Footnote) {
                             ToolTip = moveData.get_FootnoteText();
                             if (ToolTip.length>1000)
@@ -1717,7 +1719,7 @@ define([
             } else if (type == 'indents' || type == 'tabs') {
                 win = this.advancedParagraphClick({isChart: false});
                 if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 3);
+                    win.setActiveCategory(type == 'indents' ? 0 : 4);
             } else if (type == 'margins') {
                 if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({
@@ -1855,7 +1857,7 @@ define([
             if (this.api){
                 var printopt = new Asc.asc_CAdjustPrint();
                 printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.fireEvent('editcomplete', this);
@@ -1887,16 +1889,7 @@ define([
         },
 
         onInsertCaption: function() {
-            var me = this;
-            (new DE.Views.CaptionDialog({
-                isObject: true,
-                handler: function (result, settings) {
-                    if (result == 'ok') {
-                        me.api.asc_AddObjectCaption(settings);
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+            this.fireEvent('links:caption');
         },
 
         onContinueNumbering: function(item, e) {
@@ -2515,6 +2508,21 @@ define([
                 })
             });
 
+            var menuImgRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
+                caption: me.textRemoveControl,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSettings = new Common.UI.MenuItem({
+                caption: me.textEditControls,
+                value: 'settings'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -2589,9 +2597,19 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
-                    var control_props = me.api.asc_IsContentControl() ? me.api.asc_GetContentControlProperties() : null,
+                    var in_control = me.api.asc_IsContentControl(),
+                        control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
+                        is_form = control_props && control_props.get_FormPr();
+
+                    menuImgRemoveControl.setVisible(in_control);
+                    menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    menuImgControlSeparator.setVisible(in_control);
+                    if (in_control) {
+                        menuImgRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuImgRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                    }
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked) || content_locked;
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
@@ -2611,7 +2629,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[22].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2660,6 +2678,9 @@ define([
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
                     menuEditSignSeparator,
+                    menuImgRemoveControl,
+                    menuImgControlSettings,
+                    menuImgControlSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -2686,7 +2707,7 @@ define([
             }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-merge',
+                iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
                 if (me.api)
@@ -4298,7 +4319,12 @@ define([
                 for (var i=0; i<count; i++) {
                     (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
-                        value       : specProps.get_ItemValue(i)
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
                     }));
                 }
                 if (!isForm && menu.items.length<1) {

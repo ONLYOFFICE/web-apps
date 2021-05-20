@@ -1168,8 +1168,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Листовий папір (8,5x11 дюйма)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Накладні витрати",
   "PE.Views.SlideSizeSettings.txtStandard": "Стандартний (4: 3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Широкоекранний (16: 9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Широкоекранний (16:10)",
   "PE.Views.Statusbar.goToPageText": "Перейти до слайду",
   "PE.Views.Statusbar.pageIndexText": "Слайд {0} з {1}",
   "PE.Views.Statusbar.tipAccessRights": "Управління правами доступу до документів",

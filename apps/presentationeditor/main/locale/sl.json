@@ -740,8 +740,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Pisemski papir (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Nadzemne",
   "PE.Views.SlideSizeSettings.txtStandard": "Standardno (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Širok zaslon (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Širok zaslon (16:10)",
   "PE.Views.Statusbar.goToPageText": "Pojdi k diapozitivu",
   "PE.Views.Statusbar.pageIndexText": "Diapozitiv {0} od {1}",
   "PE.Views.Statusbar.tipAccessRights": "Manage document access rights",

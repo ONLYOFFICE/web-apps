@@ -8,9 +8,12 @@
 
         &.active {
             > span, > span:hover, > span:focus {
-                background-color: #fff;
-                color: #000;
-                border-color: #fff;
+                background-color: @background-normal-ie;
+                background-color: @background-normal;
+                color: @text-normal-ie;
+                color: @text-normal;
+                border-color: @background-normal-ie;
+                border-color: @background-normal;
                 cursor: pointer;
             }
         }
@@ -21,8 +24,10 @@
 
         > span {
             display: inline;
-            background-color: #7a7a7a;
-            color: #fff;
+            background-color: @background-toolbar-ie;
+            background-color: @background-toolbar;
+            color: @text-secondary-ie;
+            color: @text-secondary;
 
             padding-top: 0;
             padding-bottom: 0;
@@ -36,8 +41,10 @@
             }
 
             &:hover, &:focus {
-                background-color: #7a7a7a;
-                border-color: #7a7a7a;
+                background-color: @background-toolbar-ie;
+                background-color: @background-toolbar;
+                border-color: @background-toolbar-ie;
+                border-color: @background-toolbar;
                 cursor: pointer;
             }
         }

@@ -44,16 +44,15 @@ define([
         template    :
             _.template([
                 '<div id="calendar" class="calendar-box">',
-                '<div class="calendar-header">',
-                '<div class="top-row">',
-                '<div id="prev-arrow"><button type="button"><i class="arrow-prev img-commonctrl">&nbsp;</i></button></div>',
-                '<div class="title"></div>',
-                '<div id="next-arrow"><button type="button"><i class="arrow-next img-commonctrl">&nbsp;</i></button></div>',
-                '</div>',
-                '<div class="bottom-row">',
-                '</div>',
-                '</div>',
-                '<div class="calendar-content"></div>',
+                    '<div class="calendar-header">',
+                        '<div class="top-row">',
+                            '<div id="prev-arrow"><button type="button"><i class="arrow-prev img-commonctrl"></i></button></div>',
+                            '<div class="title"></div>',
+                            '<div id="next-arrow"><button type="button"><i class="arrow-next img-commonctrl" /></button></div>',
+                        '</div>',
+                        '<div class="bottom-row"></div>',
+                    '</div>',
+                    '<div class="calendar-content"></div>',
                 '</div>'
                 ].join('')),
 
@@ -179,6 +178,7 @@ define([
                 year = _.isNumber(year) ? year : (me.currentDate ? me.currentDate.getFullYear() : new Date().getFullYear());
 
             me._state = 2;
+            me.$el.removeClass('view-days view-months').addClass('view-years');
 
             var firstYear = year,
                 lastYear = year;
@@ -248,6 +248,7 @@ define([
 
             me._state = 1;
             me.currentDate = curDate;
+            me.$el.removeClass('view-years view-days').addClass('view-months');
 
             // Number of year
             me.topTitle = _.template([
@@ -329,6 +330,7 @@ define([
                 curYear = curDate.getFullYear();
 
             me.currentDate = curDate;
+            me.$el.removeClass('view-years view-months').addClass('view-days');
 
             // Name month
             me.topTitle = _.template([

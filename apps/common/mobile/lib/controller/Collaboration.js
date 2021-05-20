@@ -63,8 +63,7 @@ define([
             canViewReview,
             arrChangeReview = [],
             dateChange = [],
-            _fileKey,
-            _currentUserGroups;
+            _fileKey;
 
 
         return {
@@ -115,18 +114,6 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
-
-                if (mode && mode.canUseReviewPermissions) {
-                    var permissions = mode.customization.reviewPermissions,
-                        arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(mode.user.fullname);
-                    groups && groups.forEach(function(group) {
-                        var item = permissions[group.trim()];
-                        item && (arr = arr.concat(item));
-                    });
-                    _currentUserGroups = arr;
-                }
-
                 return this;
             },
 
@@ -264,14 +251,11 @@ define([
             },
 
             getUsersInfo: function() {
+                var me = this;
                 var usersArray = [];
                 _.each(editUsers, function(item){
                     var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
-                    var fio = name.split(' ');
-                    var initials = fio[0].substring(0, 1).toUpperCase();
-                    if (fio.length > 1) {
-                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
-                    }
+                    var initials = me.getInitials(name);
                     if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
                             color: item.asc_getColor(),
@@ -728,7 +712,7 @@ define([
 
             checkUserGroups: function(username) {
                 var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+                return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {
@@ -792,8 +776,11 @@ define([
             getInitials: function(name) {
                 var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
-                if (fio.length > 1) {
-                    initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                for (var i=fio.length-1; i>0; i--) {
+                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
+                        initials += fio[i].substring(0, 1).toUpperCase();
+                        break;
+                    }
                 }
                 return initials;
             },
@@ -1144,7 +1131,7 @@ define([
                         var me = this;
                         _.delay(function () {
                             var _menuItems = [];
-                            _menuItems.push({
+                            comment.editable && _menuItems.push({
                                 caption: me.textEdit,
                                 event: 'edit'
                             });
@@ -1165,7 +1152,7 @@ define([
                                     event: 'addreply'
                                 });
                             }
-                            _menuItems.push({
+                            comment.removable && _menuItems.push({
                                 caption: me.textDeleteComment,
                                 event: 'delete',
                                 color: 'red'
@@ -1203,13 +1190,15 @@ define([
                     if (_.isNumber(idComment)) {
                         idComment = idComment.toString();
                     }
-                    _.delay(function () {
+                    var comment = this.findComment(idComment);
+                    var reply = comment && comment.replys ? comment.replys[ind] : null;
+                    reply && _.delay(function () {
                         var _menuItems = [];
-                        _menuItems.push({
+                        reply.editable && _menuItems.push({
                             caption: me.textEdit,
                             event: 'editreply'
                         });
-                        _menuItems.push({
+                        reply.removable && _menuItems.push({
                             caption: me.textDeleteReply,
                             event: 'deletereply',
                             color: 'red'
@@ -1555,7 +1544,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                 }
@@ -1584,7 +1574,8 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId),
+                    removable           : this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1620,6 +1611,8 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
+                    comment.editable = me.appConfig.canEditComments || (data.asc_getUserId() == _userId);
+                    comment.removable = me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId);
 
                     replies = _.clone(comment.replys);
 
@@ -1644,7 +1637,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : me.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                            editable            : me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                     comment.replys = replies;

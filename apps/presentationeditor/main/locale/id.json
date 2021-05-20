@@ -572,8 +572,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Letter Paper (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Overhead",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Widescreen (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Widescreen (16:10)",
   "PE.Views.Statusbar.goToPageText": "Go to Slide",
   "PE.Views.Statusbar.pageIndexText": "Slide {0} of {1}",
   "PE.Views.Statusbar.tipAccessRights": "Manage document access rights",

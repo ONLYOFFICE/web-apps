@@ -118,16 +118,6 @@ define([
 
             if (data) {
                 this.currentUserId      =   data.config.user.id;
-                if (this.appConfig && this.appConfig.canUseReviewPermissions) {
-                    var permissions = this.appConfig.customization.reviewPermissions,
-                        arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(data.config.user.fullname);
-                    groups && groups.forEach(function(group) {
-                        var item = permissions[group.trim()];
-                        item && (arr = arr.concat(item));
-                    });
-                    this.currentUserGroups = arr;
-                }
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
             return this;
@@ -142,6 +132,8 @@ define([
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                     this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 }
+                if (this.appConfig.canReview)
+                    this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));
                 this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
 
@@ -482,7 +474,7 @@ define([
 
         checkUserGroups: function(username) {
             var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-            return this.currentUserGroups && groups && (_.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+            return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
         },
 
         getUserName: function(id){
@@ -565,17 +557,33 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onTurnPreview: function(state) {
+        onTurnPreview: function(state, global, fromApi) {
             if ( this.appConfig.isReviewOnly ) {
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
-                state = (state == 'on');
+                state = (state=='off') ? false : state; // support of prev. version (on/off)
+                if (!!global) {
+                    this.api.asc_SetLocalTrackRevisions(null);
+                    this.api.asc_SetGlobalTrackRevisions(!!state);
+                } else
+                    this.api.asc_SetLocalTrackRevisions(!!state);
+            }
+        },
 
-                Common.localStorage.setItem(this.view.appPrefix + "track-changes-" + (this.appConfig.fileKey || ''), state ? 1 : 0);
-                this.api.asc_SetTrackRevisions(state);
-
-                this.view.turnChanges(state);
+        onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
+            if ( this.appConfig.isReviewOnly ) {
+                this.view.turnChanges(true);
+            } else
+            if ( this.appConfig.canReview ) {
+                var global = (localFlag===null),
+                    state = global ? globalFlag : localFlag;
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
+                this.view.turnChanges(state, global);
+                if (userId && this.userCollection) {
+                    var rec = this.userCollection.findOriginalUser(userId);
+                    rec && this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, Common.Utils.UserInfoParser.getParsedName(rec.get('username'))));
+                }
             }
         },
 
@@ -774,15 +782,20 @@ define([
                 (new Promise(function (resolve) {
                     resolve();
                 })).then(function () {
-                    function _setReviewStatus(state) {
-                        me.view.turnChanges(state);
-                        me.api.asc_SetTrackRevisions(state);
-                    };
+                    // function _setReviewStatus(state, global) {
+                    //     me.view.turnChanges(state, global);
+                    //     !global && me.api.asc_SetLocalTrackRevisions(state);
+                    //     Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
+                    // };
 
                     var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
-                    var state = config.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
+                    if (config.isReviewOnly || trackChanges!==undefined)
+                        me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
+                    else
+                        me.onApiTrackRevisionsChange(me.api.asc_GetLocalTrackRevisions(), me.api.asc_GetGlobalTrackRevisions());
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                    _setReviewStatus(state);
+
+                    // _setReviewStatus(state, global);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
@@ -814,6 +827,41 @@ define([
             if (me.view && me.view.btnCommentRemove) {
                 me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
+        },
+
+        showTips: function(strings) {
+            var me = this;
+            if (!strings.length) return;
+            if (typeof(strings)!='object') strings = [strings];
+
+            function showNextTip() {
+                var str_tip = strings.shift();
+                if (str_tip) {
+                    me.tooltip.setTitle(str_tip);
+                    me.tooltip.show();
+                    me.tipTimeout = setTimeout(function () {
+                        me.tooltip.hide();
+                    }, 5000);
+                }
+            }
+
+            if (!this.tooltip) {
+                this.tooltip = new Common.UI.Tooltip({
+                    owner: this.getApplication().getController('Toolbar').getView(),
+                    hideonclick: true,
+                    placement: 'bottom',
+                    cls: 'main-info',
+                    offset: 30
+                });
+                this.tooltip.on('tooltip:hide', function(cmp){
+                    if (cmp==me.tooltip) {
+                        clearTimeout(me.tipTimeout);
+                        setTimeout(showNextTip, 300);
+                    }
+                });
+            }
+
+            showNextTip();
         },
 
         applySettings: function(menu) {
@@ -976,7 +1024,11 @@ define([
         textTitleComparison: 'Comparison Settings',
         textShow: 'Show changes at',
         textChar: 'Character level',
-        textWord: 'Word level'
+        textWord: 'Word level',
+        textOnGlobal: '{0} enabled Track Changes for everyone.',
+        textOffGlobal: '{0} disabled Track Changes for everyone.',
+        textOn: '{0} is now using Track Changes.',
+        textOff: '{0} is no longer using Track Changes.'
 
     }, Common.Controllers.ReviewChanges || {}));
 });

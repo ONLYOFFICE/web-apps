@@ -195,7 +195,8 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*.svg"
+                "../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*.svg",
+                "!../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*_s.svg"
             ]
         },
         "reporter": {

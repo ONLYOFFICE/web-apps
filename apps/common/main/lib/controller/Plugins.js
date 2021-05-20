@@ -102,6 +102,8 @@ define([
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
+            Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
         },
 
         loadConfig: function(data) {
@@ -165,8 +167,9 @@ define([
             return this;
         },
 
-        setMode: function(mode) {
+        setMode: function(mode, api) {
             this.appOptions = mode;
+            this.api = api;
             this.customPluginsComplete = !this.appOptions.canBrandingExt;
             if (this.appOptions.canBrandingExt)
                 this.getAppCustomPlugins(this.configPlugins);
@@ -203,6 +206,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+                plugin.set_MinVersion(item.get('minVersion'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -246,7 +250,7 @@ define([
                 if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
-                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                 btn.render($slot);
             }
         },
@@ -271,7 +275,7 @@ define([
 
                     var btn = me.panelPlugins.createPluginButton(model);
                     if (btn) {
-                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
                     }
@@ -281,6 +285,14 @@ define([
             } else {
                 console.error('toolbar panel isnot created');
             }
+        },
+
+        updatePluginsButtons: function() {
+            var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
+                me = this;
+            storePlugins.each(function(item){
+                me.panelPlugins.updatePluginIcons(item);
+            });
         },
 
         onSelectPlugin: function(picker, item, record, e){
@@ -371,7 +383,8 @@ define([
                         isCustomWindow = variation.get_CustomWindow(),
                         arrBtns = variation.get_Buttons(),
                         newBtns = [],
-                        size = variation.get_Size();
+                        size = variation.get_Size(),
+                        isModal = variation.get_Modal();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
@@ -392,7 +405,8 @@ define([
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this),
-                        help: !!help
+                        help: !!help,
+                        modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
@@ -500,7 +514,8 @@ define([
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit,
-                editor = me.editor;
+                editor = me.editor,
+                apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
@@ -539,7 +554,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons,
+                                icons: itemVar.icons2 || itemVar.icons,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -554,6 +569,9 @@ define([
                         if (typeof item.nameLocale == 'object')
                             name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
 
+                        if (pluginVisible)
+                            pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
+
                         arr.push(new Common.Models.Plugin({
                             name : name,
                             guid: item.guid,
@@ -562,7 +580,8 @@ define([
                             currentVariation: 0,
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
-                            groupRank: (item.group) ? item.group.rank : 0
+                            groupRank: (item.group) ? item.group.rank : 0,
+                            minVersion: item.minVersion
                         }));
                     }
                 });
@@ -597,6 +616,25 @@ define([
                 this.refreshPluginsList();
                 this.runAutoStartPlugins();
             }
+        },
+
+        checkPluginVersion: function(apiVersion, pluginVersion) {
+            if (apiVersion && apiVersion!=='develop' && pluginVersion && typeof pluginVersion == 'string') {
+                var res = pluginVersion.match(/^([0-9]+)(?:.([0-9]+))?(?:.([0-9]+))?$/),
+                    apires = apiVersion.match(/^([0-9]+)(?:.([0-9]+))?(?:.([0-9]+))?$/);
+                if (res && res.length>1 && apires && apires.length>1) {
+                    for (var i=0; i<3; i++) {
+                        var pluginVer = res[i+1] ? parseInt(res[i+1]) : 0,
+                            apiVer = apires[i+1] ? parseInt(apires[i+1]) : 0;
+                        if (pluginVer>apiVer)
+                            return false;
+                        if (pluginVer<apiVer)
+                            return true;
+                    }
+                }
+
+            }
+            return true;
         },
 
         getPlugins: function(pluginsData, fetchFunction) {

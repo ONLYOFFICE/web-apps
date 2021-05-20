@@ -437,7 +437,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 50px'});
 
                     this._state.TemplateId = value;
                 }
@@ -611,7 +611,8 @@ define([
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#table-border-color-btn'),
-                    color: '000000'
+                    color: 'auto',
+                    auto: true
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.borderColor = this.btnBorderColor.getPicker();
@@ -626,7 +627,7 @@ define([
             }
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.btnBorderColor.setColor(this.borderColor.getColor());
+            !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
         _onInitTemplates: function(Templates){

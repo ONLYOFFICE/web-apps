@@ -4,7 +4,7 @@
         <!-- Edit diagram mode -->
         <!----------------------->
         <section class="simple-bar">
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot split" id="slot-btn-paste"></span>
@@ -13,24 +13,25 @@
                 </div>
             </div>
             <div class="separator short"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-formula"></span>
                 </div>
             </div>
-            <div class="separator short" style="margin-left: 5px;"></div>
-            <div class="group">
+            <div class="separator short"></div>
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-digit-dec"></span>
                     <span class="btn-slot split" id="slot-btn-digit-inc"></span>
-                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; margin-left: 10px; vertical-align: middle;"></span>
+                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; vertical-align: middle;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
-                    <span class="btn-slot border" id="slot-btn-chart" style="width: auto;"></span>
-                    <span class="btn-slot border" id="slot-btn-chart-data" style="width: auto;margin-left: 12px;"></span>
+                    <span class="btn-slot text" id="slot-btn-chart-data"></span>
+                    <span class="btn-slot text" id="slot-btn-chart-type" style="margin-left: 12px;"></span>
+                    <span class="btn-slot" id="slot-btn-chart" style="margin-left: 12px;width: auto;"></span>
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>
@@ -40,7 +41,7 @@
         <!-- Edit mail merge mode -->
         <!----------------------->
         <section class="simple-bar">
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot split" id="slot-btn-paste"></span>
@@ -49,21 +50,21 @@
                 </div>
             </div>
             <div class="separator short"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-sortdesc"></span>
                     <span class="btn-slot" id="slot-btn-sortasc"></span>
                 </div>
             </div>
             <div class="separator short" style="margin-left: 5px;"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-setfilter"></span>
                     <span class="btn-slot" id="slot-btn-clear-filter"></span>
                 </div>
             </div>
             <div class="separator short"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-search"></span>
                 </div>

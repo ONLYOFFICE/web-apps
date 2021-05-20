@@ -12,7 +12,8 @@
       text-align: center;
       height: 100%;
       width: 100%;
-      color: #b2b2b2;
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
       td {
         padding: 5px;
       }
@@ -20,7 +21,8 @@
   }
 
   &:focus {
-    border-color: @gray-darker;
+    border-color: @border-preview-select-ie;
+    border-color: @border-preview-select;
   }
 
   > .item {
@@ -31,11 +33,15 @@
 
     &:hover,
     &.over {
-      background-color: @secondary;
+      background-color: @highlight-button-hover-ie;
+      background-color: @highlight-button-hover;
     }
 
     &.selected {
-      background-color: #cbcdcf;
+      background-color: @highlight-button-pressed-ie;
+      background-color: @highlight-button-pressed;
+      color: @text-normal-pressed-ie;
+      color: @text-normal-pressed;
     }
 
     &.selected .empty {
@@ -58,7 +64,8 @@
     text-overflow: ellipsis;
 
     &.empty {
-      color: #999;
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
       font-style: italic;
     }
   }

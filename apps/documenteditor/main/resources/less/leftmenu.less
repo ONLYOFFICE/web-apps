@@ -1,40 +1,6 @@
-.tool-menu {
-    height: 100%;
-    display: block;
-
-    &.left {
-        overflow: hidden;
-
-        .tool-menu-btns {
-            border-right: 1px solid @gray-dark;
-        }
-    }
-}
-
-.tool-menu-btns {
-    width: 40px;
-    height: 100%;
-    display: inline-block;
-    position: absolute;
-    padding-top: 15px;
-
-    button {
-        margin-bottom: 8px;
-    }
-}
 
 .left-panel {
-    padding-left: 40px;
-    height: 100%;
-    border-right: 1px solid @gray-dark;
-
-    #left-panel-chat {
-        height: 100%;
-    }
-    #left-panel-comments {
-        height: 100%;
-    }
-     #left-panel-history {
+    #left-panel-history {
         height: 100%;
     }
 }
@@ -47,7 +13,8 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @gray-light;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     overflow: hidden;
 }
 

@@ -94,7 +94,8 @@ define([
                 GradColor: '000000',
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 FormId: null,
-                DisabledControls: false
+                DisabledControls: false,
+                applicationPixelRatio: Common.Utils.applicationPixelRatio()
             };
             this.lockedControls = [];
             this._locked = false;
@@ -135,6 +136,7 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            $(window).on('resize', _.bind(this.onWindowResize, this));
         },
 
         setApi: function(api) {
@@ -595,14 +597,16 @@ define([
                     expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
                 if (!(expr.exec(record.value)) || value<0 || value>1584) {
                     this._state.StrokeType = this._state.StrokeWidth = -1;
-                    Common.UI.error({
-                        msg: this.textBorderSizeErr,
-                        callback: function() {
-                            _.defer(function(btn) {
-                                Common.NotificationCenter.trigger('edit:complete', me);
-                            })
-                        }
-                    });
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textBorderSizeErr,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                })
+                            }
+                        });
+                    }, 10);
                 }
             } else
                 this.applyBorderSize(record.value);
@@ -1440,7 +1444,9 @@ define([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
                             '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
                             '<div style="display: table-cell;"></div>',
-                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                            '<button type="button" class="btn btn-default">',
+                                '<span class="caret" />',
+                            '</button>',
                         '</div>'
                     ].join(''))
                 });
@@ -1541,22 +1547,17 @@ define([
         },
 
         fillTransform: function(transforms) {
-            if (transforms && transforms.length>1 && transforms[1]){
-                var me = this,
-                    artStore = [],
-                    arrTransforms = transforms[1];
-                for (var i=0; i<arrTransforms.length; i++) {
-                    var arr = arrTransforms[i];
-                    if (arr && arr.length>0)
-                        _.each(arr, function(item){
-                            artStore.push({
-                                imageUrl: item.Image,
-                                type    : item.Type,
-                                selected: false
-                            });
-                        });
+            if (transforms){
+                var artStore = [];
+                for (var i=0; i<transforms.length; i++) {
+                    var item = transforms[i];
+                    artStore.push({
+                        imageUrl: item.Image,
+                        type    : item.Type,
+                        selected: false
+                    });
                 }
-                this.cmbTransform.menuPicker.store.add(artStore);
+                this.cmbTransform.menuPicker.store.reset(artStore);
                 if (this.cmbTransform.menuPicker.store.length > 0) {
                     this.cmbTransform.fillComboView(this.cmbTransform.menuPicker.store.at(0),true);
                 }
@@ -1726,6 +1727,13 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
+        },
+
+        onWindowResize: function() {
+            if (!this._initSettings && this._state.applicationPixelRatio !== Common.Utils.applicationPixelRatio())
+                this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+
+            this._state.applicationPixelRatio = Common.Utils.applicationPixelRatio();
         },
 
         txtNoBorders            : 'No Line',

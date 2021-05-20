@@ -1480,8 +1480,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Хартия за писма (8.5x11 инча)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Отгоре",
   "PE.Views.SlideSizeSettings.txtStandard": "Стандартно (4: 3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Широк екран (16: 9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Широк екран (16:10)",
   "PE.Views.Statusbar.goToPageText": "Отидете в Slide",
   "PE.Views.Statusbar.pageIndexText": "Слайд {0} от {1}",
   "PE.Views.Statusbar.textShowBegin": "Показване от началото",

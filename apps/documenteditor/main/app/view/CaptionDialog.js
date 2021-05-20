@@ -126,7 +126,7 @@ define([
                 ].join('')
             }, options);
 
-            this.isObject   = options.isObject;
+            this.objectType = options.objectType;
             this.handler    = options.handler;
             this.props      = options.props;
 
@@ -151,7 +151,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 75px;',
                 editable: false,
-                disabled: !this.isObject,
+                disabled: (this.objectType===undefined),
                 takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBefore,   value: 1 },
@@ -206,7 +206,13 @@ define([
             if (curLabel && findIndLabel !== -1) {
                 recLabel = this.cmbLabel.store.at(findIndLabel);
             } else {
-                recLabel = this.cmbLabel.store.at(this.arrLabel.length-1);
+                var index = this.arrLabel.length-1;
+                if (this.objectType === Asc.c_oAscTypeSelectElement.Math) {
+                    index = this.arrLabel.length-3;
+                } else if (this.objectType === Asc.c_oAscTypeSelectElement.Image) {
+                    index = this.arrLabel.length-2;
+                }
+                recLabel = this.cmbLabel.store.at(index);
             }
             this.cmbLabel.selectRecord(recLabel);
 

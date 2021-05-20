@@ -436,9 +436,9 @@ define([
                         info = document.info || {};
 
                     document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
-                    var value = info.owner || info.author;
+                    var value = info.owner;
                     value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
-                    value = info.uploaded || info.created;
+                    value = info.uploaded;
                     value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
                     info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
 

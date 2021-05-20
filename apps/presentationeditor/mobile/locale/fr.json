@@ -170,6 +170,7 @@
   "PE.Controllers.Main.textContactUs": "Contacter l'équipe de ventes",
   "PE.Controllers.Main.textCustomLoader": "Veuillez noter que, conformément aux clauses du contrat de licence, vous n'êtes pas autorisé à changer le chargeur.<br>Veuillez contacter notre service des ventes pour demander un devis.",
   "PE.Controllers.Main.textDone": "Effectué",
+  "PE.Controllers.Main.textGuest": "Invité",
   "PE.Controllers.Main.textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros ?",
   "PE.Controllers.Main.textLoadingDocument": "Chargement présentation",
   "PE.Controllers.Main.textNo": "Non",

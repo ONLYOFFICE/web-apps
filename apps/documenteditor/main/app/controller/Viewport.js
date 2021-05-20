@@ -165,7 +165,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !config.isEdit ||
+            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
 
@@ -205,8 +205,8 @@ define([
         onAppReady: function (config) {
             var me = this;
             if ( me.header.btnOptions ) {
-                var compactview = !config.isEdit;
-                if ( config.isEdit ) {
+                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
+                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
                     if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                         compactview = Common.localStorage.getBool("de-compact-toolbar");
                     } else
@@ -223,7 +223,7 @@ define([
                 if (!config.isEdit) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if ((action=='plugins' || action=='review') && visible) {
+                        if ((action=='plugins' || action=='review' || action=='forms') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));
@@ -241,7 +241,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("de-hidden-rulers"),
+                    checked: Common.Utils.InternalSettings.get("de-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
@@ -387,6 +387,7 @@ define([
             case 'rulers':
                 me.api.asc_SetViewRulers(!item.isChecked());
                 Common.localStorage.setBool('de-hidden-rulers', item.isChecked());
+                Common.Utils.InternalSettings.set("de-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
@@ -410,7 +411,12 @@ define([
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
+                this.header.lockHeaderBtns( 'rename-user', true);
             }
+        },
+
+        SetDisabled: function(disable) {
+            this.header && this.header.lockHeaderBtns( 'rename-user', disable);
         },
 
         textFitPage: 'Fit to Page',

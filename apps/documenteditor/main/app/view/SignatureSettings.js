@@ -361,7 +361,7 @@ define([
                     text    : tipText,
                     showLink: showLink,
                     textLink: this.txtContinueEditing,
-                    placement: 'left'
+                    placement: 'left-bottom'
                 });
                 tip.on({
                     'dontshowclick': function() {

@@ -691,6 +691,10 @@ define([
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
+                '<tr class="themes">',
+                    '<td class="left"><label><%= scope.strTheme %></label></td>',
+                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -699,10 +703,10 @@ define([
                     '<td class="left"><label><%= scope.strFontRender %></label></td>',
                     '<td class="right"><span id="fms-cmb-font-render"></span></td>',
                 '</tr>','<tr class="divider"></tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
                     '<td class="right"><span id="fms-cmb-unit"></span></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
                     '<td class="right">',
@@ -908,7 +912,9 @@ define([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" style="padding-left: 25px !important;">',
                     '<span class="icon input-icon lang-flag"></span>',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                            '<span class="caret" />',
+                        '</button>',
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                             '<% _.each(items, function(item) { %>',
                                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -998,11 +1004,19 @@ define([
                 labelText: this.strPasteButton
             });
 
+            this.cmbTheme = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-theme'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
                 })).on('click', _.bind(me.applySettings, me));
             });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -1062,6 +1076,10 @@ define([
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
+
+            if ( !Common.UI.Themes.available() ) {
+                $('tr.themes, tr.themes + tr.divider', this.el).hide();
+            }
         },
 
         setApi: function(api) {
@@ -1152,9 +1170,22 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
+
+            var data = [];
+            for (var t in Common.UI.Themes.map()) {
+                data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
+            }
+
+            if ( data.length ) {
+                this.cmbTheme.setData(data);
+                item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
+                this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
+            }
         },
 
         applySettings: function() {
+            Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
@@ -1300,6 +1331,9 @@ define([
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
         strPaste: 'Cut, copy and paste',
+        strTheme: 'Theme',
+        txtThemeLight: 'Light',
+        txtThemeDark: 'Dark',
         strPasteButton: 'Show Paste Options button when content is pasted'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1838,11 +1872,6 @@ define([
         },
 
         updateInfo: function(doc) {
-            if (!this.doc && doc && doc.info) {
-                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-            }
-
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -1854,11 +1883,11 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                var value = doc.info.owner || doc.info.author;
+                var value = doc.info.owner;
                 if (value)
                     this.lblOwner.text(value);
                 visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
-                value = doc.info.uploaded || doc.info.created;
+                value = doc.info.uploaded;
                 if (value)
                     this.lblUploaded.text(value);
                 visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;

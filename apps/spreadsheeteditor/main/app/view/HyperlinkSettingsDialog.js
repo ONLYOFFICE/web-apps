@@ -141,7 +141,10 @@ define([
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 validation  : function(value) {
-                    var urltype = me.api.asc_getUrlType($.trim(value));
+                    var trimmed = $.trim(value);
+                    if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
+
+                    var urltype = me.api.asc_getUrlType(trimmed);
                     me.isEmail = (urltype==2);
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
@@ -501,6 +504,7 @@ define([
                     this.inputDisplay.setValue(name);
                 } else {
                     var val = this.inputRange.getValue();
+                    name = this.api.asc_getEscapeSheetName(name);
                     name = (name + ((name!=='' && val!=='') ? '!' : '') + val);
                 }
                 name && Common.Gateway.requestMakeActionLink({
@@ -561,6 +565,7 @@ define([
         textNames:          'Defined names',
         textGetLink: 'Get Link',
         textCopy: 'Copy',
-        textSelectData: 'Select data'
+        textSelectData: 'Select data',
+        txtSizeLimit: 'This field is limited to 2083 characters'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });

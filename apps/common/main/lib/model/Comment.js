@@ -79,7 +79,8 @@ define([
             hide                : false,
             hint                : false,
             dummy               : undefined,
-            editable            : true
+            editable            : true,
+            removable           : true
         }
     });
     Common.Models.Reply = Backbone.Model.extend({
@@ -96,7 +97,8 @@ define([
             editText            : false,
             editTextInPopover   : false,
             scope               : null,
-            editable            : true
+            editable            : true,
+            removable           : true
         }
     });
 });

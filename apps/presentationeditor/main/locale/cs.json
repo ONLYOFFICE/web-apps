@@ -1561,8 +1561,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Letter Paper (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Horní",
   "PE.Views.SlideSizeSettings.txtStandard": "Standardní (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Širokoúhlý (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Širokoúhlý (16:10)",
   "PE.Views.Statusbar.goToPageText": "Přejít na snímek",
   "PE.Views.Statusbar.pageIndexText": "Snímek {0} z {1}",
   "PE.Views.Statusbar.textShowBegin": "Zobrazit od začátku",

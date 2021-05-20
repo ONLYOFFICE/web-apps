@@ -47,7 +47,8 @@ define([
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ComboDataView',
     'spreadsheeteditor/main/app/view/ChartSettingsDlg',
-    'spreadsheeteditor/main/app/view/ChartDataDialog'
+    'spreadsheeteditor/main/app/view/ChartDataDialog',
+    'spreadsheeteditor/main/app/view/ChartTypeDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -112,6 +113,7 @@ define([
             this.ChartTypesContainer = $('#chart-panel-types');
             this.SparkTypesContainer = $('#spark-panel-types');
             this.SparkPointsContainer = $('#spark-panel-points');
+            this.NotCombinedSettings = $('.not-combined');
         },
 
         render: function () {
@@ -151,46 +153,40 @@ define([
                     }
 
                     value = props.asc_getSeveralChartTypes();
-                    if (this._state.SeveralCharts && value) {
-                        this.btnChartType.setIconCls('svgicon');
-                        this._state.ChartType = null;
-                    } else {
-                        var type = this.chartProps.getType();
-                        if (this._state.ChartType !== type) {
-                            var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                            this.mnuChartTypePicker.selectRecord(record, true);
-                            if (record) {
-                                this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
-                            } else
-                                this.btnChartType.setIconCls('svgicon');
-                            this.updateChartStyles(this.api.asc_getChartPreviews(type));
-                            this._state.ChartType = type;
-                        }
+                    var type = (this._state.SeveralCharts && value) ? null : this.chartProps.getType();
+                    if (this._state.ChartType !== type) {
+                        this.ShowCombinedProps(type);
+                        !(type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom) && this.updateChartStyles(this.api.asc_getChartPreviews(type));
+                        this._state.ChartType = type;
                     }
 
-                    value = props.asc_getSeveralChartStyles();
-                    if (this._state.SeveralCharts && value) {
-                        this.cmbChartStyle.fieldPicker.deselectAll();
-                        this.cmbChartStyle.menuPicker.deselectAll();
-                        this._state.ChartStyle = null;
-                    } else {
-                        value = this.chartProps.getStyle();
-                        if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
-                            this.cmbChartStyle.suspendEvents();
-                            var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
-                            this.cmbChartStyle.menuPicker.selectRecord(rec);
-                            this.cmbChartStyle.resumeEvents();
+                    if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                          type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
+                        value = props.asc_getSeveralChartStyles();
+                        if (this._state.SeveralCharts && value) {
+                            this.cmbChartStyle.fieldPicker.deselectAll();
+                            this.cmbChartStyle.menuPicker.deselectAll();
+                            this._state.ChartStyle = null;
+                        } else {
+                            value = this.chartProps.getStyle();
+                            if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
+                                this.cmbChartStyle.suspendEvents();
+                                var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
+                                this.cmbChartStyle.menuPicker.selectRecord(rec);
+                                this.cmbChartStyle.resumeEvents();
 
-                            if (this._isChartStylesChanged) {
-                                if (rec)
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
-                                else
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                                if (this._isChartStylesChanged) {
+                                    if (rec)
+                                        this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
+                                    else
+                                        this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                                }
+                                this._state.ChartStyle=value;
                             }
-                            this._state.ChartStyle=value;
                         }
+                        this._isChartStylesChanged = false;
                     }
-                    this._isChartStylesChanged = false;
 
                     this._noApply = false;
 
@@ -601,32 +597,6 @@ define([
         createDelayedControls: function() {
             var me = this;
 
-            // charts
-            this.btnChartType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'svgicon chart-bar-normal',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
-                });
-            });
-            this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
-            this.lockedControls.push(this.btnChartType);
-
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-width'),
                 step: .1,
@@ -682,9 +652,9 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 167px; padding-top: 12px;',
+                    style: 'width: 167px;',
                     items: [
-                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"></div>') }
                     ]
                 })
             });
@@ -758,8 +728,22 @@ define([
             this.chLastPoint.on('change', _.bind(this.onCheckPointChange, this, 4));
             this.chMarkersPoint.on('change', _.bind(this.onCheckPointChange, this, 5));
 
+            this.btnChangeType = new Common.UI.Button({
+                parentEl: $('#chart-btn-change-type'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-menu-chart',
+                caption     : this.textChangeType,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnChangeType.on('click', _.bind(this.onChangeType, this));
+            this.lockedControls.push(this.btnChangeType);
+
             this.btnSelectData = new Common.UI.Button({
-                el: $('#chart-btn-select-data')
+                parentEl: $('#chart-btn-select-data'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-select-range',
+                caption     : this.textSelectData,
+                style       : 'width: 100%;text-align: left;'
             });
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
             this.lockedControls.push(this.btnSelectData);
@@ -780,6 +764,11 @@ define([
             this.ChartTypesContainer.toggleClass('settings-hidden', !isChart);
             this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
             this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
+        },
+
+        ShowCombinedProps: function(type) {
+            this.NotCombinedSettings.toggleClass('settings-hidden', type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                                                                    type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
         },
 
         onWidthChange: function(field, newValue, oldValue, eOpts){
@@ -870,7 +859,7 @@ define([
                     validation = function(value) {
                         var isvalid;
                         if (!_.isEmpty(value)) {
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, !props.getInColumns(), me._state.ChartType);
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, props.getInRows(), me._state.ChartType);
                             if (isvalid == Asc.c_oAscError.ID.No)
                                 return true;
                         } else return '';
@@ -926,35 +915,33 @@ define([
             }
         },
 
-        onSelectType: function(btn, picker, itemView, record) {
-            if (this._noApply) return;
-
-            var rawData = {},
-                isPickerSelect = _.isFunction(record.toJSON);
-
-            if (isPickerSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {
-                    // record deselected
-                    return;
+        onChangeType: function() {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
                 }
-            } else {
-                rawData = record;
             }
-
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this._state.ChartType = -1;
-
-            if (this.api && !this._noApply && this.chartProps) {
-                var props = new Asc.asc_CImgProperty();
-                this.chartProps.changeType(rawData.type);
-                props.asc_putChartProperties(this.chartProps);
-                this.api.asc_setGraphicObjectProps(props);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
-
+        
         onSelectStyle: function(combo, record) {
             if (this._noApply) return;
 
@@ -968,7 +955,9 @@ define([
         },
 
         _onUpdateChartStyles: function() {
-            if (this.api && this._state.ChartType!==null && this._state.ChartType>-1)
+            if (this.api && this._state.ChartType!==null && this._state.ChartType>-1 &&
+                !(this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                this._state.ChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboCustom))
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
         },
 
@@ -1134,14 +1123,16 @@ define([
                     expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
                 if (!(expr.exec(record.value)) || value<0.01 || value>1584) {
                     this._state.LineWeight = -1;
-                    Common.UI.error({
-                        msg: this.textBorderSizeErr,
-                        callback: function() {
-                            _.defer(function(btn) {
-                                Common.NotificationCenter.trigger('edit:complete', me);
-                            })
-                        }
-                    });
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textBorderSizeErr,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                })
+                            }
+                        });
+                    }, 10);
                 }
             } else
                 this.applyBorderSize(record.value);
@@ -1261,7 +1252,8 @@ define([
         textType:           'Type',
         textSelectData: 'Select Data',
         textRanges: 'Data Range',
-        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.'
+        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
+        textChangeType: 'Change type'
 
     }, SSE.Views.ChartSettings || {}));
 });

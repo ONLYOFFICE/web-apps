@@ -18,7 +18,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background: #e2e2e2;
+            background: var(--canvas-background, #e2e2e2);
             z-index: 1001;
         }
 
@@ -26,6 +27,7 @@
             width: 100%;
             min-height: 28px;
             background: #40865c;
+            background: var(--toolbar-header-spreadsheet, #40865c);
         }
 
         .loadmask > .brendpanel > div {
@@ -58,12 +60,14 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(255, 255, 255, 0.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
         }
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
             height: 46px;
-            padding: 10px 12px;
+            padding: 10px 6px;
             box-sizing: content-box;
         }
 
@@ -75,7 +79,8 @@
         }
 
         .loadmask > .sktoolbar li {
-            background: #e2e2e2;
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -85,7 +90,7 @@
 
         .loadmask > .sktoolbar li.space {
             background: none;
-            width: 12px;
+            width: 0;
         }
 
         .loadmask > .sktoolbar li.fat {
@@ -93,7 +98,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 905px;
+            left: 763px;
             width: inherit;
             height: 44px;
         }
@@ -101,6 +106,7 @@
         .loadmask>.skformula {
             height: 24px;
             background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
         }
 
         .loadmask>.skformula ul {
@@ -109,7 +115,9 @@
             box-sizing: border-box;
             border-style: solid;
             border-width: 1px;
-            border-color: #e1e1e1 transparent;
+            border-width: var(--scaled-one-px-value, 1px);
+            border-color: #cbcbcb transparent;
+            border-color: var(--border-toolbar, #cbcbcb) transparent;
         }
 
         .loadmask>.skformula li {
@@ -118,10 +126,13 @@
             height: 19px;
             width: 100%;
             margin-left: 20px;
-            background: #f7f7f7;
+            background: #fff;
+            background: var(--background-normal, #fff);
             border-style: solid;
             border-width: 1px;
-            border-color: transparent #e1e1e1;
+            border-width: var(--scaled-one-px-value, 1px);
+            border-color: #cbcbcb;
+            border-color: transparent var(--border-toolbar, #cbcbcb);
         }
 
         .loadmask>.skformula li:first-child {
@@ -130,11 +141,13 @@
         }
 
         .loadmask > .placeholder {
-            background: #fbfbfb;
+            background: #fff;
+            background: var(--canvas-content-background, #fff);
             width: 100%;
             height: 100%;
             font-size: 0;
-            border: 1px solid #dfdfdf;
+            border: 1px solid #bbbec2;
+            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
             white-space: nowrap;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
@@ -179,13 +192,13 @@
             50%  { opacity:0.5; }
             100% { opacity:1; }
         }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
+        }
     </style>
 
     <script>
-        // don't add zoom for mobile devices
-        if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
-            document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
-
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false;
@@ -246,6 +259,7 @@
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
+            window.desktop.execCommand('webapps:entry', '');
         }
     </script>
 
@@ -253,19 +267,20 @@
     <link rel="stylesheet" type="text/css" href="../../../apps/spreadsheeteditor/main/resources/css/app.css">
 </head>
 <body>
+    <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
-        <div class="brendpanel"><div>
-            <div class="loading-logo"><img src="../../../apps/spreadsheeteditor/main/resources/img/header/header-logo@2x.png"></div>
-            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+        <div class="brendpanel" style="display: none;"><div>
+            <div class="loading-logo"><img src="../../../apps/spreadsheeteditor/main/resources/img/header/header-logo_s.svg"></div>
+            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
-        <div class="sktoolbar">
-            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>
-            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
+        <div class="sktoolbar" style="display: none;">
+            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/><li class="fat"/></ul>
+            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/></ul>
         </div>
-        <div class="skformula">
+        <div class="skformula" style="display: none;">
             <ul><li/><li/></ul>
         </div>
-        <div class="placeholder">
+        <div class="placeholder" style="display: none;">
             <div class="columns"></div><div class="columns"></div>
         </div>
     </div>
@@ -284,7 +299,8 @@
             internal = params["internal"] == 'true',
             notoolbar = params["toolbar"] == 'false',
             compact = params["compact"] == 'true',
-            view = params["mode"] == 'view';
+            view = params["mode"] == 'view',
+            visible = true;
 
         if (internal) {
             document.querySelector('.brendpanel').remove();
@@ -296,15 +312,17 @@
         if (compact || view) {
             if (notoolbar) {
                 document.querySelector('.brendpanel > :nth-child(1)').remove();
-                document.querySelector('.brendpanel').remove();
+                visible = false;
             } else
                 document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
         } else if (notoolbar) {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
         }
-        if (view || notoolbar) {
-            document.querySelector('.sktoolbar').remove();
-        }
+
+        visible && (document.querySelector('.brendpanel').style.display = 'block');
+        !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
+        document.querySelector('.skformula').style.display = 'block';
+        document.querySelector('.placeholder').style.display = 'block';
 
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
@@ -357,6 +375,7 @@
     <inline src="resources/img/recent-file.svg" />
     <inline src="resources/img/file-template.svg" />
 
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 </body>
 </html>

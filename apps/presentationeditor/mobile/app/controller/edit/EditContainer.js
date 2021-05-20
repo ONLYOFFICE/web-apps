@@ -345,7 +345,7 @@ define([
                             no_text = false;
                         }
                     } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
-                        if ( !(objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTranzition() || objectValue.get_LockTiming() ))
+                        if ( !(objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming() ))
                             _settings.push('slide');
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
                         if ( !objectValue.get_Locked() )

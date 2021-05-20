@@ -155,7 +155,9 @@ define([
                             Asc.c_oAscFileType.HTML,
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.DOTX,
-                            Asc.c_oAscFileType.OTT
+                            Asc.c_oAscFileType.OTT,
+                            Asc.c_oAscFileType.FB2,
+                            Asc.c_oAscFileType.EPUB
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -260,6 +262,7 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
             toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -292,6 +295,15 @@ define([
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
+            toolbar.mnuMarkerChangeLevel && toolbar.mnuMarkerChangeLevel.menu &&
+            toolbar.mnuMarkerChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 0));
+            toolbar.mnuMarkerChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 0));
+            toolbar.mnuNumberChangeLevel && toolbar.mnuNumberChangeLevel.menu &&
+            toolbar.mnuNumberChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 1));
+            toolbar.mnuNumberChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 1));
+            toolbar.mnuMultiChangeLevel && toolbar.mnuMultiChangeLevel.menu &&
+            toolbar.mnuMultiChangeLevel.menu.on('show:after',           _.bind(this.onChangeLevelShowAfter, this, 2));
+            toolbar.mnuMultiChangeLevel.menu.on('item:click',           _.bind(this.onChangeLevelClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -515,7 +527,9 @@ define([
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx;
@@ -549,7 +563,9 @@ define([
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1044,7 +1060,7 @@ define([
 
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1337,6 +1353,12 @@ define([
             }
         },
 
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         onSelectBullets: function(btn, picker, itemView, record) {
             var rawData = {},
                 isPickerSelect = _.isFunction(record.toJSON);
@@ -1387,6 +1409,27 @@ define([
                     }
                 })).show();
             }
+        },
+
+        onChangeLevelShowAfter: function(type, menu) {
+            var me      = this;
+            var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            var item = _.find(menu.items, function(item) { return item.options.level == level; });
+            menu.clearAll();
+            item && item.setChecked(true);
+            if (props) {
+                this.api.SetDrawImagePreviewBulletChangeListLevel(menu.options.previewIds, props);
+            }
+        },
+
+        onChangeLevelClick: function(type, menu, item) {
+            if (this.api) {
+                this.api.asc_SetNumberingLvl(item.options.level);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
@@ -1494,7 +1537,7 @@ define([
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
                 if (this.api)
-                    this.api.asc_addImage();
+                    setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
@@ -1916,7 +1959,7 @@ define([
                 else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
                     if (isnew) {
                         oPr = new AscCommon.CSdtCheckBoxPr();
-                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey(this.textGroup + ' 1');
                     }
                     this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
                 } else if (item.value == 'date')
@@ -2050,19 +2093,22 @@ define([
             }
 
             if (chart) {
-                var props = new Asc.asc_CImgProperty();
-                chart.changeType(type);
-                props.put_ChartProperties(chart);
-                this.api.ImgApply(props);
-
+                var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && chart.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                } else
+                    chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                var controller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
                 if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                    this.diagramEditor = controller.getView('Common.Views.ExternalDiagramEditor');
 
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
+                    // this.diagramEditor.show();
+                    controller.showExternalEditor();
 
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
@@ -2347,6 +2393,9 @@ define([
             this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
             this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
             this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
+            this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
+            this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
+            this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -2372,7 +2421,7 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#000');
+            this.toolbar.btnFontColor.setColor('000');
 
             this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
@@ -2389,10 +2438,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? (color.isAuto ? '#000' : color.color) : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -2404,10 +2451,8 @@ define([
         onParagraphColorPickerSelect: function(picker, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnParagraphColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', color!='transparent'?'#'+clr:clr);
+            this.toolbar.btnParagraphColor.setColor(color);
 
             this.toolbar.mnuParagraphColorPicker.currentColor = color;
             if (this.api) {
@@ -2443,7 +2488,7 @@ define([
             this._setMarkerColor('transparent', 'menu');
             item.setChecked(true, true);
             this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            $('.btn-color-value-line', this.toolbar.btnHighlightColor.cmpEl).css('background-color', 'transparent');
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2603,9 +2648,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {
@@ -2845,7 +2890,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined || !this.toolbar.btnFontColor.currentColor.isAuto) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2855,7 +2900,7 @@ define([
 
             updateColors(this.toolbar.mnuParagraphColorPicker, 0);
             this.toolbar.btnParagraphColor.currentColor = this.toolbar.mnuParagraphColorPicker.currentColor.color || this.toolbar.mnuParagraphColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', '#' + this.toolbar.btnParagraphColor.currentColor);
+            this.toolbar.btnParagraphColor.setColor(this.toolbar.btnParagraphColor.currentColor);
             if (this._state.clrshd_asccolor!==undefined) {
                 this._state.clrback = undefined;
                 this.onParagraphColor(this._state.clrshd_asccolor);
@@ -2913,8 +2958,7 @@ define([
                 me.toolbar.mnuHighlightTransparent.setChecked(false);
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
-                $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
-
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
                 me.toolbar.btnHighlightColor.toggle(true, true);
             }
 
@@ -3048,8 +3092,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3061,8 +3105,10 @@ define([
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-            if ( $panel )
+            if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
+                me.toolbar.setVisible('review', config.isEdit || config.canCoAuthoring && config.canComments); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
+            }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
@@ -3093,19 +3139,25 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
-
-                if (config.canFeatureContentControl) {
-                    if (config.canFeatureForms) {
-                        tab = {caption: me.textTabForms, action: 'forms'};
-                        var forms = me.getApplication().getController('FormsTab');
-                        forms.setApi(me.api).setConfig({toolbar: me});
+            }
+            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
+                if (config.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        if (config.isEdit && config.canFeatureContentControl) {
+                            Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        } else if (!compactview) {
+                            me.toolbar.setTab('forms');
+                        }
                     }
-                    me.onChangeSdtGlobalSettings();
                 }
             }
+            config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
         },
 
         onAppReady: function (config) {
@@ -3527,7 +3579,8 @@ define([
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
         textInsert: 'Insert',
-        textTabForms: 'Forms'
+        textTabForms: 'Forms',
+        textGroup: 'Group'
 
     }, DE.Controllers.Toolbar || {}));
 });

@@ -147,7 +147,7 @@
                     <div id="paragraphadv-spin-position"></div>
                 </div>
             </div>
-            <div style="border: 1px solid #cbcbcb;">
+            <div class="doc-content-color" style="outline: 1px solid #cbcbcb;">
                 <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative; margin: 0 auto;"></div>
             </div>
     </div>

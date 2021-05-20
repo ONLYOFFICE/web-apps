@@ -440,6 +440,7 @@ define([
                         }));
                     } else {
                         user.set({online: change.asc_getState()});
+                        user.set({username: change.asc_getUserName()});
                     }
                 }
             },

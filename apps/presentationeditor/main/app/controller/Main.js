@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
@@ -133,7 +134,7 @@ define([
             onLaunch: function() {
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
                 this.languages = null;
 
                 window.storagename = 'presentation';
@@ -156,6 +157,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.Themes.init(this.api);
                 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -184,6 +186,8 @@ define([
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
+                    Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
+                    Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
 
                     this.isShowOpenDialog = false;
 
@@ -303,8 +307,19 @@ define([
             loadConfig: function(data) {
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
+                this.appOptions.customization   = this.editorConfig.customization;
+                this.appOptions.canRenameAnonymous = !((typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') && (this.appOptions.customization.anonymous.request===false));
+                this.appOptions.guestName = (typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') &&
+                                            (typeof (this.appOptions.customization.anonymous.label) == 'string') && this.appOptions.customization.anonymous.label.trim()!=='' ?
+                                            Common.Utils.String.htmlEncode(this.appOptions.customization.anonymous.label) : this.textGuest;
+                var value;
+                if (this.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -319,7 +334,6 @@ define([
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                   && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
@@ -331,6 +345,8 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
@@ -346,7 +362,7 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
                 }
 
-                var value = Common.localStorage.getItem("pe-macros-mode");
+                value = Common.localStorage.getItem("pe-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
                     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
@@ -486,10 +502,28 @@ define([
                 }
              },
 
+            markFavorite: function(favorite) {
+                if ( !Common.Controllers.Desktop.process('markfavorite') ) {
+                    Common.Gateway.metaChange({
+                        favorite: favorite
+                    });
+                }
+            },
+
+            onSetFavorite: function(favorite) {
+                this.appOptions.canFavorite && appHeader.setFavorite(!!favorite);
+            },
+
             onEditComplete: function(cmp) {
                 var application = this.getApplication(),
                     toolbarView = application.getController('Toolbar').getView('Toolbar');
 
+                if (this.appOptions.isEdit && toolbarView && toolbarView.btnHighlightColor.pressed &&
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                    this.api.SetMarkerFormat(false);
+                    toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
@@ -834,6 +868,7 @@ define([
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
@@ -841,6 +876,7 @@ define([
                 Common.Gateway.documentReady();
 
                 $('.doc-placeholder').remove();
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -967,12 +1003,18 @@ define([
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
+                this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
+                if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
+                    console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                    if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
+                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
+                }
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport();
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport();
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
@@ -981,9 +1023,15 @@ define([
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
 
-                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
+                this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
+
+                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
+                                                         this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
+                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1081,7 +1129,9 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers', true));
+                    value = Common.localStorage.itemExists('pe-hidden-rulers') ? Common.localStorage.getBool('pe-hidden-rulers') : (!this.appOptions.customization || this.appOptions.customization.hideRulers!==false);
+                    Common.Utils.InternalSettings.set("pe-hidden-rulers", value);
+                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!value);
 
                     me.api.asc_registerCallback('asc_onChangeObjectLock',        _.bind(me._onChangeObjectLock, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
@@ -1090,6 +1140,7 @@ define([
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1244,12 +1295,9 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.ForceSaveButton:
-                        config.msg = this.errorForceSave;
-                        break;
-
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;
-                        console.warn(config.msg);
+                        config.maxwidth = 600;
                         break;
 
                     case Asc.c_oAscError.ID.DataEncrypted:
@@ -1273,6 +1321,14 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.errorComboSeries;
+                        break;
+                    
+                    case Asc.c_oAscError.ID.Password:
+                        config.msg = this.errorSetPassword;
+                        break;
+                    
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1334,10 +1390,8 @@ define([
                     }, this);
                 }
 
-                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
-                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
-                        Common.UI.alert(config).$window.attr('data-value', id);
-                }
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
@@ -1404,7 +1458,7 @@ define([
                     if ( window.document.title != title )
                         window.document.title = title;
 
-                    Common.Gateway.setDocumentModified(isModified);
+                    this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
                     if (isModified && (!this._state.fastCoauth || this._state.usersCount<2))
                         this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
@@ -1418,7 +1472,7 @@ define([
             onDocumentModifiedChanged: function() {
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
-                    Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
                 }
 
                 this.updateWindowTitle();
@@ -1810,6 +1864,25 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        this._renameDialog && this._renameDialog.close();
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+
+                        var idx1 = name.lastIndexOf('('),
+                            idx2 = name.lastIndexOf(')'),
+                            str = (idx1>0) && (idx1<idx2) ? name.substring(0, idx1-1) : '';
+                        if (Common.localStorage.getItem("guest-username")!==null) {
+                            Common.localStorage.setItem("guest-username", str);
+                        }
+                        Common.Utils.InternalSettings.set("guest-username", str);
+                    }
+                }
+            },
+
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var oldval = this._state.fastCoauth;
@@ -1845,7 +1918,7 @@ define([
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1887,7 +1960,7 @@ define([
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
                         type: Common.Utils.importTextType.DRM,
-                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
@@ -1999,7 +2072,41 @@ define([
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
             },
-            
+
+            showRenameUserDialog: function() {
+                if (this._renameDialog) return;
+
+                var me = this;
+                this._renameDialog = new Common.Views.UserNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: Common.Utils.InternalSettings.get("guest-username") || '',
+                    check: Common.Utils.InternalSettings.get("save-guest-username") || false,
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
+                    handler: function(result, settings) {
+                        if (result == 'ok') {
+                            var name = settings.input ? settings.input + ' (' + me.textGuest + ')' : me.textAnonymous;
+                            var _user = new Asc.asc_CUserInfo();
+                            _user.put_FullName(name);
+
+                            var docInfo = new Asc.asc_CDocInfo();
+                            docInfo.put_UserInfo(_user);
+                            me.api.asc_changeDocInfo(docInfo);
+
+                            settings.checkbox ? Common.localStorage.setItem("guest-username", settings.input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", settings.input);
+                            Common.Utils.InternalSettings.set("save-guest-username", settings.checkbox);
+                        }
+                    }
+                });
+                this._renameDialog.on('close', function() {
+                    me._renameDialog = undefined;
+                });
+                this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -2356,7 +2463,13 @@ define([
             textRemember: 'Remember my choice',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.'
+            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+            errorComboSeries: 'To create a combination chart, select at least two series of data.',
+            errorSetPassword: 'Password could not be set.',
+            textRenameLabel: 'Enter a name to be used for collaboration',
+            textRenameError: 'User name must not be empty.',
+            textLongName: 'Enter a name that is less than 128 characters.',
+            textGuest: 'Guest'
         }
     })(), PE.Controllers.Main || {}))
 });

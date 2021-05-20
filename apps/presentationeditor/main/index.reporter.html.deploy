@@ -19,7 +19,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background: #f0f0f0;
+            background: var(--canvas-background, #f0f0f0);
             z-index: 10000;
         }
 
@@ -27,6 +28,7 @@
             width: 100%;
             height: 56px;
             background: #aa5252;
+            background: var(--toolbar-header-presentation, #aa5252);
         }
 
         .loadmask > .brendpanel > div {
@@ -82,8 +84,10 @@
             position: absolute;
             height: 100%;
             width: 100%;
-            background: #fbfbfb;
-            border: 1px solid #dfdfdf;
+            background: #fff;
+            background: var(--canvas-content-background, #fff);
+            border: 1px solid #ccc;
+            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
@@ -131,8 +135,6 @@
 
     <script>
         // don't add zoom for mobile devices
-        if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
-            document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },

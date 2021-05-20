@@ -1,9 +1,6 @@
-@tabs-bg-color: #aa5252;
-
 .toolbar {
     &.masked {
         button.disabled .icon:not(.no-mask) {
-            background-position-x: 0px !important;
         }
         .group:not(.no-mask) {
             opacity: 0.4;
@@ -12,7 +9,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 8px;
+            margin-right: 4px;
+        }
+
+        > .btn-slot:not(:last-child).split {
+            margin-right: 2px;
         }
     }
 }
@@ -25,7 +26,8 @@
             &:hover,
             &.selected {
                 .layout > div:first-child {
-                    .box-shadow(0 0 0 2px @primary);
+                    .box-shadow(0 0 0 2px @highlight-button-pressed-ie);
+                    .box-shadow(0 0 0 2px @highlight-button-pressed);
                 }
             }
         }
@@ -36,6 +38,7 @@
                 text-align: center;
                 text-overflow: ellipsis;
                 white-space: normal;
+                line-height: 14px;
             }
 
             & > div:first-child {
@@ -49,40 +52,6 @@
     .background-ximage-v2('toolbar/bullets-and-numbering.png', 38px);
     width: 38px;
     height: 38px;
-}
-
-.color-schemas-menu {
-    span {
-        &.colors {
-            display: inline-block;
-            margin-right: 15px;
-        }
-
-        &.color {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin-right: 2px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            vertical-align: middle;
-        }
-
-        &.text {
-            vertical-align: middle;
-        }
-    }
-    &.checked {
-        &:before {
-            display: none !important;
-        }
-        &, &:hover, &:focus {
-            background-color: @primary;
-            color: @dropdown-link-active-color;
-            span.color {
-                border-color: rgba(255,255,255,0.7);
-            }
-        }
-    }
 }
 
 // menu zoom
@@ -117,11 +86,6 @@
     text-overflow: ellipsis;
 }
 
-.item-equation {
-    border: 1px solid @gray;
-    .background-ximage-v2('toolbar/math.png', 1500px);
-}
-
 #plugins-panel {
     .separator:first-child {
         display: inline-block;
@@ -131,17 +95,25 @@
 #special-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
-    background-color: @gray-light;
-    border: 1px solid @gray;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
 }
 
 .item-theme {
-    width: 85px;
-    height: 38px;
-    .background-ximage('../../../../../../sdkjs/common/Images/themes_thumbnail.png', '../../../../../../sdkjs/common/Images/themes_thumbnail@2x.png', 85px);
+    width: 88px;
+    height: 40px;
+    .background-ximage-v2('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
     background-size: cover
 }
 
-#slot-btn-incfont, #slot-btn-decfont {
+.combo-styles {
+    .item {
+        padding: 2px;
+    }
+}
+
+#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
 }

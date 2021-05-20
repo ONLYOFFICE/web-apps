@@ -77,7 +77,11 @@ define([
                 AddInterval: false,
                 BackColor: '#000000',
                 DisabledControls: true,
-                HideTextOnlySettings: false
+                HideTextOnlySettings: false,
+                LeftIndent: null,
+                RightIndent: null,
+                FirstLine: null,
+                CurSpecial: undefined
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -88,6 +92,12 @@ define([
                 {displayValue: this.textAtLeast,defaultValue: 5, value: c_paragraphLinerule.LINERULE_LEAST, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'},
                 {displayValue: this.textAuto,   defaultValue: 1, value: c_paragraphLinerule.LINERULE_AUTO, minValue: 0.5,    step: 0.01, defaultUnit: ''},
                 {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
+            ];
+
+            this._arrSpecial = [
+                {displayValue: this.textNoneSpecial, value: c_paragraphSpecial.NONE_SPECIAL, defaultValue: 0},
+                {displayValue: this.textFirstLine, value: c_paragraphSpecial.FIRST_LINE, defaultValue: 12.7},
+                {displayValue: this.textHanging, value: c_paragraphSpecial.HANGING, defaultValue: 12.7}
             ];
 
             this.render();
@@ -169,6 +179,60 @@ define([
             });
             this.lockedControls.push(this.btnColor);
 
+            this.numIndentsLeft = new Common.UI.MetricSpinner({
+                el: $markup.findById('#paragraph-spin-indent-left'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87,
+                disabled: this._locked
+            });
+            this.spinners.push(this.numIndentsLeft);
+            this.lockedControls.push(this.numIndentsLeft);
+
+            this.numIndentsRight = new Common.UI.MetricSpinner({
+                el: $markup.findById('#paragraph-spin-indent-right'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87,
+                disabled: this._locked
+            });
+            this.spinners.push(this.numIndentsRight);
+            this.lockedControls.push(this.numIndentsRight);
+
+            this.cmbSpecial = new Common.UI.ComboBox({
+                el: $markup.findById('#paragraph-combo-special'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrSpecial,
+                style: 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                disabled: this._locked
+            });
+            this.cmbSpecial.setValue('');
+            this.lockedControls.push(this.cmbSpecial);
+
+            this.numSpecialBy = new Common.UI.MetricSpinner({
+                el: $markup.findById('#paragraph-spin-special-by'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.spinners.push(this.numSpecialBy);
+            this.lockedControls.push(this.numSpecialBy);
+
             this.numLineHeight.on('change', this.onNumLineHeightChange.bind(this));
             this.numSpacingBefore.on('change', this.onNumSpacingBeforeChange.bind(this));
             this.numSpacingAfter.on('change', this.onNumSpacingAfterChange.bind(this));
@@ -179,6 +243,13 @@ define([
             this.cmbLineRule.on('selected', this.onLineRuleSelect.bind(this));
             this.cmbLineRule.on('hide:after', this.onHideMenus.bind(this));
             this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
+            this.numIndentsLeft.on('change', this.onNumIndentsLeftChange.bind(this));
+            this.numIndentsRight.on('change', this.onNumIndentsRightChange.bind(this));
+            this.numSpecialBy.on('change', this.onFirstLineChange.bind(this));
+            this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
+            this.numIndentsLeft.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numIndentsRight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpecialBy.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.linkAdvanced = $markup.findById('#paragraph-advanced-link');
             this.linkAdvanced.toggleClass('disabled', this._locked);
@@ -280,6 +351,72 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onSpecialSelect: function(combo, record) {
+            var special = record.value,
+                specialBy = (special === c_paragraphSpecial.NONE_SPECIAL) ? 0 : this.numSpecialBy.getNumberValue();
+            specialBy = Common.Utils.Metric.fnRecalcToMM(specialBy);
+            if (specialBy === 0) {
+                specialBy = this._arrSpecial[special].defaultValue;
+            }
+            if (special === c_paragraphSpecial.HANGING) {
+                specialBy = -specialBy;
+            }
+
+            var props = new Asc.asc_CParagraphProperty();
+            props.put_Ind(new Asc.asc_CParagraphInd());
+            props.get_Ind().put_FirstLine(specialBy);
+            if (specialBy<0 || this._state.FirstLine<0) {
+                var left = this._state.LeftIndent;
+                if (left !== undefined && left !== null) {
+                    props.get_Ind().put_Left(specialBy<0 ? left-specialBy : left);
+                }
+            }
+
+            if (this.api)
+                this.api.paraApply(props);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onFirstLineChange: function(field, newValue, oldValue, eOpts){
+            var specialBy = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            if (this._state.CurSpecial === c_paragraphSpecial.HANGING) {
+                specialBy = -specialBy;
+            }
+
+            var props = new Asc.asc_CParagraphProperty();
+            props.put_Ind(new Asc.asc_CParagraphInd());
+            props.get_Ind().put_FirstLine(specialBy);
+            if (specialBy<0 || this._state.FirstLine<0) {
+                var left = this._state.LeftIndent;
+                if (left !== undefined && left !== null) {
+                    props.get_Ind().put_Left(specialBy<0 ? left-specialBy : left);
+                }
+            }
+
+            if (this.api)
+                this.api.paraApply(props);
+        },
+
+        onNumIndentsLeftChange: function(field, newValue, oldValue, eOpts){
+            var left = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            if (this._state.FirstLine<0) {
+                left = left-this._state.FirstLine;
+            }
+            var props = new Asc.asc_CParagraphProperty();
+            props.put_Ind(new Asc.asc_CParagraphInd());
+            props.get_Ind().put_Left(left);
+            if (this.api)
+                this.api.paraApply(props);
+        },
+
+        onNumIndentsRightChange: function(field, newValue, oldValue, eOpts){
+            var props = new Asc.asc_CParagraphProperty();
+            props.put_Ind(new Asc.asc_CParagraphInd());
+            props.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            if (this.api)
+                this.api.paraApply(props);
+        },
+
         ChangeSettings: function(prop) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -340,6 +477,36 @@ define([
                     this._state.AddInterval=other.ContextualSpacing;
                 }
 
+                var indents = prop.get_Ind(),
+                    first = (indents !== null) ? indents.get_FirstLine() : null,
+                    left = (indents !== null) ? indents.get_Left() : null;
+                if (first<0 && left !== null)
+                    left = left + first;
+                if ( Math.abs(this._state.LeftIndent-left)>0.001 ||
+                    (this._state.LeftIndent===null || left===null)&&(this._state.LeftIndent!==left)) {
+                    this.numIndentsLeft.setValue(left!==null ? Common.Utils.Metric.fnRecalcFromMM(left) : '', true);
+                    this._state.LeftIndent=left;
+                }
+
+                if ( Math.abs(this._state.FirstLine-first)>0.001 ||
+                    (this._state.FirstLine===null || first===null)&&(this._state.FirstLine!==first)) {
+                    this.numSpecialBy.setValue(first!==null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(first)) : '', true);
+                    this._state.FirstLine=first;
+                }
+
+                var value = (indents !== null) ? indents.get_Right() : null;
+                if ( Math.abs(this._state.RightIndent-value)>0.001 ||
+                    (this._state.RightIndent===null || value===null)&&(this._state.RightIndent!==value)) {
+                    this.numIndentsRight.setValue(value!==null ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.RightIndent=value;
+                }
+
+                value = (first === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((first > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
+                if ( this._state.CurSpecial!==value ) {
+                    this.cmbSpecial.setValue(value);
+                    this._state.CurSpecial=value;
+                }
+
                 var shd = prop.get_Shade();
                 if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                     var color = shd.get_Color();
@@ -385,7 +552,10 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    if (spinner.el.id == 'paragraphadv-spin-position' || spinner.el.id == 'paragraph-spin-spacing-before' || spinner.el.id == 'paragraph-spin-spacing-after')
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    else
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
             this._arrLineRule[2].defaultUnit =  this._arrLineRule[0].defaultUnit = Common.Utils.Metric.getCurrentMetricName();
@@ -497,6 +667,13 @@ define([
         textAdvanced:           'Show advanced settings',
         textAt:                 'At',
         txtAutoText:            'Auto',
-        textBackColor:          'Background color'
+        textBackColor:          'Background color',
+        strIndent: 'Indents',
+        strIndentsLeftText:     'Left',
+        strIndentsRightText:    'Right',
+        strIndentsSpecial: 'Special',
+        textNoneSpecial: '(none)',
+        textFirstLine: 'First line',
+        textHanging: 'Hanging'
     }, DE.Views.ParagraphSettings || {}));
 });

@@ -1679,6 +1679,10 @@
 		"a": "(val , matrice , indice_col [ , [ intervallo ] ])",
 		"d": "Ricerca il valore in verticale nell'indice"
 	},
+	"XLOOKUP": {
+		"a": "(valore, matrice_ricerca, matrice_restituita, [se_non_trovato], [modalità_confronto], [modalità_ricerca])",
+		"d": "Esegue la ricerca in un intervallo o in una matrice e quindi restituisce l'elemento corrispondente alla prima corrispondenza che trova. Se non esiste alcuna corrispondenza, CERCA.X può restituire la corrispondenza più vicina (approssimativa)"
+	},
 	"CELL": {
 		"a": "(info_type, [reference])",
 		"d": "Restituisce informazioni sulla formattazione, la posizione o il contenuto di una cella"

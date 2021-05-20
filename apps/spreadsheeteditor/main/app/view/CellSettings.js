@@ -73,6 +73,7 @@ define([
                 DisabledControls: true,
                 DisabledFillPanels: false,
                 CellAngle: undefined,
+                CellIndent: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 CellColor: 'transparent',
                 FillType: Asc.c_oAscFill.FILL_TYPE_NOFILL,
@@ -111,8 +112,13 @@ define([
             if (this.api) {
                 var new_borders = [],
                     bordersWidth = this.BorderType,
+                    bordersColor;
+                if (this.btnBorderColor.isAutoColor()) {
+                    bordersColor = new Asc.asc_CColor();
+                    bordersColor.put_auto(true);
+                } else {
                     bordersColor = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
-
+                }
                 if (btn.options.borderId == 'inner') {
                     new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
                     new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
@@ -142,7 +148,11 @@ define([
         },
 
         onAngleChange: function(field, newValue, oldValue, eOpts) {
-            this.api && this.api.asc_setCellAngle(field.getNumberValue());
+            this.api && (newValue!==oldValue) && this.api.asc_setCellAngle(field.getNumberValue());
+        },
+
+        onIndentChange: function(field, newValue, oldValue, eOpts) {
+            this.api && (newValue!==oldValue) && this.api.asc_setCellIndent(field.getNumberValue());
         },
 
         render: function () {
@@ -410,7 +420,8 @@ define([
                 parentEl: $('#cell-border-color-btn'),
                 disabled: this._locked,
                 menu        : true,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.lockedControls.push(this.btnBorderColor);
 
@@ -422,6 +433,21 @@ define([
                 color: 'transparent'
             });
             this.lockedControls.push(this.btnBackColor);
+
+            this.spnIndent = new Common.UI.MetricSpinner({
+                el: $('#cell-spin-indent'),
+                step: 1,
+                width: 60,
+                defaultUnit : "",
+                value: '0',
+                allowDecimal: false,
+                maxValue: 250,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.spnIndent);
+            this.spnIndent.on('change', _.bind(this.onIndentChange, this));
+            this.spnIndent.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             this.spnAngle = new Common.UI.MetricSpinner({
                 el: $('#cell-spin-angle'),
@@ -510,6 +536,12 @@ define([
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
                     this.spnAngle.setValue((value !== null) ? (value==255 ? 0 : value) : '', true);
                     this._state.CellAngle = value;
+                }
+
+                value = xfs.asc_getIndent();
+                if (Math.abs(this._state.CellIndent - value) > 0.1 || (this._state.CellIndent === undefined) && (this._state.CellIndent !== value)) {
+                    this.spnIndent.setValue((value !== null) ? value : '', true);
+                    this._state.CellIndent = value;
                 }
 
                 value = xfs.asc_getWrapText();
@@ -856,7 +888,7 @@ define([
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-             this.btnBorderColor.setColor(this.borderColor.getColor());
+            !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
              this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1313,7 +1345,8 @@ define([
         textGradientColor: 'Color',
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point'
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textIndent: 'Indent'
 
     }, SSE.Views.CellSettings || {}));
 });

@@ -99,6 +99,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false
                     });
                     this.repeatPwd = new Common.UI.InputField({
@@ -106,6 +107,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
@@ -114,13 +116,12 @@ define([
             }
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputPwd, this.repeatPwd];
+        },
 
-            var me = this;
-            setTimeout(function(){
-                me.inputPwd.cmpEl.find('input').focus();
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.inputPwd;
         },
 
         onPrimary: function(event) {

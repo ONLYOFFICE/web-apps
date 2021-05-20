@@ -24,27 +24,20 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr>
-        <td class="padding-small">
-            <label class="header"><%= scope.textType %></label>
-            <div id="chart-button-type" style=""></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
+    <tr class="not-combined">
+        <td class="padding-large">
             <label class="header" style=""><%= scope.textStyle %></label>
             <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
-            <div class="separator horizontal"></div>
+            <div id="chart-btn-change-type" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="header"><%= scope.textRanges %></label>
-            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; width: auto; display: block;"><%= scope.textSelectData %></button>
+            <div id="chart-btn-select-data" style="width:100%;"></div>
         </td>
     </tr>
 </table>

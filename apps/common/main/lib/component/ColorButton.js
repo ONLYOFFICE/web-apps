@@ -41,16 +41,28 @@ define([
 
     Common.UI.ColorButton = Common.UI.Button.extend(_.extend({
         options : {
-            hint: false,
-            enableToggle: false,
-            visible: true
+            id              : null,
+            hint            : false,
+            enableToggle    : false,
+            allowDepress    : false,
+            toggleGroup     : null,
+            cls             : '',
+            iconCls         : '',
+            caption         : '',
+            menu            : null,
+            disabled        : false,
+            pressed         : false,
+            split           : false,
+            visible         : true
         },
 
         template: _.template([
             '<div class="btn-group" id="<%= id %>">',
                 '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>">',
                     '<span>&nbsp;</span>',
-                    '<span class="inner-box-caret"><i class="caret img-commonctrl"></i></span>',
+                    '<span class="inner-box-caret">',
+                        '<i class="caret"></i>',
+                    '</span>',
                 '</button>',
             '</div>'
         ].join('')),
@@ -71,16 +83,22 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
+            if (this.options.auto)
+                this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
+
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);
         },
 
         onColorSelect: function(picker, color) {
             this.setColor(color);
+            this.setAutoColor(false);
             this.trigger('color:select', this, color);
         },
 
         setColor: function(color) {
+            if (color == 'auto' && this.options.auto)
+                color = this.autocolor;
             var span = $(this.cmpEl).find('button span:nth-child(1)');
             this.color = color;
 
@@ -98,6 +116,11 @@ define([
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
+                if (this.options.auto) {
+                    this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
+                    this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
+                    (color == 'auto') && this.setAutoColor(true);
+                }
             }
             return this.colorPicker;
         },
@@ -105,13 +128,24 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
-                var height = options.paletteHeight || 216;
-                var id = Common.UI.getId(),
-                    menu = new Common.UI.Menu({
+                var height = options.paletteHeight || 216,
+                    id = Common.UI.getId(),
+                    auto = [];
+                if (options.auto) {
+                    this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
+                    auto.push({
+                        id: id + '-color-auto',
+                        caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
+                    });
+                    auto.push({caption: '--'});
+                }
+
+                var menu = new Common.UI.Menu({
                     id: id,
                     cls: 'shifted-left',
                     additionalAlign: options.additionalAlign,
-                    items: (options.additionalItems ? options.additionalItems : []).concat([
+                    items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
                         { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
                     ])
@@ -131,7 +165,46 @@ define([
             this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
         },
 
-        textNewColor: 'Add New Custom Color'
+        onAutoColorSelect: function() {
+            this.setColor('auto');
+            this.setAutoColor(true);
+            this.colorPicker && this.colorPicker.clearSelection();
+            this.trigger('auto:select', this, this.autocolor);
+        },
+
+        setAutoColor: function(selected) {
+            if (!this.colorAuto) return;
+            if (selected && !this.colorAuto.hasClass('selected'))
+                this.colorAuto.addClass('selected');
+            else if (!selected && this.colorAuto.hasClass('selected'))
+                this.colorAuto.removeClass('selected');
+        },
+
+        isAutoColor: function() {
+            return this.colorAuto && this.colorAuto.hasClass('selected');
+        },
+
+        textNewColor: 'Add New Custom Color',
+        textAutoColor: 'Automatic'
 
     }, Common.UI.ColorButton || {}));
+
+
+    Common.UI.ButtonColored = Common.UI.Button.extend(_.extend({
+        render: function(parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
+            this.colorEl = this.cmpEl.find('.btn-color-value-line');
+        },
+
+        setColor: function(color) {
+            if (this.colorEl) {
+                this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
+                this.colorEl.toggleClass('bordered', color=='transparent');
+            }
+        }
+
+    }, Common.UI.ButtonColored || {}));
+
 });

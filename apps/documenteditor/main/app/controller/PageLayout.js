@@ -139,6 +139,7 @@ define([
                         _.each(me.toolbar.btnImgWrapping.menu.items, function(item) {
                             item.setDisabled(notflow);
                         });
+                        me.toolbar.btnImgWrapping.menu.items[8].setDisabled(!me.api.CanChangeWrapPolygon());
 
                         var control_props = me.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
@@ -210,6 +211,12 @@ define([
             },
 
             onClickMenuWrapping: function (menu, item, e) {
+                if (item.options.wrapType=='edit') {
+                    this.api.StartChangeWrapPolygon();
+                    this.toolbar.fireEvent('editcomplete', this.toolbar);
+                    return;
+                }
+
                 var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle(item.options.wrapType);
 

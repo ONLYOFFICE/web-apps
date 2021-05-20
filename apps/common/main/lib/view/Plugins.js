@@ -151,7 +151,7 @@ define([
                         var modes = model.get('variations'),
                             guid = model.get('guid'),
                             icons = modes[model.get('currentVariation')].get('icons'),
-                            _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                            _icon_url = model.get('baseUrl') + me.parseIcons(icons),
                             btn = new Common.UI.Button({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconImg: _icon_url,
@@ -162,7 +162,7 @@ define([
                                 hint: model.get('name')
                             });
 
-                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
 
                         model.set('button', btn);
@@ -250,6 +250,7 @@ define([
                 var _btn = model.get('button');
                 if (_btn) {
                     _btn.toggle(true);
+                    this.updatePluginButton(model);
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStop);
                     }
@@ -265,6 +266,7 @@ define([
                 var _btn = model.get('button');
                 if (_btn) {
                     _btn.toggle(false);
+                    this.updatePluginButton(model);
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStart);
                     }
@@ -280,6 +282,82 @@ define([
         _onAppReady: function (mode) {
         },
 
+        parseIcons: function(icons) {
+            if (icons.length && typeof icons[0] !== 'string') {
+                var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
+                    style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
+                    idx = -1;
+                for (var i=0; i<icons.length; i++) {
+                    if (icons[i].theme && icons[i].theme.toLowerCase() == theme) {
+                        idx = i;
+                        break;
+                    }
+                }
+                if (idx<0)
+                    for (var i=0; i<icons.length; i++) {
+                        if (icons[i].style && icons[i].style.toLowerCase() == style) {
+                            idx = i;
+                            break;
+                        }
+                    }
+                (idx<0) && (idx = 0);
+
+                var ratio = Common.Utils.applicationPixelRatio()*100,
+                    current = icons[idx],
+                    bestDistance = 10000,
+                    currentDistance = 0,
+                    defUrl,
+                    bestUrl;
+                for (var key in current) {
+                    if (current.hasOwnProperty(key)) {
+                        if (key=='default') {
+                            defUrl = current[key];
+                        } else if (!isNaN(parseInt(key))) {
+                            currentDistance = Math.abs(ratio-parseInt(key));
+                            if (currentDistance < (bestDistance - 0.01))
+                            {
+                                bestDistance = currentDistance;
+                                bestUrl = current[key];
+                            }
+                        }
+                    }
+                }
+                (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
+                return {
+                    'normal': bestUrl['normal'],
+                    'hover': bestUrl['hover'] || bestUrl['normal'],
+                    'active': bestUrl['active'] || bestUrl['normal']
+                };
+            } else { // old version
+                var url = icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+                return {
+                    'normal': url,
+                    'hover': url,
+                    'active': url
+                };
+            }
+        },
+
+        updatePluginIcons: function(model) {
+            if (!model.get('visible'))
+                return null;
+
+            var modes = model.get('variations'),
+                icons = modes[model.get('currentVariation')].get('icons');
+            model.set('parsedIcons', this.parseIcons(icons));
+            this.updatePluginButton(model);
+        },
+
+        updatePluginButton: function(model) {
+            if (!model.get('visible'))
+                return null;
+
+            var btn = model.get('button');
+            if (btn && btn.cmpEl) {
+                btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
+            }
+        },
+
         createPluginButton: function (model) {
             if (!model.get('visible'))
                 return null;
@@ -289,8 +367,9 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
-
+                parsedIcons = this.parseIcons(icons),
+                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+            model.set('parsedIcons', parsedIcons);
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
                 if (variation.get('visible'))

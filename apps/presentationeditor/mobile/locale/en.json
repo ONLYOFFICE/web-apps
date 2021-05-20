@@ -170,6 +170,7 @@
   "PE.Controllers.Main.textContactUs": "Contact sales",
   "PE.Controllers.Main.textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.",
   "PE.Controllers.Main.textDone": "Done",
+  "PE.Controllers.Main.textGuest": "Guest",
   "PE.Controllers.Main.textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
   "PE.Controllers.Main.textLoadingDocument": "Loading presentation",
   "PE.Controllers.Main.textNo": "No",

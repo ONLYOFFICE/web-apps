@@ -42,7 +42,7 @@
             <div id="chart-button-type" style=""></div>
         </td>
     </tr>
-    <tr>
+    <tr class="not-combined">
         <td class="padding-small" colspan=2>
             <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>

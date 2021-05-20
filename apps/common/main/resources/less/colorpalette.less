@@ -7,7 +7,8 @@
 
         &:hover,
         &.selected {
-            .box-shadow(0 0 0 1px @primary);
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @highlight-button-pressed-ie);
+            .box-shadow(0 0 0 @scaled-one-px-value @highlight-button-pressed);
         }
     }
 }
@@ -26,7 +27,8 @@
     padding: 10px;
     .palette-color-item {
         padding: 0;
-        border: 1px solid #fff;
+        border: @scaled-one-px-value-ie solid @background-normal-ie;
+        border: @scaled-one-px-value solid @background-normal;
         display: inline-block;
         text-decoration: none;
         -moz-outline: 0 none;
@@ -43,21 +45,25 @@
                 width: 12px;
                 cursor: pointer;
                 display: block;
-                border: 1px solid rgba(0, 0, 0, 0.2);
+                border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+                border: @scaled-one-px-value solid @border-color-shading;
             }
         }
 
         &:hover, &.selected {
-            border-color: #000;
+            border-color: @icon-normal-ie;
+            border-color: @icon-normal;
             em span {
-                border-color: #fff;
+                border-color: @background-normal-ie;
+                border-color: @background-normal;
             }
         }
     }
 
     .color-transparent {
         em span {
-            border:solid 1px #C0C0C0;
+            border:solid @scaled-one-px-value-ie @border-color-shading-ie;
+            border:solid @scaled-one-px-value @border-color-shading;
         }
     }
 }

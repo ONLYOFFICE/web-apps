@@ -75,7 +75,7 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     -o-transition: background-color .2s linear;
-    -webkit-transition: background-color.2s linear;
+    -webkit-transition: background-color .2s linear;
     -moz-transition: background-color .2s linear;
     transition: background-color .2s linear;
 }
@@ -98,7 +98,7 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     -o-transition: background-color .2s linear;
-    -webkit-transition: background-color.2s linear;
+    -webkit-transition: background-color .2s linear;
     -moz-transition: background-color .2s linear;
     transition: background-color .2s linear;
 }

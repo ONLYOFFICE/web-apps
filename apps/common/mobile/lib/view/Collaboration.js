@@ -183,7 +183,7 @@ define([
                             template += '</div>';
                         }
                         template += '</div>';
-                        if (comment.editable && !me.viewmode) {
+                        if (!me.viewmode) {
                             template += '<div class="comment-right">' +
                                 '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
                                 '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>' +
@@ -208,7 +208,7 @@ define([
                                 if (isAndroid) {
                                     template += '</div>';
                                 }
-                                if (reply.editable && !me.viewmode) {
+                                if ((reply.editable || reply.removable) && !me.viewmode) {
                                     template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>';
                                 }
                                 template += '</div>' +
@@ -253,7 +253,7 @@ define([
                             '<div class="comment-date"><%= item.date %></div>',
                             '<% if (android) { %></div><% } %>',
                             '</div>',
-                            '<% if (item.editable && !viewmode) { %>',
+                            '<% if (!viewmode) { %>',
                             '<div class="comment-right">',
                             '<div class="comment-resolve"><i class="icon icon-resolve-comment <% if (item.resolved) { %> check <% } %>"></i></div>',
                             '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>',
@@ -275,7 +275,7 @@ define([
                                         '<div class="reply-date"><%= reply.date %></div>',
                                     '</div>',
                                     '<% if (android) { %></div><% } %>',
-                                    '<% if (reply.editable && !viewmode) { %>',
+                                    '<% if ((reply.editable || reply.removable) && !viewmode) { %>',
                                     '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>',
                                     '<% } %>',
                                 '</div>',

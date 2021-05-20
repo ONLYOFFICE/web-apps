@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Contact sales",
   "DE.Controllers.Main.textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.",
   "DE.Controllers.Main.textDone": "Done",
+  "DE.Controllers.Main.textGuest": "Guest",
   "DE.Controllers.Main.textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
   "DE.Controllers.Main.textLoadingDocument": "Loading document",
   "DE.Controllers.Main.textNo": "No",

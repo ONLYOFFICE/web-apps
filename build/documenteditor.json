@@ -200,7 +200,8 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/documenteditor/main/resources/img/**/*.svg"
+                "../deploy/web-apps/apps/documenteditor/main/resources/img/**/*.svg",
+                "!../deploy/web-apps/apps/documenteditor/main/resources/img/**/*_s.svg"
             ]
         }
     },

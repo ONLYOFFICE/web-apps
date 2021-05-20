@@ -31,13 +31,15 @@
         input {
             font-weight: normal;
             font-size: 12px;
+            background-color: @background-normal;
         }
 
         .color-cnt {
             width: 63px;
             height: 20px;
             background-color: transparent;
-            border: 1px solid rgb(190, 190, 190);
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
 
             &.top {
                 border-bottom: none;

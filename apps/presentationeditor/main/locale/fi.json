@@ -1179,8 +1179,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Kirjepaperi (8.5x11 tuumaa)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Yläpuolella",
   "PE.Views.SlideSizeSettings.txtStandard": "Vakio (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Laajakuva (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Laajakuva (16:10)",
   "PE.Views.Statusbar.goToPageText": "Siirry Diaan",
   "PE.Views.Statusbar.pageIndexText": "Dia  {0} / {1}",
   "PE.Views.Statusbar.textShowBegin": "Näytä alusta alkaen",

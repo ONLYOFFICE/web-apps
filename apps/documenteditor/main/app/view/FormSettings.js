@@ -224,7 +224,7 @@ define([
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     // '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
-                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= name %></div>',
+                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -323,6 +323,7 @@ define([
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
             }
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
         },
 
@@ -389,7 +390,6 @@ define([
                 formTextPr.put_MaxCharacters(checked ? (field.getNumberValue() || 10) : checked);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -408,7 +408,7 @@ define([
                     formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 10);
                     if (this.spnWidth.getValue()) {
                         var value = this.spnWidth.getNumberValue();
-                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
+                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.5));
                     } else
                         formTextPr.put_Width(0);
                 }
@@ -424,13 +424,12 @@ define([
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 if (this.spnWidth.getValue()) {
                     var value = this.spnWidth.getNumberValue();
-                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
+                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.5));
                 } else
                     formTextPr.put_Width(0);
 
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -727,7 +726,7 @@ define([
 
                     val = this.api.asc_GetTextFormAutoWidth();
                     if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
-                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM(val) : this.spnWidth.options.minValue);
+                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.options.minValue);
                         this._state.WidthPlaceholder=val;
                     }
 

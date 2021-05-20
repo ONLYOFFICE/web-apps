@@ -403,7 +403,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapInline = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-inline'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-inline',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-inline',
                 posId: Asc.c_oAscWrapStyle2.Inline,
                 hint: this.textWrapInlineTooltip,
                 enableToggle: true,
@@ -415,7 +415,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapSquare = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-square'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-square',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-square',
                 posId: Asc.c_oAscWrapStyle2.Square,
                 hint: this.textWrapSquareTooltip,
                 enableToggle: true,
@@ -427,7 +427,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTight = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-tight'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-tight',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-tight',
                 posId: Asc.c_oAscWrapStyle2.Tight,
                 hint: this.textWrapTightTooltip,
                 enableToggle: true,
@@ -439,7 +439,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapThrough = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-through'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-through',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-through',
                 posId: Asc.c_oAscWrapStyle2.Through,
                 hint: this.textWrapThroughTooltip,
                 enableToggle: true,
@@ -451,7 +451,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTopBottom = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-topbottom'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-topbottom',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-topbottom',
                 posId: Asc.c_oAscWrapStyle2.TopAndBottom,
                 hint: this.textWrapTopbottomTooltip,
                 enableToggle: true,
@@ -463,7 +463,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapBehind = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-behind'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-behind',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-behind',
                 posId: Asc.c_oAscWrapStyle2.Behind,
                 hint: this.textWrapBehindTooltip,
                 enableToggle: true,
@@ -475,7 +475,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapInFront = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-wrap-infront'),
                 cls: 'btn-options huge-1',
-                iconCls: 'icon-advanced-wrap btn-wrap-infront',
+                iconCls: 'icon-advanced-wrap options__icon options__icon-huge btn-wrap-infront',
                 posId: Asc.c_oAscWrapStyle2.InFront,
                 hint: this.textWrapInFrontTooltip,
                 enableToggle: true,
@@ -1012,9 +1012,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-begin-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                     '</div>'
                 ].join(''))
             });
@@ -1039,9 +1041,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-begin-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                     '</div>'
                 ].join(''))
             });
@@ -1072,9 +1076,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-end-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                     '</div>'
                 ].join(''))
             });
@@ -1099,9 +1105,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-end-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                     '</div>'
                 ].join(''))
             });

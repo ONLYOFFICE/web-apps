@@ -94,6 +94,7 @@ define([
 
             this.labelWidth = el.find('#chart-label-width');
             this.labelHeight = el.find('#chart-label-height');
+            this.NotCombinedSettings = $('.not-combined');
         },
 
         setApi: function(api) {
@@ -147,34 +148,39 @@ define([
                             this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
                             this.btnChartType.setIconCls('svgicon');
-                        this.updateChartStyles(this.api.asc_getChartPreviews(type));
+                        this.ShowCombinedProps(type);
+                        !(type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom) && this.updateChartStyles(this.api.asc_getChartPreviews(type));
                         this._state.ChartType = type;
                     }
                 }
 
-                value = props.get_SeveralChartStyles();
-                if (this._state.SeveralCharts && value) {
-                    this.cmbChartStyle.fieldPicker.deselectAll();
-                    this.cmbChartStyle.menuPicker.deselectAll();
-                    this._state.ChartStyle = null;
-                } else {
-                    value = this.chartProps.getStyle();
-                    if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
-                        this.cmbChartStyle.suspendEvents();
-                        var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
-                        this.cmbChartStyle.menuPicker.selectRecord(rec);
-                        this.cmbChartStyle.resumeEvents();
+                if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                    type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
+                    value = props.get_SeveralChartStyles();
+                    if (this._state.SeveralCharts && value) {
+                        this.cmbChartStyle.fieldPicker.deselectAll();
+                        this.cmbChartStyle.menuPicker.deselectAll();
+                        this._state.ChartStyle = null;
+                    } else {
+                        value = this.chartProps.getStyle();
+                        if (this._state.ChartStyle !== value || this._isChartStylesChanged) {
+                            this.cmbChartStyle.suspendEvents();
+                            var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
+                            this.cmbChartStyle.menuPicker.selectRecord(rec);
+                            this.cmbChartStyle.resumeEvents();
 
-                        if (this._isChartStylesChanged) {
-                            if (rec)
-                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
-                            else
-                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                            if (this._isChartStylesChanged) {
+                                if (rec)
+                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(), true);
+                                else
+                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                            }
+                            this._state.ChartStyle = value;
                         }
-                        this._state.ChartStyle=value;
                     }
+                    this._isChartStylesChanged = false;
                 }
-                this._isChartStylesChanged = false;
 
                 this._noApply = false;
 
@@ -211,13 +217,13 @@ define([
         createDelayedControls: function() {
             var me = this,
                 viewData = [
-                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline,    tip: this.txtInline, selected: true },
-                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square,   tip: this.txtSquare },
-                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight,   tip: this.txtTight },
-                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, tip: this.txtThrough },
-                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, tip: this.txtTopAndBottom },
-                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, tip: this.txtInFront },
-                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind,  tip: this.txtBehind }
+                { icon: 'btn-wrap-inline',      data: Asc.c_oAscWrapStyle2.Inline,      tip: this.txtInline, selected: true },
+                { icon: 'btn-wrap-square',      data: Asc.c_oAscWrapStyle2.Square,      tip: this.txtSquare },
+                { icon: 'btn-wrap-tight',       data: Asc.c_oAscWrapStyle2.Tight,       tip: this.txtTight },
+                { icon: 'btn-wrap-through',     data: Asc.c_oAscWrapStyle2.Through,     tip: this.txtThrough },
+                { icon: 'btn-wrap-topbottom',   data: Asc.c_oAscWrapStyle2.TopAndBottom, tip: this.txtTopAndBottom },
+                { icon: 'btn-wrap-infront',     data: Asc.c_oAscWrapStyle2.InFront,     tip: this.txtInFront },
+                { icon: 'btn-wrap-behind',      data: Asc.c_oAscWrapStyle2.Behind,      tip: this.txtBehind }
             ];
 
             this.cmbWrapType = new Common.UI.ComboDataView({
@@ -229,10 +235,9 @@ define([
                 cls: 'combo-chart-style'
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
-                '<div class="style" id="<%= id %>">',
-                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-wrap-item" ',
-                'width="' + this.cmbWrapType.itemWidth + '" height="' + this.cmbWrapType.itemHeight + '" ',
-                'style="background-position: -<%= offsetx %>px 0;"/>',
+                '<div class="item-icon-box" id="<%= id %>">',
+                    '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
+                        'class="combo-wrap-item options__icon options__icon-huge <%= icon %>" ',
                 '</div>'
             ].join(''));
             this.cmbWrapType.render($('#chart-combo-wrap'));
@@ -250,9 +255,9 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-column-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
+                    style: 'width: 364px;',
                     items: [
-                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart" ></div>') }
                     ]
                 })
             });
@@ -260,7 +265,7 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 421,
+                    restoreHeight: 465,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -386,14 +391,17 @@ define([
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this._state.ChartType = -1;
-
             if (this.api && !this._noApply && this.chartProps) {
-                var props = new Asc.asc_CImgProperty();
-                this.chartProps.changeType(rawData.type);
-                props.put_ChartProperties(this.chartProps);
-                this.api.ImgApply(props);
+                var isCombo = (rawData.type==Asc.c_oAscChartTypeSettings.comboBarLine || rawData.type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && this.chartProps.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                    this.mnuChartTypePicker.selectRecord(this.mnuChartTypePicker.store.findWhere({type: this.chartProps.getType()}), true);
+                } else {
+                    this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
+                    this._state.ChartType = -1;
+                    this.chartProps.changeType(rawData.type);
+                }
             }
             this.fireEvent('editcomplete', this);
         },
@@ -411,7 +419,9 @@ define([
         },
 
         _onUpdateChartStyles: function() {
-            if (this.api && this._state.ChartType!==null && this._state.ChartType>-1)
+            if (this.api && this._state.ChartType!==null && this._state.ChartType>-1 &&
+                !(this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                this._state.ChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboCustom))
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
         },
 
@@ -466,6 +476,11 @@ define([
                 this.cmbChartStyle.clearComboView();
             }
             this.cmbChartStyle.setDisabled(!styles || styles.length<1 || this._locked);
+        },
+
+        ShowCombinedProps: function(type) {
+            this.NotCombinedSettings.toggleClass('settings-hidden', type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
         },
 
         setLocked: function (locked) {

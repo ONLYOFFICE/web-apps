@@ -1133,8 +1133,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Mektup Kağıdı (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Yukarıda",
   "PE.Views.SlideSizeSettings.txtStandard": "Standart (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Geniş Ekran (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Geniş Ekran (16:10)",
   "PE.Views.Statusbar.goToPageText": "Slayta Git",
   "PE.Views.Statusbar.pageIndexText": "Slayt {1}'in {0}'ı",
   "PE.Views.Statusbar.tipAccessRights": "Manage document access rights",

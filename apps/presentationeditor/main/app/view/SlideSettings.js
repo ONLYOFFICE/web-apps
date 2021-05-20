@@ -80,12 +80,13 @@ define([
             this._locked = {
                 background: false,
                 effects: false,
-                timing: false,
+                transition: false,
                 header: false
             };
             this._stateDisabled = {};
 
             this._state = {
+                Transparency: null,
                 FillType:undefined,
                 SlideColor: 'ffffff',
                 BlipFillType: Asc.c_oAscFillBlipType.STRETCH,
@@ -143,10 +144,40 @@ define([
             });
             this.FillItems.push(this.btnBackColor);
 
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#slide-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                disabled: true
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.FillItems.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#slide-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.setDisabled(true);
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.FillItems.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#slide-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#slide-lbl-transparency-end');
+
             this.FillColorContainer = $('#slide-panel-color-fill');
             this.FillImageContainer = $('#slide-panel-image-fill');
             this.FillPatternContainer = $('#slide-panel-pattern-fill');
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
+            this.TransparencyContainer = $('#slide-panel-transparent-fill');
 
             this._arrEffectName = [
                 {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
@@ -261,7 +292,7 @@ define([
                 disabled: true
             });
             this.btnApplyToAll.on('click', _.bind(function(btn){
-                if (this.api) this.api.SlideTimingApplyToAll();
+                if (this.api) this.api.SlideTransitionApplyToAll();
                 this.fireEvent('editcomplete', this);
             }, this));
 
@@ -481,6 +512,50 @@ define([
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                var num = field.getNumberValue();
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(num * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        onTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChanged = newValue;
+            this.numTransparency.setValue(newValue, true);
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this._transparencyApplyFunc, this), 100);
+            }
+        },
+
+        onTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updateslider);
+            this._sliderChanged = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _transparencyApplyFunc: function() {
+            if (this._sliderChanged!==undefined) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(this._sliderChanged * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+                this._sliderChanged = undefined;
+            }
         },
 
         onGradTypeSelect: function(combo, record){
@@ -976,7 +1051,9 @@ define([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
                         '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
                         '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                         '</div>'
                     ].join(''))
                 });
@@ -1074,10 +1151,10 @@ define([
             this.Effect = type;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionType(type);
-                timing.put_TransitionOption(this.EffectType);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(type);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1087,10 +1164,10 @@ define([
             this.EffectType = record.value;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionType(this.Effect);
-                timing.put_TransitionOption(this.EffectType);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(this.Effect);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1099,9 +1176,9 @@ define([
         onDurationChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionDuration(field.getNumberValue()*1000);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
         },
@@ -1109,9 +1186,9 @@ define([
         onDelayChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceDuration(field.getNumberValue()*1000);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
         },
@@ -1119,9 +1196,9 @@ define([
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1131,9 +1208,9 @@ define([
             this.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceAfter(field.getValue()=='checked');
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceAfter(field.getValue()=='checked');
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1191,12 +1268,13 @@ define([
             this.FillImageContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_BLIP);
             this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
             this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
+            this.TransparencyContainer.toggleClass('settings-hidden', (value === Asc.c_oAscFill.FILL_TYPE_NOFILL || value === null));
         },
 
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this.SetSlideDisabled(this._locked.background, this._locked.effects, this._locked.timing, this._locked.header);
+            this.SetSlideDisabled(this._locked.background, this._locked.effects, this._locked.transition, this._locked.header);
 
             if (props)
             {
@@ -1208,6 +1286,17 @@ define([
                 var fill = props.get_background();
                 var fill_type = fill.get_type();
                 var color = null;
+
+                var transparency = fill.get_transparent();
+                if ( Math.abs(this._state.Transparency-transparency)>0.001 || Math.abs(this.numTransparency.getNumberValue()-transparency)>0.001 ||
+                    (this._state.Transparency===null || transparency===null)&&(this._state.Transparency!==transparency || this.numTransparency.getNumberValue()!==transparency)) {
+
+                    if (transparency !== undefined) {
+                        this.sldrTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                        this.numTransparency.setValue(this.sldrTransparency.getValue(), true);
+                    }
+                    this._state.Transparency=transparency;
+                }
 
                 if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
@@ -1382,9 +1471,9 @@ define([
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
-                var timing = props.get_timing();
-                if (timing) {
-                    var value = timing.get_TransitionType();
+                var transition = props.get_transition();
+                if (transition) {
+                    var value = transition.get_TransitionType();
                     var found = false;
                     if (this._state.Effect !== value) {
                         var item = this.cmbEffectName.store.findWhere({value: value});
@@ -1399,7 +1488,7 @@ define([
                         this._state.Effect = value;
                     }
 
-                    value = timing.get_TransitionOption();
+                    value = transition.get_TransitionOption();
                     if (this._state.EffectType !== value || found) {
                         found = false;
                         item = this.cmbEffectType.store.findWhere({value: value});
@@ -1412,7 +1501,7 @@ define([
                         this._state.EffectType = value;
                     }
 
-                    value = timing.get_TransitionDuration();
+                    value = transition.get_TransitionDuration();
                     if ( Math.abs(this._state.Duration-value)>0.001 ||
                         (this._state.Duration===null || value===null)&&(this._state.Duration!==value) ||
                         (this._state.Duration===undefined || value===undefined)&&(this._state.Duration!==value) ) {
@@ -1420,7 +1509,7 @@ define([
                         this._state.Duration=value;
                     }
 
-                    value = timing.get_SlideAdvanceDuration();
+                    value = transition.get_SlideAdvanceDuration();
                     if ( Math.abs(this._state.Delay-value)>0.001 ||
                         (this._state.Delay===null || value===null)&&(this._state.Delay!==value) ||
                         (this._state.Delay===undefined || value===undefined)&&(this._state.Delay!==value) ) {
@@ -1428,12 +1517,12 @@ define([
                         this._state.Delay=value;
                     }
 
-                    value = timing.get_SlideAdvanceOnMouseClick();
+                    value = transition.get_SlideAdvanceOnMouseClick();
                     if ( this._state.OnMouseClick!==value ) {
                         this.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                         this._state.OnMouseClick=value;
                     }
-                    value = timing.get_SlideAdvanceAfter();
+                    value = transition.get_SlideAdvanceAfter();
                     if ( this._state.AdvanceAfter!==value ) {
                         this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                         this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
@@ -1527,15 +1616,15 @@ define([
             }
         },
 
-        setLocked: function (background, effects, timing, header) {
+        setLocked: function (background, effects, transition, header) {
             this._locked = {
-                background: background, effects: effects, timing: timing, header: header
+                background: background, effects: effects, transition: transition, header: header
             };
         },
 
-        SetSlideDisabled: function(background, effects, timing, header) {
+        SetSlideDisabled: function(background, effects, transition, header) {
             this._locked = {
-                background: background, effects: effects, timing: timing, header: header
+                background: background, effects: effects, transition: transition, header: header
             };
             if (this._initSettings) return;
             
@@ -1544,6 +1633,8 @@ define([
                 for (var i=0; i<this.FillItems.length; i++) {
                     this.FillItems[i].setDisabled(background);
                 }
+                this.lblTransparencyStart.toggleClass('disabled', background);
+                this.lblTransparencyEnd.toggleClass('disabled', background);
                 this.numGradientAngle.setDisabled(background || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
                 this._stateDisabled.background = background;
             }
@@ -1555,12 +1646,12 @@ define([
                 this.btnPreview.setDisabled(length<1 || effects);
                 this._stateDisabled.effects = effects;
             }
-            if (timing !== this._stateDisabled.timing) {
-                this.chStartOnClick.setDisabled(timing);
-                this.chDelay.setDisabled(timing);
-                this.numDelay.setDisabled(timing || this.chDelay.getValue()!=='checked');
-                this.btnApplyToAll.setDisabled(timing);
-                this._stateDisabled.timing = timing;
+            if (transition !== this._stateDisabled.transition) {
+                this.chStartOnClick.setDisabled(transition);
+                this.chDelay.setDisabled(transition);
+                this.numDelay.setDisabled(transition || this.chDelay.getValue()!=='checked');
+                this.btnApplyToAll.setDisabled(transition);
+                this._stateDisabled.transition = transition;
             }
             if (header !== this._stateDisabled.header) {
                 this.chSlideNum.setDisabled(header);
@@ -1717,6 +1808,7 @@ define([
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle'
+        textAngle: 'Angle',
+        strTransparency: 'Opacity'
     }, PE.Views.SlideSettings || {}));
 });

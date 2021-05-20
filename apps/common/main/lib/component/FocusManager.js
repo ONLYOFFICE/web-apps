@@ -74,7 +74,7 @@ Common.UI.FocusManager = new(function() {
         trapFirst.on('focus', function() {
             if (current.hidden) return;
             var fields = current.fields;
-            for (var i=0; i<fields.length; i++) {
+            for (var i=fields.length-1; i>=0; i--) {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                     var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;
@@ -89,7 +89,7 @@ Common.UI.FocusManager = new(function() {
         trapLast.on('focus', function() {
             if (current.hidden) return;
             var fields = current.fields;
-            for (var i=fields.length-1; i>=0; i--) {
+            for (var i=0; i<fields.length; i++) {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                     var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;

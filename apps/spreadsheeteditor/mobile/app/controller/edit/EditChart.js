@@ -284,7 +284,9 @@ define([
                     chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
                     chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
                     chartType == Asc.c_oAscChartTypeSettings.stock ||
-                    chartType == Asc.c_oAscChartTypeSettings.scatter) {
+                    chartType == Asc.c_oAscChartTypeSettings.scatter ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || chartType == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine) {
                     dataLabelPos.push(
                         { value: Asc.c_oAscChartDataLabelsPos.l, displayValue: me.textLeft },
                         { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: me.textRight },
@@ -626,7 +628,7 @@ define([
 
             onBorderColor: function (palette, color) {
                 var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                    currentShape = _shapeObject ? _shapeObject.get_ShapeProperties() : null;
 
                 $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
                 _borderInfo.color = color;
@@ -897,7 +899,8 @@ define([
                 );
 
                 $('#chart-vaxis').data('page', needReverse ? '#edit-chart-horizontal-axis': '#edit-chart-vertical-axis');
-                $('#chart-haxis').data('page', (needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter) ? '#edit-chart-vertical-axis': '#edit-chart-horizontal-axis');
+                $('#chart-haxis').data('page', (needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter || chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || chartType == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine) ? '#edit-chart-vertical-axis': '#edit-chart-horizontal-axis');
             },
 
 

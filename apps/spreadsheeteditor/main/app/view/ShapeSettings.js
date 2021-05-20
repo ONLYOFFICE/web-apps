@@ -604,14 +604,16 @@ define([
                     expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
                 if (!(expr.exec(record.value)) || value<0 || value>1584) {
                     this._state.StrokeType = this._state.StrokeWidth = -1;
-                    Common.UI.error({
-                        msg: this.textBorderSizeErr,
-                        callback: function() {
-                            _.defer(function(btn) {
-                                Common.NotificationCenter.trigger('edit:complete', me);
-                            })
-                        }
-                    });
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textBorderSizeErr,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                })
+                            }
+                        });
+                    }, 10);
                 }
             } else
                 this.applyBorderSize(record.value);
@@ -1544,7 +1546,9 @@ define([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
                             '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
                             '<div style="display: table-cell;"></div>',
-                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                            '<button type="button" class="btn btn-default">',
+                                '<span class="caret" />',
+                            '</button>',
                         '</div>'
                     ].join(''))
                 });

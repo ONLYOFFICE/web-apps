@@ -1,8 +1,12 @@
-.dropdown-menu > .disabled > a {
-    cursor: default;
-}
 
 .dropdown-menu {
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-color: @border-regular-control-ie;
+    border-color: @border-regular-control;
+    border-width: @scaled-one-px-value-ie;
+    border-width: @scaled-one-px-value;
+
     &.scrollable-menu {
         height: auto;
         max-height: 400px;
@@ -30,22 +34,36 @@
         & > a {
             padding: 5px 20px;
             cursor: pointer;
+            color: @text-normal-ie;
+            color: @text-normal;
 
             &:focus, &.focus {
                 outline: 0;
+                color: @text-normal-ie;
+                color: @text-normal;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
             }
 
-            &.focus {
-                text-decoration: none;
-                color: @dropdown-link-hover-color;
-                background-color: @dropdown-link-hover-bg;
+            &:hover {
+                color: @text-normal-ie;
+                color: @text-normal;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
             }
         }
 
         &.over > a {
             text-decoration: none;
-            color: @dropdown-link-hover-color;
-            background-color: @dropdown-link-hover-bg;
+            //color: @text-normal-pressed-ie;
+            //color: @text-normal-pressed;
+            background-color: @highlight-button-hover-ie;
+            background-color: @highlight-button-hover;
+
+            &:after {
+                border-left-color: @icon-normal-ie;
+                border-left-color: @icon-normal;
+            }
         }
 
         .checked:not(.no-checkmark) {
@@ -65,7 +83,6 @@
 
         &.disabled {
             .menu-item-icon {
-                opacity: .4;
             }
         }
 
@@ -76,12 +93,34 @@
             height: 20px;
             margin: -3px 5px 0 -15px;
             background-repeat: no-repeat;
+            opacity: @component-normal-icon-opacity;
         }
 
         .no-checkmark.checked {
             .menu-item-icon {
-                background-color: @primary;
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
                 border-radius: 2px;
+            }
+        }
+    }
+
+    > .disabled {
+        > a {
+            cursor: default;
+
+            color: @text-normal-ie;
+            color: @text-normal;
+
+            opacity: @component-disabled-opacity;
+
+            &:hover, &:focus {
+                color: @text-normal-ie;
+                color: @text-normal;
+            }
+
+            .menu-item-icon {
+                opacity: 1;
             }
         }
     }
@@ -104,6 +143,24 @@
             & > a {
                 padding-left: 12px;
                 padding-right: 12px;
+            }
+        }
+    }
+
+    .divider {
+        height: @scaled-one-px-value-ie;
+        height: @scaled-one-px-value;
+        background-color: @border-divider-ie;
+        background-color: @border-divider;
+    }
+
+    .dataview {
+        .item {
+            .options__icon {
+            }
+
+            .options__icon-huge {
+                background-position-x: var(--button-huge-normal-icon-offset-x, 0);
             }
         }
     }

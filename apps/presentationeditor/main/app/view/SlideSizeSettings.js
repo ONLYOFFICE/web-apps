@@ -99,37 +99,37 @@ define([
                 el: $('#slide-size-combo'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 218px;',
+                menuStyle: 'min-width: 218px;max-height: 185px;',
                 editable: false,
                 takeFocusOnClose: true,
                 data: [
-                    {value:0, displayValue: this.txtStandard , size: [254, 190.5]},
-                    {value:1, displayValue: this.txtWidescreen1 , size: [254, 143]},
-                    {value:2, displayValue: this.txtWidescreen2 , size: [254, 158.7]},
-                    {value:3, displayValue: this.txtLetter , size: [254, 190.5]},
-                    {value:4, displayValue: this.txtLedger , size: [338.3, 253.7]},
-                    {value:5, displayValue: this.txtA3 , size: [355.6, 266.7]},
-                    {value:6, displayValue: this.txtA4 , size: [275, 190.5]},
-                    {value:7, displayValue: this.txtB4 , size: [300.7, 225.5]},
-                    {value:8, displayValue: this.txtB5 , size: [199.1, 149.3]},
-                    {value:9, displayValue: this.txt35 , size: [285.7, 190.5]},
-                    {value:10, displayValue: this.txtOverhead , size: [254, 190.5]},
-                    {value:11, displayValue: this.txtBanner , size: [203.2, 25.4]},
-                    {value:-1, displayValue: this.txtCustom , size: []}
+                    {value:Asc.c_oAscSlideSZType.SzScreen4x3,   displayValue: this.txtStandard , size: [9144000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzScreen16x9,  displayValue: this.txtWidescreen + ' (16:9)', size: [9144000, 5143500]},
+                    {value:Asc.c_oAscSlideSZType.SzScreen16x10, displayValue: this.txtWidescreen + ' (16:10)', size: [9144000, 5715000]},
+                    {value:Asc.c_oAscSlideSZType.SzLetter,      displayValue: this.txtLetter , size: [9144000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzLedger,      displayValue: this.txtLedger , size: [12179300, 9134475]},
+                    {value:Asc.c_oAscSlideSZType.SzA3,          displayValue: this.txtA3 , size: [12801600, 9601200]},
+                    {value:Asc.c_oAscSlideSZType.SzA4,          displayValue: this.txtA4 , size: [9906000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzB4ISO,       displayValue: this.txtB4 , size: [10826750, 8120063]},
+                    {value:Asc.c_oAscSlideSZType.SzB5ISO,       displayValue: this.txtB5 , size: [7169150, 5376863]},
+                    {value:Asc.c_oAscSlideSZType.Sz35mm,        displayValue: this.txt35 , size: [10287000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzOverhead,    displayValue: this.txtOverhead , size: [9144000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzBanner,      displayValue: this.txtBanner , size: [7315200, 914400]},
+                    {value:Asc.c_oAscSlideSZType.SzWidescreen,  displayValue: this.txtWidescreen , size: [12192000, 6858000]},
+                    {value:Asc.c_oAscSlideSZType.SzCustom,      displayValue: this.txtCustom , size: [10058400, 7772400]}
                 ]
             });
-            this.cmbSlideSize.setValue(0);
+            this.cmbSlideSize.setValue(Asc.c_oAscSlideSZType.SzScreen4x3);
             this.cmbSlideSize.on('selected', _.bind(function(combo, record) {
                 this._noApply = true;
                 if (record.value<0) {
                     // set current slide size
                 } else {
-                    var w = record.size[0],
-                        h = record.size[1],
-                        orient = this.cmbSlideOrientation.getValue(),
-                        cond = orient==0 && w>h || orient==1 && h>w;
-                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(cond ? h : w), true);
-                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(cond ? w : h), true);
+                    var w = record.size[0]/36000,
+                        h = record.size[1]/36000,
+                        orient = this.cmbSlideOrientation.getValue();
+                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(orient ? w : h), true);
+                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(orient ? h : w), true);
                 }
                 this._noApply = false;
             }, this));
@@ -146,8 +146,8 @@ define([
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (!this._noApply) {
-                    if (this.cmbSlideSize.getValue() >-1)
-                        this.cmbSlideSize.setValue(-1);
+                    if (this.cmbSlideSize.getValue() !== Asc.c_oAscSlideSZType.SzCustom)
+                        this.cmbSlideSize.setValue(Asc.c_oAscSlideSZType.SzCustom);
                     var w = this.spnWidth.getNumberValue(),
                         h = this.spnHeight.getNumberValue();
                     this.cmbSlideOrientation.setValue( h>w ? 0 : 1);
@@ -166,8 +166,8 @@ define([
             this.spinners.push(this.spnHeight);
             this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (!this._noApply) {
-                    if (this.cmbSlideSize.getValue() >-1)
-                        this.cmbSlideSize.setValue(-1);
+                    if (this.cmbSlideSize.getValue() !==Asc.c_oAscSlideSZType.SzCustom)
+                        this.cmbSlideSize.setValue(Asc.c_oAscSlideSZType.SzCustom);
                     var w = this.spnWidth.getNumberValue(),
                         h = this.spnHeight.getNumberValue();
                     this.cmbSlideOrientation.setValue( h>w ? 0 : 1);
@@ -230,16 +230,42 @@ define([
         },
 
         setSettings: function (type, pagewitdh, pageheight) {
-            this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh), true);
-            this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight), true);
-            this.cmbSlideSize.setValue(type);
+            this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh/36000), true);
+            this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight/36000), true);
             this.cmbSlideOrientation.setValue((pageheight>pagewitdh) ? 0 : 1);
-
+            var portrait = pageheight>pagewitdh,
+                w = portrait ? pageheight : pagewitdh,
+                h = portrait ? pagewitdh : pageheight,
+                store = this.cmbSlideSize.store,
+                arr = [],
+                preset = Asc.c_oAscSlideSZType.SzCustom;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i);
+                if (Math.abs(item.get('size')[0] - w) < 0.001 && Math.abs(item.get('size')[1] - h) < 0.001)
+                    arr.push(item.get('value'));
+            }
+            if (arr.length>1) {
+                for (var i=0; i<arr.length; i++)
+                    (arr[i]==type) && (preset = arr[i]);
+            } else if (arr.length>0)
+                preset = arr[0];
+            this.cmbSlideSize.setValue(preset);
         },
 
         getSettings: function() {
-            var props = [this.cmbSlideSize.getValue(),  Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()), Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue())];
-            return props;
+            var type = this.cmbSlideSize.getValue(),
+                width, height;
+            if (type==Asc.c_oAscSlideSZType.SzCustom) {
+                width = Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue())*36000;
+                height = Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue())*36000;
+            } else {
+                var record = this.cmbSlideSize.getSelectedRecord(),
+                    orient = this.cmbSlideOrientation.getValue();
+                width = record.size[orient ? 0 : 1];
+                height = record.size[orient ? 1 : 0];
+            }
+
+            return [type,  width, height];
         },
 
         updateMetricUnit: function() {
@@ -271,6 +297,7 @@ define([
         txtCustom:          'Custom',
         textSlideOrientation: 'Slide Orientation',
         strPortrait:        'Portrait',
-        strLandscape:       'Landscape'
+        strLandscape:       'Landscape',
+        txtWidescreen:     'Widescreen'
     }, PE.Views.SlideSizeSettings || {}))
 });

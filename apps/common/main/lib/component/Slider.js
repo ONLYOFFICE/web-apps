@@ -89,12 +89,8 @@ define([
 
         template    : _.template([
             '<div class="slider single-slider" style="">',
-                '<div class="track">',
-                    '<div class="track-left img-commonctrl"></div>',
-                    '<div class="track-center img-commonctrl"></div>',
-                    '<div class="track-right img-commonctrl" style=""></div>',
-                '</div>',
-                '<div class="thumb img-commonctrl" style=""></div>',
+                '<div class="track"></div>',
+                '<div class="thumb" style=""></div>',
                 '<% if (this.options.enableKeyEvents) { %>',
                 '<input type="text" style="position: absolute; top:-10px; width: 1px; height: 1px;">',
                 '<% } %>',

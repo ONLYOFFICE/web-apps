@@ -116,12 +116,12 @@ define([
                 case 'up':
                     var f = Math.floor(this.api.asc_getZoom() * 10)/10;
                     f += .1;
-                    !(f > 2.) && this.api.asc_setZoom(f);
+                    !(f > 4.) && this.api.asc_setZoom(f);
                     break;
                 case 'down':
                     f = Math.ceil(this.api.asc_getZoom() * 10)/10;
                     f -= .1;
-                    !(f < .5) && this.api.asc_setZoom(f);
+                    !(f < .1) && this.api.asc_setZoom(f);
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
