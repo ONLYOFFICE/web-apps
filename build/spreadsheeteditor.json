@@ -392,7 +392,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/resources/img/",
-                    "src": "**/*.png",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
                 },
                 {

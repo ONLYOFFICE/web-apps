@@ -369,7 +369,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/documenteditor/mobile/resources/img/",
-                    "src": "**",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
                 }
             ],

@@ -385,7 +385,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/mobile/resources/img/",
-                    "src": "**",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/presentationeditor/mobile/resources/img/"
                 }
             ],
