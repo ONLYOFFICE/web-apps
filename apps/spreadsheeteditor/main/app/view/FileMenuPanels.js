@@ -877,16 +877,41 @@ define([
             this.cmbFuncLocale = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-func-locale'),
                 style       : 'width: 160px;',
+                menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
-                    { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
-                    { value: 'es', displayValue: this.txtEs, exampleValue: this.txtExampleEs },
+                    { value: 'be', displayValue: this.txtBe, exampleValue: this.txtExampleBe },
+                    { value: 'bg', displayValue: this.txtBg, exampleValue: this.txtExampleEn },
+                    { value: 'ca', displayValue: this.txtCa, exampleValue: this.txtExampleCa },
+                    { value: 'zh', displayValue: this.txtZh, exampleValue: this.txtExampleEn },
+                    { value: 'cs', displayValue: this.txtCs, exampleValue: this.txtExampleCs },
+                    { value: 'da', displayValue: this.txtDa, exampleValue: this.txtExampleDa },
+                    { value: 'nl', displayValue: this.txtNl, exampleValue: this.txtExampleNl },
+                    { value: 'fi', displayValue: this.txtFi, exampleValue: this.txtExampleFi },
                     { value: 'fr', displayValue: this.txtFr, exampleValue: this.txtExampleFr },
+                    { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
+                    { value: 'el', displayValue: this.txtEl, exampleValue: this.txtExampleEn },
+                    { value: 'hu', displayValue: this.txtHu, exampleValue: this.txtExampleHu },
+                    { value: 'id', displayValue: this.txtId, exampleValue: this.txtExampleEn },
                     { value: 'it', displayValue: this.txtIt, exampleValue: this.txtExampleIt },
+                    { value: 'ja', displayValue: this.txtJa, exampleValue: this.txtExampleEn },
+                    { value: 'ko', displayValue: this.txtKo, exampleValue: this.txtExampleEn },
+                    { value: 'lv', displayValue: this.txtLv, exampleValue: this.txtExampleEn },
+                    { value: 'lo', displayValue: this.txtLo, exampleValue: this.txtExampleEn },
+                    { value: 'nb', displayValue: this.txtNb, exampleValue: this.txtExampleNb },
+                    { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl },
+                    { value: 'pt', displayValue: this.txtPtlang, exampleValue: this.txtExamplePt },
+                    { value: 'ro', displayValue: this.txtRo, exampleValue: this.txtExampleEn },
                     { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
-                    { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl }
+                    { value: 'sk', displayValue: this.txtSk, exampleValue: this.txtExampleEn },
+                    { value: 'sl', displayValue: this.txtSl, exampleValue: this.txtExampleEn },
+                    { value: 'sv', displayValue: this.txtSv, exampleValue: this.txtExampleSv },
+                    { value: 'es', displayValue: this.txtEs, exampleValue: this.txtExampleEs },
+                    { value: 'tr', displayValue: this.txtTr, exampleValue: this.txtExampleTr },
+                    { value: 'uk', displayValue: this.txtUk, exampleValue: this.txtExampleEn },
+                    { value: 'vi', displayValue: this.txtVi, exampleValue: this.txtExampleEn }
                 ]
             }).on('selected', function(combo, record) {
                 me.updateFuncExample(record.exampleValue);
@@ -1262,7 +1287,7 @@ define([
         },
         
         updateFuncExample: function(text) {
-            $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
+            $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + ' ' + text);
         },
 
         onFontRenderSelected: function(combo, record) {
@@ -1297,13 +1322,13 @@ define([
         txtEs: 'Spanish',
         txtFr: 'French',
         txtIt: 'Italian',
-        txtExampleEn: ' SUM; MIN; MAX; COUNT',
-        txtExampleDe: ' SUMME; MIN; MAX; ANZAHL',
-        txtExampleRu: ' СУММ; МИН; МАКС; СЧЁТ',
-        txtExamplePl: ' SUMA; MIN; MAX; ILE.LICZB',
-        txtExampleEs: ' SUMA; MIN; MAX; CALCULAR',
-        txtExampleFr: ' SOMME; MIN; MAX; NB',
-        txtExampleIt: ' SOMMA; MIN; MAX; CONTA.NUMERI',
+        txtExampleEn: 'SUM; MIN; MAX; COUNT',
+        txtExampleDe: 'SUMME; MIN; MAX; ANZAHL',
+        txtExampleRu: 'СУММ; МИН; МАКС; СЧЁТ',
+        txtExamplePl: 'SUMA; MIN; MAX; ILE.LICZB',
+        txtExampleEs: 'SUMA; MIN; MAX; CALCULAR',
+        txtExampleFr: 'SOMME; MIN; MAX; NB',
+        txtExampleIt: 'SOMMA; MIN; MAX; CONTA.NUMERI',
         strFuncLocale: 'Formula Language',
         strFuncLocaleEx: 'Example: SUM; MIN; MAX; COUNT',
         strRegSettings: 'Regional Settings',
@@ -1337,8 +1362,44 @@ define([
         strTheme: 'Theme',
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
-        strPasteButton: 'Show Paste Options button when content is pasted'
-    }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
+        strPasteButton: 'Show Paste Options button when content is pasted',
+        txtBe: 'Belarusian',
+        txtBg: 'Bulgarian',
+        txtCa: 'Catalan',
+        txtZh: 'Chinese',
+        txtCs: 'Czech',
+        txtDa: 'Danish',
+        txtNl: 'Dutch',
+        txtFi: 'Finnish',
+        txtEl: 'Greek',
+        txtHu: 'Hungarian',
+        txtId: 'Indonesian',
+        txtJa: 'Japanese',
+        txtKo: 'Korean',
+        txtLv: 'Latvian',
+        txtLo: 'Lao',
+        txtNb: 'Norwegian',
+        txtPtlang: 'Portuguese',
+        txtRo: 'Romanian',
+        txtSk: 'Slovak',
+        txtSl: 'Slovenian',
+        txtSv: 'Swedish',
+        txtTr: 'Turkish',
+        txtUk: 'Ukrainian',
+        txtVi: 'Vietnamese',
+        txtExampleBe: 'СУММ; МИН; МАКС; СЧЁТ',
+        txtExampleCa: 'SUMA; MIN; MAX; COMPT',
+        txtExampleCs: 'SUMA; MIN; MAX; POČET',
+        txtExampleDa: 'SUM; MIN; MAKS; TÆL',
+        txtExampleNl: 'SOM; MIN; MAX; AANTAL',
+        txtExampleFi: 'SUMMA; MIN; MAKS; LASKE',
+        txtExampleHu: 'SZUM; MIN; MAX; DARAB',
+        txtExampleNb: 'SUMMER; MIN; STØRST; ANTALL',
+        txtExamplePt: 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
+        txtExampleSv: 'SUMMA; MIN; MAX; ANTAL',
+        txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+
+}, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings-spellcheck',
