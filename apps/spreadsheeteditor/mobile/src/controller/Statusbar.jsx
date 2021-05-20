@@ -22,6 +22,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
+            api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
         };
         if ( !Common.EditorApi ) {
             Common.Notifications.on('document:ready', onDocumentReady);
@@ -48,10 +49,17 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
             api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
             api.asc_unregisterCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_unregisterCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
+            api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
 
             $$('.view-main').off('click', on_main_view_click);
         };
     }, []);
+
+    const onApiActiveSheetChanged = (index) => {
+        // console.log(index);
+        sheets.setActiveWorksheet(index);
+        Common.Notifications.trigger('sheet:active', index);
+    }
 
     const onApiHideTabContextMenu = () => {
         f7.popover.close('.document-menu.modal-in', false);
