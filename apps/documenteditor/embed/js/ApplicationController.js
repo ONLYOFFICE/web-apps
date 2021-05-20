@@ -41,7 +41,9 @@ DE.ApplicationController = new(function(){
         created = false,
         ttOffset = [0, -10],
         labelDocName,
-        appOptions = {};
+        appOptions = {},
+        btnSubmit,
+        _submitFail, $submitedTooltip;
 
     // Initialize analytics
     // -------------------------
@@ -144,6 +146,11 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Print']:
                 text = me.downloadTextText;
                 break;
+            case Asc.c_oAscAsyncAction['Submit']:
+                    _submitFail = false;
+                    $submitedTooltip && $submitedTooltip.hide();
+                    btnSubmit.attr({disabled: true});
+                break;
             default:
                 text = me.waitText;
                 break;
@@ -155,7 +162,16 @@ DE.ApplicationController = new(function(){
         }
     }
 
-    function onLongActionEnd(){
+    function onLongActionEnd(type, id){
+        if (id==Asc.c_oAscAsyncAction['Submit']) {
+            btnSubmit.removeAttr('disabled');
+            if (!$submitedTooltip) {
+                $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
+                $(document.body).append($submitedTooltip);
+                $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+            }
+            !_submitFail && $submitedTooltip.show();
+        }
         hideMask();
     }
 
@@ -419,11 +435,13 @@ DE.ApplicationController = new(function(){
 
         api.asc_setViewMode(!appOptions.canFillForms);
 
+        btnSubmit = $('#id-btn-submit');
+
         if (!appOptions.canFillForms) {
             $('#id-btn-prev-field').hide();
             $('#id-btn-next-field').hide();
             $('#id-btn-clear-fields').hide();
-            $('#id-btn-submit').hide();
+            btnSubmit.hide();
         } else {
             $('#id-pages').hide();
             $('#id-btn-next-field .caption').text(me.textNext);
@@ -440,12 +458,12 @@ DE.ApplicationController = new(function(){
             });
 
             if (appOptions.canSubmitForms) {
-                $('#id-btn-submit .caption').text(me.textSubmit);
-                $('#id-btn-submit').on('click', function(){
+                btnSubmit.find('.caption').text(me.textSubmit);
+                btnSubmit.on('click', function(){
                     api.asc_SendForm();
                 });
             } else
-                $('#id-btn-submit').hide();
+                btnSubmit.hide();
 
             api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             api.asc_SetFastCollaborative(true);
@@ -532,6 +550,16 @@ DE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.AccessDeny:
                 message = me.errorAccessDeny;
+                break;
+
+            case Asc.c_oAscError.ID.Submit:
+                message = me.errorSubmit;
+                _submitFail = true;
+                $submitedTooltip && $submitedTooltip.hide();
+                break;
+
+            case Asc.c_oAscError.ID.EditingError:
+                message = me.errorEditingDownloadas;
                 break;
 
             default:
@@ -704,6 +732,9 @@ DE.ApplicationController = new(function(){
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
-        textSubmit: 'Submit'
+        textSubmit: 'Submit',
+        textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
+        errorSubmit: 'Submit failed.',
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
     }
 })();

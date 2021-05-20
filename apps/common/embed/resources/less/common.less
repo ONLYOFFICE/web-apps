@@ -67,6 +67,7 @@
 @btnColored:                    #446995;
 @btnActiveColored:              #293F59;
 @btnHoverColored:               #375478;
+@notificationColor:             #fcfed7;
 
 @iconSpriteCommonPath:          "../../../../common/embed/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
@@ -299,6 +300,10 @@
         outline: none;
         border: 1px solid @btnActiveColor;
         background-color: @btnActiveColor;
+    }
+
+    &[disabled] {
+        opacity: 0.4;
     }
 }
 
@@ -693,4 +698,18 @@
         -webkit-box-shadow: none;
         box-shadow: none;
     }
+}
+
+.submit-tooltip {
+    position: absolute;
+    z-index: 1000;
+    top: 58px;
+    right: 15px;
+
+    padding: 7px 15px;
+    border-radius: 5px;
+    background-color: @notificationColor;
+    -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    font-size: 11px;
 }
