@@ -245,7 +245,9 @@ define([
             disabled        : false,
             pressed         : false,
             split           : false,
-            visible         : true
+            visible         : true,
+            dataHint        : '',
+            dataHintDirection: ''
         },
 
         template: _.template([
@@ -261,13 +263,13 @@ define([
                 '}} %>',
             '<% } %>',
             '<% if ( !menu ) { %>',
-                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" >',
                     '<% applyicon() %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
             '<% } else if (split == false) {%>',
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
-                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">',
+                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>">',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                         '<span class="inner-box-caret">' +
@@ -277,11 +279,11 @@ define([
                 '</div>',
             '<% } else { %>',
                 '<div class="btn-group split" id="<%= id %>" style="<%= style %>">',
-                    '<button type="button" class="btn <%= cls %>">',
+                    '<button type="button" class="btn <%= cls %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>">',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
-                    '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown">',
+                    '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>">',
                         '<i class="caret"></i>',
                         '<span class="sr-only"></span>',
                     '</button>',
@@ -350,7 +352,9 @@ define([
                         disabled     : me.disabled,
                         pressed      : me.pressed,
                         caption      : me.caption,
-                        style        : me.style
+                        style        : me.style,
+                        dataHint     : me.options.dataHint,
+                        dataHintDirection: me.options.dataHintDirection
                     }));
 
                     if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))

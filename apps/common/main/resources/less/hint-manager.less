@@ -1,7 +1,8 @@
 .hint-div {
   position: absolute;
   z-index: @zindex-navbar + 3;
-  width: 20px;
+  width: auto;
+  min-width: 20px;
   text-align: center;
   background-color: @background-alt-key-hint-ie;
   background-color: @background-alt-key-hint;
@@ -10,4 +11,7 @@
   line-height: 18px;
   padding: 0 4px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  &.disabled {
+    opacity: 0.4;
+  }
 }

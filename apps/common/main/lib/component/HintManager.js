@@ -81,12 +81,27 @@ Common.UI.HintManager = new(function() {
            !$('.toolbar-fullview-panel').is(':visible') && (arr = arr.concat(_controls[_currentLevel+1]));
         } else
             arr = _controls[_currentLevel+1];
-        arr.forEach(function(item, index) {
-            var el = $(item);
-            if (el.is(':visible')) {
-                el.attr('data-hint-title', String.fromCharCode(65 + index));
-                _currentControls.push(el);
+        var visibleItems = arr.filter(function (item) {
+            return $(item).is(':visible');
+        });
+        if (visibleItems.length > _arrLetters.length) {
+            var arrLength = _arrLetters.length;
+            var count = visibleItems.length - arrLength;
+            var arrIndexes = [];
+            for (var i = 0; arrIndexes.length < count; i++) {
+                var randInd = Math.floor(Math.random() * arrLength); //get random index
+                if (arrIndexes.indexOf(randInd) === -1 && randInd < arrLength - 1) {
+                    arrIndexes.push(randInd);
+                    _arrLetters[_arrLetters.length] = _arrLetters[randInd] + _arrLetters[randInd + 1];
+                    _arrLetters[randInd] = _arrLetters[randInd] + _arrLetters[randInd];
+                }
             }
+        }
+        console.log(_arrLetters);
+        visibleItems.forEach(function (item, index) {
+            var el = $(item);
+            el.attr('data-hint-title', _arrLetters[index].toUpperCase());
+            _currentControls.push(el);
         });
         return _currentControls;
     };
@@ -95,13 +110,21 @@ Common.UI.HintManager = new(function() {
         _removeHints();
         _getControls();
         _currentControls.forEach(function(item, index) {
-            var offset = item.offset();
-            var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
+            var disabled = item.hasClass('disabled');
+            var classes = 'hint-div' + (disabled ? ' disabled' : '');
+            var hint = $('<div style="" class="' + classes + '">' + item.attr('data-hint-title') + '</div>');
             var direction = item.attr('data-hint-direction');
-            if (direction=='right')
-                hint.css({left: offset.left + item.outerWidth(), top: offset.top + (item.outerHeight()-20)/2});
+            var offset = item.offset();
+            if (direction === 'top')
+                hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top - 3});
+            else if (direction === 'right')
+                hint.css({left: offset.left + item.outerWidth() - 4, top: offset.top + (item.outerHeight()-20)/2});
+            else if (direction === 'left')
+                hint.css({left: offset.left - 18, top: offset.top + (item.outerHeight()-20)/2});
+            else if (direction === 'left-bottom')
+                hint.css({left: offset.left - 8, top: offset.top + item.outerHeight() - 12});
             else
-                hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top + item.outerHeight()});
+                hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top + item.outerHeight() - 3});
             $(document.body).append(hint);
 
             _currentHints.push(hint);

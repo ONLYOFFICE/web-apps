@@ -85,7 +85,7 @@ define([
                                 '<div class="hedset">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users">' +
+                                        '<div class="btn-users" data-hint="0">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption">&plus;</label>' +
                                         '</div>' +
@@ -415,7 +415,8 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true
+                    split: true,
+                    dataHint: '0'
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -428,7 +429,8 @@ define([
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true
+                    menu: true,
+                    dataHint: '0'
                 });
 
                 me.mnuZoom = {options: {value: 100}};
@@ -459,7 +461,9 @@ define([
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
-                        disabled: disabled === true
+                        disabled: disabled === true,
+                        dataHint:'0',
+                        dataHintDirection: 'left-bottom'
                     })).render(slot);
                 }
 
