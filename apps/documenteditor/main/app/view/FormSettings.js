@@ -98,7 +98,6 @@ define([
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
             this.ConnectedSettings = el.find('.form-connected');
-            this.RequiredSettings = el.find('.required');
         },
 
         createDelayedElements: function() {
@@ -918,7 +917,6 @@ define([
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
-            this.RequiredSettings.toggleClass('hidden', imageOnly || listOnly && (type == Asc.c_oAscContentControlSpecificType.DropDownList));
         },
 
         onSelectItem: function(listView, itemView, record) {
