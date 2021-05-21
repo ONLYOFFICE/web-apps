@@ -1561,7 +1561,7 @@ define([
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
                 if (this.api)
-                    this.api.asc_addImage();
+                    setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
@@ -3116,8 +3116,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3165,21 +3165,23 @@ define([
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
             if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
-                tab = {caption: me.textTabForms, action: 'forms'};
-                var forms = me.getApplication().getController('FormsTab');
-                forms.setApi(me.api).setConfig({toolbar: me, config: config});
-                $panel = forms.createToolbarPanel();
-                if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 4);
-                    me.toolbar.setVisible('forms', true);
-                    if (config.isEdit && config.canFeatureContentControl) {
-                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
-                        me.onChangeSdtGlobalSettings();
-                    } else if (!compactview) {
-                        me.toolbar.setTab('forms');
+                if (config.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.setVisible('forms', true);
+                        if (config.isEdit && config.canFeatureContentControl) {
+                            Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        } else if (!compactview) {
+                            me.toolbar.setTab('forms');
+                        }
                     }
                 }
             }
+            config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
         },
 
         onAppReady: function (config) {

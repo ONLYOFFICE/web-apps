@@ -336,6 +336,8 @@ define([
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.afterRender();
         },
 
@@ -345,6 +347,12 @@ define([
 
         getDefaultFocusableComponent: function () {
             return this.type > 0 ? this.cmbFormat : this.cmbAlign;
+        },
+
+        onAnimateAfter: function() {
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
         },
 
         afterRender: function() {
@@ -551,9 +559,6 @@ define([
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                 } else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
-            }
-            if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
             }
         },
 

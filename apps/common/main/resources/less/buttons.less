@@ -433,8 +433,8 @@
         height: 3px;
         background-color: red;
         &.bordered {
-            border: 1px solid @border-regular-control-ie;
-            border: 1px solid @border-regular-control;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
         }
 
 
@@ -576,8 +576,8 @@
 
         &.over:not(.disabled),
         &.open {
-            box-shadow: inset 0 0 0 1px @highlight-button-hover-ie;
-            box-shadow: inset 0 0 0 1px @highlight-button-hover;
+            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
+            box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-hover;
 
             button:not(.active):not(.btn-text-split-default) {
                 background-color: transparent;
@@ -732,6 +732,12 @@
     &.active {
         background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
+    }
+
+    &.large {
+        min-width: 28px;
+        width: 28px;
+        height: 28px;
     }
 }
 
@@ -911,10 +917,6 @@
     &.template-table {
         width: 92px;
     }
-    &.sheet-template-table {
-        width: 83px;
-        height: 54px;
-    }
 
     .icon-template-slicer.icon {
         min-width: 36px;
@@ -933,6 +935,17 @@
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
+    }
+
+    &.sheet-template-table {
+        width: 83px;
+        height: 54px;
+
+        .icon {
+            border: none;
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+        }
     }
 
     svg.icon {
@@ -1035,8 +1048,8 @@
     color: @text-normal;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-    border: 1px solid @border-regular-control-ie;
-    border: 1px solid @border-regular-control;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
 
     &:hover:not(.disabled),
     &.hover:not(.disabled) {

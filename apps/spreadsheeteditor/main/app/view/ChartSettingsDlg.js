@@ -260,6 +260,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.chVertHide = [];
             this.btnVFormat = [];
 
+            this._arrVertTitle = [
+                {value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: me.textNone},
+                {value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: me.textRotated},
+                {value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: me.textHorizontal}
+            ];
+
             var addControlsV = function(i) {
                 me.chVertHide[i] = new Common.UI.CheckBox({
                     el: $('#chart-dlg-chk-vert-hide-' + i),
@@ -274,11 +280,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     menuStyle: 'min-width: 140px;',
                     editable: false,
                     cls: 'input-group-nr',
-                    data: [
-                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: me.textNone},
-                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: me.textRotated},
-                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: me.textHorizontal}
-                    ],
+                    data: me._arrVertTitle,
                     takeFocusOnClose: true
                 }).on('selected', _.bind(function (combo, record) {
                     if (me.currentAxisProps[i])
@@ -535,6 +537,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.chHorHide = [];
             this.btnHFormat = [];
 
+            this._arrHorTitle = [
+                {value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: me.textNone},
+                {value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: me.textNoOverlay}
+            ];
+
             var addControlsH = function(i) {
                 me.chHorHide[i] = new Common.UI.CheckBox({
                     el: $('#chart-dlg-chk-hor-hide-' + i),
@@ -549,10 +556,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     menuStyle: 'min-width: 140px;',
                     editable: false,
                     cls: 'input-group-nr',
-                    data: [
-                        {value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: me.textNone},
-                        {value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: me.textNoOverlay}
-                    ],
+                    data: me._arrHorTitle,
                     takeFocusOnClose: true
                 }).on('selected', _.bind(function (combo, record) {
                     if (me.currentAxisProps[i])
@@ -1204,14 +1208,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         onVCategoryClick: function(index) {
-            (this.vertAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps[index], index) : this.fillHProps(this.vertAxisProps[index], index);
+            (this.vertAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps[index], index) : this.fillHProps(this.vertAxisProps[index], index, true);
         },
 
         onHCategoryClick: function(index) {
-            (this.horAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps[index], index) : this.fillHProps(this.horAxisProps[index], index);
+            (this.horAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps[index], index, true) : this.fillHProps(this.horAxisProps[index], index);
         },
 
-        fillVProps: function(props, index) {
+        fillVProps: function(props, index, hor) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
             if (this._originalAxisVValues==undefined)
                 this._originalAxisVValues = [];
@@ -1225,6 +1229,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.chVertHide[index].setValue(!props.getShow());
             this.cmbVertGrid[index].setValue(props.getGridlines());
+
+
+            this.cmbVertTitle[index].setData(hor ? this._arrHorTitle : this._arrVertTitle);
             this.cmbVertTitle[index].setValue(props.getLabel());
 
             this.cmbMinType[index].setValue(props.getMinValRule());
@@ -1262,7 +1269,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.currentAxisProps[index] = props;
         },
 
-        fillHProps: function(props, index) {
+        fillHProps: function(props, index, vert) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.cat) return;
             if (this._originalAxisHValues==undefined)
                 this._originalAxisHValues = [];
@@ -1276,6 +1283,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.chHorHide[index].setValue(!props.getShow());
             this.cmbHorGrid[index].setValue(props.getGridlines());
+
+            this.cmbHorTitle[index].setData(vert ? this._arrVertTitle : this._arrHorTitle);
             this.cmbHorTitle[index].setValue(props.getLabel());
 
             var value = props.getCrossesRule();

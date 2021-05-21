@@ -226,7 +226,11 @@ define([
             },
 
             available: function () {
-                return !Common.Utils.isIE;
+                return !Common.Utils.isIE && !this.locked;
+            },
+
+            setAvailable: function (value) {
+                this.locked = value;
             },
 
             map: function () {
@@ -253,8 +257,8 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
-            setTheme: function (id) {
-                if ( !!themes_map[id] ) {
+            setTheme: function (id, force) {
+                if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
 

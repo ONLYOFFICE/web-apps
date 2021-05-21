@@ -26,7 +26,7 @@
     --background-loader: fade(#181818, 90%);
 
     --highlight-button-hover: #e0e0e0;
-    --highlight-button-pressed: #ccc;
+    --highlight-button-pressed: #cbcbcb;
     --highlight-button-pressed-hover: #bababa;
     --highlight-primary-dialog-button-hover: #1c1c1c;
     --highlight-header-button-hover: fade(#fff, 15%);
@@ -38,10 +38,10 @@
     --border-divider: #dfdfdf;
     --border-regular-control: #c0c0c0;
     --border-toolbar-button-hover: #e0e0e0;
-    --border-preview-hover: #cfcfcf;
-    --border-preview-select: #aaa;
+    --border-preview-hover: #bababa;
+    --border-preview-select: #888;
     --border-control-focus: #848484;
-    --border-color-shading: fade(#000, 10%);
+    --border-color-shading: fade(#000, 15%);
     --border-error: #f62211;
 
     --text-normal: fade(#000, 80%);
@@ -77,14 +77,14 @@
     --canvas-ruler-handle-border-disabled: #aaa;
 
     --canvas-high-contrast: #000;
-    --canvas-high-contrast-disabled: #999;
+    --canvas-high-contrast-disabled: #666;
 
-    --canvas-cell-border: fade(black, 10%);
+    --canvas-cell-border: fade(#000, 10%);
+    --canvas-cell-title-hover: #dfdfdf;
+    --canvas-cell-title-selected: #cfcfcf;
     --canvas-cell-title-border: #d8d8d8;
     --canvas-cell-title-border-hover: #c9c9c9;
     --canvas-cell-title-border-selected: #bbb;
-    --canvas-cell-title-hover: #dfdfdf;
-    --canvas-cell-title-selected: #cfcfcf;
 
     --canvas-dark-cell-title: #444;
     --canvas-dark-cell-title-hover: #666 ;
@@ -229,4 +229,6 @@
 
 // Canvas
 // ---------------------------
+@canvas-background: var(--canvas-background);
 @canvas-content-background: var(--canvas-content-background);
+@canvas-page-border: var(--canvas-page-border);

@@ -150,22 +150,39 @@
 @import "sprites/iconssmall@1.75x";
 @import "sprites/iconsbig@1.75x";
 @import "sprites/iconshuge@1.75x";
+@import "sprites/iconshuge@2x";
 
 :root {
-    --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig.png)";
-    --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge.png)";
+    //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig.png)";
+    //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge.png)";
 
     --big-icon-background-image-width: 56px;
     --huge-icon-background-image-width: 80px;
 
+    //@safari-fix-base-path: "resources/img";
+    .safari {
+        //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig.png)";
+        //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge.png)";
+    }
+
     .pixel-ratio__1_5 {
-        --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@1.5x.png)";
-        --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@1.5x.png)";
+        //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@1.5x.png)";
+        //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@1.5x.png)";
+
+        &.safari {
+            //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@1.5x.png)";
+            //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@1.5x.png)";
+        }
     }
 
     .pixel-ratio__2 {
-        --big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@2x.png)";
-        --huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@2x.png)";
+        //--big-icon-background-image:  ~"url(@{app-image-const-path}/iconsbig@2x.png)";
+        //--huge-icon-background-image: ~"url(@{app-image-const-path}/iconshuge@2x.png)";
+
+        &.safari {
+            //--big-icon-background-image:  ~"url(@{safari-fix-base-path}/iconsbig@2x.png)";
+            //--huge-icon-background-image: ~"url(@{safari-fix-base-path}/iconshuge@2x.png)";
+        }
     }
 
     @huge-icon-background-image: var(--huge-icon-background-image);
@@ -185,12 +202,16 @@
 
 // Skeleton of document
 
+#editor-container {
+    background-color: @canvas-background;
+}
+
 .doc-placeholder {
-    background: #fbfbfb;
+    background: @canvas-content-background;
     width: 794px;
     margin: 46px auto;
     height: 100%;
-    border: 1px solid #bebebe;
+    border: 1px solid @canvas-page-border;
     padding-top: 50px;
     position: absolute;
     left: 0;
@@ -202,7 +223,7 @@
     > .line {
         height: 15px;
         margin: 30px 80px;
-        background: #e2e2e2;
+        background: fade(#000, 5%);
         overflow: hidden;
         position: relative;
     }

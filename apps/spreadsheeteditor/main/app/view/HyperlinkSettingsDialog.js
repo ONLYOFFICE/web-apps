@@ -142,7 +142,7 @@ define([
                 style       : 'width: 100%;',
                 validation  : function(value) {
                     var trimmed = $.trim(value);
-                    if (trimmed.length>2083) return me.txtSizeLimit;
+                    if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
 
                     var urltype = me.api.asc_getUrlType(trimmed);
                     me.isEmail = (urltype==2);

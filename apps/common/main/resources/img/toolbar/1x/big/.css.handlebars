@@ -4,7 +4,7 @@
         &.active, &:active {
             &:not(:disabled):not(.disabled) {
                 .toolbar__icon {
-                    background-position-x: 0;
+                    background-position-x: -28px;
                     background-position-x: var(--button-xhuge-active-icon-offset-x,0);
                 }
             }
@@ -14,17 +14,14 @@
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .toolbar__icon.toolbar__icon-big {
-                background-position-x: 0;
+                background-position-x: -28px;
                 background-position-x: var(--button-xhuge-active-icon-offset-x,0);
             }
         }
     }
 }
-.x-huge .toolbar__icon {
+.x-huge .toolbar__icon, .toolbar__icon.toolbar__icon-big {
     background-image: url(resources/{{{escaped_image}}});
-}
-.toolbar__icon.toolbar__icon-big {
-    background-image: var(--big-icon-background-image);
 }
 {{/spritesheet}}
 {{#sprites}}

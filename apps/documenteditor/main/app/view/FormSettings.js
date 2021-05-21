@@ -338,6 +338,7 @@ define([
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
             }
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
         },
 

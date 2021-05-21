@@ -1569,7 +1569,7 @@ define([
             if (opts === 'file') {
                 me.toolbar.fireEvent('insertimage', this.toolbar);
 
-                me.api.asc_addImage();
+                setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');

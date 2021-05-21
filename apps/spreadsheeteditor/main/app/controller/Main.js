@@ -1434,6 +1434,14 @@ define([
                         config.msg = this.errorStockChart;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataSeriesError:
+                        config.msg = this.getApplication().getController('Toolbar').errorMaxRows;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.getApplication().getController('Toolbar').errorComboSeries;
+                        break;
+
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
