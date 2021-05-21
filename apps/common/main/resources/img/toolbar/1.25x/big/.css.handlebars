@@ -1,12 +1,12 @@
 {{#spritesheet}}
 @media only screen {
-    @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.7),
-            (min-resolution: 1.5dppx) and (max-resolution: 1.7dppx),
-                (min-resolution: 144dpi) and (max-resolution: 167dpi)
+    @media (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.4),
+            (min-resolution: 1.25dppx) and (max-resolution: 1.4dppx),
+                (min-resolution: 120dpi) and (max-resolution: 143dpi)
     {
         .x-huge .toolbar__icon {
             background-image: url(resources/{{{escaped_image}}});
-            background-size: {{scaled width 1.5}}px auto;
+            background-size: {{scaled width 1.25}}px auto;
         }
     }
 }
