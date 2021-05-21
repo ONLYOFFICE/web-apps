@@ -32,8 +32,17 @@ var params = (function() {
     return urlParams;
 })();
 
-if ( !!params.uitheme && !localStorage.getItem("ui-theme") )
+if ( !!params.uitheme && !localStorage.getItem("ui-theme") ) {
+    // const _t = params.uitheme.match(/([\w-]+)/g);
+
+    if ( params.uitheme == 'default-dark' )
+        params.uitheme = 'theme-dark';
+    else
+    if ( params.uitheme == 'default-light' )
+        params.uitheme = 'theme-classic-light';
+
     localStorage.setItem("ui-theme", params.uitheme);
+}
 
 var ui_theme_name = localStorage.getItem("ui-theme");
 if ( !!ui_theme_name ) {
