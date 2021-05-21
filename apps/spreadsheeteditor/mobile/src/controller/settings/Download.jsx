@@ -10,20 +10,10 @@ class DownloadController extends Component {
         this.onSaveFormat = this.onSaveFormat.bind(this);
     }
 
-    closeModal() {
-        if (Device.phone) {
-            f7.sheet.close('.settings-popup', true);
-        } else {
-            f7.popover.close('#settings-popover');
-        }
-    }
-
     onSaveFormat(format) {
         const api = Common.EditorApi.get();
         const { t } = this.props;
         const _t = t("View.Settings", {returnObjects: true});
-
-        this.closeModal();
 
         if (format) {
             if (format == Asc.c_oAscFileType.CSV) {
