@@ -51,36 +51,43 @@ Common.UI.HintManager = new(function() {
         _arrLetters = [],
         _isAlt = false,
         _hintVisible = false,
-        _currentLevel = -1,
+        _currentLevel = 0,
         _controls = [],
         _currentControls = [],
-        _currentHints = [];
+        _currentHints = [],
+        _inputLetters = '';
 
-    var _showHints = function() {
-        _hintVisible = !_hintVisible;
-        if (_hintVisible) {
+    var _showHints = function(type) {
+        if (type === 'next') {
+            _removeHints();
             _currentLevel++;
             _getHints();
-        } else {
+        } else if (type === 'prev') {
             _removeHints();
             _currentLevel--;
+            _getHints();
+            if (_currentLevel === -1)
+                _hintVisible = false;
+        } else {
+            _hintVisible = !_hintVisible;
+            _getHints();
         }
     };
 
     var _getControls = function() {
-        if (!_controls[_currentLevel + 1]) {
-            _controls[_currentLevel + 1] = $('[data-hint=' + (_currentLevel + 1) + ']').toArray();
-            if (_currentLevel==0 && !_controls[_currentLevel])
+        if (!_controls[_currentLevel]) {
+            _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
+            if (_currentLevel === 0 && !_controls[_currentLevel])
                 _controls[_currentLevel] = $('[data-hint=0]').toArray();
         }
 
         _currentControls = [];
         var arr = [];
-        if (_currentLevel==0) {
+        if (_currentLevel === 0) {
             arr = arr.concat(_controls[_currentLevel]);
            !$('.toolbar-fullview-panel').is(':visible') && (arr = arr.concat(_controls[_currentLevel+1]));
         } else
-            arr = _controls[_currentLevel+1];
+            arr = _controls[_currentLevel];
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
@@ -97,7 +104,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
         }
-        console.log(_arrLetters);
+        console.log(visibleItems);
         visibleItems.forEach(function (item, index) {
             var el = $(item);
             el.attr('data-hint-title', _arrLetters[index].toUpperCase());
@@ -122,13 +129,14 @@ Common.UI.HintManager = new(function() {
             else if (direction === 'left')
                 hint.css({left: offset.left - 18, top: offset.top + (item.outerHeight()-20)/2});
             else if (direction === 'left-bottom')
-                hint.css({left: offset.left - 8, top: offset.top + item.outerHeight() - 12});
+                hint.css({left: offset.left - 8, top: offset.top - item.outerHeight()});
             else
                 hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top + item.outerHeight() - 3});
             $(document.body).append(hint);
 
             _currentHints.push(hint);
         });
+        console.log(_currentHints);
     };
 
     var _removeHints = function() {
@@ -145,32 +153,38 @@ Common.UI.HintManager = new(function() {
         $(document).on('keyup', function(e) {
             if (e.keyCode == Common.UI.Keys.ALT &&_isAlt) {
                 e.preventDefault();
-                _showHints();
+                _showHints('current');
             }
             _isAlt = false;
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
                 if (e.keyCode == Common.UI.Keys.ESC ) {
-                    _showHints();
+                    _showHints('prev');
                 } else if ((e.keyCode > 47 && e.keyCode < 58 || e.keyCode > 64 && e.keyCode < 91) && e.key) {
                     var curr;
+                    _inputLetters = _inputLetters + String.fromCharCode(e.keyCode).toUpperCase();
                     for (var i = 0; i < _currentControls.length; i++) {
                         var item = _currentControls[i];
-                        if (item.attr('data-hint-title').charCodeAt(0) == e.keyCode) { // for latin chars
+                        if (item.attr('data-hint-title') === _inputLetters) {
                             curr = item;
                             break;
                         }
                     }
                     if (curr) {
-                        _showHints();
+                        console.log(curr);
                         curr && curr.trigger(jQuery.Event('click', {which: 1}));
+                        _showHints('next');
                     }
                 }
                 e.preventDefault();
             }
 
             _isAlt = (e.keyCode == Common.UI.Keys.ALT);
+            if (_isAlt) {
+                _inputLetters = '';
+            }
+            console.log(_currentLevel);
         });
     };
 
