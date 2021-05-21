@@ -25,8 +25,8 @@
   "PE.ApplicationController.waitText": "Please, wait...",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
+  "PE.ApplicationView.txtFileLocation": "Open file location",
   "PE.ApplicationView.txtFullScreen": "Full Screen",
   "PE.ApplicationView.txtPrint": "Print",
-  "PE.ApplicationView.txtShare": "Share",
-  "PE.ApplicationView.txtFileLocation": "Open file location"
+  "PE.ApplicationView.txtShare": "Share"
 }

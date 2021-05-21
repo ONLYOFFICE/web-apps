@@ -25,8 +25,8 @@
   "SSE.ApplicationController.waitText": "Please, wait...",
   "SSE.ApplicationView.txtDownload": "Download",
   "SSE.ApplicationView.txtEmbed": "Embed",
+  "SSE.ApplicationView.txtFileLocation": "Open file location",
   "SSE.ApplicationView.txtFullScreen": "Full Screen",
   "SSE.ApplicationView.txtPrint": "Print",
-  "SSE.ApplicationView.txtShare": "Share",
-  "SSE.ApplicationView.txtFileLocation": "Open file location"
+  "SSE.ApplicationView.txtShare": "Share"
 }
