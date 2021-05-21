@@ -2508,10 +2508,6 @@ define([
                 value = Common.localStorage.getBool("sse-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("sse-settings-autoformat-hyperlink", value);
                 me.api.asc_setAutoCorrectHyperlinks(value);
-
-                value = Common.localStorage.getBool("sse-settings-autoformat-fl-sentence", true);
-                Common.Utils.InternalSettings.set("sse-settings-autoformat-fl-sentence", value);
-                me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
             },
 
             showRenameUserDialog: function() {

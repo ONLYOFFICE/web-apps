@@ -155,7 +155,6 @@
   "Common.Views.AutoCorrectDialog.textAutoFormat": "AutoFormat As You Type",
   "Common.Views.AutoCorrectDialog.textBy": "By",
   "Common.Views.AutoCorrectDialog.textDelete": "Delete",
-  "Common.Views.AutoCorrectDialog.textFLSentence": "Capitalize first letter of sentences",
   "Common.Views.AutoCorrectDialog.textHyperlink": "Internet and network paths with hyperlinks",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Math AutoCorrect",
   "Common.Views.AutoCorrectDialog.textNewRowCol": "Include new rows and columns in table",
