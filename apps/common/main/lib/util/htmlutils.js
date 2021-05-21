@@ -45,6 +45,12 @@ if ( !!params.uitheme && !localStorage.getItem("ui-theme") ) {
 }
 
 var ui_theme_name = localStorage.getItem("ui-theme");
+if ( !ui_theme_name ) {
+    if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+        ui_theme_name = 'theme-dark';
+        localStorage.setItem("ui-theme", ui_theme_name);
+    }
+}
 if ( !!ui_theme_name ) {
     document.body.classList.add(ui_theme_name);
 }
