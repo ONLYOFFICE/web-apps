@@ -81,17 +81,12 @@ const EditLink = props => {
     const isLock = props.isLock;
     const sheets = props.sheets;
     const currentSheet = props.currentSheet;
+    const valueTypeLink = linkInfo.asc_getType();
+    const valueLinkSheet = linkInfo.asc_getSheet();
+    const getLinkSheet = () => sheets.find(sheet => sheet.caption === valueLinkSheet);
+    const linkSheet = (valueTypeLink == Asc.c_oAscHyperlinkType.RangeLink) ? getLinkSheet() ? getLinkSheet().caption : '' : currentSheet;
 
-    console.log(linkInfo);
-
-    const valueLinkInfo = linkInfo.asc_getType();
-    const linkSheet = (valueLinkInfo == Asc.c_oAscHyperlinkType.RangeLink) ? linkInfo.asc_getSheet() : currentSheet;
-
-    console.log(valueLinkInfo);
-    console.log(currentSheet);
-    console.log(linkSheet);
-
-    const [typeLink, setTypeLink] = useState(valueLinkInfo);
+    const [typeLink, setTypeLink] = useState(valueTypeLink);
     const textType = typeLink != Asc.c_oAscHyperlinkType.RangeLink ? _t.textExternalLink : _t.textInternalDataRange;
 
     const changeType = (newType) => {
@@ -164,10 +159,10 @@ const EditLink = props => {
             </List>
             <List>
                 <ListButton title={_t.textEditLink}
-                            className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' && range.length < 1) && ' disabled'}`}
+                            className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' || range.length < 1 || !curSheet.length) && ' disabled'}`}
                             onClick={() => {props.onEditLink(typeLink === 1 ?
-                                {type: 1, url: link, text: stateDisplayText, tooltip: screenTip, isLock} :
-                                {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip, isLock})}}
+                                {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
+                                {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip})}}
                 />
                 <ListButton title={_t.textRemoveLink}
                             className={`button-fill button-red`}

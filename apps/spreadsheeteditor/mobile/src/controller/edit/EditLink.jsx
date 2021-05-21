@@ -23,24 +23,15 @@ class EditLinkController extends Component {
 
         let items = [];
         let wsc = api.asc_getWorksheetsCount();
-        // const aws = api.asc_getActiveWorksheetIndex();
 
         if (wsc > 0) {
             items = [];
-            while ( !(--wsc < 0) ) {
-                if ( !api.asc_isWorksheetHidden(wsc) ) {
+            while (!(--wsc < 0)) {
+                if (!api.asc_isWorksheetHidden(wsc)) {
                     items.unshift({
                         value: wsc,
                         caption: api.asc_getWorksheetName(wsc)
                     });
-
-                    console.log(api.asc_getWorksheetName(wsc))
-                    // if (wsc === aws) {
-                    //     this.activeSheet = {
-                    //         value: wsc,
-                    //         caption: api.asc_getWorksheetName(wsc)
-                    //     }
-                    // }
                 }
             }
             this.sheets = items;
@@ -105,7 +96,7 @@ class EditLinkController extends Component {
             defaultDisplay = url;
         }
 
-        if (args.isLock) {
+        if (this.isLock) {
             linkProps.asc_setText(null);
         } else {
             if (!displayText) {
@@ -133,7 +124,6 @@ class EditLinkController extends Component {
                 linkInfo={this.linkInfo}
                 isLock={this.isLock}
                 sheets={this.sheets}
-                // activeSheet={this.activeSheet}
                 currentSheet={this.currentSheet}
                 onEditLink={this.onEditLink} 
                 onRemoveLink={this.onRemoveLink}
