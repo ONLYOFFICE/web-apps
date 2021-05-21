@@ -2176,7 +2176,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
-            this.urlPref = 'resources/help/en/';
+            this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},
@@ -2278,12 +2278,12 @@ define([
                 var config = {
                     dataType: 'json',
                     error: function () {
-                        if ( me.urlPref.indexOf('resources/help/en/')<0 ) {
-                            me.urlPref = 'resources/help/en/';
-                            store.url = 'resources/help/en/Contents.json';
+                        if ( me.urlPref.indexOf('resources/help/{{DEFAULT_LANG}}/')<0 ) {
+                            me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
+                            store.url = 'resources/help/{{DEFAULT_LANG}}/Contents.json';
                             store.fetch(config);
                         } else {
-                            me.urlPref = 'resources/help/en/';
+                            me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
                             store.reset(me.en_data);
                         }
                     },

@@ -7,6 +7,8 @@ define([
 ], function () {
     'use strict';
 
+    !Common.UI && (Common.UI = {});
+    
     Common.UI.Themes = new (function(locale) {
         !locale && (locale = {});
         var themes_map = {

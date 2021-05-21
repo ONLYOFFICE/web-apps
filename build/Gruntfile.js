@@ -66,6 +66,9 @@ module.exports = function(grunt) {
                 }, {
                     from: /\{\{HELP_URL\}\}/g,
                     to: _encode(process.env.HELP_URL) || 'https://helpcenter.onlyoffice.com'
+                }, {
+                    from: /\{\{DEFAULT_LANG\}\}/g,
+                    to: _encode(process.env.DEFAULT_LANG) || 'en'
                 }];
 
     var helpreplacements = [

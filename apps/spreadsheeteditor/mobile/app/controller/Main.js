@@ -741,7 +741,7 @@ define([
                     if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                         me._state.licenseType = licType;
 
-                    if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
+                    if ( me.onServerVersion(params.asc_getBuildVersion()) || !me.onLanguageLoaded() ) return;
 
                     if (params.asc_getRights() !== Asc.c_oRights.Edit) {
                         me.permissions.edit = false;
@@ -1601,6 +1601,17 @@ define([
                 }
             },
 
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    uiApp.modal({
+                        title   : this.notcriticalErrorTitle,
+                        text    : this.errorLang
+                    });
+                    return false;
+                }
+                return true;
+            },
+            
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -1795,7 +1806,8 @@ define([
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
             textGuest: 'Guest',
             errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
-            errorLockedCellPivot: 'You cannot change data inside a pivot table.'
+            errorLockedCellPivot: 'You cannot change data inside a pivot table.',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });

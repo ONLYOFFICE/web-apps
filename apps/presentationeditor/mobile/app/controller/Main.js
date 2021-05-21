@@ -715,7 +715,7 @@ define([
                 if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                     me._state.licenseType = licType;
 
-                if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( me.onServerVersion(params.asc_getBuildVersion()) || !me.onLanguageLoaded() ) return;
 
                 me.appOptions.permissionsLicense = licType;
                 me.permissions.review         = (me.permissions.review === undefined) ? (me.permissions.edit !== false) : me.permissions.review;
@@ -1398,6 +1398,17 @@ define([
                 }
             },
 
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    uiApp.modal({
+                        title   : this.notcriticalErrorTitle,
+                        text    : this.errorLang
+                    });
+                    return false;
+                }
+                return true;
+            },
+            
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -1573,7 +1584,8 @@ define([
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
             textGuest: 'Guest',
-            txtAddFirstSlide: 'Click to add first slide'
+            txtAddFirstSlide: 'Click to add first slide',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), PE.Controllers.Main || {}))
 });
