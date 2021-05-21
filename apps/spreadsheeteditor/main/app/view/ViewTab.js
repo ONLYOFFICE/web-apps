@@ -69,6 +69,9 @@ define([
             this.chGridlines.on('change', function (field, value) {
                 me.fireEvent('viewtab:gridlines', [2, value]);
             });
+            this.chZeros.on('change', function (field, value) {
+                me.fireEvent('viewtab:zeros', [3, value]);
+            });
             this.cmbZoom.on('selected', function(combo, record) {
                 me.fireEvent('viewtab:zoom', [record.value]);
             });
@@ -171,6 +174,13 @@ define([
                     lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chGridlines);
+
+                this.chZeros = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-zeros'),
+                    labelText: this.textZeros,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
+                });
+                this.lockedControls.push(this.chZeros);
 
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
 
@@ -315,7 +325,8 @@ define([
             textClose: 'Close',
             textFormula: 'Formula bar',
             textHeadings: 'Headings',
-            textGridlines: 'Gridlines'
+            textGridlines: 'Gridlines',
+            textZeros: 'Show zeros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

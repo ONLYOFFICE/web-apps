@@ -3412,5 +3412,6 @@
   "SSE.Views.ViewTab.tipClose": "Close sheet view",
   "SSE.Views.ViewTab.tipCreate": "Create sheet view",
   "SSE.Views.ViewTab.tipFreeze": "Freeze panes",
-  "SSE.Views.ViewTab.tipSheetView": "Sheet view"
+  "SSE.Views.ViewTab.tipSheetView": "Sheet view",
+  "SSE.Views.ViewTab.textZeros": "Show zeros"
 }
