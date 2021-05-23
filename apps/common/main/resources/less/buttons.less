@@ -974,6 +974,18 @@
     &.disabled {
         opacity: @component-disabled-opacity;
     }
+
+    &:not(:disabled) {
+        .icon {
+            opacity: 1;
+        }
+
+        &:hover {
+            .icon {
+                .icon();
+            }
+        }
+    }
 }
 
 // Dialog buttons

@@ -232,7 +232,7 @@ define([
             },
 
             setAvailable: function (value) {
-                this.locked = value;
+                this.locked = !value;
             },
 
             map: function () {
@@ -261,7 +261,7 @@ define([
 
             setTheme: function (id, force) {
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
-                    var classname = document.body.className.replace(/theme-\w+\s?/, '');
+                    var classname = document.body.className.replace(/theme-[\w-]+\s?/, '');
                     document.body.className = classname;
 
                     $('body').addClass(id);
