@@ -230,7 +230,7 @@ define([
             },
 
             setAvailable: function (value) {
-                this.locked = value;
+                this.locked = !value;
             },
 
             map: function () {
