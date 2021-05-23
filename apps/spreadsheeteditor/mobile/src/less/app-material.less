@@ -22,3 +22,33 @@
         width: auto;
     }
 }
+
+.icon.icon-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid #6d6d6d;
+}
+label.item-checkbox input[type='checkbox']:checked ~ 
+.icon-checkbox, label.item-checkbox input[type='checkbox']:checked ~ 
+* .icon-checkbox, .checkbox input[type='checkbox']:checked ~ 
+i, label.item-checkbox input[type='checkbox']:indeterminate ~ 
+.icon-checkbox, label.item-checkbox input[type='checkbox']:indeterminate ~ * .icon-checkbox, .checkbox input[type='checkbox']:indeterminate ~ i{
+    border-color: #40865c;
+    background-color: transparent;
+}
+label.item-content i.icon.icon-checkbox:after {
+    content: ' ';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 50%;
+    top: 50%;
+    margin-left: -5px;
+    margin-top: -5px;
+    background-color: #40865c;
+    border-radius: 100%;
+}
+.device-android .button-raised{
+    box-shadow: none;
+}

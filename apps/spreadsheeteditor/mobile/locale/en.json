@@ -406,7 +406,13 @@
             "textExternalLink": "External Link",
             "textDefault": "Selected range",
             "textInvalidRange": "Invalid cells range",
-            "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+            "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+            "textFilterOptions": "Filter Options",
+            "textClearFilter": "Clear Filter",
+            "textDeleteFilter": "Delete Filter",
+            "textEmptyItem": "{Blanks}",
+            "textErrorTitle": "Warning",
+            "textErrorMsg": "You must choose at least one value"
         },
         "Settings": {
             "textFindAndReplace": "Find and Replace",
