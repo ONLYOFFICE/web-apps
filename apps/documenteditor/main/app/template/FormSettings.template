@@ -34,11 +34,11 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
-    <!--<tr class="form-textfield">-->
-        <!--<td class="padding-small">-->
-            <!--<div id="form-chb-fixed"></div>-->
-        <!--</td>-->
-    <!--</tr>-->
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-fixed"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <div id="form-chb-max-chars" style="display: inline-block;margin-top: 4px;"></div>

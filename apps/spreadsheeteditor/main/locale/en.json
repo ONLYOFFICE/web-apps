@@ -155,7 +155,6 @@
   "Common.Views.AutoCorrectDialog.textAutoFormat": "AutoFormat As You Type",
   "Common.Views.AutoCorrectDialog.textBy": "By",
   "Common.Views.AutoCorrectDialog.textDelete": "Delete",
-  "Common.Views.AutoCorrectDialog.textFLSentence": "Capitalize first letter of sentences",
   "Common.Views.AutoCorrectDialog.textHyperlink": "Internet and network paths with hyperlinks",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Math AutoCorrect",
   "Common.Views.AutoCorrectDialog.textNewRowCol": "Include new rows and columns in table",
@@ -3413,5 +3412,8 @@
   "SSE.Views.ViewTab.tipCreate": "Create sheet view",
   "SSE.Views.ViewTab.tipFreeze": "Freeze panes",
   "SSE.Views.ViewTab.tipSheetView": "Sheet view",
-  "SSE.Views.ViewTab.textZeros": "Show zeros"
+  "SSE.Views.ViewTab.textZeros": "Show zeros",
+  "SSE.Views.ViewTab.textFreezeRow": "Freeze Top Row",
+  "SSE.Views.ViewTab.textFreezeCol": "Freeze Top Column",
+  "SSE.Views.ViewTab.textUnFreeze": "Unfreeze Panes"
 }
