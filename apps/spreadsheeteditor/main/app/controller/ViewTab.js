@@ -120,9 +120,9 @@ define([
                                       {array: [this.view.btnCloseView]});
         },
 
-        onFreeze: function(state) {
+        onFreeze: function(type) {
             if (this.api) {
-                this.api.asc_freezePane();
+                this.api.asc_freezePane(type);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -206,7 +206,7 @@ define([
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
-            this.view.btnFreezePanes.toggle(!!params.asc_getIsFreezePane(), true);
+            this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
