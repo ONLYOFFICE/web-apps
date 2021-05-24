@@ -275,6 +275,7 @@
                         <span class="btn-slot text" id="slot-chk-gridlines"></span>
                     </div>
                     <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-zeros"></span>
                     </div>
                 </div>
             </section>

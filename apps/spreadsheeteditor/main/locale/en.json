@@ -3414,5 +3414,6 @@
   "SSE.Views.ViewTab.tipSheetView": "Sheet view",
   "SSE.Views.ViewTab.textFreezeRow": "Freeze Top Row",
   "SSE.Views.ViewTab.textFreezeCol": "Freeze Top Column",
-  "SSE.Views.ViewTab.textUnFreeze": "Unfreeze Panes"
+  "SSE.Views.ViewTab.textUnFreeze": "Unfreeze Panes",
+  "SSE.Views.ViewTab.textZeros": "Show zeros"
 }
