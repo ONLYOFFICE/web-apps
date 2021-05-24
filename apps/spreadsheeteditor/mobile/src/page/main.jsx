@@ -9,6 +9,7 @@ import CellEditor from '../controller/CellEditor';
 import Statusbar from '../controller/Statusbar';
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
+import FilterOptionsController from "../controller/FilterOptions";
 import { Search, SearchSettings } from '../controller/Search';
 import { f7 } from 'framework7-react';
 
@@ -110,6 +111,9 @@ class MainPage extends Component {
                     !this.state.collaborationVisible ? null :
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
+
+                <FilterOptionsController />
+                
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
