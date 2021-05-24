@@ -57,8 +57,8 @@ define([
                 });
             }
 
-            me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('viewtab:freeze', [item.value]);
+            me.btnFreezePanes.on('click', function (btn, e) {
+                me.fireEvent('viewtab:freeze', [btn.pressed]);
             });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
@@ -128,7 +128,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-freeze-panes',
                     caption: this.capBtnFreeze,
-                    menu: true,
+                    split: false,
+                    enableToggle: true,
                     lock: [_set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnFreezePanes);
@@ -205,22 +206,6 @@ define([
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
                     }
-                    me.btnFreezePanes.setMenu(new Common.UI.Menu({
-                        items: [
-                            {
-                                caption: me.toolbar && me.toolbar.api && !!me.toolbar.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.textUnFreeze : me.capBtnFreeze,
-                                value: undefined
-                            },
-                            {
-                                caption: me.textFreezeRow,
-                                value: Asc.c_oAscFrozenPaneAddType.firstRow
-                            },
-                            {
-                                caption: me.textFreezeCol,
-                                value: Asc.c_oAscFrozenPaneAddType.firstCol
-                            }
-                        ]
-                    }));
                     me.btnFreezePanes.updateHint(me.tipFreeze);
 
                     setEvents.call(me);
@@ -341,10 +326,7 @@ define([
             textFormula: 'Formula bar',
             textHeadings: 'Headings',
             textGridlines: 'Gridlines',
-            textZeros: 'Show zeros',
-            textFreezeRow: 'Freeze Top Row',
-            textFreezeCol: 'Freeze Top Column',
-            textUnFreeze: 'Unfreeze Panes'
+            textZeros: 'Show zeros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

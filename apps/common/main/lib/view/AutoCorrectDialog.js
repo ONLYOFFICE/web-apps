@@ -64,12 +64,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 {panelId: 'id-autocorrect-dialog-settings-math',        panelCaption: this.textMathCorrect},
                 {panelId: 'id-autocorrect-dialog-settings-recognized',  panelCaption: this.textRecognized}
             ];
-            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
-                items.push({panelId: 'id-autocorrect-dialog-settings-autocorrect',  panelCaption: this.textAutoCorrect});
-
-            } else if (this.appPrefix=='sse-')
+            else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
+
+            items.push({panelId: 'id-autocorrect-dialog-settings-autocorrect',  panelCaption: this.textAutoCorrect});
 
             _.extend(this.options, {
                 title: this.textTitle,
@@ -324,19 +324,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-numbered", checked);
                     me.api.asc_SetAutomaticNumberedLists(checked);
                 });
-                // AutoCorrect
-                this.chFLSentence = new Common.UI.CheckBox({
-                    el: $('#id-autocorrect-dialog-chk-fl-sentence'),
-                    labelText: this.textFLSentence,
-                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-sentence")
-                }).on('change', function(field, newValue, oldValue, eOpts){
-                    var checked = (field.getValue()==='checked');
-                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
-                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
-                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
-                });
-
-                this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
             } else if (this.appPrefix=='sse-') {
                 this.chNewRows = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-new-rows'),
@@ -361,9 +348,22 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 });
             }
 
+            // AutoCorrect
+            this.chFLSentence = new Common.UI.CheckBox({
+                el: $('#id-autocorrect-dialog-chk-fl-sentence'),
+                labelText: this.textFLSentence,
+                value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-sentence")
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()==='checked');
+                Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+            });
+
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
             this.btnsCategory[2].on('click', _.bind(this.onAutoformatCategoryClick, this, false));
+            this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
 
             this.afterRender();
         },
@@ -384,7 +384,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.chFLSentence // 3 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
-            arr = arr.concat(this.chFLSentence ? [this.chFLSentence] : []);
             return arr;
         },
 
