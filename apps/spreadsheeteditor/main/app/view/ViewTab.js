@@ -342,7 +342,7 @@ define([
             textHeadings: 'Headings',
             textGridlines: 'Gridlines',
             textFreezeRow: 'Freeze Top Row',
-            textFreezeCol: 'Freeze Top Column',
+            textFreezeCol: 'Freeze First Column',
             textUnFreeze: 'Unfreeze Panes',
             textZeros: 'Show zeros'
         }
