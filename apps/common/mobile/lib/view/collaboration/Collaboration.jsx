@@ -134,7 +134,7 @@ class CollaborationView extends Component {
         const show_popover = this.props.usePopover;
         return (
             show_popover ?
-                <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()} closeByOutsideClick={false}>
                     <PageCollaboration style={{height: '410px'}} page={this.props.page}/>
                 </Popover> :
                 <Sheet className="coauth__sheet" push onSheetClosed={() => this.props.onclosed()}>

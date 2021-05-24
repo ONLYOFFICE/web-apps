@@ -292,6 +292,12 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                             done.classList.remove('disabled');
                         }
                     });
+                },
+                open: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
+                },
+                closed: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
                 }
             }
         }).open();
@@ -411,6 +417,12 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         }
                     });
                     done.classList.add('disabled');
+                },
+                open: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
+                },
+                closed: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
                 }
             }
         }).open();
@@ -536,6 +548,12 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                             done.classList.remove('disabled');
                         }
                     });
+                },
+                open: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
+                },
+                closed: () => {
+                    $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
                 }
             }
         }).open();
@@ -829,7 +847,7 @@ const ViewCommentPopover = ({onCommentMenuClick, onResolveComment}) => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
     });
     return (
-        <Popover id='view-comment-popover' style={{height: '410px'}}>
+        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
             <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )

@@ -334,7 +334,11 @@
     "textReplaceAll": "Replace All",
     "textCaseSensitive": "Case Sensitive",
     "textHighlightResults": "Highlight Results",
-    "textSearch": "Search"
+    "textSearch": "Search",
+    "textMarginsW": "Left and right margins are too high for a given page width",
+    "textMarginsH": "Top and bottom margins are too high for a given page height",
+    "textCollaboration": "Collaboration",
+    "textFindAndReplaceAll": "Find and Replace All"
   },
   "Edit": {
     "textClose": "Close",

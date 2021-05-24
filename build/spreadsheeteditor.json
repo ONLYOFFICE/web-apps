@@ -343,6 +343,18 @@
             "files": "../deploy/web-apps/apps/spreadsheeteditor/mobile/**/*.json"
         },
         "copy": {
+            "assets": [
+                {
+                    "src": "../apps/spreadsheeteditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/dist"
+                }
+            ],
             "template-backup": [
                 {
                     "expand": true,
@@ -362,8 +374,7 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index_loader.html": "../apps/spreadsheeteditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html"
             },
             "localization": [
                 {

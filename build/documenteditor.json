@@ -353,8 +353,7 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html"
             },
             "localization": [
                 {
@@ -378,6 +377,18 @@
                     "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
+                }
+            ],
+            "assets": [
+                {
+                    "src": "../apps/documenteditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/dist"
                 }
             ]
         }

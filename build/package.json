@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "chai": "1.9.1",
-    "grunt-mocha": "^1.0.0",
-    "mocha": "^6.2.2"
+    "grunt-exec": "^3.0.0",
+    "mocha": "^6.2.2",
+    "grunt-mocha": "^1.0.0"
   }
 }

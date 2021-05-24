@@ -25,6 +25,13 @@
     }
 }
 
+.navbar {
+    .title {
+        text-overflow: initial;
+        white-space: normal;
+    }
+}
+
 .subnavbar {
     .subnavbar-inner {
         padding: 0;
@@ -63,6 +70,16 @@
 
 .text-content {
     padding: 14px 10px 0 10px;
+}
+
+.list {
+    .item-text {
+        text-overflow: initial;
+        white-space: normal;
+        height: auto;
+        max-height: initial;
+        -webkit-line-clamp: initial;
+    }
 }
 
 .shapes {
@@ -113,12 +130,6 @@
 .segmented {
     .decrement, .increment {
         text-overflow: clip;
-    }
-}
-
-.dialog {
-    .content-block {
-        padding: 0;
     }
 }
 
@@ -226,8 +237,8 @@
         position: relative;
         margin: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15);
-        width: 85px;
-        height: 38px;
+        width: 88px;
+        height: 40px;
         margin-top: 14px;
         background-image: url(../img/themes/themes.png);
         display: block;
@@ -733,23 +744,28 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
-
-.picker-3d { 
-    .picker-item {
+.dlg-adv-options {
+    z-index: 13700;
+    .content-block {
         padding: 0;
-        text-align: left;
-        font-size: 16px;
-        span {
+    }
+    .picker-3d { 
+        .picker-item {
             padding: 0;
+            text-align: left;
+            font-size: 16px;
+            span {
+                padding: 0;
+            }
         }
+    }
+    .picker-center-highlight {
+        width: 100%;
+        left: 0;
+        right: 0;
     }
 }
 
-.picker-center-highlight {
-    width: 100%;
-    left: 0;
-    right: 0;
-}
 
 
 

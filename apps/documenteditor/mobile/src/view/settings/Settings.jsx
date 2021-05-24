@@ -71,11 +71,16 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
 
     const closeModal = () => {
         if (Device.phone) {
-            f7.sheet.close('.settings-popup', true);
+            f7.sheet.close('.settings-popup', false);
         } else {
-            f7.popover.close('#settings-popover');
+            f7.popover.close('#settings-popover', false);
         }
     };
+
+    const onOpenCollaboration = async () => {
+        await closeModal();
+        await props.openOptions('coauth');
+    }
 
     useEffect(() => {
     });
@@ -117,6 +122,11 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
+                    {window.matchMedia("(max-width: 389px)").matches ? 
+                        <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration}>
+                            <Icon slot="media" icon="icon-collaboration"></Icon>
+                        </ListItem> 
+                    : null}
                     {_canReader &&
                         <ListItem title={_t.textReaderMode}> {/*ToDo*/}
                             <Icon slot="media" icon="icon-reader"></Icon>
@@ -182,10 +192,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
+                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp}/>
                 </Popup>
         )
     }

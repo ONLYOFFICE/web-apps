@@ -71,7 +71,7 @@ const Settings = props => {
         window.open(url, "_blank");
     };
 
-    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} onReaderMode={onReaderMode} onPrint={onPrint} showHelp={showHelp}/>
+    return <SettingsView usePopover={!Device.phone} openOptions={props.openOptions} onclosed={onviewclosed} onReaderMode={onReaderMode} onPrint={onPrint} showHelp={showHelp}/>
 };
 
 export default inject("storeAppOptions")(observer(Settings));

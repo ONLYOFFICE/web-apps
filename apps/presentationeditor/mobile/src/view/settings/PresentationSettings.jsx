@@ -6,10 +6,10 @@ import { useTranslation } from "react-i18next";
 const PagePresentationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    // props.initSlideSize();
     const storePresentationSettings = props.storePresentationSettings;
     const slideSizeArr = storePresentationSettings.slideSizes;
     const slideSizeIndex = storePresentationSettings.slideSizeIndex;
+    // console.log(slideSizeIndex);
 
     return (
         <Page>

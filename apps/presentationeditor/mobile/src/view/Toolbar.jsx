@@ -8,7 +8,7 @@ const ToolbarView = props => {
         <Fragment>
             <NavLeft>
                 {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
-                {props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
+                {Device.ios && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo,
                     disabledRedo: !props.isCanRedo,
                     onUndoClick: props.onUndo,
@@ -17,6 +17,12 @@ const ToolbarView = props => {
             </NavLeft>
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
+                {Device.android && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
+                    disabledUndo: !props.isCanUndo,
+                    disabledRedo: !props.isCanRedo,
+                    onUndoClick: props.onUndo,
+                    onRedoClick: props.onRedo
+                })}
                 <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
                     disabledAdd: props.disabledAdd || props.disabledControls,
@@ -25,7 +31,7 @@ const ToolbarView = props => {
                     onAddClick: () => props.openOptions('add')
                 })}
                 { Device.phone ? null : <Link className={props.disabledControls && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
-                {props.displayCollaboration && <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link>}
+                {props.displayCollaboration && window.matchMedia("(min-width: 390px)").matches ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
                 <Link className={(props.disabledSettings || props.disabledControls) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>

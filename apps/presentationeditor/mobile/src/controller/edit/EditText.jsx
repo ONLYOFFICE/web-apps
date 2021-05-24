@@ -100,6 +100,8 @@ class EditTextController extends Component {
             newDistance = (distance < 0) ? 0 : Math.min(maxValue, distance + step);
         }
 
+        newDistance = parseFloat(newDistance.toFixed(2));
+
         api.put_LineSpacingBeforeAfter(0, (newDistance < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(newDistance));
     };
 
@@ -121,6 +123,8 @@ class EditTextController extends Component {
         } else {
             newDistance = (distance < 0) ? 0 : Math.min(maxValue, distance + step);
         }
+
+        newDistance = parseFloat(newDistance.toFixed(2));
 
         api.put_LineSpacingBeforeAfter(1, (newDistance < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(newDistance));
     };

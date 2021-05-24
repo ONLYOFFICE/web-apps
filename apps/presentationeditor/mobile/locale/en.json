@@ -150,7 +150,8 @@
     "Settings": {
       "textDone": "Done",
       "textSettings": "Settings",
-      "textFindAndReplace": "Find and replace",
+      "textFindAndReplace": "Find and Replace",
+      "textFindAndReplaceAll": "Find and Replace All",
       "textPresentationSettings": "Presentation Settings",
       "textApplicationSettings": "Application Settings",
       "textDownload": "Download",
@@ -200,7 +201,8 @@
       "textCaseSensitive": "Case Sensitive",
       "textHighlight": "Highlight Results",
       "textReplace": "Replace",
-      "textNoTextFound": "Text not Found"
+      "textNoTextFound": "Text not Found",
+      "textCollaboration": "Collaboration"
     },
     "Add": {
       "textSlide": "Slide",

@@ -9,7 +9,8 @@ import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
 
 const searchOptions = observable({
-    usereplace: false
+    usereplace: false,
+    isReplaceAll: false
 });
 
 const popoverStyle = {
@@ -31,15 +32,20 @@ class SearchSettingsView extends Component {
             searchBy: 1,
             lookIn: 1,
             isMatchCase: false,
-            isMatchCell: false
+            isMatchCell: false,
+            isReplaceAll: false
         };
     }
 
     onFindReplaceClick(action) {
-        runInAction(() => searchOptions.usereplace = action == 'replace');
+        runInAction(() => {
+            searchOptions.usereplace = action == 'replace';
+            searchOptions.isReplaceAll = action == 'replace-all';
+        });
 
         this.setState({
-            useReplace: searchOptions.usereplace
+            useReplace: searchOptions.usereplace,
+            isReplaceAll: searchOptions.isReplaceAll
         });
 
         if (this.onReplaceChecked) {}
@@ -251,14 +257,15 @@ class SearchView extends Component {
 
     render() {
         const usereplace = searchOptions.usereplace;
+        const isReplaceAll = searchOptions.isReplaceAll;
         const hidden = {display: "none"};
         const searchQuery = this.state.searchQuery;
-        const replaceQuery = this.state.replaceQuery;
+        // const replaceQuery = this.state.replaceQuery;
         const isIos = Device.ios;
         const { _t } = this.props;
 
         if(this.searchbar && this.searchbar.enabled) {
-            usereplace ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
+            usereplace || isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
         } 
 
         return (
@@ -272,22 +279,30 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input placeholder={_t.textSearch} type="search" maxLength="255" value={searchQuery} 
+                            <input placeholder={_t.textSearch} type="search" maxLength="255"
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
                             {isIos ? <i className="searchbar-icon" /> : null}
-                            <span className="input-clear-button" />
+                            <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
                         </div>
-                        <div className="searchbar-input-wrap" style={!usereplace ? hidden: null}>
-                            <input placeholder={_t.textReplace} type="search" maxLength="255" id="idx-replace-val" value={replaceQuery} 
-                                onChange={e => {this.changeReplaceQuery(e.target.value)}} />
-                            {isIos ? <i className="searchbar-icon" /> : null}
-                            <span className="input-clear-button" />
-                        </div>
+                        {/* {usereplace || isReplaceAll ?  */}
+                            <div className="searchbar-input-wrap" style={usereplace || isReplaceAll ? null : hidden}>
+                                {/* style={!usereplace ? hidden: null} */}
+                                <input placeholder={_t.textReplace} type="search" maxLength="255" id="idx-replace-val"
+                                    onChange={e => {this.changeReplaceQuery(e.target.value)}} />
+                                {isIos ? <i className="searchbar-icon" /> : null}
+                                <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
+                            </div>
+                        {/*  */}
                     </div>
                     <div className="buttons-row searchbar-inner__right">
                         <div className="buttons-row buttons-row-replace">
-                            <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
-                            <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                            {/* <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                            <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
+                            {isReplaceAll ? (
+                                <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                            ) : usereplace ? (
+                                <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                            ) : null}
                         </div>
                         <div className="buttons-row">
                             <a className={"link icon-only prev " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>

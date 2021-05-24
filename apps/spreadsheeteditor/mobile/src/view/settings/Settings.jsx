@@ -78,11 +78,16 @@ const SettingsList = withTranslation()(props => {
 
     const closeModal = () => {
         if (Device.phone) {
-            f7.sheet.close('.settings-popup', true);
+            f7.sheet.close('.settings-popup', false);
         } else {
-            f7.popover.close('#settings-popover');
+            f7.popover.close('#settings-popover', false);
         }
     };
+
+    const onOpenCollaboration = async () => {
+        await closeModal();
+        await props.openOptions('coauth');
+    }
 
     const onPrint = () => {
         closeModal();
@@ -121,6 +126,11 @@ const SettingsList = withTranslation()(props => {
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
+                    {window.matchMedia("(max-width: 389px)").matches ? 
+                        <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration}>
+                            <Icon slot="media" icon="icon-collaboration"></Icon>
+                        </ListItem> 
+                    : null}
                     <ListItem link="#" title={_t.textSpreadsheetSettings} onClick={onoptionclick.bind(this, '/spreadsheet-settings/')}>
                         <Icon slot="media" icon="icon-table-settings"></Icon>
                     </ListItem>
@@ -164,10 +174,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
+                    <SettingsList inPopover={true} openOptions={this.props.openOptions} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} />
+                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} />
                 </Popup>
         )
     }
@@ -189,7 +199,7 @@ const Settings = props => {
             props.onclosed();
     };
 
-    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} />
+    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} />
 };
 
 export default Settings;

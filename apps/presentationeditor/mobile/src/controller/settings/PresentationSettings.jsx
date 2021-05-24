@@ -18,8 +18,8 @@ class PresentationSettingsController extends Component {
                 [12192000, 6858000, Asc.c_oAscSlideSZType.SzCustom]
             ];
 
-            this.props.storePresentationSettings.changeSizeIndex(api.get_PresentationWidth(), api.get_PresentationHeight());
             this.props.storePresentationSettings.initSlideSizes(slideSizes);
+            this.props.storePresentationSettings.changeSizeIndex(api.get_PresentationWidth(), api.get_PresentationHeight());
             this.init = true;
         }
     }
@@ -30,7 +30,7 @@ class PresentationSettingsController extends Component {
         let ratio = slideSizeArr[1] / slideSizeArr[0];
         let currentHeight = this.props.storePresentationSettings.currentPageSize.height;
         let currentPageSize = {
-            width: (currentHeight || slideSizeArr[1]) / ratio,
+            width: ((currentHeight || slideSizeArr[1]) / ratio),
             height: currentHeight
         };
         // api.changeSlideSize(slideSizeArr[0], slideSizeArr[1], slideSizeArr[2]);

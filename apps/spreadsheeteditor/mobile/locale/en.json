@@ -405,6 +405,7 @@
         },
         "Settings": {
             "textFindAndReplace": "Find and Replace",
+            "textFindAndReplaceAll": "Find and Replace All",
             "textSpreadsheetSettings": "Spreadsheet Settings",
             "textApplicationSettings": "Application Settings",
             "textDownload": "Download",
@@ -493,7 +494,8 @@
             "textFormulas": "Formulas",
             "textValues": "Values",
             "textNoTextFound": "Text not found",
-            "textReplaceAll": "Replace All"
+            "textReplaceAll": "Replace All",
+            "textCollaboration": "Collaboration"
         }
     },
     "Statusbar": {
