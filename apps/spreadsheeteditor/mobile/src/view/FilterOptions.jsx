@@ -8,8 +8,6 @@ const FilterOptions = (props) => {
     const _t = t('View.Edit', {returnObjects: true});
 
     useEffect(() => {
-        const $clearFilter = $$("#button-clear-filter");
-        props.isValid ? $clearFilter.addClass('disabled') : $clearFilter.removeClass('disabled');
         const is_all_checked = props.listVal.every(item => item.check);
         setAll(is_all_checked);
     });
@@ -47,13 +45,13 @@ const FilterOptions = (props) => {
                 </ListItem>
            </List>
            <List >
-               <ListButton color="black" className="item-link button-raised"  id='button-clear-filter' onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
+               <ListButton color="black" className={props.isValid ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>
            </List>
            <List>
-               <ListItem onChange={e => props.onUpdateCell('all', e.target.checked)} name='filter-cellAll' checkbox checked={all}>Select All</ListItem>
+               <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell('all', e.target.checked)} name='filter-cellAll' checkbox checked={all}>{_t.textSelectAll}</ListItem>
                {props.listVal.map((value) =>
-                   <ListItem onChange={e => props.onUpdateCell(value.id, e.target.checked)}  key={value.value} name='filter-cell' value={value.value} title={value.cellvalue} checkbox checked={value.check} />
+                   <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell(value.id, e.target.checked)}  key={value.value} name='filter-cell' value={value.value} title={value.cellvalue} checkbox checked={value.check} />
                )}
            </List>
             </Page>

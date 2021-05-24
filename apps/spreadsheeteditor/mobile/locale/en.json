@@ -410,6 +410,7 @@
             "textFilterOptions": "Filter Options",
             "textClearFilter": "Clear Filter",
             "textDeleteFilter": "Delete Filter",
+            "textSelectAll": "Select All",
             "textEmptyItem": "{Blanks}",
             "textErrorTitle": "Warning",
             "textErrorMsg": "You must choose at least one value"

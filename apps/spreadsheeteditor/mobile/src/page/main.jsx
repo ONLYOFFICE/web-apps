@@ -112,9 +112,7 @@ class MainPage extends Component {
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
-                {
-                    <FilterOptionsController />
-                }
+                <FilterOptionsController />
                 
                 <Statusbar />
 
