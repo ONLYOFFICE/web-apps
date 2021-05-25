@@ -143,6 +143,7 @@ class MainController extends Component {
                       
                     _user.put_Id(_userOptions.id);
                     _user.put_FullName(_userOptions.fullname);
+                    // _user.put_isAnonymous(_userOptions.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);

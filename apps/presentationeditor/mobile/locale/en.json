@@ -22,6 +22,8 @@
         "Table": "Table",
         "Slide title": "Slide title"
       },
+      "textGuest": "Guest",
+      "textAnonymous": "Anonymous",
       "closeButtonText": "Close File",
       "advDRMOptions": "Protected File",
       "advDRMPassword": "Password",

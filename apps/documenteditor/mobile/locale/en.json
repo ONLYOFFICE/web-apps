@@ -26,6 +26,8 @@
       "List Paragraph": "List Paragraph",
       "footnote text": "Footnote Text"
     },
+    "textGuest": "Guest",
+    "textAnonymous": "Anonymous",
     "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
     "titleLicenseExp": "License expired",
     "warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",

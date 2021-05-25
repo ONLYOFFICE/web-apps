@@ -74,12 +74,14 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
+                const _t = this._t;
+
                 EditorUIController.isSupportEditFeature();
                 console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
-                this.props.storeAppOptions.setConfigOptions(this.editorConfig);
+                this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
 
@@ -109,6 +111,7 @@ class MainController extends Component {
                     const _user = new Asc.asc_CUserInfo();
                     _user.put_Id(_userOptions.id);
                     _user.put_FullName(_userOptions.fullname);
+                    // _user.put_isAnonymous(_userOptions.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
