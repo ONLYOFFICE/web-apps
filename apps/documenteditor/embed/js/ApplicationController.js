@@ -59,6 +59,10 @@ DE.ApplicationController = new(function(){
         return;
     }
 
+    common.localStorage.setId('text');
+    common.localStorage.setKeysFilter('de-,asc.text');
+    common.localStorage.sync();
+
     // Handlers
     // -------------------------
 
@@ -92,7 +96,19 @@ DE.ApplicationController = new(function(){
             var _permissions = $.extend({}, docConfig.permissions),
                 docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
-            _user.put_Id(config.user && config.user.id ? config.user.id : ('uid-' + Date.now()));
+
+            var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
+                guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
+                            (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
+                            common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
+                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
+                user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
+                                                 common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+            user.anonymous && common.localStorage.setItem("guest-id", user.id);
+
+            _user.put_Id(user.id);
+            _user.put_FullName(user.fullname);
+            _user.put_IsAnonymousUser(user.anonymous);
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
@@ -634,7 +650,10 @@ DE.ApplicationController = new(function(){
             if (api) api.asc_runAutostartMacroses();
     }
 
-    // Helpers
+    function onBeforeUnload () {
+        common.localStorage.save();
+    }
+        // Helpers
     // -------------------------
 
     function onDocumentResize() {
@@ -651,6 +670,7 @@ DE.ApplicationController = new(function(){
         $(window).resize(function(){
             onDocumentResize();
         });
+        window.onbeforeunload = onBeforeUnload;
 
         var ismodalshown = false;
         $(document.body).on('show.bs.modal', '.modal',
@@ -735,6 +755,8 @@ DE.ApplicationController = new(function(){
         textSubmit: 'Submit',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
-        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
+        textGuest: 'Guest',
+        textAnonymous: 'Anonymous'
     }
 })();

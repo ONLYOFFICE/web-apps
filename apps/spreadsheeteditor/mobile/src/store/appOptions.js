@@ -1,4 +1,5 @@
 import {action, observable, makeObservable} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeAppOptions {
     constructor() {
@@ -38,9 +39,10 @@ export class storeAppOptions {
         (typeof (this.customization.anonymous.label) == 'string') && this.customization.anonymous.label.trim()!=='' ?
             Common.Utils.String.htmlEncode(this.customization.anonymous.label) : _t.textGuest;
 
-        const value = this.canRenameAnonymous ? Common.localStorage.getItem("guest-username") : null;
-        this.user = Common.Utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + this.guestName + ')' ) : _t.textAnonymous);
-
+        const value = this.canRenameAnonymous ? LocalStorage.getItem("guest-username") : null;
+        this.user = Common.Utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + this.guestName + ')' ) : _t.textAnonymous, LocalStorage.getItem("guest-id") || ('uid-' + Date.now()));
+        this.user.anonymous && LocalStorage.setItem("guest-id", this.user.id);
+        
         config.user = this.user;
         this.isDesktopApp = config.targetApp == 'desktop';
         this.canCreateNew = !!config.createUrl && !this.isDesktopApp;
@@ -58,7 +60,6 @@ export class storeAppOptions {
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
-        this.customization = config.customization;
         this.canBackToFolder = (config.canBackToFolder!==false) && (typeof (config.customization) == 'object') && (typeof (config.customization.goback) == 'object')
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;

@@ -322,7 +322,10 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
+                                                  Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+                this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
+
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -393,6 +396,7 @@ define([
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);

@@ -59,6 +59,9 @@ SSE.ApplicationController = new(function(){
         return;
     }
 
+    common.localStorage.setId('text');
+    common.localStorage.setKeysFilter('sse-,asc.table');
+    common.localStorage.sync();
 
     // Handlers
     // -------------------------
@@ -93,7 +96,19 @@ SSE.ApplicationController = new(function(){
             var _permissions = $.extend({}, docConfig.permissions),
                 docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
-            _user.put_Id(config.user && config.user.id ? config.user.id : ('uid-' + Date.now()));
+
+            var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
+                guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
+                (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
+                    common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
+                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
+                user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
+                    common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+            user.anonymous && common.localStorage.setItem("guest-id", user.id);
+
+            _user.put_Id(user.id);
+            _user.put_FullName(user.fullname);
+            _user.put_IsAnonymousUser(user.anonymous);
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
@@ -580,6 +595,9 @@ SSE.ApplicationController = new(function(){
             if (api) api.asc_runAutostartMacroses();
     }
 
+    function onBeforeUnload () {
+        common.localStorage.save();
+    }
     // Helpers
     // -------------------------
 
@@ -599,7 +617,8 @@ SSE.ApplicationController = new(function(){
         $(window).resize(function(){
             onDocumentResize();
         });
-
+        window.onbeforeunload = onBeforeUnload;
+        
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
             'embedded' : true
@@ -643,6 +662,8 @@ SSE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading spreadsheet',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textGuest: 'Guest',
+        textAnonymous: 'Anonymous'
     }
 })();
