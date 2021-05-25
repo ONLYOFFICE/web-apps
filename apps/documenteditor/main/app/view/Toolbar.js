@@ -186,7 +186,9 @@ define([
                         id: 'id-toolbar-btn-bold',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-bold',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnBold);
 
@@ -194,7 +196,9 @@ define([
                         id: 'id-toolbar-btn-italic',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-italic',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnItalic);
 
@@ -202,7 +206,9 @@ define([
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnUnderline);
 
@@ -210,7 +216,9 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnStrikeout);
 
@@ -219,7 +227,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-superscript',
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnSuperscript);
 
@@ -228,7 +238,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-subscript',
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnSubscript);
 
@@ -312,7 +324,9 @@ define([
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
                         allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignLeft);
 
@@ -322,7 +336,9 @@ define([
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
                         allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignCenter);
 
@@ -332,7 +348,9 @@ define([
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
                         allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignRight);
 
@@ -342,7 +360,9 @@ define([
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
                         allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
 
@@ -350,14 +370,18 @@ define([
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-decoffset'
+                        iconCls: 'toolbar__icon btn-decoffset',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnDecLeftOffset);
 
                     this.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-incoffset'
+                        iconCls: 'toolbar__icon btn-incoffset',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnIncLeftOffset);
 
@@ -375,7 +399,9 @@ define([
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnLineSpace);
 
@@ -402,7 +428,9 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnMarkers);
                     this.textOnlyControls.push(this.btnMarkers);
@@ -414,7 +442,9 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnNumbers);
                     this.textOnlyControls.push(this.btnNumbers);
@@ -423,7 +453,9 @@ define([
                         id: 'id-toolbar-btn-multilevels',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-multilevels',
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnMultilevels);
                     this.textOnlyControls.push(this.btnMultilevels);

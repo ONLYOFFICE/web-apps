@@ -57,37 +57,47 @@ Common.UI.HintManager = new(function() {
         _currentHints = [],
         _inputLetters = '';
 
-    var _showHints = function(type) {
-        if (type === 'next') {
-            _removeHints();
-            _currentLevel++;
+    var _showHints = function () {
+        _inputLetters = '';
+        if (_currentHints.length === 0)
             _getHints();
-        } else if (type === 'prev') {
-            _removeHints();
-            _currentLevel--;
-            _getHints();
-            if (_currentLevel === -1)
-                _hintVisible = false;
-        } else {
-            _hintVisible = !_hintVisible;
-            _getHints();
-        }
+        if (_currentHints.length > 0) {
+            _hintVisible = true;
+            _currentHints.forEach(function(item) {
+                item.show()
+            });
+        } else
+            _hintVisible = false;
+    };
+
+    var _hideHints = function() {
+        _hintVisible = false;
+        _currentHints && _currentHints.forEach(function(item) {
+            item.hide()
+        });
+    };
+
+    var _nextLevel = function() {
+        _removeHints();
+        _currentHints.length = 0;
+        _currentControls.length = 0;
+        _currentLevel++;
+    };
+
+    var _prevLevel = function() {
+        _removeHints();
+        _currentHints.length = 0;
+        _currentControls.length = 0;
+        _currentLevel--;
     };
 
     var _getControls = function() {
-        if (!_controls[_currentLevel]) {
+        /*if (!_controls[_currentLevel]) {
             _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
-            if (_currentLevel === 0 && !_controls[_currentLevel])
-                _controls[_currentLevel] = $('[data-hint=0]').toArray();
-        }
-
+        }*/
+        _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
         _currentControls = [];
-        var arr = [];
-        if (_currentLevel === 0) {
-            arr = arr.concat(_controls[_currentLevel]);
-           !$('.toolbar-fullview-panel').is(':visible') && (arr = arr.concat(_controls[_currentLevel+1]));
-        } else
-            arr = _controls[_currentLevel];
+        var arr = _controls[_currentLevel];
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
@@ -104,7 +114,6 @@ Common.UI.HintManager = new(function() {
                 }
             }
         }
-        console.log(visibleItems);
         visibleItems.forEach(function (item, index) {
             var el = $(item);
             el.attr('data-hint-title', _arrLetters[index].toUpperCase());
@@ -114,29 +123,34 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getHints = function() {
-        _removeHints();
-        _getControls();
+        if (_currentControls.length === 0)
+            _getControls();
         _currentControls.forEach(function(item, index) {
-            var disabled = item.hasClass('disabled');
-            var classes = 'hint-div' + (disabled ? ' disabled' : '');
-            var hint = $('<div style="" class="' + classes + '">' + item.attr('data-hint-title') + '</div>');
-            var direction = item.attr('data-hint-direction');
-            var offset = item.offset();
-            if (direction === 'top')
-                hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top - 3});
-            else if (direction === 'right')
-                hint.css({left: offset.left + item.outerWidth() - 4, top: offset.top + (item.outerHeight()-20)/2});
-            else if (direction === 'left')
-                hint.css({left: offset.left - 18, top: offset.top + (item.outerHeight()-20)/2});
-            else if (direction === 'left-bottom')
-                hint.css({left: offset.left - 8, top: offset.top - item.outerHeight()});
-            else
-                hint.css({left: offset.left + (item.outerWidth() - 20)/2, top: offset.top + item.outerHeight() - 3});
-            $(document.body).append(hint);
+            if (!item.hasClass('disabled')) {
+                var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
+                var direction = item.attr('data-hint-direction');
+                var offset = item.offset();
+                if (direction === 'top')
+                    hint.css({left: offset.left + (item.outerWidth() - 20) / 2, top: offset.top - 16});
+                else if (direction === 'right')
+                    hint.css({
+                        left: offset.left + item.outerWidth() - 4,
+                        top: offset.top + (item.outerHeight() - 20) / 2
+                    });
+                else if (direction === 'left')
+                    hint.css({left: offset.left - 18, top: offset.top + (item.outerHeight() - 20) / 2});
+                else if (direction === 'left-bottom')
+                    hint.css({left: offset.left - 8, top: offset.top - item.outerHeight()});
+                else
+                    hint.css({
+                        left: offset.left + (item.outerWidth() - 20) / 2,
+                        top: offset.top + item.outerHeight() - 3
+                    });
+                $(document.body).append(hint);
 
-            _currentHints.push(hint);
+                _currentHints.push(hint);
+            }
         });
-        console.log(_currentHints);
     };
 
     var _removeHints = function() {
@@ -151,16 +165,30 @@ Common.UI.HintManager = new(function() {
             _getAlphabetLetters();
         }.bind(this));
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT &&_isAlt) {
+            if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
-                _showHints('current');
+                if (!_hintVisible) {
+                    if ($('.toolbar-fullview-panel').is(':visible') && _currentLevel === 0) {
+                        _nextLevel();
+                    } else {
+                        _currentLevel = 0;
+                    }
+                    _showHints();
+                } else {
+                    _hideHints();
+                }
             }
             _isAlt = false;
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
                 if (e.keyCode == Common.UI.Keys.ESC ) {
-                    _showHints('prev');
+                    if (_currentLevel === 0) {
+                        _hideHints();
+                    } else {
+                        _prevLevel();
+                        _showHints();
+                    }
                 } else if ((e.keyCode > 47 && e.keyCode < 58 || e.keyCode > 64 && e.keyCode < 91) && e.key) {
                     var curr;
                     _inputLetters = _inputLetters + String.fromCharCode(e.keyCode).toUpperCase();
@@ -172,19 +200,15 @@ Common.UI.HintManager = new(function() {
                         }
                     }
                     if (curr) {
-                        console.log(curr);
                         curr && curr.trigger(jQuery.Event('click', {which: 1}));
-                        _showHints('next');
+                        _nextLevel();
+                        _showHints();
                     }
                 }
                 e.preventDefault();
             }
 
             _isAlt = (e.keyCode == Common.UI.Keys.ALT);
-            if (_isAlt) {
-                _inputLetters = '';
-            }
-            console.log(_currentLevel);
         });
     };
 
