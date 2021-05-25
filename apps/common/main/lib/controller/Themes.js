@@ -219,6 +219,10 @@ define([
                     $('body').addClass(theme_name);
                 }
 
+                if ( !document.body.className.match(/theme-type-/) ) {
+                    document.body.classList.add('theme-type-' + themes_map[theme_name].type);
+                }
+
                 var obj = get_current_theme_colors(name_colors);
                 obj.type = themes_map[theme_name].type;
                 obj.name = theme_name;
@@ -261,10 +265,8 @@ define([
 
             setTheme: function (id, force) {
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
-                    var classname = document.body.className.replace(/theme-[\w-]+\s?/, '');
-                    document.body.className = classname;
-
-                    $('body').addClass(id);
+                    document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
+                    document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
                     var obj = get_current_theme_colors(name_colors);
                     obj.type = themes_map[id].type;
