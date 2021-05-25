@@ -571,6 +571,60 @@ const EditReply = ({comment, reply, onEditReply}) => {
     )
 };
 
+const pickLink = (message) => {
+    let arrayComment = [], offset, len;
+    message.replace(Common.Utils.ipStrongRe, function(subStr) {
+        let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+        if (result)
+            subStr = subStr.substring(0, result.index);
+        offset = arguments[arguments.length-2];
+        arrayComment.push({start: offset, end: subStr.length+offset, str: <a onClick={() => window.open(subStr)}  href={subStr} target="_blank" data-can-copy="true">{subStr}</a>});
+        return '';
+    });
+
+    if (message.length<1000 || message.search(/\S{255,}/)<0)
+            message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+                let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                if (result)
+                    subStr = subStr.substring(0, result.index);
+                let ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
+                offset = arguments[arguments.length-2];
+                len = subStr.length;
+                let elem = arrayComment.find(function(item){
+                    return ( (offset>=item.start) && (offset<item.end) ||
+                        (offset<=item.start) && (offset+len>item.start));
+                });
+                if (!elem)
+                arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref} target="_blank" data-can-copy="true">{subStr}</a>});
+                return '';
+            });
+
+            message.replace(Common.Utils.emailStrongRe, function(subStr) {
+                let ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
+                offset = arguments[arguments.length-2];
+                len = subStr.length;
+                let elem = arrayComment.find(function(item){
+                    return ( (offset>=item.start) && (offset<item.end) ||
+                             (offset<=item.start) && (offset+len>item.start));
+                });
+                if (!elem)
+                arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
+                return '';
+            });
+
+            arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
+            
+            let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{Common.Utils.String.htmlEncode(message)}</label>;
+            for (var i=1; i<arrayComment.length; i++) {
+                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
+            }
+            if (arrayComment.length>0) {
+                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
+            }
+            return str_res;
+            
+}
+
 // View comments
 const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
     const { t } = useTranslation();
@@ -623,7 +677,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                 </div>
                                 <div slot='footer'>
                                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                                    <div className='comment-text'><pre>{comment.comment}</pre></div>
+                                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
                                     {comment.replies.length > 0 &&
                                     <ul className='reply-list'>
                                         {comment.replies.map((reply, indexReply) => {
@@ -653,7 +707,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                     }
                                                                 </div>
                                                                 <div slot='footer'>
-                                                                    <div className='reply-text'><pre>{reply.reply}</pre></div>
+                                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -677,6 +731,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 };
 
 const _ViewComments = inject('storeComments', 'storeAppOptions')(observer(ViewComments));
+
 
 const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
     const { t } = useTranslation();
@@ -711,10 +766,6 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
         }
     };
 
-    let arrayComments = []
-    comment.comment && comment.comment.replace(/((?:https?:\/\/|ftps?:\/\/|\bwww\.)(?:(?![.,?!;:()]*(?:\s|$))[^\s]){2,})|(\n+|(?:(?!(?:https?:\/\/|ftp:\/\/|\bwww\.)(?:(?![.,?!;:()]*(?:\s|$))[^\s]){2,}).)+)/gim,
-    (match, link, text) => {console.log(match); arrayComments.push(link ? <a onClick={() => window.open(link)} href={(link[0]==="w" ? "//" : "") + link} key={arrayComments.length}>{link}</a> 
-    : text)})
     return (
         <Fragment>
             <Toolbar position='bottom'>
@@ -749,7 +800,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
                 <div slot='footer'>
                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'><pre>{arrayComments}</pre></div>
+                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
                     {comment.replies.length > 0 &&
                     <ul className='reply-list'>
                         {comment.replies.map((reply, indexReply) => {
@@ -779,7 +830,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                                     }
                                                 </div>
                                                 <div slot='footer'>
-                                                    <div className='reply-text'><pre>{reply.reply}</pre></div>
+                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
                                                 </div>
                                             </div>
                                         </div>

@@ -7,6 +7,7 @@ import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import CellEditor from '../controller/CellEditor';
 import Statusbar from '../controller/Statusbar';
+import FilterOptionsController from '../controller/FilterOptions.jsx'
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
 import FilterOptionsController from "../controller/FilterOptions";
@@ -85,6 +86,7 @@ class MainPage extends Component {
                     </Subnavbar>
                 </Navbar>
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
+                <FilterOptionsController/>
                 {/* Page content */}
                 <View id="editor_sdk" />
                 {showPlaceholder ?
