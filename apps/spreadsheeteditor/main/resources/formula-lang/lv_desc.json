@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(gads; mēnesis; diena)",
-		"d": "Atgriež skaitli, kas apzīmē datumu programmas Microsoft Excel datuma/laika kodā"
+		"d": "Atgriež skaitli, kas apzīmē datumu datuma/laika kodā"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(datums_teksts)",
-		"d": "Pārveido datumu teksta formātā par skaitli, kas apzīmē datumu programmas Microsoft Excel datuma/laika kodā"
+		"d": "Pārveido datumu teksta formātā par skaitli, kas apzīmē datumu datuma/laika kodā"
 	},
 	"DAY": {
 		"a": "(seriālais_skaitlis)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(stunda; minūte; sekunde)",
-		"d": "Konvertē stundas, minūtes un sekundes, kas norādītas kā skaitļi, par Excel seriālo skaitli, kas formatēts laika formātā"
+		"d": "Konvertē stundas, minūtes un sekundes, kas norādītas kā skaitļi, par seriālo skaitli, kas formatēts laika formātā"
 	},
 	"TIMEVALUE": {
 		"a": "(laiks)",
-		"d": "Konvertē teksta laiku Excel seriālā skaitlī, kas apzīmē laiku, - skaitlī no 0 (00:00:00) līdz 0.999988426 (23:59:59). Formatējiet skaitli laika formātā pēc formulas ievadīšanas"
+		"d": "Konvertē teksta laiku seriālā skaitlī, kas apzīmē laiku, - skaitlī no 0 (00:00:00) līdz 0.999988426 (23:59:59). Formatējiet skaitli laika formātā pēc formulas ievadīšanas"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež kumulatīvo beta varbūtības blīvuma funkciju"
+		"d": "Atgriež kumulatīvo beta varbūtības blīvuma funkciju"
 	},
 	"BETAINV": {
 		"a": "(varbūtība; alfa; beta; [A]; [B])",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu kumulatīvo beta varbūtības blīvuma funkciju (BETADIST)"
+		"d": "Atgriež apgrieztu kumulatīvo beta varbūtības blīvuma funkciju (BETADIST)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; kumulatīvā; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(labvēlizn_skaits; mēģinājumi; labvēlizn_varbūtība; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež atsevišķas izteiksmes binomiālā sadalījuma varbūtību"
+		"d": "Atgriež atsevišķas izteiksmes binomiālā sadalījuma varbūtību"
 	},
 	"BINOM.DIST": {
 		"a": "(labvēlizn_skaits; mēģinājumi; labvēlizn_varbūtība; kumulatīvā)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; brīvības_pakāpe)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež labā zara hī kvadrātā sadalījuma varbūtību"
+		"d": "Atgriež labā zara hī kvadrātā sadalījuma varbūtību"
 	},
 	"CHIINV": {
 		"a": "(varbūtība; brīvības_pakāpe)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu hī kvadrāta sadalījuma labā zara varbūtību"
+		"d": "Atgriež apgrieztu hī kvadrāta sadalījuma labā zara varbūtību"
 	},
 	"CHITEST": {
 		"a": "(faktiskais_diapazons; sagaidāmais_diapazons)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež neatkarības pārbaudi: statiskās un piemērotās brīvības pakāpes hī kvadrātā sadalījuma vērtību"
+		"d": "Atgriež neatkarības pārbaudi: statiskās un piemērotās brīvības pakāpes hī kvadrātā sadalījuma vērtību"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; brīvības_pakāpe; kumulatīvā)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; standartnovirze; lielums)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež populācijas vidējā ticamības intervālu, izmantojot normālo sadalījumu"
+		"d": "Atgriež populācijas vidējā ticamības intervālu, izmantojot normālo sadalījumu"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; standartnovirze; lielums)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(masīvs1; masīvs2)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež kovariāciju - katra divu kopu datu punktu pāra noviržu reizinājuma vidējo"
+		"d": "Atgriež kovariāciju - katra divu kopu datu punktu pāra noviržu reizinājuma vidējo"
 	},
 	"COVARIANCE.P": {
 		"a": "(masīvs1; masīvs2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(izmēģinājumi; varbūtība_s; alfa)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež vismazāko vērtību, kuras kumulatīvais binomu sadalījums ir lielāks vai vienāds ar kritērija vērtību"
+		"d": "Atgriež vismazāko vērtību, kuras kumulatīvais binomu sadalījums ir lielāks vai vienāds ar kritērija vērtību"
 	},
 	"DEVSQ": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež eksponenciālo sadalījumu"
+		"d": "Atgriež eksponenciālo sadalījumu"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kumulatīva)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; brīvības_pakāpe1; brīvības_pakāpe2)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež divu datu kopu (labā zara) F varbūtības sadalījumu (atšķirības pakāpi)"
+		"d": "Atgriež divu datu kopu (labā zara) F varbūtības sadalījumu (atšķirības pakāpi)"
 	},
 	"FINV": {
 		"a": "(varbūtība; brīvības_pak1; brīvības_pak2)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu (labā zara) F varbūtības sadalījumu: ja p = FDIST(x,...), FINV(p,...) = x"
+		"d": "Atgriež apgrieztu (labā zara) F varbūtības sadalījumu: ja p = FDIST(x,...), FINV(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(masīvs1; masīvs2)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež F testa rezultātus - divu zaru varbūtību, ka dispersijas Masīvā1 un Masīvā2 nav nozīmīgi atšķirīgas"
+		"d": "Atgriež F testa rezultātus - divu zaru varbūtību, ka dispersijas Masīvā1 un Masīvā2 nav nozīmīgi atšķirīgas"
 	},
 	"F.DIST": {
 		"a": "(x; brīvības_pakāpe1; brīvības_pakāpe2; kumulatīvā)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; zināmie_y; zināmie_x)",
-		"d": "IŠī funkcija ir pieejama saderībai ar Excel 2013 un vecākām versijām.\r\nIzmantojot esošās vērtības, aprēķina vai prognozē nākotnes vērtību saskaņā ar lineāru tendences līkni"
+		"d": "Izmantojot esošās vērtības, aprēķina vai prognozē nākotnes vērtību saskaņā ar lineāru tendences līkni"
 	},
 	"FORECAST.ETS": {
 		"a": "(mērķa_datums; vērtības; laika_grafiks; [sezonalitāte]; [datu_pabeigšana]; [apkopojums])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(vērtības; laika_grafiks; [datu_pabeigšana]; [apkopojums])",
-		"d": "Atgriež tā atkārtotās modeļa garumu, ko Microsoft Excel noteica norādītajai laika sērijai."
+		"d": "Atgriež tā atkārtotās modeļa garumu, ko programma noteica norādītajai laika sērijai."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(vērtības; laika_grafiks; statistikas_tips; [sezonalitāte]; [datu_pabeigšana]; [apkopojums])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež gamma sadalījumu"
+		"d": "Atgriež gamma sadalījumu"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; kumulatīvā)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(varbūtība; alfa; beta)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu gamma kumulatīvo sadalījumu: ja p = GAMMADIST(x,...), GAMMAINV(p,...) = x"
+		"d": "Atgriež apgrieztu gamma kumulatīvo sadalījumu: ja p = GAMMADIST(x,...), GAMMAINV(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(varbūtība; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(izlase_labvēlizn; skaitlis_izlase; populācija_labvēlizn; skaitlis_pop)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež hiperģeometrisku sadalījumu"
+		"d": "Atgriež hiperģeometrisku sadalījumu"
 	},
 	"INTERCEPT": {
 		"a": "(zināmie_y; zināmie_x)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(varbūtība; vidējais; standartnovirze)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu logaritmiski normālu kumulatīvu x sadalījuma funkciju, kur ln(x) parasti ir sadalīts ar parametriem Vidējais un Standartnovirze"
+		"d": "Atgriež apgrieztu logaritmiski normālu kumulatīvu x sadalījuma funkciju, kur ln(x) parasti ir sadalīts ar parametriem Vidējais un Standartnovirze"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; vidējais; standartnovirze; kumulatīvā)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; vidējais; standartnovirze)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež kumulatīvo logaritmiski normālo x sadalījumu, kur ln(x) parasti ir sadalīts ar parametriem Vidējais un Standartnovirze"
+		"d": "Atgriež kumulatīvo logaritmiski normālo x sadalījumu, kur ln(x) parasti ir sadalīts ar parametriem Vidējais un Standartnovirze"
 	},
 	"MAX": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež datu masīvā vai diapazonā visbiežāk sastopamo vai atkārtoto vērtību"
+		"d": "Atgriež datu masīvā vai diapazonā visbiežāk sastopamo vai atkārtoto vērtību"
 	},
 	"MODE.MULT": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(nelabvēlizn_skaits; labvēlizn_skaits; labvēlizn_varbūtība)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež negatīvu binomiālo sadalījumu, varbūtību, ka būs (nelabvēlizn_skaits) nelabvēlīgi iznākumi pirms (labvēlizn_skaits). labvēlīgā iznākumā ar (labvēlizn_varbūtība) varbūtību"
+		"d": "Atgriež negatīvu binomiālo sadalījumu, varbūtību, ka būs (nelabvēlizn_skaits) nelabvēlīgi iznākumi pirms (labvēlizn_skaits). labvēlīgā iznākumā ar (labvēlizn_varbūtība) varbūtību"
 	},
 	"NORM.DIST": {
 		"a": "(x; vidējais; standartnovirze; kumulatīvā)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; vidējais; standartnovirze; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež norādītā vidējā lieluma un standartnovirzes normālo kumulatīvo sadalījumu"
+		"d": "Atgriež norādītā vidējā lieluma un standartnovirzes normālo kumulatīvo sadalījumu"
 	},
 	"NORM.INV": {
 		"a": "(varbūtība; vidējais; standartnovirze)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(varbūtība; vidējais; standartnovirze)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež norādītās vidējās vērtības un standartnovirzes apgrieztu normālo kumulatīvo sadalījumu"
+		"d": "Atgriež norādītās vidējās vērtības un standartnovirzes apgrieztu normālo kumulatīvo sadalījumu"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kumulatīvā)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež standarta normālo kumulatīvo sadalījumu (tā vidējais ir nulle, bet standartnovirze - viens)"
+		"d": "Atgriež standarta normālo kumulatīvo sadalījumu (tā vidējais ir nulle, bet standartnovirze - viens)"
 	},
 	"NORM.S.INV": {
 		"a": "(varbūtība)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(varbūtība)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež apgrieztu standarta normālo kumulatīvo sadalījumu (tā vidējais ir nulle, bet standartnovirze - viens)"
+		"d": "Atgriež apgrieztu standarta normālo kumulatīvo sadalījumu (tā vidējais ir nulle, bet standartnovirze - viens)"
 	},
 	"PEARSON": {
 		"a": "(masīvs1; masīvs2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(masīvs; k)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež diapazona vērtību k-to procentili"
+		"d": "Atgriež diapazona vērtību k-to procentili"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(masīvs; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(masīvs; x; [nozīmība])",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež datu kopā ietilpstošas vērtības rangu procentuāli no datu kopas"
+		"d": "Atgriež datu kopā ietilpstošas vērtības rangu procentuāli no datu kopas"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(masīvs; x; [nozīmība])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; vidējais; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež Puasona sadalījumu"
+		"d": "Atgriež Puasona sadalījumu"
 	},
 	"POISSON.DIST": {
 		"a": "(x; vidējais; kumulatīvā)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(masīvs; kvartile)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež datu kopas kvartili"
+		"d": "Atgriež datu kopas kvartili"
 	},
 	"QUARTILE.INC": {
 		"a": "(masīvs; kvartile)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(skaitlis; ats; [kārtība])",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež skaitļa rangu skaitļu sarakstā: tā lielumu attiecībā pret pārējām vērtībām sarakstā"
+		"d": "Atgriež skaitļa rangu skaitļu sarakstā: tā lielumu attiecībā pret pārējām vērtībām sarakstā"
 	},
 	"RANK.AVG": {
 		"a": "(skaitlis; ats; [kārtība])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAprēķina standartnovirzi, izmantojot izlasi (izlasē ignorē loģiskās vērtības un tekstu)"
+		"d": "Aprēķina standartnovirzi, izmantojot izlasi (izlasē ignorē loģiskās vērtības un tekstu)"
 	},
 	"STDEV.P": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAprēķina standartnovirzi, izmantojot visu populāciju kā argumentus (ignorē loģiskās vērtības un tekstu)"
+		"d": "Aprēķina standartnovirzi, izmantojot visu populāciju kā argumentus (ignorē loģiskās vērtības un tekstu)"
 	},
 	"STDEVPA": {
 		"a": "(vērtība1; [vērtība2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; brīvības_pak; zari)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež Stjūdenta t sadalījumu"
+		"d": "Atgriež Stjūdenta t sadalījumu"
 	},
 	"TINV": {
 		"a": "(varbūtība; brīvības_pakāpe)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež divu zaru apgriezto Stjūdenta t sadalījumu"
+		"d": "Atgriež divu zaru apgriezto Stjūdenta t sadalījumu"
 	},
 	"T.DIST": {
 		"a": "(x; brīvības_pakāpe; kumulatīvā)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(masīvs1; masīvs2; zari; tips)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež Stjūdenta t testam atbilstošu varbūtību"
+		"d": "Atgriež Stjūdenta t testam atbilstošu varbūtību"
 	},
 	"VAR": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAprēķina dispersiju, izmantojot izlasi (izlasē ignorē loģiskās vērtības un tekstu)"
+		"d": "Aprēķina dispersiju, izmantojot izlasi (izlasē ignorē loģiskās vērtības un tekstu)"
 	},
 	"VAR.P": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAprēķina dispersiju, izmantojot visu populāciju (ignorē loģiskās vērtības un tekstu populācijā)"
+		"d": "Aprēķina dispersiju, izmantojot visu populāciju (ignorē loģiskās vērtības un tekstu populācijā)"
 	},
 	"VARPA": {
 		"a": "(vērtība1; [vērtība2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; kumulatīvā)",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež Veibula sadalījumu"
+		"d": "Atgriež Veibula sadalījumu"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; kumulatīvā)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(masīvs; x; [sigma])",
-		"d": "Šī funkcija ir pieejama saderībai ar Excel 2007 un vecākām versijām.\r\nAtgriež viena zara z testa P vērtību"
+		"d": "Atgriež viena zara z testa P vērtību"
 	},
 	"ACCRINT": {
 		"a": "(emisija; pirmie_procenti; apmaksa; likme; nom; biežums; [bāze]; [apr_metode])",
@@ -1340,7 +1340,7 @@
 		"d": "Atgriež skaitļa inverso hiperbolisko kotangensu"
 	},
 	"AGGREGATE": {
-		"a": "(funkcijas_num; opcijas; masīvs; [k]!funkcijas_num; opcijas; ats1; ...)",
+		"a": "(funkcijas_num; opcijas; ats1; ...)",
 		"d": "Atgriež apkopojumu kā sarakstu vai datu bāzi"
 	},
 	"ARABIC": {

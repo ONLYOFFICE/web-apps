@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(år; måned; dag)",
-		"d": "Returnerer tallet som svarer til datoen i koden for dato og tid i Microsoft Excel"
+		"d": "Returnerer tallet som svarer til datoen i koden for dato og tid"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(dato_tekst)",
-		"d": "Konverterer en dato med tekstformat til et tall som representerer datoen i koden for dato og tid i Microsoft Excel"
+		"d": "Konverterer en dato med tekstformat til et tall som representerer datoen i koden for dato og tid"
 	},
 	"DAY": {
 		"a": "(serienummer)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(time; minutt; sekund)",
-		"d": "Konverterer timer, minutter og sekunder som er gitt som tall, til et Excel-serienummer, formatert etter et klokkeslettsformat"
+		"d": "Konverterer timer, minutter og sekunder som er gitt som tall, til et serienummer, formatert etter et klokkeslettsformat"
 	},
 	"TIMEVALUE": {
 		"a": "(tidstekst)",
-		"d": "Konverterer teksttid til et Excel-serienummer for et klokkeslett, et tall fra 0 (12:00:00 AM) til 0.999988426 (11:59:59 PM). Formaterer tallet med et klokkeslettformat etter å ha innført formelen"
+		"d": "Konverterer teksttid til et serienummer for et klokkeslett, et tall fra 0 (12:00:00 AM) til 0.999988426 (11:59:59 PM). Formaterer tallet med et klokkeslettformat etter å ha innført formelen"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den kumulative betafordelingsfunksjonen for sannsynlig tetthet"
+		"d": "Returnerer den kumulative betafordelingsfunksjonen for sannsynlig tetthet"
 	},
 	"BETAINV": {
 		"a": "(sannsynlighet; alfa; beta; [A]; [B])",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse til den kumulative betafordelingsfunksjonen for sannsynlig tetthet (BETA.FORDELING)"
+		"d": "Returnerer den inverse til den kumulative betafordelingsfunksjonen for sannsynlig tetthet (BETA.FORDELING)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; kumulativ; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(tall_s; forsøk; sannsynlighet_s; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer punktsannsynlighet eller kumulativ sannsynlighet"
+		"d": "Returnerer punktsannsynlighet eller kumulativ sannsynlighet"
 	},
 	"BINOM.DIST": {
 		"a": "(antall_s; forsøk; sannsynlighet_s; kumulativ)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; frihetsgrader)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den høyre sannsynligheten til kjikvadratfordelingen"
+		"d": "Returnerer den høyre sannsynligheten til kjikvadratfordelingen"
 	},
 	"CHIINV": {
 		"a": "(sannsynlighet; frihetsgrader)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse av den høyre sannsynligheten til kjikvadratfordelingen"
+		"d": "Returnerer den inverse av den høyre sannsynligheten til kjikvadratfordelingen"
 	},
 	"CHITEST": {
 		"a": "(faktisk; forventet)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer testen for uavhengighet: verdien fra kjikvadratfordelingen for observatoren og gjeldende frihetsgrader"
+		"d": "Returnerer testen for uavhengighet: verdien fra kjikvadratfordelingen for observatoren og gjeldende frihetsgrader"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; frihetsgrader; kumulative)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; standardavvik; størrelse)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer konfidensintervallet til populasjonens gjennomsnitt ved å bruke en normalfordeling"
+		"d": "Returnerer konfidensintervallet til populasjonens gjennomsnitt ved å bruke en normalfordeling"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; standardavvik; størrelse)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matrise1; matrise2)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer kovariansen, gjennomsnittet av produktene av avvikene for hvert datapunktpar i to datasett"
+		"d": "Returnerer kovariansen, gjennomsnittet av produktene av avvikene for hvert datapunktpar i to datasett"
 	},
 	"COVARIANCE.P": {
 		"a": "(matrise1; matrise2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(forsøk; sannsynlighet_s; alfa)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den minste verdien der den kumulative binomiske fordelingen er større enn eller lik en vilkårsverdi"
+		"d": "Returnerer den minste verdien der den kumulative binomiske fordelingen er større enn eller lik en vilkårsverdi"
 	},
 	"DEVSQ": {
 		"a": "(tall1; [tall2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer eksponentialfordelingen"
+		"d": "Returnerer eksponentialfordelingen"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kumulativ)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; frihetsgrader1; frihetsgrader2)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den høyresidige Fisher-fordelingen (spredningsgraden) for to datasett"
+		"d": "Returnerer den høyresidige Fisher-fordelingen (spredningsgraden) for to datasett"
 	},
 	"FINV": {
 		"a": "(sannsynlighet; frihetsgrader1; frihetsgrader2)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den høyresidige inverse av Fisher-fordelingen. Hvis p = FFORDELING(x...), er FFORDELING.INVERS(p...) = x"
+		"d": "Returnerer den høyresidige inverse av Fisher-fordelingen. Hvis p = FFORDELING(x...), er FFORDELING.INVERS(p...) = x"
 	},
 	"FTEST": {
 		"a": "(matrise1; matrise2)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer resultatet av en F-test, den tosidige sannsynligheten for at variansene i matrise1 og matrise2 ikke er signifikant forskjellige"
+		"d": "Returnerer resultatet av en F-test, den tosidige sannsynligheten for at variansene i matrise1 og matrise2 ikke er signifikant forskjellige"
 	},
 	"F.DIST": {
 		"a": "(x; frihetsgrader1; frihetsgrader2; kumulative)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; kjente_y; kjente_x)",
-		"d": "Denne funksjonen er kompatibel med Excel 2013 og eldre versjoner.\r\nBeregner eller forutsier en fremtidig verdi langs en lineær trend på grunnlag av eksisterende verdier"
+		"d": "Beregner eller forutsier en fremtidig verdi langs en lineær trend på grunnlag av eksisterende verdier"
 	},
 	"FORECAST.ETS": {
 		"a": "(måldato; verdier; tidslinje; [sesongavhengighet]; [datafullføring]; [aggregasjon])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(verdier; tidslinje; [datafullføring]; [aggregasjon])",
-		"d": "Returnerer hele det gjentakende mønsteret som Microsoft Excel oppdager for den angitte tidsserien."
+		"d": "Returnerer hele det gjentakende mønsteret som applikasjon oppdager for den angitte tidsserien."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(verdier; tidslinje; statistikktype; [seasongavhengighet]; [datafullføring]; [aggregasjon])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer gammafordelingen"
+		"d": "Returnerer gammafordelingen"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; kumulativ)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(sannsynlighet; alfa; beta)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse av den kumulative gammafordelingen. Hvis p = GAMMAFORDELING(x...), er GAMMAINV(p,...) = x"
+		"d": "Returnerer den inverse av den kumulative gammafordelingen. Hvis p = GAMMAFORDELING(x...), er GAMMAINV(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(sannsynlighet; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(utvalg_s; utvalgsstørrelse; suksesser; populasjonsstørrelse)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den hypergeometriske fordelingen"
+		"d": "Returnerer den hypergeometriske fordelingen"
 	},
 	"INTERCEPT": {
 		"a": "(kjente_y; kjente_x)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(sannsynlighet; median; standardavvik)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse av den lognormale fordelingsfunksjonen til x, hvor In(x) har normalfordeling med parameterne median og standardavvik"
+		"d": "Returnerer den inverse av den lognormale fordelingsfunksjonen til x, hvor In(x) har normalfordeling med parameterne median og standardavvik"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; gjennomsnitt; standardavvik; kumulativ)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; median; standardavvik)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den kumulative lognormale fordelingen for x, hvor In(x) har normalfordeling med parameterne median og standardavvik"
+		"d": "Returnerer den kumulative lognormale fordelingen for x, hvor In(x) har normalfordeling med parameterne median og standardavvik"
 	},
 	"MAX": {
 		"a": "(tall1; [tall2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(tall1; [tall2]; ...)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den hyppigst forekommende verdien i en matrise eller et dataområde"
+		"d": "Returnerer den hyppigst forekommende verdien i en matrise eller et dataområde"
 	},
 	"MODE.MULT": {
 		"a": "(tall1; [tall2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(tall_f; tall_s; sannsynlighet_s)",
-		"d": "Funksjonen er tilgj. for komp. med Excel 2007 og tidligere.\r\nReturnerer negativ binomisk fordeling, sjansen for at det vil bli tall_f fiaskoer før tall_s-te suksess, med sannsynlighet_s sjanse for suksess, hvor sannsynlighet_s er sannsynligheten for suksess"
+		"d": "Returnerer negativ binomisk fordeling, sjansen for at det vil bli tall_f fiaskoer før tall_s-te suksess, med sannsynlighet_s sjanse for suksess, hvor sannsynlighet_s er sannsynligheten for suksess"
 	},
 	"NORM.DIST": {
 		"a": "(x; median; standardavvik; kumulativ)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; median; standardavvik; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den kumulative normalfordelingen for angitt median og standardavvik"
+		"d": "Returnerer den kumulative normalfordelingen for angitt median og standardavvik"
 	},
 	"NORM.INV": {
 		"a": "(sannsynlighet; median; standardavvik)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(sannsynlighet; median; standardavvik)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse av den kumulative normalfordelingen for angitt gjennomsnitt og standardavvik"
+		"d": "Returnerer den inverse av den kumulative normalfordelingen for angitt gjennomsnitt og standardavvik"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kumulativ)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer standard kumulativ normalfordeling (der gjennomsnittet er lik null og standardavviket er én)"
+		"d": "Returnerer standard kumulativ normalfordeling (der gjennomsnittet er lik null og standardavviket er én)"
 	},
 	"NORM.S.INV": {
 		"a": "(sannsynlighet)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(sannsynlighet)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den inverse av standard kumulativ normalfordeling (har et gjennomsnitt på null og standardavvik på én)"
+		"d": "Returnerer den inverse av standard kumulativ normalfordeling (har et gjennomsnitt på null og standardavvik på én)"
 	},
 	"PEARSON": {
 		"a": "(matrise1; matrise2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matrise; n)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer det n-te persentilet av verdiene i et område"
+		"d": "Returnerer det n-te persentilet av verdiene i et område"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matrise; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matrise; x; [gjeldende_sifre])",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer rangeringen av en verdi i et datasett som en prosent av datasettet"
+		"d": "Returnerer rangeringen av en verdi i et datasett som en prosent av datasettet"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matrise; x; [signifikans])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; median; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer Poisson-fordelingen"
+		"d": "Returnerer Poisson-fordelingen"
 	},
 	"POISSON.DIST": {
 		"a": "(x; median; kumulativ)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matrise; kvartil)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer kvartilen for et datasett"
+		"d": "Returnerer kvartilen for et datasett"
 	},
 	"QUARTILE.INC": {
 		"a": "(matrise; kvart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(tall; ref; [rekkefølge])",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer rangeringen av et tall i en liste over tall. Tallet rangeres etter størrelsen i forhold til andre verdier i listen"
+		"d": "Returnerer rangeringen av et tall i en liste over tall. Tallet rangeres etter størrelsen i forhold til andre verdier i listen"
 	},
 	"RANK.AVG": {
 		"a": "(tall; ref; [rekkefølge])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(tall1; [tall2]; ...)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nBeregner standardavvik basert på et utvalg (ignorerer logiske verdier og tekst i utvalget)"
+		"d": "Beregner standardavvik basert på et utvalg (ignorerer logiske verdier og tekst i utvalget)"
 	},
 	"STDEV.P": {
 		"a": "(tall1; [tall2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(tall1; [tall2]; ...)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nBeregner standardavvik basert på hele populasjonen gitt som argumenter (ignorerer logiske verdier og tekst)"
+		"d": "Beregner standardavvik basert på hele populasjonen gitt som argumenter (ignorerer logiske verdier og tekst)"
 	},
 	"STDEVPA": {
 		"a": "(verdi1; [verdi2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; frihetsgrader; sider)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer Students t-fordeling"
+		"d": "Returnerer Students t-fordeling"
 	},
 	"TINV": {
 		"a": "(sannsynlighet; frihetsgrader)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den tosidige inverse av Students t-fordelingen"
+		"d": "Returnerer den tosidige inverse av Students t-fordelingen"
 	},
 	"T.DIST": {
 		"a": "(x; frihetsgrader; kumulative)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matrise1; matrise2; sider; type)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer sannsynligheten knyttet til en Students t-test"
+		"d": "Returnerer sannsynligheten knyttet til en Students t-test"
 	},
 	"VAR": {
 		"a": "(tall1; [tall2]; ...)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nBeregner varians basert på et utvalg (ignorerer logiske verdier og tekst i utvalget)"
+		"d": "Beregner varians basert på et utvalg (ignorerer logiske verdier og tekst i utvalget)"
 	},
 	"VAR.P": {
 		"a": "(tall1; [tall2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(tall1; [tall2]; ...)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nBeregner varians basert på hele populasjonen (ignorerer logiske verdier og tekst i populasjonen)"
+		"d": "Beregner varians basert på hele populasjonen (ignorerer logiske verdier og tekst i populasjonen)"
 	},
 	"VARPA": {
 		"a": "(verdi1; [verdi2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; kumulativ)",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer Weibull-fordelingen"
+		"d": "Returnerer Weibull-fordelingen"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; kumulativ)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matrise; x; [sigma])",
-		"d": "Denne funksjonen er tilgjengelig for kompatibilitet med Excel 2007 og tidligere.\r\nReturnerer den ensidige P-verdien for en z-test"
+		"d": "Returnerer den ensidige P-verdien for en z-test"
 	},
 	"ACCRINT": {
 		"a": "(utstedt_dato; første_renteforfall; betalingsdato; rente; pari; frekvens; [basis]; [beregningsmetode])",
@@ -1340,7 +1340,7 @@
 		"d": "Returnerer invers hyperbolsk cotangens for et tall"
 	},
 	"AGGREGATE": {
-		"a": "(funksjonsnummer; alternativer; matrise; [k]!funksjonsnummer; alternativer; ref1; ...)",
+		"a": "(funksjonsnummer; alternativer; ref1; ...)",
 		"d": "Returnerer en mengde i en liste eller database"
 	},
 	"ARABIC": {

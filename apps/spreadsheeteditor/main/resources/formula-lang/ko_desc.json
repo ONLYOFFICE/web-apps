@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(year; month; day)",
-		"d": "Microsoft Excel의 날짜-시간 코드에서 날짜를 나타내는 수를 구합니다."
+		"d": "날짜-시간 코드에서 날짜를 나타내는 수를 구합니다."
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
-		"d": "Microsoft Excel의 날짜-시간 코드에서 텍스트 형태의 날짜를 숫자 값으로 변환합니다."
+		"d": "날짜-시간 코드에서 텍스트 형태의 날짜를 숫자 값으로 변환합니다."
 	},
 	"DAY": {
 		"a": "(serial_number)",
@@ -69,7 +69,7 @@
 	},
 	"TIMEVALUE": {
 		"a": "(time_text)",
-		"d": "텍스트 형태의 시간을 Excel 일련 번호로 표현한 시간으로 변환합니다. 값은 0(오전 12:00)부터 0.999988426(오후 11:59:59)까지입니다. 수식을 입력한 후 수를 시간 형식으로 지정하십시오."
+		"d": "텍스트 형태의 시간을 일련 번호로 표현한 시간으로 변환합니다. 값은 0(오전 12:00)부터 0.999988426(오후 11:59:59)까지입니다. 수식을 입력한 후 수를 시간 형식으로 지정하십시오."
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alpha; beta; [A]; [B])",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n누적 베타 확률 밀도 함수 값을 구합니다."
+		"d": "누적 베타 확률 밀도 함수 값을 구합니다."
 	},
 	"BETAINV": {
 		"a": "(probability; alpha; beta; [A]; [B])",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n역 누적 베타 확률 밀도 함수 (BETADIST) 값을 구합니다."
+		"d": "역 누적 베타 확률 밀도 함수 (BETADIST) 값을 구합니다."
 	},
 	"BETA.DIST": {
 		"a": "(x; alpha; beta; cumulative; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n개별항 이항 분포 확률을 구합니다."
+		"d": "개별항 이항 분포 확률을 구합니다."
 	},
 	"BINOM.DIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; deg_freedom)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n카이 제곱 분포의 우측 검정 확률을 구합니다."
+		"d": "카이 제곱 분포의 우측 검정 확률을 구합니다."
 	},
 	"CHIINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n카이 제곱 분포의 역 우측 검정 확률을 구합니다."
+		"d": "카이 제곱 분포의 역 우측 검정 확률을 구합니다."
 	},
 	"CHITEST": {
 		"a": "(actual_range; expected_range)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n독립 검증 결과를 구합니다. 통계적이고 적절한 자유도에 대한 카이 제곱 분포값을 의미합니다."
+		"d": "독립 검증 결과를 구합니다. 통계적이고 적절한 자유도에 대한 카이 제곱 분포값을 의미합니다."
 	},
 	"CHISQ.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alpha; standard_dev; size)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n정규 분포를 사용한 모집단 평균의 신뢰 구간을 나타냅니다."
+		"d": "정규 분포를 사용한 모집단 평균의 신뢰 구간을 나타냅니다."
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alpha; standard_dev; size)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(array1; array2)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n두 데이터 집합 사이의 공 분산을 구합니다."
+		"d": "두 데이터 집합 사이의 공 분산을 구합니다."
 	},
 	"COVARIANCE.P": {
 		"a": "(array1; array2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(trials; probability_s; alpha)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n누적 이항 분포가 기준치 이상이 되는 값 중 최소값을 구합니다."
+		"d": "누적 이항 분포가 기준치 이상이 되는 값 중 최소값을 구합니다."
 	},
 	"DEVSQ": {
 		"a": "(number1; [number2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n지수 분포값을 구합니다."
+		"d": "지수 분포값을 구합니다."
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; cumulative)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; deg_freedom1; deg_freedom2)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n두 데이터 집합에 대해 (우측 검정) F 확률 분포값(분포도)을 구합니다."
+		"d": "두 데이터 집합에 대해 (우측 검정) F 확률 분포값(분포도)을 구합니다."
 	},
 	"FINV": {
 		"a": "(probability; deg_freedom1; deg_freedom2)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n(우측 검정) F 확률 분포의 역함수 값을 구합니다. p=FDIST(x,...)이면 FINV(p,...)=x입니다."
+		"d": "(우측 검정) F 확률 분포의 역함수 값을 구합니다. p=FDIST(x,...)이면 FINV(p,...)=x입니다."
 	},
 	"FTEST": {
 		"a": "(array1; array2)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\narray1과 array2의 분산이 크게 차이가 나지 않는 경우 양측 확률인 F-검정 결과를 구합니다."
+		"d": "array1과 array2의 분산이 크게 차이가 나지 않는 경우 양측 확률인 F-검정 결과를 구합니다."
 	},
 	"F.DIST": {
 		"a": "(x; deg_freedom1; deg_freedom2; cumulative)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_y's; known_x's)",
-		"d": "이 기능은 Excel 2013 및 이전 버전과 호환 가능합니다.\r\n기존 값에 의거한 선형 추세에 따라 예측값을 구합니다."
+		"d": "기존 값에 의거한 선형 추세에 따라 예측값을 구합니다."
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
-		"d": "Microsoft Excel에서 지정된 시계열에 대해 파악한 반복 패턴의 길이를 반환합니다."
+		"d": "애플리케이션에서 지정된 시계열에 대해 파악한 반복 패턴의 길이를 반환합니다."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n감마 분포값을 구합니다."
+		"d": "감마 분포값을 구합니다."
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probability; alpha; beta)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n감마 누적 분포의 역함수를 구합니다. p = GAMMADIST(x,...)이면 GAMMAINV(p,...) = x입니다."
+		"d": "감마 누적 분포의 역함수를 구합니다. p = GAMMADIST(x,...)이면 GAMMAINV(p,...) = x입니다."
 	},
 	"GAMMA.INV": {
 		"a": "(probability; alpha; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(sample_s; number_sample; population_s; number_pop)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n초기하 분포값을 구합니다."
+		"d": "초기하 분포값을 구합니다."
 	},
 	"INTERCEPT": {
 		"a": "(known_y's; known_x's)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n로그 정규 분포의 역함수 값을 구합니다. ln(x)는 평균과 표준 편차를 매개 변수로 갖는 정규 분포입니다."
+		"d": "로그 정규 분포의 역함수 값을 구합니다. ln(x)는 평균과 표준 편차를 매개 변수로 갖는 정규 분포입니다."
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; mean; standard_dev)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\nx에서의 로그 정규 누적 분포값을 구합니다. ln(x)는 평균과 표준 편차를 매개 변수로 갖는 정규 분포입니다."
+		"d": "x에서의 로그 정규 누적 분포값을 구합니다. ln(x)는 평균과 표준 편차를 매개 변수로 갖는 정규 분포입니다."
 	},
 	"MAX": {
 		"a": "(number1; [number2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n데이터 집합에서 가장 자주 발생하는 값(최빈수)을 구합니다."
+		"d": "데이터 집합에서 가장 자주 발생하는 값(최빈수)을 구합니다."
 	},
 	"MODE.MULT": {
 		"a": "(number1; [number2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(number_f; number_s; probability_s)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n음 이항 분포값을 구합니다. 성공 확률이 Probability_s이고 Number_s번째 성공하기 전에 Number_f번 실패가 있는 경우의 확률을 의미합니다."
+		"d": "음 이항 분포값을 구합니다. 성공 확률이 Probability_s이고 Number_s번째 성공하기 전에 Number_f번 실패가 있는 경우의 확률을 의미합니다."
 	},
 	"NORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n지정한 평균과 표준 편차에 의거 정규 누적 분포값을 구합니다."
+		"d": "지정한 평균과 표준 편차에 의거 정규 누적 분포값을 구합니다."
 	},
 	"NORM.INV": {
 		"a": "(probability; mean; standard_dev)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n지정한 평균과 표준 편차에 의거하여 정규 누적 분포의 역함수 값을 구합니다."
+		"d": "지정한 평균과 표준 편차에 의거하여 정규 누적 분포의 역함수 값을 구합니다."
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulative)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n표준 정규 누적 분포값을 구합니다. 평균이 0이고 표준 편차가 1인 정규 분포를 의미합니다."
+		"d": "표준 정규 누적 분포값을 구합니다. 평균이 0이고 표준 편차가 1인 정규 분포를 의미합니다."
 	},
 	"NORM.S.INV": {
 		"a": "(probability)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probability)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n표준 정규 누적 분포의 역함수를 구합니다. 평균이 0이고 표준 편차가 1인 정규 분포를 의미합니다."
+		"d": "표준 정규 누적 분포의 역함수를 구합니다. 평균이 0이고 표준 편차가 1인 정규 분포를 의미합니다."
 	},
 	"PEARSON": {
 		"a": "(array1; array2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(array; k)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n범위에서 k번째 백분위수를 구합니다."
+		"d": "범위에서 k번째 백분위수를 구합니다."
 	},
 	"PERCENTILE.EXC": {
 		"a": "(array; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(array; x; [significance])",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n데이터 집합에서 백분율 순위를 구합니다."
+		"d": "데이터 집합에서 백분율 순위를 구합니다."
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(array; x; [significance])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; mean; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n포아송 확률 분포값을 구합니다."
+		"d": "포아송 확률 분포값을 구합니다."
 	},
 	"POISSON.DIST": {
 		"a": "(x; mean; cumulative)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(array; quart)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n데이터 집합에서 사분위수를 구합니다."
+		"d": "데이터 집합에서 사분위수를 구합니다."
 	},
 	"QUARTILE.INC": {
 		"a": "(array; quart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(number; ref; [order])",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n수 목록 내에서 지정한 수의 크기 순위를 구합니다. 목록 내에서 다른 값에 대한 상대적인 크기를 말합니다."
+		"d": "수 목록 내에서 지정한 수의 크기 순위를 구합니다. 목록 내에서 다른 값에 대한 상대적인 크기를 말합니다."
 	},
 	"RANK.AVG": {
 		"a": "(number; ref; [order])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(number1; [number2]; ...)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n표본 집단의 표준 편차를 구합니다. 표본 집단에서 텍스트나 논리값은 제외됩니다."
+		"d": "표본 집단의 표준 편차를 구합니다. 표본 집단에서 텍스트나 논리값은 제외됩니다."
 	},
 	"STDEV.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n모집단의 표준 편차를 구합니다. 텍스트와 논리값은 제외됩니다."
+		"d": "모집단의 표준 편차를 구합니다. 텍스트와 논리값은 제외됩니다."
 	},
 	"STDEVPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; deg_freedom; tails)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n스튜던트 t-분포값을 구합니다."
+		"d": "스튜던트 t-분포값을 구합니다."
 	},
 	"TINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n스튜던트 t-분포의 양측 검증 역함수 값을 구합니다."
+		"d": "스튜던트 t-분포의 양측 검증 역함수 값을 구합니다."
 	},
 	"T.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(array1; array2; tails; type)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n스튜던트 t-검정에 근거한 확률을 구합니다."
+		"d": "스튜던트 t-검정에 근거한 확률을 구합니다."
 	},
 	"VAR": {
 		"a": "(number1; [number2]; ...)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n표본 집단의 분산을 구합니다. 표본 집단에서 논리값과 텍스트는 제외됩니다."
+		"d": "표본 집단의 분산을 구합니다. 표본 집단에서 논리값과 텍스트는 제외됩니다."
 	},
 	"VAR.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n전체 모집단의 분산을 구합니다. 모집단에서 논리값과 텍스트는 제외됩니다."
+		"d": "전체 모집단의 분산을 구합니다. 모집단에서 논리값과 텍스트는 제외됩니다."
 	},
 	"VARPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\n와이블 분포값을 구합니다."
+		"d": "와이블 분포값을 구합니다."
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(array; x; [sigma])",
-		"d": "이 함수는 Excel 2007 및 이전 버전과의 호환성을 위해 제공되는 함수입니다.\r\nz-검정의 단측 P 값을 구합니다."
+		"d": "z-검정의 단측 P 값을 구합니다."
 	},
 	"ACCRINT": {
 		"a": "(issue; first_interest; settlement; rate; par; frequency; [basis]; [calc_method])",
@@ -1340,7 +1340,7 @@
 		"d": "역 하이퍼볼릭 코탄젠트 값을 구합니다."
 	},
 	"AGGREGATE": {
-		"a": "(function_num; options; array; [k]!function_num; options; ref1; ...)",
+		"a": "(function_num; options; ref1; ...)",
 		"d": "목록 또는 데이터베이스에서 집계 값을 구합니다."
 	},
 	"ARABIC": {

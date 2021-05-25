@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(year; month; day)",
-		"d": "Vrátí číslo, které představuje datum v kódu aplikace Microsoft Excel pro datum a čas."
+		"d": "Vrátí číslo, které představuje datum v kódu pro datum a čas."
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(datum)",
-		"d": "Převede datum ve formátu textu na číslo, které představuje datum v kódu aplikace Microsoft Excel pro datum a čas."
+		"d": "Převede datum ve formátu textu na číslo, které představuje datum v kódu pro datum a čas."
 	},
 	"DAY": {
 		"a": "(pořadové_číslo)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(hodina; minuta; sekunda)",
-		"d": "Převede hodiny, minuty a sekundy zadané jako čísla na pořadové číslo aplikace Excel formátované pomocí formátu času."
+		"d": "Převede hodiny, minuty a sekundy zadané jako čísla na pořadové číslo formátované pomocí formátu času."
 	},
 	"TIMEVALUE": {
 		"a": "(čas)",
-		"d": "Převede čas ve formě textového řetězce na pořadové číslo aplikace Excel vyjadřující čas, číslo od 0 (12:00:00 dop.) do 0,999988426 (11:59:59 odp.). Po zadání vzorce číslo zformátujte pomocí formátu času."
+		"d": "Převede čas ve formě textového řetězce na pořadové číslo vyjadřující čas, číslo od 0 (12:00:00 dop.) do 0,999988426 (11:59:59 odp.). Po zadání vzorce číslo zformátujte pomocí formátu času."
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu kumulativní funkce hustoty pravděpodobnosti beta rozdělení."
+		"d": "Vrátí hodnotu kumulativní funkce hustoty pravděpodobnosti beta rozdělení."
 	},
 	"BETAINV": {
 		"a": "(pravděpodobnost; alfa; beta; [A]; [B])",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní hodnotu kumulativní funkce hustoty pravděpodobnosti beta rozdělení (inverzní funkce k funkci BETADIST)."
+		"d": "Vrátí inverzní hodnotu kumulativní funkce hustoty pravděpodobnosti beta rozdělení (inverzní funkce k funkci BETADIST)."
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; kumulativní; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(počet_úspěchů; pokusy; pravděpodobnost_úspěchu; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu binomického rozdělení pravděpodobnosti jednotlivých veličin."
+		"d": "Vrátí hodnotu binomického rozdělení pravděpodobnosti jednotlivých veličin."
 	},
 	"BINOM.DIST": {
 		"a": "(počet_úspěchů; pokusy; pravděpodobnost_úspěchu; kumulativní)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; volnost)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí pravděpodobnost (pravý chvost) chí-kvadrát rozdělení."
+		"d": "Vrátí pravděpodobnost (pravý chvost) chí-kvadrát rozdělení."
 	},
 	"CHIINV": {
 		"a": "(pravděpodobnost; volnost)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní hodnotu pravděpodobnosti (pravý chvost) chí-kvadrát rozdělení."
+		"d": "Vrátí inverzní hodnotu pravděpodobnosti (pravý chvost) chí-kvadrát rozdělení."
 	},
 	"CHITEST": {
 		"a": "(aktuální; očekávané)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí test nezávislosti: hodnota chí-kvadrát rozdělení pro statistické jednotky a příslušné stupně volnosti."
+		"d": "Vrátí test nezávislosti: hodnota chí-kvadrát rozdělení pro statistické jednotky a příslušné stupně volnosti."
 	},
 	"CHISQ.DIST": {
 		"a": "(x; volnost; kumulativní)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; sm_odch; velikost)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí interval spolehlivosti pro střední hodnotu základního souboru pomocí normálního rozdělení."
+		"d": "Vrátí interval spolehlivosti pro střední hodnotu základního souboru pomocí normálního rozdělení."
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; sm_odch; velikost)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matice1; matice2)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu kovariance, průměrnou hodnotu součinů odchylek pro každou dvojici datových bodů ve dvou množinách dat."
+		"d": "Vrátí hodnotu kovariance, průměrnou hodnotu součinů odchylek pro každou dvojici datových bodů ve dvou množinách dat."
 	},
 	"COVARIANCE.P": {
 		"a": "(matice1; matice2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(pokusy; pravděpodobnost_úspěchu; alfa)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí nejmenší hodnotu, pro kterou má kumulativní binomické rozdělení hodnotu větší nebo rovnu hodnotě kritéria."
+		"d": "Vrátí nejmenší hodnotu, pro kterou má kumulativní binomické rozdělení hodnotu větší nebo rovnu hodnotě kritéria."
 	},
 	"DEVSQ": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu exponenciálního rozdělení."
+		"d": "Vrátí hodnotu exponenciálního rozdělení."
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kumulativní)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; volnost1; volnost2)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu F rozdělení (stupeň nonekvivalence) pravděpodobnosti (pravý chvost) pro dvě množiny dat."
+		"d": "Vrátí hodnotu F rozdělení (stupeň nonekvivalence) pravděpodobnosti (pravý chvost) pro dvě množiny dat."
 	},
 	"FINV": {
 		"a": "(pravděpodobnost; volnost1; volnost2)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu inverzní funkce k funkci F rozdělení pravděpodobnosti (pravý chvost): Jestliže p = FDIST(x,...), pak FINV(p,...) = x."
+		"d": "Vrátí hodnotu inverzní funkce k funkci F rozdělení pravděpodobnosti (pravý chvost): Jestliže p = FDIST(x,...), pak FINV(p,...) = x."
 	},
 	"FTEST": {
 		"a": "(matice1; matice2)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí výsledek F-testu, tj. pravděpodobnosti (dva chvosty), že se rozptyly v argumentech matice1 a matice2 výrazně neliší."
+		"d": "Vrátí výsledek F-testu, tj. pravděpodobnosti (dva chvosty), že se rozptyly v argumentech matice1 a matice2 výrazně neliší."
 	},
 	"F.DIST": {
 		"a": "(x; volnost1; volnost2; kumulativní)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; pole_y; pole_x)",
-		"d": "Tato funkce je k dispozici kvůli kompatibilitě s verzí Excel 2013 a staršími.\r\nVypočte (předpoví) budoucí hodnotu lineárního trendu pomocí existujících hodnot."
+		"d": "Vypočte (předpoví) budoucí hodnotu lineárního trendu pomocí existujících hodnot."
 	},
 	"FORECAST.ETS": {
 		"a": "(cílové_datum; hodnoty; časová_osa; [sezónnost]; [dokončení_dat]; [agregace])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(hodnoty; časová_osa; [dokončení_dat]; [agregace])",
-		"d": "Vrátí délku opakujícího se vzorku, který Microsoft Excel detekuje u zadané časové řady."
+		"d": "Vrátí délku opakujícího se vzorku, který aplikace detekuje u zadané časové řady."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(hodnoty; časová_osa; typ_statistiky; [sezónnost]; [dokončení_dat]; [agregace])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu gama rozdělení."
+		"d": "Vrátí hodnotu gama rozdělení."
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; kumulativní)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(pravděpodobnost; alfa; beta)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu inverzní funkce ke kumulativnímu gama rozdělení: Jestliže p = GAMMADIST(x,...), pak GAMMAINV(p,...) = x."
+		"d": "Vrátí hodnotu inverzní funkce ke kumulativnímu gama rozdělení: Jestliže p = GAMMADIST(x,...), pak GAMMAINV(p,...) = x."
 	},
 	"GAMMA.INV": {
 		"a": "(pravděpodobnost; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(úspěch; celkem; základ_úspěch; základ_celkem)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu hypergeometrického rozdělení."
+		"d": "Vrátí hodnotu hypergeometrického rozdělení."
 	},
 	"INTERCEPT": {
 		"a": "(pole_y; pole_x)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(pravděpodobnost; stř_hodn; sm_odch)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní funkci ke kumulativní distribuční funkci logaritmicko-normálního rozdělení hodnot x, kde funkce ln(x) má normální rozdělení s parametry stř_hodn a sm_odch."
+		"d": "Vrátí inverzní funkci ke kumulativní distribuční funkci logaritmicko-normálního rozdělení hodnot x, kde funkce ln(x) má normální rozdělení s parametry stř_hodn a sm_odch."
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; střední; sm_odchylka; kumulativní)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; střední; sm_odch)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu kumulativního logaritmicko-normálního rozdělení hodnot x, kde funkce ln(x) má normální rozdělení s parametry střední a sm_odch."
+		"d": "Vrátí hodnotu kumulativního logaritmicko-normálního rozdělení hodnot x, kde funkce ln(x) má normální rozdělení s parametry střední a sm_odch."
 	},
 	"MAX": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(číslo1; [číslo2]; ...)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu, která se v matici nebo v oblasti dat vyskytuje nejčastěji."
+		"d": "Vrátí hodnotu, která se v matici nebo v oblasti dat vyskytuje nejčastěji."
 	},
 	"MODE.MULT": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(počet_neúspěchů; počet_úspěchů; pravděpodobnost_úspěchu)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu negativního binomického rozdělení, tj. pravděpodobnost, že počet neúspěchů určený argumentem počet_neúspěchů nastane dříve než počet úspěchů určených argumentem počet_úspěchů s pravděpodobností určenou argumentem pravděpodobnost_úspěchu."
+		"d": "Vrátí hodnotu negativního binomického rozdělení, tj. pravděpodobnost, že počet neúspěchů určený argumentem počet_neúspěchů nastane dříve než počet úspěchů určených argumentem počet_úspěchů s pravděpodobností určenou argumentem pravděpodobnost_úspěchu."
 	},
 	"NORM.DIST": {
 		"a": "(x; střed_hodn; sm_odch; kumulativní)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; střed_hodn; sm_odch; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu normálního kumulativního rozdělení pro zadanou střední hodnotu a směrodatnou odchylku."
+		"d": "Vrátí hodnotu normálního kumulativního rozdělení pro zadanou střední hodnotu a směrodatnou odchylku."
 	},
 	"NORM.INV": {
 		"a": "(pravděpodobnost; střední; sm_odch)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(pravděpodobnost; střední; sm_odch)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní funkci k normálnímu kumulativnímu rozdělení pro zadanou střední hodnotu a směrodatnou odchylku."
+		"d": "Vrátí inverzní funkci k normálnímu kumulativnímu rozdělení pro zadanou střední hodnotu a směrodatnou odchylku."
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kumulativní)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu standardního normálního kumulativního rozdělení. (Střední hodnota daného rozdělení je rovna 0 a jeho směrodatná odchylka je rovna 1.)"
+		"d": "Vrátí hodnotu standardního normálního kumulativního rozdělení. (Střední hodnota daného rozdělení je rovna 0 a jeho směrodatná odchylka je rovna 1.)"
 	},
 	"NORM.S.INV": {
 		"a": "(pravděpodobnost)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(pravděpodobnost)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní funkci ke standardnímu normálnímu kumulativnímu rozdělení. (Střední hodnota daného rozdělení je rovna 0 a jeho směrodatná odchylka je rovna 1)."
+		"d": "Vrátí inverzní funkci ke standardnímu normálnímu kumulativnímu rozdělení. (Střední hodnota daného rozdělení je rovna 0 a jeho směrodatná odchylka je rovna 1)."
 	},
 	"PEARSON": {
 		"a": "(pole1; pole2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matice; k)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu k-tého percentilu hodnot v oblasti."
+		"d": "Vrátí hodnotu k-tého percentilu hodnot v oblasti."
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matice; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matice; x; [významnost])",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí pořadí hodnoty v množině dat vyjádřené procentuální částí množiny dat."
+		"d": "Vrátí pořadí hodnoty v množině dat vyjádřené procentuální částí množiny dat."
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matice; x; [významnost])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; střední; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu Poissonova rozdělení."
+		"d": "Vrátí hodnotu Poissonova rozdělení."
 	},
 	"POISSON.DIST": {
 		"a": "(x; střední; kumulativní)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matice; kvartil)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu kvartilu množiny dat."
+		"d": "Vrátí hodnotu kvartilu množiny dat."
 	},
 	"QUARTILE.INC": {
 		"a": "(matice; kvartil)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(číslo; odkaz; [pořadí])",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí pořadí čísla v seznamu čísel: jeho relativní velikost vzhledem k hodnotám v seznamu."
+		"d": "Vrátí pořadí čísla v seznamu čísel: jeho relativní velikost vzhledem k hodnotám v seznamu."
 	},
 	"RANK.AVG": {
 		"a": "(číslo; odkaz; [pořadí])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(číslo1; [číslo2]; ...)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nOdhadne směrodatnou odchylku výběru (přeskočí logické hodnoty a text ve výběru)."
+		"d": "Odhadne směrodatnou odchylku výběru (přeskočí logické hodnoty a text ve výběru)."
 	},
 	"STDEV.P": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(číslo1; [číslo2]; ...)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVypočte směrodatnou odchylku základního souboru, který byl zadán jako argument (přeskočí logické hodnoty a text)."
+		"d": "Vypočte směrodatnou odchylku základního souboru, který byl zadán jako argument (přeskočí logické hodnoty a text)."
 	},
 	"STDEVPA": {
 		"a": "(hodnota1; [hodnota2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; volnost; chvosty)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu Studentova t-rozdělení."
+		"d": "Vrátí hodnotu Studentova t-rozdělení."
 	},
 	"TINV": {
 		"a": "(pravděpodobnost; volnost)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí inverzní funkci (dva chvosty) ke Studentovu t-rozdělení."
+		"d": "Vrátí inverzní funkci (dva chvosty) ke Studentovu t-rozdělení."
 	},
 	"T.DIST": {
 		"a": "(x; volnost; kumulativní)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matice1; matice2; chvosty; typ)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí pravděpodobnost odpovídající Studentovu t-testu."
+		"d": "Vrátí pravděpodobnost odpovídající Studentovu t-testu."
 	},
 	"VAR": {
 		"a": "(číslo1; [číslo2]; ...)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nOdhadne rozptyl výběru (přeskočí logické hodnoty a text ve výběru)."
+		"d": "Odhadne rozptyl výběru (přeskočí logické hodnoty a text ve výběru)."
 	},
 	"VAR.P": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(číslo1; [číslo2]; ...)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVypočte rozptyl základního souboru (přeskočí logické hodnoty a text v základním souboru)."
+		"d": "Vypočte rozptyl základního souboru (přeskočí logické hodnoty a text v základním souboru)."
 	},
 	"VARPA": {
 		"a": "(hodnota1; [hodnota2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; kumulativní)",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí hodnotu Weibullova rozdělení."
+		"d": "Vrátí hodnotu Weibullova rozdělení."
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; kumulativní)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matice; x; [sigma])",
-		"d": "Tato funkce je k dispozici z důvodu zajištění kompatibility s aplikací Excel 2007 a dřívějšími verzemi.\r\nVrátí P-hodnotu (jeden chvost) z-testu."
+		"d": "Vrátí P-hodnotu (jeden chvost) z-testu."
 	},
 	"ACCRINT": {
 		"a": "(emise; první_úrok; vypořádání; sazba; nom_hodnota; počet_plateb; [základna]; [metoda_výpočtu])",
@@ -1340,7 +1340,7 @@
 		"d": "Vrátí inverzní hyperbolický kotangens čísla"
 	},
 	"AGGREGATE": {
-		"a": "(funkce; možnosti; matice; [k]!funkce; možnosti; odkaz1; ...)",
+		"a": "(funkce; možnosti; odkaz1; ...)",
 		"d": "Vrátí agregaci v seznamu nebo databázi."
 	},
 	"ARABIC": {

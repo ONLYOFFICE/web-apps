@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(jaar; maand; dag)",
-		"d": "Geeft het getal als resultaat dat de datum aangeeft in Microsoft Excel-code voor de datum/tijd"
+		"d": "Geeft het getal als resultaat dat de datum aangeeft in code voor de datum/tijd"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(datum_tekst)",
-		"d": "Zet de opgegeven datum in de vorm van tekst om in de Microsoft Excel-code voor de datum/tijd"
+		"d": "Zet de opgegeven datum in de vorm van tekst om in de code voor de datum/tijd"
 	},
 	"DAY": {
 		"a": "(serieel-getal)",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; bèta; [A]; [B])",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de cumulatieve bèta-kansdichtheidsfunctie"
+		"d": "Berekent de cumulatieve bèta-kansdichtheidsfunctie"
 	},
 	"BETAINV": {
 		"a": "(kans; alfa; beta; [A]; [B])",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de cumulatieve bèta-kansdichtheidsfunctie (BETAVERD)"
+		"d": "Berekent de inverse van de cumulatieve bèta-kansdichtheidsfunctie (BETAVERD)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; cumulatief; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(aantal-gunstig; experimenten; kans-gunstig; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de binomiale verdeling"
+		"d": "Geeft als resultaat de binomiale verdeling"
 	},
 	"BINOM.DIST": {
 		"a": "(aantal-gunstig; experimenten; kans-gunstig; cumulatief)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; vrijheidsgraden)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de rechtszijdige kans van de chi-kwadraatverdeling"
+		"d": "Berekent de rechtszijdige kans van de chi-kwadraatverdeling"
 	},
 	"CHIINV": {
 		"a": "(kans; vrijheidsgraden)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de rechtszijdige kans van de chi-kwadraatverdeling"
+		"d": "Berekent de inverse van de rechtszijdige kans van de chi-kwadraatverdeling"
 	},
 	"CHITEST": {
 		"a": "(waarnemingen; verwacht)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft het resultaat van de onafhankelijkheidstoets: de waarde van de chi-kwadraatverdeling voor de toetsingsgrootheid en de ingestelde vrijheidsgraden"
+		"d": "Geeft het resultaat van de onafhankelijkheidstoets: de waarde van de chi-kwadraatverdeling voor de toetsingsgrootheid en de ingestelde vrijheidsgraden"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; vrijheidsgraden; cumulatief)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; standaarddev; grootte)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de betrouwbaarheidsinterval van een gemiddelde waarde voor de elementen van een populatie, met een normale verdeling"
+		"d": "Berekent de betrouwbaarheidsinterval van een gemiddelde waarde voor de elementen van een populatie, met een normale verdeling"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; standaarddev; grootte)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matrix1; matrix2)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de covariantie, het gemiddelde van de producten van deviaties voor ieder paar gegevenspunten in twee gegevenssets"
+		"d": "Berekent de covariantie, het gemiddelde van de producten van deviaties voor ieder paar gegevenspunten in twee gegevenssets"
 	},
 	"COVARIANCE.P": {
 		"a": "(matrix1; matrix2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(experimenten; kans-gunstig; alfa)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de kleinste waarde waarvoor de cumulatieve binomiale verdeling kleiner is dan of gelijk aan een criteriumwaarde"
+		"d": "Berekent de kleinste waarde waarvoor de cumulatieve binomiale verdeling kleiner is dan of gelijk aan een criteriumwaarde"
 	},
 	"DEVSQ": {
 		"a": "(getal1; [getal2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de exponentiële verdeling"
+		"d": "Geeft als resultaat de exponentiële verdeling"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; cumulatief)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; vrijheidsgraden1; vrijheidsgraden2)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de (rechtszijdige) F-verdeling (de graad van verscheidenheid) voor twee gegevensverzamelingen"
+		"d": "Geeft als resultaat de (rechtszijdige) F-verdeling (de graad van verscheidenheid) voor twee gegevensverzamelingen"
 	},
 	"FINV": {
 		"a": "(kans; vrijheidsgraden1; vrijheidsgraden2)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de (rechtszijdige) F-verdeling: als p = F.VERDELING(x,...), is F.INVERSE(p,...) = x"
+		"d": "Berekent de inverse van de (rechtszijdige) F-verdeling: als p = F.VERDELING(x,...), is F.INVERSE(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(matrix1; matrix2)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft het resultaat van een F-toets, de tweezijdige kans dat de varianties in matrix1 en matrix2 niet significant verschillen"
+		"d": "Geeft het resultaat van een F-toets, de tweezijdige kans dat de varianties in matrix1 en matrix2 niet significant verschillen"
 	},
 	"F.DIST": {
 		"a": "(x; vrijheidsgraden1; vrijheidsgraden2; cumulatief)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_ys; known_xs)",
-		"d": "Deze functie is beschikbaar voor compatibiliteit met Excel 2013 en eerder.\r\nBerekent of voorspelt een toekomstige waarde langs een lineaire trend op basis van bestaande waarden"
+		"d": "Berekent of voorspelt een toekomstige waarde langs een lineaire trend op basis van bestaande waarden"
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
-		"d": "Retourneert de lengte van het herhaalde patroon dat in Microsoft Excel wordt gedetecteerd voor de opgegeven tijdreeks."
+		"d": "Retourneert de lengte van het herhaalde patroon dat in applicatie wordt gedetecteerd voor de opgegeven tijdreeks."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; bèta; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de gamma-verdeling"
+		"d": "Geeft als resultaat de gamma-verdeling"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; cumulatief)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(kans; alfa; bèta)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de cumulatieve gamma-verdeling: als p = GAMMA.VERD(x,...), is GAMMA.INV(p,...) = x"
+		"d": "Berekent de inverse van de cumulatieve gamma-verdeling: als p = GAMMA.VERD(x,...), is GAMMA.INV(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(kans; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(steekproef-gunstig; grootte-steekproef; populatie-gunstig; grootte-populatie)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de hypergeometrische verdeling"
+		"d": "Geeft als resultaat de hypergeometrische verdeling"
 	},
 	"INTERCEPT": {
 		"a": "(known_ys; known_xs)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(kans; gemiddelde; standaarddev)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies..\r\nBerekent de inverse van de logaritmische normale verdeling van x, waarbij ln(x) normaal wordt verdeeld met de parameters Gemiddelde en Standaarddev"
+		"d": "Berekent de inverse van de logaritmische normale verdeling van x, waarbij ln(x) normaal wordt verdeeld met de parameters Gemiddelde en Standaarddev"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; gemiddelde; standaarddev; cumulatief)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; gemiddelde; standaarddev)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de logaritmische normale verdeling van x, waarbij ln(x) normaal wordt verdeeld met de parameters Gemiddelde en Standaarddev"
+		"d": "Geeft als resultaat de logaritmische normale verdeling van x, waarbij ln(x) normaal wordt verdeeld met de parameters Gemiddelde en Standaarddev"
 	},
 	"MAX": {
 		"a": "(getal1; [getal2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(getal1; [getal2]; ...)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de meest voorkomende (repeterende) waarde in een matrix of bereik met gegevens"
+		"d": "Geeft als resultaat de meest voorkomende (repeterende) waarde in een matrix of bereik met gegevens"
 	},
 	"MODE.MULT": {
 		"a": "(getal1; [getal2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(aantal-ongunstig; aantal-gunstig; kans-gunstig)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de negatieve binomiaalverdeling, de kans dat er Aantal-ongunstig ongunstige uitkomsten zijn voor Aantal-gunstig gunstige uitkomsten, met een kans van Kans-gunstig op een gunstige uitkomst"
+		"d": "Geeft als resultaat de negatieve binomiaalverdeling, de kans dat er Aantal-ongunstig ongunstige uitkomsten zijn voor Aantal-gunstig gunstige uitkomsten, met een kans van Kans-gunstig op een gunstige uitkomst"
 	},
 	"NORM.DIST": {
 		"a": "(x; gemiddelde; standaarddev; cumulatieve)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; gemiddelde; standaarddev; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de cumulatieve normale verdeling van het opgegeven gemiddelde en de standaarddeviatie"
+		"d": "Geeft als resultaat de cumulatieve normale verdeling van het opgegeven gemiddelde en de standaarddeviatie"
 	},
 	"NORM.INV": {
 		"a": "(kans; gemiddelde; standaarddev)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(kans; gemiddelde; standaarddev)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de cumulatieve normale verdeling voor het gemiddelde en de standaarddeviatie die u hebt opgegeven"
+		"d": "Berekent de inverse van de cumulatieve normale verdeling voor het gemiddelde en de standaarddeviatie die u hebt opgegeven"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulatief)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de cumulatieve normale standaardverdeling (met een gemiddelde nul en een standaarddeviatie één)"
+		"d": "Geeft als resultaat de cumulatieve normale standaardverdeling (met een gemiddelde nul en een standaarddeviatie één)"
 	},
 	"NORM.S.INV": {
 		"a": "(kans)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(kans)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de inverse van de cumulatieve normale standaardverdeling (met een gemiddelde nul en een standaarddeviatie één)"
+		"d": "Berekent de inverse van de cumulatieve normale standaardverdeling (met een gemiddelde nul en een standaarddeviatie één)"
 	},
 	"PEARSON": {
 		"a": "(matrix1; matrix2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matrix; k)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent het k-percentiel van waarden in een bereik"
+		"d": "Berekent het k-percentiel van waarden in een bereik"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matrix; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matrix; x; [significantie])",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de positie, in procenten uitgedrukt, van een waarde in de rangorde van een gegevensbereik"
+		"d": "Geeft als resultaat de positie, in procenten uitgedrukt, van een waarde in de rangorde van een gegevensbereik"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matrix; x; [significantie])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; gemiddelde; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de Poisson-verdeling"
+		"d": "Geeft als resultaat de Poisson-verdeling"
 	},
 	"POISSON.DIST": {
 		"a": "(x; gemiddelde; cumulatief)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matrix; kwartiel)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent het kwartiel van een gegevensverzameling"
+		"d": "Berekent het kwartiel van een gegevensverzameling"
 	},
 	"QUARTILE.INC": {
 		"a": "(matrix; kwartiel)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(getal; verw; [volgorde])",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de rang van een getal in een lijst getallen: de grootte ten opzichte van andere waarden in de lijst"
+		"d": "Berekent de rang van een getal in een lijst getallen: de grootte ten opzichte van andere waarden in de lijst"
 	},
 	"RANK.AVG": {
 		"a": "(getal; verw; [volgorde])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(getal1; [getal2]; ...)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nMaakt een schatting van de standaarddeviatie op basis van een steekproef (logische waarden en tekst in de steekproef worden genegeerd)"
+		"d": "Maakt een schatting van de standaarddeviatie op basis van een steekproef (logische waarden en tekst in de steekproef worden genegeerd)"
 	},
 	"STDEV.P": {
 		"a": "(getal1; [getal2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(getal1; [getal2]; ...)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de standaarddeviatie op basis van de volledige populatie die als argumenten worden gegeven (logische waarden en tekst worden genegeerd)"
+		"d": "Berekent de standaarddeviatie op basis van de volledige populatie die als argumenten worden gegeven (logische waarden en tekst worden genegeerd)"
 	},
 	"STDEVPA": {
 		"a": "(waarde1; [waarde2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; vrijheidsgraden; zijden)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de Student T-verdeling"
+		"d": "Berekent de Student T-verdeling"
 	},
 	"TINV": {
 		"a": "(kans; vrijheidsgraden)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de tweezijdige inverse van de Student T-verdeling"
+		"d": "Berekent de tweezijdige inverse van de Student T-verdeling"
 	},
 	"T.DIST": {
 		"a": "(x; vrijheidsgraden; cumulatief)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matrix1; matrix2; zijden; type_getal)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de kans met behulp van de Student T-toets"
+		"d": "Berekent de kans met behulp van de Student T-toets"
 	},
 	"VAR": {
 		"a": "(getal1; [getal2]; ...)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nMaakt een schatting van de variantie op basis van een steekproef (logische waarden en tekst in de steekproef worden genegeerd)"
+		"d": "Maakt een schatting van de variantie op basis van een steekproef (logische waarden en tekst in de steekproef worden genegeerd)"
 	},
 	"VAR.P": {
 		"a": "(getal1; [getal2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(getal1; [getal2]; ...)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de variantie op basis van de volledige populatie (logische waarden en tekst in de populatie worden genegeerd)"
+		"d": "Berekent de variantie op basis van de volledige populatie (logische waarden en tekst in de populatie worden genegeerd)"
 	},
 	"VARPA": {
 		"a": "(waarde1; [waarde2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; bèta; cumulatief)",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nGeeft als resultaat de Weibull-verdeling"
+		"d": "Geeft als resultaat de Weibull-verdeling"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; cumulatief)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matrix; x; [sigma])",
-		"d": "Deze functie is beschikbaar ten behoeve van de compatibiliteit met Excel 2007 en eerdere versies.\r\nBerekent de eenzijdige P-waarde voor een Z-toets"
+		"d": "Berekent de eenzijdige P-waarde voor een Z-toets"
 	},
 	"ACCRINT": {
 		"a": "(uitgifte; eerste_rente; vervaldatum; rente; nominale_waarde; frequentie; [soort_jaar]; [berek.methode])",
@@ -1340,7 +1340,7 @@
 		"d": "Geeft als resultaat de inverse cotangens hyperbolicus van een getal"
 	},
 	"AGGREGATE": {
-		"a": "(functie_getal; opties; matrix; [k]!functie_getal; opties; verw1; ...)",
+		"a": "(functie_getal; opties; verw1; ...)",
 		"d": "Geeft als resultaat een statistische waarde in een lijst of database"
 	},
 	"ARABIC": {

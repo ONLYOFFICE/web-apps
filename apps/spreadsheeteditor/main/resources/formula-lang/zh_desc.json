@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(year; month; day)",
-		"d": "返回在 Microsoft Excel 日期时间代码中代表日期的数字"
+		"d": "返回在日期时间代码中代表日期的数字"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
-		"d": "将日期值从字符串转化为序列数，表示 Microsoft Excel 日期-时间代码的日期"
+		"d": "将日期值从字符串转化为序列数，表示日期-时间代码的日期"
 	},
 	"DAY": {
 		"a": "(serial_number)",
@@ -69,7 +69,7 @@
 	},
 	"TIMEVALUE": {
 		"a": "(time_text)",
-		"d": "将文本形式表示的时间转换成 Excel 序列数，是一个从 0 (12:00:00 AM) 到 0.999988426 (11:59:59 PM) 的数。在输入公式后将数字设置为时间格式"
+		"d": "将文本形式表示的时间转换成序列数，是一个从 0 (12:00:00 AM) 到 0.999988426 (11:59:59 PM) 的数。在输入公式后将数字设置为时间格式"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alpha; beta; [A]; [B])",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回累积 beta 分布的概率密度函数"
+		"d": "返回累积 beta 分布的概率密度函数"
 	},
 	"BETAINV": {
 		"a": "(probability; alpha; beta; [A]; [B])",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回累积 beta 分布的概率密度函数区间点 (BETADIST)"
+		"d": "返回累积 beta 分布的概率密度函数区间点 (BETADIST)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alpha; beta; cumulative; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回一元二项式分布的概率"
+		"d": "返回一元二项式分布的概率"
 	},
 	"BINOM.DIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; deg_freedom)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 χ2 分布的右尾概率"
+		"d": "返回 χ2 分布的右尾概率"
 	},
 	"CHIINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回具有给定概率的右尾 χ2 分布的区间点"
+		"d": "返回具有给定概率的右尾 χ2 分布的区间点"
 	},
 	"CHITEST": {
 		"a": "(actual_range; expected_range)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回独立性检验的结果: 针对统计和相应的自由度返回卡方分布值"
+		"d": "返回独立性检验的结果: 针对统计和相应的自由度返回卡方分布值"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alpha; standard_dev; size)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n使用正态分布，返回总体平均值的置信区间"
+		"d": "使用正态分布，返回总体平均值的置信区间"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alpha; standard_dev; size)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(array1; array2)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回协方差，即每对变量的偏差乘积的均值"
+		"d": "返回协方差，即每对变量的偏差乘积的均值"
 	},
 	"COVARIANCE.P": {
 		"a": "(array1; array2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(trials; probability_s; alpha)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回一个数值，它是使得累积二项式分布的函数值大于等于临界值 α 的最小整数"
+		"d": "返回一个数值，它是使得累积二项式分布的函数值大于等于临界值 α 的最小整数"
 	},
 	"DEVSQ": {
 		"a": "(number1; [number2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回指数分布"
+		"d": "返回指数分布"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; cumulative)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; deg_freedom1; deg_freedom2)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回两组数据的(右尾) F 概率分布(散布程度)"
+		"d": "返回两组数据的(右尾) F 概率分布(散布程度)"
 	},
 	"FINV": {
 		"a": "(probability; deg_freedom1; deg_freedom2)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回(右尾) F 概率分布的逆函数值，如果 p = FDIST(x,...)，那么 FINV(p,...) = x"
+		"d": "返回(右尾) F 概率分布的逆函数值，如果 p = FDIST(x,...)，那么 FINV(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(array1; array2)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 F 检验的结果，F 检验返回的是当 Array1 和 Array2 的方差无明显差异时的双尾概率"
+		"d": "返回 F 检验的结果，F 检验返回的是当 Array1 和 Array2 的方差无明显差异时的双尾概率"
 	},
 	"F.DIST": {
 		"a": "(x; deg_freedom1; deg_freedom2; cumulative)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_y's; known_x's)",
-		"d": "此函数可用于兼容的 Excel 2013 及更早版本。\r\n根据现有的值所产生出的等差序列来计算或预测未来值"
+		"d": "根据现有的值所产生出的等差序列来计算或预测未来值"
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
-		"d": "返回 Microsoft Excel 针对指定时间序列检测到的重复模式的长度。"
+		"d": "返回应用针对指定时间序列检测到的重复模式的长度。"
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 γ 分布函数"
+		"d": "返回 γ 分布函数"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probability; alpha; beta)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回具有给定概率的 γ 累积分布的区间点: 如果 p = GAMMADIST(x,...) 则 GAMMAINV(p,...) = x"
+		"d": "返回具有给定概率的 γ 累积分布的区间点: 如果 p = GAMMADIST(x,...) 则 GAMMAINV(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(probability; alpha; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(sample_s; number_sample; population_s; number_pop)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回超几何分布"
+		"d": "返回超几何分布"
 	},
 	"INTERCEPT": {
 		"a": "(known_y's; known_x's)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 x 的对数正态累积分布函数的区间点，其中 ln(x) 是平均数和标准方差参数的正态分布"
+		"d": "返回 x 的对数正态累积分布函数的区间点，其中 ln(x) 是平均数和标准方差参数的正态分布"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; mean; standard_dev)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 x 的累积正态分布，其中 ln(x) 是平均数和标准方差参数的正态分布"
+		"d": "返回 x 的累积正态分布，其中 ln(x) 是平均数和标准方差参数的正态分布"
 	},
 	"MAX": {
 		"a": "(number1; [number2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回一组数据或数据区域中的众数(出现频率最高的数)"
+		"d": "返回一组数据或数据区域中的众数(出现频率最高的数)"
 	},
 	"MODE.MULT": {
 		"a": "(number1; [number2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(number_f; number_s; probability_s)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回负二项式分布函数，第 Number_s 次成功之前将有 Number_f 次失败的概率，具有 Probability_s 成功概率"
+		"d": "返回负二项式分布函数，第 Number_s 次成功之前将有 Number_f 次失败的概率，具有 Probability_s 成功概率"
 	},
 	"NORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回指定平均值和标准方差的正态累积分布函数值"
+		"d": "返回指定平均值和标准方差的正态累积分布函数值"
 	},
 	"NORM.INV": {
 		"a": "(probability; mean; standard_dev)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回指定平均值和标准方差的正态累积分布函数的区间点"
+		"d": "返回指定平均值和标准方差的正态累积分布函数的区间点"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulative)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回标准正态累积分布函数值(具有零平均值和一标准方差)"
+		"d": "返回标准正态累积分布函数值(具有零平均值和一标准方差)"
 	},
 	"NORM.S.INV": {
 		"a": "(probability)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probability)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回标准正态累积分布的区间点(具有零平均值和一标准方差)"
+		"d": "返回标准正态累积分布的区间点(具有零平均值和一标准方差)"
 	},
 	"PEARSON": {
 		"a": "(array1; array2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(array; k)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回数组的 K 百分点值"
+		"d": "返回数组的 K 百分点值"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(array; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(array; x; [significance])",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回特定数值在一组数中的百分比排名"
+		"d": "返回特定数值在一组数中的百分比排名"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(array; x; [significance])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; mean; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回泊松(POISSON)分布"
+		"d": "返回泊松(POISSON)分布"
 	},
 	"POISSON.DIST": {
 		"a": "(x; mean; cumulative)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(array; quart)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回一组数据的四分位点"
+		"d": "返回一组数据的四分位点"
 	},
 	"QUARTILE.INC": {
 		"a": "(array; quart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(number; ref; [order])",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回某数字在一列数字中相对于其他数值的大小排名"
+		"d": "返回某数字在一列数字中相对于其他数值的大小排名"
 	},
 	"RANK.AVG": {
 		"a": "(number; ref; [order])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n估算基于给定样本的标准偏差(忽略样本中的逻辑值及文本)"
+		"d": "估算基于给定样本的标准偏差(忽略样本中的逻辑值及文本)"
 	},
 	"STDEV.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n计算基于给定的样本总体的标准偏差(忽略逻辑值及文本)"
+		"d": "计算基于给定的样本总体的标准偏差(忽略逻辑值及文本)"
 	},
 	"STDEVPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; deg_freedom; tails)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回学生 t-分布"
+		"d": "返回学生 t-分布"
 	},
 	"TINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回学生 t-分布的双尾区间点"
+		"d": "返回学生 t-分布的双尾区间点"
 	},
 	"T.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(array1; array2; tails; type)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回学生 t-检验的概率值"
+		"d": "返回学生 t-检验的概率值"
 	},
 	"VAR": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n估算基于给定样本的方差(忽略样本中的逻辑值及文本)"
+		"d": "估算基于给定样本的方差(忽略样本中的逻辑值及文本)"
 	},
 	"VAR.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n计算基于给定的样本总体的方差(忽略样本总体中的逻辑值及文本)"
+		"d": "计算基于给定的样本总体的方差(忽略样本总体中的逻辑值及文本)"
 	},
 	"VARPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 Weibull 分布(概率密度)"
+		"d": "返回 Weibull 分布(概率密度)"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(array; x; [sigma])",
-		"d": "此函数与 Excel 2007 和早期版本兼容。\r\n返回 z 测试的单尾 P 值"
+		"d": "返回 z 测试的单尾 P 值"
 	},
 	"ACCRINT": {
 		"a": "(issue; first_interest; settlement; rate; par; frequency; [basis]; [calc_method])",
@@ -1340,7 +1340,7 @@
 		"d": "返回一个数字的反双曲余切值"
 	},
 	"AGGREGATE": {
-		"a": "(function_num; options; array; [k]!function_num; options; ref1; ...)",
+		"a": "(function_num; options; ref1; ...)",
 		"d": "返回一个数据列表或数据库的合计"
 	},
 	"ARABIC": {
