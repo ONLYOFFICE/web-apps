@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(leto; mesec; dan)",
-		"d": "Vrne število, ki predstavlja datum v kodi za datum in uro programa Microsoft Excel."
+		"d": "Vrne število, ki predstavlja datum v kodi za datum in uro."
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(besedilo_datuma)",
-		"d": "Pretvori datum v obliki besedila v število, ki predstavlja datum v kodi za datum in uro programa Microsoft Excel."
+		"d": "Pretvori datum v obliki besedila v število, ki predstavlja datum v kodi za datum in uro."
 	},
 	"DAY": {
 		"a": "(serijska_številka)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(ura; minuta; sekunda)",
-		"d": "Pretvori ure, minute in sekunde, navedene kot števila, v Excelovo zaporedno število v časovni obliki."
+		"d": "Pretvori ure, minute in sekunde, navedene kot števila, v zaporedno število v časovni obliki."
 	},
 	"TIMEVALUE": {
 		"a": "(besedilo_ure)",
-		"d": "Pretvori uro, zapisano v besedilni obliki, v Excelovo zaporedno število za uro; števila od 0 (12:00:00) do 0,999988426 (23:59:59). Po vnosu formule oblikujte število z obliko zapisa ure."
+		"d": "Pretvori uro, zapisano v besedilni obliki, v zaporedno število za uro; števila od 0 (12:00:00) do 0,999988426 (23:59:59). Po vnosu formule oblikujte število z obliko zapisa ure."
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne kumulativno porazdelitev beta gostote verjetnosti"
+		"d": "Vrne kumulativno porazdelitev beta gostote verjetnosti"
 	},
 	"BETAINV": {
 		"a": "(verjetnost; alfa; beta; [A]; [B])",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno kumulativno porazdelitev beta gostote verjetnosti (BETADIST)."
+		"d": "Vrne inverzno kumulativno porazdelitev beta gostote verjetnosti (BETADIST)."
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; kumulativno; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(število_s; poskusi; verjetnost_s; kumulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne posamezno binomsko porazdelitveno verjetnost."
+		"d": "Vrne posamezno binomsko porazdelitveno verjetnost."
 	},
 	"BINOM.DIST": {
 		"a": "(število_s; poskusi; verjetnost_s; kumulativno)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; stop_prostosti)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne verjetnost dvorepe porazdelitve Hi-kvadrat."
+		"d": "Vrne verjetnost dvorepe porazdelitve Hi-kvadrat."
 	},
 	"CHIINV": {
 		"a": "(verjetnost; stop_prostosti)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno verjetnost dvorepe porazdelitve Hi-kvadrat."
+		"d": "Vrne inverzno verjetnost dvorepe porazdelitve Hi-kvadrat."
 	},
 	"CHITEST": {
 		"a": "(dejanski_obseg; pričakovani_obseg)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne preizkus neodvisnosti: vrednost iz porazdelitve hi-kvadrat za statistične in ustrezne stopnje prostosti."
+		"d": "Vrne preizkus neodvisnosti: vrednost iz porazdelitve hi-kvadrat za statistične in ustrezne stopnje prostosti."
 	},
 	"CHISQ.DIST": {
 		"a": "(x; stop_prostosti; kumulativno)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; standardni_odklon; velikost)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne interval zaupanja za populacijsko srednjo vrednost"
+		"d": "Vrne interval zaupanja za populacijsko srednjo vrednost"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; standardni_odklon; velikost)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matrika1; matrika2)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne kovarianco, ki je povprečje produktov odklonov za vsak par podatkovnih točk v dveh podatkovnih množicah."
+		"d": "Vrne kovarianco, ki je povprečje produktov odklonov za vsak par podatkovnih točk v dveh podatkovnih množicah."
 	},
 	"COVARIANCE.P": {
 		"a": "(matrika1; matrika2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(poskusi; verjetnost_s; alfa)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne najmanjšo vrednost, za katero je kumulativna binomska porazdelitev večja ali enaka vrednosti kriterija."
+		"d": "Vrne najmanjšo vrednost, za katero je kumulativna binomska porazdelitev večja ali enaka vrednosti kriterija."
 	},
 	"DEVSQ": {
 		"a": "(število1; [število2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kumulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne eksponentno porazdelitev."
+		"d": "Vrne eksponentno porazdelitev."
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kumulativno)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; stop_prostosti1; stop_prostosti2)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne F-porazdelitev (dvorepo) verjetnosti (stopnja razpršenosti) za dve podatkovni množici."
+		"d": "Vrne F-porazdelitev (dvorepo) verjetnosti (stopnja razpršenosti) za dve podatkovni množici."
 	},
 	"FINV": {
 		"a": "(verjetnost; stop_prostosti1; stop_prostosti2)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno verjetnostno F-porazdelitev (dvorepo): če p = FDIST(x,...), potem FINV(p,...) = x."
+		"d": "Vrne inverzno verjetnostno F-porazdelitev (dvorepo): če p = FDIST(x,...), potem FINV(p,...) = x."
 	},
 	"FTEST": {
 		"a": "(matrika1; matrika2)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne rezultat F-preizkusa, ki je dvorepa verjetnost, da se varianci argumentov »matrika1« in »matrika2« bistveno ne razlikujeta."
+		"d": "Vrne rezultat F-preizkusa, ki je dvorepa verjetnost, da se varianci argumentov »matrika1« in »matrika2« bistveno ne razlikujeta."
 	},
 	"F.DIST": {
 		"a": "(x; stop_prostosti1; stop_prostosti2; kumulativno)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_ys; known_xs)",
-		"d": "ITa funkcija je na voljo za združljivost s programom Excel 2013 in starejšimi različicami.\r\nIzračuna ali predvidi bodočo vrednost vzdolž linearnega trenda z uporabo obstoječih vrednosti."
+		"d": "Izračuna ali predvidi bodočo vrednost vzdolž linearnega trenda z uporabo obstoječih vrednosti."
 	},
 	"FORECAST.ETS": {
 		"a": "(ciljni_datum; vrednosti; časovna_premica; [sezonskost]; [dokončanje_podatkov]; [združevanje])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(vrednosti; časovna_premica; [dokončanje_podatkov]; [združevanje])",
-		"d": "Vrne dolžino ponavljajočega se vzorca, ki ga Microsoft Excel zazna za določen časovni niz."
+		"d": "Vrne dolžino ponavljajočega se vzorca, ki ga aplikacijo zazna za določen časovni niz."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(vrednosti; časovna_premica; vrsta_statistike; [sezonskost]; [dokončanje_podatkov]; [združevanje])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; kumulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne gama porazdelitev."
+		"d": "Vrne gama porazdelitev."
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; kumulativno)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(verjetnost; alfa; beta)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno gama kumulativno porazdelitev: če je p = GAMMADIST(x,...), potem je GAMMAINV(p,...) = x."
+		"d": "Vrne inverzno gama kumulativno porazdelitev: če je p = GAMMADIST(x,...), potem je GAMMAINV(p,...) = x."
 	},
 	"GAMMA.INV": {
 		"a": "(verjetnost; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(vzorec_s; velikost_vzorca; populacija_s; velikost_populacije)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne hipergeometrično porazdelitev."
+		"d": "Vrne hipergeometrično porazdelitev."
 	},
 	"INTERCEPT": {
 		"a": "(known_ys; known_xs)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(verjetnost; srednja_vrednost; standardni_odklon)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno logaritmično normalno kumulativno porazdelitev funkcije x-a, kjer je ln(x) normalno porazdeljen, s parametroma »Srednja_vrednost« in »Standardni_odklon«."
+		"d": "Vrne inverzno logaritmično normalno kumulativno porazdelitev funkcije x-a, kjer je ln(x) normalno porazdeljen, s parametroma »Srednja_vrednost« in »Standardni_odklon«."
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; srednja_vrednost; standardni_odklon; kumulativno)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; srednja_vrednost; standardni_odklon)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne kumulativno logaritmično normalno porazdelitev za x, kjer je ln(x) normalno porazdeljen, s parametroma »Srednja_vrednost« in »Standardni_odklon«."
+		"d": "Vrne kumulativno logaritmično normalno porazdelitev za x, kjer je ln(x) normalno porazdeljen, s parametroma »Srednja_vrednost« in »Standardni_odklon«."
 	},
 	"MAX": {
 		"a": "(število1; [število2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(število1; [število2]; ...)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne najpogostejšo vrednost v matriki ali v obsegu podatkov."
+		"d": "Vrne najpogostejšo vrednost v matriki ali v obsegu podatkov."
 	},
 	"MODE.MULT": {
 		"a": "(število1; [število2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(število_f; število_s; verjetnost_s)",
-		"d": "Ta funkcija je na voljo za združljivost z Excelom 2007 in starejšimi različicami.\r\nVrne negativno binomsko porazdelitev, ki je verjetnost, da boste doživeli »število_f« neuspehov pred uspehom, ki je po vrstnem redu »število_s«, upoštevajoč, da je konstantna verjetnost uspeha enaka »verjetnost_s«."
+		"d": "Vrne negativno binomsko porazdelitev, ki je verjetnost, da boste doživeli »število_f« neuspehov pred uspehom, ki je po vrstnem redu »število_s«, upoštevajoč, da je konstantna verjetnost uspeha enaka »verjetnost_s«."
 	},
 	"NORM.DIST": {
 		"a": "(x; srednja_vrednost; standardni_odklon; kumulativno)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; srednja_vrednost; standardni_odklon; kumulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne normalno kumulativno porazdelitev za navedeno srednjo vrednost in standardni odklon."
+		"d": "Vrne normalno kumulativno porazdelitev za navedeno srednjo vrednost in standardni odklon."
 	},
 	"NORM.INV": {
 		"a": "(verjetnost; srednja_vrednost; standardni_odklon)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(verjetnost; srednja_vrednost; standardni_odklon)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno normalno kumulativno porazdelitev za navedeno srednjo vrednost in standardni odklon."
+		"d": "Vrne inverzno normalno kumulativno porazdelitev za navedeno srednjo vrednost in standardni odklon."
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kumulativno)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne standardno normalno kumulativno porazdelitev (ima srednjo vrednost nič in standardni odklon ena)."
+		"d": "Vrne standardno normalno kumulativno porazdelitev (ima srednjo vrednost nič in standardni odklon ena)."
 	},
 	"NORM.S.INV": {
 		"a": "(verjetnost)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(verjetnost)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne inverzno standardno normalno kumulativno porazdelitev (ima srednjo vrednost nič in standardni odklon ena)."
+		"d": "Vrne inverzno standardno normalno kumulativno porazdelitev (ima srednjo vrednost nič in standardni odklon ena)."
 	},
 	"PEARSON": {
 		"a": "(matrika1; matrika2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matrika; k)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne k-ti percentil vrednosti v obsegu."
+		"d": "Vrne k-ti percentil vrednosti v obsegu."
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matrika; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matrika; x; [pomembnost])",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne rang vrednosti v množici podatkov kot odstotek podatkovne množice."
+		"d": "Vrne rang vrednosti v množici podatkov kot odstotek podatkovne množice."
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matrika; x; [spomembnost])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; srednja_vrednost; kunulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne Poissonovo porazdelitev."
+		"d": "Vrne Poissonovo porazdelitev."
 	},
 	"POISSON.DIST": {
 		"a": "(x; srednja_vrednost; kumulativno)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matrika; kvartil)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne kvartil nabora podatkov."
+		"d": "Vrne kvartil nabora podatkov."
 	},
 	"QUARTILE.INC": {
 		"a": "(matrika; kvartil)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(število; sklic; [vrstni_red])",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne rang števila na seznamu števil, ki je relativna velikost števila glede na druge vrednosti na seznamu."
+		"d": "Vrne rang števila na seznamu števil, ki je relativna velikost števila glede na druge vrednosti na seznamu."
 	},
 	"RANK.AVG": {
 		"a": "(število; sklic; [vrstni_red])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(število1; [število2]; ...)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami. Uporabite funkcijo STDEV.S.\r\nOceni standardni odklon glede na vzorec (v vzorcu prezre logične vrednosti in besedilo)."
+		"d": "Oceni standardni odklon glede na vzorec (v vzorcu prezre logične vrednosti in besedilo)."
 	},
 	"STDEV.P": {
 		"a": "(število1; [število2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(število1; [število2]; ...)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nIzračuna standardni odklon na podlagi celotne populacije, navedene v obliki argumentov (prezre logične vrednosti in besedilo)."
+		"d": "Izračuna standardni odklon na podlagi celotne populacije, navedene v obliki argumentov (prezre logične vrednosti in besedilo)."
 	},
 	"STDEVPA": {
 		"a": "(vrednost1; [vrednost2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; stop_prostosti; repi)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne študentovo t-porazdelitev."
+		"d": "Vrne študentovo t-porazdelitev."
 	},
 	"TINV": {
 		"a": "(verjetnost; stop_Prostosti)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne dvorepo inverzno Studentovo t-porazdelitev."
+		"d": "Vrne dvorepo inverzno Studentovo t-porazdelitev."
 	},
 	"T.DIST": {
 		"a": "(x; stop_prostosti; kumulativno)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matrika1; matrika2; repi; vrsta)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne verjetnost, povezano s Studentovim t-preskusom."
+		"d": "Vrne verjetnost, povezano s Studentovim t-preskusom."
 	},
 	"VAR": {
 		"a": "(število1; [število2]; ...)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nOceni odmik glede na vzorec (v vzorcu prezre logične vrednosti in besedilo)."
+		"d": "Oceni odmik glede na vzorec (v vzorcu prezre logične vrednosti in besedilo)."
 	},
 	"VAR.P": {
 		"a": "(število1; [število2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(število1; [število2]; ...)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nIzračuna odmik na podlagi celotne populacije (prezre logične vrednosti in besedilo v populaciji)."
+		"d": "Izračuna odmik na podlagi celotne populacije (prezre logične vrednosti in besedilo v populaciji)."
 	},
 	"VARPA": {
 		"a": "(vrednost1; [vrednost2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; kumulativno)",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne Weibullovo porazdelitev."
+		"d": "Vrne Weibullovo porazdelitev."
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; kumulativno)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matrika; x; [sigma])",
-		"d": "Ta funkcija je na voljo za združljivost s programom Excel 2007 in starejšimi različicami.\r\nVrne enorepo P-vrednost z-preizkusa."
+		"d": "Vrne enorepo P-vrednost z-preizkusa."
 	},
 	"ACCRINT": {
 		"a": "(izdaja; prve_obresti; poravnava; mera; vrednost; pogostost; [osnova]; [način_izračuna])",
@@ -1340,7 +1340,7 @@
 		"d": " Vrne inverzni hiperbolični kotangens števila"
 	},
 	"AGGREGATE": {
-		"a": "(št_funkcije; možnosti; matrika; [k]!št_funkcije; možnosti; sklic1; ...)",
+		"a": "(št_funkcije; možnosti; sklic1; ...)",
 		"d": "Vrne agregat s seznama ali iz zbirke podatkov."
 	},
 	"ARABIC": {

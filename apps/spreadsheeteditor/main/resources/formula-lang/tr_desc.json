@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(yıl; ay; gün)",
-		"d": "Microsoft Excel tarih-saat kodundaki tarihi gösteren sayıyı verir."
+		"d": "Tarih-saat kodundaki tarihi gösteren sayıyı verir."
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(tarih_metni)",
-		"d": "Metin formunda bulunan bir tarihi Microsoft Excel'deki tarih-saat kodunu gösteren bir sayıya dönüştürür"
+		"d": "Metin formunda bulunan bir tarihi tarih-saat kodunu gösteren bir sayıya dönüştürür"
 	},
 	"DAY": {
 		"a": "(seri_no)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(saat; dakika; saniye)",
-		"d": "Saat, dakika, saniye olarak girilen sayıları zaman biçimindeki Excel seri numarasına dönüştürür"
+		"d": "Saat, dakika, saniye olarak girilen sayıları zaman biçimindeki seri numarasına dönüştürür"
 	},
 	"TIMEVALUE": {
 		"a": "(saat_metni)",
-		"d": "Bir metin dizesiyle (saat_metni) gösterilen bir saati 0 (00:00:00) ile 0,999988426 (23:59:59) arasındaki Excel saat seri numarasına çevirir. Formülü girdikten sonra sayıyı saat biçiminde biçimlendirin"
+		"d": "Bir metin dizesiyle (saat_metni) gösterilen bir saati 0 (00:00:00) ile 0,999988426 (23:59:59) arasındaki saat seri numarasına çevirir. Formülü girdikten sonra sayıyı saat biçiminde biçimlendirin"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKümülatif beta olasılık yoğunluk işlevini verir"
+		"d": "Kümülatif beta olasılık yoğunluk işlevini verir"
 	},
 	"BETAINV": {
 		"a": "(olasılık; alfa; beta; [A]; [B])",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKümülatif beta olasılık yoğunluk işlevinin (BETADAĞ) tersini verir"
+		"d": "Kümülatif beta olasılık yoğunluk işlevinin (BETADAĞ) tersini verir"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; kümülatif; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(başarı_sayısı; denemeler; başarı_olasılığı; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nTek terimli binom dağılımı olasılığını verir"
+		"d": "Tek terimli binom dağılımı olasılığını verir"
 	},
 	"BINOM.DIST": {
 		"a": "(başarı_sayısı; denemeler; başarı_olasılığı; kümülatif)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; serb_derecesi)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKikare dağılımının sağ kuyruklu olasılığını verir"
+		"d": "Kikare dağılımının sağ kuyruklu olasılığını verir"
 	},
 	"CHIINV": {
 		"a": "(olasılık; serb_derecesi)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKikare dağılımının sağ kuyruklu olasılığının tersini verir"
+		"d": "Kikare dağılımının sağ kuyruklu olasılığının tersini verir"
 	},
 	"CHITEST": {
 		"a": "(etkin_erim; beklenen_erim)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBağımsızlık sınaması sonucunu verir: istatistik için kikare dağılımından alınan değer ve uygun serbestlik derecesi"
+		"d": "Bağımsızlık sınaması sonucunu verir: istatistik için kikare dağılımından alınan değer ve uygun serbestlik derecesi"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; serb_derecesi; kümülatif)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; standart_sapma; boyut)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nPopülasyon ortalaması için normal bir dağılım kullanarak güvenilirlik aralığını verir"
+		"d": "Popülasyon ortalaması için normal bir dağılım kullanarak güvenilirlik aralığını verir"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; standart_sapma; boyut)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(dizi1; dizi2)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKovaryansı verir; iki veri kümesindeki her veri noktası çifti için sapmaların çarpımlarının ortalaması"
+		"d": "Kovaryansı verir; iki veri kümesindeki her veri noktası çifti için sapmaların çarpımlarının ortalaması"
 	},
 	"COVARIANCE.P": {
 		"a": "(dizi1; dizi2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(denemeler; başarı_olasılığı; alfa)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nKümülatif binom dağılımının ölçüt değerinden küçük veya ona eşit olduğu en küçük değeri verir"
+		"d": "Kümülatif binom dağılımının ölçüt değerinden küçük veya ona eşit olduğu en küçük değeri verir"
 	},
 	"DEVSQ": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nÜstel dağılımı verir"
+		"d": "Üstel dağılımı verir"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kümülatif)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; serb_derecesi1; serb_derecesi2)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nİki veri kümesi için (sağ kuyruklu) F olasılık dağılımını (basıklık derecesi) verir"
+		"d": "İki veri kümesi için (sağ kuyruklu) F olasılık dağılımını (basıklık derecesi) verir"
 	},
 	"FINV": {
 		"a": "(olasılık; serb_derecesi1; serb_derecesi2)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\n(Sağ kuyruklu) F olasılık dağılımının tersini verir: p = FDAĞ(x,...) ise, FTERS(p,...) = x"
+		"d": "(Sağ kuyruklu) F olasılık dağılımının tersini verir: p = FDAĞ(x,...) ise, FTERS(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(dizi1; dizi2)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir F-test sonucu verir; Dizi1 ve Dizi2'nin varyanslarının çok farklı olmadığı iki kuyruklu olasılıktır"
+		"d": "Bir F-test sonucu verir; Dizi1 ve Dizi2'nin varyanslarının çok farklı olmadığı iki kuyruklu olasılıktır"
 	},
 	"F.DIST": {
 		"a": "(x; serb_derecesi1; serb_derecesi2; kümülatif)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; bilinen_y'ler; bilinen_x'ler)",
-		"d": "Bu işlev Excel 2013 ve önceki sürümleriyle uyumludur.\r\nVarolan değerleri kullanarak bir gelecek değeri doğrusal bir eğilim boyunca hesaplar ya da tahmin eder"
+		"d": "Varolan değerleri kullanarak bir gelecek değeri doğrusal bir eğilim boyunca hesaplar ya da tahmin eder"
 	},
 	"FORECAST.ETS": {
 		"a": "(hedef_tarih; değerler; zaman_çizelgesi; [mevsimsellik]; [veri_tamamlama]; [toplama])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(değerler; zaman_çizelgesi; [veri_tamamlama]; [toplama])",
-		"d": "Belirtilen zaman dizisi için Microsoft Excel tarafından algılanan tekrarlanan desenin uzunluğunu verir."
+		"d": "Belirtilen zaman dizisi için uygulama tarafından algılanan tekrarlanan desenin uzunluğunu verir."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(değerler; zaman_çizelgesi; istatistik_türü; [mevsimsellik]; [veri_tamamlama]; [toplama])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nGama dağılımını verir"
+		"d": "Gama dağılımını verir"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; kümülatif)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(olasılık; alfa; beta)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nGama kümülatif dağılımının tersini verir: p = GAMADAĞ(x,...) ise, GAMATERS(p,...) = x"
+		"d": "Gama kümülatif dağılımının tersini verir: p = GAMADAĞ(x,...) ise, GAMATERS(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(olasılık; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(başarı_örnek; sayı_örnek; başarı_popülasyon; sayı_pop)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nHipergeometrik dağılımı verir"
+		"d": "Hipergeometrik dağılımı verir"
 	},
 	"INTERCEPT": {
 		"a": "(bilinen_y'ler; bilinen_x'ler)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(olasılık; ortalama; standart_sapma)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nln(x)'in Ortalama ve Standart_sapma parametreleriyle normal dağıldığı durumlarda x'in kümülatif lognormal dağılım işlevinin tersini verir"
+		"d": "ln(x)'in Ortalama ve Standart_sapma parametreleriyle normal dağıldığı durumlarda x'in kümülatif lognormal dağılım işlevinin tersini verir"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; ortalama; standart_sapma; kümülatif)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; ortalama; standart_sapma)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nln(x)'in normal olarak Ortalama ve Standart_sapma parametreleriyle dağıldığı durumlarda x'in kümülatif lognormal dağılımını verir"
+		"d": "ln(x)'in normal olarak Ortalama ve Standart_sapma parametreleriyle dağıldığı durumlarda x'in kümülatif lognormal dağılımını verir"
 	},
 	"MAX": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(sayı1; [sayı2]; ...)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir veri dizisi ya da aralığında en sık karşılaşılan ya da en çok yinelenen değeri verir"
+		"d": "Bir veri dizisi ya da aralığında en sık karşılaşılan ya da en çok yinelenen değeri verir"
 	},
 	"MODE.MULT": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(başarısızlık_s; başarı_sı; başarı_o)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir başarının negatif binom dağılımını, yani Başarı_sı kadar başarıdan önce Başarısızlık_s kadar başarısızlık olması olasılığını ve Başarı_o olarak başarı olasılığını verir"
+		"d": "Bir başarının negatif binom dağılımını, yani Başarı_sı kadar başarıdan önce Başarısızlık_s kadar başarısızlık olması olasılığını ve Başarı_o olarak başarı olasılığını verir"
 	},
 	"NORM.DIST": {
 		"a": "(x; ortalama; standart_sapma; kümülatif)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; ortalama; standart_sapma; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBelirtilen ortalama ve standart sapma için normal kümülatif dağılımı verir"
+		"d": "Belirtilen ortalama ve standart sapma için normal kümülatif dağılımı verir"
 	},
 	"NORM.INV": {
 		"a": "(olasılık; ortalama; standart_sapma)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(olasılık; ortalama; standart_sapma)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBelirtilen ortalama ve standart sapma için normal kümülatif dağılımın tersini verir"
+		"d": "Belirtilen ortalama ve standart sapma için normal kümülatif dağılımın tersini verir"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kümülatif)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nStandart normal kümülatif dağılımı (ortalaması sıfır, standart sapması bir) verir"
+		"d": "Standart normal kümülatif dağılımı (ortalaması sıfır, standart sapması bir) verir"
 	},
 	"NORM.S.INV": {
 		"a": "(olasılık)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(olasılık)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nStandart normal kümülatif dağılımın (ortalaması sıfır, standart sapması bir) tersini verir"
+		"d": "Standart normal kümülatif dağılımın (ortalaması sıfır, standart sapması bir) tersini verir"
 	},
 	"PEARSON": {
 		"a": "(dizi1; dizi2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(dizi; k)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir aralık içerisindeki değerlerin k. yüzdebir toplamını verir"
+		"d": "Bir aralık içerisindeki değerlerin k. yüzdebir toplamını verir"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(dizi; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(dizi; x; [anlam])",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir veri kümesindeki bir değerin sırasını, veri kümesinin yüzdesi olarak verir"
+		"d": "Bir veri kümesindeki bir değerin sırasını, veri kümesinin yüzdesi olarak verir"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(dizi; x; [anlam])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; ortalama; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nPoisson dağılımını verir"
+		"d": "Poisson dağılımını verir"
 	},
 	"POISSON.DIST": {
 		"a": "(x; ortalama; kümülatif)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(dizi; dörttebir)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir veri kümesinin dörttebirliğini verir"
+		"d": "Bir veri kümesinin dörttebirliğini verir"
 	},
 	"QUARTILE.INC": {
 		"a": "(dizi; dörttebir)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(sayı; başv; [sıra])",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir sayı listesindeki bir sayının derecesini verir: listedeki diğer değerlere göreli olarak büyüklüğü"
+		"d": "Bir sayı listesindeki bir sayının derecesini verir: listedeki diğer değerlere göreli olarak büyüklüğü"
 	},
 	"RANK.AVG": {
 		"a": "(sayı; başv; [sıra])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(sayı1; [sayı2]; ...)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir örneğe dayanarak standart sapmayı tahmin eder (örnekteki mantıksal değerleri ve metni yoksayar)"
+		"d": "Bir örneğe dayanarak standart sapmayı tahmin eder (örnekteki mantıksal değerleri ve metni yoksayar)"
 	},
 	"STDEV.P": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(sayı1; [sayı2]; ...)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBağımsız değişkenler olarak verilen tüm popülasyonu temel alarak standart sapmayı hesaplar (mantıksal değerleri ve metni yoksayar)"
+		"d": "Bağımsız değişkenler olarak verilen tüm popülasyonu temel alarak standart sapmayı hesaplar (mantıksal değerleri ve metni yoksayar)"
 	},
 	"STDEVPA": {
 		"a": "(değer1; [değer2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; serbestlik_der; yazı_say)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nT-dağılımını verir"
+		"d": "T-dağılımını verir"
 	},
 	"TINV": {
 		"a": "(olasılık; serb_derecesi)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nT-dağılımının iki kuyruklu tersini verir"
+		"d": "T-dağılımının iki kuyruklu tersini verir"
 	},
 	"T.DIST": {
 		"a": "(x; serb_derecesi; kümülatif)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(dizi1; dizi2; yazı_say; tür)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir t-Test için olasılığı verir"
+		"d": "Bir t-Test için olasılığı verir"
 	},
 	"VAR": {
 		"a": "(sayı1; [sayı2]; ...)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir örneğe dayanarak varyansı tahmin eder (örnekteki mantıksal değerleri ve metni yoksayar)"
+		"d": "Bir örneğe dayanarak varyansı tahmin eder (örnekteki mantıksal değerleri ve metni yoksayar)"
 	},
 	"VAR.P": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(sayı1; [sayı2]; ...)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nTüm popülasyonun varyansını hesaplar (popülasyondaki mantıksal değerleri ve metni yoksayar)"
+		"d": "Tüm popülasyonun varyansını hesaplar (popülasyondaki mantıksal değerleri ve metni yoksayar)"
 	},
 	"VARPA": {
 		"a": "(değer1; [değer2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; kümülatif)",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nWeibull dağılımını verir"
+		"d": "Weibull dağılımını verir"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; kümülatif)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(dizi; x; [sigma])",
-		"d": "Bu işlev Excel 2007 ve öncesiyle uyumluluk amacıyla kullanılabilmektedir.\r\nBir z-test'in tek kuyruklu P-değerini verir"
+		"d": "Bir z-test'in tek kuyruklu P-değerini verir"
 	},
 	"ACCRINT": {
 		"a": "(çıkış; ilk_faiz; mutabakat; oran; nominal; sıklık; [temel]; [hesapl_yöntemi])",
@@ -1340,7 +1340,7 @@
 		"d": "Bir sayının ters hiperbolik kotanjant değerini verir"
 	},
 	"AGGREGATE": {
-		"a": "(işlev_num; seçenekler; dizi; [k]!işlev_num; seçenekler; başv1; ...)",
+		"a": "(işlev_num; seçenekler; başv1; ...)",
 		"d": "Bir liste veya veritabanından bir toplam verir"
 	},
 	"ARABIC": {

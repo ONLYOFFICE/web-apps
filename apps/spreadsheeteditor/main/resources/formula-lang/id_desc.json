@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(year; month; day)",
-		"d": "Mengembalikan angka yang mewakili tanggal dalam kode tanggal-waktu Microsoft Excel"
+		"d": "Mengembalikan angka yang mewakili tanggal dalam kode tanggal-waktu"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
-		"d": "Mengonversi tanggal dalam bentuk teks ke angka yang mewakili tanggal dalam kode tanggal-waktu Microsoft Excel"
+		"d": "Mengonversi tanggal dalam bentuk teks ke angka yang mewakili tanggal dalam kode tanggal-waktu"
 	},
 	"DAY": {
 		"a": "(serial_number)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(hour; minute; second)",
-		"d": "Konversi jam, menit, dan detik yang ditentukan sebagai angka ke nomor seri Excel, diformat dengan format waktu"
+		"d": "Konversi jam, menit, dan detik yang ditentukan sebagai angka ke nomor seri, diformat dengan format waktu"
 	},
 	"TIMEVALUE": {
 		"a": "(time_text)",
-		"d": "Mengonversi waktu teks ke nomor seri Excel untuk waktuu, angka dari 0 (12:00:00 AM) sampai 0.999988426 (11:59:59 PM). Format nomor dengan format waktu setelah memasukkan rumus"
+		"d": "Mengonversi waktu teks ke nomor seri untuk waktuu, angka dari 0 (12:00:00 AM) sampai 0.999988426 (11:59:59 PM). Format nomor dengan format waktu setelah memasukkan rumus"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alpha; beta; [A]; [B])",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan fungsi kepadatan probabilitas beta kumulatif"
+		"d": "Mengembalikan fungsi kepadatan probabilitas beta kumulatif"
 	},
 	"BETAINV": {
 		"a": "(probability; alpha; beta; [A]; [B])",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi dari fungsi kepadatan probabilitas kumulatif beta (BETADIST)"
+		"d": "Mengembalikan inversi dari fungsi kepadatan probabilitas kumulatif beta (BETADIST)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alpha; beta; cumulative; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan probabilitas distribusi binomial istilah individu"
+		"d": "Mengembalikan probabilitas distribusi binomial istilah individu"
 	},
 	"BINOM.DIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; deg_freedom)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan probabilitas sisi-kanan dari distribusi khi-kuadrat"
+		"d": "Mengembalikan probabilitas sisi-kanan dari distribusi khi-kuadrat"
 	},
 	"CHIINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi dari probabilitas sisi-kanan dari distribusi khi-kuadrat"
+		"d": "Mengembalikan inversi dari probabilitas sisi-kanan dari distribusi khi-kuadrat"
 	},
 	"CHITEST": {
 		"a": "(actual_range; expected_range)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan uji independensi: nilai dari distribusi khi-kuadrat untuk statistik dan derajat kebebasan yang tepat"
+		"d": "Mengembalikan uji independensi: nilai dari distribusi khi-kuadrat untuk statistik dan derajat kebebasan yang tepat"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alpha; standard_dev; size)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan interval kepercayaan untuk mean populasi, menggunakan distribusi normal"
+		"d": "Mengembalikan interval kepercayaan untuk mean populasi, menggunakan distribusi normal"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alpha; standard_dev; size)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(array1; array2)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan kovarian, rata-rata produk dari simpangan untuk tiap pasangan titik data dalam dua perangkat data"
+		"d": "Mengembalikan kovarian, rata-rata produk dari simpangan untuk tiap pasangan titik data dalam dua perangkat data"
 	},
 	"COVARIANCE.P": {
 		"a": "(array1; array2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(trials; probability_s; alpha)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMenampilkan nilai terkecil di mana distribusi binomial kumulatif lebih besar dari atau sama dengan nilai kriteria"
+		"d": "Menampilkan nilai terkecil di mana distribusi binomial kumulatif lebih besar dari atau sama dengan nilai kriteria"
 	},
 	"DEVSQ": {
 		"a": "(number1; [number2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi eksponensial"
+		"d": "Mengembalikan distribusi eksponensial"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; cumulative)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; deg_freedom1; deg_freedom2)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi probabilitas F (sisi-kanan) untuk dua set data"
+		"d": "Mengembalikan distribusi probabilitas F (sisi-kanan) untuk dua set data"
 	},
 	"FINV": {
 		"a": "(probability; deg_freedom1; deg_freedom2)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi distribusi probabilitas F (sisi-kanan): jika p = FDIST(x,...), maka FINV(p,...) = x"
+		"d": "Mengembalikan inversi distribusi probabilitas F (sisi-kanan): jika p = FDIST(x,...), maka FINV(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(array1; array2)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan hasil uji-F, probabilitas dua-sisi di mana varian dalam Array1 dan Array2 tidak memiliki perbedaan yang signifikan"
+		"d": "Mengembalikan hasil uji-F, probabilitas dua-sisi di mana varian dalam Array1 dan Array2 tidak memiliki perbedaan yang signifikan"
 	},
 	"F.DIST": {
 		"a": "(x; deg_freedom1; deg_freedom2; cumulative)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_y's; known_x's)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2013 dan versi lebih lama.\r\nMenghitung, atau memprediksi, nilai mendatang beserta tren linear menggunakan nilai yang ada"
+		"d": "Menghitung, atau memprediksi, nilai mendatang beserta tren linear menggunakan nilai yang ada"
 	},
 	"FORECAST.ETS": {
 		"a": "(tanggal_target; nilai; garis_waktu; [musiman]; [penyelesaian_data]; [agregat])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
-		"d": "Mengembalikan panjang pola berulang yang dideteksi oleh Microsoft Excel untuk rangkaian waktu tertentu."
+		"d": "Mengembalikan panjang pola berulang yang dideteksi oleh aplikasi untuk rangkaian waktu tertentu."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi gamma"
+		"d": "Mengembalikan distribusi gamma"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probability; alpha; beta)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi distribusi kumulatif gamma: jika p = GAMMADIST(x,...), maka GAMMAINV(p,...) = x"
+		"d": "Mengembalikan inversi distribusi kumulatif gamma: jika p = GAMMADIST(x,...), maka GAMMAINV(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(probability; alpha; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(sample_s; number_sample; population_s; number_pop)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi hipergeometrik"
+		"d": "Mengembalikan distribusi hipergeometrik"
 	},
 	"INTERCEPT": {
 		"a": "(known_y's; known_x's)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi fungsi distribusi kumulatif lognormal dari x, di mana ln(x) secara normal terdistribusi dengan parameter Mean dan Standar_dev"
+		"d": "Mengembalikan inversi fungsi distribusi kumulatif lognormal dari x, di mana ln(x) secara normal terdistribusi dengan parameter Mean dan Standar_dev"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; mean; standard_dev)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi lognormal kumulatif dari x, di mana ln(x) terdistribusi secara normal dengan parameter Mean dan Standar_dev"
+		"d": "Mengembalikan distribusi lognormal kumulatif dari x, di mana ln(x) terdistribusi secara normal dengan parameter Mean dan Standar_dev"
 	},
 	"MAX": {
 		"a": "(number1; [number2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan nilai yang paling sering muncul, atau berulang, dalam arry atau rentang data"
+		"d": "Mengembalikan nilai yang paling sering muncul, atau berulang, dalam arry atau rentang data"
 	},
 	"MODE.MULT": {
 		"a": "(number1; [number2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(number_f; number_s; probability_s)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMenampilkan distribusi negatif binomial, probabilitas yang mungkin terdapat Number_f kegagalan sebelum Number_s-th berhasil, dengan Probability_s probabilitas dari keberhasilan"
+		"d": "Menampilkan distribusi negatif binomial, probabilitas yang mungkin terdapat Number_f kegagalan sebelum Number_s-th berhasil, dengan Probability_s probabilitas dari keberhasilan"
 	},
 	"NORM.DIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan distribusi kumulatif normal untuk mean dan simpangan baku yang ditentukan"
+		"d": "Mengembalikan distribusi kumulatif normal untuk mean dan simpangan baku yang ditentukan"
 	},
 	"NORM.INV": {
 		"a": "(probability; mean; standard_dev)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan inversi distribusi kumulatif normal untuk mean dan simpangan baku yang ditentukan"
+		"d": "Mengembalikan inversi distribusi kumulatif normal untuk mean dan simpangan baku yang ditentukan"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulative)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan distribusi kumulatif normal standar (memiliki mean nol dan simpangan baku satu)"
+		"d": "Mengembalikan distribusi kumulatif normal standar (memiliki mean nol dan simpangan baku satu)"
 	},
 	"NORM.S.INV": {
 		"a": "(probability)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probability)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan inversi distribusi kumulatif normal standar (memiliki mean nol dan simpangan baku satu)"
+		"d": "Mengembalikan inversi distribusi kumulatif normal standar (memiliki mean nol dan simpangan baku satu)"
 	},
 	"PEARSON": {
 		"a": "(array1; array2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(array; k)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan persentil k-th dari nilai dalam rentang"
+		"d": "Mengembalikan persentil k-th dari nilai dalam rentang"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(array; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(array; x; [significance])",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan peringkat nilai dalam perangkat data sebagai persentase dari perangkat data"
+		"d": "Mengembalikan peringkat nilai dalam perangkat data sebagai persentase dari perangkat data"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(array; x; [significance])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; mean; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan distribusi Poisson"
+		"d": "Mengembalikan distribusi Poisson"
 	},
 	"POISSON.DIST": {
 		"a": "(x; mean; cumulative)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(array; quart)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan kuartil perangkat data"
+		"d": "Mengembalikan kuartil perangkat data"
 	},
 	"QUARTILE.INC": {
 		"a": "(array; quart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(number; ref; [order])",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMengembalikan peringkat angka dalam daftar angka: ukurannya relatif terhadap nilai lain dalam daftar"
+		"d": "Mengembalikan peringkat angka dalam daftar angka: ukurannya relatif terhadap nilai lain dalam daftar"
 	},
 	"RANK.AVG": {
 		"a": "(number; ref; [order])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMemperkirakan simpangan baku berdasarkan contoh (abaikan nilai dan teks logis dalam contoh)"
+		"d": "Memperkirakan simpangan baku berdasarkan contoh (abaikan nilai dan teks logis dalam contoh)"
 	},
 	"STDEV.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMenghitung simpangan baku berdasarkan seluruh populasi yang ditentukan sebagai argumen (abaikan nilai dan teks logis)"
+		"d": "Menghitung simpangan baku berdasarkan seluruh populasi yang ditentukan sebagai argumen (abaikan nilai dan teks logis)"
 	},
 	"STDEVPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; deg_freedom; tails)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan distribusi-t Pelajar"
+		"d": "Mengembalikan distribusi-t Pelajar"
 	},
 	"TINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan inversi dua-sisi distribusi-t Pelajar"
+		"d": "Mengembalikan inversi dua-sisi distribusi-t Pelajar"
 	},
 	"T.DIST": {
 		"a": "(x; deg_freedom; cumulative)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(array1; array2; tails; type)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan probabilitas yang terkait dengan Uji-t Pelajar"
+		"d": "Mengembalikan probabilitas yang terkait dengan Uji-t Pelajar"
 	},
 	"VAR": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMemperkirakan varian berdasarkan contoh (abaikan nilai dan teks logis dalam contoh)"
+		"d": "Memperkirakan varian berdasarkan contoh (abaikan nilai dan teks logis dalam contoh)"
 	},
 	"VAR.P": {
 		"a": "(number1; [number2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan sebelumnya.\r\nMenghitung variansi berdasarkan seluruh populasi (abaikan nilai dan teks logis dalam populasi)"
+		"d": "Menghitung variansi berdasarkan seluruh populasi (abaikan nilai dan teks logis dalam populasi)"
 	},
 	"VARPA": {
 		"a": "(value1; [value2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan distribusi Weibull"
+		"d": "Mengembalikan distribusi Weibull"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alpha; beta; cumulative)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(array; x; [sigma])",
-		"d": "Fungsi ini tersedia untuk kompatibilitas dengan Excel 2007 dan versi sebelumnya.\r\nMengembalikan nilai-P satu-sisi dari uji-z"
+		"d": "Mengembalikan nilai-P satu-sisi dari uji-z"
 	},
 	"ACCRINT": {
 		"a": "(issue; first_interest; settlement; rate; par; frequency; [basis]; [calc_method])",
@@ -1340,7 +1340,7 @@
 		"d": "Menghasilkan kotangen balikan hiperbolik dari angka"
 	},
 	"AGGREGATE": {
-		"a": "(function_num; options; array; [k]!function_num; options; ref1; ...)",
+		"a": "(function_num; options; ref1; ...)",
 		"d": "Menampilkan agregasi dalam sebuah daftar atau database"
 	},
 	"ARABIC": {

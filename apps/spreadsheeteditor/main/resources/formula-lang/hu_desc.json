@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(év; hónap; nap)",
-		"d": "Eredménye a dátumot Microsoft Excel dátum- és időértékben megadó szám"
+		"d": "Eredménye a dátumot dátum- és időértékben megadó szám"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(dátum_szöveg)",
-		"d": "Szövegként megadott dátumot olyan számmá alakít át, amely Microsoft Excel dátum- és időértékben adja meg a dátumot."
+		"d": "Szövegként megadott dátumot olyan számmá alakít át, amely dátum- és időértékben adja meg a dátumot."
 	},
 	"DAY": {
 		"a": "(időérték)",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; béta; [A]; [B])",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA bétaeloszlás sűrűségfüggvényének értékét számítja ki."
+		"d": "A bétaeloszlás sűrűségfüggvényének értékét számítja ki."
 	},
 	"BETAINV": {
 		"a": "(valószínűség; alfa; béta; [A]; [B])",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA bétaeloszlás sűrűségfüggvény (BÉTA.ELOSZLÁS) inverzét számítja ki."
+		"d": "A bétaeloszlás sűrűségfüggvény (BÉTA.ELOSZLÁS) inverzét számítja ki."
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; béta; eloszlásfv; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(sikeresek; kísérletek; siker_valószínűsége; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA diszkrét binomiális eloszlás valószínűségértékét számítja ki."
+		"d": "A diszkrét binomiális eloszlás valószínűségértékét számítja ki."
 	},
 	"BINOM.DIST": {
 		"a": "(sikeresek; kísérletek; siker_valószínűsége; eloszlásfv)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; szabadságfok)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA khi-négyzet eloszlás jobbszélű valószínűségértékét számítja ki."
+		"d": "A khi-négyzet eloszlás jobbszélű valószínűségértékét számítja ki."
 	},
 	"CHIINV": {
 		"a": "(valószínűség; szabadságfok)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA khi-négyzet eloszlás jobbszélű inverzét számítja ki."
+		"d": "A khi-négyzet eloszlás jobbszélű inverzét számítja ki."
 	},
 	"CHITEST": {
 		"a": "(tényleges_tartomány; várható_tartomány)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nFüggetlenségvizsgálatot hajt végre, eredményül a khi-négyzet eloszláshoz rendelt értéket adja a statisztika és a szabadságfokok megfelelő száma szerint."
+		"d": "Függetlenségvizsgálatot hajt végre, eredményül a khi-négyzet eloszláshoz rendelt értéket adja a statisztika és a szabadságfokok megfelelő száma szerint."
 	},
 	"CHISQ.DIST": {
 		"a": "(x; szabadságfok; eloszlásfv)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; szórás; méret)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy statisztikai sokaság várható értékének megbízhatósági intervallumát adja eredményül normál eloszlás használatával"
+		"d": "Egy statisztikai sokaság várható értékének megbízhatósági intervallumát adja eredményül normál eloszlás használatával"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; szórás; méret)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(tömb1; tömb2)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA kovarianciát, azaz két adathalmaz minden egyes adatpontpárja esetén vett eltérések szorzatának átlagát számítja ki."
+		"d": "A kovarianciát, azaz két adathalmaz minden egyes adatpontpárja esetén vett eltérések szorzatának átlagát számítja ki."
 	},
 	"COVARIANCE.P": {
 		"a": "(tömb1; tömb2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(kísérletek; siker_valószínűsége; alfa)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAzt a legkisebb számot adja eredményül, amelyre a binomiális eloszlásfüggvény értéke nem kisebb egy adott határértéknél."
+		"d": "Azt a legkisebb számot adja eredményül, amelyre a binomiális eloszlásfüggvény értéke nem kisebb egy adott határértéknél."
 	},
 	"DEVSQ": {
 		"a": "(szám1; [szám2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz exponenciális eloszlás értékét számítja ki"
+		"d": "Az exponenciális eloszlás értékét számítja ki"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; eloszlásfv)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; szabadságfok1; szabadságfok2)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz F-eloszlás (jobbszélű) értékét (az eltérés fokát) számítja ki két adathalmazra."
+		"d": "Az F-eloszlás (jobbszélű) értékét (az eltérés fokát) számítja ki két adathalmazra."
 	},
 	"FINV": {
 		"a": "(valószínűség; szabadságfok1; szabadságfok2)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz F-eloszlás inverzének (jobbszélű) értékét számítja ki: ha p = F.ELOSZLÁS(x,...), akkor INVERZ.F(p,...) = x"
+		"d": "Az F-eloszlás inverzének (jobbszélű) értékét számítja ki: ha p = F.ELOSZLÁS(x,...), akkor INVERZ.F(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(tömb1; tömb2)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz F-próba értékét adja eredményül (annak a kétszélű valószínűségét, hogy a két tömb varianciája nem tér el szignifikánsan)"
+		"d": "Az F-próba értékét adja eredményül (annak a kétszélű valószínűségét, hogy a két tömb varianciája nem tér el szignifikánsan)"
 	},
 	"F.DIST": {
 		"a": "(x; szabadságfok1; szabadságfok2; eloszlásfv)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; ismert_y-ok; ismert_x-ek)",
-		"d": "Ez a függvény az Excel 2013-as vagy korábbi verziókkal való kompatibilitást szolgálja.\r\nAz ismert értékek alapján lineáris regresszió segítségével jövőbeli értéket számít ki vagy becsül meg."
+		"d": "Az ismert értékek alapján lineáris regresszió segítségével jövőbeli értéket számít ki vagy becsül meg."
 	},
 	"FORECAST.ETS": {
 		"a": "(cél_dátum; értékek; idősor; [szezonalitás]; [adatkiegészítés]; [aggregáció])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(értékek; idősor; [adatkiegészítés]; [aggregáció])",
-		"d": "Ez a függvény a megadott idősorban az Microsoft Excel által észlelt ismétlődő minta hosszát adja vissza."
+		"d": "Ez a függvény a megadott idősorban az alkalmazás által észlelt ismétlődő minta hosszát adja vissza."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(értékek; idősor; statisztika_típusa; [szezonalitás]; [adatkiegészítés]; [aggregáció])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; béta; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA gammaeloszlás értékét számítja ki"
+		"d": "A gammaeloszlás értékét számítja ki"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; béta; eloszlásfv)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(valószínűség; alfa; béta)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA gammaeloszlás eloszlásfüggvénye inverzének értékét számítja ki: ha p = GAMMA.ELOSZLÁS(x,...), akkor INVERZ.GAMMA(p,...) = x."
+		"d": "A gammaeloszlás eloszlásfüggvénye inverzének értékét számítja ki: ha p = GAMMA.ELOSZLÁS(x,...), akkor INVERZ.GAMMA(p,...) = x."
 	},
 	"GAMMA.INV": {
 		"a": "(valószínűség; alfa; béta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(minta_s; hány_minta; sokaság_s; sokaság_mérete)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA hipergeometriai eloszlás értékét számítja ki"
+		"d": "A hipergeometriai eloszlás értékét számítja ki"
 	},
 	"INTERCEPT": {
 		"a": "(ismert_y-ok; ismert_x-ek)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(valószínűség; középérték; szórás)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA lognormális eloszlás inverzét számítja ki x-re; ln(x) normális eloszlását a középérték és szórás paraméterei adják meg."
+		"d": "A lognormális eloszlás inverzét számítja ki x-re; ln(x) normális eloszlását a középérték és szórás paraméterei adják meg."
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; középérték; szórás; eloszlásfv)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; középérték; szórás)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA lognormális eloszlásfüggvény értékét számítja ki x-re; ln(x) normális eloszlását a középérték és szórás paraméterei adják meg"
+		"d": "A lognormális eloszlásfüggvény értékét számítja ki x-re; ln(x) normális eloszlását a középérték és szórás paraméterei adják meg"
 	},
 	"MAX": {
 		"a": "(szám1; [szám2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(szám1; [szám2]; ...)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy tömbből vagy adattartományból kiválasztja a leggyakrabban előforduló vagy ismétlődő számot."
+		"d": "Egy tömbből vagy adattartományból kiválasztja a leggyakrabban előforduló vagy ismétlődő számot."
 	},
 	"MODE.MULT": {
 		"a": "(szám1; [szám2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(kudarc_szám; sikeresek; valószínűség)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA negatív binomiális eloszlás értékét adja meg; annak a valószínűsége, hogy megadott számú kudarc lesz a sikerek megadott számú bekövetkezése előtt a siker adott valószínűsége esetén"
+		"d": "A negatív binomiális eloszlás értékét adja meg; annak a valószínűsége, hogy megadott számú kudarc lesz a sikerek megadott számú bekövetkezése előtt a siker adott valószínűsége esetén"
 	},
 	"NORM.DIST": {
 		"a": "(x; középérték; szórás; eloszlásfv)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; középérték; szórás; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA normális eloszlás értékét számítja ki a megadott középérték és szórás esetén."
+		"d": "A normális eloszlás értékét számítja ki a megadott középérték és szórás esetén."
 	},
 	"NORM.INV": {
 		"a": "(valószínűség; középérték; szórás)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(valószínűség; középérték; szórás)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA normális eloszlás eloszlásfüggvénye inverzének értékét számítja ki a megadott középérték és szórás esetén."
+		"d": "A normális eloszlás eloszlásfüggvénye inverzének értékét számítja ki a megadott középérték és szórás esetén."
 	},
 	"NORM.S.DIST": {
 		"a": "(z; eloszlásfv)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA standard normális eloszlás eloszlásfüggvényének értékét számítja ki. A standard normális eloszlás középértéke 0, szórása 1."
+		"d": "A standard normális eloszlás eloszlásfüggvényének értékét számítja ki. A standard normális eloszlás középértéke 0, szórása 1."
 	},
 	"NORM.S.INV": {
 		"a": "(valószínűség)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(valószínűség)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA standard normális eloszlás eloszlásfüggvénye inverzének értékét számítja ki. A standard normális eloszlás középértéke 0, szórása 1."
+		"d": "A standard normális eloszlás eloszlásfüggvénye inverzének értékét számítja ki. A standard normális eloszlás középértéke 0, szórása 1."
 	},
 	"PEARSON": {
 		"a": "(tömb1; tömb2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(tömb; k)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy tartományban található értékek k-adik percentilisét, azaz százalékosztályát adja eredményül."
+		"d": "Egy tartományban található értékek k-adik percentilisét, azaz százalékosztályát adja eredményül."
 	},
 	"PERCENTILE.EXC": {
 		"a": "(tömb; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(tömb; x; [pontosság])",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy értéknek egy adathalmazon belül vett százalékos rangját (elhelyezkedését) adja meg."
+		"d": "Egy értéknek egy adathalmazon belül vett százalékos rangját (elhelyezkedését) adja meg."
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(tömb; x; [pontosság])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; középérték; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA Poisson-eloszlás értékét számítja ki."
+		"d": "A Poisson-eloszlás értékét számítja ki."
 	},
 	"POISSON.DIST": {
 		"a": "(x; középérték; eloszlásfv)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(tömb; kvart)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy adathalmaz kvartilisét (negyedszintjét) számítja ki."
+		"d": "Egy adathalmaz kvartilisét (negyedszintjét) számítja ki."
 	},
 	"QUARTILE.INC": {
 		"a": "(tömb; kvart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(szám; hiv; [sorrend])",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nKiszámítja, hogy egy szám nagysága alapján hányadik egy számsorozatban."
+		"d": "Kiszámítja, hogy egy szám nagysága alapján hányadik egy számsorozatban."
 	},
 	"RANK.AVG": {
 		"a": "(szám; hiv; [sorrend])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(szám1; [szám2]; ...)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nMinta alapján becslést ad a szórásra (a mintában lévő logikai értékeket és szöveget nem veszi figyelembe)."
+		"d": "Minta alapján becslést ad a szórásra (a mintában lévő logikai értékeket és szöveget nem veszi figyelembe)."
 	},
 	"STDEV.P": {
 		"a": "(szám1; [szám2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(szám1; [szám2]; ...)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz argumentumokkal megadott statisztikai sokaság egészéből kiszámítja annak szórását (a logikai értékeket és a szövegeket figyelmen kívül hagyja)."
+		"d": "Az argumentumokkal megadott statisztikai sokaság egészéből kiszámítja annak szórását (a logikai értékeket és a szövegeket figyelmen kívül hagyja)."
 	},
 	"STDEVPA": {
 		"a": "(érték1; [érték2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; szabadságfok; szél)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA Student-féle t-eloszlás értékét számítja ki."
+		"d": "A Student-féle t-eloszlás értékét számítja ki."
 	},
 	"TINV": {
 		"a": "(valószínűség; szabadságfok)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA Student-féle t-eloszlás kétszélű inverzét számítja ki."
+		"d": "A Student-féle t-eloszlás kétszélű inverzét számítja ki."
 	},
 	"T.DIST": {
 		"a": "(x; szabadságfok; eloszlásfv)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(tömb1; tömb2; szél; típus)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA Student-féle t-próbához tartozó valószínűséget számítja ki"
+		"d": "A Student-féle t-próbához tartozó valószínűséget számítja ki"
 	},
 	"VAR": {
 		"a": "(szám1; [szám2]; ...)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nMinta alapján becslést ad a varianciára (a mintában lévő logikai értékeket és szövegeket figyelmen kívül hagyja)."
+		"d": "Minta alapján becslést ad a varianciára (a mintában lévő logikai értékeket és szövegeket figyelmen kívül hagyja)."
 	},
 	"VAR.P": {
 		"a": "(szám1; [szám2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(szám1; [szám2]; ...)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nEgy statisztikai sokaság varianciáját számítja ki (a sokaságban lévő logikai értékeket és szövegeket figyelmen kívül hagyja)."
+		"d": "Egy statisztikai sokaság varianciáját számítja ki (a sokaságban lévő logikai értékeket és szövegeket figyelmen kívül hagyja)."
 	},
 	"VARPA": {
 		"a": "(érték1; [érték2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; béta; eloszlásfv)",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nA Weibull-féle eloszlás értékét számítja ki"
+		"d": "A Weibull-féle eloszlás értékét számítja ki"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; béta; eloszlásfv)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(tömb; x; [szigma])",
-		"d": "Ez a függvény az Excel 2007-es és régebbi verzióival való kompatibilitást szolgálja.\r\nAz egyszélű z-próbával kapott P-értéket (az aggregált elsőfajú hiba nagyságát) számítja ki."
+		"d": "Az egyszélű z-próbával kapott P-értéket (az aggregált elsőfajú hiba nagyságát) számítja ki."
 	},
 	"ACCRINT": {
 		"a": "(kibocsátás; első_kamat; elszámolás; ráta; névérték; gyakoriság; [alap]; [szám_mód])",
@@ -1340,7 +1340,7 @@
 		"d": "Egy szám inverz hiperbolikus kotangensét adja meg"
 	},
 	"AGGREGATE": {
-		"a": "(függv_szám; beállítások; tömb; [k]!függv_szám; beállítások; hiv1; ...)",
+		"a": "(függv_szám; beállítások; hiv1; ...)",
 		"d": "Összegzést ad eredményül listában vagy adatbázisban"
 	},
 	"ARABIC": {

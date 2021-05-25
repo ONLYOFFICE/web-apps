@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(vuosi; kuukausi; päivä)",
-		"d": "Palauttaa annetun päivämäärän järjestysnumeron Microsoft Excelin päivämäärä-aika-koodissa"
+		"d": "Palauttaa annetun päivämäärän järjestysnumeron päivämäärä-aika-koodissa"
 	},
 	"DATEDIF": {
 		"a": "( start-date , end-date , unit )",
@@ -9,7 +9,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(päivämäärä_teksti)",
-		"d": "Muuntaa päivämäärän tekstistä järjestysnumeroksi, joka vastaa päivämäärää Microsoft Excelin päivämäärä-aika-koodauksessa"
+		"d": "Muuntaa päivämäärän tekstistä järjestysnumeroksi, joka vastaa päivämäärää päivämäärä-aika-koodauksessa"
 	},
 	"DAY": {
 		"a": "(järjestysnro)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(tunnit; minuutit; sekunnit)",
-		"d": "Muuntaa lukuina annetut tunnit, minuutit ja sekunnit Excelin aikamuotoilluksi järjestysnumeroksi"
+		"d": "Muuntaa lukuina annetut tunnit, minuutit ja sekunnit aikamuotoilluksi järjestysnumeroksi"
 	},
 	"TIMEVALUE": {
 		"a": "(aika_teksti)",
-		"d": "Muuntaa tekstimuotoisen ajan Excelin aikaa ilmaisevaksi järjestysnumeroksi. Numero 0 (0:00:00) muunnetaan muotoon 0,999988426 (23:59:59). Muotoile numero aikamuotoon kaavan kirjoittamisen jälkeen"
+		"d": "Muuntaa tekstimuotoisen ajan aikaa ilmaisevaksi järjestysnumeroksi. Numero 0 (0:00:00) muunnetaan muotoon 0,999988426 (23:59:59). Muotoile numero aikamuotoon kaavan kirjoittamisen jälkeen"
 	},
 	"TODAY": {
 		"a": "()",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beeta; [A]; [B])",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa kumulatiivisen beeta-todennäköisyystiheysfunktion arvon"
+		"d": "Palauttaa kumulatiivisen beeta-todennäköisyystiheysfunktion arvon"
 	},
 	"BETAINV": {
 		"a": "(todennäköisyys; alfa; beeta; [A]; [B])",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa kumulatiivisen beeta-todennäköisyystiheysfunktion (BEETAJAKAUMA) käänteisarvon"
+		"d": "Palauttaa kumulatiivisen beeta-todennäköisyystiheysfunktion (BEETAJAKAUMA) käänteisarvon"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beeta; kertymä; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(luku_tot; yritykset; todennäköisyys_tot; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa yksittäisen termin binomijakauman todennäköisyyden"
+		"d": "Palauttaa yksittäisen termin binomijakauman todennäköisyyden"
 	},
 	"BINOM.DIST": {
 		"a": "(luku_tot; yritykset; todennäköisyys_tot; kumulatiivinen)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; vapausasteet)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa oikeanpuolisen chi-neliön jakauman todennäköisyyden"
+		"d": "Palauttaa oikeanpuolisen chi-neliön jakauman todennäköisyyden"
 	},
 	"CHIINV": {
 		"a": "(todennäköisyys; vapausasteet)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa chi-neliön oikeanpuoleisen jakauman käänteisarvon"
+		"d": "Palauttaa chi-neliön oikeanpuoleisen jakauman käänteisarvon"
 	},
 	"CHITEST": {
 		"a": "(todellinen_alue; odotettu_alue)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa riippumattomuustestin tuloksen, eli chi-neliöjakauman arvon ja vapausasteiden määrän"
+		"d": "Palauttaa riippumattomuustestin tuloksen, eli chi-neliöjakauman arvon ja vapausasteiden määrän"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; vapausasteet; kertymä)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; keskihajonta; koko)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa populaation keskiarvon luottamusvälin normaalijakaumaa käyttäen"
+		"d": "Palauttaa populaation keskiarvon luottamusvälin normaalijakaumaa käyttäen"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; keskihajonta; koko)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matriisi1; matriisi2)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa kovarianssin, eli kahden arvojoukon kaikkien arvopisteparien hajontojen tulojen keskiarvon"
+		"d": "Palauttaa kovarianssin, eli kahden arvojoukon kaikkien arvopisteparien hajontojen tulojen keskiarvon"
 	},
 	"COVARIANCE.P": {
 		"a": "(matriisi1; matriisi2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(yritykset; todennäköisyys_tot; alfa)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa\r\nPalauttaa pienimmän arvon, jossa binomijakauman kertymäfunktion arvo on pienempi tai yhtä suuri kuin ehtoarvo"
+		"d": "Palauttaa pienimmän arvon, jossa binomijakauman kertymäfunktion arvo on pienempi tai yhtä suuri kuin ehtoarvo"
 	},
 	"DEVSQ": {
 		"a": "(luku1; [luku2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa eksponentiaalijakauman"
+		"d": "Palauttaa eksponentiaalijakauman"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; kumulatiivinen)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; vapausaste1; vapausaste2)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa F-todennäköisyysjakauman (hajonnan aste) kahdesta tietosarjasta"
+		"d": "Palauttaa F-todennäköisyysjakauman (hajonnan aste) kahdesta tietosarjasta"
 	},
 	"FINV": {
 		"a": "(todennäköisyys; vapausaste1; vapausaste2)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa käänteisen (oikeanpuoleisen) F-todennäköisyysjakauman. Jos p = FJAKAUMA(x,...), niin FJAKAUMA.KÄÄNT(p,...) = x"
+		"d": "Palauttaa käänteisen (oikeanpuoleisen) F-todennäköisyysjakauman. Jos p = FJAKAUMA(x,...), niin FJAKAUMA.KÄÄNT(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(matriisi1; matriisi2)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa F-testin tuloksen eli kaksisuuntaisen todennäköisyyden sille, että matriisien 1 ja 2 varianssit eivät ole merkittävästi erilaisia"
+		"d": "Palauttaa F-testin tuloksen eli kaksisuuntaisen todennäköisyyden sille, että matriisien 1 ja 2 varianssit eivät ole merkittävästi erilaisia"
 	},
 	"F.DIST": {
 		"a": "(x; vapausaste1; vapausaste2; kertymäfunktio)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; tunnettu_y; tunnettu_x)",
-		"d": "Tämä funktio on yhteensopiva Excel 2013:ssa ja sitä aiemmissa versioissa.\r\nLaskee tai ennustaa arvojen lineaarisen trendin aiempien arvojen perusteella"
+		"d": "Laskee tai ennustaa arvojen lineaarisen trendin aiempien arvojen perusteella"
 	},
 	"FORECAST.ETS": {
 		"a": "(määräpäivä; arvot; aikajana; [kausivaihtelu]; [tietojen_viimeistely]; [koonti])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(arvot; aikajana; [tietojen_viimeistely]; [koonti])",
-		"d": "Palauttaa toistuvan mallin pituuden, jonka Microsoft Excel tunnistaa annetussa aikasarjassa."
+		"d": "Palauttaa toistuvan mallin pituuden, jonka sovellus tunnistaa annetussa aikasarjassa."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(arvot; aikajana; tilastotyyppi; [kausivaihtelu]; [tietojen_viimeistely]; [koonti])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beeta; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa gamma-jakauman"
+		"d": "Palauttaa gamma-jakauman"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beeta; kumulatiivinen)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(todennäköisyys; alfa; beeta)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa käänteisen gamma-jakauman kertymäfunktion: jos p = GAMMAJAKAUMA(x,...), niin GAMMAJAKAUMA.KÄÄNT(p,...) = x"
+		"d": "Palauttaa käänteisen gamma-jakauman kertymäfunktion: jos p = GAMMAJAKAUMA(x,...), niin GAMMAJAKAUMA.KÄÄNT(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(todennäköisyys; alfa; beeta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(otos_tot; luku_otos; populaatio_tot; populaatio_luku)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa hypergeometrisen jakauman"
+		"d": "Palauttaa hypergeometrisen jakauman"
 	},
 	"INTERCEPT": {
 		"a": "(tunnettu_y; tunnettu_x)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(todennäköisyys; keskiarvo; keskihajonta)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa x:n käänteisjakauman kumulatiivisesta ja logaritmisesta normaalijakaumasta, jossa ln(x) jakautuu normaalijakauman mukaisesti parametrien Keskiarvo ja Keskipoikkeama osoittamalla tavalla"
+		"d": "Palauttaa x:n käänteisjakauman kumulatiivisesta ja logaritmisesta normaalijakaumasta, jossa ln(x) jakautuu normaalijakauman mukaisesti parametrien Keskiarvo ja Keskipoikkeama osoittamalla tavalla"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; keskiarvo; keskihajonta; kertymä)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; keskiarvo; keskihajonta)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa x:n kumulatiivisen ja logaritmisen normaalijakauman, jossa ln(x) jakautuu normaalijakauman mukaisesti parametrien Keskiarvo ja Keskipoikkeama osoittamalla tavalla"
+		"d": "Palauttaa x:n kumulatiivisen ja logaritmisen normaalijakauman, jossa ln(x) jakautuu normaalijakauman mukaisesti parametrien Keskiarvo ja Keskipoikkeama osoittamalla tavalla"
 	},
 	"MAX": {
 		"a": "(luku1; [luku2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(luku1; [luku2]; ...)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa matriisissa tai tietoalueella useimmin tai toistuvasti esiintyvän arvon"
+		"d": "Palauttaa matriisissa tai tietoalueella useimmin tai toistuvasti esiintyvän arvon"
 	},
 	"MODE.MULT": {
 		"a": "(luku1; [luku2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(luku_epäon; luku_tot; todennäköisyys_tot)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa negatiivisen binomijakauman eli todennäköisyyden, että ennen luku_tot:ttä onnistumista tapahtuu luku_epäon epäonnistumista onnistumistodennäköisyydellä todennäköisyys_tot"
+		"d": "Palauttaa negatiivisen binomijakauman eli todennäköisyyden, että ennen luku_tot:ttä onnistumista tapahtuu luku_epäon epäonnistumista onnistumistodennäköisyydellä todennäköisyys_tot"
 	},
 	"NORM.DIST": {
 		"a": "(x; keskiarvo; keskihajonta; kumulatiivinen)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; keskiarvo; keskihajonta; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa normaalijakauman kertymäfunktion määritetylle keskiarvolle ja -hajonnalle"
+		"d": "Palauttaa normaalijakauman kertymäfunktion määritetylle keskiarvolle ja -hajonnalle"
 	},
 	"NORM.INV": {
 		"a": "(todennäköisyys; keskiarvo; keskihajonta)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(todennäköisyys; keskiarvo; keskihajonta)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa käänteisen normaalijakauman kertymäfunktion määritetylle keskiarvolle ja -hajonnalle"
+		"d": "Palauttaa käänteisen normaalijakauman kertymäfunktion määritetylle keskiarvolle ja -hajonnalle"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kertymä)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa normitetun normaalijakauman kertymäfunktion, jonka keskiarvo on 0 ja keskihajonta 1"
+		"d": "Palauttaa normitetun normaalijakauman kertymäfunktion, jonka keskiarvo on 0 ja keskihajonta 1"
 	},
 	"NORM.S.INV": {
 		"a": "(todennäköisyys)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(todennäköisyys)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa käänteisen normitetun normaalijakauman kertymäfunktion, jonka keskiarvo on nolla ja keskihajonta 1"
+		"d": "Palauttaa käänteisen normitetun normaalijakauman kertymäfunktion, jonka keskiarvo on nolla ja keskihajonta 1"
 	},
 	"PEARSON": {
 		"a": "(matriisi1; matriisi2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matriisi; k)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa k:nnen prosenttiosuuden alueen arvoista"
+		"d": "Palauttaa k:nnen prosenttiosuuden alueen arvoista"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matriisi; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matriisi; x; [tarkkuus])",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa arvon prosenttijärjestyksen tietojoukossa"
+		"d": "Palauttaa arvon prosenttijärjestyksen tietojoukossa"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matriisi; x; [tarkkuus])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; keskiarvo; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa Poissonin jakauman"
+		"d": "Palauttaa Poissonin jakauman"
 	},
 	"POISSON.DIST": {
 		"a": "(x; keskiarvo; kumulatiivinen)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matriisi; pal_neljännes)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa tietoalueen neljänneksen"
+		"d": "Palauttaa tietoalueen neljänneksen"
 	},
 	"QUARTILE.INC": {
 		"a": "(matriisi; pal_neljännes)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(luku; viittaus; [järjestys])",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa luvun sijainnin lukuarvoluettelossa. Luvun arvon suhteessa muihin luettelon lukuihin"
+		"d": "Palauttaa luvun sijainnin lukuarvoluettelossa. Luvun arvon suhteessa muihin luettelon lukuihin"
 	},
 	"RANK.AVG": {
 		"a": "(luku; viittaus; [järjestys])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(luku1; [luku2]; ...)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nArvioi populaation keskihajonnan otoksen perusteella (funktio ei huomioi näytteessä olevia totuusarvoja tai tekstiä)"
+		"d": "Arvioi populaation keskihajonnan otoksen perusteella (funktio ei huomioi näytteessä olevia totuusarvoja tai tekstiä)"
 	},
 	"STDEV.P": {
 		"a": "(luku1; [luku2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(luku1; [luku2]; ...)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nLaskee populaation keskihajonnan koko populaation perusteella (funktio ei huomioi totuusarvoja tai tekstiä)"
+		"d": "Laskee populaation keskihajonnan koko populaation perusteella (funktio ei huomioi totuusarvoja tai tekstiä)"
 	},
 	"STDEVPA": {
 		"a": "(arvo1; [arvo2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; vapausasteet; suunta)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa Studentin t-jakauman"
+		"d": "Palauttaa Studentin t-jakauman"
 	},
 	"TINV": {
 		"a": "(todennäköisyys; vapausasteet)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa käänteisen t-jakauman"
+		"d": "Palauttaa käänteisen t-jakauman"
 	},
 	"T.DIST": {
 		"a": "(x; vapausasteet; kertymä)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matriisi1; matriisi2; suunta; laji)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa t-testiin liittyvän todennäköisyyden"
+		"d": "Palauttaa t-testiin liittyvän todennäköisyyden"
 	},
 	"VAR": {
 		"a": "(luku1; [luku2]; ...)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nArvioi populaation varianssin otoksen perusteella (jättää huomiotta otoksessa olevat totuusarvot ja tekstit)"
+		"d": "Arvioi populaation varianssin otoksen perusteella (jättää huomiotta otoksessa olevat totuusarvot ja tekstit)"
 	},
 	"VAR.P": {
 		"a": "(luku1; [luku2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(luku1; [luku2]; ...)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nLaskee varianssin koko populaation perusteella (jättää huomiotta populaatiossa olevat totuusarvot ja tekstit)"
+		"d": "Laskee varianssin koko populaation perusteella (jättää huomiotta populaatiossa olevat totuusarvot ja tekstit)"
 	},
 	"VARPA": {
 		"a": "(arvo1; [arvo2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beeta; kumulatiivinen)",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa Weibullin jakauman"
+		"d": "Palauttaa Weibullin jakauman"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beeta; kumulatiivinen)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matriisi; x; [sigma])",
-		"d": "Tämä funktio on yhteensopiva Excel 2007:ssä ja sitä aiemmissa versioissa.\r\nPalauttaa yksisuuntaisen z-testin P-arvon"
+		"d": "Palauttaa yksisuuntaisen z-testin P-arvon"
 	},
 	"ACCRINT": {
 		"a": "(asettamispvm; alkukorko; tilityspvm; korko; nimellisarvo; korkojakso; [peruste]; [laskentamenetelmä])",
@@ -1340,7 +1340,7 @@
 		"d": "Palauttaa luvun käänteisen hyperbolisen kotangentin"
 	},
 	"AGGREGATE": {
-		"a": "(funktion_nro; asetukset; matriisi; [k]!funktion_nro; asetukset; viittaus1; ...)",
+		"a": "(funktion_nro; asetukset; viittaus1; ...)",
 		"d": "Palauttaa koosteen luettelona tai tietokantana"
 	},
 	"ARABIC": {
