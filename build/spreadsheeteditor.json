@@ -426,6 +426,7 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
