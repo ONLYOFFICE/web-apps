@@ -108,7 +108,7 @@ SSE.ApplicationController = new(function(){
 
             _user.put_Id(user.id);
             _user.put_FullName(user.fullname);
-            // _user.put_isAnonymous(user.anonymous);
+            _user.put_IsAnonymousUser(user.anonymous);
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);

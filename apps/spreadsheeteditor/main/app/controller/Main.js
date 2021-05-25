@@ -461,7 +461,7 @@ define([
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
-                    // _user.put_isAnonymous(!!this.appOptions.user.anonymous);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);

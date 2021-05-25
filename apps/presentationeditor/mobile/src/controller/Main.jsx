@@ -106,7 +106,7 @@ class MainController extends Component {
                     const _userOptions = this.props.storeAppOptions.user;
                     _user.put_Id(_userOptions.id);
                     _user.put_FullName(_userOptions.fullname);
-                    // _user.put_isAnonymous(_userOptions.anonymous);
+                    _user.put_IsAnonymousUser(_userOptions.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
