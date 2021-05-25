@@ -612,13 +612,14 @@ const pickLink = (message) => {
                 return '';
             });
 
-            arrayComment = arrayComment.sort(function(item){ return item.start; });
-            let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))} {arrayComment[0].str}</label> : <label>{Common.Utils.String.htmlEncode(message)}</label>;
+            arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
+            
+            let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{Common.Utils.String.htmlEncode(message)}</label>;
             for (var i=1; i<arrayComment.length; i++) {
-                str_res = <label>{str_res} {Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))} {arrayComment[i].str}</label>;
+                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
             }
             if (arrayComment.length>0) {
-                str_res = <label>{str_res} {Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
+                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
             }
             return str_res;
             
@@ -668,7 +669,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                 </div>
                                 <div slot='footer'>
                                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                                    <div className='comment-text'>{pickLink(comment.comment)}</div>
+                                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
                                     {comment.replies.length > 0 &&
                                     <ul className='reply-list'>
                                         {comment.replies.map((reply, indexReply) => {
@@ -790,7 +791,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
                 <div slot='footer'>
                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'>{pickLink(comment.comment)}</div>
+                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
                     {comment.replies.length > 0 &&
                     <ul className='reply-list'>
                         {comment.replies.map((reply, indexReply) => {
