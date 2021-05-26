@@ -159,7 +159,9 @@ define([
                                 menu: modes && modes.length > 1,
                                 split: modes && modes.length > 1,
                                 value: guid,
-                                hint: model.get('name')
+                                hint: model.get('name'),
+                                dataHint: '1',
+                                dataHintDirection: 'bottom'
                             });
 
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
@@ -386,7 +388,9 @@ define([
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
                 value: guid,
-                hint: model.get('name')
+                hint: model.get('name'),
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
 
             if ( btn.split ) {

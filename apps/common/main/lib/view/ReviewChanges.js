@@ -237,14 +237,18 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
                         split: !this.appConfig.canUseReviewPermissions,
-                        iconCls: 'toolbar__icon btn-review-save'
+                        iconCls: 'toolbar__icon btn-review-save',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
 
                     this.btnReject = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtReject,
                         split: !this.appConfig.canUseReviewPermissions,
-                        iconCls: 'toolbar__icon btn-review-deny'
+                        iconCls: 'toolbar__icon btn-review-deny',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
 
                     if (this.appConfig.canFeatureComparison)
@@ -260,7 +264,9 @@ define([
                         iconCls: 'toolbar__icon btn-ic-review',
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
                 }
@@ -268,13 +274,17 @@ define([
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-prev',
-                        caption: this.txtPrev
+                        caption: this.txtPrev,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-next',
-                        caption: this.txtNext
+                        caption: this.txtNext,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
 
                     if (!this.appConfig.isRestrictedEdit) {// hide Display mode option for fillForms and commenting mode
@@ -317,7 +327,9 @@ define([
                                         value: 'original'
                                     }
                                 ]
-                            })
+                            }),
+                            dataHint: '1',
+                            dataHintDirection: 'bottom'
                         });
                     }
                 }
@@ -335,7 +347,9 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
                         caption: this.txtCoAuthMode,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                 }
 
@@ -346,7 +360,9 @@ define([
                     this.btnHistory = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-history',
-                        caption: this.txtHistory
+                        caption: this.txtHistory,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                 }
 
@@ -355,7 +371,9 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-chat',
                         caption: this.txtChat,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                 }
 
@@ -364,13 +382,17 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentRemove,
                         split: true,
-                        iconCls: 'toolbar__icon btn-rem-comment'
+                        iconCls: 'toolbar__icon btn-rem-comment',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.btnCommentResolve = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentResolve,
                         split: true,
-                        iconCls: 'toolbar__icon btn-resolve-all'
+                        iconCls: 'toolbar__icon btn-resolve-all',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                 }
 

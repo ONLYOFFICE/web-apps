@@ -463,7 +463,8 @@ define([
                         iconCls: iconid,
                         disabled: disabled === true,
                         dataHint:'0',
-                        dataHintDirection: 'left-bottom'
+                        dataHintDirection: 'left',
+                        dataHintOffset: '10, 10'
                     })).render(slot);
                 }
 

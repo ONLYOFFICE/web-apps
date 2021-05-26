@@ -87,13 +87,15 @@ define([
                 valueField  : 'value',
                 search      : false,
                 scrollAlwaysVisible: false,
-                takeFocusOnClose: false
+                takeFocusOnClose: false,
+                dataHint: '',
+                dataHintDirection: ''
             },
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" spellcheck="false">',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>">',
                         '<span class="caret"></span>',
                     '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
@@ -147,7 +149,9 @@ define([
                         menuCls     : this.menuCls,
                         menuStyle   : this.menuStyle,
                         items       : items,
-                        scope       : me
+                        scope       : me,
+                        dataHint    : this.options.dataHint,
+                        dataHintDirection: this.options.dataHintDirection
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(

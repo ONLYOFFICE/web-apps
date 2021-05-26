@@ -48,7 +48,7 @@ if (Common.UI === undefined) {
 
 Common.UI.HintManager = new(function() {
     var _lang = 'en',
-        _arrLetters = [],
+        _arrAlphabet = [],
         _isAlt = false,
         _hintVisible = false,
         _currentLevel = 0,
@@ -91,6 +91,15 @@ Common.UI.HintManager = new(function() {
         _currentLevel--;
     };
 
+    var _getLetters = function(countButtons) {
+        var arr = [..._arrAlphabet];
+        arr[0] = _arrAlphabet[0].repeat(2);
+        for (var i = 1; arr.length < countButtons; i++) {
+            arr.push(_arrAlphabet[0] + _arrAlphabet[i]);
+        }
+        return arr;
+    };
+
     var _getControls = function() {
         /*if (!_controls[_currentLevel]) {
             _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
@@ -101,18 +110,11 @@ Common.UI.HintManager = new(function() {
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
-        if (visibleItems.length > _arrLetters.length) {
-            var arrLength = _arrLetters.length;
-            var count = visibleItems.length - arrLength;
-            var arrIndexes = [];
-            for (var i = 0; arrIndexes.length < count; i++) {
-                var randInd = Math.floor(Math.random() * arrLength); //get random index
-                if (arrIndexes.indexOf(randInd) === -1 && randInd < arrLength - 1) {
-                    arrIndexes.push(randInd);
-                    _arrLetters[_arrLetters.length] = _arrLetters[randInd] + _arrLetters[randInd + 1];
-                    _arrLetters[randInd] = _arrLetters[randInd] + _arrLetters[randInd];
-                }
-            }
+        var _arrLetters = [];
+        if (visibleItems.length > _arrAlphabet.length) {
+            _arrLetters = _getLetters(visibleItems.length);
+        } else {
+            _arrLetters = [..._arrAlphabet];
         }
         visibleItems.forEach(function (item, index) {
             var el = $(item);
@@ -129,22 +131,42 @@ Common.UI.HintManager = new(function() {
             if (!item.hasClass('disabled')) {
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
+                var offsets = item.attr('data-hint-offset') ? item.attr('data-hint-offset').split(',').map((item) => (parseInt(item))) : [0, 0];
                 var offset = item.offset();
-                if (direction === 'top')
-                    hint.css({left: offset.left + (item.outerWidth() - 20) / 2, top: offset.top - 16});
+                if (direction === 'middle')
+                    hint.css({
+                        top: offset.top + item.outerHeight() / 2 + 6 + offsets[0],
+                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
+                    });
+                else if (direction === 'top')
+                    hint.css({
+                        top: offset.top - 16 + offsets[0],
+                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
+                    });
+                else if (direction === 'left-top')
+                    hint.css({
+                        top: offset.top - 16 + offsets[0],
+                        left: offset.left - 16 + offsets[1]
+                    });
                 else if (direction === 'right')
                     hint.css({
-                        left: offset.left + item.outerWidth() - 4,
-                        top: offset.top + (item.outerHeight() - 20) / 2
+                        top: offset.top + (item.outerHeight() - 20) / 2 + offsets[0],
+                        left: offset.left + item.outerWidth() - 4 + offsets[1]
                     });
                 else if (direction === 'left')
-                    hint.css({left: offset.left - 18, top: offset.top + (item.outerHeight() - 20) / 2});
+                    hint.css({
+                        top: offset.top + (item.outerHeight() - 20) / 2 + offsets[0],
+                        left: offset.left - 18 + offsets[1]
+                    });
                 else if (direction === 'left-bottom')
-                    hint.css({left: offset.left - 8, top: offset.top - item.outerHeight()});
+                    hint.css({
+                        top: offset.top + item.outerHeight() - 3 + offsets[0],
+                        left: offset.left - 16 + offsets[1]
+                    });
                 else
                     hint.css({
-                        left: offset.left + (item.outerWidth() - 20) / 2,
-                        top: offset.top + item.outerHeight() - 3
+                        top: offset.top + item.outerHeight() - 3 + offsets[0],
+                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
                     });
                 $(document.body).append(hint);
 
@@ -214,7 +236,7 @@ Common.UI.HintManager = new(function() {
 
     var _getAlphabetLetters = function () {
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
-            _arrLetters = langsJson[_lang];
+            _arrAlphabet = langsJson[_lang];
         });
     };
 
