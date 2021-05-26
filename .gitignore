@@ -15,6 +15,8 @@ apps/**/main/resources/**/iconssmall*.png
 apps/**/main/resources/**/iconssmall*.less
 apps/**/main/resources/**/iconsbig*.png
 apps/**/main/resources/**/iconsbig*.less
+apps/**/main/resources/**/iconshuge*.png
+apps/**/main/resources/**/iconshuge*.less
 
 
 # test documents
