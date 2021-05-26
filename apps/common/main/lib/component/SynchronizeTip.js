@@ -128,6 +128,9 @@ define([
                         bottom = Common.Utils.innerHeight() - showxy.top - this.target.height()/2;
                     } else if (pos == 'bottom') {
                         top = showxy.top + this.target.height()/2;
+                        var height = this.cmpEl.height();
+                        if (top+height>Common.Utils.innerHeight())
+                            top = Common.Utils.innerHeight() - height - 10;
                     } else if (pos == 'left') {
                         right = Common.Utils.innerWidth() - showxy.left - this.target.width()/2;
                     } else if (pos == 'right') {
