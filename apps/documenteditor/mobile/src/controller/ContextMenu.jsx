@@ -25,6 +25,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.onApiShowChange = this.onApiShowChange.bind(this);
         this.getUserName = this.getUserName.bind(this);
+        this.ShowModal = this.ShowModal.bind(this);
     }
 
     static closeContextMenu() {
@@ -43,9 +44,13 @@ class ContextMenu extends ContextMenuController {
         api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_unregisterCallback('asc_onShowRevisionsChange', this.onApiShowChange);
+        Common.Notifications.off('showSplitModal', this.ShowModal);
     }
 
-
+    ShowModal() {
+        this.showSplitModal()
+    }
+    
     onApiShowComment(comments) {
         this.isComments = comments && comments.length > 0;
     }
@@ -199,6 +204,7 @@ class ContextMenu extends ContextMenuController {
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_registerCallback('asc_onShowRevisionsChange', this.onApiShowChange);
+        Common.Notifications.on('showSplitModal', this.ShowModal);
     }
 
     initMenuItems() {
