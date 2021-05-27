@@ -185,10 +185,10 @@ const LongActionsController = () => {
     };
 
     const onConfirmAction = (id, apiCallback) => {
-        if (id === Asc.c_oAscConfirm.ConfirmReplaceRange) {
+        if (id === Asc.c_oAscConfirm.ConfirmReplaceRange || id === Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
-                text: _t.confirmMoveCellRange,
+                text: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? _t.confirmMoveCellRange : _t.confirmReplaceFormulaInTable,
                 buttons: [
                     {text: _t.textYes,
                         onClick: () => {

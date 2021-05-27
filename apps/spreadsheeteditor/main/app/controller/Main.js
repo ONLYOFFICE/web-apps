@@ -2007,10 +2007,10 @@ define([
 
             onConfirmAction: function(id, apiCallback) {
                 var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
+                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
                     Common.UI.warning({
                         title: this.notcriticalErrorTitle,
-                        msg: this.confirmMoveCellRange,
+                        msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: _.bind(function(btn) {
@@ -2951,7 +2951,8 @@ define([
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
-            txtOr: '%1 or %2'
+            txtOr: '%1 or %2',
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -95,7 +95,8 @@
         "textOk": "Ok",
         "textNo": "No",
         "confirmMoveCellRange": "The destination cell`s range can contain data. Continue the operation?",
-        "confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table."
+        "confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.",
+        "confirmReplaceFormulaInTable": "Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?"
     },
     "Error": {
         "criticalErrorTitle": "Error",
