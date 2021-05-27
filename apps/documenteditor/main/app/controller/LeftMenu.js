@@ -807,7 +807,8 @@ define([
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
                     if ( this.leftMenu.menuFile.isVisible() ) {
-                        this.leftMenu.menuFile.hide();
+                        if (Common.UI.HintManager.needCloseMenu())
+                            this.leftMenu.menuFile.hide();
                         return false;
                     }
 

@@ -228,7 +228,9 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtInvisibleSignature,
-                        disabled: this._state.invisibleSignDisabled
+                        disabled: this._state.invisibleSignDisabled,
+                        dataHint: '2',
+                        dataHintDirection: 'left-top'
                     });
                     this.btnsInvisibleSignature.push(button);
                     if (this._isSetEvents) {
@@ -243,7 +245,9 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtAddPwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: !this._state.hasPassword
+                        visible: !this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'left-top'
                     });
                     this.btnsAddPwd.push(button);
                     if (this._isSetEvents) {
@@ -258,7 +262,9 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtDeletePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: this._state.hasPassword
+                        visible: this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'left-top'
                     });
                     this.btnsDelPwd.push(button);
                     if (this._isSetEvents) {
@@ -273,7 +279,9 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtChangePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: this._state.hasPassword
+                        visible: this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'left-top'
                     });
                     this.btnsChangePwd.push(button);
                     if (this._isSetEvents) {

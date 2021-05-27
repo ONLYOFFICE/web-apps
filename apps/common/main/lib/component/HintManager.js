@@ -145,8 +145,8 @@ Common.UI.HintManager = new(function() {
                     });
                 else if (direction === 'left-top')
                     hint.css({
-                        top: offset.top - 16 + offsets[0],
-                        left: offset.left - 16 + offsets[1]
+                        top: offset.top - 14 + offsets[0],
+                        left: offset.left - 14 + offsets[1]
                     });
                 else if (direction === 'right')
                     hint.css({
@@ -222,9 +222,14 @@ Common.UI.HintManager = new(function() {
                         }
                     }
                     if (curr) {
-                        curr && curr.trigger(jQuery.Event('click', {which: 1}));
-                        _nextLevel();
-                        _showHints();
+                        if (curr.prop("tagName").toLowerCase() === 'input') {
+                            curr.focus();
+                            _hideHints();
+                        } else {
+                            curr.trigger(jQuery.Event('click', {which: 1}));
+                            _nextLevel();
+                            _showHints();
+                        }
                     }
                 }
                 e.preventDefault();
@@ -240,7 +245,12 @@ Common.UI.HintManager = new(function() {
         });
     };
 
+    var _needCloseMenu = function () {
+        return !(_hintVisible && _currentLevel > 1);
+    };
+
     return {
-        init: _init
+        init: _init,
+        needCloseMenu: _needCloseMenu
     }
 })();
