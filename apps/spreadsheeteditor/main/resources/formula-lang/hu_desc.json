@@ -4,7 +4,7 @@
 		"d": "Eredménye a dátumot dátum- és időértékben megadó szám"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
+		"a": "( start-date; end-date; unit )",
 		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "Megkeres egy szövegrészt egy másikban, eredményül a talált szövegrész kezdőpozíciójának számát adja, a kis- és nagybetűket megkülönbözteti"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "Egy szövegrész elejétől megadott számú karaktert ad eredményül"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "Eredményként megadott számú karaktert ad egy szövegből a megadott sorszámú karaktertől kezdődően"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
+		"a": "( string; start-pos; number-chars )",
 		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "Szövegdarab megadott részét eltérő szövegdarabbal cseréli ki."
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
+		"a": "( string-1; start-pos; number-chars; string-2 )",
 		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "Egy szövegrész végétől megadott számú karaktert ad eredményül"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "Azt a karaktersorszámot adja meg, ahol egy adott karakter vagy szövegdarab először fordul elő balról jobbra haladva, a kis- és nagybetűket azonosnak tekintve."
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére kerekít fel."
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "Radiánt fokká alakít át"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
+		"a": "( x; significance )",
 		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "Egy számot lefelé kerekít, a pontosságként megadott érték legközelebb eső többszörösére."
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "Egy számot lefelé kerekít a legközelebbi egészre."
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
+		"a": "( number; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "Egyezéseket keres valamely tartományban vagy tömbben, és egy második tartományból vagy tömbből adja vissza a megfelelő elemet. Alapértelmezés szerint pontos egyezést használ a program."
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {

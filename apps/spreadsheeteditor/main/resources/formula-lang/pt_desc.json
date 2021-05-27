@@ -4,7 +4,7 @@
 		"d": "Devolve o número que representa a data no código de data e hora"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
+		"a": "( start-date; end-date; unit )",
 		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "Devolve a posição de partida de uma cadeia de texto dentro de outra. LOCALIZAR é sensível a maiúsculas e minúsculas"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "Devolve o número especificado de carateres do início de uma cadeia de texto"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "Devolve um número específico de carateres de uma cadeia de texto, com início na posição especificada"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
+		"a": "( string; start-pos; number-chars )",
 		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "Substitui parte de uma cadeia de texto por outra diferente"
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
+		"a": "( string-1; start-pos; number-chars; string-2 )",
 		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "Devolve o número especificado de carateres do fim de uma cadeia de texto"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "Devolve o número do caráter no qual é localizado pela primeira vez uma cadeia de texto específica, lida da esquerda para a direita (não distingue maiúsculas e minúsculas)"
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "Arredonda um número por excesso para o número inteiro ou para o múltiplo significativo mais próximo"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "Converte radianos em graus"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
+		"a": "( x; significance )",
 		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "Arredonda um número por defeito para o múltiplo significativo mais próximo"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "Arredonda um número por defeito até ao número inteiro mais próximo"
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
+		"a": "( number; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "Procura uma correspondência num intervalo ou matriz e devolve o item correspondente de um segundo intervalo ou matriz. Por predefinição, é utilizada uma correspondência exata"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {
