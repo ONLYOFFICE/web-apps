@@ -52,12 +52,19 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'chart-03.png'},
             { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'chart-02.png'},
             { type: Asc.c_oAscChartTypeSettings.barStackedPer,           thumb: 'chart-01.png'},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3d,             thumb: 'chart-17.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStacked3d,            thumb: 'chart-18.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStackedPer3d,         thumb: 'chart-19.png'},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  thumb: 'chart-20.png'},
             { type: Asc.c_oAscChartTypeSettings.lineNormal,              thumb: 'chart-06.png'},
             { type: Asc.c_oAscChartTypeSettings.lineStacked,             thumb: 'chart-05.png'},
             { type: Asc.c_oAscChartTypeSettings.lineStackedPer,          thumb: 'chart-04.png'},
             { type: Asc.c_oAscChartTypeSettings.hBarNormal,              thumb: 'chart-09.png'},
             { type: Asc.c_oAscChartTypeSettings.hBarStacked,             thumb: 'chart-08.png'},
             { type: Asc.c_oAscChartTypeSettings.hBarStackedPer,          thumb: 'chart-07.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarNormal3d,            thumb: 'chart-25.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStacked3d,           thumb: 'chart-24.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        thumb: 'chart-23.png'},
             { type: Asc.c_oAscChartTypeSettings.areaNormal,              thumb: 'chart-12.png'},
             { type: Asc.c_oAscChartTypeSettings.areaStacked,             thumb: 'chart-11.png'},
             { type: Asc.c_oAscChartTypeSettings.areaStackedPer,          thumb: 'chart-10.png'},
@@ -67,13 +74,6 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.scatter,                 thumb: 'chart-15.png'},
             { type: Asc.c_oAscChartTypeSettings.stock,                   thumb: 'chart-16.png'},
             { type: Asc.c_oAscChartTypeSettings.line3d,                  thumb: 'chart-21.png'},
-            { type: Asc.c_oAscChartTypeSettings.barNormal3d,             thumb: 'chart-17.png'},
-            { type: Asc.c_oAscChartTypeSettings.barStacked3d,            thumb: 'chart-18.png'},
-            { type: Asc.c_oAscChartTypeSettings.barStackedPer3d,         thumb: 'chart-19.png'},
-            { type: Asc.c_oAscChartTypeSettings.hBarNormal3d,            thumb: 'chart-25.png'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStacked3d,           thumb: 'chart-24.png'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        thumb: 'chart-23.png'},
-            { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  thumb: 'chart-20.png'}
         ];
         const columns = 3;
         const arr = [];

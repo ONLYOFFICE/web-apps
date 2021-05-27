@@ -360,7 +360,9 @@ const PageLayout = props => {
         chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
         chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
         chartType == Asc.c_oAscChartTypeSettings.stock ||
-        chartType == Asc.c_oAscChartTypeSettings.scatter) {
+        chartType == Asc.c_oAscChartTypeSettings.scatter ||
+        chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || chartType == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+        chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine) {
         dataLabelPos.push(
             { value: Asc.c_oAscChartDataLabelsPos.l, displayValue: _t.textLeft },
             { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: _t.textRight },
@@ -375,7 +377,7 @@ const PageLayout = props => {
         );
     }
 
-    const disableSetting = props.disableSetting;
+    const disableEditAxis = props.disableEditAxis;
 
     const chartLayoutTitles = {
         0: `${_t.textNone}`,
@@ -461,7 +463,7 @@ const PageLayout = props => {
             <BlockTitle>{_t.textAxisTitle}</BlockTitle>
             <List>
                 <ListItem title={_t.textHorizontal} link="/edit-horizontal-axis-title/" 
-                    after={chartLayoutAxisTitleHorizontal[chartAxisHorTitle]} disabled={disableSetting} routeProps={{
+                    after={chartLayoutAxisTitleHorizontal[chartAxisHorTitle]} disabled={disableEditAxis} routeProps={{
                         chartLayoutAxisTitleHorizontal,
                         setLayoutProperty: props.setLayoutProperty,
                         chartAxisHorTitle,
@@ -469,7 +471,7 @@ const PageLayout = props => {
                     }}>
                 </ListItem>
                 <ListItem title={_t.textVertical} link="/edit-vertical-axis-title/" 
-                    after={chartLayoutAxisTitleVertical[chartAxisVertTitle]} disabled={disableSetting} routeProps={{
+                    after={chartLayoutAxisTitleVertical[chartAxisVertTitle]} disabled={disableEditAxis} routeProps={{
                         chartLayoutAxisTitleVertical,
                         setLayoutProperty: props.setLayoutProperty,
                         chartAxisVertTitle,
@@ -480,7 +482,7 @@ const PageLayout = props => {
             <BlockTitle>{_t.textGridlines}</BlockTitle>
             <List>
                 <ListItem title={_t.textHorizontal} link="/edit-horizontal-gridlines/" 
-                    after={chartLayoutGridlinesHorizontal[chartHorGridlines]} disabled={disableSetting} routeProps={{
+                    after={chartLayoutGridlinesHorizontal[chartHorGridlines]} disabled={disableEditAxis} routeProps={{
                         chartLayoutGridlinesHorizontal,
                         setLayoutProperty: props.setLayoutProperty,
                         chartHorGridlines,
@@ -488,7 +490,7 @@ const PageLayout = props => {
                     }}>
                 </ListItem>
                 <ListItem title={_t.textVertical} link="/edit-vertical-gridlines/" 
-                    after={chartLayoutGridlinesVertical[chartVertGridlines]} disabled={disableSetting} routeProps={{
+                    after={chartLayoutGridlinesVertical[chartVertGridlines]} disabled={disableEditAxis} routeProps={{
                         chartLayoutGridlinesVertical,
                         setLayoutProperty: props.setLayoutProperty,
                         chartVertGridlines,
@@ -1155,12 +1157,14 @@ const PageHorizontalAxis = props => {
                 ) : null}
             </List>
             <List>
-                <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={axisPosition.display} routeProps={{
-                    horAxisPosition,
-                    onHorAxisPos: props.onHorAxisPos,
-                    axisPosition,
-                    setAxisPosition
-                }}></ListItem>
+                {!props.disableAxisPos ? 
+                    <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={axisPosition.display} routeProps={{
+                        horAxisPosition,
+                        onHorAxisPos: props.onHorAxisPos,
+                        axisPosition,
+                        setAxisPosition
+                    }}></ListItem>
+                : null}
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
@@ -1376,10 +1380,29 @@ const EditChart = props => {
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
     const chartType = chartProperties && chartProperties.getType();
 
-    const disableSetting = (
+    const disableEditAxis = (
         chartType == Asc.c_oAscChartTypeSettings.pie ||
         chartType == Asc.c_oAscChartTypeSettings.doughnut ||
         chartType == Asc.c_oAscChartTypeSettings.pie3d
+    );
+
+    const disableAxisPos = (
+        chartType == Asc.c_oAscChartTypeSettings.barNormal3d ||
+        chartType == Asc.c_oAscChartTypeSettings.barStacked3d ||
+        chartType == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+        chartType == Asc.c_oAscChartTypeSettings.barNormal3dPerspective
+    );
+
+    const needReverse = (
+        chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d
     );
 
     return (
@@ -1393,11 +1416,21 @@ const EditChart = props => {
                     onBorderSize: props.onBorderSize
                 }}></ListItem>
                 <ListItem title={_t.textLayout} link='/edit-chart-layout/' routeProps={{
-                    disableSetting, 
+                    disableEditAxis, 
                     setLayoutProperty: props.setLayoutProperty,
                     initChartLayout: props.initChartLayout
                 }}></ListItem>
-                <ListItem title={_t.textVerticalAxis} link='/edit-chart-vertical-axis/' disabled={disableSetting} routeProps={{
+                <ListItem title={_t.textVerticalAxis} link={needReverse ? '/edit-chart-horizontal-axis/' : '/edit-chart-vertical-axis/'} disabled={disableEditAxis} routeProps={needReverse ? {
+                    onHorAxisCrossType: props.onHorAxisCrossType,
+                    onHorAxisCrossValue: props.onHorAxisCrossValue,
+                    onHorAxisPos: props.onHorAxisPos,
+                    onHorAxisReverse: props.onHorAxisReverse,
+                    onHorAxisTickMajor: props.onHorAxisTickMajor,
+                    onHorAxisTickMinor: props.onHorAxisTickMinor,
+                    onHorAxisLabelPos: props.onHorAxisLabelPos,
+                    disableAxisPos,
+                    needReverse
+                } : {
                     onVerAxisMinValue: props.onVerAxisMinValue,
                     onVerAxisMaxValue: props.onVerAxisMaxValue,
                     onVerAxisCrossType: props.onVerAxisCrossType,
@@ -1408,14 +1441,26 @@ const EditChart = props => {
                     onVerAxisTickMinor: props.onVerAxisTickMinor,
                     onVerAxisLabelPos: props.onVerAxisLabelPos
                 }}></ListItem>
-                <ListItem title={_t.textHorizontalAxis} link='/edit-chart-horizontal-axis/' disabled={disableSetting} routeProps={{
+                <ListItem title={_t.textHorizontalAxis} link={needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter ? '/edit-chart-vertical-axis/' : '/edit-chart-horizontal-axis/'} disabled={disableEditAxis} routeProps={needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter ? {
+                    onVerAxisMinValue: props.onVerAxisMinValue,
+                    onVerAxisMaxValue: props.onVerAxisMaxValue,
+                    onVerAxisCrossType: props.onVerAxisCrossType,
+                    onVerAxisCrossValue: props.onVerAxisCrossValue,
+                    onVerAxisDisplayUnits: props.onVerAxisDisplayUnits,
+                    onVerAxisReverse: props.onVerAxisReverse,
+                    onVerAxisTickMajor: props.onVerAxisTickMajor,
+                    onVerAxisTickMinor: props.onVerAxisTickMinor,
+                    onVerAxisLabelPos: props.onVerAxisLabelPos
+                } : {
                     onHorAxisCrossType: props.onHorAxisCrossType,
                     onHorAxisCrossValue: props.onHorAxisCrossValue,
                     onHorAxisPos: props.onHorAxisPos,
                     onHorAxisReverse: props.onHorAxisReverse,
                     onHorAxisTickMajor: props.onHorAxisTickMajor,
                     onHorAxisTickMinor: props.onHorAxisTickMinor,
-                    onHorAxisLabelPos: props.onHorAxisLabelPos
+                    onHorAxisLabelPos: props.onHorAxisLabelPos,
+                    disableAxisPos,
+                    needReverse
                 }}></ListItem>
                 <ListItem title={_t.textReorder} link='/edit-chart-reorder/' routeProps={{
                     onReorder: props.onReorder
