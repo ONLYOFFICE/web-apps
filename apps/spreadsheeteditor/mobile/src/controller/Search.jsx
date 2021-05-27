@@ -167,7 +167,7 @@ const Search = withTranslation()(props => {
             let options = new Asc.asc_CFindOptions();
 
             options.asc_setFindWhat(params.find);
-            options.asc_setReplaceWith(params.replace);
+            options.asc_setReplaceWith(params.replace || '');
             options.asc_setIsMatchCase(params.caseSensitive);
             options.asc_setIsWholeCell(params.matchCell);
             options.asc_setScanOnOnlySheet(searchIn);
@@ -191,7 +191,7 @@ const Search = withTranslation()(props => {
             let options = new Asc.asc_CFindOptions();
 
             options.asc_setFindWhat(params.find);
-            options.asc_setReplaceWith(params.replace);
+            options.asc_setReplaceWith(params.replace || '');
             options.asc_setIsMatchCase(params.caseSensitive);
             options.asc_setIsWholeCell(params.matchCell);
             options.asc_setScanOnOnlySheet(searchIn);

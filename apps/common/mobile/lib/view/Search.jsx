@@ -151,7 +151,7 @@ class SearchView extends Component {
             find: this.searchbar.query
         };
 
-        if (searchOptions.usereplace) {
+        if (searchOptions.usereplace || searchOptions.isReplaceAll) {
             params.replace = this.$replace.val();
         } 
 

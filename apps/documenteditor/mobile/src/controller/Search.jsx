@@ -100,7 +100,7 @@ const Search = withTranslation()(props => {
         const api = Common.EditorApi.get();
 
         if (params.find && params.find.length) {
-            api.asc_replaceText(params.find, params.replace, false, params.caseSensitive, params.highlight);
+            api.asc_replaceText(params.find, params.replace || '', false, params.caseSensitive, params.highlight);
         }
     }
 
@@ -108,7 +108,7 @@ const Search = withTranslation()(props => {
         const api = Common.EditorApi.get();
 
         if (params.find && params.find.length) {
-            api.asc_replaceText(params.find, params.replace, true, params.caseSensitive, params.highlight);
+            api.asc_replaceText(params.find, params.replace || '', true, params.caseSensitive, params.highlight);
         }
     }
 
