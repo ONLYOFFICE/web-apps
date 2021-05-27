@@ -241,8 +241,10 @@ define([
 
         fillArgs: function (types, argval, argres) {
             var argcount = this.args.length;
-            for (var j=0; j<types.length; j++)
+            for (var j=0; j<types.length; j++) {
                 this.setControls(argcount, types[j], argval ? argval[argcount] : undefined, argres ? argres[argcount] : undefined);
+                argcount++;
+            }
         },
 
         setControls: function(argcount, argtype, argval, argres) {
