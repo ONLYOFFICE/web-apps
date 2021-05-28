@@ -236,6 +236,10 @@ const PageReorder = props => {
 const EditImage = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const imageObject = storeFocusObjects.imageObject;
+    const pluginGuid = imageObject.asc_getPluginGuid();
+
     return (
         <Fragment>
             <List>
@@ -246,7 +250,7 @@ const EditImage = props => {
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReplace} link='/edit-image-replace/' routeProps={{
+                <ListItem title={_t.textReplace} link='/edit-image-replace/' className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>

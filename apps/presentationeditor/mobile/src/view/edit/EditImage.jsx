@@ -8,11 +8,14 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditImage = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const imageObject = storeFocusObjects.imageObject;
+    const pluginGuid = imageObject.asc_getPluginGuid();
 
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textReplace} link="/edit-replace-image/" routeProps={{
+                <ListItem title={_t.textReplace} link="/edit-replace-image/" className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
