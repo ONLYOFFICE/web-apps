@@ -265,7 +265,7 @@
     }
 
     // Hover state
-    &:hover {
+    &:hover:not(:disabled) {
         text-decoration: none;
         background-color: @btnColor;
 
@@ -274,7 +274,7 @@
         }
     }
 
-    &:active {
+    &:active:not(:disabled) {
         &, .btn-icon {
             background-position-y: -@icon-height !important;
         }
@@ -295,8 +295,8 @@
     }
 
 // Active state
-    &.active,
-    &:active {
+    &.active:not(:disabled),
+    &:active:not(:disabled) {
         outline: none;
         border: 1px solid @btnActiveColor;
         background-color: @btnActiveColor;
@@ -644,7 +644,7 @@
 .dropdown {
     &.open {
         > button {
-            background-color: @btnActiveColor;
+            background-color: @btnActiveColor !important;
             background-position: -@icon-width*14 -@icon-height;
         }
     }
