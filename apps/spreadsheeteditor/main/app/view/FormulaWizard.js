@@ -96,6 +96,8 @@ define([
 
             this._noApply = false;
             this.args = [];
+            this.argsNames = [];
+            this.repeatedIdx = 1;
             this.repeatedArg = undefined;
             this.helpUrl = undefined;
             this.minArgCount = 1;
@@ -159,6 +161,7 @@ define([
                 props.args ? $('#formula-wizard-args').html('<b>' + props.name + '</b>' + props.args) : $('#formula-wizard-args').addClass('hidden');
                 props.desc ? $('#formula-wizard-desc').text(props.desc) : $('#formula-wizard-desc').addClass('hidden');
                 props.name ? $('#formula-wizard-name').html(this.textFunction + ': ' + props.name) : $('#formula-wizard-name').addClass('hidden');
+                this.parseArgsDesc(props.args);
 
                 this.$window.find('#formula-wizard-help').on('click', function (e) {
                     me.showHelp();
@@ -189,6 +192,7 @@ define([
 
                         if (typeof type == 'object') {
                             this.repeatedArg = type;
+                            this.fillRepeatedNames();
                             types = type;
                         } else
                             types.push(type);
@@ -239,6 +243,60 @@ define([
             (this.contentPanel.height() < this.innerPanel.height()) && this.recalcArgTableSize();
         },
 
+        parseArgsDesc: function(args) {
+            if (args.charAt(0)=='(')
+                args = args.substring(1);
+            if (args.charAt(args.length-1)==')')
+                args = args.substring(0, args.length-1);
+            var arr = args.split(this.api.asc_getFunctionArgumentSeparator());
+            arr.forEach(function(item, index){
+                var str = item.trim();
+                if (str.charAt(0)=='[')
+                    str = str.substring(1);
+                if (str.charAt(str.length-1)==']')
+                    str = str.substring(0, str.length-1);
+                str = str.trim();
+                arr[index] = str.charAt(0).toUpperCase().concat(str.substring(1));
+            });
+            this.argsNames = arr;
+        },
+
+        fillRepeatedNames: function() {
+            if (this.argsNames.length<1) return;
+            if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[this.argsNames.length-1]==='...') {
+                var req = this.argsNames.length-1 - this.repeatedArg.length; // required/no-repeated
+                for (var i=0; i<this.repeatedArg.length; i++) {
+                    var str = this.argsNames[this.argsNames.length-2-i],
+                        ch = str.charAt(str.length-1);
+                    if ('123456789'.indexOf(ch)>-1) {
+                        this.repeatedIdx = parseInt(ch);
+                        this.argsNames[this.argsNames.length-2-i] = str.substring(0, str.length-1);
+                    }
+                }
+            }
+        },
+
+        getArgumentName: function(argcount) {
+            var name = '',
+                namesLen = this.argsNames.length;
+            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') // no repeated args
+                name = this.argsNames[argcount];
+            else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
+                var repeatedLen = this.repeatedArg.length;
+                var req = namesLen-1 - repeatedLen; // required/no-repeated
+                if (argcount<req) // get required args as is
+                    name = this.argsNames[argcount];
+                else {
+                    var idx = repeatedLen - (argcount - req)%repeatedLen,
+                        num = Math.floor((argcount - req)/repeatedLen) + this.repeatedIdx;
+                    name = this.argsNames[namesLen-1-idx] + num;
+                }
+            } else
+                name = this.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : '');
+
+            return name;
+        },
+
         fillArgs: function (types, argval, argres) {
             var argcount = this.args.length;
             for (var j=0; j<types.length; j++) {
@@ -273,7 +331,7 @@ define([
                 lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
                 lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
                 argInput: txt,
-                argName: me.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''),
+                argName: me.getArgumentName(argcount),
                 // argDesc: 'some argument description',
                 argType: argtype,
                 argTypeName: me.getArgType(argtype)

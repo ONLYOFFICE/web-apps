@@ -4,7 +4,7 @@
 		"d": "日付/時刻コードで指定した日付を表す数値を返します。"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
+		"a": "( start-date; end-date; unit )",
 		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "文字列が他の文字列内で最初に現れる位置を検索します。大文字と小文字は区別されます。"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "文字列の先頭から指定された数の文字を返します。"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "文字列の指定された位置から、指定された数の文字を返します。半角と全角の区別なく、1 文字を 1 として処理します。"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
+		"a": "( string; start-pos; number-chars )",
 		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "文字列中の指定した位置の文字列を置き換えた結果を返します。半角と全角の区別なく、1 文字を 1 として処理します。"
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
+		"a": "( string-1; start-pos; number-chars; string-2 )",
 		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "文字列の末尾から指定された文字数の文字を返します。"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "文字列が最初に現れる位置の文字番号を返します。大文字、小文字は区別されません。"
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "数値を最も近い整数、または最も近い基準値の倍数に切り上げます。"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "ラジアンで表された角度を度に変更します。"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
+		"a": "( x; significance )",
 		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "指定された基準値の倍数のうち、最も近い値に数値を切り捨てます。"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "切り捨てて整数にした数値を返します。"
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
+		"a": "( number; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "範囲または配列で一致の検索を行い、2 つめの範囲または配列から対応する項目を返します。既定では、完全一致が使用されます"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {

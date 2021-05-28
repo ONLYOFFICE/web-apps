@@ -4,7 +4,7 @@
 		"d": "Trả về số thể hiện ngày tháng theo mã ngày-giờ"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
+		"a": "( start-date; end-date; unit )",
 		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "Trả về vị trí bắt đầu của một xâu văn bản nằm trong xâu văn bản khác. Hàm FIND có phân biệt chữ hoa, chữ thường"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "Trả về số ký tự xác định từ vị trí bắt đầu của xâu văn bản"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "Trả về các ký tự ở giữa xâu văn bản, với vị trí bắt đầu và độ dài chỉ định"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
+		"a": "( string; start-pos; number-chars )",
 		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "Thay thế một phần của xâu văn bản bằng xâu văn bản khác"
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
+		"a": "( string-1; start-pos; number-chars; string-2 )",
 		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "Trả về số ký tự xác định từ vị trí cuối của xâu văn bản"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "Trả về số ký tự tại vị trí xuất hiện đầu tiên của ký tự hoặc xâu văn bản cho trước, tính từ trái qua phải (không phân biệt chữ hoa, chữ thường)"
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "Làm tròn số lên tới số nguyên gần nhất hoặc lên bội số có nghĩa gần nhất"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "Chuyển đổi từ radian sang độ"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
+		"a": "( x; significance )",
 		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": " làm tròn number xuống bội số gần nhất của significance"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "Làm tròn số xuống giá trị nguyên gần nhất"
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
+		"a": "( number; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "Tìm kiếm giá trị trùng khớp trong một dải ô hoặc một mảng và trả về mục tương ứng từ dải ô hoặc mảng thứ hai. Theo mặc định, sẽ sử dụng giá trị khớp hoàn toàn"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {

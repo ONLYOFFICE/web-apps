@@ -4,7 +4,7 @@
 		"d": "Restituisce il numero che rappresenta la data in codice data-ora."
 	},
 	"DATEDIF": {
-		"a": "(data_inizio , data_fine , unit)",
+		"a": "(data_inizio; data_fine; unit)",
 		"d": "Restituisce la differenza tra le due date in ingresso (data_inizio e data_fine), basato sull'unità (unit) specificata"
 	},
 	"DATEVALUE": {
@@ -392,7 +392,7 @@
 		"d": "Trova una stringa di testo all'interno di un'altra stringa e restituisce il numero corrispondente alla posizione iniziale della stringa trovata. La funzione distingue tra maiuscole e minuscole"
 	},
 	"FINDB": {
-		"a": "(testo-1 , stringa [ , inizio ])",
+		"a": "(testo-1; stringa; [inizio])",
 		"d": "Trova una stringa di testo all'interno di un'altra stringa e restituisce il numero corrispondente alla posizione iniziale della stringa trovata. Distingue tra maiuscole e minuscole, set (DBSC) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -404,7 +404,7 @@
 		"d": "Restituisce il carattere o i caratteri più a sinistra di una stringa di testo."
 	},
 	"LEFTB": {
-		"a": "(testo [ , num_caratt ])",
+		"a": "(testo; [num_caratt])",
 		"d": "Restituisce il carattere o i caratteri più a sinistra di una stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -424,7 +424,7 @@
 		"d": "Restituisce un numero specifico di caratteri da una stringa di testo iniziando dalla posizione specificata."
 	},
 	"MIDB": {
-		"a": "(testo , inizio , num_caratt)",
+		"a": "(testo; inizio; num_caratt)",
 		"d": "Restituisce un numero specifico di caratteri da una stringa di testo iniziando dalla posizione specificata set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -440,7 +440,7 @@
 		"d": "Sostituisce parte di una stringa di testo con un'altra stringa di testo."
 	},
 	"REPLACEB": {
-		"a": "(testo_prec, inizio, num_caratt, nuovo_testo)",
+		"a": "(testo_prec; inizio; num_caratt; nuovo_testo)",
 		"d": "Sostituisce parte di una stringa di testo con un'altra stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -452,7 +452,7 @@
 		"d": "Restituisce il carattere o i caratteri più a destra di una stringa di testo."
 	},
 	"RIGHTB": {
-		"a": "(testo [ , num_caratt ])",
+		"a": "(testo; [num_caratt])",
 		"d": " set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -460,7 +460,7 @@
 		"d": "Restituisce il numero corrispondente al carattere o alla stringa di testo trovata in una seconda stringa di testo (non distingue tra maiuscole e minuscole)."
 	},
 	"SEARCHB": {
-		"a": "(testo , stringa [ , inizio ])",
+		"a": "(testo; stringa; [inizio])",
 		"d": "Restituisce il numero corrispondente al carattere o alla stringa di testo trovata in una seconda stringa di testo (non distingue tra maiuscole e minuscole) set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1352,7 +1352,7 @@
 		"d": "Arrotonda un numero per eccesso all'intero più vicino o al multiplo più vicino a peso"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , peso ] )",
+		"a": "( x; [peso] )",
 		"d": "Arrotonda un numero per eccesso all'intero più vicino o al multiplo più vicino a peso."
 	},
 	"COMBIN": {
@@ -1388,7 +1388,7 @@
 		"d": "Restituisce la cosecante iperbolica di un angolo"
 	},
 	"DECIMALE": {
-		"a": "( num , radice )",
+		"a": "( num; radice )",
 		"d": "Converte la rappresentazione di un numero in formato testo di una determinata base in un numero decimale"
 	},
 	"DEGREES": {
@@ -1396,7 +1396,7 @@
 		"d": "Converte i radianti in gradi."
 	},
 	"ECMA.CEILING": {
-		"a": "( x, peso )",
+		"a": "( x; peso )",
 		"d": "Arrotonda un numero per eccesso al multiplo più vicino a peso"
 	},
 	"EVEN": {
@@ -1420,7 +1420,7 @@
 		"d": "Arrotonda un numero per difetto al multiplo più vicino a peso."
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x, peso )",
+		"a": "( x; peso )",
 		"d": "Arrotonda un numero per difetto all'intero più vicino o al multiplo più vicino a peso."
 	},
 	"FLOOR.MATH": {
@@ -1436,7 +1436,7 @@
 		"d": "Arrotonda un numero per difetto all'intero più vicino."
 	},
 	"ISO.CEILING": {
-		"a": "( num [ , peso ] )",
+		"a": "( num; [peso] )",
 		"d": "Funzione matematica e trigonometrica utilizzata per restituire un numero arrotondato al numero intero più vicino o al multiplo più vicino di significato indipendentemente dal segno del numero. Tuttavia, se il numero o il significato è zero, viene restituito zero."
 	},
 	"LCM": {
@@ -1684,7 +1684,7 @@
 		"d": "Cerca una corrispondenza in un intervallo o una matrice e restituisce l'elemento corrispondente di una seconda matrice o intervallo. Per impostazione predefinita, viene utilizzata una corrispondenza esatta"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Restituisce informazioni sulla formattazione, la posizione o il contenuto di una cella"
 	},
 	"ERROR.TYPE": {

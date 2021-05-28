@@ -4,7 +4,7 @@
 		"d": "날짜-시간 코드에서 날짜를 나타내는 수를 구합니다."
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
+		"a": "( start-date; end-date; unit )",
 		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "지정한 텍스트를 다른 텍스트 내에서 찾아 해당 문자의 시작 위치를 나타냅니다. 대/소문자를 구분합니다."
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "텍스트 문자열의 시작 지점부터 지정한 수만큼의 문자를 반환합니다."
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "문자열의 지정 위치에서 문자를 지정한 개수만큼 돌려줍니다."
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
+		"a": "( string; start-pos; number-chars )",
 		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "텍스트의 일부를 다른 텍스트로 바꿉니다."
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
+		"a": "( string-1; start-pos; number-chars; string-2 )",
 		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "텍스트 문자열의 끝 지점부터 지정한 수만큼의 문자를 반환합니다."
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
+		"a": "( string; [number-chars] )",
 		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "왼쪽에서 오른쪽으로 검색하여 지정한 문자 또는 텍스트 스트링이 처음 발견되는 곳에서의 문자 개수를 구합니다(대/소문자 구분 안 함)."
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
+		"a": "( string-1; string-2; [start-pos] )",
 		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "수를 가장 가까운 정수 또는 가장 가까운 significance의 배수가 되도록 올림합니다."
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "라디안 형태의 각도를 도 단위로 바꿉니다."
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
+		"a": "( x; significance )",
 		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "수를 significance의 배수가 되도록 절대 값을 내림합니다."
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
+		"a": "( x; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "소수점 아래를 버리고 가장 가까운 정수로 내림합니다."
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
+		"a": "( number; [significance] )",
 		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "일치 항목에 대한 범위 또는 배열을 검색하고 두 번째 범위 또는 배열에서 해당 항목을 반환합니다. 기본적으로 정확하게 일치하는 항목이 사용됩니다."
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {

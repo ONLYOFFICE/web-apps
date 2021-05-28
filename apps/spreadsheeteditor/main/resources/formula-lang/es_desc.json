@@ -4,7 +4,7 @@
 		"d": "Devuelve el número que representa la fecha en código de fecha y hora"
 	},
 	"DATEDIF": {
-		"a": "( fecha-inicio , fecha-final , unidad )",
+		"a": "( fecha-inicio; fecha-final; unidad )",
 		"d": "Función de fecha y hora es utilizada para devolver la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "Devuelve la posición inicial de una cadena de texto dentro de otra cadena de texto. ENCONTRAR distingue mayúsculas de minúsculas"
 	},
 	"FINDB": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
+		"a": "(cadena-1; cadena-2; [posición-inicio])",
 		"d": "Función de texto y datos utilizada para encontrar la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "Devuelve el número especificado de caracteres del principio de una cadena de texto"
 	},
 	"LEFTB": {
-		"a": "(cadena [, número-caracteres])",
+		"a": "(cadena; [número-caracteres])",
 		"d": "Función de texto y datos utilizada para extraer la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "Devuelve los caracteres del centro de una cadena de texto, dada una posición y longitud iniciales"
 	},
 	"MIDB": {
-		"a": "(cadena, posición-empiece, número-caracteres)",
+		"a": "(cadena; posición-empiece; número-caracteres)",
 		"d": "Función de texto y datos utilizada para extraer los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "Reemplaza parte de una cadena de texto por otra"
 	},
 	"REPLACEB": {
-		"a": "(cadena-1, pos-inicio, número-caracteres, cadena-2)",
+		"a": "(cadena-1; pos-inicio; número-caracteres; cadena-2)",
 		"d": "Función de texto y datos utilizada para reemplazar un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "Devuelve el número especificado de caracteres del final de una cadena de texto"
 	},
 	"RIGHTB": {
-		"a": "(cadena [, número-caracteres])",
+		"a": "(cadena; [número-caracteres])",
 		"d": "Función de texto y datos utilizada para extraer una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "Devuelve el número de carácter en el que se encuentra un carácter o una cadena de texto en particular, leyendo de izquierda a derecha (no distingue mayúsculas de minúsculas)."
 	},
 	"SEARCHB": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
+		"a": "(cadena-1; cadena-2; [posición-inicio])",
 		"d": "Función de texto y datos utilizada para devolver la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "Redondea un número hacia arriba, al entero más cercano o al múltiplo significativo más cercano"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [, significado])",
+		"a": "( x; [significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "Convierte radianes en grados"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significado)",
+		"a": "( x; significado)",
 		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hasta el múltiplo de significación más cercano"
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "Redondea un número hacia abajo, hasta el múltiplo significativo más cercano"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significado])",
+		"a": "( x; [significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "Redondea un número hasta el entero inferior más próximo"
 	},
 	"ISO.CEILING": {
-		"a": "( número [, significado])",
+		"a": "( número; [significado])",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "Busca una coincidencia en un rango o una matriz y devuelve el elemento correspondiente de un segundo rango o matriz. De forma predeterminada, se usa una coincidencia exacta"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {

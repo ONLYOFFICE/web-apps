@@ -4,7 +4,7 @@
 		"d": "Renvoie un numéro qui représente la date dans le code de date et d’heure"
 	},
 	"DATEDIF": {
-		"a": "(date_début, date_fin, unité)",
+		"a": "(date_début; date_fin; unité)",
 		"d": "Fonction de date et d’heure utilisée pour renvoyer la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
 	},
 	"DATEVALUE": {
@@ -396,7 +396,7 @@
 		"d": "Renvoie la position de départ d'une chaîne de texte à l'intérieur d'une autre chaîne de texte. TROUVE distingue les majuscules des minuscules"
 	},
 	"FINDB": {
-		"a": "(texte_cherché, texte [, no_départ])",
+		"a": "(texte_cherché; texte; [no_départ])",
 		"d": "Fonction de texte et de données utilisée pour trouver la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"FIXED": {
@@ -408,7 +408,7 @@
 		"d": "Extrait le(s) premier(s) caractère(s) à l'extrême gauche d'une chaîne de texte"
 	},
 	"LEFTB": {
-		"a": "(texte [, no_car])",
+		"a": "(texte; [no_car])",
 		"d": "Fonction de texte et de données utilisée pour extraire la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LEN": {
@@ -428,7 +428,7 @@
 		"d": "Renvoie un nombre déterminé de caractères d'une chaîne de texte à partir de la position que vous indiquez"
 	},
 	"MIDB": {
-		"a": "(texte, no_départ, no_car)",
+		"a": "(texte; no_départ; no_car)",
 		"d": "Fonction de texte et de données utilisée pour extraire les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"NUMBERVALUE": {
@@ -444,7 +444,7 @@
 		"d": "Remplace une chaîne de caractères par une autre"
 	},
 	"REPLACEB": {
-		"a": "(ancien_texte, no_départ, no_car, nouveau_texte)",
+		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
 		"d": "Fonction de texte et de données utilisée pour remplacer un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"REPT": {
@@ -456,7 +456,7 @@
 		"d": "Extrait les derniers caractères de la fin d'une chaîne de texte"
 	},
 	"RIGHTB": {
-		"a": "(texte [, no_car])",
+		"a": "(texte; [no_car])",
 		"d": "Fonction de texte et de données utilisée pour extraire une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SEARCH": {
@@ -464,7 +464,7 @@
 		"d": "Renvoie le numéro du caractère au niveau duquel est trouvé un caractère ou le début d'une chaîne de caractères, en lisant de la gauche à droite (pas de distinction entre majuscules et minuscules)"
 	},
 	"SEARCHB": {
-		"a": "(texte_cherché, texte [, no_départ])",
+		"a": "(texte_cherché; texte; [no_départ])",
 		"d": "Fonction de texte et de données utilisée pour renvoyer l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SUBSTITUTE": {
@@ -1384,7 +1384,7 @@
 		"d": "Arrondit un nombre à l'entier ou au multiple le plus proche de l'argument précision en s'éloignant de zéro"
 	},
 	"CEILING.PRECISE": {
-		"a": "(x [, précision])",
+		"a": "(x; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
 	},
 	"COMBIN": {
@@ -1428,7 +1428,7 @@
 		"d": "Convertit des radians en degrés"
 	},
 	"ECMA.CEILING": {
-		"a": "(x, précision)",
+		"a": "(x; précision)",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de l'argument de précision."
 	},
 	"EVEN": {
@@ -1452,7 +1452,7 @@
 		"d": "Arrondit un nombre à l’entier ou au multiple le plus proche de l’argument précision"
 	},
 	"FLOOR.PRECISE": {
-		"a": "(x [, précision])",
+		"a": "(x; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre par défaut à l'entier ou au multiple significatif le plus proche."
 	},
 	"FLOOR.MATH": {
@@ -1468,7 +1468,7 @@
 		"d": "Arrondit un nombre à l'entier immédiatement inférieur"
 	},
 	"ISO.CEILING": {
-		"a": "(nombre[, précision])",
+		"a": "(nombre; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche sans tenir compte du signe de ce nombre. Cependant, si le nombre ou la valeur significative est zéro, zéro est renvoyé."
 	},
 	"LCM": {
@@ -1720,7 +1720,7 @@
 		"d": "Recherche une correspondance dans une plage ou un tableau et renvoie l’élément correspondant dans un deuxième tableau ou plage. Par défaut, une correspondance exacte est utilisée"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Fonction d’information utilisée pour renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
 	},
 	"ERROR.TYPE": {
