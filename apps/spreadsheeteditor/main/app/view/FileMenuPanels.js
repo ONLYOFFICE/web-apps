@@ -876,6 +876,7 @@ define([
 
             var formula_arr = [
                 { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
+                { value: 'be', displayValue: this.txtBe, exampleValue: this.txtExampleBe },
                 { value: 'bg', displayValue: this.txtBg, exampleValue: this.txtExampleEn },
                 { value: 'ca', displayValue: this.txtCa, exampleValue: this.txtExampleCa },
                 { value: 'zh', displayValue: this.txtZh, exampleValue: this.txtExampleEn },
@@ -1369,6 +1370,7 @@ define([
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
         strPasteButton: 'Show Paste Options button when content is pasted',
+        txtBe: 'Belarusian',
         txtBg: 'Bulgarian',
         txtCa: 'Catalan',
         txtZh: 'Chinese',
@@ -1392,6 +1394,7 @@ define([
         txtTr: 'Turkish',
         txtUk: 'Ukrainian',
         txtVi: 'Vietnamese',
+        txtExampleBe: 'СУММ; МИН; МАКС; СЧЁТ',
         txtExampleCa: 'SUMA; MIN; MAX; COMPT',
         txtExampleCs: 'SUMA; MIN; MAX; POČET',
         txtExampleDa: 'SUM; MIN; MAKS; TÆL',
