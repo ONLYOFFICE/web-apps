@@ -97,6 +97,7 @@ define([
             this._noApply = false;
             this.args = [];
             this.argsNames = [];
+            this.repeatedIdx = 1;
             this.repeatedArg = undefined;
             this.helpUrl = undefined;
             this.minArgCount = 1;
@@ -191,6 +192,7 @@ define([
 
                         if (typeof type == 'object') {
                             this.repeatedArg = type;
+                            this.fillRepeatedNames();
                             types = type;
                         } else
                             types.push(type);
@@ -259,16 +261,39 @@ define([
             this.argsNames = arr;
         },
 
+        fillRepeatedNames: function() {
+            if (this.argsNames.length<1) return;
+            if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[this.argsNames.length-1]==='...') {
+                var req = this.argsNames.length-1 - this.repeatedArg.length; // required/no-repeated
+                for (var i=0; i<this.repeatedArg.length; i++) {
+                    var str = this.argsNames[this.argsNames.length-2-i],
+                        ch = str.charAt(str.length-1);
+                    if ('123456789'.indexOf(ch)>-1) {
+                        this.repeatedIdx = parseInt(ch);
+                        this.argsNames[this.argsNames.length-2-i] = str.substring(0, str.length-1);
+                    }
+                }
+            }
+        },
+
         getArgumentName: function(argcount) {
-            var name = '';
-            if (argcount<this.argsNames.length && this.argsNames[argcount]!=='...') {
+            var name = '',
+                namesLen = this.argsNames.length;
+            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') // no repeated args
                 name = this.argsNames[argcount];
-            } else if (this.argsNames[this.argsNames.length-1]==='...') {
-                var req = this.argsNames.length-1 - this.repeatedArg.length; // required
-                var idx = this.repeatedArg.length - (argcount - req)%this.repeatedArg.length;
-                name = this.argsNames[this.argsNames.length-1-idx];
+            else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
+                var repeatedLen = this.repeatedArg.length;
+                var req = namesLen-1 - repeatedLen; // required/no-repeated
+                if (argcount<req) // get required args as is
+                    name = this.argsNames[argcount];
+                else {
+                    var idx = repeatedLen - (argcount - req)%repeatedLen,
+                        num = Math.floor((argcount - req)/repeatedLen) + this.repeatedIdx;
+                    name = this.argsNames[namesLen-1-idx] + num;
+                }
             } else
                 name = this.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : '');
+
             return name;
         },
 
