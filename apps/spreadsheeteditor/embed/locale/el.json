@@ -25,6 +25,7 @@
   "SSE.ApplicationController.waitText": "Παρακαλούμε, περιμένετε...",
   "SSE.ApplicationView.txtDownload": "Λήψη",
   "SSE.ApplicationView.txtEmbed": "Ενσωμάτωση",
+  "SSE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "SSE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "SSE.ApplicationView.txtPrint": "Εκτύπωση",
   "SSE.ApplicationView.txtShare": "Διαμοιρασμός"

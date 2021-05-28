@@ -1881,7 +1881,7 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtCreated": "A fost creat",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtModifyBy": "Modificat ultima dată de către",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtModifyDate": "Data ultimei modificări",
-  "SSE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Posesor",
+  "SSE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Proprietar",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Locația",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtRights": "Persoane care au dreptul de acces",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Subiect",

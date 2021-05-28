@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Παρακαλούμε, περιμένετε...",
   "PE.ApplicationView.txtDownload": "Λήψη",
   "PE.ApplicationView.txtEmbed": "Ενσωμάτωση",
+  "PE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "PE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "PE.ApplicationView.txtPrint": "Εκτύπωση",
   "PE.ApplicationView.txtShare": "Διαμοιρασμός"

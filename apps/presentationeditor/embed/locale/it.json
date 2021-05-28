@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Per favore, attendi...",
   "PE.ApplicationView.txtDownload": "Scarica",
   "PE.ApplicationView.txtEmbed": "Incorpora",
+  "PE.ApplicationView.txtFileLocation": "Apri percorso file",
   "PE.ApplicationView.txtFullScreen": "Schermo intero",
   "PE.ApplicationView.txtPrint": "Stampa",
   "PE.ApplicationView.txtShare": "Condividi"

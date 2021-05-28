@@ -1290,7 +1290,7 @@
   "PE.Views.FileMenuPanels.DocumentInfo.txtCreated": "A fost creat",
   "PE.Views.FileMenuPanels.DocumentInfo.txtModifyBy": "Modificat ultima dată de către",
   "PE.Views.FileMenuPanels.DocumentInfo.txtModifyDate": "Data ultimei modificări",
-  "PE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Posesor",
+  "PE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Proprietar",
   "PE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Locația",
   "PE.Views.FileMenuPanels.DocumentInfo.txtRights": "Persoane care au dreptul de acces",
   "PE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Subiect",
