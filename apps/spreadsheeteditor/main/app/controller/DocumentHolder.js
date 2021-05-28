@@ -2287,7 +2287,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
-        onFormulaCompleteMenu: function(funcarr) {
+        onFormulaCompleteMenu: function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
             if (funcarr) {
@@ -2392,8 +2392,7 @@ define([
                 }
 
                 var coord  = me.api.asc_getActiveCellCoord(),
-                    offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 menu.alignPosition();
 
