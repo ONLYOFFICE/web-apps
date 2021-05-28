@@ -5,7 +5,7 @@ import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import AddChartController from "../../controller/add/AddChart";
+import {AddChartController} from "../../controller/add/AddChart";
 import {AddFunctionController} from "../../controller/add/AddFunction";
 import {PageFunctionGroup, PageFunctionInfo} from "./AddFunction";
 import AddShapeController from "../../controller/add/AddShape";
