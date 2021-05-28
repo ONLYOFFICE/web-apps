@@ -268,11 +268,13 @@ define([
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
-                    var obj = get_current_theme_colors(name_colors);
-                    obj.type = themes_map[id].type;
-                    obj.name = id;
+                    if ( this.api ) {
+                        var obj = get_current_theme_colors(name_colors);
+                        obj.type = themes_map[id].type;
+                        obj.name = id;
 
-                    this.api.asc_setSkin(obj);
+                        this.api.asc_setSkin(obj);
+                    }
 
                     Common.localStorage.setItem('ui-theme', id);
                     Common.NotificationCenter.trigger('uitheme:changed', id);
