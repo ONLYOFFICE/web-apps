@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -201,7 +201,15 @@ const PageFonts = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textFonts} backLink={_t.textBack} />
+            <Navbar title={_t.textFonts} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textSize}>
                     {!isAndroid && <div slot='after-start'>{displaySize}</div>}
@@ -267,7 +275,15 @@ const PageFontColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textFontColors} backLink={_t.textBack} />
+            <Navbar title={_t.textFontColors} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={textColor} customColors={customColors}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-font-color/'} routeProps={{
@@ -297,7 +313,15 @@ const PageCustomFontColor = props => {
     };
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -334,7 +358,15 @@ const PageAdditionalFormatting = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAdditional} backLink={_t.textBack} />
+            <Navbar title={_t.textAdditional} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textStrikethrough} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikethrough', !isStrikeout)}}/>
                 <ListItem title={_t.textDoubleStrikethrough} radio checked={isDStrikeout} onClick={() => {props.onAdditionalStrikethrough('dbStrikethrough', !isDStrikeout)}}/>
@@ -391,7 +423,15 @@ const PageBullets = props => {
 
     return (
         <Page className='bullets dataview'>
-            <Navbar title={_t.textBullets} backLink={_t.textBack} />
+            <Navbar title={_t.textBullets} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
@@ -439,7 +479,15 @@ const PageNumbers = props => {
 
     return (
         <Page className='numbers dataview'>
-            <Navbar title={_t.textNumbers} backLink={_t.textBack} />
+            <Navbar title={_t.textNumbers} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
@@ -472,7 +520,15 @@ const PageLineSpacing = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLineSpacing} backLink={_t.textBack} />
+            <Navbar title={_t.textLineSpacing} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem radio checked={lineSpacing === 1.0} title={1.0} onClick={() => {props.onLineSpacing(1.0)}}></ListItem>
                 <ListItem radio checked={lineSpacing === 1.15} title={1.15} onClick={() => {props.onLineSpacing(1.15)}}></ListItem>
