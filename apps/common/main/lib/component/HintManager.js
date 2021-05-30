@@ -52,10 +52,25 @@ Common.UI.HintManager = new(function() {
         _isAlt = false,
         _hintVisible = false,
         _currentLevel = 0,
+        _currentSection = document,
         _controls = [],
         _currentControls = [],
         _currentHints = [],
         _inputLetters = '';
+
+    var _setCurrentSection = function (btn) {
+        if (btn === 'esc') {
+            if (_currentLevel === 0) {
+                _currentSection = document;
+            }
+            return;
+        }
+        if ($('#file-menu-panel').is(':visible')) {
+            _currentSection = $('#file-menu-panel');
+        } else {
+            _currentSection = btn.closest('.hint-section') || document;
+        }
+    };
 
     var _showHints = function () {
         _inputLetters = '';
@@ -104,7 +119,8 @@ Common.UI.HintManager = new(function() {
         /*if (!_controls[_currentLevel]) {
             _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
         }*/
-        _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
+        _controls[_currentLevel] = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
+        console.log(_controls[_currentLevel]);
         _currentControls = [];
         var arr = _controls[_currentLevel];
         var visibleItems = arr.filter(function (item) {
@@ -145,8 +161,13 @@ Common.UI.HintManager = new(function() {
                     });
                 else if (direction === 'left-top')
                     hint.css({
-                        top: offset.top - 14 + offsets[0],
+                        top: offset.top - 10 + offsets[0],
                         left: offset.left - 14 + offsets[1]
+                    });
+                else if (direction === 'right-top')
+                    hint.css({
+                        top: offset.top - 16 + offsets[0],
+                        left: offset.left + item.outerWidth() - 4 + offsets[1]
                     });
                 else if (direction === 'right')
                     hint.css({
@@ -165,7 +186,7 @@ Common.UI.HintManager = new(function() {
                     });
                 else
                     hint.css({
-                        top: offset.top + item.outerHeight() - 3 + offsets[0],
+                        top: offset.top + item.outerHeight() + offsets[0],
                         left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
                     });
                 $(document.body).append(hint);
@@ -209,6 +230,7 @@ Common.UI.HintManager = new(function() {
                         _hideHints();
                     } else {
                         _prevLevel();
+                        _setCurrentSection('esc');
                         _showHints();
                     }
                 } else if ((e.keyCode > 47 && e.keyCode < 58 || e.keyCode > 64 && e.keyCode < 91) && e.key) {
@@ -223,11 +245,13 @@ Common.UI.HintManager = new(function() {
                     }
                     if (curr) {
                         if (curr.prop("tagName").toLowerCase() === 'input') {
+                            curr.trigger(jQuery.Event('click', {which: 1}));
                             curr.focus();
                             _hideHints();
                         } else {
                             curr.trigger(jQuery.Event('click', {which: 1}));
                             _nextLevel();
+                            _setCurrentSection(curr);
                             _showHints();
                         }
                     }

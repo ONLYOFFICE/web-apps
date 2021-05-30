@@ -110,7 +110,10 @@ define([
             hold        : true,
             speed       : 'medium',
             width       : 90,
-            allowDecimal: true
+            allowDecimal: true,
+            dataHint    : '',
+            dataHintDirection: '',
+            dataHintOffset: ''
         },
 
         disabled    : false,
@@ -118,7 +121,7 @@ define([
         rendered    : false,
 
         template    :
-                    '<input type="text" class="form-control" spellcheck="false">' +
+                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
                     '<div class="spinner-buttons">' +
                         '<button type="button" class="spinner-up"><i class="arrow"></i></button>' +
                         '<button type="button" class="spinner-down"><i class="arrow"></i></button>' +
@@ -185,7 +188,13 @@ define([
 
         render: function () {
             var el = this.$el || $(this.el);
-            el.html(this.template);
+
+            var template = _.template(this.template);
+            el.html($(template({
+                dataHint         : this.options.dataHint,
+                dataHintDirection: this.options.dataHintDirection,
+                dataHintOffset   : this.options.dataHintOffset
+            })));
 
             this.$input = el.find('.form-control');
             this.rendered = true;

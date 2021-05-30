@@ -230,7 +230,8 @@ define([
                         caption: this.txtInvisibleSignature,
                         disabled: this._state.invisibleSignDisabled,
                         dataHint: '2',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-6, 0'
                     });
                     this.btnsInvisibleSignature.push(button);
                     if (this._isSetEvents) {
@@ -247,7 +248,8 @@ define([
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: !this._state.hasPassword,
                         dataHint: '2',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-6, 0'
                     });
                     this.btnsAddPwd.push(button);
                     if (this._isSetEvents) {
@@ -264,7 +266,8 @@ define([
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword,
                         dataHint: '2',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-6, 0'
                     });
                     this.btnsDelPwd.push(button);
                     if (this._isSetEvents) {
@@ -281,7 +284,8 @@ define([
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword,
                         dataHint: '2',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-6, 0'
                     });
                     this.btnsChangePwd.push(button);
                     if (this._isSetEvents) {

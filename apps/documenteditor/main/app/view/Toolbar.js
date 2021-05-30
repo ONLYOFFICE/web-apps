@@ -271,7 +271,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'left-bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnHighlightColor);
                     this.textOnlyControls.push(this.btnHighlightColor);
@@ -295,7 +296,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'left-bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
@@ -311,7 +313,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'left-bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
@@ -417,7 +420,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.paragraphControls.push(this.btnLineSpace);
 
@@ -435,7 +439,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'left-bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.toolbarControls.push(this.btnShowHidenChars);
 
@@ -448,7 +453,8 @@ define([
                         split: true,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnMarkers);
                     this.textOnlyControls.push(this.btnMarkers);
@@ -462,7 +468,8 @@ define([
                         split: true,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnNumbers);
                     this.textOnlyControls.push(this.btnNumbers);
@@ -473,7 +480,8 @@ define([
                         iconCls: 'toolbar__icon btn-multilevels',
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.paragraphControls.push(this.btnMultilevels);
                     this.textOnlyControls.push(this.btnMultilevels);
@@ -1125,7 +1133,8 @@ define([
                             restoreHeight: true
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
 
@@ -1241,7 +1250,7 @@ define([
                             {value: 96, displayValue: "96"}
                         ],
                         dataHint: '1',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.cmbFontSize);
 
@@ -1252,7 +1261,7 @@ define([
                         hint: this.tipFontName,
                         store: new Common.Collections.Fonts(),
                         dataHint: '1',
-                        dataHintDirection: 'left-top'
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.cmbFontName);
 
