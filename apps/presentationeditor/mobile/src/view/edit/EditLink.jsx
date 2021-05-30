@@ -171,7 +171,7 @@ const PageLink = props => {
                 />
             </List>
             <List className="buttons-list">
-                <ListItem title={_t.textEditLink} href="#"
+                <ListButton title={_t.textEditLink}
                             className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onEditLink(typeLink, (typeLink === 1 ?
@@ -179,8 +179,8 @@ const PageLink = props => {
                                     {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
                             }}
                 />
-                <ListItem title={_t.textRemoveLink} href="#"
-                            className={`button-fill button-red`}
+                <ListButton title={_t.textRemoveLink}
+                            className={`button-red button-fill button-raised`}
                             onClick={() => {
                                 props.onRemoveLink()
                             }}

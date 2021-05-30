@@ -23,8 +23,8 @@ const EditImage = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDefaultSize}>{_t.textActualSize}</ListItem>
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onDefaultSize}>{_t.textActualSize}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListButton>
             </List>
         </Fragment>
     )

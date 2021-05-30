@@ -36,7 +36,7 @@ const PageLinkSettings = props => {
                 >
                 </ListInput>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateValue.length < 1 ? ' disabled' : '')}
                             title={_t.textInsertImage}
                             onClick={() => {props.onInsertByUrl(stateValue)}}></ListButton>

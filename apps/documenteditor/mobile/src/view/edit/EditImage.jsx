@@ -156,7 +156,7 @@ const PageLinkSettings = props => {
                 >
                 </ListInput>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateValue.length < 1 ? ' disabled' : '')} title={_t.textReplaceImage} onClick={() => {onReplace()}}></ListButton>
             </List>
         </Page>
@@ -258,7 +258,7 @@ const EditImage = props => {
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className='button-fill button-raised' title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
                 <ListButton className='button-red button-fill button-raised' title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}}/>
             </List>

@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, ListButton} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -32,8 +32,8 @@ const EditSlide = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListItem>
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListButton>
             </List>
         </Fragment>
     )

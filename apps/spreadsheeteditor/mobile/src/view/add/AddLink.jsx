@@ -129,7 +129,7 @@ const AddLinkView = props => {
                            className={isIos ? 'list-input-right' : ''}
                 />
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton title={_t.textInsert}
                             className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' && range.length < 1) && ' disabled'}`}
                             onClick={() => {props.onInsertLink(typeLink === 'ext' ?

@@ -157,7 +157,7 @@ const EditLink = props => {
                            className={isIos ? 'list-input-right' : ''}
                 />
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton title={_t.textEditLink}
                             className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' || range.length < 1 || !curSheet.length) && ' disabled'}`}
                             onClick={() => {props.onEditLink(typeLink === 1 ?
@@ -165,7 +165,7 @@ const EditLink = props => {
                                 {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip})}}
                 />
                 <ListButton title={_t.textRemoveLink}
-                            className={`button-fill button-red`}
+                            className={`button-red button-fill button-raised`}
                             onClick={() => props.onRemoveLink()}
                 />
             </List>

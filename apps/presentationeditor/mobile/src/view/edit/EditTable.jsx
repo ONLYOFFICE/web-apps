@@ -446,7 +446,7 @@ const EditTable = props => {
                     </Row>
                 </ListItem>
                 <List className="buttons-list">
-                    <ListItem href="#" title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button button-raised button-red'></ListItem>
+                    <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>
                 </List>
             </List>
             <List>
