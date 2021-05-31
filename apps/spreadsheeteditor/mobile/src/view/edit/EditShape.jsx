@@ -11,6 +11,7 @@ const EditShape = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
     const canFill = shapeObject && shapeObject.get_ShapeProperties().asc_getCanFill();
+    let setDisabled = true;
 
     return (
         <Fragment>
