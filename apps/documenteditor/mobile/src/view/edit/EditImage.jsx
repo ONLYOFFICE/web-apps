@@ -156,7 +156,7 @@ const PageLinkSettings = props => {
                 >
                 </ListInput>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateValue.length < 1 ? ' disabled' : '')} title={_t.textReplaceImage} onClick={() => {onReplace()}}></ListButton>
             </List>
         </Page>
@@ -236,6 +236,10 @@ const PageReorder = props => {
 const EditImage = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const imageObject = storeFocusObjects.imageObject;
+    const pluginGuid = imageObject.asc_getPluginGuid();
+
     return (
         <Fragment>
             <List>
@@ -246,7 +250,7 @@ const EditImage = props => {
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReplace} link='/edit-image-replace/' routeProps={{
+                <ListItem title={_t.textReplace} link='/edit-image-replace/' className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
@@ -254,7 +258,7 @@ const EditImage = props => {
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className='button-fill button-raised' title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
                 <ListButton className='button-red button-fill button-raised' title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}}/>
             </List>

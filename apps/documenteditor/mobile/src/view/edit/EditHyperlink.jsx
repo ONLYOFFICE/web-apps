@@ -38,7 +38,7 @@ const EditHyperlink = props => {
                     onChange={(event) => {setTip(event.target.value)}}
                 ></ListInput>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textEditLink} onClick={() => {
                     props.onEditLink(stateLink, stateDisplay, stateTip)
                 }}></ListButton>

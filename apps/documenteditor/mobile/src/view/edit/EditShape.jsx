@@ -536,7 +536,7 @@ const EditShape = props => {
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton title={_t.textRemoveShape} onClick={() => {props.onRemoveShape()}} className='button-red button-fill button-raised'/>
             </List>
         </Fragment>

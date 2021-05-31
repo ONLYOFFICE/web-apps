@@ -392,7 +392,7 @@ const EditChart = props => {
                     onAlign: props.onAlign
                 }}></ListItem>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton title={_t.textRemoveChart} onClick={() => {props.onRemoveChart()}} className='button-red button-fill button-raised'/>
             </List>
         </Fragment>

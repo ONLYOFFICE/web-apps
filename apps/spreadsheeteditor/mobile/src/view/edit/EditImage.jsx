@@ -7,11 +7,14 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditImage = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const imageObject = storeFocusObjects.imageObject;
+    const pluginGuid = imageObject.asc_getPluginGuid();
 
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textReplace} link="/edit-replace-image/" routeProps={{
+                <ListItem title={_t.textReplace} link="/edit-replace-image/" className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
@@ -20,8 +23,8 @@ const EditImage = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDefaultSize}>{_t.textActualSize}</ListItem>
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onDefaultSize}>{_t.textActualSize}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListButton>
             </List>
         </Fragment>
     )

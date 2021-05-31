@@ -560,7 +560,9 @@ const EditTable = props => {
                         </a>
                     </Row>
                 </ListItem>
-                <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>
+                <List className="buttons-list">
+                    <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>
+                </List>
             </List>
             <List>
                 <ListItem title={_t.textTableOptions} link='/edit-table-options/' routeProps={{
