@@ -7,45 +7,30 @@ import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyleClick, storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
-
-    const widthContainer = document.querySelector(".page-content").clientWidth;
-    const columns = parseInt((widthContainer - 47) / 70); // magic
-    const styles = [];
-    let row = -1;
-    templates.forEach((style, index) => {
-        if (0 == index % columns) {
-            styles.push([]);
-            row++
-        }
-        styles[row].push(style);
-    });
+    const styles =  storeTableSettings.styles;
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
-
+            
     return (
         <div className="dataview table-styles">
-            {styles.map((row, rowIndex) => {
-                return (
-                    <div className="row" key={`row-${rowIndex}`}>
-                        {row.map((style, index)=>{
-                            return(
-                                <div key={`${rowIndex}-${index}`}
-                                    className={style.templateId === stateId ? 'active' : ''}
-                                    onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
-                                    <img src={style.imageUrl} />
-                                </div>
-                            )
-                        })}
-                    </div>
-                )
-            })}
+            <ul className="row">
+                    {styles.map((style, index) => {
+                        return (
+                            <li key={index}
+                                className={style.templateId === stateId ? 'active' : ''}
+                                onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
+                                <img src={style.imageUrl}/>
+                            </li>
+                        )
+                    })}
+                </ul>
         </div>
     )
 }));
