@@ -507,9 +507,8 @@ const EditShape = props => {
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
     const wrapType = storeShapeSettings.getWrapType(shapeObject);
-
-    let setDisabled = true;
-    props.storeFocusObjects.paragraphObject ? setDisabled = true : setDisabled = false;
+    
+    let disableRemove = !!props.storeFocusObjects.paragraphObject;
 
     return (
         <Fragment>
@@ -542,7 +541,7 @@ const EditShape = props => {
             </List>
             <List>
                 <ListButton title={_t.textRemoveShape} onClick={() => {props.onRemoveShape()}} 
-                className={`button-red button-fill button-raised ${setDisabled ? 'disabled' : ''}`} />
+                className={`button-red button-fill button-raised ${disableRemove ? 'disabled' : ''}`} />
             </List>
         </Fragment>
     )

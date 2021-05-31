@@ -11,7 +11,8 @@ const EditShape = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
     const canFill = shapeObject && shapeObject.get_ShapeProperties().asc_getCanFill();
-    let setDisabled = true;
+
+    let disableRemove = storeFocusObjects.selections.indexOf('text') > -1;
 
     return (
         <Fragment>
@@ -37,7 +38,8 @@ const EditShape = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveShape}>{_t.textRemoveShape}</ListItem>
+                <ListItem href="#" className={`button button-raised button-red 
+                ${disableRemove ? 'disabled' : ''}`} onClick={props.onRemoveShape}>{_t.textRemoveShape}</ListItem>
             </List>
         </Fragment>
     )
