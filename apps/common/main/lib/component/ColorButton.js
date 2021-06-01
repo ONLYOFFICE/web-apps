@@ -58,9 +58,9 @@ define([
 
         template: _.template([
             '<div class="btn-group" id="<%= id %>">',
-                '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>">',
+                '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<span>&nbsp;</span>',
-                    '<span class="inner-box-caret" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<span class="inner-box-caret">',
                         '<i class="caret"></i>',
                     '</span>',
                 '</button>',

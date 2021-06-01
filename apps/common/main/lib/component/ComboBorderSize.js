@@ -77,7 +77,7 @@ define([
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<i class="image"></i>',
                     '<span class="text"></span>',
                 '</div>',

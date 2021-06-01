@@ -158,8 +158,8 @@ define([
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
-                        dataHint: '0',
-                        dataHintDirection: 'right'
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.toolbarControls.push(this.btnCopy);
 
@@ -167,8 +167,8 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        dataHint: '0',
-                        dataHintDirection: 'right'
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnPaste);
 
@@ -519,7 +519,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertTable);
 
@@ -536,7 +537,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertImage);
 
@@ -547,7 +549,8 @@ define([
                         iconCls: 'toolbar__icon btn-insertchart',
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertChart);
 
@@ -558,7 +561,8 @@ define([
                         caption: me.capBtnInsTextbox,
                         enableToggle: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertText);
                     this.btnInsertTextArt = new Common.UI.Button({
@@ -573,7 +577,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertTextArt);
 
@@ -584,7 +589,8 @@ define([
                         caption: me.capBtnInsHeader,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
@@ -608,7 +614,8 @@ define([
                         iconCls: 'toolbar__icon btn-datetime',
                         caption: me.capBtnDateTime,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsDateTime);
 
@@ -618,7 +625,8 @@ define([
                         iconCls: 'toolbar__icon btn-blankpage',
                         caption: me.capBtnBlankPage,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnBlankPage);
 
@@ -630,7 +638,8 @@ define([
                         enableToggle: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'}),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertShape);
 
@@ -642,7 +651,8 @@ define([
                         split: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'}),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertEquation);
 
@@ -652,7 +662,8 @@ define([
                         iconCls: 'toolbar__icon btn-symbol',
                         caption: me.capBtnInsSymbol,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertSymbol);
 
@@ -694,7 +705,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnDropCap);
 
@@ -770,7 +782,10 @@ define([
                                     })
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     // this.paragraphControls.push(this.btnContentControls);
 
@@ -827,7 +842,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnColumns);
 
@@ -858,7 +874,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageOrient);
 
@@ -924,7 +941,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageMargins);
 
@@ -1050,7 +1068,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageSize);
 
@@ -1100,7 +1119,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
 
@@ -1152,7 +1172,8 @@ define([
                         caption: me.capImgAlign,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.btnImgGroup = new Common.UI.Button({
@@ -1161,7 +1182,8 @@ define([
                         caption: me.capImgGroup,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1170,7 +1192,8 @@ define([
                         split: true,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgBackward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1179,7 +1202,8 @@ define([
                         split: true,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgWrapping = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1187,7 +1211,8 @@ define([
                         caption: me.capImgWrapping,
                         menu: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.btnWatermark = new Common.UI.Button({
@@ -1208,7 +1233,8 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.toolbarControls.push(me.btnImgAlign,
@@ -1279,7 +1305,8 @@ define([
                         itemHeight: 38,
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
-                        dataHintDirection: 'middle',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0',
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         beforeOpenHandler: function (e) {
@@ -1527,7 +1554,7 @@ define([
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
-                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true, undefined, '1', 'bottom');
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;

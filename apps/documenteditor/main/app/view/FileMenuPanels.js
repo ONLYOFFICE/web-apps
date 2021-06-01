@@ -210,7 +210,7 @@ define([
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtProofing %></label></td>',
-                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="-6, 0"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
@@ -272,7 +272,7 @@ define([
                 '</tr>','<tr class="divider macros"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="-6, 0"><%= scope.okButtonText %></button></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
@@ -280,7 +280,7 @@ define([
             '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
                 '<td class="left"></td>',
-                '<td class="right"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="-6, 0"><%= scope.okButtonText %></button></td>',
+                '<td class="right"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -385,7 +385,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
 
             /** coauthoring begin **/
@@ -401,7 +401,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -415,7 +415,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
                     me.chAutosave.setValue(1);
@@ -445,7 +445,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
@@ -461,7 +461,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
 
             this.cmbMacros = new Common.UI.ComboBox({
@@ -477,7 +477,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.lblMacrosDesc.text(record.descValue);
             });
@@ -506,7 +506,7 @@ define([
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
 
             $markup.find('.btn.primary').each(function(index, el){
@@ -1022,7 +1022,7 @@ define([
                 '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="-6, 0"><%= scope.okButtonText %></button></td>',
+                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                     '</tr>',
                 '</table>',
             '</div>'
@@ -1071,7 +1071,8 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
                 dataHint: '2',
-                dataHintDirection: 'left-top'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
@@ -1079,7 +1080,8 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
                 dataHint: '2',
-                dataHintDirection: 'left-top'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
@@ -1087,7 +1089,8 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
                 dataHint: '2',
-                dataHintDirection: 'left-top'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1118,7 +1121,8 @@ define([
                 validateOnBlur: false,
                 placeHolder: this.txtAddAuthor,
                 dataHint: '2',
-                dataHintDirection: 'left-top'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 

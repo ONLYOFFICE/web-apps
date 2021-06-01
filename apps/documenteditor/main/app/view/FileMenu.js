@@ -90,7 +90,8 @@ define([
                 caption : this.btnSaveCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             if ( !!this.options.miSave ) {
@@ -104,7 +105,8 @@ define([
                 caption : this.btnToEditCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miDownload = new Common.UI.MenuItem({
@@ -113,7 +115,8 @@ define([
                 caption : this.btnDownloadCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miSaveCopyAs = new Common.UI.MenuItem({
@@ -122,7 +125,8 @@ define([
                 caption : this.btnSaveCopyAsCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miSaveAs = new Common.UI.MenuItem({
@@ -131,7 +135,8 @@ define([
                 caption : this.btnSaveAsCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miPrint = new Common.UI.MenuItem({
@@ -140,7 +145,8 @@ define([
                 caption : this.btnPrintCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miRename = new Common.UI.MenuItem({
@@ -149,7 +155,8 @@ define([
                 caption : this.btnRenameCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             if ( !!this.options.miRename ) {
@@ -163,7 +170,8 @@ define([
                 caption : this.btnProtectCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             if ( !!this.options.miProtect ) {
@@ -177,7 +185,8 @@ define([
                 caption : this.btnRecentFilesCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miNew = new Common.UI.MenuItem({
@@ -186,7 +195,8 @@ define([
                 caption : this.btnCreateNewCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miAccess = new Common.UI.MenuItem({
@@ -195,7 +205,8 @@ define([
                 caption : this.btnRightsCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miHistory = new Common.UI.MenuItem({
@@ -204,7 +215,8 @@ define([
                 caption : this.btnHistoryCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miHelp = new Common.UI.MenuItem({
@@ -213,7 +225,8 @@ define([
                 caption : this.btnHelpCaption,
                 canFocused: false,
                 dataHint: 1,
-                dataHintDirection: 'right'
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.items = [];
@@ -224,7 +237,8 @@ define([
                     caption : this.btnCloseMenuCaption,
                     canFocused: false,
                     dataHint: 1,
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miSave,
                 this.miEdit,
@@ -242,7 +256,8 @@ define([
                     caption : this.btnInfoCaption,
                     canFocused: false,
                     dataHint: 1,
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miAccess,
                 this.miHistory,
@@ -252,7 +267,8 @@ define([
                     caption : this.btnSettingsCaption,
                     canFocused: false,
                     dataHint: 1,
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miHelp,
                 new Common.UI.MenuItem({
@@ -262,7 +278,8 @@ define([
                     caption : this.btnBackCaption,
                     canFocused: false,
                     dataHint: 1,
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 })
             );
 

@@ -161,7 +161,8 @@ define([
                                 value: guid,
                                 hint: model.get('name'),
                                 dataHint: '1',
-                                dataHintDirection: 'bottom'
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'small'
                             });
 
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
@@ -390,7 +391,8 @@ define([
                 value: guid,
                 hint: model.get('name'),
                 dataHint: '1',
-                dataHintDirection: 'bottom'
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
 
             if ( btn.split ) {

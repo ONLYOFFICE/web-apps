@@ -94,8 +94,8 @@ define([
         checked     : false,
         value       : 'unchecked',
 
-        template    : _.template('<label class="checkbox-indeterminate" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
-                                    '<label for="<%= id %>" class="checkbox__shape"></label><span></span></label>'),
+        template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
+                                    '<label for="<%= id %>" class="checkbox__shape" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></label><span></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);

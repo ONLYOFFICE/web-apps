@@ -416,7 +416,9 @@ define([
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
                     split: true,
-                    dataHint: '0'
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -430,7 +432,9 @@ define([
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
                     menu: true,
-                    dataHint: '0'
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.mnuZoom = {options: {value: 100}};

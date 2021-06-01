@@ -161,9 +161,9 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true, undefined, '1', 'bottom' );
-                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true, undefined, '1', 'bottom');
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink, undefined, undefined, undefined, undefined, '1', 'bottom');
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true, undefined, '1', 'bottom', 'small');
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true, undefined, '1', 'bottom', 'small');
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink, undefined, undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
@@ -175,7 +175,8 @@ define([
                     menu: true,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'bottom'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnContentsUpdate);
 
@@ -186,7 +187,8 @@ define([
                     caption: this.capBtnBookmarks,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'bottom'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnBookmarks);
 
@@ -197,7 +199,8 @@ define([
                     caption: this.capBtnCaption,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'bottom'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnCaption);
 
@@ -208,7 +211,8 @@ define([
                     caption: this.capBtnCrossRef,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'bottom'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnCrossRef);
 
@@ -219,7 +223,8 @@ define([
                     caption: this.capBtnTOF,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFigures);
 
@@ -230,7 +235,8 @@ define([
                     caption: this.capBtnContentsUpdate,
                     disabled: true,
                     dataHint: '1',
-                    dataHintDirection: 'right'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
 

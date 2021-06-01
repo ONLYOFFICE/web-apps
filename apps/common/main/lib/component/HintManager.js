@@ -147,47 +147,51 @@ Common.UI.HintManager = new(function() {
             if (!item.hasClass('disabled')) {
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
-                var offsets = item.attr('data-hint-offset') ? item.attr('data-hint-offset').split(',').map((item) => (parseInt(item))) : [0, 0];
+                var offsets = item.attr('data-hint-offset');
+                var applyOffset = offsets === 'big' ? 6 : (offsets === 'medium' ? 4 : (offsets === 'small' ? 2 : 0));
+                if (applyOffset) {
+                    switch (direction) {
+                        case 'bottom':
+                            offsets = [-applyOffset, 0];
+                            break;
+                        case 'top':
+                            offsets = [applyOffset, 0];
+                            break;
+                        case 'right':
+                            offsets = [0, -applyOffset];
+                            break;
+                        case 'left':
+                            offsets = [0, applyOffset];
+                            break;
+                    }
+                } else {
+                    offsets = offsets ? item.attr('data-hint-offset').split(',').map((item) => (parseInt(item))) : [0, 0];
+                }
                 var offset = item.offset();
-                if (direction === 'middle')
+                if (direction === 'left-top')
                     hint.css({
-                        top: offset.top + item.outerHeight() / 2 + 6 + offsets[0],
-                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
+                        top: offset.top - 10 + offsets[0],
+                        left: offset.left - 10 + offsets[1]
                     });
                 else if (direction === 'top')
                     hint.css({
-                        top: offset.top - 16 + offsets[0],
-                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
-                    });
-                else if (direction === 'left-top')
-                    hint.css({
-                        top: offset.top - 10 + offsets[0],
-                        left: offset.left - 14 + offsets[1]
-                    });
-                else if (direction === 'right-top')
-                    hint.css({
-                        top: offset.top - 16 + offsets[0],
-                        left: offset.left + item.outerWidth() - 4 + offsets[1]
+                        top: offset.top - 18 + offsets[0],
+                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
                     });
                 else if (direction === 'right')
                     hint.css({
-                        top: offset.top + (item.outerHeight() - 20) / 2 + offsets[0],
-                        left: offset.left + item.outerWidth() - 4 + offsets[1]
+                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
+                        left: offset.left + item.outerWidth() + offsets[1]
                     });
                 else if (direction === 'left')
                     hint.css({
-                        top: offset.top + (item.outerHeight() - 20) / 2 + offsets[0],
+                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
                         left: offset.left - 18 + offsets[1]
-                    });
-                else if (direction === 'left-bottom')
-                    hint.css({
-                        top: offset.top + item.outerHeight() - 3 + offsets[0],
-                        left: offset.left - 16 + offsets[1]
                     });
                 else
                     hint.css({
                         top: offset.top + item.outerHeight() + offsets[0],
-                        left: offset.left + (item.outerWidth() - 20) / 2 + offsets[1]
+                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
                     });
                 $(document.body).append(hint);
 

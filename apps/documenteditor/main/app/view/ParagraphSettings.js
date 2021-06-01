@@ -120,7 +120,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.cmbLineRule.setValue('');
             this.lockedControls.push(this.cmbLineRule);
@@ -136,7 +136,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -153,7 +153,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -171,7 +171,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
@@ -182,7 +182,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'left',
-                dataHintOffset: '-8, 0'
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chAddInterval);
 
@@ -193,7 +193,7 @@ define([
                 menu: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-4, 0'
+                dataHintOffset: 'medium'
             });
             this.lockedControls.push(this.btnColor);
 
@@ -209,7 +209,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numIndentsLeft);
             this.lockedControls.push(this.numIndentsLeft);
@@ -226,7 +226,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
@@ -241,7 +241,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.cmbSpecial.setValue('');
             this.lockedControls.push(this.cmbSpecial);
@@ -258,7 +258,7 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-6, 0'
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpecialBy);
             this.lockedControls.push(this.numSpecialBy);

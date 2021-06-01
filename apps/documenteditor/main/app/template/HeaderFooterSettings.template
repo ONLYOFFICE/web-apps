@@ -71,7 +71,7 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <button type="button" class="btn btn-text-default" id="headerfooter-button-current" style="width:100%;"><%= scope.textInsertCurrent %></button>
+            <button type="button" class="btn btn-text-default" id="headerfooter-button-current" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textInsertCurrent %></button>
         </td>
     </tr>
     <tr>

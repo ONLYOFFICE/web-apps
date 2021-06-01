@@ -231,7 +231,7 @@ define([
                         disabled: this._state.invisibleSignDisabled,
                         dataHint: '2',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-6, 0'
+                        dataHintOffset: 'medium'
                     });
                     this.btnsInvisibleSignature.push(button);
                     if (this._isSetEvents) {
@@ -249,7 +249,7 @@ define([
                         visible: !this._state.hasPassword,
                         dataHint: '2',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-6, 0'
+                        dataHintOffset: 'medium'
                     });
                     this.btnsAddPwd.push(button);
                     if (this._isSetEvents) {
@@ -267,7 +267,7 @@ define([
                         visible: this._state.hasPassword,
                         dataHint: '2',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-6, 0'
+                        dataHintOffset: 'medium'
                     });
                     this.btnsDelPwd.push(button);
                     if (this._isSetEvents) {
@@ -285,7 +285,7 @@ define([
                         visible: this._state.hasPassword,
                         dataHint: '2',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-6, 0'
+                        dataHintOffset: 'medium'
                     });
                     this.btnsChangePwd.push(button);
                     if (this._isSetEvents) {

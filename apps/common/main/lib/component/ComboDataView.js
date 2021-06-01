@@ -62,7 +62,8 @@ define([
             showLast: true,
             minWidth: -1,
             dataHint: '',
-            dataHintDirection: ''
+            dataHintDirection: '',
+            dataHintOffset: ''
         },
 
         template: _.template([
@@ -114,7 +115,8 @@ define([
                     ]
                 }),
                 dataHint: this.options.dataHint,
-                dataHintDirection: this.options.dataHintDirection
+                dataHintDirection: this.options.dataHintDirection,
+                dataHintOffset: this.options.dataHintOffset
             });
 
             if  (this.options.additionalMenuItems != null) {
