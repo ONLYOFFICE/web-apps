@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, Tab, Tabs, ListInput, ListButton} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, ListItemCell, Range, Button, Segmented, Tab, Tabs, ListInput, ListButton, NavRight} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -8,11 +8,14 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditImage = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const imageObject = storeFocusObjects.imageObject;
+    const pluginGuid = imageObject.asc_getPluginGuid();
 
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textReplace} link="/edit-replace-image/" routeProps={{
+                <ListItem title={_t.textReplace} link="/edit-replace-image/" className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
@@ -24,8 +27,8 @@ const EditImage = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDefaultSize}>{_t.textActualSize}</ListItem>
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onDefaultSize}>{_t.textActualSize}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListButton>
             </List>
         </Fragment>
     )
@@ -43,7 +46,15 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>
@@ -74,7 +85,15 @@ const PageAlign = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAlign} backLink={_t.textBack} />
+            <Navbar title={_t.textAlign} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textAlignLeft} link='#' onClick={() => {props.onAlign('align-left')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-align-left"></Icon>
@@ -119,7 +138,15 @@ const PageReplace = props => {
 
     return (
         <Page className="images">
-            <Navbar title={_t.textReplace} backLink={_t.textBack} />
+            <Navbar title={_t.textReplace} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
                     <Icon slot="media" icon="icon-link"></Icon>
@@ -152,7 +179,15 @@ const PageLinkSettings = props => {
     };
     return (
         <Page>
-            <Navbar title={_t.textLinkSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textLinkSettings} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <BlockTitle>{_t.textAddress}</BlockTitle>
             <List>
                 <ListInput

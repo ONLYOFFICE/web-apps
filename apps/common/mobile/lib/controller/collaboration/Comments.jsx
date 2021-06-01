@@ -558,10 +558,20 @@ class ViewCommentsController extends Component {
                 break;
         }
     }
+
+    showComment (comment) {
+        const api = Common.EditorApi.get();
+
+        api.asc_selectComment(comment.uid);      
+        api.asc_showComment(comment.uid, false);
+    }
+
+
     render() {
         return(
             <Fragment>
-                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} />}
+                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
+                    showComment={this.showComment} />}
                 {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
                                                                           closeCurComments={this.closeViewCurComments}
                                                                           onCommentMenuClick={this.onCommentMenuClick}

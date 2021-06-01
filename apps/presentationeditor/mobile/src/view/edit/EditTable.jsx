@@ -1,51 +1,36 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyleClick, storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
-
-    const widthContainer = document.querySelector(".page-content").clientWidth;
-    const columns = parseInt((widthContainer - 47) / 70); // magic
-    const styles = [];
-    let row = -1;
-    templates.forEach((style, index) => {
-        if (0 == index % columns) {
-            styles.push([]);
-            row++
-        }
-        styles[row].push(style);
-    });
+    const styles =  storeTableSettings.styles;
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
-
+            
     return (
         <div className="dataview table-styles">
-            {styles.map((row, rowIndex) => {
-                return (
-                    <div className="row" key={`row-${rowIndex}`}>
-                        {row.map((style, index)=>{
-                            return(
-                                <div key={`${rowIndex}-${index}`}
-                                    className={style.templateId === stateId ? 'active' : ''}
-                                    onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
-                                    <img src={style.imageUrl} />
-                                </div>
-                            )
-                        })}
-                    </div>
-                )
-            })}
+            <ul className="row">
+                    {styles.map((style, index) => {
+                        return (
+                            <li key={index}
+                                className={style.templateId === stateId ? 'active' : ''}
+                                onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
+                                <img src={style.imageUrl}/>
+                            </li>
+                        )
+                    })}
+                </ul>
         </div>
     )
 }));
@@ -68,7 +53,15 @@ const PageStyleOptions = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textOptions} backLink={_t.textBack}/>
+            <Navbar title={_t.textOptions} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textHeaderRow}>
                     <Toggle checked={isFirstRow} onChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
@@ -113,7 +106,15 @@ const PageCustomFillColor = props => {
 
     return(
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -169,7 +170,15 @@ const PageCustomBorderColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
@@ -198,7 +207,15 @@ const PageBorderColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textColor} backLink={_t.textBack} />
+            <Navbar title={_t.textColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-table-custom-border-color/'}></ListItem>
@@ -305,6 +322,13 @@ const PageStyle = props => {
                     <Link key={"pe-link-table-fill"}  tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
                     <Link key={"pe-link-table-border"}  tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
                 </div>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             <Tabs animated>
                 <Tab key={"pe-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
@@ -342,7 +366,15 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack} />
+            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-move-foreground"></Icon>
@@ -373,7 +405,15 @@ const PageAlign = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textAlign} backLink={_t.textBack} />
+            <Navbar title={_t.textAlign} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textAlignLeft} link='#' onClick={() => {props.onAlign('align-left')}} className='no-indicator'>
                     <Icon slot="media" icon="icon-align-left"></Icon>
@@ -446,7 +486,7 @@ const EditTable = props => {
                     </Row>
                 </ListItem>
                 <List className="buttons-list">
-                    <ListItem href="#" title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button button-raised button-red'></ListItem>
+                    <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>
                 </List>
             </List>
             <List>

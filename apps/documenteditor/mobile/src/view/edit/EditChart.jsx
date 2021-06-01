@@ -446,7 +446,7 @@ const EditChart = props => {
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton title={_t.textRemoveChart} onClick={() => {props.onRemoveChart()}} className='button-red button-fill button-raised'/>
             </List>
         </Fragment>

@@ -199,14 +199,18 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             Common.Gateway.reportWarning(id, config.msg);
 
             config.title    = _t.notcriticalErrorTitle;
+        
             config.callback = (btn) => {
                 if (id === Asc.c_oAscError.ID.Warning && btn === 'ok' && (storeAppOptions.canDownload || storeAppOptions.canDownloadOrigin)) {
                     api.asc_DownloadOrigin();
+                } else if(id === Asc.c_oAscError.ID.SplitCellMaxRows ||
+                                 Asc.c_oAscError.ID.SplitCellMaxCols ||
+                                 Asc.c_oAscError.ID.SplitCellRowsDivider && btn === 'ok' && (storeAppOptions.canDownload || storeAppOptions.canDownloadOrigin)) {
+                        Common.Notifications.trigger('showSplitModal',true);
                 }
                 storeAppOptions.changeEditingRights(false);
             };
         }
-
         f7.dialog.create({
             cssClass: 'error-dialog',
             title   : config.title,

@@ -141,7 +141,7 @@ const PageFootnote = props => {
                     )
                 })}
             </List>
-            <List>
+            <List className="buttons-list">
                 <ListButton className={'button-fill button-raised'} title={_t.textInsertFootnote} onClick={() => {
                     props.onInsertFootnote(stateFormat, stateStartAt, stateLocation);
                 }}></ListButton>

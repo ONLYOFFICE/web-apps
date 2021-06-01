@@ -626,7 +626,7 @@ const pickLink = (message) => {
 }
 
 // View comments
-const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
+const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -657,7 +657,8 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                 <List className='comment-list'>
                     {sortComments.map((comment, indexComment) => {
                         return (
-                            <ListItem key={`comment-${indexComment}`}>
+                            <ListItem key={`comment-${indexComment}`} onClick={e => {
+                                    !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
                                     <div className='left'>
                                         {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}

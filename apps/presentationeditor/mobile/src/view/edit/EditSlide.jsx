@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, ListButton} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -32,8 +32,8 @@ const EditSlide = props => {
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListItem>
-                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListButton>
             </List>
         </Fragment>
     )
@@ -48,17 +48,16 @@ const PageTheme = props => {
     const defaultThemes = arrayThemes[0];
     const docThemes = arrayThemes[1];
 
-    console.log(arrayThemes);
-   
-    // console.log(slideThemeIndex);
-    // console.log(arrayThemes);
-  
     return (
         <Page className="slide-theme">
             <Navbar title={_t.textTheme} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             {arrayThemes.length ? (
                 <List className="slide-theme__list">
@@ -99,15 +98,16 @@ const PageLayout = props => {
     const arrayLayouts = storeSlideSettings.arrayLayouts;
     const slideLayoutIndex = storeSlideSettings.slideLayoutIndex;
    
-    // console.log(slideLayoutIndex);
-    // console.log(arrayLayouts);
-   
     return (
         <Page className="slide-layout">
             <Navbar title={_t.textLayout} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             {arrayLayouts.length ? (
                 <List className="slide-layout__list">
@@ -234,9 +234,13 @@ const PageTransition = props => {
     return (
         <Page className="slide-transition">
             <Navbar title={_t.textTransition} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             <List>
                 <ListItem link="/effect/" title={_t.textEffect} after={nameEffect} routeProps={{
@@ -322,7 +326,15 @@ const PageEffect = props => {
 
     return (
         <Page className="style-effect">
-            <Navbar title={_t.textEffect} backLink={_t.textBack} />
+            <Navbar title={_t.textEffect} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             {_arrEffect.length ? (
                 <List mediaList>
                     {_arrEffect.map((elem, index) => {
@@ -354,9 +366,13 @@ const PageType= props => {
     return (
         <Page className="style-type">
             <Navbar title={_t.textType} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             {_arrCurrentEffectTypes.length ? (
                 <List mediaList>
@@ -406,9 +422,13 @@ const PageFillColor = props => {
     return (
         <Page>
             <Navbar title={_t.textFill} backLink={_t.textBack}>
-                <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
-                </NavRight>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
             </Navbar>
             <ThemeColorPalette changeColor={changeColor} curColor={fillColor} customColors={customColors} transparent={true} />
             <List>
@@ -439,7 +459,15 @@ const PageCustomFillColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
             <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
