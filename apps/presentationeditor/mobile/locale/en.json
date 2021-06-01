@@ -132,7 +132,10 @@
   "ContextMenu": {
     "menuViewComment": "View Comment",
     "menuAddComment": "Add Comment",
+    "menuMerge": "Merge",
+    "menuSplit": "Split",
     "menuDelete": "Delete",
+    "menuDeleteTable": "Delete Table",
     "menuEdit": "Edit",
     "menuAddLink": "Add Link",
     "menuOpenLink": "Open Link",
@@ -140,7 +143,9 @@
     "menuCancel": "Cancel",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
-    "textDoNotShowAgain": "Don't show again"
+    "textDoNotShowAgain": "Don't show again",
+    "textColumns": "Columns",
+    "textRows": "Rows"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "You leave the application",
