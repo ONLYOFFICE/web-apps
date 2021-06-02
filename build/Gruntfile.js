@@ -145,12 +145,22 @@ module.exports = function(grunt) {
 
             if (_.isObject(target) && _.isObject(source)) {
                 for (const key in source) {
-                    if (_.isObject(source[key])) {
-                        if (!target[key]) Object.assign(target, { [key]: {} });
-                        else if (_.isArray(source[key])) target[key].push(...source[key]);
-                        else _merge(target[key], source[key]);
+                    let targetkey = key;
+
+                    if ( key[0] == '!' ) {
+                        targetkey = key.substring(1);
+
+                        if ( _.isArray(target[targetkey]) || _.isObject(target[targetkey]) )
+                            target[targetkey] = undefined;
+                    }
+
+                    if (_.isObject(source[key]) && target[targetkey]) {
+                        // if (!target[targetkey]) Object.assign(target, { [targetkey]: {} });
+                        // else
+                        if (_.isArray(source[key])) target[targetkey].push(...source[key]);
+                        else _merge(target[targetkey], source[key]);
                     } else {
-                        Object.assign(target, { [key]: source[key] });
+                        Object.assign(target, { [targetkey]: source[key] });
                     }
                 }
             }
