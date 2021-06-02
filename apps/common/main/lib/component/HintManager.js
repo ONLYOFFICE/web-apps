@@ -248,7 +248,8 @@ Common.UI.HintManager = new(function() {
                         }
                     }
                     if (curr) {
-                        if (curr.prop("tagName").toLowerCase() === 'input') {
+                        var tag = curr.prop("tagName").toLowerCase();
+                        if (tag === 'input' || tag === 'textarea') {
                             curr.trigger(jQuery.Event('click', {which: 1}));
                             curr.focus();
                             _hideHints();
