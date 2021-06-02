@@ -478,6 +478,7 @@ class ViewCommentsController extends Component {
     }
     deleteComment (comment) {
         const api = Common.EditorApi.get();
+        Device.phone ? f7.sheet.close('#view-comment-sheet') : f7.popover.close('#view-comment-popover');
         comment && api.asc_removeComment(comment.uid);
     }
     deleteReply (comment, reply) {
