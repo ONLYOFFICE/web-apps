@@ -14,6 +14,7 @@ export class storeTextSettings {
             listType: observable,
             typeBullets: observable,
             typeNumbers: observable,
+            typeMultiLevel: observable,
             paragraphAlign: observable,
             textColor: observable,
             customTextColors: observable,
@@ -32,6 +33,7 @@ export class storeTextSettings {
             resetListType: action,
             resetBullets: action,
             resetNumbers: action,
+            resetMultiLevel: action,
             resetParagraphAlign: action,
             resetTextColor: action,
             changeCustomTextColors: action,
@@ -52,6 +54,7 @@ export class storeTextSettings {
     listType = undefined;
     typeBullets = undefined;
     typeNumbers = undefined;
+    typeMultiLevel = undefined;
     paragraphAlign = undefined;
     textColor = undefined;
     customTextColors = [];
@@ -113,6 +116,10 @@ export class storeTextSettings {
     }
     resetNumbers (type) {
         this.typeNumbers = type;
+    }
+
+    resetMultiLevel(type) {
+        this.typeMultiLevel = type;
     }
 
     resetParagraphAlign (align) {

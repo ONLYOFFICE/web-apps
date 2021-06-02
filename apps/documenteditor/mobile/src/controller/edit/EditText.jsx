@@ -183,6 +183,11 @@ class EditTextController extends Component {
         }
     }
 
+    onMultiLevelList(type) {
+        const api = Common.EditorApi.get();
+        if (api) api.put_ListType(2, parseInt(type));
+    }
+
     onLineSpacing(value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -210,6 +215,7 @@ class EditTextController extends Component {
                       onParagraphMove={this.onParagraphMove}
                       onBullet={this.onBullet}
                       onNumber={this.onNumber}
+                      onMultiLevelList={this.onMultiLevelList}
                       onLineSpacing={this.onLineSpacing}
             />
         )

@@ -14,7 +14,7 @@ import EditChartController from "../../controller/edit/EditChart";
 import EditHyperlinkController from "../../controller/edit/EditHyperlink";
 import EditHeaderController from "../../controller/edit/EditHeader";
 
-import {PageTextFonts, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
+import {PageTextFonts, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
@@ -38,6 +38,10 @@ const routes = [
     {
         path: '/edit-text-numbers/',
         component: PageTextNumbers,
+    },
+    {
+        path: '/edit-bullets-and-numbers/',
+        component: PageTextBulletsAndNumbers,
     },
     {
         path: '/edit-text-line-spacing/',

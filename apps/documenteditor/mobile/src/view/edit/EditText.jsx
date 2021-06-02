@@ -1,6 +1,6 @@
 import React, {Fragment, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
+import {f7, Swiper, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
@@ -154,19 +154,10 @@ const PageBullets = props => {
         ]
     ];
     const storeTextSettings = props.storeTextSettings;
-    const typeBullets = storeTextSettings.typeBullets;
+    const typeBullets = props.typeBullets;
     
     return(
-        <Page className='bullets dataview'>
-            <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')}>
-                {Device.phone &&
-                    <NavRight>
-                        <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
-                        </Link>
-                    </NavRight>
-                }
-            </Navbar>
+        <div className='bullets dataview'>
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
@@ -187,7 +178,7 @@ const PageBullets = props => {
                         ))}
                     </ul>
             ))}
-        </Page>
+        </div>
     )
 };
 
@@ -207,19 +198,12 @@ const PageNumbers = props => {
             {type: 7, thumb: 'number-07.png'}
         ]
     ];
+
     const storeTextSettings = props.storeTextSettings;
-    const typeNumbers = storeTextSettings.typeNumbers;
+    const typeNumbers = props.typeNumbers;
+    
     return(
-        <Page className='numbers dataview'>
-            <Navbar title={t('Edit.textNumbers')} backLink={t('Edit.textBack')}>
-                {Device.phone &&
-                    <NavRight>
-                        <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
-                        </Link>
-                    </NavRight>
-                }
-            </Navbar>
+        <div className='numbers dataview'>
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
@@ -240,9 +224,77 @@ const PageNumbers = props => {
                     ))}
                 </ul>
             ))}
-        </Page>
+        </div>
     )
 };
+
+const PageMultiLevel = props => {
+    const { t } = useTranslation();
+    
+    const arrayMultiLevel = [
+        {type: -1, thumb: ''},
+        {type: 1, thumb: 'multi-bracket.png'},
+        {type: 2, thumb: 'multi-dot.png'},
+        {type: 3, thumb: 'multi-bullets.png'},
+    ];
+
+    const storeTextSettings = props.storeTextSettings;
+    const typeMultiLevel = props.typeMultiLevel;
+
+    console.log(typeMultiLevel)
+
+    return(
+        <div className='multilevels dataview'>
+                <ul className="row" style={{listStyle: 'none'}}>
+                    {arrayMultiLevel.map((item) => (
+                        <li key={'multi-level-' + item.type} data-type={item.type}  className={item.type === typeMultiLevel ? 'active' : ''}
+                        onClick={() => {
+                            if (item.type === -1) {
+                                storeTextSettings.resetMultiLevel(-1);
+                            }
+                            props.onMultiLevelList(item.type);
+                            }}>
+                            {item.thumb.length < 1 ?
+                                <div className="thumb" style={{position: 'relative'}}>
+                                    <label>{t('Edit.textNone')}</label>
+                                </div> :
+                                <div className="thumb" style={{backgroundImage: `url('resources/img/multilevels/${item.thumb}')`}}></div>
+                            }
+                        </li>
+                    ))}
+                </ul>
+        </div>
+    )
+        
+}
+
+const PageBulletsAndNumbers = props => {
+    const { t } = useTranslation();
+
+    const storeTextSettings = props.storeTextSettings;
+    const typeNumbers = storeTextSettings.typeNumbers;
+    const typeBullets = storeTextSettings.typeBullets;
+    const typeMultiLevel = storeTextSettings.typeMultiLevel;
+    
+    return (
+        <Page>
+            <Navbar title={t('Edit.textBulletsAndNumbers')} backLink={t('Edit.textBack')}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <Swiper pagination spaceBetween={20}>
+                <SwiperSlide> <PageNumbers storeTextSettings={storeTextSettings} typeNumbers={typeNumbers} onNumber={props.onNumber}/></SwiperSlide> 
+                <SwiperSlide> <PageBullets storeTextSettings={storeTextSettings} typeBullets={typeBullets}  onBullet={props.onBullet}/></SwiperSlide>
+                <SwiperSlide> <PageMultiLevel storeTextSettings={storeTextSettings} typeMultiLevel={typeMultiLevel} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+            </Swiper>
+        </Page>
+    )
+}
 
 const PageLineSpacing = props => {
     const { t } = useTranslation();
@@ -501,15 +553,12 @@ const EditText = props => {
                         </a>
                     </Row>
                 </ListItem>
-                <ListItem title={t("Edit.textBullets")} link='/edit-text-bullets/' routeProps={{
-                    onBullet: props.onBullet
+                <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
+                    onBullet: props.onBullet,
+                    onNumber: props.onNumber,
+                    onMultiLevelList: props.onMultiLevelList
                 }}>
                     {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
-                </ListItem>
-                <ListItem title={t("Edit.textNumbers")} link='/edit-text-numbers/' routeProps={{
-                    onNumber: props.onNumber
-                }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-numbers"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
                     onLineSpacing: props.onLineSpacing
@@ -526,6 +575,7 @@ const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 const PageTextBullets = inject("storeTextSettings")(observer(PageBullets));
 const PageTextNumbers = inject("storeTextSettings")(observer(PageNumbers));
+const PageTextBulletsAndNumbers = inject("storeTextSettings")(observer(PageBulletsAndNumbers));
 const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
@@ -539,6 +589,7 @@ export {
     PageTextAddFormatting,
     PageTextBullets,
     PageTextNumbers,
+    PageTextBulletsAndNumbers,
     PageTextLineSpacing,
     PageTextFontColor,
     PageTextCustomFontColor,
