@@ -122,16 +122,16 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
         });
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
-        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+        // Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
         const buttons = [{
             text: 'OK',
             bold: true,
             onClick: function () {
                 const password = document.getElementById('modal-password').value;
                 api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-                if (!isDocReady) {
-                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
-                }
+                // if (!isDocReady) {
+                //     Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                // }
             }
         }];
         if (canRequestClose)
@@ -143,9 +143,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
             });
         f7.dialog.create({
             title: _t.advDRMOptions,
-            text: _t.txtProtected,
-            content:
-                '<div class="input-field"><input type="password" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>',
+            text: _t.textOpenFile,
+            content: Device.ios ?
+            '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
             buttons: buttons,
             cssClass: 'dlg-adv-options'
         }).open();

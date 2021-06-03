@@ -14,6 +14,7 @@ import LongActionsController from "./LongActions";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(
     "storeFocusObjects",
@@ -585,7 +586,7 @@ class MainController extends Component {
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
-            Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+            // Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
 
             const buttons = [{
                 text: 'OK',
@@ -595,9 +596,9 @@ class MainController extends Component {
                     const password = document.getElementById('modal-password').value;
                     this.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
-                    if (!this._isDocReady) {
-                        Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
-                    }
+                    // if (!this._isDocReady) {
+                    //     Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                    // }
                 }
             }];
             if (this.props.storeAppOptions.canRequestClose)
@@ -610,11 +611,9 @@ class MainController extends Component {
 
             f7.dialog.create({
                 title: _t.advDRMOptions,
-                text: (typeof advOptions === 'string' ? advOptions : _t.txtProtected),
-                content:
-                    `<div class="input-field">
-                        <input type="password" name="modal-password" placeholder="${ _t.advDRMPassword }" class="modal-text-input">
-                    </div>`,
+                text: _t.textOpenFile,
+                content: Device.ios ?
+                '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
                 buttons: buttons,
                 cssClass: 'dlg-adv-options'
             }).open();

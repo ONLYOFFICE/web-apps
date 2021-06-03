@@ -318,7 +318,7 @@ class MainController extends Component {
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
-            const _t = t("Settings", { returnObjects: true });
+            const _t = t("View.Settings", { returnObjects: true });
             onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
         });
 

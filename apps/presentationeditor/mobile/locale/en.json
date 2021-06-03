@@ -27,7 +27,8 @@
       "closeButtonText": "Close File",
       "advDRMOptions": "Protected File",
       "advDRMPassword": "Password",
-
+      "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "textOpenFile": "Enter a password to open the file",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
