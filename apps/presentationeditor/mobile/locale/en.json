@@ -27,7 +27,8 @@
       "closeButtonText": "Close File",
       "advDRMOptions": "Protected File",
       "advDRMPassword": "Password",
-
+      "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "textOpenFile": "Enter a password to open the file",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
@@ -132,7 +133,10 @@
   "ContextMenu": {
     "menuViewComment": "View Comment",
     "menuAddComment": "Add Comment",
+    "menuMerge": "Merge",
+    "menuSplit": "Split",
     "menuDelete": "Delete",
+    "menuDeleteTable": "Delete Table",
     "menuEdit": "Edit",
     "menuAddLink": "Add Link",
     "menuOpenLink": "Open Link",
@@ -140,7 +144,9 @@
     "menuCancel": "Cancel",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
-    "textDoNotShowAgain": "Don't show again"
+    "textDoNotShowAgain": "Don't show again",
+    "textColumns": "Columns",
+    "textRows": "Rows"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "You leave the application",

@@ -458,6 +458,7 @@
             "advDRMPassword": "Password",
             "closeButtonText": "Close File",
             "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+            "textOpenFile": "Enter a password to open the file",
             "textCancel": "Cancel",
             "textUnitOfMeasurement": "Unit Of Measurement",
             "textCentimeter": "Centimeter",

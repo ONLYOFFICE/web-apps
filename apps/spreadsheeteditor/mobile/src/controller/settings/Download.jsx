@@ -121,6 +121,7 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
         });
 
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+        Common.Notifications.trigger('preloader:close');
         //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
         const buttons = [{
             text: 'OK',
@@ -144,9 +145,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
 
         f7.dialog.create({
             title: _t.advDRMOptions,
-            text: _t.txtProtected,
-            content:
-                '<div class="input-field"><input type="password" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>',
+            text: _t.textOpenFile,
+            content: Device.ios ?
+                '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
             buttons: buttons
         }).open();
     }

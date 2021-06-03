@@ -477,4 +477,39 @@
             margin-left: 0;
         }
     }
+
+    input.modal-text-input {
+        box-sizing: border-box;
+        height: 36px;
+        background: #fff;
+        margin: 0;
+        margin-top: 15px;
+        padding: 0;
+        border: none;
+        width: 100%;
+        font-size: 16px;
+        font-family: inherit;
+        display: block;
+        box-shadow: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        -webkit-transition-duration: .2s;
+        transition-duration: .2s;
+    }
+
+    .input-field {
+        .inputs-list {
+            margin: 15px 0 0;
+            ul {
+                &::before, &::after {
+                    display: none;
+                }
+            }
+            .item-input, .item-inner {
+                padding: 0;
+            }
+        }
+    }
 }
