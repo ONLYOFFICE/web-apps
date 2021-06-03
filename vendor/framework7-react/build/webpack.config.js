@@ -53,7 +53,6 @@ module.exports = {
   devtool: env === 'production' ? false : 'source-map',
   optimization: {
     minimizer: [new TerserPlugin({
-      sourceMap: true,
     })],
     moduleIds: 'named',
   },
