@@ -241,17 +241,13 @@ const PageMultiLevel = props => {
     const storeTextSettings = props.storeTextSettings;
     const typeMultiLevel = props.typeMultiLevel;
 
-    console.log(typeMultiLevel)
-
     return(
         <div className='multilevels dataview'>
                 <ul className="row" style={{listStyle: 'none'}}>
                     {arrayMultiLevel.map((item) => (
-                        <li key={'multi-level-' + item.type} data-type={item.type}  className={item.type === typeMultiLevel ? 'active' : ''}
-                        onClick={() => {
-                            if (item.type === -1) {
-                                storeTextSettings.resetMultiLevel(-1);
-                            }
+                        <li key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
+                        onClick={(e) => {
+                            item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
                             props.onMultiLevelList(item.type);
                             }}>
                             {item.thumb.length < 1 ?
@@ -558,6 +554,7 @@ const EditText = props => {
                     onNumber: props.onNumber,
                     onMultiLevelList: props.onMultiLevelList
                 }}>
+                    <div>{storeTextSettings.listType === 1 ? 'Numbers' : ' Bullets'}</div>
                     {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
