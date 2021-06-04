@@ -68,14 +68,15 @@ Common.UI.HintManager = new(function() {
         if ($('#file-menu-panel').is(':visible')) {
             _currentSection = $('#file-menu-panel');
         } else {
-            _currentSection = btn.closest('.hint-section') || document;
+            _currentSection = (btn && btn.closest('.hint-section')) || document;
         }
     };
 
     var _showHints = function () {
         _inputLetters = '';
-        if (_currentHints.length === 0)
+        if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible') && _currentLevel === 1)) {
             _getHints();
+        }
         if (_currentHints.length > 0) {
             _hintVisible = true;
             _currentHints.forEach(function(item) {
@@ -120,7 +121,6 @@ Common.UI.HintManager = new(function() {
             _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
         }*/
         _controls[_currentLevel] = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
-        console.log(_controls[_currentLevel]);
         _currentControls = [];
         var arr = _controls[_currentLevel];
         var visibleItems = arr.filter(function (item) {
@@ -206,6 +206,13 @@ Common.UI.HintManager = new(function() {
         });
     };
 
+    var _resetToDefault = function() {
+        _currentLevel = $('.toolbar-fullview-panel').is(':visible') ? 1 : 0;
+        _setCurrentSection();
+        _currentHints.length = 0;
+        _currentControls.length = 0;
+    };
+
     var _init = function() {
         Common.NotificationCenter.on('app:ready', function (mode) {
             _lang = mode.lang;
@@ -215,14 +222,10 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
-                    if ($('.toolbar-fullview-panel').is(':visible') && _currentLevel === 0) {
-                        _nextLevel();
-                    } else {
-                        _currentLevel = 0;
-                    }
                     _showHints();
                 } else {
                     _hideHints();
+                    _resetToDefault();
                 }
             }
             _isAlt = false;
@@ -254,10 +257,21 @@ Common.UI.HintManager = new(function() {
                             curr.focus();
                             _hideHints();
                         } else {
-                            curr.trigger(jQuery.Event('click', {which: 1}));
-                            _nextLevel();
+                            if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
+                                curr.trigger(jQuery.Event('click', {which: 1}));
+                            }
+                            if (curr.prop('id') === 'add-comment-doc') {
+                                _removeHints();
+                                _currentHints.length = 0;
+                                _currentControls.length = 0;
+                            } else {
+                                _nextLevel();
+                            }
                             _setCurrentSection(curr);
                             _showHints();
+                        }
+                        if (!_hintVisible) { // if there isn't new level, reset settings to start
+                            _resetToDefault();
                         }
                     }
                 }
