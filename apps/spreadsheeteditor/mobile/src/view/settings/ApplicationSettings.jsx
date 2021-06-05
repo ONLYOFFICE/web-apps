@@ -26,10 +26,6 @@ const PageApplicationSettings = props => {
         props.unitMeasurementChange(value);
     };
 
-    console.log(isComments);
-    console.log(props.storeAppOptions.canViewComments);
-
-
     // set mode
     // const appOptions = props.storeAppOptions;
     // const _isEdit = appOptions.isEdit;
