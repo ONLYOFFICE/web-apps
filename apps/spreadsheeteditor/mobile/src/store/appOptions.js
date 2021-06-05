@@ -19,7 +19,11 @@ export class storeAppOptions {
 
     isEdit = false;
     config = {};
+    
     canViewComments = false;
+    changeCanViewComments(value) {
+        this.canViewComments = value;
+    }
 
     lostEditingRights = false;
     changeEditingRights (value) {

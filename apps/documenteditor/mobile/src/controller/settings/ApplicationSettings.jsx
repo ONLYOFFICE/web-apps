@@ -1,11 +1,32 @@
 import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import {observer, inject} from "mobx-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.switchDisplayComments = this.switchDisplayComments.bind(this);
+
+        const valueViewComments = LocalStorage.getBool("de-mobile-settings-livecomment");
+        const valueResolvedComments = LocalStorage.getBool("de-settings-resolvedcomment");
+        const valueUnitMeasurement = LocalStorage.getItem("de-mobile-settings-unit");
+        const valueSpellCheck = LocalStorage.getBool("de-mobile-spellcheck");
+        const valueNoCharacters = LocalStorage.getBool("de-mobile-no-characters");
+        const valueHiddenBorders = LocalStorage.getBool("de-mobile-hidden-borders");
+        const valueMacrosMode = LocalStorage.getItem("de-mobile-macros-mode");
+        
+        if(typeof valueViewComments !== 'undefined') {
+            this.props.storeApplicationSettings.changeDisplayComments(valueViewComments);
+            this.props.storeAppOptions.changeCanViewComments(valueViewComments);
+        }
+
+        typeof valueResolvedComments !== 'undefined' && this.props.storeApplicationSettings.changeDisplayResolved(valueResolvedComments);
+        typeof valueUnitMeasurement !== 'undefined' && this.props.storeApplicationSettings.changeUnitMeasurement(valueUnitMeasurement);
+        typeof valueSpellCheck !== 'undefined' && this.props.storeApplicationSettings.changeSpellCheck(valueSpellCheck);
+        typeof valueNoCharacters !== 'undefined' && this.props.storeApplicationSettings.changeNoCharacters(valueNoCharacters);
+        typeof valueHiddenBorders !== 'undefined' && this.props.storeApplicationSettings.changeShowTableEmptyLine(valueHiddenBorders);
+        typeof valueMacrosMode !== 'undefined' && this.props.storeApplicationSettings.changeMacrosSettings(valueMacrosMode);
     }
 
     setUnitMeasurement(value) {
@@ -34,6 +55,8 @@ class ApplicationSettingsController extends Component {
 
     switchDisplayComments(value) {
         const api = Common.EditorApi.get();
+        this.props.storeAppOptions.changeCanViewComments(value);
+
         if (!value) {
             api.asc_hideComments();
             this.switchDisplayResolved(value);
@@ -42,6 +65,7 @@ class ApplicationSettingsController extends Component {
             const resolved = LocalStorage.getBool("de-settings-resolvedcomment");
             api.asc_showComments(resolved);
         }
+
         LocalStorage.setBool("de-mobile-settings-livecomment", value);
     }
 
@@ -73,4 +97,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default ApplicationSettingsController;
+export default inject("storeAppOptions", "storeApplicationSettings")(observer(ApplicationSettingsController));

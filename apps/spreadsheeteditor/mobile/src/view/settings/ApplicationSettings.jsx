@@ -26,6 +26,10 @@ const PageApplicationSettings = props => {
         props.unitMeasurementChange(value);
     };
 
+    console.log(isComments);
+    console.log(props.storeAppOptions.canViewComments);
+
+
     // set mode
     // const appOptions = props.storeAppOptions;
     // const _isEdit = appOptions.isEdit;
@@ -185,7 +189,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const RegionalSettings = inject("storeApplicationSettings")(observer(PageRegionalSettings));
 const FormulaLanguage = inject("storeApplicationSettings")(observer(PageFormulaLanguage));
