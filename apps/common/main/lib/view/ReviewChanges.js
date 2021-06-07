@@ -708,7 +708,10 @@ define([
                                 checkable: true,
                                 toggleGroup: 'menuTurnReviewStb'
                             }
-                        ]})
+                        ]}),
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '2, -16'
                     });
 
                     this.btnsTurnReview.push(button);
@@ -721,7 +724,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-docspell',
                         hintAnchor  : 'top',
                         hint: this.tipSetSpelling,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
                     });
                     this.btnsSpelling.push(button);
 
@@ -732,7 +738,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-doclang',
                         hintAnchor  : 'top',
                         hint: this.tipSetDocLang,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
                     });
                     this.btnsDocLang.push(button);
 

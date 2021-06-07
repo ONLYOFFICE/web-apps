@@ -207,7 +207,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _resetToDefault = function() {
-        _currentLevel = $('.toolbar-fullview-panel').is(':visible') ? 1 : 0;
+        _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
         _setCurrentSection();
         _currentHints.length = 0;
         _currentControls.length = 0;
@@ -222,6 +222,8 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
+                    _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
+                    _setCurrentSection();
                     _showHints();
                 } else {
                     _hideHints();
@@ -258,7 +260,15 @@ Common.UI.HintManager = new(function() {
                             _hideHints();
                         } else {
                             if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
-                                curr.trigger(jQuery.Event('click', {which: 1}));
+                                if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
+                                    curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
+                                    curr.trigger(jQuery.Event('click', {which: 1}));
+                                }
+                            }
+                            if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                                _hideHints();
+                                _resetToDefault();
+                                return;
                             }
                             if (curr.prop('id') === 'add-comment-doc') {
                                 _removeHints();
