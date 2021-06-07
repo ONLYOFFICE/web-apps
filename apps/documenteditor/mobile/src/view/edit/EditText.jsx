@@ -1,6 +1,6 @@
 import React, {Fragment, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Swiper, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
+import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
@@ -157,28 +157,30 @@ const PageBullets = props => {
     const typeBullets = props.typeBullets;
     
     return(
-        <div className='bullets dataview'>
+        <View className='bullets dataview'>
             {bulletArrays.map((bullets, index) => (
-                    <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
+                    <List className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
-                            <li key={'bullet-' + bullet.type} data-type={bullet.type} className={bullet.type === typeBullets ? 'active' : ''}
+                            <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={bullet.type === typeBullets ? 'active' : ''}
                                 onClick={() => {
                                     if (bullet.type === -1) {
                                         storeTextSettings.resetBullets(-1);
+                                        props.f7router.back();
                                     }
                                     props.onBullet(bullet.type)
+                                    props.f7router.back();
                                 }}>
                                 {bullet.thumb.length < 1 ?
-                                    <div className="thumb" style={{position: 'relative'}}>
+                                    <Icon className="thumb" style={{position: 'relative'}}>
                                         <label>{t('Edit.textNone')}</label>
-                                    </div> :
-                                    <div className="thumb" style={{backgroundImage: `url('resources/img/bullets/${bullet.thumb}')`}}></div>
+                                    </Icon> :
+                                    <Icon className="thumb" style={{backgroundImage: `url('resources/img/bullets/${bullet.thumb}')`}}></Icon>
                                 }
-                            </li>
+                            </ListItem>
                         ))}
-                    </ul>
+                    </List>
             ))}
-        </div>
+        </View>
     )
 };
 
@@ -203,28 +205,30 @@ const PageNumbers = props => {
     const typeNumbers = props.typeNumbers;
     
     return(
-        <div className='numbers dataview'>
+        <View className='numbers dataview'>
             {numberArrays.map((numbers, index) => (
-                <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
+                <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
-                        <li key={'number-' + number.type} data-type={number.type} className={number.type === typeNumbers ? 'active' : ''}
+                        <ListItem key={'number-' + number.type} data-type={number.type} className={number.type === typeNumbers ? 'active' : ''}
                             onClick={() => {
                                 if (number.type === -1) {
                                     storeTextSettings.resetNumbers(-1);
+                                    props.f7router.back();
                                 }
                                 props.onNumber(number.type)
+                                props.f7router.back();
                             }}>
                             {number.thumb.length < 1 ?
-                                <div className="thumb" style={{position: 'relative'}}>
+                                <Icon className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
-                                </div> :
-                                <div className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></div>
+                                </Icon> :
+                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></Icon>
                             }
-                        </li>
+                        </ListItem>
                     ))}
-                </ul>
+                </List>
             ))}
-        </div>
+        </View>
     )
 };
 
@@ -242,24 +246,25 @@ const PageMultiLevel = props => {
     const typeMultiLevel = props.typeMultiLevel;
 
     return(
-        <div className='multilevels dataview'>
-                <ul className="row" style={{listStyle: 'none'}}>
+        <View className='multilevels dataview'>
+                <List className="row" style={{listStyle: 'none'}}>
                     {arrayMultiLevel.map((item) => (
-                        <li key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
+                        <ListItem key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
                         onClick={(e) => {
                             item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
                             props.onMultiLevelList(item.type);
+                            props.f7router.back();
                             }}>
                             {item.thumb.length < 1 ?
-                                <div className="thumb" style={{position: 'relative'}}>
+                                <Icon className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
-                                </div> :
-                                <div className="thumb" style={{backgroundImage: `url('resources/img/multilevels/${item.thumb}')`}}></div>
+                                </Icon> :
+                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/multilevels/${item.thumb}')`}}></Icon>
                             }
-                        </li>
+                        </ListItem>
                     ))}
-                </ul>
-        </div>
+                </List>
+        </View>
     )
         
 }
@@ -283,10 +288,10 @@ const PageBulletsAndNumbers = props => {
                     </NavRight>
                 }
             </Navbar>
-            <Swiper pagination spaceBetween={20}>
-                <SwiperSlide> <PageNumbers storeTextSettings={storeTextSettings} typeNumbers={typeNumbers} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets storeTextSettings={storeTextSettings} typeBullets={typeBullets}  onBullet={props.onBullet}/></SwiperSlide>
-                <SwiperSlide> <PageMultiLevel storeTextSettings={storeTextSettings} typeMultiLevel={typeMultiLevel} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+            <Swiper pagination>
+                <SwiperSlide> <PageNumbers f7router={props.f7router}  storeTextSettings={storeTextSettings} typeNumbers={typeNumbers} onNumber={props.onNumber}/></SwiperSlide> 
+                <SwiperSlide> <PageBullets f7router={props.f7router} storeTextSettings={storeTextSettings} typeBullets={typeBullets}  onBullet={props.onBullet}/></SwiperSlide>
+                <SwiperSlide> <PageMultiLevel f7router={props.f7router} storeTextSettings={storeTextSettings} typeMultiLevel={typeMultiLevel} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
             </Swiper>
         </Page>
     )
