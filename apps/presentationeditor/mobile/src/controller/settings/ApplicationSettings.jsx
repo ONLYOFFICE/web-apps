@@ -6,14 +6,7 @@ import {observer, inject} from "mobx-react";
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
-
-        const valueUnitMeasurement = LocalStorage.getItem("pe-mobile-settings-unit");
-        const valueSpellCheck = LocalStorage.getBool("pe-mobile-spellcheck");
-        const valueMacrosMode = LocalStorage.getItem("pe-mobile-macros-mode");
-
-        typeof valueUnitMeasurement !== 'undefined' && this.props.storeApplicationSettings.changeUnitMeasurement(valueUnitMeasurement);
-        typeof valueSpellCheck !== 'undefined' && this.props.storeApplicationSettings.changeSpellCheck(valueSpellCheck);
-        typeof valueMacrosMode !== 'undefined' && this.props.storeApplicationSettings.changeMacrosSettings(valueMacrosMode);
+        this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
 
     setUnitMeasurement(value) {

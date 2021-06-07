@@ -51,6 +51,7 @@ class CommentsController extends Component {
         this.usersStore = this.props.users;
         this.appOptions = this.props.storeAppOptions;
         this.storeComments = this.props.storeComments;
+        this.storeApplicationSettings = this.props.storeApplicationSettings;
 
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onAddComment', this.addComment.bind(this));
@@ -74,6 +75,8 @@ class CommentsController extends Component {
                 /** coauthoring begin **/
                 const isLiveCommenting = LocalStorage.getBool(`${window.editorType}-mobile-settings-livecomment`, true);
                 const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`, true);
+                this.storeApplicationSettings.changeDisplayComments(isLiveCommenting);
+                this.storeApplicationSettings.changeDisplayResolved(resolved);
                 isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
                 /** coauthoring end **/
             }
@@ -583,7 +586,7 @@ class ViewCommentsController extends Component {
     }
 }
 
-const _CommentsController = inject('storeAppOptions', 'storeComments', 'users')(observer(CommentsController));
+const _CommentsController = inject('storeAppOptions', 'storeComments', 'users', "storeApplicationSettings")(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
 const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
 const _ViewCommentsController = inject('storeComments', 'users')(observer(withTranslation()(ViewCommentsController)));

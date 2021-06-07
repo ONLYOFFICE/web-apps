@@ -12,22 +12,7 @@ class ApplicationSettingsController extends Component {
         this.initRegSettings = this.initRegSettings.bind(this);
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
-
-        const valueViewComments = LocalStorage.getBool("sse-mobile-settings-livecomment");
-        const valueResolvedComments = LocalStorage.getBool("sse-settings-resolvedcomment");
-        const valueUnitMeasurement = LocalStorage.getItem("sse-mobile-settings-unit");
-        const valueRefStyle = LocalStorage.getBool('sse-settings-r1c1');
-        const valueMacrosMode = LocalStorage.getItem("sse-mobile-macros-mode");
-        
-        if(typeof valueViewComments !== 'undefined') {
-            this.props.storeApplicationSettings.changeDisplayComments(valueViewComments);
-            this.props.storeAppOptions.changeCanViewComments(valueViewComments);
-        }
-
-        typeof valueResolvedComments !== 'undefined' && this.props.storeApplicationSettings.changeDisplayResolved(valueResolvedComments);
-        typeof valueUnitMeasurement !== 'undefined' && this.props.storeApplicationSettings.changeUnitMeasurement(valueUnitMeasurement);
-        typeof valueRefStyle !== 'undefined' && this.props.storeApplicationSettings.changeRefStyle(valueRefStyle);
-        typeof valueMacrosMode !== 'undefined' && this.props.storeApplicationSettings.changeMacrosSettings(valueMacrosMode);
+        this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
 
     initRegSettings() {
