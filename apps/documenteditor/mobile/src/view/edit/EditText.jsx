@@ -165,7 +165,6 @@ const PageBullets = props => {
                                 onClick={() => {
                                     if (bullet.type === -1) {
                                         storeTextSettings.resetBullets(-1);
-                                        props.f7router.back();
                                     }
                                     props.onBullet(bullet.type)
                                     props.f7router.back();
@@ -213,7 +212,6 @@ const PageNumbers = props => {
                             onClick={() => {
                                 if (number.type === -1) {
                                     storeTextSettings.resetNumbers(-1);
-                                    props.f7router.back();
                                 }
                                 props.onNumber(number.type)
                                 props.f7router.back();
@@ -575,8 +573,6 @@ const EditText = props => {
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
-const PageTextBullets = inject("storeTextSettings")(observer(PageBullets));
-const PageTextNumbers = inject("storeTextSettings")(observer(PageNumbers));
 const PageTextBulletsAndNumbers = inject("storeTextSettings")(observer(PageBulletsAndNumbers));
 const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
@@ -589,8 +585,6 @@ export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextAddFormatting,
-    PageTextBullets,
-    PageTextNumbers,
     PageTextBulletsAndNumbers,
     PageTextLineSpacing,
     PageTextFontColor,
