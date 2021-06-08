@@ -276,25 +276,23 @@
     .bullets,
     .numbers,
     .multilevels {
-        .page-content {
-            background: @white;
-        }
-
-        .row {
+        .row ul {
+            display: flex;
             justify-content: space-around;
+            width: 100%;
         }
 
         ul {
             margin-top: 10px;
+            padding:  0 5px;
         }
-
-        .list {
-            margin: 0;
+        .list{
+            margin: 5px;
         }
 
         .list .item-content {
             padding-left: 0;
-            min-height: 65px;
+            min-height: 68px;
             .item-inner{
                 padding: 0;
             }
@@ -303,7 +301,6 @@
         li {
             width: 70px;
             height: 70px;
-            margin: 0 7px auto;
             border: 1px solid @gray;
             html.pixel-ratio-2 & {
                 border: 0.5px solid @gray;
