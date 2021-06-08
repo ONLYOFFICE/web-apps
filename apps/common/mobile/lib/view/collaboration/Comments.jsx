@@ -740,7 +740,6 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     const isAndroid = Device.android;
 
     const viewMode = !storeAppOptions.canComments;
-
     const comments = storeComments.showComments;
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -767,6 +766,11 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
         }
     };
 
+    if(!comment) {
+        Device.phone ? f7.sheet.close('#view-comment-sheet') : f7.popover.close('#view-comment-popover');
+        return null;
+    }
+
     return (
         <Fragment>
             <Toolbar position='bottom'>
@@ -779,77 +783,78 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
             </Toolbar>
             <div className='pages'>
-            <Page className='page-current-comment'>
-            <List className='comment-list'>
-            <ListItem>
-                <div slot='header' className='comment-header'>
-                    <div className='left'>
-                        {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
-                        <div>
-                            <div className='user-name'>{comment.userName}</div>
-                            <div className='comment-date'>{comment.date}</div>
-                        </div>
-                    </div>
-                    {!viewMode &&
-                    <div className='right'>
-                        <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
-                        <div className='comment-menu'
-                             onClick={() => {openActionComment(true);}}
-                        ><Icon icon='icon-menu-comment'/></div>
-                    </div>
-                    }
-                </div>
-                <div slot='footer'>
-                    {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
-                    {comment.replies.length > 0 &&
-                    <ul className='reply-list'>
-                        {comment.replies.map((reply, indexReply) => {
-                            return (
-                                <li key={`reply-${indexReply}`}
-                                    className='reply-item'
-                                >
-                                    <div className='item-content'>
-                                        <div className='item-inner'>
-                                            <div className='item-title'>
-                                                <div slot='header' className='reply-header'>
-                                                    <div className='left'>
-                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
-                                                        <div>
-                                                            <div className='user-name'>{reply.userName}</div>
-                                                            <div className='reply-date'>{reply.date}</div>
-                                                        </div>
-                                                    </div>
-                                                    {!viewMode &&
-                                                    <div className='right'>
-                                                        <div className='reply-menu'
-                                                             onClick={() => {setReply(reply); openActionReply(true);}}
-                                                        >
-                                                            <Icon icon='icon-menu-comment'/>
-                                                        </div>
-                                                    </div>
-                                                    }
-                                                </div>
-                                                <div slot='footer'>
-                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                <Page className='page-current-comment'>
+                    <List className='comment-list'>
+                        <ListItem>
+                            <div slot='header' className='comment-header'>
+                                <div className='left'>
+                                    {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                    <div>
+                                        <div className='user-name'>{comment.userName}</div>
+                                        <div className='comment-date'>{comment.date}</div>
                                     </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                    }
-                </div>
-            </ListItem>
-            </List>
-            <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
-            <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
-            </Page>
+                                </div>
+                                {!viewMode &&
+                                <div className='right'>
+                                    <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                                    <div className='comment-menu'
+                                        onClick={() => {openActionComment(true);}}
+                                    ><Icon icon='icon-menu-comment'/></div>
+                                </div>
+                                }
+                            </div>
+                            <div slot='footer'>
+                                {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
+                                <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
+                                {comment.replies.length > 0 &&
+                                <ul className='reply-list'>
+                                    {comment.replies.map((reply, indexReply) => {
+                                        return (
+                                            <li key={`reply-${indexReply}`}
+                                                className='reply-item'
+                                            >
+                                                <div className='item-content'>
+                                                    <div className='item-inner'>
+                                                        <div className='item-title'>
+                                                            <div slot='header' className='reply-header'>
+                                                                <div className='left'>
+                                                                    {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                    <div>
+                                                                        <div className='user-name'>{reply.userName}</div>
+                                                                        <div className='reply-date'>{reply.date}</div>
+                                                                    </div>
+                                                                </div>
+                                                                {!viewMode &&
+                                                                <div className='right'>
+                                                                    <div className='reply-menu'
+                                                                        onClick={() => {setReply(reply); openActionReply(true);}}
+                                                                    >
+                                                                        <Icon icon='icon-menu-comment'/>
+                                                                    </div>
+                                                                </div>
+                                                                }
+                                                            </div>
+                                                            <div slot='footer'>
+                                                                <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                                }
+                            </div>
+                        </ListItem>
+                    </List>
+                    <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
+                    <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
+                </Page>
             </div>
         </Fragment>
     )
+
 }));
 
 const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment}) => {

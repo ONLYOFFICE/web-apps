@@ -39,6 +39,16 @@ export class storeComments {
         });
     }
 
+    removeShowComment(id) {
+        const index = this.showComments.findIndex((comment) => {
+            return comment.uid === id;
+        });
+
+        if (index !== -1) {
+            this.showComments.splice(index, 1);
+        }
+    }
+
     addComment (comment) {
         comment.groupName ? this.groupCollectionComments.push(comment) : this.collectionComments.push(comment);
     }
