@@ -56,9 +56,10 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     }, []);
 
     const onApiActiveSheetChanged = (index) => {
-        // console.log(index);
-        sheets.setActiveWorksheet(index);
-        Common.Notifications.trigger('sheet:active', index);
+        if (index < sheets.sheets.length) {
+            sheets.setActiveWorksheet(index);
+            Common.Notifications.trigger('sheet:active', index);
+        }
     }
 
     const onApiHideTabContextMenu = () => {
