@@ -7,6 +7,8 @@ define([
 ], function () {
     'use strict';
 
+    !Common.UI && (Common.UI = {});
+    
     Common.UI.Themes = new (function(locale) {
         !locale && (locale = {});
         var themes_map = {
@@ -204,7 +206,7 @@ define([
 
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' ) {
-                        me.setTheme(e.originalEvent.newValue);
+                        me.setTheme(e.originalEvent.newValue, true);
                     }
                 })
 
@@ -215,6 +217,10 @@ define([
 
                 if ( !$('body').hasClass(theme_name) ) {
                     $('body').addClass(theme_name);
+                }
+
+                if ( !document.body.className.match(/theme-type-/) ) {
+                    document.body.classList.add('theme-type-' + themes_map[theme_name].type);
                 }
 
                 var obj = get_current_theme_colors(name_colors);
@@ -230,7 +236,7 @@ define([
             },
 
             setAvailable: function (value) {
-                this.locked = value;
+                this.locked = !value;
             },
 
             map: function () {
@@ -259,16 +265,16 @@ define([
 
             setTheme: function (id, force) {
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
-                    var classname = document.body.className.replace(/theme-\w+\s?/, '');
-                    document.body.className = classname;
+                    document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
+                    document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
-                    $('body').addClass(id);
+                    if ( this.api ) {
+                        var obj = get_current_theme_colors(name_colors);
+                        obj.type = themes_map[id].type;
+                        obj.name = id;
 
-                    var obj = get_current_theme_colors(name_colors);
-                    obj.type = themes_map[id].type;
-                    obj.name = id;
-
-                    this.api.asc_setSkin(obj);
+                        this.api.asc_setSkin(obj);
+                    }
 
                     Common.localStorage.setItem('ui-theme', id);
                     Common.NotificationCenter.trigger('uitheme:changed', id);

@@ -5,9 +5,12 @@
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
-        "clean": [
-            "../deploy/web-apps/apps/presentationeditor/main"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/presentationeditor/main"
+            ],
+            "postbuild": []
+        },
         "js": {
             "requirejs": {
                 "options": {

@@ -332,7 +332,7 @@
     .border-radius(1px);
     background-color: transparent;
 
-    .masked & {
+    .masked:not(.statusbar) & {
         &:disabled {
             opacity: 1;
         }
@@ -973,6 +973,18 @@
     &[disabled],
     &.disabled {
         opacity: @component-disabled-opacity;
+    }
+
+    &:not(:disabled) {
+        .icon {
+            opacity: 1;
+        }
+
+        &:hover {
+            .icon {
+                .icon();
+            }
+        }
     }
 }
 

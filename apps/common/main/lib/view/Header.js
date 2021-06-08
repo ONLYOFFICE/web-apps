@@ -103,7 +103,7 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-user-name"></div>' +
-                                    '<div class="btn-current-user hidden">' +
+                                    '<div class="btn-current-user btn-header hidden">' +
                                         '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
                                     '</div>' +
                                 '</div>' +

@@ -152,7 +152,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbUnit.setDisabled(!value);
                 if (this._changedProps) {
                     if (value && this.nfWidth.getNumberValue()>0)
-                        this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
+                        this._changedProps.put_Width(this.cmbUnit.getValue() ? -this.nfWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
                     else
                         this._changedProps.put_Width(null);
                 }
@@ -447,7 +447,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbPrefWidthUnit.setDisabled(!value);
                 if (this._changedProps) {
                     if (value && this.nfPrefWidth.getNumberValue()>0)
-                        this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                        this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -this.nfPrefWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
                     else
                         this._changedProps.put_CellsWidth(null);
                 }
