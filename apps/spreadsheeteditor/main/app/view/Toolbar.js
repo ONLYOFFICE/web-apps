@@ -179,14 +179,18 @@ define([
             me.btnCopy = new Common.UI.Button({
                 id          : 'id-toolbar-btn-copy',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-copy'
+                iconCls     : 'toolbar__icon btn-copy',
+                dataHint: '1',
+                dataHintDirection: 'top'
             });
 
             me.btnPaste = new Common.UI.Button({
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paste',
-                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect]
+                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
 
             me.btnUndo = new Common.UI.Button({

@@ -127,7 +127,10 @@ define([
                     caption: this.capBtnFreeze,
                     split: false,
                     enableToggle: true,
-                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth]
+                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnFreezePanes);
 
@@ -146,7 +149,10 @@ define([
                         { displayValue: "150%", value: 150 },
                         { displayValue: "175%", value: 175 },
                         { displayValue: "200%", value: 200 }
-                    ]
+                    ],
+                    dataHint    : '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
                 });
                 this.cmbZoom.setValue(100);
 
@@ -154,21 +160,30 @@ define([
                     el: $host.findById('#slot-chk-formula'),
                     labelText: this.textFormula,
                     value: !Common.localStorage.getBool('sse-hidden-formula'),
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chFormula);
 
                 this.chHeadings = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-heading'),
                     labelText: this.textHeadings,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chHeadings);
 
                 this.chGridlines = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-gridlines'),
                     labelText: this.textGridlines,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chGridlines);
 
