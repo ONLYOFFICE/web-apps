@@ -293,6 +293,10 @@ class MainController extends Component {
     }
 
     bindEvents () {
+        $$(window).on('resize', () => {
+            this.api.Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentContentReady', this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
