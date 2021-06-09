@@ -591,7 +591,6 @@ class MainController extends Component {
             const buttons = [{
                 text: 'OK',
                 bold: true,
-                close: false,
                 onClick: () => {
                     const password = document.getElementById('modal-password').value;
                     this.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
