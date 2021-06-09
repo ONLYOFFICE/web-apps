@@ -101,6 +101,9 @@ class CommentsController extends Component {
     }
     removeComment (id) {
         this.storeComments.removeComment(id);
+        if (this.storeComments.showComments.length < 1) {
+            Device.phone ? f7.sheet.close('#view-comment-sheet') : f7.popover.close('#view-comment-popover');
+        }
     }
     removeComments (data) {
         for (let i = 0; i < data.length; i++) {
@@ -481,8 +484,6 @@ class ViewCommentsController extends Component {
     }
     deleteComment (comment) {
         const api = Common.EditorApi.get();
-       
-        this.props.storeComments.removeShowComment(comment.uid);
         comment && api.asc_removeComment(comment.uid);
     }
     deleteReply (comment, reply) {

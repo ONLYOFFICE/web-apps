@@ -61,6 +61,7 @@ export class storeComments {
         if (index !== -1) {
             collection.splice(index, 1);
         }
+        this.removeShowComment(id);
     }
 
     changeComment (id, changeComment) {

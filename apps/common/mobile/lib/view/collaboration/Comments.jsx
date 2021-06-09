@@ -759,7 +759,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     };
 
     const onViewNextComment = () => {
-        if (currentIndex + 1 === comments.length) {
+        if (currentIndex + 1 >= comments.length) {
             setCurrentIndex(0);
         } else {
             setCurrentIndex(currentIndex + 1);
@@ -767,7 +767,9 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     };
 
     if(!comment) {
-        Device.phone ? f7.sheet.close('#view-comment-sheet') : f7.popover.close('#view-comment-popover');
+        if (comments.length > 0) {
+            onViewNextComment();
+        }
         return null;
     }
 
