@@ -27,7 +27,12 @@ export class storeAppOptions {
     }
 
     isEdit = false;
+
     canViewComments = false;
+    changeCanViewComments(value) {
+        this.canViewComments = value;
+    }
+
     canReview = false;
     canViewReview = false;
 

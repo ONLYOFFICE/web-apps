@@ -185,7 +185,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const RegionalSettings = inject("storeApplicationSettings")(observer(PageRegionalSettings));
 const FormulaLanguage = inject("storeApplicationSettings")(observer(PageFormulaLanguage));

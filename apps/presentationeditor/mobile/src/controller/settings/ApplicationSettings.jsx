@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import {observer, inject} from "mobx-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
+        this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
 
     setUnitMeasurement(value) {
@@ -37,4 +39,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default ApplicationSettingsController;
+export default inject("storeApplicationSettings")(observer(ApplicationSettingsController));
