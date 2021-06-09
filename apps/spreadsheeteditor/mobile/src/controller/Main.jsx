@@ -186,7 +186,7 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;
-                appOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(appOptions);
 

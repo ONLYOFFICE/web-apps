@@ -15,6 +15,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
     const readerMode = appOptions.readerMode;
 
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
@@ -175,6 +177,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         setDisabledControls(false);
     };
 
+    const onEditDocument = () => {
+        Common.Gateway.requestEditRights();
+    };
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      isEdit={appOptions.isEdit}
@@ -192,6 +198,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
                      readerMode={readerMode}
+                     showEditDocument={showEditDocument}
+                     onEditDocument={onEditDocument}
         />
     )
 });

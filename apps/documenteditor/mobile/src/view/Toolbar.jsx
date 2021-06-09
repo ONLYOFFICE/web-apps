@@ -24,6 +24,9 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
+                {props.showEditDocument &&
+                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                }
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
                         disabled: disableEditBtn || props.disabledControls,
                         onEditClick: e => props.openOptions('edit'),

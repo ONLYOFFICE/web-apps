@@ -19,6 +19,9 @@ const ToolbarView = props => {
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
                 {Device.android && undo_box}
+                {props.showEditDocument &&
+                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                }
                 {props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getEditOptions({
                     disabled: props.disabledEditControls || props.disabledControls,
                     onEditClick: () => props.openOptions('edit'),
