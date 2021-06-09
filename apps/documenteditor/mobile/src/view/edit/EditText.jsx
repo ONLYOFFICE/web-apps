@@ -161,7 +161,8 @@ const PageBullets = props => {
             {bulletArrays.map((bullets, index) => (
                     <List className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
-                            <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={bullet.type === typeBullets ? 'active' : ''}
+                            <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={(bullet.type === typeBullets) && 
+                                (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
                                 onClick={() => {
                                     if (bullet.type === -1) {
                                         storeTextSettings.resetBullets(-1);
@@ -208,7 +209,8 @@ const PageNumbers = props => {
             {numberArrays.map((numbers, index) => (
                 <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
-                        <ListItem key={'number-' + number.type} data-type={number.type} className={number.type === typeNumbers ? 'active' : ''}
+                        <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
+                            (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
                                 if (number.type === -1) {
                                     storeTextSettings.resetNumbers(-1);
@@ -480,6 +482,16 @@ const EditText = props => {
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
 
+    let previewList;
+    switch(storeTextSettings.listType) {
+        case -1: previewList = ''
+        break;
+        case 0: previewList = 'Bullets'
+        break;
+        case 1: previewList = 'Numbers'
+        break;
+    }
+
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
@@ -557,7 +569,7 @@ const EditText = props => {
                     onNumber: props.onNumber,
                     onMultiLevelList: props.onMultiLevelList
                 }}>
-                    <div>{storeTextSettings.listType === 1 ? 'Numbers' : ' Bullets'}</div>
+                    <div style= {{color:"gray"}}>{previewList}</div>
                     {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
