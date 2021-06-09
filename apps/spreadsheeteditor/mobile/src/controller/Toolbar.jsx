@@ -13,6 +13,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
     const docTitle = props.storeSpreadsheetInfo.dataDoc ? props.storeSpreadsheetInfo.dataDoc.title : '';
 
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
@@ -186,6 +188,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         f7.popup.close();
     };
 
+    const onEditDocument = () => {
+        Common.Gateway.requestEditRights();
+    };
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      isEdit={appOptions.isEdit}
@@ -200,6 +206,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
+                     showEditDocument={showEditDocument}
+                     onEditDocument={onEditDocument}
         />
     )
 });

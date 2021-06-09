@@ -184,7 +184,7 @@ class MainController extends Component {
 
                 const storeAppOptions = this.props.storeAppOptions;
 
-                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
