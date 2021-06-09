@@ -108,7 +108,7 @@ const EditLink = props => {
 
     const valueRange = linkInfo.asc_getRange();
     const [range, setRange] = useState(valueRange || '');
-    
+
     return (
         <Fragment>
             <List inlineLabels className='inputs-list'>
@@ -159,7 +159,7 @@ const EditLink = props => {
             </List>
             <List className="buttons-list">
                 <ListButton title={_t.textEditLink}
-                            className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' || range.length < 1 || !curSheet.length) && ' disabled'}`}
+                            className={`button-fill button-raised ${(typeLink === 1 && !link.length) || (typeLink === 2 && (!range.length || !curSheet.length)) ? 'disabled' : ''}`}
                             onClick={() => {props.onEditLink(typeLink === 1 ?
                                 {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
                                 {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip})}}
