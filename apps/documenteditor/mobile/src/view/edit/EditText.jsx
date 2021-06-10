@@ -154,7 +154,7 @@ const PageBullets = props => {
         ]
     ];
     const storeTextSettings = props.storeTextSettings;
-    const typeBullets = props.typeBullets;
+    const typeBullets = storeTextSettings.typeBullets;
     
     return(
         <View className='bullets dataview'>
@@ -202,7 +202,7 @@ const PageNumbers = props => {
     ];
 
     const storeTextSettings = props.storeTextSettings;
-    const typeNumbers = props.typeNumbers;
+    const typeNumbers = storeTextSettings.typeNumbers;
     
     return(
         <View className='numbers dataview'>
@@ -243,7 +243,7 @@ const PageMultiLevel = props => {
     ];
 
     const storeTextSettings = props.storeTextSettings;
-    const typeMultiLevel = props.typeMultiLevel;
+    const typeMultiLevel = storeTextSettings.typeMultiLevel;
 
     return(
         <View className='multilevels dataview'>
@@ -271,11 +271,7 @@ const PageMultiLevel = props => {
 
 const PageBulletsAndNumbers = props => {
     const { t } = useTranslation();
-
     const storeTextSettings = props.storeTextSettings;
-    const typeNumbers = storeTextSettings.typeNumbers;
-    const typeBullets = storeTextSettings.typeBullets;
-    const typeMultiLevel = storeTextSettings.typeMultiLevel;
     
     return (
         <Page>
@@ -289,9 +285,9 @@ const PageBulletsAndNumbers = props => {
                 }
             </Navbar>
             <Swiper pagination>
-                <SwiperSlide> <PageNumbers f7router={props.f7router}  storeTextSettings={storeTextSettings} typeNumbers={typeNumbers} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets f7router={props.f7router} storeTextSettings={storeTextSettings} typeBullets={typeBullets}  onBullet={props.onBullet}/></SwiperSlide>
-                <SwiperSlide> <PageMultiLevel f7router={props.f7router} storeTextSettings={storeTextSettings} typeMultiLevel={typeMultiLevel} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+                <SwiperSlide> <PageNumbers f7router={props.f7router}  storeTextSettings={storeTextSettings} onNumber={props.onNumber}/></SwiperSlide> 
+                <SwiperSlide> <PageBullets f7router={props.f7router} storeTextSettings={storeTextSettings} onBullet={props.onBullet}/></SwiperSlide>
+                <SwiperSlide> <PageMultiLevel f7router={props.f7router} storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
             </Swiper>
         </Page>
     )
@@ -484,12 +480,15 @@ const EditText = props => {
 
     let previewList;
     switch(storeTextSettings.listType) {
-        case -1: previewList = ''
-        break;
-        case 0: previewList = 'Bullets'
-        break;
-        case 1: previewList = 'Numbers'
-        break;
+        case -1: 
+            previewList = '';
+            break;
+        case 0: 
+            previewList = 'Bullets';
+            break;
+        case 1: 
+            previewList = 'Numbers';
+            break;
     }
 
     const fontColorPreview = fontColor !== 'auto' ?
@@ -569,7 +568,7 @@ const EditText = props => {
                     onNumber: props.onNumber,
                     onMultiLevelList: props.onMultiLevelList
                 }}>
-                    <div style= {{color:"gray"}}>{previewList}</div>
+                    <div className="preview">{previewList}</div>
                     {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{

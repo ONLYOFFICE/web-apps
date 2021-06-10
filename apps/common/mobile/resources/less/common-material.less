@@ -276,18 +276,21 @@
     .bullets,
     .numbers,
     .multilevels {
-        .row ul {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-        }
-
-        ul {
-            margin-top: 10px;
-            padding:  0 5px;
-        }
         .list{
             margin: 5px;
+            ul {
+                &:before, &:after {
+                    display: none;
+                }
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                margin-top: 10px;
+                padding:  0 5px;
+            }
+            &:first-child li:first-child, &:last-child li:last-child {
+                border-radius: 0;
+            }
         }
 
         .list .item-content {
@@ -295,20 +298,10 @@
             min-height: 68px;
             .item-inner{
                 padding: 0;
+                &:after {
+                    display: none;
+                }
             }
-        }
-
-        .simple-list li:after, .links-list a:after, .list .item-inner:after {
-            display: none;
-        }
-        .device-ios .popover__titled .list:last-child li:last-child:after {
-            display: none;
-        }
-        .list ul:before {
-            display: none;
-        }
-        .list ul:after{
-            display: none;
         }
 
         li {
