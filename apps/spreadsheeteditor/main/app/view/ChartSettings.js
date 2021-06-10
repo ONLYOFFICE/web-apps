@@ -609,7 +609,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -621,7 +624,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -637,7 +643,10 @@ define([
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
-                hint: this.textKeepRatio
+                hint: this.textKeepRatio,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnRatio);
 
@@ -738,7 +747,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnChangeType.on('click', _.bind(this.onChangeType, this));
             this.lockedControls.push(this.btnChangeType);
@@ -748,7 +760,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
             this.lockedControls.push(this.btnSelectData);
@@ -976,7 +991,10 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 270,
                     enableKeyEvents: true,
-                    cls: 'combo-chart-style'
+                    cls: 'combo-chart-style',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({
