@@ -21,7 +21,7 @@ class DownloadController extends Component {
                     _t.warnDownloadAs,
                     _t.notcriticalErrorTitle,
                     function () {
-                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t)
+                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
                     }
                 )
             } else {
@@ -39,7 +39,7 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = withTranslation()(DownloadController);
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequestClose) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose) => {
     const api = Common.EditorApi.get();
 
     if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
@@ -52,7 +52,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
             pagesName.push(page.asc_getCodePageName());
         }
 
-        // me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
 
         const buttons = [];
 
@@ -76,9 +77,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                     api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
                 }
 
-                //if (!me._isDocReady) {
-                        //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         });
 
@@ -122,16 +123,16 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
 
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
-        //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{
             text: 'OK',
             bold: true,
             onClick: function () {
                 const password = document.getElementById('modal-password').value;
                 api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-                //if (!me._isDocReady) {
-                    //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         }];
 
