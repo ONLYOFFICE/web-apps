@@ -590,7 +590,7 @@ class MainController extends Component {
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
-            // Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+            Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument, true);
 
             const buttons = [{
                 text: 'OK',
@@ -599,9 +599,9 @@ class MainController extends Component {
                     const password = document.getElementById('modal-password').value;
                     this.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
-                    // if (!this._isDocReady) {
-                    //     Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
-                    // }
+                    if (!this._isDocReady) {
+                        Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                    }
                 }
             }];
             if (this.props.storeAppOptions.canRequestClose)
