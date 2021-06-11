@@ -1,6 +1,6 @@
 {
-  "Controller" : {
-    "Main" : {
+  "Controller": {
+    "Main": {
       "SDK": {
         "Series": "Series",
         "Diagram Title": "Chart Title",
@@ -27,7 +27,6 @@
       "closeButtonText": "Close File",
       "advDRMOptions": "Protected File",
       "advDRMPassword": "Password",
-
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
@@ -47,12 +46,10 @@
       "textPaidFeature": "Paid feature",
       "textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader. Please contact our Sales Department to get a quote.",
       "textClose": "Close",
-
       "errorProcessSaveResult": "Saving is failed.",
       "criticalErrorTitle": "Error",
       "warnProcessRightsChange": "You have been denied the right to edit the file.",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
-
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "titleUpdateVersion": "Version changed",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
@@ -303,8 +300,7 @@
       "textHighlightColor": "Highlight Color",
       "textAdditionalFormatting": "Additional Formatting",
       "textAdditional": "Additional",
-      "textBullets": "Bullets",
-      "textNumbers": "Numbers",
+      "textBulletsAndNumbers": "Bullets & Numbers",
       "textLineSpacing": "Line Spacing",
       "textFonts": "Fonts",
       "textAuto": "Auto",
