@@ -88,11 +88,7 @@ const AddLinkView = props => {
                                placeholder={_t.textLink}
                                value={link}
                                onChange={(event) => {
-                                if (link.includes('https://')) {
-                                    setDisplayText(link)
-                                }
                                 setLink(event.target.value)
-                                setDisplayText(event.target.value)
                             }}
                                className={isIos ? 'list-input-right' : ''}
                     />
