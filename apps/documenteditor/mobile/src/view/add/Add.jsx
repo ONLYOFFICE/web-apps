@@ -76,30 +76,36 @@ const AddLayoutContent = ({ tabs }) => {
     )
 };
 
-const AddTabs = props => {
+const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPanels, style, inPopover}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
-    const showPanels = props.showPanels;
     const tabs = [];
-    if (!showPanels) {
+    const options = storeFocusObjects.settings;
+    if (!showPanels && options.indexOf('text') > -1) {
         tabs.push({
             caption: _t.textTable,
             id: 'add-table',
             icon: 'icon-add-table',
             component: <AddTableController/>
         });
+    }
+    if(!showPanels) {
         tabs.push({
             caption: _t.textShape,
             id: 'add-shape',
             icon: 'icon-add-shape',
             component: <AddShapeController/>
         });
+    }
+    if(!showPanels) {
         tabs.push({
             caption: _t.textImage,
             id: 'add-image',
             icon: 'icon-add-image',
             component: <AddImageController/>
         });
+    }
+    if(!showPanels) {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
@@ -115,14 +121,14 @@ const AddTabs = props => {
         });
     }
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
-                <AddLayoutNavbar tabs={tabs} inPopover={props.inPopover}/>
+                <AddLayoutNavbar tabs={tabs} inPopover={inPopover}/>
                 <AddLayoutContent tabs={tabs} />
             </Page>
         </View>
     )
-};
+}));
 
 class AddView extends Component {
     constructor(props) {
