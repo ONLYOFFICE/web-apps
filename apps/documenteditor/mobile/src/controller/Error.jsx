@@ -204,8 +204,8 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 if (id === Asc.c_oAscError.ID.Warning && btn === 'ok' && (storeAppOptions.canDownload || storeAppOptions.canDownloadOrigin)) {
                     api.asc_DownloadOrigin();
                 } else if(id === Asc.c_oAscError.ID.SplitCellMaxRows ||
-                                 Asc.c_oAscError.ID.SplitCellMaxCols ||
-                                 Asc.c_oAscError.ID.SplitCellRowsDivider && btn === 'ok' && (storeAppOptions.canDownload || storeAppOptions.canDownloadOrigin)) {
+                                id === Asc.c_oAscError.ID.SplitCellMaxCols ||
+                                id === Asc.c_oAscError.ID.SplitCellRowsDivider) {
                         Common.Notifications.trigger('showSplitModal',true);
                 }
                 storeAppOptions.changeEditingRights(false);
