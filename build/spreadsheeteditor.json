@@ -378,7 +378,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
-                    "src": "*",
+                    "src": "**/*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
                 },
                 {
