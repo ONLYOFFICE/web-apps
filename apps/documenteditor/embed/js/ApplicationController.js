@@ -43,7 +43,7 @@ DE.ApplicationController = new(function(){
         labelDocName,
         appOptions = {},
         btnSubmit,
-        _submitFail, $submitedTooltip;
+        _submitFail, $submitedTooltip, $requiredTooltip;
 
     // Initialize analytics
     // -------------------------
@@ -166,6 +166,7 @@ DE.ApplicationController = new(function(){
                     _submitFail = false;
                     $submitedTooltip && $submitedTooltip.hide();
                     btnSubmit.attr({disabled: true});
+                    btnSubmit.css("pointer-events", "none");
                 break;
             default:
                 text = me.waitText;
@@ -181,12 +182,15 @@ DE.ApplicationController = new(function(){
     function onLongActionEnd(type, id){
         if (id==Asc.c_oAscAsyncAction['Submit']) {
             btnSubmit.removeAttr('disabled');
-            if (!$submitedTooltip) {
-                $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
-                $(document.body).append($submitedTooltip);
-                $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+            btnSubmit.css("pointer-events", "auto");
+            if (!_submitFail) {
+                if (!$submitedTooltip) {
+                    $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
+                    $(document.body).append($submitedTooltip);
+                    $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+                }
+                $submitedTooltip.show();
             }
-            !_submitFail && $submitedTooltip.show();
         }
         hideMask();
     }
@@ -249,6 +253,14 @@ DE.ApplicationController = new(function(){
 
     function onPrintUrl(url) {
         common.utils.dialogPrint(url, api);
+    }
+
+    function onFillRequiredFields() {
+        if (btnSubmit) {
+            btnSubmit.removeAttr('disabled');
+            btnSubmit.css("pointer-events", "auto");
+        }
+        $requiredTooltip && $requiredTooltip.hide();
     }
 
     function hidePreloader() {
@@ -326,6 +338,7 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        api.asc_registerCallback('asc_onFillRequiredFields',    onFillRequiredFields);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -405,6 +418,37 @@ DE.ApplicationController = new(function(){
         $('#pages').on('click', function(e) {
             $pagenum.focus();
         });
+
+        // TODO: add asc_hasRequiredFields to sdk
+        /*
+        if (appOptions.canSubmitForms && api.asc_hasRequiredFields()) {
+            var sgroup = $('#id-submit-group');
+            btnSubmit.attr({disabled: true});
+            btnSubmit.css("pointer-events", "none");
+            if (!common.localStorage.getItem("de-embed-hide-submittip")) {
+                var offset = btnSubmit.offset();
+                $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
+                $(document.body).append($requiredTooltip);
+                $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
+                $requiredTooltip.find('.close-div').on('click', function() {
+                    $requiredTooltip.hide();
+                    common.localStorage.setItem("de-embed-hide-submittip", 1);
+                    sgroup.attr('data-toggle', 'tooltip');
+                    sgroup.tooltip({
+                        title       : me.textRequired,
+                        placement   : 'bottom'
+                    });
+                });
+                $requiredTooltip.show();
+            } else {
+                sgroup.attr('data-toggle', 'tooltip');
+                sgroup.tooltip({
+                    title       : me.textRequired,
+                    placement   : 'bottom'
+                });
+            }
+        }
+        */
 
         var documentMoveTimer;
         var ismoved = false;
@@ -757,6 +801,8 @@ DE.ApplicationController = new(function(){
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         textGuest: 'Guest',
-        textAnonymous: 'Anonymous'
+        textAnonymous: 'Anonymous',
+        textRequired: 'Fill all required fields to send form.',
+        textGotIt: 'Got it'
     }
 })();

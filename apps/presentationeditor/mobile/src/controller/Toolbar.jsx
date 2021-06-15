@@ -12,6 +12,8 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
     const isDisconnected = props.users.isDisconnected;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
 
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
@@ -75,7 +77,7 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack();
+                            goBack(true);
                         }
                     },
                     {
@@ -85,7 +87,7 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
                 ]
             }).open();
         } else {
-            goBack();
+            goBack(true);
         }
     };
     const goBack = (current) => {
@@ -185,6 +187,10 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
         f7.popup.close();
     };
 
+    const onEditDocument = () => {
+        Common.Gateway.requestEditRights();
+    };
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      isEdit={appOptions.isEdit}
@@ -202,6 +208,8 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
                      disabledEditControls={disabledEditControls}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
+                     showEditDocument={showEditDocument}
+                     onEditDocument={onEditDocument}
         />
     )
 });

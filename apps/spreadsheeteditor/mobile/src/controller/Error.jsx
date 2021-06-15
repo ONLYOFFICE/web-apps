@@ -166,6 +166,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             case Asc.c_oAscError.ID.PasteMaxRangeError:
                 config.msg = _t.errorPasteMaxRange;
                 break;
+            
+            case Asc.c_oAscError.ID.LockedCellPivot:
+                config.msg = _t.errorLockedCellPivot;
+                break;
 
             case Asc.c_oAscError.ID.LockedAllError:
                 config.msg = _t.errorLockedAll;

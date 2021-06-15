@@ -8,12 +8,13 @@ const viewStyle = {
     height: 30
 };
 
-const StatusbarView = inject('sheets')(observer(props => {
+const StatusbarView = inject('sheets', "storeAppOptions")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const { sheets } = props;
+    const { sheets, storeAppOptions } = props;
+    const isEdit = storeAppOptions.isEdit;
     const hiddenSheets = sheets.hiddenWorksheets();
     const allSheets = sheets.sheets;
     const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
@@ -134,30 +135,32 @@ const StatusbarView = inject('sheets')(observer(props => {
                     </ul>
                 </div>
             </View>
-            <Popover id="idx-tab-context-menu-popover"
-                className="document-menu"
-                backdrop={false}
-                closeByBackdropClick={false}
-                closeByOutsideClick={false}
-            >
-                {isPhone || isAndroid ? ( 
-                    <List className="list-block">
-                        <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
-                        <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
-                        <ListButton title={_t.textMore} onClick={() => props.onTabMenu('showMore')} /> 
-                    </List>
-                ) : (
-                    <List className="list-block">
-                        <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
-                        <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
-                        <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
-                        <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
-                        {hiddenSheets.length ? (
-                            <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
-                        ) : null}
-                    </List>
-                )}
-            </Popover>
+            {isEdit ? 
+                <Popover id="idx-tab-context-menu-popover"
+                    className="document-menu"
+                    backdrop={false}
+                    closeByBackdropClick={false}
+                    closeByOutsideClick={false}
+                >
+                    {isPhone || isAndroid ? ( 
+                        <List className="list-block">
+                            <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
+                            <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
+                            <ListButton title={_t.textMore} onClick={() => props.onTabMenu('showMore')} /> 
+                        </List>
+                    ) : (
+                        <List className="list-block">
+                            <ListButton title={_t.textDuplicate} onClick={() => props.onTabMenu('copy')} />
+                            <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
+                            <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
+                            <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
+                            {hiddenSheets.length ? (
+                                <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
+                            ) : null}
+                        </List>
+                    )}
+                </Popover>
+            : null}
             {isPhone || isAndroid ? (
                 <Actions id="idx-tab-menu-actions" backdrop={true} closeByBackdropClick={true}>
                     <ActionsGroup>

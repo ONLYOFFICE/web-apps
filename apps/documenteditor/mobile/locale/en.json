@@ -329,6 +329,7 @@
     "closeButtonText": "Close File",
     "advDRMOptions": "Protected File",
     "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+    "textOpenFile": "Enter a password to open the file",
     "textNoTextFound": "Text not found",
     "textReplace": "Replace",
     "textReplaceAll": "Replace All",

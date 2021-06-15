@@ -1,4 +1,5 @@
 import {makeObservable, action, observable} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeApplicationSettings {
     constructor() {
@@ -24,8 +25,8 @@ export class storeApplicationSettings {
     isSpellChecking = true;
     isNonprintingCharacters = false;
     isHiddenTableBorders = false;
-    isComments = true;
-    isResolvedComments = true;
+    isComments = false;
+    isResolvedComments = false;
     macrosMode = 0;
 
     changeUnitMeasurement(value) {

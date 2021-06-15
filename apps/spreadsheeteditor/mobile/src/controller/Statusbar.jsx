@@ -56,9 +56,10 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     }, []);
 
     const onApiActiveSheetChanged = (index) => {
-        // console.log(index);
-        sheets.setActiveWorksheet(index);
-        Common.Notifications.trigger('sheet:active', index);
+        if (index < sheets.sheets.length) {
+            sheets.setActiveWorksheet(index);
+            Common.Notifications.trigger('sheet:active', index);
+        }
     }
 
     const onApiHideTabContextMenu = () => {
@@ -194,12 +195,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (!isDisconnected) {
+                if (isEdit && !isDisconnected) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
             }
-        } else {
+        } 
+        else {
             f7.popover.close('#idx-tab-context-menu-popover', false);
             onTabClicked(i);
             // Common.Notifications.trigger('sheet:active', index);

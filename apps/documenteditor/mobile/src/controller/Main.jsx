@@ -184,7 +184,7 @@ class MainController extends Component {
 
                 const storeAppOptions = this.props.storeAppOptions;
 
-                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
@@ -510,6 +510,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        $$(window).on('resize', () => {
+            this.api.Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));

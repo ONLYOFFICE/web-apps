@@ -39,11 +39,7 @@ const LongActionsController = () => {
             api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
             api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
 
-            Common.Notifications.off('preloader:endAction', (type, id) => {
-                if (stackLongActions.exist({id: id, type: type})) {
-                    onLongActionEnd(type, id);
-                }
-            });
+            Common.Notifications.off('preloader:endAction', onLongActionEnd);
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
             Common.Notifications.off('preloader:close', closePreloader);
         })
@@ -55,21 +51,17 @@ const LongActionsController = () => {
         setLongActionView(action);
     };
 
-    const onLongActionEnd = (type, id) => {
+    const onLongActionEnd = (type, id, forceClose) => {
+        if (!stackLongActions.exist({id: id, type: type})) return;
+
         let action = {id: id, type: type};
         stackLongActions.pop(action);
 
         //this.updateWindowTitle(true);
 
-        action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
+        action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information}) || stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
 
-        if (action) {
-            setLongActionView(action)
-        }
-
-        action = stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
-
-        if (action) {
+        if (action && !forceClose) {
             setLongActionView(action)
         } else {
             loadMask && loadMask.el && loadMask.el.classList.contains('modal-in') && f7.dialog.close(loadMask.el);

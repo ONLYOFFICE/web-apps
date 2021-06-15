@@ -7,11 +7,11 @@ const PageSpreadsheetInfo = (props) => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
     const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
-    const dataApp = props.getAppProps();
-    const dataModified = props.getModified;
-    const dataModifiedBy = props.getModifiedBy;
-    const creators = props.getCreators;
     const dataDoc = storeSpreadsheetInfo.dataDoc;
+    const dataApp = props.dataApp;
+    const dataModified = props.modified;
+    const dataModifiedBy = props.modifiedBy;
+    const creators = props.creators;
   
     return (
         <Page>

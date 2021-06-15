@@ -116,11 +116,7 @@ const PageLink = props => {
                                placeholder={_t.textLink}
                                value={link}
                                onChange={(event) => {
-                                if (link.includes('https://')) {
-                                    setDisplay(link)
-                                }
                                 setLink(event.target.value)
-                                setDisplay(event.target.value)
                             }}
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{

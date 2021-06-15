@@ -63,7 +63,7 @@ export class storeAppOptions {
         this.canPlugins = false;
     }
 
-    setPermissionOptions (document, licType, params, permissions) {
+    setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -75,7 +75,7 @@ export class storeAppOptions {
         this.canEdit = (permissions.edit !== false || permissions.review === true) && // can edit or review
             (this.config.canRequestEditRights || this.config.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
             (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-            true/*isSupportEditFeature*/;
+            isSupportEditFeature;
         this.isEdit = this.canLicense && this.canEdit && this.config.mode !== 'view';
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
         this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
