@@ -53,7 +53,8 @@ define([
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
-    'presentationeditor/main/app/collection/EquationGroups'
+    'presentationeditor/main/app/collection/EquationGroups',
+    'common/main/lib/component/HintManager'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -159,6 +160,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init();
                 Common.UI.Themes.init(this.api);
                 
                 if (this.api){
