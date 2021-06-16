@@ -1,5 +1,5 @@
 {
-  "Main" : {
+  "Main": {
     "SDK": {
       "Series": "Series",
       "Diagram Title": "Chart Title",
@@ -47,12 +47,10 @@
     "textPaidFeature": "Paid feature",
     "textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader. Please contact our Sales Department to get a quote.",
     "textClose": "Close",
-
     "errorProcessSaveResult": "Saving is failed.",
     "criticalErrorTitle": "Error",
     "warnProcessRightsChange": "You have been denied the right to edit the file.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
-
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
     "titleUpdateVersion": "Version changed",
     "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
@@ -468,7 +466,7 @@
     "textCancel": "Cancel",
     "textPictureFromLibrary": "Picture from Library",
     "textPictureFromURL": "Picture from URL",
-    "textLinkSettings": "LinkSettings",
+    "textLinkSettings": "Link Settings",
     "textBack": "Back",
     "textEmptyImgUrl": "You need to specify image URL.",
     "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
