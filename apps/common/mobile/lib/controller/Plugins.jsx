@@ -35,8 +35,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
             api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
             api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
-
-            Common.Gateway.off('init', loadConfig);
         };
     });
 
