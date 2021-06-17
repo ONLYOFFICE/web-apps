@@ -255,12 +255,15 @@ DE.ApplicationController = new(function(){
         common.utils.dialogPrint(url, api);
     }
 
-    function onFillRequiredFields() {
-        if (btnSubmit) {
+    function onFillRequiredFields(isFilled) {
+        if (isFilled) {
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
+            // $requiredTooltip && $requiredTooltip.hide();
+        } else {
+            btnSubmit.attr({disabled: true});
+            btnSubmit.css("pointer-events", "none");
         }
-        $requiredTooltip && $requiredTooltip.hide();
     }
 
     function hidePreloader() {
@@ -338,7 +341,7 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
-        api.asc_registerCallback('asc_onFillRequiredFields',    onFillRequiredFields);
+        api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -420,8 +423,8 @@ DE.ApplicationController = new(function(){
         });
 
         // TODO: add asc_hasRequiredFields to sdk
-        /*
-        if (appOptions.canSubmitForms && api.asc_hasRequiredFields()) {
+
+        if (appOptions.canSubmitForms && !api.asc_IsAllRequiredFormsFilled()) {
             var sgroup = $('#id-submit-group');
             btnSubmit.attr({disabled: true});
             btnSubmit.css("pointer-events", "none");
@@ -432,6 +435,7 @@ DE.ApplicationController = new(function(){
                 $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
                 $requiredTooltip.find('.close-div').on('click', function() {
                     $requiredTooltip.hide();
+                    api.asc_MoveToFillingForm(true, true, true);
                     common.localStorage.setItem("de-embed-hide-submittip", 1);
                     sgroup.attr('data-toggle', 'tooltip');
                     sgroup.tooltip({
@@ -448,7 +452,6 @@ DE.ApplicationController = new(function(){
                 });
             }
         }
-        */
 
         var documentMoveTimer;
         var ismoved = false;
