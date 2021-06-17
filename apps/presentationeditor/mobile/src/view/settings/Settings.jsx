@@ -130,9 +130,11 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                             <Icon slot="media" icon="icon-collaboration"></Icon>
                         </ListItem> 
                     : null}
-                    <ListItem link="#" title={_t.textPresentationSettings} onClick={onoptionclick.bind(this, '/presentation-settings/')}>
-                        <Icon slot="media" icon="icon-setup"></Icon>
-                    </ListItem>
+                    {_isEdit && 
+                        <ListItem link="#" title={_t.textPresentationSettings} onClick={onoptionclick.bind(this, '/presentation-settings/')}>
+                            <Icon slot="media" icon="icon-setup"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
