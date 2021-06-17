@@ -34,7 +34,7 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
+    <tr class="form-not-image">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
         </td>
@@ -60,6 +60,16 @@
         <td class="padding-small">
             <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textColor %></label>
             <div id="form-color-btn" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-autofit"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-multiline"></div>
         </td>
     </tr>
     <tr class="form-image">
