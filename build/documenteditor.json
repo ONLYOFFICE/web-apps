@@ -355,7 +355,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html"
+                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html",
+                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index.html"
             },
             "localization": [
                 {
