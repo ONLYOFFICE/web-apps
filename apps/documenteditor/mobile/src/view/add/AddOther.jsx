@@ -179,7 +179,7 @@ const AddOther = props => {
                 <Icon slot="media" icon="icon-pagenumber"></Icon>
             </ListItem>
             {(isShape || isChart) ? null :
-                [ <ListItem title={_t.textBreak} link={'/add-break/'} routeProps={{
+                [ <ListItem key='break' title={_t.textBreak} link={'/add-break/'} routeProps={{
                     onPageBreak: props.onPageBreak,
                     onColumnBreak: props.onColumnBreak,
                     onInsertSectionBreak: props.onInsertSectionBreak
@@ -187,7 +187,7 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-sectionbreak"></Icon>
                 </ListItem>,
                 
-                <ListItem title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
+                <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,
                     getFootnoteStartAt: props.getFootnoteStartAt,
                     onFootnoteStartAt: props.onFootnoteStartAt,
