@@ -311,7 +311,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignLeft);
@@ -321,7 +320,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignCenter);
@@ -331,7 +329,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignRight);
@@ -341,11 +338,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
-
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',

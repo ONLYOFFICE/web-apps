@@ -1227,8 +1227,12 @@ define([
 
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
-            if (this.api)
+            if (this.api) {
+                if (!btn.pressed) {
+                    type = (type==1) ? 3 : 1;
+                }
                 this.api.put_PrAlign(type);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Align');
