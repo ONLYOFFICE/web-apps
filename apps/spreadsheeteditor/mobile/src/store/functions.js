@@ -1,21 +1,20 @@
-import {action, computed, makeObservable} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 
 export class storeFunctions {
     constructor() {
         makeObservable(this, {
             initFunctions: action,
-            functions: computed
+            functions: observable
         });
     }
 
+    functions = {};
+
     initFunctions (groups, data) {
-        this.groups = groups;
-        this.data = data;
+        this.functions = this.getFunctions(groups, data);
     }
 
-    get functions () {
-        const groups = this.groups;
-        const data = this.data;
+    getFunctions (groups, data) {
         const functions = {};
         for (let g in groups) {
             const group = groups[g];

@@ -19,11 +19,6 @@ const Settings = props => {
         }
     });
 
-    const onviewclosed = () => {
-        if ( props.onclosed )
-            props.onclosed();
-    };
-
     const closeModal = () => {
         if (Device.phone) {
             f7.sheet.close('.settings-popup');
@@ -46,15 +41,14 @@ const Settings = props => {
     };
 
     const onPrint = () => {
+        closeModal();
         setTimeout(() => {
             Common.EditorApi.get().asc_Print();
-        }, 1);
-        closeModal();
+        }, 400);
     };
 
     const showHelp = () => {
         let url = __HELP_URL__;
-        // let url = 'https://helpcenter.onlyoffice.com';
 
         if (url.charAt(url.length-1) !== '/') {
             url += '/';
@@ -68,17 +62,21 @@ const Settings = props => {
         }
 
         closeModal();
-        window.open(url, "_blank");
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 400);
     };
 
     const onOrthographyCheck = () => {
         closeModal();
-        Common.EditorApi.get().asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
+        setTimeout(() => {
+            Common.EditorApi.get().asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
+        }, 400);
     };
 
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
-                         onclosed={onviewclosed}
+                         onclosed={props.onclosed}
                          onReaderMode={onReaderMode}
                          onPrint={onPrint}
                          showHelp={showHelp}
