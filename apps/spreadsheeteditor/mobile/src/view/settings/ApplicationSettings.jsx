@@ -27,14 +27,14 @@ const PageApplicationSettings = props => {
     };
 
     // set mode
-    // const appOptions = props.storeAppOptions;
-    // const _isEdit = appOptions.isEdit;
+    const appOptions = props.storeAppOptions;
+    const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
-            {/* {_isEdit && */}
+            {_isEdit &&
                 <Fragment>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
                     <List>
@@ -59,39 +59,40 @@ const PageApplicationSettings = props => {
                             onRegSettings: props.onRegSettings
                         }}></ListItem>
                     </List>
-                    <BlockTitle>{_t.textCommentingDisplay}</BlockTitle>
-                    <List>
-                        <ListItem>
-                            <span>{_t.textComments}</span>
-                            <Toggle checked={isComments}
-                                    onChange={() => {
-                                        storeApplicationSettings.changeDisplayComments(!isComments);
-                                        props.onChangeDisplayComments(!isComments);
-                                    }}
-                            />
-                        </ListItem>
-                        <ListItem>
-                            <span>{_t.textResolvedComments}</span>
-                            <Toggle checked={isResolvedComments} disabled={!isComments}
-                                    onChange={() => {
-                                        storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
-                                        props.onChangeDisplayResolved(!isResolvedComments);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
-                    <List>
-                        <ListItem>
-                            <span>{_t.textR1C1Style}</span>
-                            <Toggle checked={isRefStyle}
-                                    onChange={() => {
-                                        storeApplicationSettings.changeRefStyle(!isRefStyle);
-                                        props.clickR1C1Style(!isRefStyle);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
                 </Fragment>
+            }
+                <BlockTitle>{_t.textCommentingDisplay}</BlockTitle>
+                <List>
+                    <ListItem>
+                        <span>{_t.textComments}</span>
+                        <Toggle checked={isComments}
+                                onChange={() => {
+                                    storeApplicationSettings.changeDisplayComments(!isComments);
+                                    props.onChangeDisplayComments(!isComments);
+                                }}
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <span>{_t.textResolvedComments}</span>
+                        <Toggle checked={isResolvedComments} disabled={!isComments}
+                                onChange={() => {
+                                    storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
+                                    props.onChangeDisplayResolved(!isResolvedComments);
+                                }}
+                        />
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem>
+                        <span>{_t.textR1C1Style}</span>
+                        <Toggle checked={isRefStyle}
+                                onChange={() => {
+                                    storeApplicationSettings.changeRefStyle(!isRefStyle);
+                                    props.clickR1C1Style(!isRefStyle);
+                                }}
+                        />
+                    </ListItem>
+                </List>
             {/* } */}
             {/* {_isShowMacros && */}
                 <List>

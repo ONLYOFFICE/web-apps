@@ -310,7 +310,7 @@ const PageTransition = props => {
                 </ListItem>
             </List>
             <List className="buttons-list">
-                <ListItem href="#" className="button button-raised button-fill" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
+                <ListButton className="button-fill button-raised" onClick={props.onApplyAll}>{_t.textApplyAll}</ListButton>
             </List>
         </Page>
     );

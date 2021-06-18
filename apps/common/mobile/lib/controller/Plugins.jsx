@@ -46,7 +46,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         api.asc_pluginButtonClick(index);
     };
 
-
     const showPluginModal = (plugin, variationIndex, frameId, urlAddition) => {
         let isAndroid = Device.android;
         let variation = plugin.get_Variations()[variationIndex];
@@ -68,7 +67,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                     if ((storeAppOptions.isEdit || b.isViewer !== false)) {
                         newBtns[index] = {
                             text: b.text,
-                            attributes: {result: index}
+                            attributes: {result: index},
+                            close: false
                         };
                     }
                 });
@@ -123,8 +123,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const pluginClose = plugin => {
-        if (iframe) {
-            iframe = null;
+        if (plugin) {
+            modal.close();
         }
     };
 

@@ -16,14 +16,14 @@ const PageApplicationSettings = props => {
     };
 
     // set mode
-    // const appOptions = props.storeAppOptions;
-    // const _isEdit = appOptions.isEdit;
+    const appOptions = props.storeAppOptions;
+    const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
-            {/* {_isEdit && */}
+            {_isEdit &&
                 <Fragment>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
                     <List>
@@ -46,7 +46,7 @@ const PageApplicationSettings = props => {
                         </ListItem>
                     </List>
                 </Fragment>
-            {/* } */}
+            }
             {/* {_isShowMacros && */}
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
@@ -84,7 +84,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
 export {ApplicationSettings, MacrosSettings};
