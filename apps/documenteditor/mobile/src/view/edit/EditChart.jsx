@@ -147,6 +147,7 @@ const PageStyle = props => {
     const types = storeChartSettings.types;
     const curType = chartProperties ? chartProperties.getType() : null;
     const chartStyles = storeChartSettings.chartStyles;
+    const isAndroid = Device.android;
     // console.log(chartStyles, curType);
     // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom);
 
@@ -184,6 +185,7 @@ const PageStyle = props => {
                     {chartStyles ? <Link key={"de-link-chart-style"}  tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
                     <Link key={"de-link-chart-fill"}  tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"de-link-chart-border"}  tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>
