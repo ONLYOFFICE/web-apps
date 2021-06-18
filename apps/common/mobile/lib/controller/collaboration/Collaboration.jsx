@@ -17,6 +17,7 @@ class CollaborationController extends Component {
             api.asc_registerCallback('asc_OnTryUndoInFastCollaborative', this.onTryUndoInFastCollaborative.bind(this));
         });
 
+        Common.Notifications.on('api:disconnect', this.onCoAuthoringDisconnect.bind(this));
         Common.Notifications.on('document:ready', this.onDocumentReady.bind(this));
     }
 
