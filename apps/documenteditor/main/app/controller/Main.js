@@ -942,7 +942,7 @@ define([
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
+                        title   = this.loadingDocumentTitleText + '           ';
                         text    = this.loadingDocumentTextText;
                         break;
                     default:
@@ -1246,7 +1246,7 @@ define([
             onOpenDocument: function(progress) {
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-                proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
+                proc = this.textLoadingDocument + ': ' + Common.Utils.String.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + "%";
                 elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
