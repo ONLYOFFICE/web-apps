@@ -3,6 +3,7 @@ import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import Preview from "../view/Preview";
+import ContextMenu from './ContextMenu';
 
 const PreviewController = props => {
     const { t } = useTranslation();
@@ -20,6 +21,7 @@ const PreviewController = props => {
             api.DemonstrationEndShowMessage(_t.textFinalMessage);
         };
 
+        ContextMenu.closeContextMenu();
         show();
         onDocumentReady();
 
