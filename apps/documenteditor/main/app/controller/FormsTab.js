@@ -233,6 +233,18 @@ define([
         },
 
         onSubmitClick: function() {
+            if (!this.api.asc_IsAllRequiredFormsFilled()) {
+                var me = this;
+                Common.UI.warning({
+                    msg: this.view.textRequired,
+                    callback: function() {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
             this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
