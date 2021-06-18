@@ -1739,7 +1739,7 @@ define([
                 }
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
-                    Common.UI.alert(config).$window.attr('data-value', id);
+                    setTimeout(function() {Common.UI.alert(config).$window.attr('data-value', id);}, 1);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
