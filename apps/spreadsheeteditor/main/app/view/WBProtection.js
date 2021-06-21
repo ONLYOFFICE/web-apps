@@ -209,7 +209,10 @@ define([
             txtLockedCell: 'Locked Cell',
             txtLockedShape: 'Shape Locked',
             txtLockedText: 'Lock Text',
-            txtHiddenFormula: 'Hidden Formulas'
+            txtHiddenFormula: 'Hidden Formulas',
+            txtProtect: 'Protect',
+            txtWBDescription: 'To prevent other users from viewing hidden worksheets, adding, moving, deleting, or hiding worksheets and renaming worksheets, you can protect the structure of your workbook with a password.',
+            txtWBTitle: 'Protect Workbook structure'
         }
     }()), SSE.Views.WBProtection || {}));
 });

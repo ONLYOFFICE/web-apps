@@ -55,22 +55,27 @@ define([
 
             _.extend(_options,  {
                 width           : 395,
-                height          : 270,
+                height          : options.height || 261,
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
-                title           : t.txtTitle,
-                buttons: ['ok', 'cancel']
+                title           : options.txtTitle || t.txtTitle,
+                passwordOptional: !!options.passwordOptional,
+                buttons: options.buttons || ['ok', 'cancel']
 
             }, options);
 
+            this.handler        =   options.handler;
+            this.passwordOptional = options.passwordOptional || false;
+            this.txtDescription = options.txtDescription || t.txtDescription;
+
             this.template = options.template || [
                 '<div class="box">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
+                    '<div class="" style="margin-bottom: 10px;">',
                         '<label>' + t.txtDescription + '</label>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label>' + t.txtPassword + '</label>',
+                        '<label>' + t.txtPassword + (t.passwordOptional ? ' (' + t.txtOptional + ')': '') + '</label>',
                     '</div>',
                     '<div id="id-password-txt" class="input-row" style="margin-bottom: 5px;"></div>',
                     '<div class="input-row">',
@@ -80,9 +85,6 @@ define([
                     '<label>' + t.txtWarning + '</label>',
                 '</div>'
             ].join('');
-
-            this.handler        =   options.handler;
-            this.settings       =   options.settings;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -97,7 +99,7 @@ define([
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
                         type: 'password',
-                        allowBlank  : false,
+                        allowBlank  : this.passwordOptional,
                         style       : 'width: 100%;',
                         maxLength: 255,
                         validateOnBlur: false
@@ -105,7 +107,7 @@ define([
                     this.repeatPwd = new Common.UI.InputField({
                         el: $('#id-repeat-txt'),
                         type: 'password',
-                        allowBlank  : false,
+                        allowBlank  : this.passwordOptional,
                         style       : 'width: 100%;',
                         maxLength: 255,
                         validateOnBlur: false,
@@ -157,7 +159,8 @@ define([
         txtDescription     : "A Password is required to open this document",
         txtRepeat: 'Repeat password',
         txtIncorrectPwd: 'Confirmation password is not identical',
-        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.'
+        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.',
+        txtOptional: 'Optional'
 
     }, Common.Views.PasswordDialog || {}));
 });

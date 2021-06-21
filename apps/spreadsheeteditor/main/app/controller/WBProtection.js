@@ -105,6 +105,27 @@ define([
         },
 
         onWorkbookClick: function(state) {
+            var me = this,
+                win = new Common.Views.PasswordDialog({
+                    api: me.api,
+                    txtTitle: me.view.txtWBTitle,
+                    txtDescription: me.view.txtWBDescription,
+                    passwordOptional: true,
+                    height: 291,
+                    buttons: [{
+                        value: 'ok',
+                        caption: me.view.txtProtect
+                    }, 'cancel'],
+                    primary: 'ok',
+                    handler: function(result, props) {
+                        if (result == 'ok') {
+                            me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
         },
 
         onSheetClick: function(state) {
@@ -129,6 +150,12 @@ define([
         },
 
         onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (resolve) {
+                resolve();
+            })).then(function () {
+                me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
+            });
         },
 
         onCoAuthoringDisconnect: function() {
