@@ -105,30 +105,72 @@ define([
         },
 
         onWorkbookClick: function(state) {
-            var me = this,
-                win = new Common.Views.PasswordDialog({
-                    api: me.api,
-                    txtTitle: me.view.txtWBTitle,
-                    txtDescription: me.view.txtWBDescription,
-                    passwordOptional: true,
-                    height: 291,
-                    buttons: [{
-                        value: 'ok',
-                        caption: me.view.txtProtect
-                    }, 'cancel'],
-                    primary: 'ok',
-                    handler: function(result, props) {
-                        if (result == 'ok') {
-                            me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+            if (state) {
+                var me = this,
+                    win = new Common.Views.PasswordDialog({
+                        api: me.api,
+                        title: me.view.txtWBTitle,
+                        txtDescription: me.view.txtWBDescription,
+                        passwordOptional: true,
+                        height: 291,
+                        buttons: [{
+                            value: 'ok',
+                            caption: me.view.txtProtect
+                        }, 'cancel'],
+                        primary: 'ok',
+                        handler: function(result, props) {
+                            if (result == 'ok') {
+                                me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+                            }
+                            Common.NotificationCenter.trigger('edit:complete');
                         }
-                        Common.NotificationCenter.trigger('edit:complete');
-                    }
-                });
+                    });
 
-            win.show();
+                win.show();
+            } else {
+                var me = this,
+                    win = new Common.Views.OpenDialog({
+                        title: me.view.txtWBUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.view.txtWBUnlockDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+                                }
+                                Common.NotificationCenter.trigger('edit:complete');
+                            }
+                        }
+                    });
+
+                win.show();
+            }
         },
 
         onSheetClick: function(state) {
+            if (state) {
+
+            } else {
+                var me = this,
+                    win = new Common.Views.OpenDialog({
+                        title: me.view.txtSheetUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.view.txtSheetUnlockDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                }
+                                Common.NotificationCenter.trigger('edit:complete');
+                            }
+                        }
+                    });
+
+                win.show();
+            }
         },
 
         onRangesClick: function() {

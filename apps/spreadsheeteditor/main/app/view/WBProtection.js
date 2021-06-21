@@ -212,7 +212,11 @@ define([
             txtHiddenFormula: 'Hidden Formulas',
             txtProtect: 'Protect',
             txtWBDescription: 'To prevent other users from viewing hidden worksheets, adding, moving, deleting, or hiding worksheets and renaming worksheets, you can protect the structure of your workbook with a password.',
-            txtWBTitle: 'Protect Workbook structure'
+            txtWBTitle: 'Protect Workbook structure',
+            txtWBUnlockTitle: 'Unprotect Workbook',
+            txtWBUnlockDescription: 'Enter a password to unprotect workbook',
+            txtSheetUnlockTitle: 'Unprotect Sheet',
+            txtSheetUnlockDescription: 'Enter a password to unprotect sheet'
         }
     }()), SSE.Views.WBProtection || {}));
 });
