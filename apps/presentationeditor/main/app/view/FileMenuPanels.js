@@ -69,7 +69,7 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
                         '<% }) %>',
@@ -188,7 +188,7 @@ define([
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtProofing %></label></td>',
-                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
@@ -242,7 +242,7 @@ define([
                 '</tr>','<tr class="divider macros"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
@@ -250,7 +250,7 @@ define([
             '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
                     '<td class="left"></td>',
-                    '<td class="right"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -268,12 +268,18 @@ define([
 
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
-                labelText: this.strSpellCheckMode
+                labelText: this.strSpellCheckMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chInputMode = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.strInputMode
+                labelText: this.strInputMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -296,7 +302,10 @@ define([
                     { value: 150, displayValue: "150%" },
                     { value: 175, displayValue: "175%" },
                     { value: 200, displayValue: "200%" }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             /** coauthoring begin **/
@@ -308,7 +317,10 @@ define([
                 data        : [
                     { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
                     me.chAutosave.setValue(1);
@@ -320,7 +332,10 @@ define([
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
-                labelText: this.strAutosave
+                labelText: this.strAutosave,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
                     me.cmbCoAuthMode.setValue(0);
@@ -331,12 +346,18 @@ define([
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave
+                labelText: this.strForcesave,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chAlignGuides = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-align-guides'),
-                labelText: this.strAlignGuides
+                labelText: this.strAlignGuides,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             var itemsTemplate =
@@ -356,7 +377,10 @@ define([
                     { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
                     { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
                     { value: 'custom', displayValue: this.txtCacheMode }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
@@ -369,7 +393,10 @@ define([
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
                     { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
                     { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbMacros = new Common.UI.ComboBox({
@@ -382,7 +409,10 @@ define([
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
                     { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
                     { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.lblMacrosDesc.text(record.descValue);
             });
@@ -390,7 +420,10 @@ define([
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
-                labelText: this.strPasteButton
+                labelText: this.strPasteButton,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.btnAutoCorrect = new Common.UI.Button({
@@ -406,7 +439,10 @@ define([
                 data        : [
                     { value: Common.UI.Themes.THEME_LIGHT_ID, displayValue: this.txtThemeLight },
                     { value: Common.UI.Themes.THEME_DARK_ID, displayValue: this.txtThemeDark }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             $markup.find('.btn.primary').each(function(index, el){
@@ -863,7 +899,7 @@ define([
                 '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                     '</tr>',
                 '</table>',
             '</div>'
@@ -900,19 +936,28 @@ define([
                 el          : $markup.findById('#id-info-title'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -941,7 +986,10 @@ define([
                 el          : $markup.findById('#id-info-add-author'),
                 style       : 'width: 200px;',
                 validateOnBlur: false,
-                placeHolder: this.txtAddAuthor
+                placeHolder: this.txtAddAuthor,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 

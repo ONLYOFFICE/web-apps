@@ -300,7 +300,8 @@ define([
                 el: $markup.findById('#fms-chb-input-mode'),
                 labelText: this.strInputMode,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             /** coauthoring begin **/
@@ -308,7 +309,8 @@ define([
                 el: $markup.findById('#fms-chb-live-comment'),
                 labelText: this.strLiveComment,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
                 me.chResolvedComment.setDisabled(field.getValue()!=='checked');
             });
@@ -317,7 +319,8 @@ define([
                 el: $markup.findById('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             /** coauthoring end **/
 
@@ -325,21 +328,24 @@ define([
                 el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.strSpellCheckMode,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chCompatible = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-compatible'),
                 labelText: this.textOldVersions,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.strAutosave,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
                     me.cmbCoAuthMode.setValue(0);
@@ -352,14 +358,16 @@ define([
                 el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.strForcesave,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chAlignGuides = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-align-guides'),
                 labelText: this.strAlignGuides,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -487,7 +495,8 @@ define([
                 el: $markup.findById('#fms-chb-paste-settings'),
                 labelText: this.strPasteButton,
                 dataHint: '2',
-                dataHintDirection: 'left'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.btnAutoCorrect = new Common.UI.Button({
