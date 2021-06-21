@@ -41,7 +41,8 @@
 define([
     'core',
     'common/main/lib/view/Protection',
-    'spreadsheeteditor/main/app/view/WBProtection'
+    'spreadsheeteditor/main/app/view/WBProtection',
+    'spreadsheeteditor/main/app/view/ProtectDialog'
 ], function () {
     'use strict';
 
@@ -107,17 +108,10 @@ define([
         onWorkbookClick: function(state) {
             if (state) {
                 var me = this,
-                    win = new Common.Views.PasswordDialog({
-                        api: me.api,
+                    win = new SSE.Views.ProtectDialog({
                         title: me.view.txtWBTitle,
                         txtDescription: me.view.txtWBDescription,
-                        passwordOptional: true,
-                        height: 291,
-                        buttons: [{
-                            value: 'ok',
-                            caption: me.view.txtProtect
-                        }, 'cancel'],
-                        primary: 'ok',
+                        height: 306,
                         handler: function(result, props) {
                             if (result == 'ok') {
                                 me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());

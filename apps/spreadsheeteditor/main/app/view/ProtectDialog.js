@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2021
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,14 +29,12 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- *  OpenDialog.js
+ *  ProtectDialog.js
  *
- *  Select Codepage for open CSV/TXT format file.
- *
- *  Created by Alexey.Musinov on 29/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Radzhabova on 21.06.2021
+ *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -45,43 +43,41 @@ define([
 ], function () {
     'use strict';
 
-    Common.Views.PasswordDialog = Common.UI.Window.extend(_.extend({
-
-        applyFunction: undefined,
+    SSE.Views.ProtectDialog = Common.UI.Window.extend(_.extend({
 
         initialize : function (options) {
             var t = this,
                 _options = {};
 
             _.extend(_options,  {
-                width           : 395,
-                height          : 270,
-                header          : true,
-                cls             : 'modal-dlg',
-                contentTemplate : '',
-                title           : t.txtTitle,
-                buttons: ['ok', 'cancel']
-
+                width: 350,
+                cls: 'modal-dlg',
+                height          : options.height || 306,
+                buttons: [{
+                    value: 'ok',
+                    caption: this.txtProtect
+                }, 'cancel']
             }, options);
 
-            this.handler        =   options.handler;
+            this.handler        = options.handler;
+            this.txtDescription = options.txtDescription || '';
 
             this.template = options.template || [
-                '<div class="box">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<label>' + t.txtDescription + '</label>',
-                    '</div>',
-                    '<div class="input-row">',
-                        '<label>' + t.txtPassword + (t.passwordOptional ? ' (' + t.txtOptional + ')': '') + '</label>',
-                    '</div>',
-                    '<div id="id-password-txt" class="input-row" style="margin-bottom: 5px;"></div>',
-                    '<div class="input-row">',
+                    '<div class="box">',
+                        '<div class="" style="margin-bottom: 10px;">',
+                            '<label>' + t.txtDescription + '</label>',
+                        '</div>',
+                        '<div class="input-row">',
+                            '<label>' + t.txtPassword + ' (' + t.txtOptional + ')' + '</label>',
+                        '</div>',
+                        '<div id="id-password-txt" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div class="input-row">',
                         '<label>' + t.txtRepeat + '</label>',
-                    '</div>',
-                    '<div id="id-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
-                    '<label>' + t.txtWarning + '</label>',
-                '</div>'
-            ].join('');
+                        '</div>',
+                        '<div id="id-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
+                        '<label>' + t.txtWarning + '</label>',
+                    '</div>'
+                ].join('');
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -93,25 +89,25 @@ define([
             if (this.$window) {
                 var me = this;
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-                    this.inputPwd = new Common.UI.InputField({
-                        el: $('#id-password-txt'),
-                        type: 'password',
-                        allowBlank  : false,
-                        style       : 'width: 100%;',
-                        maxLength: 255,
-                        validateOnBlur: false
-                    });
-                    this.repeatPwd = new Common.UI.InputField({
-                        el: $('#id-repeat-txt'),
-                        type: 'password',
-                        allowBlank  : false,
-                        style       : 'width: 100%;',
-                        maxLength: 255,
-                        validateOnBlur: false,
-                        validation  : function(value) {
-                            return me.txtIncorrectPwd;
-                        }
-                    });
+                this.inputPwd = new Common.UI.InputField({
+                    el: $('#id-password-txt'),
+                    type: 'password',
+                    allowBlank  : true,
+                    style       : 'width: 100%;',
+                    maxLength: 255,
+                    validateOnBlur: false
+                });
+                this.repeatPwd = new Common.UI.InputField({
+                    el: $('#id-repeat-txt'),
+                    type: 'password',
+                    allowBlank  : true,
+                    style       : 'width: 100%;',
+                    maxLength: 255,
+                    validateOnBlur: false,
+                    validation  : function(value) {
+                        return me.txtIncorrectPwd;
+                    }
+                });
             }
         },
 
@@ -151,12 +147,12 @@ define([
             this.close();
         },
 
-        txtTitle           : "Set Password",
         txtPassword        : "Password",
-        txtDescription     : "A Password is required to open this document",
         txtRepeat: 'Repeat password',
         txtIncorrectPwd: 'Confirmation password is not identical',
-        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.'
+        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.',
+        txtOptional: 'optional',
+        txtProtect: 'Protect'
 
-    }, Common.Views.PasswordDialog || {}));
+    }, SSE.Views.ProtectDialog || {}));
 });
