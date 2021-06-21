@@ -1276,8 +1276,8 @@ define([
 //                    statusbarController && statusbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (me.appOptions.canProtect)
-                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('WBProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);

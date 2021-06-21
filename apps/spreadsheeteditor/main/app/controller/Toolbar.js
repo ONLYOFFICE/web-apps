@@ -3705,13 +3705,12 @@ define([
                         me.toolbar.btnCopy.$el.removeClass('split');
                     }
 
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) {
-                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                            if ($panel)
-                                me.toolbar.addTab(tab, $panel, 7);
-                        }
+                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ($panel) {
+                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
+                        $panel.append(me.getApplication().getController('WBProtection').createToolbarPanel());
+                        me.toolbar.addTab(tab, $panel, 7);
                     }
 
                     var viewtab = me.getApplication().getController('ViewTab');
