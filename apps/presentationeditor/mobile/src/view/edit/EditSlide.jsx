@@ -45,8 +45,6 @@ const PageTheme = props => {
     const storeSlideSettings = props.storeSlideSettings;
     const arrayThemes = storeSlideSettings.arrayThemes;
     const slideThemeIndex = storeSlideSettings.slideThemeIndex;
-    const defaultThemes = arrayThemes[0];
-    const docThemes = arrayThemes[1];
 
     return (
         <Page className="slide-theme">
@@ -59,32 +57,21 @@ const PageTheme = props => {
                     </NavRight>
                 }
             </Navbar>
-            {arrayThemes.length ? (
+            {arrayThemes.length && (
                 <List className="slide-theme__list">
-                    {defaultThemes.map((elem, index) => {
+                    {arrayThemes.map(theme => {
                         return (
-                            <ListItem key={elem.Index} className={elem.Index === slideThemeIndex ? "item-theme active" : "item-theme"} 
-                                style={{backgroundPosition: "0 " + index * -40 + "px"}} 
+                            <ListItem key={theme.themeId} className={theme.themeId === slideThemeIndex ? "item-theme active" : "item-theme"} 
+                                style={{backgroundPosition: `0 -${theme.offsety}px`, backgroundImage: theme.imageUrl && `url(${theme.imageUrl})`}}
                                 onClick={() => {
-                                    storeSlideSettings.changeSlideThemeIndex(elem.Index);
-                                    props.onThemeClick(elem.Index);
-                                }}>
-                            </ListItem>
-                        );
-                    })}
-                    {docThemes.map((elem, index) => {
-                        return (
-                            <ListItem key={elem.Index} className={elem.Index === slideThemeIndex ? "item-theme active" : "item-theme"}
-                                style={{backgroundPosition: "0 -0px", backgroundImage: "url(" + elem.ThemeInfo.Thumbnail + ")"}}
-                                onClick={() => {
-                                    storeSlideSettings.changeSlideThemeIndex(elem.Index);
-                                    props.onThemeClick(elem.Index);
+                                    storeSlideSettings.changeSlideThemeIndex(theme.themeId);
+                                    props.onThemeClick(theme.themeId);
                                 }}>
                             </ListItem>
                         );
                     })}
                 </List>
-            ) : null}
+            )}
         </Page>
     );
 };
