@@ -4,6 +4,7 @@ import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, V
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import { element } from 'prop-types';
 
 const EditSlide = props => {
     const { t } = useTranslation();
@@ -82,7 +83,7 @@ const PageLayout = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const storeSlideSettings = props.storeSlideSettings;
     storeSlideSettings.changeSlideLayoutIndex(storeFocusObjects.slideObject.get_LayoutIndex());
-    const arrayLayouts = storeSlideSettings.arrayLayouts;
+    const arrayLayouts = storeSlideSettings.slideLayouts;
     const slideLayoutIndex = storeSlideSettings.slideLayoutIndex;
    
     return (
@@ -96,21 +97,25 @@ const PageLayout = props => {
                     </NavRight>
                 }
             </Navbar>
-            {arrayLayouts.length ? (
-                <List className="slide-layout__list">
-                    {arrayLayouts.map((elem, index) => {
-                        return (
-                            <ListItem key={index} className={slideLayoutIndex === index ? "active" : ""} 
-                                onClick={() => {
-                                    storeSlideSettings.changeSlideLayoutIndex(index);
-                                    props.onLayoutClick(index);
-                                }}>
-                                <img src={elem.Image} style={{width: elem.Width, height: elem.Height}} alt=""/>
-                            </ListItem>
-                        )
-                    })}
-                </List>
-            ) : null}
+            {arrayLayouts.length && 
+                arrayLayouts.map((layouts, index) => {
+                    return (
+                        <List className="slide-layout__list" key={index}>
+                            {layouts.map(layout => {
+                                return (
+                                    <ListItem key={layout.type} className={slideLayoutIndex === layout.type ? "active" : ""} 
+                                        onClick={() => {
+                                            storeSlideSettings.changeSlideLayoutIndex(layout.type);
+                                            props.onLayoutClick(layout.type);
+                                        }}>
+                                        <img src={layout.image} style={{width: layout.width, height: layout.height}} alt=""/>
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    );
+                })
+            }
         </Page>
     );
 };
