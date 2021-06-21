@@ -1474,7 +1474,7 @@
   "SSE.Views.CellSettings.tipRemoveGradientPoint": "Supprimer le point de dégradé",
   "SSE.Views.CellSettings.tipRight": "Fixer seulement bordure extérieure droite",
   "SSE.Views.CellSettings.tipTop": "Fixer seulement bordure extérieure supérieure",
-  "SSE.Views.ChartDataDialog.errorInFormula": "La formule que vous avez saisi contient une erreure.",
+  "SSE.Views.ChartDataDialog.errorInFormula": "La formule que vous avez saisi contient une erreur.",
   "SSE.Views.ChartDataDialog.errorInvalidReference": "La référence n'est pas valide. La référence doit être attachée à une feuille de calcul ouverte.",
   "SSE.Views.ChartDataDialog.errorMaxPoints": "Maximum de 4096 points en série par graphique.",
   "SSE.Views.ChartDataDialog.errorMaxRows": "Le nombre maximum de séries de données par graphique est de 255.",
