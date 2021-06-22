@@ -1692,6 +1692,10 @@ define([
                         config.msg = this.errorPivotWithoutUnderlying;
                         break;
 
+                    case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
+                        config.msg = this.errorChangeOnProtectedSheet;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2952,7 +2956,8 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
-            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.'
         }
     })(), SSE.Controllers.Main || {}))
 });

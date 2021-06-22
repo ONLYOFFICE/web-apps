@@ -164,7 +164,8 @@
         "errorFrmlMaxTextLength": "Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)",
         "errorFrmlMaxLength": "You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.",
         "errorFrmlMaxReference": "You cannot enter this formula because it has too many values,<br>cell references, and/or names.",
-        "errorDataValidate":"The value you entered is not valid.<br>A user has restricted values that can be entered into this cell."
+        "errorDataValidate":"The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.",
+        "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet."
     },
     "ContextMenu": {
         "menuViewComment": "View Comment",
