@@ -172,7 +172,7 @@
   "SSE.Controllers.Main.errorDataRange": "Plage de données incorrecte.",
   "SSE.Controllers.Main.errorDataValidate": "La valeur saisie est incorrecte.<br>Un utilisateur a restreint les valeurs pouvant être saisies dans cette cellule.",
   "SSE.Controllers.Main.errorDefaultMessage": "Code d'erreur : %1",
-  "SSE.Controllers.Main.errorEditingDownloadas": "Une erreure s'est produite lors du travail sur le document.<br>Utilisez l'option « Télécharger » pour enregistrer une copie de sauvegarde sur le disque dur de votre système.",
+  "SSE.Controllers.Main.errorEditingDownloadas": "Une erreur s'est produite lors du travail sur le document.<br>Utilisez l'option « Télécharger » pour enregistrer une copie de sauvegarde sur le disque dur de votre système.",
   "SSE.Controllers.Main.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut pas être ouvert.",
   "SSE.Controllers.Main.errorFileRequest": "Erreur externe.<br>Erreur de demande de fichier. Contactez l'assistance technique si le problème persiste.",
   "SSE.Controllers.Main.errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur de Document Server pour obtenir plus d'information.  ",
