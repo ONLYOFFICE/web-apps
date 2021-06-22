@@ -3512,6 +3512,7 @@ define([
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
                 properties.put_ResetCrop(true);
+                properties.put_Rot(0);
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);

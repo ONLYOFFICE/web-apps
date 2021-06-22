@@ -30,6 +30,7 @@ class EditImageController extends Component {
             properties.put_Width(imgSize.get_ImageWidth());
             properties.put_Height(imgSize.get_ImageHeight());
             properties.put_ResetCrop(true);
+            properties.put_Rot(0);
             api.ImgApply(properties);
         }
     }
