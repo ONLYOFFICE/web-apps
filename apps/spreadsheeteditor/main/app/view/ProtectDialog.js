@@ -50,11 +50,11 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                title: options.type=='sheet' ? this.txtSheetTitle : this.txtWBTitle,
+                title: options.title ? options.title : (options.type=='sheet' ? this.txtSheetTitle : this.txtWBTitle),
                 cls: 'modal-dlg',
                 width: 350,
-                height: options.type=='sheet' ? 447 : 306,
-                buttons: [{
+                height: options.type=='sheet' ? 447 : (options.type=='range' ? 338 : 306),
+                buttons: options.buttons ? options.buttons : [{
                     value: 'ok',
                     caption: this.txtProtect
                 }, 'cancel']
@@ -64,12 +64,24 @@ define([
             this.txtDescription = options.txtDescription || '';
             this.type = options.type || 'workbook';
             this.props = options.props;
+            this.api = options.api;
 
             this.template = options.template || [
                     '<div class="box">',
-                        '<div class="" style="margin-bottom: 10px;">',
-                            '<label>' + (t.type=='sheet' ? t.txtSheetDescription : t.txtWBDescription) + '</label>',
-                        '</div>',
+                        '<% if (type=="range") { %>',
+                            '<div class="input-row">',
+                                '<label>' + t.txtRangeName + '</label>',
+                            '</div>',
+                            '<div id="id-range-name-txt" class="input-row" style="margin-bottom: 5px;"></div>',
+                            '<div class="input-row">',
+                                '<label>' + t.txtRange + '</label>',
+                            '</div>',
+                            '<div id="id-range-txt" class="input-row" style="margin-bottom: 10px;"></div>',
+                        '<% } else { %>',
+                            '<div class="" style="margin-bottom: 10px;">',
+                                '<label>' + (t.type=='sheet' ? t.txtSheetDescription : t.txtWBDescription) + '</label>',
+                            '</div>',
+                        '<% } %>',
                         '<div class="input-row">',
                             '<label>' + t.txtPassword + ' (' + t.txtOptional + ')' + '</label>',
                         '</div>',
@@ -145,15 +157,44 @@ define([
                 this.optionsList.on('entervalue', _.bind(this.onPrimary, this));
             }
 
+            if (this.type == 'range') {
+                this.inputRangeName = new Common.UI.InputField({
+                    el: $('#id-range-name-txt'),
+                    allowBlank  : false,
+                    blankError  : this.txtEmpty,
+                    style       : 'width: 100%;',
+                    maxLength: 255,
+                    validateOnBlur: false
+                });
+                this.txtDataRange = new Common.UI.InputFieldBtn({
+                    el          : $('#id-range-txt'),
+                    name        : 'range',
+                    style       : 'width: 100%;',
+                    allowBlank  : true,
+                    btnHint     : this.textSelectData,
+                    blankError  : this.txtEmpty,
+                    validateOnChange: true,
+                    validation  : function(value) {
+                        if (_.isEmpty(value)) {
+                            return true;
+                        }
+                    }
+                });
+                this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
+            }
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return this.optionsList ? [this.inputPwd, this.repeatPwd, this.optionsList] : [this.inputPwd, this.repeatPwd];
+            var arr = [];
+            (this.type == 'range') && (arr = arr.concat([this.inputRangeName, this.txtDataRange]));
+            arr = arr.concat([this.inputPwd, this.repeatPwd]);
+            (this.type == 'sheet') && (arr = arr.concat([this.optionsList]));
+            return arr;
         },
 
         getDefaultFocusableComponent: function () {
-            return this.inputPwd;
+            return (this.type == 'range') ? this.inputRangeName : this.inputPwd;
         },
 
         afterRender: function() {
@@ -172,6 +213,10 @@ define([
         _handleInput: function(state) {
             if (this.handler) {
                 if (state == 'ok') {
+                    if (this.inputRangeName && this.inputRangeName.checkValidate() !== true)  {
+                        this.inputRangeName.focus();
+                        return;
+                    }
                     if (this.inputPwd.checkValidate() !== true)  {
                         this.inputPwd.focus();
                         return;
@@ -182,7 +227,7 @@ define([
                         return;
                     }
                 }
-                this.handler.call(this, state, this.inputPwd.getValue(), this.getSheetSettings());
+                this.handler.call(this, state, this.inputPwd.getValue(), this.getSettings());
             }
 
             this.close();
@@ -287,14 +332,55 @@ define([
             this.optionsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
         },
 
-        getSheetSettings: function() {
-            if (this.type !== 'sheet') return null;
+        getSettings: function() {
+            if (this.type == 'sheet') return this.getSheetSettings();
+            if (this.type == 'range') return this.getRangeSettings();
+        },
 
+        getSheetSettings: function() {
             var props = this.props ? this.props : new Asc.CSheetProtection();
             this.optionsList.store.each(function (item, index) {
                 props && props['asc_set' + item.get('optionName')] && props['asc_set' + item.get('optionName')](!item.get('check'));
             });
             return props;
+        },
+
+        getRangeSettings: function() {
+            var props = this.props ? this.props : new Asc.CProtectedRange();
+            props.asc_setName(this.inputRangeName.getValue());
+            props.asc_setSqref(this.txtDataRange.getValue());
+            return props;
+        },
+
+        onSelectData: function() {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        me.dataRangeValid = dlg.getSettings();
+                        me.txtDataRange.setValue(me.dataRangeValid);
+                        me.txtDataRange.checkValidate();
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                    _.delay(function(){
+                        me.txtDataRange.focus();
+                    },1);
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 65, xy.top + 77);
+                win.setSettings({
+                    api     : me.api,
+                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
+                });
+            }
         },
 
         txtPassword : "Password",
@@ -322,7 +408,11 @@ define([
         txtWBTitle: 'Protect Workbook structure',
         txtSheetDescription: 'Prevent unwanted changes from others by limiting their ability to edit.',
         txtSheetTitle: 'Protect Sheet',
-        txtAllow: 'Allow all users of this sheet to'
+        txtAllow: 'Allow all users of this sheet to',
+        txtRangeName: 'Title',
+        txtRange: 'Range',
+        txtEmpty: 'This field is required',
+        textSelectData: 'Select Data'
 
     }, SSE.Views.ProtectDialog || {}));
 });
