@@ -137,7 +137,6 @@ Common.UI.HintManager = new(function() {
             el.attr('data-hint-title', _arrLetters[index].toUpperCase());
             _currentControls.push(el);
         });
-        return _currentControls;
     };
 
     var _getHints = function() {
@@ -222,6 +221,7 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
+                    $('input').blur(); // to change value in inputField
                     _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
                     _setCurrentSection();
                     _showHints();
@@ -262,10 +262,14 @@ Common.UI.HintManager = new(function() {
                             if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
                                 if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                     curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
-                                    curr.trigger(jQuery.Event('click', {which: 1}));
+                                    if (curr.attr('for')) { // to trigger event in checkbox
+                                        $(`#${curr.attr('for')}`).trigger(jQuery.Event('click', {which: 1}));
+                                    } else {
+                                        curr.trigger(jQuery.Event('click', {which: 1}));
+                                    }
                                 }
                             }
-                            if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                            if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
                                 _hideHints();
                                 _resetToDefault();
                                 return;

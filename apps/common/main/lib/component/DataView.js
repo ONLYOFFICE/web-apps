@@ -145,11 +145,12 @@ define([
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
             
             if (this.dataHint !== '') {
-                console.log('tr');
                 el.attr('data-hint', this.dataHint);
                 el.attr('data-hint-direction', this.dataHintDirection);
                 el.attr('data-hint-offset', this.dataHintOffset);
             }
+            if (!_.isUndefined(this.model.get('contentTarget')))
+                el.attr('content-target', this.model.get('contentTarget'));
 
             el.off('click dblclick contextmenu');
             el.on({ 'click': _.bind(this.onClick, this),

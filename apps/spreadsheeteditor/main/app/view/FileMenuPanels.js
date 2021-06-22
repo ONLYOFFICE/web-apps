@@ -212,9 +212,9 @@ define([
             this.viewSettingsPicker = new Common.UI.DataView({
                 el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
-                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', selected: true},
-                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print'},
-                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell'}
+                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', contentTarget: 'panel-settings-general', selected: true},
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print', contentTarget: 'panel-settings-print'},
+                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell', contentTarget: 'panel-settings-spellcheck'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
