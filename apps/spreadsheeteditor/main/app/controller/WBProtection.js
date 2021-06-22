@@ -42,7 +42,8 @@ define([
     'core',
     'common/main/lib/view/Protection',
     'spreadsheeteditor/main/app/view/WBProtection',
-    'spreadsheeteditor/main/app/view/ProtectDialog'
+    'spreadsheeteditor/main/app/view/ProtectDialog',
+    'spreadsheeteditor/main/app/view/ProtectRangesDlg'
 ], function () {
     'use strict';
 
@@ -83,7 +84,7 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
-                this.api.asc_registerCallback('asc_onChangeProtectSheet',_.bind(this.onChangeProtectSheet, this));
+                this.api.asc_registerCallback('asc_onChangeProtectWorksheet',_.bind(this.onChangeProtectSheet, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',        _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -222,6 +223,22 @@ define([
         },
 
         onRangesClick: function() {
+            var me = this,
+                props = me.api.asc_getProtectedRanges(),
+                win = new SSE.Views.ProtectRangesDlg({
+                    api: me.api,
+                    props: props,
+                    handler: function(result, settings) {
+                        if (result=='protect-sheet') {
+                            me.onSheetClick(true);
+                        } else if (result == 'ok') {
+                            me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
         },
 
         onLockOptionClick: function(type, value) {
