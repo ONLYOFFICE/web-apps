@@ -50,9 +50,10 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width: 350,
+                title: options.type=='sheet' ? this.txtSheetTitle : this.txtWBTitle,
                 cls: 'modal-dlg',
-                height          : options.height || 306,
+                width: 350,
+                height: options.type=='sheet' ? 447 : 306,
                 buttons: [{
                     value: 'ok',
                     caption: this.txtProtect
@@ -61,20 +62,28 @@ define([
 
             this.handler        = options.handler;
             this.txtDescription = options.txtDescription || '';
+            this.type = options.type || 'workbook';
+            this.props = options.props;
 
             this.template = options.template || [
                     '<div class="box">',
                         '<div class="" style="margin-bottom: 10px;">',
-                            '<label>' + t.txtDescription + '</label>',
+                            '<label>' + (t.type=='sheet' ? t.txtSheetDescription : t.txtWBDescription) + '</label>',
                         '</div>',
                         '<div class="input-row">',
                             '<label>' + t.txtPassword + ' (' + t.txtOptional + ')' + '</label>',
                         '</div>',
                         '<div id="id-password-txt" class="input-row" style="margin-bottom: 5px;"></div>',
                         '<div class="input-row">',
-                        '<label>' + t.txtRepeat + '</label>',
+                            '<label>' + t.txtRepeat + '</label>',
                         '</div>',
                         '<div id="id-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
+                        '<% if (type=="sheet") { %>',
+                        '<div class="input-row">',
+                            '<label>' + t.txtAllow + '</label>',
+                        '</div>',
+                        '<div id="protect-dlg-options" class="" style="width: 100%; height: 139px; overflow: hidden;margin-bottom: 10px;"></div>',
+                        '<% } %>',
                         '<label>' + t.txtWarning + '</label>',
                     '</div>'
                 ].join('');
@@ -86,37 +95,69 @@ define([
         render: function () {
             Common.UI.Window.prototype.render.call(this);
 
-            if (this.$window) {
-                var me = this;
-                this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-                this.inputPwd = new Common.UI.InputField({
-                    el: $('#id-password-txt'),
-                    type: 'password',
-                    allowBlank  : true,
-                    style       : 'width: 100%;',
-                    maxLength: 255,
-                    validateOnBlur: false
+            var me = this;
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.inputPwd = new Common.UI.InputField({
+                el: $('#id-password-txt'),
+                type: 'password',
+                allowBlank  : true,
+                style       : 'width: 100%;',
+                maxLength: 255,
+                validateOnBlur: false
+            });
+            this.repeatPwd = new Common.UI.InputField({
+                el: $('#id-repeat-txt'),
+                type: 'password',
+                allowBlank  : true,
+                style       : 'width: 100%;',
+                maxLength: 255,
+                validateOnBlur: false,
+                validation  : function(value) {
+                    return me.txtIncorrectPwd;
+                }
+            });
+
+            if (this.type == 'sheet') {
+                this.optionsList = new Common.UI.ListView({
+                    el: $('#protect-dlg-options', this.$window),
+                    store: new Common.UI.DataViewStore(),
+                    simpleAddMode: true,
+                    scrollAlwaysVisible: true,
+                    template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                    itemTemplate: _.template([
+                        '<div>',
+                        '<label class="checkbox-indeterminate" style="position:absolute;">',
+                        '<input id="pdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                        '<label for="pdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
+                        '</label>',
+                        '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                        '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                        '</div>',
+                        '</div>'
+                    ].join(''))
                 });
-                this.repeatPwd = new Common.UI.InputField({
-                    el: $('#id-repeat-txt'),
-                    type: 'password',
-                    allowBlank  : true,
-                    style       : 'width: 100%;',
-                    maxLength: 255,
-                    validateOnBlur: false,
-                    validation  : function(value) {
-                        return me.txtIncorrectPwd;
-                    }
+                this.optionsList.on({
+                    'item:change': this.onItemChanged.bind(this),
+                    'item:add': this.onItemChanged.bind(this),
+                    'item:select': this.onCellCheck.bind(this)
                 });
+                this.optionsList.onKeyDown = _.bind(this.onListKeyDown, this);
+                this.optionsList.on('entervalue', _.bind(this.onPrimary, this));
             }
+
+            this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputPwd, this.repeatPwd];
+            return this.optionsList ? [this.inputPwd, this.repeatPwd, this.optionsList] : [this.inputPwd, this.repeatPwd];
         },
 
         getDefaultFocusableComponent: function () {
             return this.inputPwd;
+        },
+
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         onPrimary: function(event) {
@@ -141,18 +182,147 @@ define([
                         return;
                     }
                 }
-                this.handler.call(this, state, this.inputPwd.getValue());
+                this.handler.call(this, state, this.inputPwd.getValue(), this.getSheetSettings());
             }
 
             this.close();
         },
 
-        txtPassword        : "Password",
+        _setDefaults: function (props) {
+            this.optionsList && this.updateOptionsList(props);
+        },
+
+        onItemChanged: function (view, record) {
+            var state = record.model.get('check');
+            if ( state == 'indeterminate' )
+                $('input[type=checkbox]', record.$el).prop('indeterminate', true);
+            else $('input[type=checkbox]', record.$el).prop({checked: state, indeterminate: false});
+        },
+
+        onCellCheck: function (listView, itemView, record) {
+            if (this.checkCellTrigerBlock)
+                return;
+
+            var target = '', isLabel = false, bound = null;
+
+            var event = window.event ? window.event : window._event;
+            if (event) {
+                target = $(event.currentTarget).find('.list-item');
+
+                if (target.length) {
+                    bound = target.get(0).getBoundingClientRect();
+                    var _clientX = event.clientX*Common.Utils.zoom(),
+                        _clientY = event.clientY*Common.Utils.zoom();
+                    if (bound.left < _clientX && _clientX < bound.right &&
+                        bound.top < _clientY && _clientY < bound.bottom) {
+                        isLabel = true;
+                    }
+                }
+
+                if (isLabel || event.target.className.match('checkbox')) {
+                    this.updateCellCheck(listView, record);
+
+                    _.delay(function () {
+                        listView.focus();
+                    }, 100, this);
+                }
+            }
+        },
+
+        onListKeyDown: function (e, data) {
+            var record = null, listView = this.optionsList;
+
+            if (listView.disabled) return;
+            if (_.isUndefined(undefined)) data = e;
+
+            if (data.keyCode == Common.UI.Keys.SPACE) {
+                data.preventDefault();
+                data.stopPropagation();
+
+                this.updateCellCheck(listView, listView.getSelectedRec());
+
+            } else {
+                Common.UI.DataView.prototype.onKeyDown.call(this.optionsList, e, data);
+            }
+        },
+
+        updateCellCheck: function (listView, record) {
+            if (record && listView) {
+                record.set('check', !record.get('check'));
+                // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
+        },
+
+        updateOptionsList: function(props) {
+            var optionsArr = [
+                { value: this.txtSelLocked, optionName: 'SelectLockedCells'},
+                { value: this.txtSelUnLocked, optionName: 'SelectUnlockedCells'},
+                { value: this.txtFormatCells, optionName: 'FormatCells'},
+                { value: this.txtFormatCols, optionName: 'FormatColumns'},
+                { value: this.txtFormatRows, optionName: 'FormatRows'},
+                { value: this.txtInsCols, optionName: 'InsertColumns'},
+                { value: this.txtInsRows, optionName: 'InsertRows'},
+                { value: this.txtInsHyper, optionName: 'InsertHyperlinks'},
+                { value: this.txtDelCols, optionName: 'DeleteColumns'},
+                { value: this.txtDelRows, optionName: 'DeleteRows'},
+                { value: this.txtSort, optionName: 'Sort'},
+                { value: this.txtAutofilter, optionName: 'AutoFilter'},
+                { value: this.txtPivot, optionName: 'PivotTables'},
+                { value: this.txtObjs, optionName: 'Objects'},
+                { value: this.txtScen, optionName: 'Scenarios'}
+            ];
+
+            var arr = [];
+            optionsArr.forEach(function (item, index) {
+                arr.push(new Common.UI.DataViewModel({
+                    selected        : false,
+                    allowSelected   : true,
+                    value           : item.value,
+                    optionName      : item.optionName,
+                    check           : props && props['asc_get' + item.optionName] ? props['asc_get' + item.optionName]() : false
+                }));
+            });
+
+            this.optionsList.store.reset(arr);
+            this.optionsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+        },
+
+        getSheetSettings: function() {
+            if (this.type !== 'sheet') return null;
+
+            var props = new Asc.CSheetProtection();
+            this.optionsList.store.each(function (item, index) {
+                props && props['asc_set' + item.get('optionName')] && props['asc_set' + item.get('optionName')](item.get('check'));
+            });
+            return props;
+        },
+
+        txtPassword : "Password",
         txtRepeat: 'Repeat password',
         txtIncorrectPwd: 'Confirmation password is not identical',
         txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.',
         txtOptional: 'optional',
-        txtProtect: 'Protect'
+        txtProtect: 'Protect',
+        txtSelLocked: 'Select locked cells',
+        txtSelUnLocked: 'Select unlocked cells',
+        txtFormatCells: 'Format cells',
+        txtFormatCols: 'Format columns',
+        txtFormatRows: 'Format rows',
+        txtInsCols: 'Insert columns',
+        txtInsRows: 'Insert rows',
+        txtInsHyper: 'Insert hyperlink',
+        txtDelCols: 'Delete columns',
+        txtDelRows: 'Delete rows',
+        txtSort: 'Sort',
+        txtAutofilter: 'Use AutoFilter',
+        txtPivot: 'Use PivotTable and PivotChart',
+        txtObjs: 'Edit objects',
+        txtScen: 'Edit scenarios',
+        txtWBDescription: 'To prevent other users from viewing hidden worksheets, adding, moving, deleting, or hiding worksheets and renaming worksheets, you can protect the structure of your workbook with a password.',
+        txtWBTitle: 'Protect Workbook structure',
+        txtSheetDescription: 'Prevent unwanted changes from others by limiting their ability to edit.',
+        txtSheetTitle: 'Protect Sheet',
+        txtAllow: 'Allow all users of this sheet to'
 
     }, SSE.Views.ProtectDialog || {}));
 });

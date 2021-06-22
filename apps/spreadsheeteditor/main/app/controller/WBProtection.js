@@ -111,9 +111,7 @@ define([
                 var me = this,
                     btn,
                     win = new SSE.Views.ProtectDialog({
-                        title: me.view.txtWBTitle,
-                        txtDescription: me.view.txtWBDescription,
-                        height: 306,
+                        type: 'workbook',
                         handler: function(result, value) {
                             btn = result;
                             if (result == 'ok') {
@@ -168,25 +166,60 @@ define([
 
         onSheetClick: function(state) {
             if (state) {
+                var me = this,
+                    btn,
+                    win = new SSE.Views.ProtectDialog({
+                        type: 'sheet',
+                        props: me.api.asc_getProtectedSheet(),
+                        handler: function(result, value, props) {
+                            btn = result;
+                            if (result == 'ok') {
+                                !props && (props = new Asc.CSheetProtection());
+                                props.asc_setSheet(true);
+                                value && props.asc_setPassword(value);
+                                me.api.asc_setProtectedSheet(props);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    }).on('close', function() {
+                        if (btn!=='ok')
+                            me.view.btnProtectSheet.toggle(false, true);
+                    });
 
+                win.show();
             } else {
                 var me = this,
-                    win = new Common.Views.OpenDialog({
+                    btn,
+                    props = me.api.asc_getProtectedSheet();
+                if (props.asc_isPassword()) {
+                    var win = new Common.Views.OpenDialog({
                         title: me.view.txtSheetUnlockTitle,
                         closable: true,
                         type: Common.Utils.importTextType.DRM,
                         txtOpenFile: me.view.txtSheetUnlockDescription,
                         validatePwd: false,
                         handler: function (result, value) {
+                            btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
+                                    props = new Asc.CSheetProtection();
+                                    props.asc_setSheet(false, value);
+                                    me.api.asc_setProtectedSheet(props);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
                         }
+                    }).on('close', function() {
+                        if (btn!=='ok')
+                            me.view.btnProtectSheet.toggle(true, true);
                     });
 
-                win.show();
+                    win.show();
+                } else {
+                    props = new Asc.CSheetProtection();
+                    props.asc_setSheet(false);
+                    me.api.asc_setProtectedSheet(props);
+                }
             }
         },
 
