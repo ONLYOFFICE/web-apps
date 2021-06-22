@@ -290,7 +290,7 @@ define([
         getSheetSettings: function() {
             if (this.type !== 'sheet') return null;
 
-            var props = new Asc.CSheetProtection();
+            var props = this.props ? this.props : new Asc.CSheetProtection();
             this.optionsList.store.each(function (item, index) {
                 props && props['asc_set' + item.get('optionName')] && props['asc_set' + item.get('optionName')](!item.get('check'));
             });

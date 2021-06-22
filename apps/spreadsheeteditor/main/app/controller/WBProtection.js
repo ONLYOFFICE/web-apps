@@ -117,7 +117,7 @@ define([
                         handler: function(result, value) {
                             btn = result;
                             if (result == 'ok') {
-                                var props = new Asc.CWorkbookProtection();
+                                var props = me.api.asc_getProtectedWorkbook();
                                 props.asc_setLockStructure(true);
                                 value && props.asc_setPassword(value);
                                 me.api.asc_setProtectedWorkbook(props);
@@ -145,7 +145,6 @@ define([
                                 btn = result;
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        props = new Asc.CWorkbookProtection();
                                         props.asc_setLockStructure(false, value);
                                         me.api.asc_setProtectedWorkbook(props);
                                     }
@@ -159,7 +158,6 @@ define([
 
                     win.show();
                 } else {
-                    props = new Asc.CWorkbookProtection();
                     props.asc_setLockStructure(false);
                     me.api.asc_setProtectedWorkbook(props);
                 }
@@ -170,13 +168,13 @@ define([
             if (state) {
                 var me = this,
                     btn,
+                    props = me.api.asc_getProtectedSheet(),
                     win = new SSE.Views.ProtectDialog({
                         type: 'sheet',
-                        props: me.api.asc_getProtectedSheet(),
+                        props: props,
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                !props && (props = new Asc.CSheetProtection());
                                 props.asc_setSheet(true);
                                 value && props.asc_setPassword(value);
                                 me.api.asc_setProtectedSheet(props);
@@ -204,7 +202,6 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    props = new Asc.CSheetProtection();
                                     props.asc_setSheet(false, value);
                                     me.api.asc_setProtectedSheet(props);
                                 }
@@ -218,7 +215,6 @@ define([
 
                     win.show();
                 } else {
-                    props = new Asc.CSheetProtection();
                     props.asc_setSheet(false);
                     me.api.asc_setProtectedSheet(props);
                 }
