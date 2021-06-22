@@ -279,7 +279,7 @@ define([
                     allowSelected   : true,
                     value           : item.value,
                     optionName      : item.optionName,
-                    check           : props && props['asc_get' + item.optionName] ? props['asc_get' + item.optionName]() : false
+                    check           : props && props['asc_get' + item.optionName] ? !props['asc_get' + item.optionName]() : false
                 }));
             });
 
@@ -292,7 +292,7 @@ define([
 
             var props = new Asc.CSheetProtection();
             this.optionsList.store.each(function (item, index) {
-                props && props['asc_set' + item.get('optionName')] && props['asc_set' + item.get('optionName')](item.get('check'));
+                props && props['asc_set' + item.get('optionName')] && props['asc_set' + item.get('optionName')](!item.get('check'));
             });
             return props;
         },
