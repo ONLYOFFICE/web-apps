@@ -82,6 +82,7 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
@@ -108,38 +109,60 @@ define([
         onWorkbookClick: function(state) {
             if (state) {
                 var me = this,
+                    btn,
                     win = new SSE.Views.ProtectDialog({
                         title: me.view.txtWBTitle,
                         txtDescription: me.view.txtWBDescription,
                         height: 306,
-                        handler: function(result, props) {
+                        handler: function(result, value) {
+                            btn = result;
                             if (result == 'ok') {
-                                me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+                                var props = new Asc.CWorkbookProtection();
+                                props.asc_setLockStructure(true);
+                                value && props.asc_setPassword(value);
+                                me.api.asc_setProtectedWorkbook(props);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
+                    }).on('close', function() {
+                        if (btn!=='ok')
+                            me.view.btnProtectWB.toggle(false, true);
                     });
 
                 win.show();
             } else {
                 var me = this,
-                    win = new Common.Views.OpenDialog({
-                        title: me.view.txtWBUnlockTitle,
-                        closable: true,
-                        type: Common.Utils.importTextType.DRM,
-                        txtOpenFile: me.view.txtWBUnlockDescription,
-                        validatePwd: false,
-                        handler: function (result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    me.api.asc_setProtectedWorkbook(me.api.asc_getProtectedWorkbook());
+                    btn,
+                    props = me.api.asc_getProtectedWorkbook();
+                if (props.asc_isPassword()) {
+                    var win = new Common.Views.OpenDialog({
+                            title: me.view.txtWBUnlockTitle,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            txtOpenFile: me.view.txtWBUnlockDescription,
+                            validatePwd: false,
+                            handler: function (result, value) {
+                                btn = result;
+                                if (result == 'ok') {
+                                    if (me.api) {
+                                        props = new Asc.CWorkbookProtection();
+                                        props.asc_setLockStructure(false, value);
+                                        me.api.asc_setProtectedWorkbook(props);
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete');
                                 }
-                                Common.NotificationCenter.trigger('edit:complete');
                             }
-                        }
-                    });
+                        }).on('close', function() {
+                            if (btn!=='ok')
+                                me.view.btnProtectWB.toggle(true, true);
+                        });
 
-                win.show();
+                    win.show();
+                } else {
+                    props = new Asc.CWorkbookProtection();
+                    props.asc_setLockStructure(false);
+                    me.api.asc_setProtectedWorkbook(props);
+                }
             }
         },
 
@@ -192,6 +215,10 @@ define([
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
             });
+        },
+
+        onChangeProtectWorkbook: function() {
+            this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
         },
 
         onCoAuthoringDisconnect: function() {
