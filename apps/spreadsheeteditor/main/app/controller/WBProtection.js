@@ -83,6 +83,8 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
+                this.api.asc_registerCallback('asc_onChangeProtectSheet',_.bind(this.onChangeProtectSheet, this));
+                this.api.asc_registerCallback('asc_onSheetsChanged',        _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
@@ -247,11 +249,20 @@ define([
                 resolve();
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
+                me.view.btnProtectSheet.toggle(me.api.asc_isProtectedSheet(), true); //current sheet
             });
         },
 
         onChangeProtectWorkbook: function() {
             this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
+        },
+
+        onChangeProtectSheet: function() {
+            this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
+        },
+
+        onApiSheetChanged: function() {
+            this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
         },
 
         onCoAuthoringDisconnect: function() {
