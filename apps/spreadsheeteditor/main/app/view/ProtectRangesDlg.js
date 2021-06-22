@@ -295,7 +295,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         },
 
         getSettings: function() {
-            return {};
+            return {arr: [], deletedArr: this.deletedArr};
         },
 
         onPrimary: function() {
@@ -303,7 +303,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         },
 
         onDlgBtnClick: function(event) {
-            this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value);
+            this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value, this.getSettings());
             this.close();
         },
 
