@@ -2049,16 +2049,12 @@ define([
                         warningMsg: this.txtUnlockRangeWarning,
                         txtOpenFile: this.txtUnlockRangeDescription,
                         validatePwd: false,
-                        buttons: [
-                            {
-                                value: 'ok',
-                                caption: this.txtUnlock
-                            }, 'cancel'],
-                        primary: 'ok',
                         handler: function (result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
-                                    me.api.asc_checkProtectedRangesPassword(value, data);
+                                    if (apiCallback)  {
+                                        apiCallback(me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data));
+                                    }
                                 }
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }

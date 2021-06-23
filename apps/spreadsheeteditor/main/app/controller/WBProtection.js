@@ -230,6 +230,7 @@ define([
                     props: props,
                     handler: function(result, settings) {
                         if (result=='protect-sheet') {
+                            me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);
                             me.onSheetClick(true);
                         } else if (result == 'ok') {
                             me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);

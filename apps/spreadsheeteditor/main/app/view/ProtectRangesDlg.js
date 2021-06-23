@@ -264,7 +264,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                             rec.set('name', props.asc_getName());
                             rec.set('range', props.asc_getSqref());
                             rec.set('pwd', props.asc_isPassword());
-                            props.asc_setName();
                         } else {
                             rec = me.rangeList.store.add({
                                 name: props.asc_getName(),
