@@ -170,14 +170,13 @@ define([
                     el          : $('#id-range-txt'),
                     name        : 'range',
                     style       : 'width: 100%;',
-                    allowBlank  : true,
+                    allowBlank  : false,
                     btnHint     : this.textSelectData,
                     blankError  : this.txtEmpty,
                     validateOnChange: true,
                     validation  : function(value) {
-                        if (_.isEmpty(value)) {
-                            return true;
-                        }
+                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ConditionalFormattingRule, value, false);
+                        return (isvalid!==Asc.c_oAscError.ID.DataRangeError) ? true : me.textInvalidRange;
                     }
                 });
                 this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
@@ -217,6 +216,10 @@ define([
                         this.inputRangeName.focus();
                         return;
                     }
+                    if (this.txtDataRange && this.txtDataRange.checkValidate() !== true)  {
+                        this.txtDataRange.focus();
+                        return;
+                    }
                     if (this.inputPwd.checkValidate() !== true)  {
                         this.inputPwd.focus();
                         return;
@@ -227,7 +230,7 @@ define([
                         return;
                     }
                 }
-                this.handler.call(this, state, this.inputPwd.getValue(), this.getSettings());
+                this.handler.call(this, state, this.inputPwd.getValue(), (state == 'ok') ? this.getSettings() : undefined);
             }
 
             this.close();
@@ -235,6 +238,7 @@ define([
 
         _setDefaults: function (props) {
             this.optionsList && this.updateOptionsList(props);
+            (this.type=='range') && this.updateRangeSettings(props);
         },
 
         onItemChanged: function (view, record) {
@@ -295,6 +299,12 @@ define([
             if (record && listView) {
                 record.set('check', !record.get('check'));
                 // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
+        },
+        updateRangeSettings: function (props) {
+            if (props) {
+                this.inputRangeName.setValue(props.asc_getName());
+                this.txtDataRange.setValue(props.asc_getSqref());
             }
         },
 
@@ -378,7 +388,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule,
+                    validation: function() {return true;}
                 });
             }
         },
