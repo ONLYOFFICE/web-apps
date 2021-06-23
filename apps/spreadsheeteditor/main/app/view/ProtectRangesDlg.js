@@ -164,7 +164,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 for (var i=0; i<ranges.length; i++) {
                     var id = ranges[i].asc_getIsLock();
                     arr.push({
-                        name: ranges[i].asc_getName(),
+                        name: ranges[i].asc_getName() || '',
                         pwd: ranges[i].asc_isPassword(),
                         range: ranges[i].asc_getSqref(),
                         props: ranges[i],
@@ -173,7 +173,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     });
                 }
                 this.rangeList.store.reset(arr);
-                this.rangeList.setEmptyText((arr.length>0) ? this.textnoNames : this.textEmpty);
             }
 
             var me = this,
@@ -244,7 +243,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 rec = this.rangeList.getSelectedRec(),
                 props;
             if (isEdit)
-                props = rec.get('props')
+                props = rec.get('props');
             else {
                 props = new Asc.CProtectedRange();
                 props.asc_setSqref(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
@@ -267,7 +266,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                             rec.set('pwd', props.asc_isPassword());
                             props.asc_setName();
                         } else {
-                            me.rangeList.store.add({
+                            rec = me.rangeList.store.add({
                                 name: props.asc_getName(),
                                 pwd: props.asc_isPassword(),
                                 range: props.asc_getSqref(),
@@ -276,7 +275,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                                 lock: false,
                                 lockuser: this.guestText
                             });
-                            me.rangeList.selectByIndex(me.rangeList.store.length-1);
+                            me.rangeList.selectRecord(rec);
                             me.rangeList.scrollToRecord(me.rangeList.getSelectedRec());
                             me.updateButtons();
                         }
