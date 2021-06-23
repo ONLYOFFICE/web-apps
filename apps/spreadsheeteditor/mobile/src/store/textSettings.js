@@ -16,6 +16,7 @@ export class storeTextSettings {
             paragraphValign: observable,
             textIn: observable,
             initTextSettings: action,
+            initFontSettings: action,
             initEditorFonts: action,
             initFontInfo: action,
             changeTextColor: action,
@@ -46,6 +47,10 @@ export class storeTextSettings {
             default: this.textIn = 0;
         }
 
+        this.initFontSettings(xfs);
+    }
+
+    initFontSettings(xfs) {
         this.fontName = xfs.asc_getFontName();
         this.fontSize = xfs.asc_getFontSize();
 
