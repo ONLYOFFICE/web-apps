@@ -33,7 +33,7 @@ class DownloadController extends Component {
                     () => {
                         if (format == Asc.c_oAscFileType.TXT) {
                             const isDocReady = this.props.storeAppOptions.isDocReady;
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady, isDRM);
                         }
                         else {
                             setTimeout(() => {
@@ -60,7 +60,7 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = inject("storeAppOptions")(observer(withTranslation()(DownloadController)));
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
     if ($$('.dlg-adv-options.modal-in').length > 0) return;
 
     const api = Common.EditorApi.get();
@@ -137,6 +137,17 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
                 }
             }
         }];
+
+        if(isDRM) {
+            f7.dialog.create({
+                text: _t.txtIncorrectPwd,
+                buttons : [{
+                    text: 'OK',
+                    bold: true,
+                }]
+            }).open();
+        }
+
         if (canRequestClose)
             buttons.push({
                 text: _t.closeButtonText,

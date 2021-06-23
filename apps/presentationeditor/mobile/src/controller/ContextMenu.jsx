@@ -111,7 +111,7 @@ class ContextMenu extends ContextMenuController {
                 text: 'OK',
                 onClick: () => {
                     const dontShow = $$('input[name="checkbox-show"]').prop('checked');
-                    if (dontShow) LocalStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                    if (dontShow) LocalStorage.setItem("pe-hide-copy-cut-paste-warning", 1);
                 }
             }]
         }).open();

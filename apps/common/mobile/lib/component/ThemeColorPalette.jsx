@@ -56,12 +56,15 @@ const CustomColors = ({ options, customColors, onColorClick, curColor }) => {
             ></a>)
         }
     }
+
+    let indexCurColor = colors.indexOf(curColor);
+    
     return (
         <div className='palette'>
             {colors && colors.length > 0 && colors.map((color, index) => {
                 return(
                     <a key={`dc-${index}`}
-                       className={curColor && curColor === color ? 'active' : ''}
+                       className={curColor && curColor === color && index === indexCurColor ? 'active' : ''}
                        style={{background: `#${color}`}}
                        onClick={() => {onColorClick(color)}}
                     ></a>
