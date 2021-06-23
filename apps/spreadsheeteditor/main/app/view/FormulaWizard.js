@@ -407,7 +407,7 @@ define([
                         me.helpUrl = url;
                         me.showHelp();
                     } else {
-                        lang = 'en';
+                        lang = '{{DEFAULT_LANG}}';
                         url = 'resources/help/' + lang + name;
                         fetch(url).then(function(response){
                             if ( response.ok ) {
