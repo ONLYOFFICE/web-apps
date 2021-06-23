@@ -372,13 +372,14 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html"
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html",
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index_loader.html": "../apps/spreadsheeteditor/mobile/index.html"
             },
             "localization": [
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
-                    "src": "*",
+                    "src": "**/*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
                 },
                 {

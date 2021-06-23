@@ -64,7 +64,7 @@ class AddLinkController extends Component {
                     break;
                 case 1:
                     url = url + "showjump?jump=previousslide";
-                    slidetip = _t.textPrevSlide;
+                    slidetip = _t.textPreviousSlide;
                     break;
                 case 2:
                     url = url + "showjump?jump=firstslide";

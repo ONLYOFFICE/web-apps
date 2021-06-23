@@ -641,6 +641,14 @@ Common.Utils.String = new (function() {
                 var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
                 return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
             }
+        },
+
+        fixedDigits: function(num, digits, fill) {
+            (fill===undefined) && (fill = '0');
+            var strfill = "",
+                str = num.toString();
+            for (var i=str.length; i<digits; i++) strfill += fill;
+            return strfill + str;
         }
     }
 })();

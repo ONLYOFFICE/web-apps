@@ -144,6 +144,7 @@ const PageStyle = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
+    const isAndroid = Device.android;
 
     let borderSize, borderType, transparent;
     if (shapeObject) {
@@ -177,9 +178,10 @@ const PageStyle = props => {
         <Page>
             <Navbar backLink={_t.textBack}>
                 <div className='tab-buttons tabbar'>
-                    <Link key={"de-link-shape-fill"}  tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
-                    <Link key={"de-link-shape-border"}  tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
-                    <Link key={"de-link-shape-effects"}  tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
+                    <Link key={"de-link-shape-fill"} tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
+                    <Link key={"de-link-shape-border"} tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
+                    <Link key={"de-link-shape-effects"} tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>

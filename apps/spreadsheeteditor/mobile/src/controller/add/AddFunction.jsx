@@ -12,8 +12,8 @@ class _FunctionGroups extends Component {
         super(props);
     }
     componentDidMount() {
-        Common.Notifications.on('engineCreated', api => {
-            this.api = api;
+        Common.Notifications.on('document:ready', () => {
+            this.api = Common.EditorApi.get();
             this.init();
         });
     }

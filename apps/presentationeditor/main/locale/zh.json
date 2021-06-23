@@ -638,7 +638,7 @@
   "PE.Controllers.Main.txtTheme_turtle": "龟",
   "PE.Controllers.Main.txtXAxis": "X轴",
   "PE.Controllers.Main.txtYAxis": "Y轴",
-  "PE.Controllers.Main.unknownErrorText": "示知错误",
+  "PE.Controllers.Main.unknownErrorText": "未知错误",
   "PE.Controllers.Main.unsupportedBrowserErrorText": "你的浏览器不支持",
   "PE.Controllers.Main.uploadImageExtMessage": "未知图像格式",
   "PE.Controllers.Main.uploadImageFileCountMessage": "没有图片上传",

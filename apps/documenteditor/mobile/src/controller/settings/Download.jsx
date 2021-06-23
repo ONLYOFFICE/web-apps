@@ -25,6 +25,7 @@ class DownloadController extends Component {
         const _t = t("Settings", { returnObjects: true });
 
         if(format) {
+            this.closeModal();
             if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                 f7.dialog.confirm(
                     (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
@@ -35,16 +36,18 @@ class DownloadController extends Component {
                             onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady, isDRM);
                         }
                         else {
-                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                            setTimeout(() => {
+                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                            }, 400);
                         }
                     }
                 );
             } 
             else {
-                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                setTimeout(() => {
+                    api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                }, 400);
             }
-
-            this.closeModal();
         }
     }
 

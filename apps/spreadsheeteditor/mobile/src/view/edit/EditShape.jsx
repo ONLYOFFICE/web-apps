@@ -83,6 +83,7 @@ const PaletteFill = inject("storeFocusObjects", "storeShapeSettings", "storePale
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const isAndroid = Device.android;
     const storeShapeSettings = props.storeShapeSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject.get_ShapeProperties();
@@ -121,6 +122,7 @@ const PageStyle = props => {
                     <Link key={"se-link-shape-fill"}  tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
                     <Link key={"se-link-shape-border"}  tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
                     <Link key={"se-link-shape-effects"}  tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>

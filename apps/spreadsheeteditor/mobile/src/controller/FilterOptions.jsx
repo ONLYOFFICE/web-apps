@@ -51,7 +51,7 @@ const FilterOptionsController = () => {
 
     const onSort = (type) => {
         const api = Common.EditorApi.get();
-        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configFilter.asc_getCellId(), configFilter.asc_getDisplayName(), undefined, true);
+        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configFilter.asc_getCellId(), configFilter.asc_getDisplayName());
         f7.sheet.close('.picker__sheet');
         f7.popover.close('#picker-popover');
     };

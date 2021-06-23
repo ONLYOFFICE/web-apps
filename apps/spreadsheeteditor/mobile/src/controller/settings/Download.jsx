@@ -94,7 +94,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
                 '</div>' +
                 '<div id="txt-encoding" class="small"></div>' +
             '</div>',
-            buttons: buttons
+            buttons: buttons,
+            cssClass: 'dlg-adv-options'
         }).open();
 
         const recommendedSettings = advOptions.asc_getRecommendedSettings();

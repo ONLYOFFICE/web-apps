@@ -35,8 +35,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
             api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
             api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
-
-            Common.Gateway.off('init', loadConfig);
         };
     });
 
@@ -45,7 +43,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         let index = $$(e.currentTarget).index();
         api.asc_pluginButtonClick(index);
     };
-
 
     const showPluginModal = (plugin, variationIndex, frameId, urlAddition) => {
         let isAndroid = Device.android;
@@ -68,7 +65,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                     if ((storeAppOptions.isEdit || b.isViewer !== false)) {
                         newBtns[index] = {
                             text: b.text,
-                            attributes: {result: index}
+                            attributes: {result: index},
+                            close: false
                         };
                     }
                 });
@@ -123,8 +121,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const pluginClose = plugin => {
-        if (iframe) {
-            iframe = null;
+        if (plugin) {
+            modal.close();
         }
     };
 

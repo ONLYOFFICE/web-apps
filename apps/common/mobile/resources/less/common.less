@@ -196,6 +196,9 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
+        &::before, &::after {
+            display: none;
+        }
     }
     li {
         position: relative;
@@ -784,9 +787,6 @@ input[type="number"]::-webkit-inner-spin-button {
             padding: 0;
             text-align: left;
             font-size: 16px;
-            span {
-                padding: 0;
-            }
         }
     }
     .picker-center-highlight {

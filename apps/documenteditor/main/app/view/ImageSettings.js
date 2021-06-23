@@ -410,6 +410,7 @@ define([
                 properties.put_Width(w);
                 properties.put_Height(h);
                 properties.put_ResetCrop(true);
+                properties.put_Rot(0);
                 this.api.ImgApply(properties);
                 this.fireEvent('editcomplete', this);
             }

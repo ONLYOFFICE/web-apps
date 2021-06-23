@@ -82,7 +82,7 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [
+                this.SchemeNames = [ this.txtScheme22,
                     this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
                     this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
                     this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
@@ -311,7 +311,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignLeft);
@@ -321,7 +320,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignCenter);
@@ -331,7 +329,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignRight);
@@ -341,11 +338,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
-
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
@@ -2130,7 +2125,7 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 21) {
+                    if (index == 22) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
@@ -2140,7 +2135,7 @@ define([
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -2471,7 +2466,8 @@ define([
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
-            mniTextToTable: 'Convert Text to Table'
+            mniTextToTable: 'Convert Text to Table',
+            txtScheme22: 'New Office'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo')(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -24,9 +24,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             api.asc_registerCallback('asc_onWorkbookLocked', onApiSelectionChanged);
             api.asc_registerCallback('asc_onWorksheetLocked', onApiSelectionChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
 
-            Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('toolbar:activatecontrols', activateControls);
             Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.on('goback', goBack);
@@ -39,9 +37,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             onDocumentReady();
         }
 
+        if (isDisconnected) {
+            f7.popover.close();
+            f7.sheet.close();
+            f7.popup.close();
+        }
+
         return () => {
             Common.Notifications.off('document:ready', onDocumentReady);
-            Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
@@ -54,7 +57,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             api.asc_unregisterCallback('asc_onWorkbookLocked', onApiSelectionChanged);
             api.asc_unregisterCallback('asc_onWorksheetLocked', onApiSelectionChanged);
             api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-            api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
         }
     });
 
@@ -179,15 +181,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         setDisabledControls(false);
     };
 
-    const onCoAuthoringDisconnect = (enableDownload) => {
-        deactivateEditControls(enableDownload);
-        setCanUndo(false);
-        setCanRedo(false);
-        f7.popover.close();
-        f7.sheet.close();
-        f7.popup.close();
-    };
-
     const onEditDocument = () => {
         Common.Gateway.requestEditRights();
     };
@@ -208,8 +201,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      displayCollaboration={displayCollaboration}
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
+                     isDisconnected={isDisconnected}
         />
     )
-});
+}));
 
 export {ToolbarController as Toolbar};

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users')(props => {
+const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -20,9 +20,7 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
             api.asc_registerCallback('asc_onCanUndo', onApiCanUndo);
             api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
             api.asc_registerCallback('asc_onCountPages', onApiCountPages);
-            Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('toolbar:activatecontrols', activateControls);
             Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.on('goback', goBack);
@@ -35,10 +33,15 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
             onDocumentReady();
         }
 
+        if (isDisconnected) {
+            f7.popover.close();
+            f7.sheet.close();
+            f7.popup.close();
+        }
+
         return () => {
             Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('setdoctitle', setDocTitle);
-            Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
@@ -47,7 +50,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
             api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
             api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
             api.asc_unregisterCallback('asc_onCountPages', onApiCountPages);
         }
     });
@@ -178,15 +180,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
         setDisabledControls(false);
     };
 
-    const onCoAuthoringDisconnect = (enableDownload) => {
-        deactivateEditControls(enableDownload);
-        setCanUndo(false);
-        setCanRedo(false);
-        f7.popover.close();
-        f7.sheet.close();
-        f7.popup.close();
-    };
-
     const onEditDocument = () => {
         Common.Gateway.requestEditRights();
     };
@@ -210,8 +203,9 @@ const ToolbarController = inject('storeAppOptions', 'users')(props => {
                      displayCollaboration={displayCollaboration}
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
+                     isDisconnected={isDisconnected}
         />
     )
-});
+}));
 
 export {ToolbarController as Toolbar};

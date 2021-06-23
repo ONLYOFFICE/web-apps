@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-json-minify');
     grunt.loadNpmTasks('grunt-text-replace');
-    grunt.loadNpmTasks('grunt-mocha');
+    // grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-exec');
@@ -524,7 +524,7 @@ module.exports = function(grunt) {
                     options: {
                         cwd: '../vendor/framework7-react',
                     },
-                    cmd: 'npm i',
+                    cmd: 'npm i --include=dev',
                 },
             }
         });

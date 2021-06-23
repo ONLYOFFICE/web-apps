@@ -222,48 +222,33 @@ textarea {
 
 .btn-edit-table,
 .btn-change-shape {
-    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
+    .background-ximage-v2('right-panels/rowscols_icon.png', 56px);
     margin-right: 2px !important;
     margin-bottom: 1px !important;
+
+    background-position-x: calc(@button-small-normal-icon-offset-x - 8px);
+
+    .btn-group.open &,
+        button.active:not(.disabled) &,
+        button:active:not(.disabled) &
+    {
+        background-position-x: calc(@button-small-active-icon-offset-x - 8px);
+    }
 }
 
 .btn-edit-table {
-    background-position: 0 0;
+    background-position-y: 0;
 
     button.over & {
         //background-position: -28px 0;
     }
-
-    .btn-group.open &,
-        button.active:not(.disabled) &,
-        button:active:not(.disabled) &
-    {
-        //background-position: -56px 0;
-    }
-
-    // TODO: not good, must be controled by variable
-    .theme-dark & {
-        background-position-x: -56px;
-    }
 }
 
 .btn-change-shape {
-    background-position: 0 -16px;
+    background-position-y: -16px;
 
     button.over & {
         //background-position: -28px -16px;
-    }
-
-    .btn-group.open &,
-        button.active:not(.disabled) &,
-        button:active:not(.disabled) &
-    {
-        //background-position: -56px -16px;
-    }
-
-    // TODO: not good, must be controled by variable
-    .theme-dark & {
-        background-position-x: -56px;
     }
 }
 
