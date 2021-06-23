@@ -297,7 +297,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 !rec.get('isNew') && this.deletedArr.push(rec.get('props'));
                 var index = store.indexOf(rec);
                 store.remove(rec);
-                (this.rangeList.length>0) && this.rangeList.selectByIndex(index);
+                (store.length>0) && this.rangeList.selectByIndex(index);
                 this.rangeList.scrollToRecord(this.rangeList.getSelectedRec());
             }
             this.updateButtons();
