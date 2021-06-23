@@ -2009,7 +2009,7 @@ define([
                 }
             },
 
-            onConfirmAction: function(id, apiCallback) {
+            onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
                     Common.UI.warning({
@@ -2040,6 +2040,31 @@ define([
                             me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
+                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        buttons: [
+                            {
+                                value: 'ok',
+                                caption: this.txtUnlock
+                            }, 'cancel'],
+                        primary: 'ok',
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    me.api.asc_checkProtectedRangesPassword(value, data);
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }
+                        }
+                    });
+                    win.show();
                 }
             },
 
@@ -2957,7 +2982,11 @@ define([
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
             confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
-            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.'
+            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.',
+            txtUnlockRange: 'Unlock Range',
+            txtUnlockRangeWarning: 'A range you are trying to change is password protected.',
+            txtUnlockRangeDescription: 'Enter the password to change this range:',
+            txtUnlock: 'Unlock'
         }
     })(), SSE.Controllers.Main || {}))
 });
