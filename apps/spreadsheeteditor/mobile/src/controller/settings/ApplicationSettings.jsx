@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import {observer, inject} from "mobx-react";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import {FunctionGroups} from '../../controller/add/AddFunction';
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
@@ -16,11 +17,9 @@ class ApplicationSettingsController extends Component {
     }
 
     initRegSettings() {
-        this.props.storeApplicationSettings.getRegCode();
-
         const info = new Asc.asc_CFormatCellsInfo();
         const api = Common.EditorApi.get();
-        const regCode = this.props.storeApplicationSettings.regCode;
+        const regCode = this.props.storeApplicationSettings.getRegCode();
 
         info.asc_setType(Asc.c_oAscNumFormatType.None);
         info.asc_setSymbol(regCode);
