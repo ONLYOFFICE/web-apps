@@ -39,7 +39,7 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = withTranslation()(DownloadController);
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
     const api = Common.EditorApi.get();
 
     if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
@@ -135,6 +135,16 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
                 }
             }
         }];
+
+        if(isDRM) {
+            f7.dialog.create({
+                text: _t.txtIncorrectPwd,
+                buttons : [{
+                    text: 'OK',
+                    bold: true,
+                }]
+            }).open();
+        }
 
         if (canRequestClose)
             buttons.push({
