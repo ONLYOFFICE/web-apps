@@ -174,8 +174,9 @@ define([
                     btnHint     : this.textSelectData,
                     blankError  : this.txtEmpty,
                     validateOnChange: true,
+                    validateOnBlur: false,
                     validation  : function(value) {
-                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ConditionalFormattingRule, value, false);
+                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ConditionalFormattingRule, value, true);
                         return (isvalid!==Asc.c_oAscError.ID.DataRangeError) ? true : me.textInvalidRange;
                     }
                 });
@@ -423,7 +424,8 @@ define([
         txtRangeName: 'Title',
         txtRange: 'Range',
         txtEmpty: 'This field is required',
-        textSelectData: 'Select Data'
+        textSelectData: 'Select Data',
+        textInvalidRange: 'ERROR! Invalid cells range'
 
     }, SSE.Views.ProtectDialog || {}));
 });

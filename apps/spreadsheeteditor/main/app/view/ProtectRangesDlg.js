@@ -166,7 +166,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     arr.push({
                         name: ranges[i].asc_getName() || '',
                         pwd: ranges[i].asc_isPassword(),
-                        range: ranges[i].asc_getSqref(),
+                        range: ranges[i].asc_getSqref() || '',
                         props: ranges[i],
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? this.getUserName(id) : this.guestText
