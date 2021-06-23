@@ -181,7 +181,8 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-copy',
                 dataHint: '1',
-                dataHintDirection: 'top'
+                dataHintDirection: 'top',
+                dataHintTitle: 'C'
             });
 
             me.btnPaste = new Common.UI.Button({
@@ -190,7 +191,8 @@ define([
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
                 dataHint: '1',
-                dataHintDirection: 'bottom'
+                dataHintDirection: 'bottom',
+                dataHintTitle: 'P'
             });
 
             me.btnUndo = new Common.UI.Button({

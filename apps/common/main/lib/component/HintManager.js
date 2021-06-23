@@ -49,6 +49,7 @@ if (Common.UI === undefined) {
 Common.UI.HintManager = new(function() {
     var _lang = 'en',
         _arrAlphabet = [],
+        _arrEnAlphabet = [],
         _isAlt = false,
         _hintVisible = false,
         _currentLevel = 0,
@@ -132,9 +133,33 @@ Common.UI.HintManager = new(function() {
         } else {
             _arrLetters = [..._arrAlphabet];
         }
-        visibleItems.forEach(function (item, index) {
+        var usedLetters = [];
+        if ((_currentSection.nodeType === 9 && $(['data-hint-title']).length > 0) ||
+            (_currentSection.nodeType !== 9 && _currentSection.find('[data-hint-title]').length > 0)) {
+            visibleItems.forEach(function (item) {
+                var el = $(item);
+                var title = el.attr('data-hint-title');
+                if (title) {
+                    var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
+                    usedLetters.push(ind);
+                    if (_lang !== 'en') {
+                        console.log(_arrLetters[ind]);
+                        el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
+                    }
+                }
+            });
+        }
+        var index = 0;
+        visibleItems.forEach(function (item) {
             var el = $(item);
-            el.attr('data-hint-title', _arrLetters[index].toUpperCase());
+            if (usedLetters.indexOf(index) !== -1) {
+                index++;
+            }
+            var title = el.attr('data-hint-title');
+            if (!title) {
+                el.attr('data-hint-title', _arrLetters[index].toUpperCase());
+                index++;
+            }
             _currentControls.push(el);
         });
     };
@@ -143,9 +168,20 @@ Common.UI.HintManager = new(function() {
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
-            if (!item.hasClass('disabled')) {
+            if (!item.hasClass('disabled') && !item.parent().hasClass('disabled')) {
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
+                // exceptions
+                if (window.SSE && _currentSection.nodeType !== 9 &&
+                    _currentSection.prop('id') === 'toolbar' && item.closest('.panel').attr('data-tab') === 'data') {
+                    if (item.parent().hasClass('slot-sortdesc') || item.parent().hasClass('slot-btn-setfilter')) {
+                        direction = 'top';
+                        item.attr('data-hint-direction', 'top');
+                    } else if (item.parent().hasClass('slot-btn-clear-filter') || item.parent().hasClass('slot-sortasc')) {
+                        direction = 'bottom';
+                        item.attr('data-hint-direction', 'bottom');
+                    }
+                }
                 var offsets = item.attr('data-hint-offset');
                 var applyOffset = offsets === 'big' ? 6 : (offsets === 'medium' ? 4 : (offsets === 'small' ? 2 : 0));
                 if (applyOffset) {
@@ -242,7 +278,7 @@ Common.UI.HintManager = new(function() {
                         _setCurrentSection('esc');
                         _showHints();
                     }
-                } else if ((e.keyCode > 47 && e.keyCode < 58 || e.keyCode > 64 && e.keyCode < 91) && e.key) {
+                } else {
                     var curr;
                     _inputLetters = _inputLetters + String.fromCharCode(e.keyCode).toUpperCase();
                     for (var i = 0; i < _currentControls.length; i++) {
@@ -299,6 +335,7 @@ Common.UI.HintManager = new(function() {
     var _getAlphabetLetters = function () {
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
             _arrAlphabet = langsJson[_lang];
+            _arrEnAlphabet = langsJson['en'];
         });
     };
 

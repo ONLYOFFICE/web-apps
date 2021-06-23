@@ -159,7 +159,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'C'
                     });
                     this.toolbarControls.push(this.btnCopy);
 
@@ -168,7 +169,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'P'
                     });
                     this.paragraphControls.push(this.btnPaste);
 

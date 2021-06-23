@@ -194,7 +194,7 @@ define([
             '<% } %>';
 
     var templateHugeCaption =
-            '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"> ' +
+            '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
@@ -205,7 +205,7 @@ define([
 
     var templateHugeMenuCaption =
         '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
-            '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+            '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
@@ -223,7 +223,7 @@ define([
                     templateBtnIcon +
                 '</span>' +
             '</button>' +
-            '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+            '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
                     '<span class="caption"><%= caption %></span>' +
                     '<i class="caret"></i>' +
@@ -264,13 +264,13 @@ define([
                 '}} %>',
             '<% } %>',
             '<% if ( !menu ) { %>',
-                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
                     '<% applyicon() %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
             '<% } else if (split == false) {%>',
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
-                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                         '<span class="inner-box-caret">' +
@@ -284,7 +284,7 @@ define([
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
-                    '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
                         '<i class="caret"></i>',
                         '<span class="sr-only"></span>',
                     '</button>',
@@ -356,7 +356,8 @@ define([
                         style        : me.style,
                         dataHint     : me.options.dataHint,
                         dataHintDirection: me.options.dataHintDirection,
-                        dataHintOffset: me.options.dataHintOffset
+                        dataHintOffset: me.options.dataHintOffset,
+                        dataHintTitle: me.options.dataHintTitle
                     }));
 
                     if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))

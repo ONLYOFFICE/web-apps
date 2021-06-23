@@ -221,7 +221,8 @@ define([
                         iconCls: 'toolbar__icon btn-copy',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'C'
                     });
                     me.slideOnlyControls.push(me.btnCopy);
 
@@ -231,7 +232,8 @@ define([
                         iconCls: 'toolbar__icon btn-paste',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'P'
                     });
                     me.paragraphControls.push(me.btnPaste);
 
