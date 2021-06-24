@@ -6,6 +6,7 @@ import { Device } from '../../../../common/mobile/utils/device';
 const FilterOptions = (props) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const isAndroid = Device.android;
 
     useEffect(() => {
         const is_all_checked = props.listVal.every(item => item.check);
@@ -33,15 +34,18 @@ const FilterOptions = (props) => {
             }
            </Navbar>
            <List>
-                <ListItem className='buttons'>
-                    <Row>
-                        <a className='button' onClick={() => props.onSort('sortdown')}>
-                            <Icon slot="media" icon="sortdown" />
-                        </a>
-                        <a className='button' onClick={() => props.onSort('sortup')}>
-                            <Icon slot="media" icon="sortup" />
-                        </a>
-                    </Row>
+                <ListItem name='radio-button'  title={_t.txtSortLow2High} radio checked={props.checkSort || ''} onClick={() => props.onSort('sortdown')}
+                    after={isAndroid ? <Icon slot="media" icon="sortdown"></Icon> : null}>
+                    {!isAndroid ?
+                       <Icon slot="media" icon="sortdown"></Icon> : null
+                    }
+                </ListItem>
+                
+                <ListItem name='radio-button'  title={_t.txtSortHigh2Low} radio checked={props.checkSort ? false : true} onClick={() => props.onSort('sortup')}
+                after={isAndroid ? <Icon slot="media" icon="sortup"></Icon> : null}>
+                    {!isAndroid ?
+                       <Icon slot="media" icon="sortup"></Icon> : null
+                    }
                 </ListItem>
            </List>
            <List >

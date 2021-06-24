@@ -10,7 +10,8 @@ const FilterOptionsController = () => {
 
     const [configFilter, setConfig] = useState(null);
     const [listVal, setListValue] = useState([]);
-    const [isValid, setIsValid] = useState(null)
+    const [isValid, setIsValid] = useState(null);
+    const [checkSort, setCheckSort] = useState(null);
     
     useEffect(() => {
         function onDocumentReady()  {
@@ -36,6 +37,9 @@ const FilterOptionsController = () => {
         setConfig(config);
         setClearDisable(config);
 
+        const sort = config.asc_getSortState();
+        sort == Asc.c_oAscSortOptions.Ascending ? setCheckSort(true) : setCheckSort(false);
+        
         if (Device.phone) { 
             f7.sheet.open('.picker__sheet');
         } else {
@@ -128,7 +132,7 @@ const FilterOptionsController = () => {
     };
 
     return (
-        <FilterView onSort={onSort} listVal={listVal} isValid={isValid} onUpdateCell={onUpdateCell} 
+        <FilterView onSort={onSort} listVal={listVal} checkSort={checkSort} isValid={isValid} onUpdateCell={onUpdateCell} 
         onDeleteFilter={onDeleteFilter} onClearFilter={onClearFilter}/>
     )
 };
