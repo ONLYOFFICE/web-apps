@@ -45,6 +45,8 @@ DE.ApplicationController = new(function(){
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip;
 
+    var LoadingDocument = -256;
+
     // Initialize analytics
     // -------------------------
 
@@ -168,14 +170,19 @@ DE.ApplicationController = new(function(){
                     btnSubmit.attr({disabled: true});
                     btnSubmit.css("pointer-events", "none");
                 break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
+                break;
             default:
                 text = me.waitText;
                 break;
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
@@ -192,7 +199,7 @@ DE.ApplicationController = new(function(){
                 $submitedTooltip.show();
             }
         }
-        hideMask();
+        me.loadMask && me.loadMask.hide();
     }
 
     function onDocMouseMoveStart() {
@@ -272,6 +279,7 @@ DE.ApplicationController = new(function(){
 
     function onDocumentContentReady() {
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
@@ -542,24 +550,15 @@ DE.ApplicationController = new(function(){
         else
             $parent.css('padding-right', _left_width - _right_width);
 
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
         api.asc_LoadDocument();
         api.Resize();
     }
 
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     function onError(id, level, errData) {
@@ -574,6 +573,7 @@ DE.ApplicationController = new(function(){
         }
 
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
 
