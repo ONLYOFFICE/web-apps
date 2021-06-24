@@ -50,11 +50,12 @@ Common.UI.HintManager = new(function() {
     var _lang = 'en',
         _arrAlphabet = [],
         _arrEnAlphabet = [],
+        _arrQwerty = [],
+        _arrEnQwerty = [],
         _isAlt = false,
         _hintVisible = false,
         _currentLevel = 0,
         _currentSection = document,
-        _controls = [],
         _currentControls = [],
         _currentHints = [],
         _inputLetters = '';
@@ -118,15 +119,21 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getControls = function() {
-        /*if (!_controls[_currentLevel]) {
-            _controls[_currentLevel] = $('[data-hint=' + (_currentLevel) + ']').toArray();
-        }*/
-        _controls[_currentLevel] = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
         _currentControls = [];
-        var arr = _controls[_currentLevel];
+        var arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
+        var visibleItemsWithTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray().filter(function (item) {
+            return $(item).is(':visible');
+        });
+        if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title
+            visibleItems.forEach(function (item) {
+                var el = $(item);
+                _currentControls.push(el);
+            });
+            return;
+        }
         var _arrLetters = [];
         if (visibleItems.length > _arrAlphabet.length) {
             _arrLetters = _getLetters(visibleItems.length);
@@ -134,17 +141,19 @@ Common.UI.HintManager = new(function() {
             _arrLetters = [..._arrAlphabet];
         }
         var usedLetters = [];
-        if ((_currentSection.nodeType === 9 && $(['data-hint-title']).length > 0) ||
-            (_currentSection.nodeType !== 9 && _currentSection.find('[data-hint-title]').length > 0)) {
+        if ($(_currentSection).find('[data-hint-title]').length > 0) {
             visibleItems.forEach(function (item) {
                 var el = $(item);
                 var title = el.attr('data-hint-title');
                 if (title) {
                     var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
-                    usedLetters.push(ind);
-                    if (_lang !== 'en') {
-                        console.log(_arrLetters[ind]);
-                        el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
+                    if (ind === -1) { // we have already changed
+                        usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                    } else {
+                        usedLetters.push(ind);
+                        if (_lang !== 'en') {
+                            el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
+                        }
                     }
                 }
             });
@@ -280,7 +289,14 @@ Common.UI.HintManager = new(function() {
                     }
                 } else {
                     var curr;
-                    _inputLetters = _inputLetters + String.fromCharCode(e.keyCode).toUpperCase();
+                    var curLetter = _lang === 'en' ? String.fromCharCode(e.keyCode) : e.key;
+                    if (_lang !== 'en' && _arrAlphabet.indexOf(curLetter.toLowerCase()) === -1) {
+                        var ind = _arrEnQwerty.indexOf(curLetter.toLowerCase());
+                        if (ind !== -1) {
+                            curLetter = _arrQwerty[ind];
+                        }
+                    }
+                    _inputLetters = _inputLetters + curLetter.toUpperCase();
                     for (var i = 0; i < _currentControls.length; i++) {
                         var item = _currentControls[i];
                         if (item.attr('data-hint-title') === _inputLetters) {
@@ -336,6 +352,12 @@ Common.UI.HintManager = new(function() {
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
             _arrAlphabet = langsJson[_lang];
             _arrEnAlphabet = langsJson['en'];
+        });
+        Common.Utils.loadConfig('../../common/main/resources/alphabetletters/qwertyletters.json', function (langsJson) {
+            _arrQwerty = langsJson[_lang];
+            if (_lang !== 'en') {
+                _arrEnQwerty = langsJson['en'];
+            }
         });
     };
 
