@@ -45,6 +45,8 @@ SSE.ApplicationController = new(function(){
         ttOffset = [6, -15],
         labelDocName;
 
+    var LoadingDocument = -256;
+
     // Initialize analytics
     // -------------------------
 
@@ -196,6 +198,7 @@ SSE.ApplicationController = new(function(){
 
     function onDocumentContentReady() {
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         if ( permissions.print === false)
             $('#idt-print').hide();
@@ -230,6 +233,7 @@ SSE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -371,24 +375,14 @@ SSE.ApplicationController = new(function(){
         else
             $parent.css('padding-right', _left_width - _right_width);
 
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
     }
     
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     function onLongActionBegin(type, id){
@@ -398,14 +392,19 @@ SSE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Print']:
                 text = me.downloadTextText;
                 break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
+                break;
             default:
                 text = me.waitText;
                 break;
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
@@ -424,7 +423,7 @@ SSE.ApplicationController = new(function(){
                     break;
             }
 
-            hideMask();
+            me.loadMask && me.loadMask.hide();
         }
     }
 
@@ -440,6 +439,7 @@ SSE.ApplicationController = new(function(){
         }
 
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
 
@@ -625,7 +625,6 @@ SSE.ApplicationController = new(function(){
         });
 
         if (api){
-            api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);

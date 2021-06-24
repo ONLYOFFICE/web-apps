@@ -84,6 +84,14 @@
                 _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
                 _user.guest = !_user.name;
                 return _user;
+            },
+
+            fixedDigits: function(num, digits, fill) {
+                (fill===undefined) && (fill = '0');
+                var strfill = "",
+                    str = num.toString();
+                for (var i=str.length; i<digits; i++) strfill += fill;
+                return strfill + str;
             }
         };
     })();
