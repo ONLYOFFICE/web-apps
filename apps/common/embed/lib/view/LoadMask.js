@@ -66,6 +66,7 @@ common.view.LoadMask = function(owner) {
 
             // show mask after 500 ms if it wont be hided
             if (!rendered) {
+                rendered = true;
                 timerId = setTimeout(function () {
                     ownerEl.append(maskedEl);
                     ownerEl.append(loaderEl);
@@ -83,6 +84,7 @@ common.view.LoadMask = function(owner) {
             maskedEl && maskedEl.remove();
             loaderEl && loaderEl.remove();
             maskedEl = loaderEl = null;
+            rendered = false;
         },
 
         setTitle: function(text) {

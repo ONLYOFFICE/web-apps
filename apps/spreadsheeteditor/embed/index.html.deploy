@@ -238,11 +238,6 @@
           </div>
       </div>
 
-      <div id="id-loadmask" class="hide modal cmd-loader-body">
-          <div class="cmd-loader-image"></div>
-          <div class="cmd-loader-title">Please wait...</div>
-      </div>
-
       <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
 
       <!--vendor-->
