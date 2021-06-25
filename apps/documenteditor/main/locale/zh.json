@@ -755,7 +755,7 @@
   "DE.Controllers.Main.txtXAxis": "X轴",
   "DE.Controllers.Main.txtYAxis": "Y轴",
   "DE.Controllers.Main.txtZeroDivide": "除数为零",
-  "DE.Controllers.Main.unknownErrorText": "示知错误",
+  "DE.Controllers.Main.unknownErrorText": "未知错误",
   "DE.Controllers.Main.unsupportedBrowserErrorText": "您的浏览器不受支持",
   "DE.Controllers.Main.uploadDocExtMessage": "未知的文档格式",
   "DE.Controllers.Main.uploadDocFileCountMessage": "没有文档上载了",
