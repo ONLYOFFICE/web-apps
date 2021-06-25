@@ -198,18 +198,31 @@ define([
             // get_themes_config('../../common/main/resources/themes/themes.json')
         }
 
+        var get_ui_theme_name = function (objtheme) {
+            if ( typeof(objtheme) == 'string' &&
+                    objtheme.startsWith("{") && objtheme.endsWith("}") )
+            {
+                objtheme = JSON.parse(objtheme);
+            }
+
+            if ( objtheme && typeof(objtheme) == 'object' )
+                return objtheme.id;
+
+            return objtheme;
+        }
+
         return {
             init: function (api) {
                 var me = this;
 
                 $(window).on('storage', function (e) {
-                    if ( e.key == 'ui-theme' ) {
+                    if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         me.setTheme(e.originalEvent.newValue);
                     }
                 })
 
                 this.api = api;
-                var theme_name = Common.localStorage.getItem('ui-theme');
+                var theme_name = get_ui_theme_name(Common.localStorage.getItem('ui-theme'));
                 if ( !themes_map[theme_name] )
                     theme_name = id_default_light_theme;
 
@@ -242,7 +255,7 @@ define([
             },
 
             currentThemeId: function () {
-                return Common.localStorage.getItem('ui-theme') || id_default_light_theme;
+                return get_ui_theme_name(Common.localStorage.getItem('ui-theme')) || id_default_light_theme;
             },
 
             defaultThemeId: function (type) {
@@ -257,7 +270,8 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
-            setTheme: function (id, force) {
+            setTheme: function (obj, force) {
+                var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
@@ -270,7 +284,16 @@ define([
 
                     this.api.asc_setSkin(obj);
 
-                    Common.localStorage.setItem('ui-theme', id);
+                    if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                        var theme_obj = {
+                            id: id,
+                            type: obj.type,
+                        };
+
+                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                    }
+
+                    Common.localStorage.setItem('ui-theme-id', id);
                     Common.NotificationCenter.trigger('uitheme:changed', id);
                 }
             },
