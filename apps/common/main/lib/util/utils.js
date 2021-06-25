@@ -797,10 +797,12 @@ Common.Utils.getConfigJson = function (url) {
 };
 
 Common.Utils.loadConfig = function(url, callback) {
-    "use strict";
-
-    fetch(url)
-        .then(function(response){
+    fetch(url, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+            },
+        }).then(function(response){
             if ( response.ok )
                 return response.json();
             else return 'error';
