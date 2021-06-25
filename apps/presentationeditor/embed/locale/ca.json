@@ -15,7 +15,7 @@
   "PE.ApplicationController.errorFileSizeExceed": "La mida del fitxer excedeix la limitació establerta per al vostre servidor. Podeu contactar amb l'administrador del Document Server per obtenir més detalls.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexió a Internet s'ha restaurat i la versió del fitxer s'ha canviat. <br> Abans de continuar treballant, heu de descarregar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, tornar a carregar aquesta pàgina.",
   "PE.ApplicationController.errorUserDrop": "Ara no es pot accedir al fitxer.",
-  "PE.ApplicationController.notcriticalErrorTitle": "Avis",
+  "PE.ApplicationController.notcriticalErrorTitle": "Advertiment",
   "PE.ApplicationController.scriptLoadError": "La connexió és massa lenta, alguns dels components no s’han pogut carregar. Torneu a carregar la pàgina.",
   "PE.ApplicationController.textLoadingDocument": "Carregant presentació",
   "PE.ApplicationController.textOf": "de",
@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Si us plau, esperi...",
   "PE.ApplicationView.txtDownload": "Descàrrega",
   "PE.ApplicationView.txtEmbed": "Incrustar",
+  "PE.ApplicationView.txtFileLocation": "Obrir ubicació del fitxer",
   "PE.ApplicationView.txtFullScreen": "Pantalla Completa",
   "PE.ApplicationView.txtPrint": "Imprimir",
   "PE.ApplicationView.txtShare": "Compartir"
