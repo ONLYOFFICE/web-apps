@@ -498,6 +498,7 @@ define([
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
                     var hidentems = [], items = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
+                    var wbprotected = this.api.asc_isProtectedWorkbook();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
@@ -509,7 +510,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked || me.mode.isDisconnected,
+                            isLockTheDrag : locked || me.mode.isDisconnected || wbprotected,
                             iconCls       : 'btn-sheet-view',
                             iconTitle     : name,
                             iconVisible   : name!==''
@@ -538,7 +539,7 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
+                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.asc_isProtectedWorkbook() || me.api.isCellEdited);
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);
@@ -647,15 +648,16 @@ define([
                         }
 
                         var isdoclocked     = this.api.asc_isWorkbookLocked();
+                        var isdocprotected  = this.api.asc_isProtectedWorkbook();
 
-                        this.tabMenu.items[0].setDisabled(isdoclocked);
-                        this.tabMenu.items[1].setDisabled(issheetlocked);
-                        this.tabMenu.items[2].setDisabled(issheetlocked);
-                        this.tabMenu.items[3].setDisabled(issheetlocked);
-                        this.tabMenu.items[4].setDisabled(issheetlocked);
-                        this.tabMenu.items[5].setDisabled(issheetlocked);
-                        this.tabMenu.items[6].setDisabled(isdoclocked);
-                        this.tabMenu.items[7].setDisabled(issheetlocked);
+                        this.tabMenu.items[0].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[1].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[2].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[3].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[4].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[5].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[6].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[7].setDisabled(issheetlocked || isdocprotected);
 
                         if (select.length === 1) {
                             this.tabMenu.items[10].hide();
@@ -663,8 +665,8 @@ define([
                             this.tabMenu.items[10].show();
                         }
 
-                        this.tabMenu.items[9].setDisabled(issheetlocked);
-                        this.tabMenu.items[10].setDisabled(issheetlocked);
+                        this.tabMenu.items[9].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[10].setDisabled(issheetlocked || isdocprotected);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);

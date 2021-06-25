@@ -130,7 +130,7 @@ define([
                     caption: this.capDataFromText,
                     menu: !this.toolbar.mode.isDesktopApp,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.wbLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnDataFromText);
 

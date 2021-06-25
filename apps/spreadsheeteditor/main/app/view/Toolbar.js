@@ -98,7 +98,8 @@ define([
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
         tableHasSlicer: 'table-has-slicer',
-        sheetView: 'sheet-view'
+        sheetView: 'sheet-view',
+        wbLock: 'workbook-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({

@@ -71,6 +71,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
+                this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -406,6 +407,10 @@ define([
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
             }
+        },
+
+        onChangeProtectWorkbook: function() {
+            Common.Utils.lockControls(SSE.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText]});
         },
 
         onApiSheetChanged: function() {
