@@ -12,21 +12,34 @@ define([
         var themes_map = {
             'theme-light': {
                 text: locale.txtThemeLight || 'Light',
-                type: 'light'
+                type: 'light',
+                source: 'static',
             },
             'theme-classic-light': {
                 text: locale.txtThemeClassicLight || 'Classic Light',
-                type: 'light'
+                type: 'light',
+                source: 'static',
             },
             'theme-dark': {
                 text: locale.txtThemeDark || 'Dark',
-                type: 'dark'
+                type: 'dark',
+                source: 'static',
             },
         }
+
+        if ( !!window.currentLoaderTheme ) {
+            themes_map[currentLoaderTheme.id] = {};
+            window.currentLoaderTheme = undefined;
+        }
+
         var id_default_light_theme = 'theme-classic-light',
             id_default_dark_theme = 'theme-dark';
 
         var name_colors = [
+            "toolbar-header-document",
+            "toolbar-header-spreadsheet",
+            "toolbar-header-presentation",
+
             "background-normal",
             "background-toolbar",
             "background-toolbar-additional",
@@ -169,33 +182,40 @@ define([
         }
 
         var get_themes_config = function (url) {
-            fetch(url, {
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            }).then(function(response) {
-                if (!response.ok) {
-                    throw new Error('server error');
+            Common.Utils.loadConfig(url,
+                function ( obj ) {
+                    if ( obj != 'error' ) {
+                        parse_themes_object(obj);
+                    }
                 }
-                return response.json();
-            }).then(function(response) {
-                if ( response.then ) {
-                    // return response.json();
-                } else {
-                    parse_themes_object(response);
-
-                    /* to break promises chain */
-                    throw new Error('loaded');
-                }
-            }).catch(function(e) {
-                if ( e.message == 'loaded' ) {
-                } else console.log('fetch error: ' + e);
-            });
+            );
+            // fetch(url, {
+            //     method: 'get',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //     },
+            // }).then(function(response) {
+            //     if (!response.ok) {
+            //         throw new Error('server error');
+            //     }
+            //     return response.json();
+            // }).then(function(response) {
+            //     if ( response.then ) {
+            //         // return response.json();
+            //     } else {
+            //         parse_themes_object(response);
+            //
+            //         /* to break promises chain */
+            //         throw new Error('loaded');
+            //     }
+            // }).catch(function(e) {
+            //     if ( e.message == 'loaded' ) {
+            //     } else console.log('fetch error: ' + e);
+            // });
         }
 
         var on_document_ready = function (el) {
-            // get_themes_config('../../common/main/resources/themes/themes.json')
+            get_themes_config('../../common/main/resources/themes/themes.json');
         }
 
         var get_ui_theme_name = function (objtheme) {
@@ -289,6 +309,10 @@ define([
                             id: id,
                             type: obj.type,
                         };
+
+                        if ( themes_map[id].source != 'static' ) {
+                            theme_obj.colors = obj;
+                        }
 
                         Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
                     }
