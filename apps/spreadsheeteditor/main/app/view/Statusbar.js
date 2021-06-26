@@ -129,6 +129,35 @@ define([
                     hintAnchor: 'top'
                 });
 
+                this.btnSheetList = new Common.UI.Button({
+                    el: $('.cnt-tabslist', this.el),
+                    hint: this.tipListOfSheets,
+                    hintAnchor: 'top'
+                });
+                this.sheetListMenu = new Common.UI.Menu({
+                    style: 'margin-top:-3px;',
+                    menuAlign: 'bl-tl',
+                    maxHeight: 300
+                });
+                this.sheetListMenu.on('item:click', function(obj,item) {
+                    me.fireEvent('show:tab', [item.value]);
+                    me.sheetListMenu.items[item.value].setChecked(true);
+                });
+                this.btnSheetList.cmpEl.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.btnSheetList.cmpEl.find('ul').focus();
+                        }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    }
+                });
+                this.sheetListMenu.render($('.cnt-tabslist',this.el));
+                this.sheetListMenu.cmpEl.attr({tabindex: -1});
+
                 this.cntZoom = new Common.UI.Button({
                     el: $('.cnt-zoom',this.el),
                     hint: this.tipZoomFactor,
@@ -493,10 +522,11 @@ define([
                 this.tabMenu.items[6].menu.removeAll();
                 this.tabMenu.items[6].hide();
                 this.btnAddWorksheet.setDisabled(true);
+                this.sheetListMenu.removeAll();
 
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked, name;
+                    var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
 
                     while (++i < wc) {
@@ -516,6 +546,8 @@ define([
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
+
+                        allItems.push(tab);
                     }
 
                     if (hidentems.length) {
@@ -530,6 +562,27 @@ define([
                     }
 
                     this.tabbar.add(items);
+
+                    allItems.forEach(function(item){
+                        me.sheetListMenu.addItem(new Common.UI.MenuItem({
+                            style: 'white-space: pre-wrap',
+                            caption: Common.Utils.String.htmlEncode(item.label),
+                            value: item.sheetindex,
+                            checkable: true,
+                            checked: item.active,
+                            hidden: me.api.asc_isWorksheetHidden(item.sheetindex),
+                            textHidden: me.itemHidden,
+                            template: _.template([
+                                '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                                    '<div class="color"></div>',
+                                    '<span class="name"><%= caption %></span>',
+                                    '<% if (options.hidden) { %>',
+                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
+                                    '<% } %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    });
 
                     if (!_.isUndefined(this.tabBarScroll)) {
                         this.tabbar.$bar.scrollLeft(this.tabBarScroll.scrollLeft);
@@ -764,7 +817,7 @@ define([
 
             changeViewMode: function (edit) {
                 if (edit) {
-                    this.tabBarBox.css('left',  '152px');
+                    this.tabBarBox.css('left',  '175px');
                 } else {
                     this.tabBarBox.css('left',  '');
                 }
@@ -830,6 +883,7 @@ define([
             tipPrev             : 'Previous Sheet',
             tipNext             : 'Next Sheet',
             tipAddTab           : 'Add Worksheet',
+            tipListOfSheets     : 'List of Sheets',
             itemInsert          : 'Insert',
             itemDelete          : 'Delete',
             itemRename          : 'Rename',

@@ -366,6 +366,35 @@
         }
     }
 
+    .cnt-tabslist {
+        display: inline-block;
+        position: relative;
+        .dropdown-menu {
+            min-width: 112px;
+            margin-left: -4px;
+
+            li {
+                text-align: left;
+                a {
+                    position: relative;
+                    padding-left: 26px;
+                    .color {
+                        height: 21px;
+                        width: 4px;
+                        position: absolute;
+                        top: 2px;
+                        left: 0;
+                    }
+                }
+                .hidden-mark {
+                    margin-left: 12px;
+                    font-style: italic;
+                    color: @text-secondary;
+                }
+            }
+        }
+    }
+
     .cnt-zoom {
         display: inline-block;
         position: relative;
