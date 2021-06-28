@@ -2077,6 +2077,10 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
+                    this.btnUndo.setDisabled(true);
+                    this.btnRedo.setDisabled(true);
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
