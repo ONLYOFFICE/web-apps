@@ -505,7 +505,7 @@ define([
             }
         },
 
-        disableEditing: function (disabled) {
+        SetDisabled: function (disabled) {
             this.viewmode = disabled;
             this.header.mnuitemHideHeadings.setDisabled(disabled);
             this.header.mnuitemHideGridlines.setDisabled(disabled);

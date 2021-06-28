@@ -188,13 +188,21 @@ define([
             return this;
         },
 
-        disableEditing: function(disabled) {
-            this.leftMenu.btnComments.setDisabled(disabled);
-            this.leftMenu.btnChat.setDisabled(disabled);
-            this.leftMenu.btnPlugins.setDisabled(disabled);
-            this.leftMenu.btnSpellcheck.setDisabled(disabled);
+        SetDisabled: function(disable, disableFileMenu) {
+            this.mode.isEdit = !disable;
+            if (disable) this.leftMenu.close();
 
-            this.leftMenu.getMenu('file').disableEditing(disabled);
+            /** coauthoring begin **/
+            this.leftMenu.btnComments.setDisabled(disable);
+            var comments = this.getApplication().getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+            this.setPreviewMode(disable);
+            this.leftMenu.btnChat.setDisabled(disable);
+            /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.btnSpellcheck.setDisabled(disable);
+            if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
         },
 
         createDelayedElements: function() {

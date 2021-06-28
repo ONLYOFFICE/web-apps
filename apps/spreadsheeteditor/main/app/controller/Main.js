@@ -1036,8 +1036,14 @@ define([
                 var app = this.getApplication();
                 if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
                     app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('Toolbar').DisableToolbar(disable);
+                    app.getController('RightMenu').SetDisabled(disable, false);
+                    app.getController('Toolbar').DisableToolbar(disable,disable);
+                    app.getController('Statusbar').SetDisabled(disable);
                 }
+                app.getController('LeftMenu').SetDisabled(disable, true);
+                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                app.getController('Viewport').SetDisabled(disable);
+                app.getController('CellEditor').SetDisabled(disable);
             },
 
             onOpenDocument: function(progress) {
@@ -2439,16 +2445,11 @@ define([
                     disablefunc: function (disable) {
                         me.disableEditing(disable);
                         var app = me.getApplication();
-                        app.getController('Toolbar').DisableToolbar(disable,disable);
-                        app.getController('RightMenu').SetDisabled(disable, true);
-                        app.getController('Statusbar').SetDisabled(disable);
-                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                         app.getController('DocumentHolder').SetDisabled(disable);
                         var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
                         leftMenu.setPreviewMode(disable);
-                        leftMenu.disableEditing(disable);
-                        app.getController('CellEditor').disableEditing(disable);
-                        app.getController('Viewport').disableEditing(disable);
+
                         var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                 }});

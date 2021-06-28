@@ -328,8 +328,7 @@ define([
             }
 
             if ( this.mode.disableEditing != undefined ) {
-                this.panels['opts'].disableEditing(this.mode.disableEditing);
-                this.miProtect.setDisabled(this.mode.disableEditing);
+                this.panels['opts'].SetDisabled(this.mode.disableEditing);
                 delete this.mode.disableEditing;
             }
         },
@@ -425,13 +424,13 @@ define([
             }
         },
 
-        disableEditing: function(disabled) {
+        SetDisabled: function(disable) {
             if ( !this.panels ) {
-                this.mode.disableEditing = disabled;
+                this.mode.disableEditing = disable;
             } else {
-                this.panels['opts'].disableEditing(disabled);
-                this.miProtect.setDisabled(disabled);
+                this.panels['opts'].SetDisabled(disable);
             }
+
             var _btn_save = this.getButton('save'),
                 _btn_rename = this.getButton('rename'),
                 _btn_protect = this.getButton('protect');

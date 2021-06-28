@@ -478,7 +478,7 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected);
+                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
 
