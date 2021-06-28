@@ -416,9 +416,9 @@ define([
                 _btn_rename = this.getButton('rename'),
                 _btn_protect = this.getButton('protect');
 
-            _btn_save[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_protect[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_rename[(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
+            _btn_save.setDisabled(disable || !this.mode.isEdit);
+            _btn_protect.setDisabled(disable || !this.mode.isEdit);
+            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
         },
 
         isVisible: function () {

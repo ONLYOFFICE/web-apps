@@ -127,6 +127,10 @@ define([
                 caption : this.btnRenameCaption,
                 canFocused: false
             });
+            if ( !!this.options.miRename ) {
+                this.miRename.setDisabled(this.options.miRename.isDisabled());
+                delete this.options.miRename;
+            }
 
             this.miProtect = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-protect'),
@@ -402,6 +406,8 @@ define([
             if ( !this.rendered ) {
                 if (type == 'save') {
                     return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
+                } else if (type == 'rename') {
+                    return this.options.miRename ? this.options.miRename : (this.options.miRename = new Common.UI.MenuItem({}));
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
@@ -410,6 +416,9 @@ define([
                 if (type == 'save') {
                     return this.miSave;
                 } else
+                if (type == 'rename') {
+                    return this.miRename;
+                }else
                 if (type == 'protect') {
                     return this.miProtect;
                 }
@@ -423,6 +432,13 @@ define([
                 this.panels['opts'].disableEditing(disabled);
                 this.miProtect.setDisabled(disabled);
             }
+            var _btn_save = this.getButton('save'),
+                _btn_rename = this.getButton('rename'),
+                _btn_protect = this.getButton('protect');
+
+            _btn_save.setDisabled(disable || !this.mode.isEdit);
+            _btn_protect.setDisabled(disable || !this.mode.isEdit);
+            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
         },
 
         btnSaveCaption          : 'Save',

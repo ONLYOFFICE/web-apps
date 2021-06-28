@@ -140,6 +140,10 @@ define([
                 caption : this.btnRenameCaption,
                 canFocused: false
             });
+            if ( !!this.options.miRename ) {
+                this.miRename.setDisabled(this.options.miRename.isDisabled());
+                delete this.options.miRename;
+            }
 
             this.miProtect = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-protect'),
@@ -452,9 +456,9 @@ define([
                 _btn_rename = this.getButton('rename'),
                 _btn_protect = this.getButton('protect');
 
-            _btn_save[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_protect[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_rename[(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
+            _btn_save.setDisabled(disable || !this.mode.isEdit);
+            _btn_protect.setDisabled(disable || !this.mode.isEdit);
+            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
         },
 
         btnSaveCaption          : 'Save',
