@@ -178,6 +178,13 @@ define([
                 canFocused: false
             });
 
+            this.miHistory = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-history'),
+                action  : 'history',
+                caption : this.btnHistoryCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -203,6 +210,7 @@ define([
                     canFocused: false
                 }),
                 this.miAccess,
+                this.miHistory,
                 this.miSettings,
                 this.miHelp,
                 new Common.UI.MenuItem({
@@ -326,6 +334,8 @@ define([
                 this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            this.miHistory[this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
 
             if ( this.mode.disableEditing != undefined ) {
                 this.panels['opts'].SetDisabled(this.mode.disableEditing);
@@ -456,6 +466,7 @@ define([
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
-        btnSaveCopyAsCaption    : 'Save Copy as...'
+        btnSaveCopyAsCaption    : 'Save Copy as...',
+        btnHistoryCaption       : 'Versions History'
     }, SSE.Views.FileMenu || {}));
 });
