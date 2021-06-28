@@ -6,7 +6,6 @@ import { Device } from '../../../../common/mobile/utils/device';
 const FilterOptions = (props) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const isAndroid = Device.android;
 
     useEffect(() => {
         const is_all_checked = props.listVal.every(item => item.check);
@@ -33,21 +32,20 @@ const FilterOptions = (props) => {
                 </NavRight>
             }
            </Navbar>
+
            <List>
-                <ListItem name='radio-button'  title={_t.txtSortLow2High} radio checked={props.checkSort || ''} onClick={() => props.onSort('sortdown')}
-                    after={isAndroid ? <Icon slot="media" icon="sortdown"></Icon> : null}>
-                    {!isAndroid ?
-                       <Icon slot="media" icon="sortdown"></Icon> : null
-                    }
-                </ListItem>
-                
-                <ListItem name='radio-button'  title={_t.txtSortHigh2Low} radio checked={props.checkSort ? false : true} onClick={() => props.onSort('sortup')}
-                after={isAndroid ? <Icon slot="media" icon="sortup"></Icon> : null}>
-                    {!isAndroid ?
-                       <Icon slot="media" icon="sortup"></Icon> : null
-                    }
+                <ListItem className='buttons'>
+                    <Row>
+                        <a className={'button' + (props.checkSort === 'down' ? ' active' : '')} onClick={() => props.onSort('sortdown')}>
+                            <Icon slot="media" icon="sortdown"/>
+                        </a>
+                        <a className={'button' + (props.checkSort === 'up' ? ' active' : '')} onClick={() => props.onSort('sortup')}>
+                            <Icon slot="media" icon="sortup"/>
+                        </a>
+                    </Row>
                 </ListItem>
            </List>
+
            <List >
                <ListButton color="black" className={props.isValid ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>

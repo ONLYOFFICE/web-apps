@@ -37,8 +37,8 @@ const FilterOptionsController = () => {
         setConfig(config);
         setClearDisable(config);
 
-        const sort = config.asc_getSortState();
-        sort == Asc.c_oAscSortOptions.Ascending ? setCheckSort(true) : setCheckSort(false);
+        setCheckSort((config.asc_getSortState() === Asc.c_oAscSortOptions.Ascending ? 'down' : '') || 
+        (config.asc_getSortState() === Asc.c_oAscSortOptions.Descending ? 'up' : ''));
         
         if (Device.phone) { 
             f7.sheet.open('.picker__sheet');
