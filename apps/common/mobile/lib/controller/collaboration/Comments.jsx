@@ -480,6 +480,10 @@ class ViewCommentsController extends Component {
             }
             const api = Common.EditorApi.get();
             api.asc_changeComment(comment.uid, ascComment);
+
+            if(!this.props.storeApplicationSettings.isResolvedComments) {
+                this.closeViewCurComments();
+            }
         }
     }
     deleteComment (comment) {
@@ -591,7 +595,7 @@ class ViewCommentsController extends Component {
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users', "storeApplicationSettings")(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
 const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
-const _ViewCommentsController = inject('storeComments', 'users')(observer(withTranslation()(ViewCommentsController)));
+const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings")(observer(withTranslation()(ViewCommentsController)));
 
 export {
     _CommentsController as CommentsController,

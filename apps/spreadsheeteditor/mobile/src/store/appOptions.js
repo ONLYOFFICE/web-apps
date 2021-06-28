@@ -71,7 +71,8 @@ export class storeAppOptions {
     }
 
     setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
-        permissions.edit = params.asc_getRights() !== Asc.c_oRights.Edit ? false : true;
+        if (params.asc_getRights() !== Asc.c_oRights.Edit)
+            permissions.edit = false;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
