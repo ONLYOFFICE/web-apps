@@ -26,6 +26,11 @@ const PageGroup = ({name, type, functions, onInsertFunction, f7router}) => {
         if (functions[k].group == type)
             items.push(functions[k]);
     }
+
+    items.sort(function(a, b) {
+        return (a.caption.toLowerCase() > b.caption.toLowerCase()) ? 1 : -1;
+    });
+
     return (
         <Page>
             <Navbar title={name} backLink={_t.textBack}/>
@@ -88,6 +93,7 @@ const AddFunction = props => {
             name: name
         })
     }
+
     return (
         <Fragment>
             <List>
