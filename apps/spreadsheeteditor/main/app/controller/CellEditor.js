@@ -323,7 +323,7 @@ define([
             this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
-        disableEditing: function(disabled) {
+        SetDisabled: function(disabled) {
             this.editor.$btnfunc[!disabled?'removeClass':'addClass']('disabled');
             this.editor.btnNamedRanges.setVisible(!disabled);
         },
