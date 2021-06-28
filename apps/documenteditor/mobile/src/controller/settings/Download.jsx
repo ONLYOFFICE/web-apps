@@ -33,7 +33,7 @@ class DownloadController extends Component {
                     () => {
                         if (format == Asc.c_oAscFileType.TXT) {
                             const isDocReady = this.props.storeAppOptions.isDocReady;
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady, isDRM);
+                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
                         }
                         else {
                             setTimeout(() => {
