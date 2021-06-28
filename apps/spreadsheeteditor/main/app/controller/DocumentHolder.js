@@ -3631,17 +3631,6 @@ define([
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
 
-
-                src.css({
-                    height      : coAuthTip.ttHeight + 'px',
-                    position    : 'absolute',
-                    zIndex      : '900',
-                    visibility  : 'visible'
-                });
-                $(document.body).append(src);
-
-
-
                 $('#editor_sdk').append(src);
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
