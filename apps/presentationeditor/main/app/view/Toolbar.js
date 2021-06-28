@@ -1398,6 +1398,9 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
+                    this.lockToolbar( PE.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else

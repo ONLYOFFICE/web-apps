@@ -396,6 +396,7 @@ define([
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
+                    lock        : [_set.lostConnect],
                     signals     : ['disabled']
                 });
                 me.btnCollabChanges = me.btnSave;
@@ -2213,7 +2214,9 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo,this.btnSave]} );
+                if ( this.synchTooltip )
+                    this.synchTooltip.hide();
                 if (!mode.enableDownload)
                     this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
