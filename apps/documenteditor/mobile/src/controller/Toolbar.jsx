@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -15,14 +15,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
     const readerMode = appOptions.readerMode;
 
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
             api.asc_registerCallback('asc_onCanUndo', onApiCanUndo);
             api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
-            Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.on('toolbar:activatecontrols', activateControls);
             Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.on('goback', goBack);
@@ -35,10 +35,15 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             onDocumentReady();
         }
 
+        if (isDisconnected) {
+            f7.popover.close();
+            f7.sheet.close();
+            f7.popup.close();
+        }
+
         return () => {
             Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('setdoctitle', setDocTitle);
-            Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
@@ -47,7 +52,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
             api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
             api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
             api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
         }
     });
 
@@ -76,7 +80,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack();
+                            goBack(true);
                         }
                     },
                     {
@@ -86,7 +90,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                 ]
             }).open();
         } else {
-            goBack();
+            goBack(true);
         }
     };
     const goBack = (current) => {
@@ -161,18 +165,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
         }
     };
 
-    const onCoAuthoringDisconnect = (enableDownload) => {
-        deactivateEditControls(enableDownload);
-        setCanUndo(false);
-        setCanRedo(false);
-        f7.popover.close();
-        f7.sheet.close();
-        f7.popup.close();
-    };
-
     const [disabledControls, setDisabledControls] = useState(true);
     const activateControls = () => {
         setDisabledControls(false);
+    };
+
+    const onEditDocument = () => {
+        Common.Gateway.requestEditRights();
     };
 
     return (
@@ -192,8 +191,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(prop
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
                      readerMode={readerMode}
+                     showEditDocument={showEditDocument}
+                     onEditDocument={onEditDocument}
+                     isDisconnected={isDisconnected}
         />
     )
-});
+}));
 
 export {ToolbarController as Toolbar};

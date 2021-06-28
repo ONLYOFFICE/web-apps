@@ -164,7 +164,8 @@
         "errorFrmlMaxTextLength": "Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)",
         "errorFrmlMaxLength": "You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.",
         "errorFrmlMaxReference": "You cannot enter this formula because it has too many values,<br>cell references, and/or names.",
-        "errorDataValidate":"The value you entered is not valid.<br>A user has restricted values that can be entered into this cell."
+        "errorDataValidate": "The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.",
+        "errorLockedCellPivot": "You cannot change data inside a pivot table."
     },
     "ContextMenu": {
         "menuViewComment": "View Comment",
@@ -192,7 +193,7 @@
     },
     "Toolbar": {
         "dlgLeaveTitleText": "You leave the application",
-        "dlgLeaveMsgText": "You have unsaved changes in this document. Click \\'Stay on this Page\\' to await the autosave of the document. Click \\'Leave this Page\\' to discard all the unsaved changes.",
+        "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
         "leaveButtonText": "Leave this Page",
         "stayButtonText": "Stay on this Page"
     },
@@ -458,6 +459,8 @@
             "advDRMPassword": "Password",
             "closeButtonText": "Close File",
             "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+            "textOpenFile": "Enter a password to open the file",
+            "txtIncorrectPwd": "Password is incorrect",
             "textCancel": "Cancel",
             "textUnitOfMeasurement": "Unit Of Measurement",
             "textCentimeter": "Centimeter",

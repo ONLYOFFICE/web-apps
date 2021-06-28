@@ -246,7 +246,9 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close')
                         , 'uitheme:changed' : function (name) {
-                            native.execCommand("uitheme:changed", name);
+                            var theme = Common.UI.Themes.get(name);
+                            if ( theme )
+                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                         }
                     });
                 }

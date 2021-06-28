@@ -1419,6 +1419,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.cmbLegendPos.setValue(props.getLegendPos());
 
                     this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
+                    this.cmbDataLabels.setDisabled(this._state.ChartType==Asc.c_oAscChartTypeSettings.surfaceNormal ||
+                                                   this._state.ChartType == Asc.c_oAscChartTypeSettings.surfaceWireframe);
 
                     this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
                     this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);

@@ -33,6 +33,18 @@
             // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
             navigator.__defineGetter__('platform', () => 'Win32Debug');
 
+        if ( !isAndroid ) {
+            const ua = navigator.userAgent;
+            const iPad = ua.match(/(iPad).*OS\s([\d_]+)/);
+            const iPhone = !iPad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+
+            if ( !iPad && !iPhone ) {
+                Object.defineProperty(navigator, 'userAgent', {
+                    get: function () { return `iPad; CPU OS 11_0 ${ua}`; }
+                });
+            }
+        }
+
         const getUrlParams = () => {
             let e,
                 a = /\+/g,  // Regex for replacing addition symbol with a space

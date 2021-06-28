@@ -466,6 +466,7 @@ const PageStyle = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const templates = storeTableSettings.styles;
+    const isAndroid = Device.android;
 
     const tableObject = props.storeFocusObjects.tableObject;
     if (!tableObject && Device.phone) {
@@ -477,9 +478,10 @@ const PageStyle = props => {
         <Page>
             <Navbar backLink={_t.textBack}>
                 <div className="tab-buttons tabbar">
-                    <Link key={"de-link-table-style"}  tabLink={"#edit-table-style"} tabLinkActive={true}>{_t.textStyle}</Link>
-                    <Link key={"de-link-table-fill"}  tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
-                    <Link key={"de-link-table-border"}  tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
+                    <Link key={"de-link-table-style"} tabLink={"#edit-table-style"} tabLinkActive={true}>{_t.textStyle}</Link>
+                    <Link key={"de-link-table-fill"} tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
+                    <Link key={"de-link-table-border"} tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>

@@ -43,7 +43,9 @@ DE.ApplicationController = new(function(){
         labelDocName,
         appOptions = {},
         btnSubmit,
-        _submitFail, $submitedTooltip;
+        _submitFail, $submitedTooltip, $requiredTooltip;
+
+    var LoadingDocument = -256;
 
     // Initialize analytics
     // -------------------------
@@ -166,6 +168,10 @@ DE.ApplicationController = new(function(){
                     _submitFail = false;
                     $submitedTooltip && $submitedTooltip.hide();
                     btnSubmit.attr({disabled: true});
+                    btnSubmit.css("pointer-events", "none");
+                break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
                 break;
             default:
                 text = me.waitText;
@@ -173,22 +179,27 @@ DE.ApplicationController = new(function(){
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
     function onLongActionEnd(type, id){
         if (id==Asc.c_oAscAsyncAction['Submit']) {
             btnSubmit.removeAttr('disabled');
-            if (!$submitedTooltip) {
-                $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
-                $(document.body).append($submitedTooltip);
-                $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+            btnSubmit.css("pointer-events", "auto");
+            if (!_submitFail) {
+                if (!$submitedTooltip) {
+                    $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
+                    $(document.body).append($submitedTooltip);
+                    $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+                }
+                $submitedTooltip.show();
             }
-            !_submitFail && $submitedTooltip.show();
         }
-        hideMask();
+        me.loadMask && me.loadMask.hide();
     }
 
     function onDocMouseMoveStart() {
@@ -251,12 +262,24 @@ DE.ApplicationController = new(function(){
         common.utils.dialogPrint(url, api);
     }
 
+    function onFillRequiredFields(isFilled) {
+        if (isFilled) {
+            btnSubmit.removeAttr('disabled');
+            btnSubmit.css("pointer-events", "auto");
+            // $requiredTooltip && $requiredTooltip.hide();
+        } else {
+            btnSubmit.attr({disabled: true});
+            btnSubmit.css("pointer-events", "none");
+        }
+    }
+
     function hidePreloader() {
         $('#loading-mask').fadeOut('slow');
     }
 
     function onDocumentContentReady() {
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
@@ -326,6 +349,7 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -405,6 +429,37 @@ DE.ApplicationController = new(function(){
         $('#pages').on('click', function(e) {
             $pagenum.focus();
         });
+
+        // TODO: add asc_hasRequiredFields to sdk
+
+        if (appOptions.canSubmitForms && !api.asc_IsAllRequiredFormsFilled()) {
+            var sgroup = $('#id-submit-group');
+            btnSubmit.attr({disabled: true});
+            btnSubmit.css("pointer-events", "none");
+            if (!common.localStorage.getItem("de-embed-hide-submittip")) {
+                var offset = btnSubmit.offset();
+                $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
+                $(document.body).append($requiredTooltip);
+                $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
+                $requiredTooltip.find('.close-div').on('click', function() {
+                    $requiredTooltip.hide();
+                    api.asc_MoveToFillingForm(true, true, true);
+                    common.localStorage.setItem("de-embed-hide-submittip", 1);
+                    sgroup.attr('data-toggle', 'tooltip');
+                    sgroup.tooltip({
+                        title       : me.textRequired,
+                        placement   : 'bottom'
+                    });
+                });
+                $requiredTooltip.show();
+            } else {
+                sgroup.attr('data-toggle', 'tooltip');
+                sgroup.tooltip({
+                    title       : me.textRequired,
+                    placement   : 'bottom'
+                });
+            }
+        }
 
         var documentMoveTimer;
         var ismoved = false;
@@ -495,24 +550,15 @@ DE.ApplicationController = new(function(){
         else
             $parent.css('padding-right', _left_width - _right_width);
 
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
         api.asc_LoadDocument();
         api.Resize();
     }
 
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     function onError(id, level, errData) {
@@ -527,6 +573,7 @@ DE.ApplicationController = new(function(){
         }
 
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
 
@@ -757,6 +804,8 @@ DE.ApplicationController = new(function(){
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         textGuest: 'Guest',
-        textAnonymous: 'Anonymous'
+        textAnonymous: 'Anonymous',
+        textRequired: 'Fill all required fields to send form.',
+        textGotIt: 'Got it'
     }
 })();

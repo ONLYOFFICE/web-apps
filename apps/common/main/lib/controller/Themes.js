@@ -12,21 +12,34 @@ define([
         var themes_map = {
             'theme-light': {
                 text: locale.txtThemeLight || 'Light',
-                type: 'light'
+                type: 'light',
+                source: 'static',
             },
             'theme-classic-light': {
                 text: locale.txtThemeClassicLight || 'Classic Light',
-                type: 'light'
+                type: 'light',
+                source: 'static',
             },
             'theme-dark': {
                 text: locale.txtThemeDark || 'Dark',
-                type: 'dark'
+                type: 'dark',
+                source: 'static',
             },
         }
+
+        if ( !!window.currentLoaderTheme ) {
+            themes_map[currentLoaderTheme.id] = {};
+            window.currentLoaderTheme = undefined;
+        }
+
         var id_default_light_theme = 'theme-classic-light',
             id_default_dark_theme = 'theme-dark';
 
         var name_colors = [
+            "toolbar-header-document",
+            "toolbar-header-spreadsheet",
+            "toolbar-header-presentation",
+
             "background-normal",
             "background-toolbar",
             "background-toolbar-additional",
@@ -169,33 +182,53 @@ define([
         }
 
         var get_themes_config = function (url) {
-            fetch(url, {
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            }).then(function(response) {
-                if (!response.ok) {
-                    throw new Error('server error');
+            Common.Utils.loadConfig(url,
+                function ( obj ) {
+                    if ( obj != 'error' ) {
+                        parse_themes_object(obj);
+                    }
                 }
-                return response.json();
-            }).then(function(response) {
-                if ( response.then ) {
-                    // return response.json();
-                } else {
-                    parse_themes_object(response);
-
-                    /* to break promises chain */
-                    throw new Error('loaded');
-                }
-            }).catch(function(e) {
-                if ( e.message == 'loaded' ) {
-                } else console.log('fetch error: ' + e);
-            });
+            );
+            // fetch(url, {
+            //     method: 'get',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //     },
+            // }).then(function(response) {
+            //     if (!response.ok) {
+            //         throw new Error('server error');
+            //     }
+            //     return response.json();
+            // }).then(function(response) {
+            //     if ( response.then ) {
+            //         // return response.json();
+            //     } else {
+            //         parse_themes_object(response);
+            //
+            //         /* to break promises chain */
+            //         throw new Error('loaded');
+            //     }
+            // }).catch(function(e) {
+            //     if ( e.message == 'loaded' ) {
+            //     } else console.log('fetch error: ' + e);
+            // });
         }
 
         var on_document_ready = function (el) {
-            // get_themes_config('../../common/main/resources/themes/themes.json')
+            get_themes_config('../../common/main/resources/themes/themes.json');
+        }
+
+        var get_ui_theme_name = function (objtheme) {
+            if ( typeof(objtheme) == 'string' &&
+                    objtheme.startsWith("{") && objtheme.endsWith("}") )
+            {
+                objtheme = JSON.parse(objtheme);
+            }
+
+            if ( objtheme && typeof(objtheme) == 'object' )
+                return objtheme.id;
+
+            return objtheme;
         }
 
         return {
@@ -203,13 +236,13 @@ define([
                 var me = this;
 
                 $(window).on('storage', function (e) {
-                    if ( e.key == 'ui-theme' ) {
+                    if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         me.setTheme(e.originalEvent.newValue);
                     }
                 })
 
                 this.api = api;
-                var theme_name = Common.localStorage.getItem('ui-theme');
+                var theme_name = get_ui_theme_name(Common.localStorage.getItem('ui-theme'));
                 if ( !themes_map[theme_name] )
                     theme_name = id_default_light_theme;
 
@@ -242,7 +275,7 @@ define([
             },
 
             currentThemeId: function () {
-                return Common.localStorage.getItem('ui-theme') || id_default_light_theme;
+                return get_ui_theme_name(Common.localStorage.getItem('ui-theme')) || id_default_light_theme;
             },
 
             defaultThemeId: function (type) {
@@ -257,7 +290,8 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
-            setTheme: function (id, force) {
+            setTheme: function (obj, force) {
+                var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     var classname = document.body.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
@@ -270,7 +304,20 @@ define([
 
                     this.api.asc_setSkin(obj);
 
-                    Common.localStorage.setItem('ui-theme', id);
+                    if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                        var theme_obj = {
+                            id: id,
+                            type: obj.type,
+                        };
+
+                        if ( themes_map[id].source != 'static' ) {
+                            theme_obj.colors = obj;
+                        }
+
+                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                    }
+
+                    Common.localStorage.setItem('ui-theme-id', id);
                     Common.NotificationCenter.trigger('uitheme:changed', id);
                 }
             },

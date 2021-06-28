@@ -227,7 +227,7 @@ const EditLayoutNavbar = ({ editors, inPopover }) => {
                 editors.length > 1 ?
                     <div className='tab-buttons tabbar'>
                         {editors.map((item, index) => <Link key={"pe-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
-                        {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.lenght + '%'}}></span>}
+                        {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.length + '%'}}></span>}
                     </div> :
                     <NavTitle>{ editors[0].caption }</NavTitle>
             }

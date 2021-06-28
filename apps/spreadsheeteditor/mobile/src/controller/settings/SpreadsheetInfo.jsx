@@ -6,13 +6,17 @@ class SpreadsheetInfoController extends Component {
     constructor(props) {
         super(props);
         this.docProps = this.getDocProps();
-        this.getModified = this.getModified();
-        this.getModifiedBy = this.getModifiedBy();
-        this.getCreators = this.getCreators();
-        this.title = this.getTitle();
-        this.subject = this.getSubject();
-        this.description = this.getDescription();
-        this.getCreated = this.getCreated();
+        if (this.docProps) {
+            this.dataApp = this.getAppProps();
+            this.modified = this.getModified();
+            this.modifiedBy = this.getModifiedBy();
+            this.creators = this.getCreators();
+            this.title = this.getTitle();
+            this.subject = this.getSubject();
+            this.description = this.getDescription();
+            this.created = this.getCreated();
+
+        }
     }
 
     getDocProps() {
@@ -23,7 +27,6 @@ class SpreadsheetInfoController extends Component {
     getAppProps() {
         const api = Common.EditorApi.get();
         const appProps = api.asc_getAppProps();
-
         if (appProps) {
             let appName =
                 (appProps.asc_getApplication() || "") +
@@ -31,12 +34,12 @@ class SpreadsheetInfoController extends Component {
                 (appProps.asc_getAppVersion() || "");
             return appName;
         }
+        return null;
     }
 
     getModified() {
         let valueModified = this.docProps.asc_getModified();
         const _lang = this.props.storeAppOptions.lang;
-
         if (valueModified) {
             return (
                 valueModified.toLocaleString(_lang, {
@@ -48,14 +51,15 @@ class SpreadsheetInfoController extends Component {
                 valueModified.toLocaleTimeString(_lang, { timeStyle: "short" })
             );
         }
+        return null;
     }
 
     getModifiedBy() {
         let valueModifiedBy = this.docProps.asc_getLastModifiedBy();
-
         if (valueModifiedBy) {
             return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
         }
+        return null;
     }
 
     getCreators() {
@@ -77,20 +81,20 @@ class SpreadsheetInfoController extends Component {
     getCreated() {
         let value = this.docProps.asc_getCreated();
         const _lang = this.props.storeAppOptions.lang;
-
         if(value) {
             return value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'});
         }
+        return null;
     }
 
     render() {
         return (
             <SpreadsheetInfo
-                getAppProps={this.getAppProps}
-                getModified={this.getModified}
-                getModifiedBy={this.getModifiedBy}
-                getCreators={this.getCreators}
-                getCreated={this.getCreated}
+                dataApp={this.dataApp}
+                modified={this.modified}
+                modifiedBy={this.modifiedBy}
+                creators={this.creators}
+                created={this.created}
                 title={this.title}
                 subject={this.subject}
                 description={this.description}

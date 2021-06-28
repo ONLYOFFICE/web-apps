@@ -388,7 +388,8 @@ define([
             tipPrevForm: 'Go to the previous field',
             tipNextForm: 'Go to the next field',
             tipSubmit: 'Submit form',
-            textSubmited: 'Form submitted successfully'
+            textSubmited: 'Form submitted successfully',
+            textRequired: 'Fill all required fields to send form.'
         }
     }()), DE.Views.FormsTab || {}));
 });

@@ -4,9 +4,10 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
+    const isDisconnected = props.isDisconnected;
     const undo_box = props.isEdit && EditorUIController.toolbarOptions ? EditorUIController.toolbarOptions.getUndoRedo({
-            disabledUndo: !props.isCanUndo,
-            disabledRedo: !props.isCanRedo,
+            disabledUndo: !props.isCanUndo || isDisconnected,
+            disabledRedo: !props.isCanRedo || isDisconnected,
             onUndoClick: props.onUndo,
             onRedoClick: props.onRedo
         }) : null;
@@ -19,8 +20,11 @@ const ToolbarView = props => {
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
                 {Device.android && undo_box}
+                {props.showEditDocument &&
+                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                }
                 {props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getEditOptions({
-                    disabled: props.disabledEditControls || props.disabledControls,
+                    disabled: props.disabledEditControls || props.disabledControls || isDisconnected,
                     onEditClick: () => props.openOptions('edit'),
                     onAddClick: () => props.openOptions('add')
                 })}

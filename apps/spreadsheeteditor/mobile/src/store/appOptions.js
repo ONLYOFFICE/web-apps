@@ -19,7 +19,11 @@ export class storeAppOptions {
 
     isEdit = false;
     config = {};
+    
     canViewComments = false;
+    changeCanViewComments(value) {
+        this.canViewComments = value;
+    }
 
     lostEditingRights = false;
     changeEditingRights (value) {
@@ -66,7 +70,7 @@ export class storeAppOptions {
         this.canPlugins = false;
     }
 
-    setPermissionOptions (document, licType, params, permissions) {
+    setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
         permissions.edit = params.asc_getRights() !== Asc.c_oRights.Edit ? false : true;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
@@ -76,9 +80,8 @@ export class storeAppOptions {
         this.isOffline = Common.EditorApi.get().asc_isOffline();
         this.canRequestEditRights = this.config.canRequestEditRights;
         this.canEdit = permissions.edit !== false  && // can edit or review
-            (this.config.canRequestEditRights || this.config.mode !== 'view') && true; // if mode=="view" -> canRequestEditRights must be defined
+            (this.config.canRequestEditRights || this.config.mode !== 'view') && isSupportEditFeature; // if mode=="view" -> canRequestEditRights must be defined
             // (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-            // true /*isSupportEditFeature*/;
         this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && true;
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);

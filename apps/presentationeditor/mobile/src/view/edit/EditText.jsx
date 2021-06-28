@@ -15,7 +15,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
-    const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
+    const displaySize = typeof fontSize === 'undefined' || fontSize == '' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
@@ -182,7 +182,7 @@ const PageFonts = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const storeTextSettings = props.storeTextSettings;
     const size = storeTextSettings.fontSize;
-    const displaySize = typeof size === 'undefined' ? _t.textAuto : size + ' ' + _t.textPt;
+    const displaySize = typeof size === 'undefined' || size == '' ? _t.textAuto : size + ' ' + _t.textPt;
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
 

@@ -5,6 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import { Dom7 } from 'framework7';
 import { Device } from '../../../../common/mobile/utils/device';
+import { observer, inject } from "mobx-react";
 
 class SearchSettings extends SearchSettingsView {
     constructor(props) {
@@ -23,6 +24,8 @@ class SearchSettings extends SearchSettingsView {
         const show_popover = !Device.phone;
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
+        const storeAppOptions = this.props.storeAppOptions;
+        const isEdit = storeAppOptions.isEdit;
 
         const markup = (
             <Page>
@@ -35,9 +38,14 @@ class SearchSettings extends SearchSettingsView {
                 </Navbar>
                 <List>
                     <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                    <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
-                    <ListItem radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
-                        onClick={() => this.onFindReplaceClick('replace-all')}></ListItem>
+                    {isEdit ?
+                        <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
+                            onClick={e => this.onFindReplaceClick('replace')} />
+                    : null}
+                    {isEdit ? 
+                        <ListItem radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
+                            onClick={() => this.onFindReplaceClick('replace-all')}></ListItem>
+                    : null}
                 </List>
                 <BlockTitle>{_t.textSearchIn}</BlockTitle>
                 <List>
@@ -206,6 +214,6 @@ const Search = withTranslation()(props => {
     return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
-const SearchSettingsWithTranslation = withTranslation()(SearchSettings);
+const SearchSettingsWithTranslation = inject("storeAppOptions")(observer(withTranslation()(SearchSettings)));
 
 export {Search, SearchSettingsWithTranslation as SearchSettings}

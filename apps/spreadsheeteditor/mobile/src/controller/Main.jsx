@@ -186,7 +186,7 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;
-                appOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(appOptions);
 
@@ -292,6 +292,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        $$(window).on('resize', () => {
+            this.api.asc_Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
@@ -318,8 +322,9 @@ class MainController extends Component {
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
-            const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
+            const _t = t("View.Settings", { returnObjects: true });
+            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose,this.isDRM);
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
         });
 
     }

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import {observer, inject} from "mobx-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.switchDisplayComments = this.switchDisplayComments.bind(this);
+        this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
 
     setUnitMeasurement(value) {
@@ -34,6 +36,8 @@ class ApplicationSettingsController extends Component {
 
     switchDisplayComments(value) {
         const api = Common.EditorApi.get();
+        this.props.storeAppOptions.changeCanViewComments(value);
+
         if (!value) {
             api.asc_hideComments();
             this.switchDisplayResolved(value);
@@ -42,6 +46,7 @@ class ApplicationSettingsController extends Component {
             const resolved = LocalStorage.getBool("de-settings-resolvedcomment");
             api.asc_showComments(resolved);
         }
+
         LocalStorage.setBool("de-mobile-settings-livecomment", value);
     }
 
@@ -73,4 +78,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default ApplicationSettingsController;
+export default inject("storeAppOptions", "storeApplicationSettings")(observer(ApplicationSettingsController));

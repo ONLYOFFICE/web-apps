@@ -21,7 +21,7 @@ class DownloadController extends Component {
                     _t.warnDownloadAs,
                     _t.notcriticalErrorTitle,
                     function () {
-                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t)
+                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
                     }
                 )
             } else {
@@ -39,7 +39,7 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = withTranslation()(DownloadController);
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequestClose) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
     const api = Common.EditorApi.get();
 
     if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
@@ -52,7 +52,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
             pagesName.push(page.asc_getCodePageName());
         }
 
-        // me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
 
         const buttons = [];
 
@@ -76,9 +77,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                     api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
                 }
 
-                //if (!me._isDocReady) {
-                        //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         });
 
@@ -93,7 +94,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
                 '</div>' +
                 '<div id="txt-encoding" class="small"></div>' +
             '</div>',
-            buttons: buttons
+            buttons: buttons,
+            cssClass: 'dlg-adv-options'
         }).open();
 
         const recommendedSettings = advOptions.asc_getRecommendedSettings();
@@ -121,18 +123,29 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
         });
 
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-        //me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{
             text: 'OK',
             bold: true,
             onClick: function () {
                 const password = document.getElementById('modal-password').value;
                 api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-                //if (!me._isDocReady) {
-                    //me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //}
+                if (!isDocReady) {
+                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+                }
             }
         }];
+
+        if(isDRM) {
+            f7.dialog.create({
+                text: _t.txtIncorrectPwd,
+                buttons : [{
+                    text: 'OK',
+                    bold: true,
+                }]
+            }).open();
+        }
 
         if (canRequestClose)
             buttons.push({
@@ -144,9 +157,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, canRequest
 
         f7.dialog.create({
             title: _t.advDRMOptions,
-            text: _t.txtProtected,
-            content:
-                '<div class="input-field"><input type="password" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>',
+            text: _t.textOpenFile,
+            content: Device.ios ?
+                '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
             buttons: buttons
         }).open();
     }

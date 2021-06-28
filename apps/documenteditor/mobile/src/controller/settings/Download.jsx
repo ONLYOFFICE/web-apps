@@ -25,6 +25,7 @@ class DownloadController extends Component {
         const _t = t("Settings", { returnObjects: true });
 
         if(format) {
+            this.closeModal();
             if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                 f7.dialog.confirm(
                     (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
@@ -32,19 +33,21 @@ class DownloadController extends Component {
                     () => {
                         if (format == Asc.c_oAscFileType.TXT) {
                             const isDocReady = this.props.storeAppOptions.isDocReady;
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady, isDRM);
                         }
                         else {
-                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                            setTimeout(() => {
+                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                            }, 400);
                         }
                     }
                 );
             } 
             else {
-                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                setTimeout(() => {
+                    api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                }, 400);
             }
-
-            this.closeModal();
         }
     }
 
@@ -57,7 +60,7 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = inject("storeAppOptions")(observer(withTranslation()(DownloadController)));
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
     if ($$('.dlg-adv-options.modal-in').length > 0) return;
 
     const api = Common.EditorApi.get();
@@ -70,7 +73,7 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
             pagesName.push(page.asc_getCodePageName());
         }
         Common.Notifications.trigger('preloader:close');
-        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [];
         if (mode === 2) {
             buttons.push({
@@ -122,7 +125,7 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
         });
     } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
-        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{
             text: 'OK',
             bold: true,
@@ -134,6 +137,17 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
                 }
             }
         }];
+
+        if(isDRM) {
+            f7.dialog.create({
+                text: _t.txtIncorrectPwd,
+                buttons : [{
+                    text: 'OK',
+                    bold: true,
+                }]
+            }).open();
+        }
+
         if (canRequestClose)
             buttons.push({
                 text: _t.closeButtonText,
@@ -143,9 +157,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
             });
         f7.dialog.create({
             title: _t.advDRMOptions,
-            text: _t.txtProtected,
-            content:
-                '<div class="input-field"><input type="password" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>',
+            text: _t.textOpenFile,
+            content: Device.ios ?
+            '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
             buttons: buttons,
             cssClass: 'dlg-adv-options'
         }).open();

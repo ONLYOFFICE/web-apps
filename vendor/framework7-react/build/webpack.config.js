@@ -50,7 +50,7 @@ module.exports = {
       jquery: 'jQuery'
   },
 
-  devtool: env === 'production' ? false : 'source-map',
+  devtool: env === 'production' ? /*false*/'source-map' : 'source-map', // TODO: turn off debugger source map before release
   optimization: {
     minimizer: [new TerserPlugin({
     })],

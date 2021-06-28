@@ -371,7 +371,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html",
+                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index.html"
             },
             "localization": [
                 {
@@ -415,6 +416,7 @@
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
                 "../apps/presentationeditor/embed/js/ApplicationView.js",
