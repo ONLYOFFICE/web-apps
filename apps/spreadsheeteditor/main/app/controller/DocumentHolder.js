@@ -114,6 +114,8 @@ define([
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
             me._state = {};
+            me.fastcoauthtips = [];
+            me._TtHeight = 20;
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -332,6 +334,9 @@ define([
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
             }
+            this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
+            this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
+
             return this;
         },
 
@@ -1129,17 +1134,6 @@ define([
                     }
                 }
                 // show tooltips
-                /** coauthoring begin **/
-                var getUserName = function(id){
-                    var usersStore = SSE.getCollection('Common.Collections.Users');
-                    if (usersStore){
-                        var rec = usersStore.findUser(id);
-                        if (rec)
-                            return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
-                    }
-                    return me.guestText;
-                };
-                /** coauthoring end **/
 
                 if (index_hyperlink) {
                     if (!hyperlinkTip.parentEl) {
@@ -1305,7 +1299,7 @@ define([
 
                             if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
-                                src.text(getUserName(data.asc_getUserId()));
+                                src.text(me.getUserName(data.asc_getUserId()));
                                 if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
                                     src.css({
                                         visibility  : 'visible',
@@ -3617,7 +3611,67 @@ define([
                 win.setActiveCategory(2);
             }
         },
-        
+
+        onShowForeignCursorLabel: function(UserId, X, Y, color) {
+            /** coauthoring begin **/
+            var src;
+            var me = this;
+            for (var i=0; i<me.fastcoauthtips.length; i++) {
+                if (me.fastcoauthtips[i].attr('userid') == UserId) {
+                    src = me.fastcoauthtips[i];
+                    break;
+                }
+            }
+
+            if (!src) {
+                src = $(document.createElement("div"));
+                src.addClass('username-tip');
+                src.attr('userid', UserId);
+                src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
+                    'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
+                src.text(me.getUserName(UserId));
+
+
+                src.css({
+                    height      : coAuthTip.ttHeight + 'px',
+                    position    : 'absolute',
+                    zIndex      : '900',
+                    visibility  : 'visible'
+                });
+                $(document.body).append(src);
+
+
+
+                $('#editor_sdk').append(src);
+                me.fastcoauthtips.push(src);
+                src.fadeIn(150);
+            }
+            src.css({top: (Y-me._TtHeight) + 'px', left: X + 'px'});
+            /** coauthoring end **/
+        },
+
+        onHideForeignCursorLabel: function(UserId) {
+            var me = this;
+            for (var i=0; i<me.fastcoauthtips.length; i++) {
+                if (me.fastcoauthtips[i].attr('userid') == UserId) {
+                    var src = me.fastcoauthtips[i];
+                    me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
+                    me.fastcoauthtips.splice(i, 1);
+                    break;
+                }
+            }
+        },
+
+        getUserName: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
+            }
+            return this.guestText;
+        },
+
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
