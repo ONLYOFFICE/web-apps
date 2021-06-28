@@ -10,7 +10,7 @@
         <button id="status-btn-addtab" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
         <div class="cnt-tabslist">
             <div class="dropdown-toggle" data-toggle="dropdown">
-                <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-ic-options">&nbsp;</i></button>
+                <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
             </div>
         </div>
     </div>
