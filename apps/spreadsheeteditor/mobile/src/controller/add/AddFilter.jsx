@@ -44,6 +44,9 @@ class AddFilterController extends Component {
         const { t } = this.props;
         const _t = t('View.Add', {returnObjects: true});
 
+        f7.popup.close('.add-popup');
+        f7.popover.close('#add-popover');
+        
         let typeCheck = type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending;
             if( api.asc_sortCellsRangeExpand()) {
                 f7.dialog.create({
@@ -52,23 +55,23 @@ class AddFilterController extends Component {
                     buttons: [
                         {
                             text: _t.txtExpand,
+                            bold: true,
                             onClick: () => {
                                 api.asc_sortColFilter(typeCheck, '', undefined, undefined, true);
-                                f7.popup.close('.add-popup');
                             }
                         },
                         {
                             text: _t.txtSortSelected,
+                            bold: true,
                                 onClick: () => {
                                     api.asc_sortColFilter(typeCheck, '', undefined, undefined);
-                                    f7.popup.close('.add-popup');
                             }
                         },
                         {
                             text: _t.textCancel
                         }
                     ],
-                    cssClass: 'type-sort'
+                    verticalButtons: true,
                 }).open();
             } else 
                 api.asc_sortColFilter(typeCheck, '', undefined, undefined, api.asc_sortCellsRangeExpand() !== null);
