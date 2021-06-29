@@ -784,16 +784,15 @@ define([
                     app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect);
                 }
                 if (options.leftMenu) {
-                    if (options.leftMenu.disable) {
+                    if (options.leftMenu.disable)
                         app.getController('LeftMenu').SetDisabled(disable, options);
-                        if (options.viewMode!==undefined)
-                            this.appOptions.isEdit = !options.viewMode;
-                    }
                     if (options.leftMenu.previewMode)
                         app.getController('LeftMenu').setPreviewMode(disable);
                 }
                 if (options.fileMenu) {
                     app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 }
                 if (options.comments) {
                     var comments = this.getApplication().getController('Common.Controllers.Comments');

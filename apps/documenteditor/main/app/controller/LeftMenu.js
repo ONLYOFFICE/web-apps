@@ -667,7 +667,7 @@ define([
         },
 
         SetDisabled: function(disable, options) {
-            // if (viewMode) this.mode.isEdit = !disable;
+            this.mode.isEdit = !disable;
             if (disable) this.leftMenu.close();
 
             // var comments = this.getApplication().getController('Common.Controllers.Comments');

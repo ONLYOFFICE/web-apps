@@ -271,6 +271,8 @@ define([
         },
 
         applyMode: function() {
+            if (!this.rendered) return;
+            
             if (!this.panels) {
                 this.panels = {
                     'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
@@ -363,8 +365,7 @@ define([
             }
 
             if (!delay) {
-                if ( this.rendered )
-                    this.applyMode();
+                this.applyMode();
             }
             return this;
         },
