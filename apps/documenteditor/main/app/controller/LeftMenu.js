@@ -667,13 +667,19 @@ define([
         },
 
         SetDisabled: function(disable, options) {
-            this.mode.isEdit = !disable;
-            if (disable) this.leftMenu.close();
+            if (this.leftMenu._state.disabled !== disable) {
+                this.leftMenu._state.disabled = disable;
+                if (disable) {
+                    this.previsEdit = this.mode.isEdit;
+                    this.prevcanEdit = this.mode.canEdit;
+                    this.mode.isEdit = this.mode.canEdit = !disable;
+                } else {
+                    this.mode.isEdit = this.previsEdit;
+                    this.mode.canEdit = this.prevcanEdit;
+                }
+            }
 
-            // var comments = this.getApplication().getController('Common.Controllers.Comments');
-            // if (comments)
-            //     comments.setPreviewMode(disable);
-            // this.setPreviewMode(disable);
+            if (disable) this.leftMenu.close();
 
             if (!options || options.comments && options.comments.disable)
                 this.leftMenu.btnComments.setDisabled(disable);
@@ -683,8 +689,6 @@ define([
                 this.leftMenu.btnNavigation.setDisabled(disable);
 
             this.leftMenu.btnPlugins.setDisabled(disable);
-
-            // if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
         },
 
         /** coauthoring begin **/

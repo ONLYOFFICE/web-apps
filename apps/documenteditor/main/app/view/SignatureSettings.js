@@ -413,23 +413,6 @@ define([
                     toolbar: true,
                     plugins: false
                 });
-
-                // var rightMenuController = DE.getController('RightMenu');
-                // if (disable && rightMenuController.rightmenu.GetActivePane() !== 'id-signature-settings')
-                //     rightMenuController.rightmenu.clearSelection();
-                // rightMenuController.SetDisabled(disable, false, true);
-                // DE.getController('Toolbar').DisableToolbar(disable, disable);
-                // DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                // DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                // DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
-                // DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
-
-                // var leftMenu = DE.getController('LeftMenu').leftMenu;
-                // leftMenu.btnComments.setDisabled(disable);
-                // DE.getController('LeftMenu').setPreviewMode(disable);
-                // var comments = DE.getController('Common.Controllers.Comments');
-                // if (comments)
-                //     comments.setPreviewMode(disable);
             }
         },
 
