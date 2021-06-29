@@ -272,6 +272,11 @@
             "textInvalidRange": "ERROR! Invalid cells range",
             "textSortAndFilter": "Sort and Filter",
             "textFilter": "Filter",
+            "txtSorting": "Sorting",
+            "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
+            "txtExpand": "Expand and sort",
+            "txtSortSelected": "Sort selected",
+            "textCancel": "Cancel",
             "textComment": "Comment"
         },
         "Edit" : {
