@@ -728,25 +728,47 @@ define([
         },
 
         disableEditing: function(disable) {
-            var app = this.getApplication();
-            app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('DocumentHolder').getView().SetDisabled(disable);
+            Common.NotificationCenter.trigger('editing:disable', disable, {
+                viewMode: false,
+                reviewMode: true,
+                fillFormwMode: false,
+                allowMerge: false,
+                allowSignature: false,
+                allowProtect: false,
+                rightMenu: {clear: true, disable: true},
+                statusBar: true,
+                leftMenu: {disable: false, previewMode: true},
+                fileMenu: {protect: true, save: false, rename: false},
+                navigation: {disable: false, previewMode: true},
+                comments: {disable: false, previewMode: true},
+                chat: false,
+                review: false,
+                viewport: false,
+                documentHolder: true,
+                toolbar: true,
+                plugins: true
+            });
 
-            if (this.appConfig.canReview) {
-                app.getController('RightMenu').getView('RightMenu').clearSelection();
-                app.getController('RightMenu').SetDisabled(disable, false);
-                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
-            }
 
-            var comments = app.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
+            // var app = this.getApplication();
+            // app.getController('Toolbar').DisableToolbar(disable, false, true);
+            // app.getController('DocumentHolder').getView().SetDisabled(disable);
 
-            var leftMenu = app.getController('LeftMenu');
-            leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
-            leftMenu.setPreviewMode(disable);
+            // if (this.appConfig.canReview) {
+                // app.getController('RightMenu').getView('RightMenu').clearSelection();
+                // app.getController('RightMenu').SetDisabled(disable, false);
+                // app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                // app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                // app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+            // }
+
+            // var comments = app.getController('Common.Controllers.Comments');
+            // if (comments)
+            //     comments.setPreviewMode(disable);
+
+            // var leftMenu = app.getController('LeftMenu');
+            // leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+            // leftMenu.setPreviewMode(disable);
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask.review').css('opacity', 1);

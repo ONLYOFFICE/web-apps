@@ -411,14 +411,14 @@ define([
             });
         },
 
-        SetDisabled: function(disable) {
+        SetDisabled: function(disable, options) {
             var _btn_save = this.getButton('save'),
                 _btn_rename = this.getButton('rename'),
                 _btn_protect = this.getButton('protect');
 
-            _btn_save.setDisabled(disable || !this.mode.isEdit);
-            _btn_protect.setDisabled(disable || !this.mode.isEdit);
-            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
+            options && options.save && _btn_save.setDisabled(disable || !this.mode.isEdit);
+            options && options.protect && _btn_protect.setDisabled(disable || !this.mode.isEdit);
+            options && options.rename && _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
         },
 
         isVisible: function () {

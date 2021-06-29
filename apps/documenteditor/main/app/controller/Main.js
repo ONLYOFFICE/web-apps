@@ -213,6 +213,7 @@ define([
                     Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
+                    Common.NotificationCenter.on('editing:disable',                 _.bind(this.disableEditing2, this));
 
 
                     this.isShowOpenDialog = false;
@@ -704,18 +705,107 @@ define([
               return"#"+("000000"+color.toString(16)).substr(-6);
             },
 
-
-            disableEditing: function(disable) {
+            disableEditing: function(disable, temp) {
                 var app = this.getApplication();
                 if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('RightMenu').SetDisabled(disable, false);
-                    app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                    // app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    // app.getController('RightMenu').SetDisabled(disable, false);
+                    // app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
-                app.getController('LeftMenu').SetDisabled(disable, true);
-                app.getController('Toolbar').DisableToolbar(disable, disable);
-                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                app.getController('Viewport').SetDisabled(disable);
+                // app.getController('LeftMenu').SetDisabled(disable, true, viewmode);
+                // app.getController('Toolbar').DisableToolbar(disable, disable);
+                // app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                // app.getController('Viewport').SetDisabled(disable);
+                // app.getController('DocumentHolder').getView().SetDisabled(disable);
+
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    reviewMode: false,
+                    fillFormwMode: false,
+                    allowMerge: false,
+                    allowSignature: false,
+                    allowProtect: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: true, previewMode: true},
+                    fileMenu: {protect: true, save: true, rename: true},
+                    navigation: {disable: !temp, previewMode: true},
+                    comments: {disable: !temp, previewMode: true},
+                    chat: true,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true,
+                    plugins: false
+                });
+
+
+                // this.disableEditing2(disable, {
+                //     viewMode: disable,
+                //     reviewMode: false,
+                //     fillFormwMode: false,
+                //     allowMerge: false,
+                //     allowSignature: false,
+                //     allowProtect: false,
+                //     rightMenu: {clear: true, disable: true},
+                //     statusBar: true,
+                //     leftMenu: {disable: true, previewMode: true},
+                //     fileMenu: true,
+                //     comments: {previewMode: true},
+                //     review: true,
+                //     viewport: true,
+                //     documentHolder: true,
+                //     toolbar: true // check!!!
+                // });
+            },
+
+            disableEditing2: function(disable, options) {
+                var app = this.getApplication();
+
+                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    if (options.rightMenu) {
+                        options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                        options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowMerge, options.allowSignature);
+                    }
+                    if (options.statusBar) {
+                        app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                    }
+                }
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                }
+                if (options.viewport) {
+                    app.getController('Viewport').SetDisabled(disable);
+                }
+                if (options.toolbar) {
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormwMode);
+                }
+                if (options.documentHolder) {
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect);
+                }
+                if (options.leftMenu) {
+                    if (options.leftMenu.disable) {
+                        app.getController('LeftMenu').SetDisabled(disable, options);
+                        if (options.viewMode!==undefined)
+                            this.appOptions.isEdit = !options.viewMode;
+                    }
+                    if (options.leftMenu.previewMode)
+                        app.getController('LeftMenu').setPreviewMode(disable);
+                }
+                if (options.fileMenu) {
+                    app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                }
+                if (options.comments) {
+                    var comments = this.getApplication().getController('Common.Controllers.Comments');
+                    if (comments && options.comments.previewMode)
+                        comments.setPreviewMode(disable);
+                }
+                if (options.navigation && options.navigation.previewMode) {
+                    app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                }
+                if (options.plugins) {
+                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                }
             },
 
             onRequestClose: function() {
@@ -2425,17 +2515,17 @@ define([
             warningDocumentIsLocked: function() {
                 var me = this;
                 var _disable_ui = function (disable) {
-                    me.disableEditing(disable);
-                    var app = me.getApplication();
-                    app.getController('DocumentHolder').getView().SetDisabled(disable);
-                    app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-
-                    var leftMenu = app.getController('LeftMenu');
-                    leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
-                    leftMenu.setPreviewMode(disable);
-
-                    var comments = app.getController('Common.Controllers.Comments');
-                    if (comments) comments.setPreviewMode(disable);
+                    me.disableEditing(disable, true);
+                    // var app = me.getApplication();
+                    // app.getController('DocumentHolder').getView().SetDisabled(disable);
+                    // app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                    //
+                    // var leftMenu = app.getController('LeftMenu');
+                    // leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                    // leftMenu.setPreviewMode(disable);
+                    //
+                    // var comments = app.getController('Common.Controllers.Comments');
+                    // if (comments) comments.setPreviewMode(disable);
                 };
 
                 Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
