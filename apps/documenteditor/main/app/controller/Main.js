@@ -161,6 +161,11 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
+                this.stackDisableActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
+                });
+
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
                 this.languages = null;
 
@@ -725,20 +730,24 @@ define([
                     documentHolder: true,
                     toolbar: true,
                     plugins: false
-                });
+                }, temp ? 'reconnect' : 'disconnect');
             },
 
-            onEditingDisable: function(disable, options) {
+            onEditingDisable: function(disable, options, type) {
                 var app = this.getApplication();
 
-                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    if (options.rightMenu) {
-                        options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
-                        options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowMerge, options.allowSignature);
-                    }
-                    if (options.statusBar) {
-                        app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                    }
+                var action = {type: type, disable: disable, options: options};
+                if (disable && !this.stackDisableActions.get({type: type}))
+                    this.stackDisableActions.push(action);
+                !disable && this.stackDisableActions.pop({type: type});
+                var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
+
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowMerge, options.allowSignature);
+                }
+                if (options.statusBar) {
+                    app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
                 if (options.review) {
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
@@ -773,6 +782,10 @@ define([
                 }
                 if (options.plugins) {
                     app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                }
+
+                if (prev_options) {
+                    this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
             },
 

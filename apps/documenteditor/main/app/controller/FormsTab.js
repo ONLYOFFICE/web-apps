@@ -272,7 +272,7 @@ define([
                     documentHolder: true,
                     toolbar: true,
                     plugins: false
-                });
+                }, 'forms');
                 if (this.view)
                     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }

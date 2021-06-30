@@ -412,7 +412,7 @@ define([
                     documentHolder: true,
                     toolbar: true,
                     plugins: false
-                });
+                }, 'signature');
             }
         },
 

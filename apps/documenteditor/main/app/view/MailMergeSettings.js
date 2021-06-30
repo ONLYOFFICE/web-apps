@@ -818,7 +818,7 @@ define([
                 documentHolder: true,
                 toolbar: true,
                 plugins: false
-            });
+            }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },

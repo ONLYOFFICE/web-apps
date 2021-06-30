@@ -747,7 +747,7 @@ define([
                 documentHolder: true,
                 toolbar: true,
                 plugins: true
-            });
+            }, 'review');
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask.review').css('opacity', 1);
