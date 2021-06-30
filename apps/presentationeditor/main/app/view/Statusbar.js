@@ -365,7 +365,6 @@ define([
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
-                this.mode.isEdit = !disable;
             },
 
             onApiFocusObject: function(selectedObjects) {

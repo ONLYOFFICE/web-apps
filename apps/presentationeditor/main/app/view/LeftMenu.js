@@ -83,7 +83,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
-            this._state = {};
+            this._state = {disabled: false};
         },
 
         render: function () {

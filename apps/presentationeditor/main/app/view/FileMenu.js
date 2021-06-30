@@ -190,6 +190,10 @@ define([
                 caption : this.btnHistoryCaption,
                 canFocused: false
             });
+            if ( !!this.options.miHistory ) {
+                this.miHistory.setDisabled(this.options.miHistory.isDisabled());
+                delete this.options.miHistory;
+            }
 
             this.items = [];
             this.items.push(
@@ -271,6 +275,8 @@ define([
         },
 
         applyMode: function() {
+            if (!this.rendered) return;
+            
             if (!this.panels) {
                 this.panels = {
                     'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
@@ -361,8 +367,7 @@ define([
             }
 
             if (!delay) {
-                if ( this.rendered )
-                    this.applyMode();
+                this.applyMode();
             }
         },
 
@@ -437,6 +442,9 @@ define([
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'history') {
+                    return this.options.miHistory ? this.options.miHistory : (this.options.miHistory = new Common.UI.MenuItem({}));
                 }
             } else {
                 if (type == 'save') {
@@ -447,18 +455,19 @@ define([
                 } else
                 if (type == 'protect') {
                     return this.miProtect;
+                }else
+                if (type == 'history') {
+                    return this.miHistory;
                 }
             }
         },
 
-        SetDisabled: function(disable) {
-            var _btn_save = this.getButton('save'),
-                _btn_rename = this.getButton('rename'),
-                _btn_protect = this.getButton('protect');
+        SetDisabled: function(disable, options) {
+            var _btn_protect = this.getButton('protect'),
+                _btn_history = this.getButton('history');
 
-            _btn_save.setDisabled(disable || !this.mode.isEdit);
-            _btn_protect.setDisabled(disable || !this.mode.isEdit);
-            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
+            options && options.protect && _btn_protect.setDisabled(disable);
+            options && options.history && _btn_history.setDisabled(disable);
         },
 
         btnSaveCaption          : 'Save',
