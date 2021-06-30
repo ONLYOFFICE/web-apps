@@ -180,6 +180,10 @@ define([
                     break;
                 }
             }
+            var listItem =this.statusbar.sheetListMenu.items[index];
+            if (listItem.$el.children().first().data('hidden')) {
+                listItem.setDisabled(locked);
+            }
         },
         /** coauthoring end **/
 
@@ -246,6 +250,7 @@ define([
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
             this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || mode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnSheetList[mode != Asc.c_oAscSelectionDialogType.None ? 'addClass' : 'removeClass']('disabled');
 
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
@@ -502,6 +507,10 @@ define([
                 this.api.asc_showWorksheet(sheetIndex);
                 this.loadTabColor(sheetIndex);
             }
+            var me = this;
+            setTimeout(function(){
+                me.statusbar.sheetListMenu.hide();
+            }, 1);
         },
 
         selectTab: function (sheetindex) {

@@ -129,11 +129,12 @@ define([
                     hintAnchor: 'top'
                 });
 
-                this.btnSheetList = new Common.UI.Button({
+                this.cntSheetList = new Common.UI.Button({
                     el: $('.cnt-tabslist', this.el),
                     hint: this.tipListOfSheets,
                     hintAnchor: 'top'
                 });
+                this.btnSheetList = $('#status-btn-tabslist',this.$el);
                 this.sheetListMenu = new Common.UI.Menu({
                     style: 'margin-top:-3px;',
                     menuAlign: 'bl-tl',
@@ -141,12 +142,11 @@ define([
                 });
                 this.sheetListMenu.on('item:click', function(obj,item) {
                     me.fireEvent('show:tab', [item.value]);
-                    me.sheetListMenu.items[item.value].setChecked(true);
                 });
-                this.btnSheetList.cmpEl.on({
+                this.cntSheetList.cmpEl.on({
                     'show.bs.dropdown': function () {
                         _.defer(function(){
-                            me.btnSheetList.cmpEl.find('ul').focus();
+                            me.cntSheetList.cmpEl.find('ul').focus();
                         }, 100);
                     },
                     'hide.bs.dropdown': function () {
@@ -573,7 +573,7 @@ define([
                             hidden: me.api.asc_isWorksheetHidden(item.sheetindex),
                             textHidden: me.itemHidden,
                             template: _.template([
-                                '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                                '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
                                     '<div class="color"></div>',
                                     '<span class="name"><%= caption %></span>',
                                     '<% if (options.hidden) { %>',
