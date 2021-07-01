@@ -430,10 +430,12 @@
     }
 
     &.masked #status-addtabs-box{
-        button.disabled .btn-icon {
-            background-position-x: 0px !important;
+        button#status-btn-addtab {
+            opacity: 0.4;
+            &.disabled .btn-icon {
+                background-position-x: 0px !important;
+            }
         }
-        opacity: 0.4;
     }
 }
 

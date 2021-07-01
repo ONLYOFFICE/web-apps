@@ -250,7 +250,7 @@ define([
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
             this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || mode!=Asc.c_oAscSelectionDialogType.None);
-            this.statusbar.btnSheetList[mode != Asc.c_oAscSelectionDialogType.None ? 'addClass' : 'removeClass']('disabled');
+            this.statusbar.btnSheetList[mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles ? 'addClass' : 'removeClass']('disabled');
 
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
