@@ -36,7 +36,7 @@ class ContextMenu extends ContextMenuController {
 
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
+        return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {
