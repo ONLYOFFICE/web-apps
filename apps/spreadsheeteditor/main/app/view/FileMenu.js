@@ -253,6 +253,8 @@ define([
         },
 
         applyMode: function() {
+            if (!this.rendered) return;
+            
             if (!this.panels) {
                 this.panels = {
                     'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
@@ -346,8 +348,7 @@ define([
             }
 
             if (!delay) {
-                if ( this.rendered )
-                    this.applyMode();
+                this.applyMode();
             }
         },
 
@@ -424,20 +425,16 @@ define([
             }
         },
 
-        SetDisabled: function(disable) {
+        SetDisabled: function(disable, options) {
             if ( !this.panels ) {
                 this.mode.disableEditing = disable;
             } else {
                 this.panels['opts'].SetDisabled(disable);
             }
 
-            var _btn_save = this.getButton('save'),
-                _btn_rename = this.getButton('rename'),
-                _btn_protect = this.getButton('protect');
+            var _btn_protect = this.getButton('protect');
 
-            _btn_save.setDisabled(disable || !this.mode.isEdit);
-            _btn_protect.setDisabled(disable || !this.mode.isEdit);
-            _btn_rename.setDisabled(disable || !this.mode.canRename || this.mode.isDesktopApp);
+            options && options.protect && _btn_protect.setDisabled(disable || !this.mode.isEdit);
         },
 
         btnSaveCaption          : 'Save',
