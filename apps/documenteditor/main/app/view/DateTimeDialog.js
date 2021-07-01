@@ -124,7 +124,8 @@ define([
                 el: $('#datetime-dlg-format'),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                cls: 'dbl-clickable'
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));

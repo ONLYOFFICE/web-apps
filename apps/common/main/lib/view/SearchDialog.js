@@ -99,7 +99,7 @@
                 '<div class="separator horizontal"></div>',
                 '<div class="footer right">',
                     '<button class="btn normal dlg-btn" result="replace">'+this.txtBtnReplace+'</button>',
-                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-left: 6px;">'+this.txtBtnReplaceAll+'</button>',
+                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-left: 6px;width: auto;">'+this.txtBtnReplaceAll+'</button>',
                     '<button class="btn normal dlg-btn iconic" result="back"><span class="icon img-commonctrl back"></span></button>',
                     '<button class="btn normal dlg-btn iconic" result="next" style="margin-left: 6px;"><span class="icon img-commonctrl next"></span></button>',
                 '</div>'

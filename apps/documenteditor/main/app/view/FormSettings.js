@@ -189,6 +189,20 @@ define([
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
+            this.chRequired = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-required'),
+                labelText: this.textRequired
+            });
+            this.chRequired.on('change', this.onChRequired.bind(this));
+            this.lockedControls.push(this.chRequired);
+
+            this.chFixed = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-fixed'),
+                labelText: this.textFixed
+            });
+            this.chFixed.on('change', this.onChFixed.bind(this));
+            this.lockedControls.push(this.chFixed);
+
             // Radio props
             this.cmbGroupKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-group-key'),
@@ -224,7 +238,7 @@ define([
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     // '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
-                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= name %></div>',
+                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -323,6 +337,7 @@ define([
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
             }
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
         },
 
@@ -389,7 +404,6 @@ define([
                 formTextPr.put_MaxCharacters(checked ? (field.getNumberValue() || 10) : checked);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -408,7 +422,7 @@ define([
                     formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 10);
                     if (this.spnWidth.getValue()) {
                         var value = this.spnWidth.getNumberValue();
-                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
+                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.5));
                     } else
                         formTextPr.put_Width(0);
                 }
@@ -424,10 +438,33 @@ define([
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 if (this.spnWidth.getValue()) {
                     var value = this.spnWidth.getNumberValue();
-                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
+                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.5));
                 } else
                     formTextPr.put_Width(0);
 
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onChRequired: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Required(checked);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFixed: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_FixedSize(checked);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -681,6 +718,12 @@ define([
                         this._state.help=val;
                     }
 
+                    val = formPr.get_Required();
+                    if ( this._state.Required!==val ) {
+                        this.chRequired.setValue(!!val, true);
+                        this._state.Required=val;
+                    }
+
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
@@ -715,6 +758,12 @@ define([
                         this.chComb.setValue(!!val, true);
                         this._state.Comb=val;
                     }
+                    //
+                    // val = formTextPr.get_FixedSize();
+                    // if ( this._state.Fixed!==val ) {
+                    //     this.chFixed.setValue(!!val, true);
+                    //     this._state.Fixed=val;
+                    // }
 
                     this.btnColor.setDisabled(!val);
 
@@ -727,7 +776,7 @@ define([
 
                     val = this.api.asc_GetTextFormAutoWidth();
                     if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
-                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM(val) : this.spnWidth.options.minValue);
+                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.options.minValue);
                         this._state.WidthPlaceholder=val;
                     }
 
@@ -917,7 +966,9 @@ define([
         textColor: 'Border color',
         textConnected: 'Fields connected',
         textDisconnect: 'Disconnect',
-        textNoBorder: 'No border'
+        textNoBorder: 'No border',
+        textFixed: 'Fixed size field',
+        textRequired: 'Required'
 
     }, DE.Views.FormSettings || {}));
 });

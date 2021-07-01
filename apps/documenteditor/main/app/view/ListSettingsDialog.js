@@ -131,7 +131,7 @@ define([
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview" style="margin-top: 2px; height:208px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -195,7 +195,7 @@ define([
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
                 '<div style="display: table-cell;"></div>',
-                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
                     '</ul>',
                 '</div>'
@@ -336,6 +336,8 @@ define([
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.afterRender();
         },
 
@@ -345,6 +347,12 @@ define([
 
         getDefaultFocusableComponent: function () {
             return this.type > 0 ? this.cmbFormat : this.cmbAlign;
+        },
+
+        onAnimateAfter: function() {
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
         },
 
         afterRender: function() {
@@ -383,7 +391,7 @@ define([
 
         onLikeTextColor: function(item, state) {
             if (!!state) {
-                var color = Common.Utils.ThemeColor.getHexColor(255, 255, 255);
+                var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
                 this.btnColor.setColor(color);
                 this.colors.clearSelection();
                 if (this._changedProps) {
@@ -539,7 +547,7 @@ define([
                         this.colors.select(color,true);
                 } else {
                     this.colors.clearSelection();
-                    color = (color && color.get_auto()) ? '000000' : 'ffffff';
+                    color = '000000';
                 }
                 this.btnColor.setColor(color);
             }
@@ -551,9 +559,6 @@ define([
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                 } else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
-            }
-            if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
             }
         },
 

@@ -1856,7 +1856,7 @@ define([
                 if (me.api){
                     var printopt = new Asc.asc_CAdjustPrint();
                     printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                     opts.asc_setAdvancedOptions(printopt);
                     me.api.asc_Print(opts);
                     me.fireEvent('editcomplete', me);
@@ -1962,7 +1962,7 @@ define([
                 if (me.api){
                     var printopt = new Asc.asc_CAdjustPrint();
                     printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                     opts.asc_setAdvancedOptions(printopt);
                     me.api.asc_Print(opts);
                     me.fireEvent('editcomplete', me);
@@ -2887,6 +2887,7 @@ define([
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
                         properties.put_ResetCrop(true);
+                        properties.put_Rot(0);
                         me.api.ImgApply(properties);
                     }
 

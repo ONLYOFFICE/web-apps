@@ -90,6 +90,12 @@
                 .background-ximage('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAANCAQAAAAz1Zf0AAAAIUlEQVR42mNgAILz/0GQAQo+/gdBBqLAqE5ydH5k+sgEANHgUH2JtDRHAAAAAElFTkSuQmCC',
                         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaAgMAAADZOtQaAAAACVBMVEUAAADPz8/x8fFVrc9qAAAAAXRSTlMAQObYZgAAABZJREFUeNpjYAgNYOBaxcDEgAsMLXkA/sUJfm1m4l8AAAAASUVORK5CYII=', 14px);
 
+                .pixel-ratio__1_5 & {
+                    //background-image: ~"url(@{common-image-const-path}/controls/Scroll_center@1.5x.png)";
+                    background-image: data-uri('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAATAgMAAAAG1X4lAAAACVBMVEUAAADPz8/x8fFVrc9qAAAAAXRSTlMAQObYZgAAABNJREFUeNpjYAx14FrFgAboLAgAVgQJB86JyMQAAAAASUVORK5CYII=');
+                    background-size: 15px auto;
+                }
+
                 background-repeat: no-repeat;
                 background-position: 0 center;
                 .border-radius(2px);

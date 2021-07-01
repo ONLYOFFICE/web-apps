@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "ກະລຸນາລໍຖ້າ...",
   "PE.ApplicationView.txtDownload": "ດາວໂຫຼດ",
   "PE.ApplicationView.txtEmbed": "ຝັງໄວ້",
+  "PE.ApplicationView.txtFileLocation": "ເປີດບ່ອນຕຳແໜ່ງເອກະສານ",
   "PE.ApplicationView.txtFullScreen": "ເຕັມຈໍ",
   "PE.ApplicationView.txtPrint": "ພິມ",
   "PE.ApplicationView.txtShare": "ແບ່ງປັນ"

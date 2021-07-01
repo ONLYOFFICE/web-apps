@@ -1,419 +1,419 @@
 {
 	"DATE": {
-		"a": "(année, mois, jour)",
-		"d": "Fonction de date et d’heure utilisée pour ajouter des dates au format par défaut jj/MM/aaaa."
+		"a": "(année; mois; jour)",
+		"d": "Renvoie un numéro qui représente la date dans le code de date et d’heure"
 	},
 	"DATEDIF": {
-		"a": "(date_début, date_fin, unité)",
+		"a": "(date_début; date_fin; unité)",
 		"d": "Fonction de date et d’heure utilisée pour renvoyer la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
 	},
 	"DATEVALUE": {
 		"a": "(date_texte)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le numéro de série de la date spécifiée."
+		"d": "Convertit une date donnée sous forme de texte en un numéro représentant la date dans le code de date et d’heure"
 	},
 	"DAY": {
-		"a": "(valeur_date)",
-		"d": "Fonction de date et d’heure qui renvoie le jour (un nombre de 1 à 31) de la date indiquée au format numérique (jj/MM/aaaa par défaut)."
+		"a": "(numéro_de_série)",
+		"d": "Donne le jour du mois (un nombre entre 1 et 31)."
 	},
 	"DAYS": {
-		"a": "(date_fin, date_début)",
-		"d": "Fonction de date et d’heure utilisée pour retourner le nombre de jours entre deux dates."
+		"a": "(date_fin; date_début)",
+		"d": "Calcule le nombre de jours entre les deux dates"
 	},
 	"DAYS360": {
-		"a": "(date_début, date_fin [,méthode])",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le nombre de jours entre deux dates (date_début et date_fin) sur la base d'une année de 360 jours en utilisant un des modes de calcul (américain ou européen)."
+		"a": "(date_début; date_fin; [méthode])",
+		"d": "Calcule le nombre de jours entre deux dates sur la base d'une année de 360 jours (12 mois de 30 jours)"
 	},
 	"EDATE": {
-		"a": "(date_départ, mois)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le numéro de série de la date qui vient le nombre de mois spécifié (mois) avant ou après la date déterminée (date_départ)."
+		"a": "(date_départ; mois)",
+		"d": "Renvoie le numéro de série de la date située un nombre spécifié de mois dans le passé ou le futur par rapport à une date indiquée"
 	},
 	"EOMONTH": {
-		"a": "(date_départ, mois)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le numéro de série du dernier jour du mois qui vient le nombre de mois spécifié avant ou après la date déterminée."
+		"a": "(date_départ; mois)",
+		"d": "Donne le numéro de série du dernier jour du mois situé dans un intervalle exprimé en nombre de mois dans le futur ou dans le passé"
 	},
 	"HOUR": {
-		"a": "(valeur_heure)",
-		"d": "Fonction de date et d’heure qui renvoie l'heure (nombre de 0 à 23) correspondant à une valeur d'heure."
+		"a": "(numéro_de_série)",
+		"d": "Renvoie l’heure, un nombre entier entre 0 (12:00 A.M.) et 23 (11:00 P.M.)."
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le numéro ISO de la semaine de l'année pour une date donnée."
+		"d": "Renvoie le numéro ISO de la semaine de l’année correspondant à une date donnée"
 	},
 	"MINUTE": {
-		"a": "(valeur_heure)",
-		"d": "Fonction de date et d’heure qui renvoie les minutes (un nombre de 0 à 59) correspondant à une valeur d'heure."
+		"a": "(numéro_de_série)",
+		"d": "Renvoie les minutes, un entier entre 0 et 59."
 	},
 	"MONTH": {
-		"a": "(valeur_date)",
-		"d": "Fonction de date et d’heure qui renvoie le mois (nombre de 1 à 12) d'une date indiquée au format numérique (jj/MM/aaaa par défault)."
+		"a": "(numéro_de_série)",
+		"d": "Donne le mois, un nombre de 1 (janvier) à 12 (décembre)"
 	},
 	"NETWORKDAYS": {
-		"a": "(date_début, date_fin [, jours_fériés])",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer le nombre de jours ouvrables entre deux dates (date_début et date_fin) à l'exclusion des week-ends et dates considérées comme jours fériés."
+		"a": "(date_départ; date_fin; [jours_fériés])",
+		"d": "Renvoie le nombre de jours ouvrés compris entre deux dates"
 	},
 	"NETWORKDAYS.INTL": {
-		"a": "(start_date, days, [, week-end], [, jours_fériés])",
-		"d": "Fonction de date et d’heure utilisée pour retourner le nombre de jours de travail entiers entre deux dates en utilisant des paramètres pour indiquer quels jours et combien de jours sont des jours de week-end."
+		"a": "(date_départ; date_fin; [week-end]; [jours_fériés])",
+		"d": "Renvoie le nombre de jours ouvrés compris entre deux dates avec des paramètres de week-end personnalisés"
 	},
 	"NOW": {
 		"a": "()",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer le numéro de série de la date et de l'heure actuelles ; Si le format de la cellule était Général avant la saisie de la fonction, l'application modifie le format de la cellule afin qu'il corresponde au format de la date et de l'heure de vos paramètres régionaux."
+		"d": "Renvoie la date du jour et de l'heure du jour, sous la forme d'une date et d'une heure."
 	},
 	"SECOND": {
-		"a": "(valeur_heure)",
-		"d": "Fonction de date et d'heure qui renvoie les secondes (un nombre de 0 à 59) correspondant à une valeur d’heure."
+		"a": "(numéro_de_série)",
+		"d": "Donne les secondes, un entier entre 0 et 59. "
 	},
 	"TIME": {
-		"a": "(heure, minute, seconde)",
-		"d": "Fonction de date et d'heure utilisée pour ajouter l'heure spécifiée au format sélectionné (hh:mm tt par défaut)."
+		"a": "(heure; minute; seconde)",
+		"d": "Convertit les heures, minutes et secondes données sous forme de nombres en un numéro de série, selon un format d'heure"
 	},
 	"TIMEVALUE": {
 		"a": "(heure_texte)",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer le numéro de série d'une valeur d’heure."
+		"d": "Convertit une heure donnée sous forme de texte en un numéro de série (temps_texte)"
 	},
 	"TODAY": {
 		"a": "()",
-		"d": "Fonction de date et d'heure utilisée pour ajouter la date actuelle au format MM/jj/aa. Cette fonction ne nécessite pas d'argument."
+		"d": "Renvoie la date du jour au format de date."
 	},
 	"WEEKDAY": {
-		"a": "(numéro_de_série [, type_retour])",
-		"d": "Fonction de date et d'heure utilisée pour déterminer le jour de la semaine de la date spécifiée."
+		"a": "(numéro_de_série; [type_retour])",
+		"d": "Renvoie un chiffre entre 1 et 7 désignant le jour de la semaine."
 	},
 	"WEEKNUM": {
-		"a": "(numéro_de_série [, type_retour])",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer le numéro de la semaine au cours de laquelle la date déterminée tombe dans l’année."
+		"a": "(numéro_de_série; [type_renvoi])",
+		"d": "Renvoie le numéro de la semaine de l’année"
 	},
 	"WORKDAY": {
-		"a": "(date_début , nb_jours[, jours_fériés])",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer la date qui vient le nombre de jours indiqué (nb_jours) avant ou après la date déterminée à l'exclusion des week-ends et des dates considérées comme jours fériés."
+		"a": "(date_départ; nb_jours; [jours_fériés])",
+		"d": "Renvoie le numéro de série d'une date située un nombre de jours ouvrés avant ou après une date donnée"
 	},
 	"WORKDAY.INTL": {
-		"a": "(start_date, nb_jours, [, nb_jours_week-end], [, jours_fériés])",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer la date avant ou après un nombre spécifié de jours de travail avec des paramètres de week-end personnalisés. Les paramètres de week-ends indiquent combien de jours et lesquels sont comptés dans le week-end."
+		"a": "(date_départ; nb_jours; [nb_jours_week-end]; [jours_fériés])",
+		"d": "Renvoie le numéro de série d’une date située un nombre de jours ouvrés avant ou après une date donnée avec des paramètres de week-end personnalisés"
 	},
 	"YEAR": {
-		"a": "(valeur_date)",
-		"d": "Fonction de date et d'heure qui renvoie l'année (nombre de 1900 à 9999) de la date au format numérique (jj/MM/aaaa par défault)."
+		"a": "(numéro_de_série)",
+		"d": "Renvoie l’année, un entier entre 1900 et 9999."
 	},
 	"YEARFRAC": {
-		"a": "(date_début, date_fin [, base])",
-		"d": "Fonction de date et d'heure utilisée pour renvoyer la fraction d'une année représentée par le nombre de jours complets à partir de la date_début jusqu'à la date_fin calculé sur la base spécifiée."
+		"a": "(date_début; date_fin; [base])",
+		"d": "Renvoie une fraction correspondant au nombre de jours séparant date_début de date_fin par rapport à une année complète"
 	},
 	"BESSELI": {
-		"a": "(X , N)",
-		"d": "Fonction d'ingénierie utilisée pour retourner la fonction de Bessel modifiée, qui est équivalente a la fonction de Bessel évaluée pour des arguments purement imaginaires."
+		"a": "(x; n)",
+		"d": "Renvoie la fonction de Bessel modifiée In(x)"
 	},
 	"BESSELJ": {
-		"a": "(X , N)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la fonction de Bessel."
+		"a": "(x; n)",
+		"d": "Renvoie la fonction de Bessel Jn(x)"
 	},
 	"BESSELK": {
-		"a": "(X , N)",
-		"d": "Fonction d'ingénierie utilisée pour retourner la fonction de Bessel modifiée, qui est équivalente aux fonctions de Bessel évaluées pour des arguments purement imaginaires."
+		"a": "(x; n)",
+		"d": "Renvoie la fonction de Bessel modifiée Kn(x)"
 	},
 	"BESSELY": {
-		"a": "(X , N)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la fonction de Bessel, également appelée fonction de Weber ou fonction de Neumann."
+		"a": "(x; n)",
+		"d": "Renvoie la fonction de Bessel modifiée Yn(x)"
 	},
 	"BIN2DEC": {
 		"a": "(nombre)",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre binaire en un nombre décimal."
+		"d": "Convertit un nombre binaire en nombre décimal"
 	},
 	"BIN2HEX": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre binaire en un nombre hexadécimal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre binaire en nombre hexadécimal"
 	},
 	"BIN2OCT": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre binaire en un nombre octal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre binaire en nombre octal"
 	},
 	"BITAND": {
-		"a": "(nombre1, nombre2)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le ET bit à bit de deux nombres."
+		"a": "(nombre1; nombre2)",
+		"d": "Renvoie le résultat binaire « Et » de deux nombres"
 	},
 	"BITLSHIFT": {
-		"a": "(nombre, décalage)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer un nombre décalé à gauche du nombre de bits spécifié."
+		"a": "(nombre; total_décalé)",
+		"d": "Renvoie un nombre décalé vers la gauche de total_décalage bits"
 	},
 	"BITOR": {
-		"a": "(nombre1, nombre2)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le OU bit à bit de deux nombres."
+		"a": "(nombre1; nombre2)",
+		"d": "Renvoie le résultat binaire « Ou » de deux nombres"
 	},
 	"BITRSHIFT": {
-		"a": "(nombre, décalage)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer un nombre décalé à droite du nombre de bits spécifié."
+		"a": "(nombre; total_décalé)",
+		"d": "Renvoie un nombre décalé vers la droite de total_décalage bits"
 	},
 	"BITXOR": {
-		"a": "(nombre1, nombre2)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le OU exclusif bit à bit de deux nombres."
+		"a": "(nombre1; nombre2)",
+		"d": "Renvoie Renvoie le résultat binaire « Ou exclusif » de deux nombres"
 	},
 	"COMPLEX": {
-		"a": "(partie_réelle, partie_imaginaire [, suffixe])",
-		"d": "Fonction d'ingénierie utilisée pour convertir une partie réelle et une partie imaginaire en un nombre complexe exprimé sous la forme a+ bi ou a + bj."
+		"a": "(partie_réelle; partie_imaginaire; [suffixe])",
+		"d": "Renvoie un nombre complexe construit à partir de ses parties réelle et imaginaire"
 	},
 	"CONVERT": {
-		"a": "(nombre, de_unité, à_unité)",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre d’une unité à une autre unité; par exemple, la fonction CONVERT peut traduire un tableau de distances en milles en un tableau de distances exprimées en kilomètres."
+		"a": "(nombre; de_unité; à_unité)",
+		"d": "Convertit un nombre d'une unité à une autre unité"
 	},
 	"DEC2BIN": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre décimal en un nombre binaire."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre décimal en nombre binaire"
 	},
 	"DEC2HEX": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre décimal en un nombre hexadécimal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre décimal en nombre hexadécimal"
 	},
 	"DEC2OCT": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre décimal en un nombre octal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre décimal en nombre octal"
 	},
 	"DELTA": {
-		"a": "(nombre1 [, nombre2])",
-		"d": "Fonction d'ingénierie utilisée pour tester si deux nombres sont égaux. La fonction renvoie 1 si les nombres sont égaux et 0 sinon."
+		"a": "(nombre1; [nombre2])",
+		"d": "Teste l'égalité de deux nombres"
 	},
 	"ERF": {
-		"a": "(limite_inf [, limite_sup])",
-		"d": "Fonction d'ingénierie utilisée pour calculer la fonction d'erreur intégrée entre les limites inférieure et supérieure spécifiées."
+		"a": "(limite_inf; [limite_sup])",
+		"d": "Renvoie la fonction d'erreur"
 	},
 	"ERF.PRECISE": {
-		"a": "(x)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la fonction d’erreur."
+		"a": "(X)",
+		"d": "Renvoie la fonction d’erreur"
 	},
 	"ERFC": {
-		"a": "(limite_inf)",
-		"d": "Fonction d'ingénierie utilisée pour calculer la fonction d'erreur complémentaire intégrée entre la limite inférieure et l'infini."
+		"a": "(x)",
+		"d": "Renvoie la fonction d'erreur complémentaire"
 	},
 	"ERFC.PRECISE": {
-		"a": "(x)",
-		"d": "Fonction d'ingénierie qui renvoie la fonction ERF complémentaire intégrée entre x et l'infini."
+		"a": "(X)",
+		"d": "Renvoie la fonction d’erreur complémentaire"
 	},
 	"GESTEP": {
-		"a": "(nombre [, seuil])",
-		"d": "Fonction d'ingénierie utilisée pour tester si un nombre est supérieur à une valeur de seuil. La fonction renvoie 1 si le nombre est supérieur ou égal à la valeur de seuil et 0 sinon."
+		"a": "(nombre; [seuil])",
+		"d": "Vérifie si un nombre dépasse une valeur seuil"
 	},
 	"HEX2BIN": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre hexadécimal en binaire."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre hexadécimal en nombre binaire"
 	},
 	"HEX2DEC": {
 		"a": "(nombre)",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre hexadécimal en nombre décimal."
+		"d": "Convertit un nombre hexadécimal en nombre décimal"
 	},
 	"HEX2OCT": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre hexadécimal en octal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre hexadécimal en nombre octal"
 	},
 	"IMABS": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la valeur absolue d'un nombre complexe."
+		"d": "Renvoie le module d'un nombre complexe"
 	},
 	"IMAGINARY": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la partie imaginaire du nombre complexe spécifié."
+		"d": "Renvoie la partie imaginaire d'un nombre complexe"
 	},
 	"IMARGUMENT": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer l'argument Theta, un angle exprimé en radians."
+		"d": "Renvoie l'argument thêta, un angle exprimé en radians"
 	},
 	"IMCONJUGATE": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le conjugué complexe d’un nombre complexe."
+		"d": "Renvoie le conjugué d'un nombre complexe"
 	},
 	"IMCOS": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le cosinus d’un nombre complexe."
+		"d": "Renvoie le cosinus d'un nombre complexe"
 	},
 	"IMCOSH": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le cosinus hyperbolique d'un nombre complexe."
+		"d": "Renvoie le cosinus hyperbolique d'un nombre complexe"
 	},
 	"IMCOT": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la cotangente d’un nombre complexe."
+		"d": "Renvoie la cotangente d'un nombre complexe"
 	},
 	"IMCSC": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la cosécante d’un nombre complexe."
+		"d": "Renvoie la cosécante d'un nombre complexe"
 	},
 	"IMCSCH": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la cosécante hyperbolique d'un nombre complexe."
+		"d": "Renvoie la cosécante hyperbolique d'un nombre complexe"
 	},
 	"IMDIV": {
-		"a": "(nombre_complexe1, nombre_complexe2)",
-		"d": "Fonction d'ingénierie utilisée pour retourner le quotient de deux nombres complexes exprimés en forme a + bi ou a + bj."
+		"a": "(nombre_complexe1; nombre_complexe2)",
+		"d": "Renvoie le quotient de deux nombres complexes"
 	},
 	"IMEXP": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la constante e élevée à la puissance spécifiée par un nombre complexe. La constante e est égale à 2,71828182845904."
+		"d": "Donne l'exposant d'un nombre complexe"
 	},
 	"IMLN": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le logarithme naturel d'un nombre complexe."
+		"d": "Donne le logarithme népérien d'un nombre complexe"
 	},
 	"IMLOG10": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour calculer le logarithme en base 10 d'un nombre complexe."
+		"d": "Calcule le logarithme en base 10 d'un nombre complexe"
 	},
 	"IMLOG2": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour calculer le logarithme en base 2 d'un nombre complexe."
+		"d": "Calcule le logarithme en base 2 d'un nombre complexe"
 	},
 	"IMPOWER": {
-		"a": "(nombre_complexe, nombre)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le résultat d'un nombre complexe élevé à la puissance désirée."
+		"a": "(nombre_complexe; nombre)",
+		"d": "Renvoie la valeur du nombre complexe élevé à une puissance entière"
 	},
 	"IMPRODUCT": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le produit des nombres complexes spécifiés."
+		"a": "(nb_comp1; [nb_comp2]; ...)",
+		"d": "Renvoie le produit de 1 à 255 nombres complexes"
 	},
 	"IMREAL": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la partie réelle du nombre complexe spécifié."
+		"d": "Renvoie la partie réelle d'un nombre complexe"
 	},
 	"IMSEC": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la sécante d'un nombre complexe."
+		"d": "Renvoie la sécante d'un nombre complexe"
 	},
 	"IMSECH": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la sécante hyperbolique d'un nombre complexe."
+		"d": "Renvoie la sécante hyperbolique d'un nombre complexe"
 	},
 	"IMSIN": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le sinus d’un nombre complexe."
+		"d": "Renvoie le sinus d'un nombre complexe"
 	},
 	"IMSINH": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer le sinus hyperbolique d'un nombre complexe."
+		"d": "Renvoie le sinus hyperbolique d'un nombre complexe"
 	},
 	"IMSQRT": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la racine carrée d'un nombre complexe."
+		"d": "Extrait la racine carrée d'un nombre complexe"
 	},
 	"IMSUB": {
-		"a": "(nombre_complexe1, nombre_complexe2)",
-		"d": "Fonction d'ingénierie utilisée pour retourner la différence de deux nombres complexes exprimés sous la forme a + bi ou a + bj."
+		"a": "(nombre_complexe1; nombre_complexe2)",
+		"d": "Calcule la différence entre deux nombres complexes"
 	},
 	"IMSUM": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la somme des nombres complexes spécifiés."
+		"a": "(nb_comp1; [nb_comp2]; ...)",
+		"d": "Renvoie la somme de nombres complexes"
 	},
 	"IMTAN": {
 		"a": "(nombre_complexe)",
-		"d": "Fonction d'ingénierie utilisée pour renvoyer la tangente d’un nombre complexe."
+		"d": "Renvoie la tangente d'un nombre complexe"
 	},
 	"OCT2BIN": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre octal en un nombre binaire."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre octal en nombre binaire"
 	},
 	"OCT2DEC": {
 		"a": "(nombre)",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre octal en un nombre décimal."
+		"d": "Convertit un nombre octal en nombre décimal"
 	},
 	"OCT2HEX": {
-		"a": "(nombre [, emplacements])",
-		"d": "Fonction d'ingénierie utilisée pour convertir un nombre octal en un nombre hexadécimal."
+		"a": "(nombre; [nb_car])",
+		"d": "Convertit un nombre octal en nombre hexadécimal"
 	},
 	"DAVERAGE": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour faire la moyenne des valeurs dans un champ(colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Donne la moyenne des valeurs dans la colonne d'une liste ou une base de données qui correspondent aux conditions que vous avez spécifiées"
 	},
 	"DCOUNT": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour compter les cellules contenant des nombres dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Compte le nombre de cellules contenant des valeurs numériques satisfaisant les critères spécifiés pour la base de données précisée"
 	},
 	"DCOUNTA": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour ajouter les numéros dans un champ(colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Compte le nombre de cellules non vides dans le champ (colonne) d'enregistrements dans la base de données correspondant aux conditions spécifiées"
 	},
 	"DGET": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour extraire une seule valeur d'une colonne d'une liste ou d'une base de données qui correspond aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Extrait d'une base de données l'enregistrement qui correspond aux conditions spécifiées"
 	},
 	"DMAX": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour renvoyer le plus grand nombre dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspond aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Donne la valeur la plus élevée dans le champ (colonne) des enregistrements de la base de données correspondant aux conditions que vous avez spécifiées."
 	},
 	"DMIN": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour renvoyer le plus petit nombre dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspond aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Donne la valeur la moins élevée du champ (colonne) d'enregistrements de la base de données correspondant aux conditions définies"
 	},
 	"DPRODUCT": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour multiplier les valeurs dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Multiplie les valeurs dans le champ (colonne) d'enregistrements de la base de données correspondant aux conditions que vous avez spécifiées"
 	},
 	"DSTDEV": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour estimer l'écart-type d'une population en fonction d'un échantillon en utilisant les numéros d'un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Évalue l'écart-type à partir d'un échantillon de population représenté par les entrées de base de données sélectionnées"
 	},
 	"DSTDEVP": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour calculer l'écart-type d'une population basée sur la population entière en utilisant les nombres dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Calcule l'écart-type à partir de la population entière représentée par les entrées de base de données sélectionnées"
 	},
 	"DSUM": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour ajouter les numéros dans un champ(colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Additionne les nombres se trouvant dans le champ (colonne) d'enregistrements de la base de données correspondant aux conditions que vous avez spécifiées"
 	},
 	"DVAR": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour estimer la variance d'une population en fonction d'un échantillon en utilisant les numéros d'un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Évalue la variance à partir d'un échantillon de population représenté par des entrées de base de données sélectionnées"
 	},
 	"DVARP": {
-		"a": "(base_de_données, champ, critères)",
-		"d": "Fonction de bases de données utilisée pour calculer la variance d'une population basée sur la population entière en utilisant les nombres dans un champ (colonne) d'enregistrements dans une liste ou une base de données qui correspondent aux conditions que vous spécifiez."
+		"a": "(base_de_données; champ; critères)",
+		"d": "Calcule la variance à partir de la population entière représentée par les entrées de base de données sélectionnées"
 	},
 	"CHAR": {
 		"a": "(nombre)",
-		"d": "Fonction de texte et données utilisée pour renvoyer le caractère ASCII déterminé par un nombre."
+		"d": "Renvoie le caractère spécifié par le code numérique du jeu de caractères de votre ordinateur"
 	},
 	"CLEAN": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour supprimer tous les caractères de contrôle d'une chaîne sélectionnée."
+		"d": "Supprime tous les caractères de contrôle du texte"
 	},
 	"CODE": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour renvoyer la valeur ASCII d'un caractère déterminé ou d'un premier caractère dans la cellule."
+		"d": "Renvoie le numéro de code du premier caractère du texte, dans le jeu de caractères utilisé par votre ordinateur"
 	},
 	"CONCATENATE": {
-		"a": "(texte1, texte2, ...)",
-		"d": "Fonction de texte et données utilisée pour combiner les données de deux ou plusieurs cellules en une seule"
+		"a": "(texte1; [texte2]; ...)",
+		"d": "Assemble plusieurs chaînes de caractères de façon à n'en former qu'une"
 	},
 	"CONCAT": {
-		"a": "(texte1, texte2, ...)",
-		"d": "Fonction de texte et données utilisée pour combiner les données de deux ou plusieurs cellules en une seule. Cette fonction remplace la fonction CONCATENER."
+		"a": "(texte1; ...)",
+		"d": "Assemble une liste ou une plage de chaînes de caractères"
 	},
 	"DOLLAR": {
-		"a": "(nombre [, décimales])",
-		"d": "Fonction de texte et données utilisée pour convertir un nombre dans le texte en utilisant le format monétaire $#.##"
+		"a": "(nombre; [décimales])",
+		"d": "Convertit un nombre en texte en utilisant le format monétaire"
 	},
 	"EXACT": {
-		"a": "(texte1, texte2)",
-		"d": "Fonction de texte et données utilisée pour comparer les données de deux cellules. La fonction renvoie vrai (TRUE) si les données sont identiques, et faux (FALSE) dans le cas contraire."
+		"a": "(texte1; texte2)",
+		"d": "Compare deux chaînes textuelles et renvoie VRAI si elles sont parfaitement identiques et FAUX si elles sont différentes (distinction majuscules/minuscules)"
 	},
 	"FIND": {
-		"a": "(texte_cherché, texte [, no_départ])",
-		"d": "Fonction de texte et de données utilisée pour trouver la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(texte_cherché; texte; [no_départ])",
+		"d": "Renvoie la position de départ d'une chaîne de texte à l'intérieur d'une autre chaîne de texte. TROUVE distingue les majuscules des minuscules"
 	},
 	"FINDB": {
-		"a": "(texte_cherché, texte [, no_départ])",
+		"a": "(texte_cherché; texte; [no_départ])",
 		"d": "Fonction de texte et de données utilisée pour trouver la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"FIXED": {
-		"a": "(nombre [, [décimales] [, no_séparateur]])",
-		"d": "Fonction de texte et données utilisée pour renvoyer la représentation textuelle d'un nombre arrondi au nombre de décimales déterminé."
+		"a": "(nombre; [décimales]; [no_séparateur])",
+		"d": "Arrondit un nombre au nombre de décimales spécifié et renvoie le résultat sous forme de texte avec ou sans virgule"
 	},
 	"LEFT": {
-		"a": "(texte [, no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(texte; [no_car])",
+		"d": "Extrait le(s) premier(s) caractère(s) à l'extrême gauche d'une chaîne de texte"
 	},
 	"LEFTB": {
-		"a": "(texte [, no_car])",
+		"a": "(texte; [no_car])",
 		"d": "Fonction de texte et de données utilisée pour extraire la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LEN": {
 		"a": "(texte)",
-		"d": "Fonction de texte et de données utilisée pour analyser la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"d": "Renvoie le nombre de caractères contenus dans une chaîne de texte"
 	},
 	"LENB": {
 		"a": "(texte)",
@@ -421,1422 +421,1422 @@
 	},
 	"LOWER": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour convertir des majuscules en minuscules dans la cellule sélectionnée."
+		"d": "Convertit toutes les lettres majuscules en une chaîne de caractères en minuscules"
 	},
 	"MID": {
-		"a": "(texte, no_départ, no_car)",
-		"d": "Fonction de texte et de données utilisée pour extraire les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(texte; no_départ; no_car)",
+		"d": "Renvoie un nombre déterminé de caractères d'une chaîne de texte à partir de la position que vous indiquez"
 	},
 	"MIDB": {
-		"a": "(texte, no_départ, no_car)",
+		"a": "(texte; no_départ; no_car)",
 		"d": "Fonction de texte et de données utilisée pour extraire les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"NUMBERVALUE": {
-		"a": "(text [, [[séparateur_décimal] [, [séparateur_groupe]])",
-		"d": "Fonction de texte et de données utilisée pour convertir le texte en nombre, de manière indépendante des paramètres régionaux."
+		"a": "(texte; [séparateur_décimal]; [séparateur_groupe])",
+		"d": "Convertit le texte en nombre quels que soient les paramètres régionaux"
 	},
 	"PROPER": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour convertir le premier caractère de chaque mot en majuscules et tous les autres en minuscules."
+		"d": "Met en majuscule la première lettre de chaque mot dans une chaîne de texte et met toutes les autres lettres en minuscules"
 	},
 	"REPLACE": {
-		"a": "(ancien_texte, no_départ, no_car, nouveau_texte)",
-		"d": "Fonction de texte et de données utilisée pour remplacer un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
+		"d": "Remplace une chaîne de caractères par une autre"
 	},
 	"REPLACEB": {
-		"a": "(ancien_texte, no_départ, no_car, nouveau_texte)",
+		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
 		"d": "Fonction de texte et de données utilisée pour remplacer un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"REPT": {
-		"a": "(texte, nombre_fois)",
-		"d": "Fonction de texte et données utilisée pour remplir une cellule avec plusieurs instances d'une chaîne de texte."
+		"a": "(texte; no_fois)",
+		"d": "Répète un texte un certain nombre de fois. Utilisez REPT pour remplir une cellule avec un certain nombre d'occurrences d'une chaîne de caractères"
 	},
 	"RIGHT": {
-		"a": "(texte [, no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(texte; [no_car])",
+		"d": "Extrait les derniers caractères de la fin d'une chaîne de texte"
 	},
 	"RIGHTB": {
-		"a": "(texte [, no_car])",
+		"a": "(texte; [no_car])",
 		"d": "Fonction de texte et de données utilisée pour extraire une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SEARCH": {
-		"a": "(texte_cherché, texte [, no_départ])",
-		"d": "Fonction de texte et de données utilisée pour renvoyer l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à un octet (SBCS)"
+		"a": "(texte_cherché; texte; [no_départ])",
+		"d": "Renvoie le numéro du caractère au niveau duquel est trouvé un caractère ou le début d'une chaîne de caractères, en lisant de la gauche à droite (pas de distinction entre majuscules et minuscules)"
 	},
 	"SEARCHB": {
-		"a": "(texte_cherché, texte [, no_départ])",
+		"a": "(texte_cherché; texte; [no_départ])",
 		"d": "Fonction de texte et de données utilisée pour renvoyer l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SUBSTITUTE": {
-		"a": "(texte, ancien_texte,nouveau_texte [, no_position])",
-		"d": "Fonction de texte et données utilisée pour remplacer un jeu de caractères par un nouveau."
+		"a": "(texte; ancien_texte; nouveau_texte; [no_position])",
+		"d": "Remplace des caractères dans un texte"
 	},
 	"T": {
 		"a": "(valeur)",
-		"d": "Fonction de texte et données utilisée pour vérifier si la valeur dans la cellule (ou utilisée comme argument) est un texte ou non. Si ce n'est pas un texte, la fonction renvoie un résultat vide. Si la valeur/argument est un texte, la fonction renvoie la même valeur textuelle."
+		"d": "Contrôle si une valeur fait référence à du texte et renvoie le texte le cas échéant, ou renvoie des guillemets (texte vide) dans le cas contraire"
 	},
 	"TEXT": {
-		"a": "(valeur, format)",
-		"d": "Fonction de texte et données utilisée pour convertir une valeur au format spécifié."
+		"a": "(valeur; format_text)",
+		"d": "Convertit une valeur en texte en un format de nombre spécifique"
 	},
 	"TEXTJOIN": {
-		"a": "(séparateur, ignore_ignorer_vide, texte1[, texte2], …)",
-		"d": "Fonction de texte et données utilisée pour combiner le texte de plusieurs plages et/ou chaînes, incluant un délimiteur que vous spécifiez entre chaque valeur de texte qui sera combinée. Si le délimiteur est une chaîne de texte vide, cette fonction concaténera les plages."
+		"a": "(délimiteur; ignorer_vide; texte1; ...)",
+		"d": "Assemble une liste ou plage de chaînes de caractères à l’aide d’un délimiteur"
 	},
 	"TRIM": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour supprimer des espaces à gauche ou à droite d'une chaîne."
+		"d": "Supprime tous les espaces d'une chaîne de caractères, sauf les espaces simples entre les mots"
 	},
 	"UNICHAR": {
 		"a": "(nombre)",
-		"d": "Fonction de texte et données utilisée pour renvoyer le caractère Unicode référencé par la valeur numérique donnée."
+		"d": "Renvoie le caractère Unicode référencé par la valeur numérique donnée"
 	},
 	"UNICODE": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour retourner le nombre(valeur d'encodage) correspondant au premier caractère du texte."
+		"d": "Renvoie le nombre (point de code) correspondant au premier caractère du texte"
 	},
 	"UPPER": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour convertir les minuscules en majuscules dans la cellule sélectionnée."
+		"d": "Convertit une chaîne de caractères en majuscules"
 	},
 	"VALUE": {
 		"a": "(texte)",
-		"d": "Fonction de texte et données utilisée pour convertir une valeur de texte représentant un nombre en ce nombre. Si le texte à convertir n'est pas un nombre, la fonction renvoie l'erreur #VALEUR!."
+		"d": "Convertit une chaîne textuelle représentant un nombre en un nombre"
 	},
 	"AVEDEV": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer la moyenne des écarts absolus des nombres de leur moyenne."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la moyenne des écarts absolus des points de données par rapport à leur moyenne arithmétique. Les arguments peuvent être des nombres, des noms, des matrices ou des références qui contiennent des nombres"
 	},
 	"AVERAGE": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et trouver la valeur moyenne."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la moyenne (espérance arithmétique) des arguments, qui peuvent être des nombres, des noms, des matrices, ou des références contenant des nombres"
 	},
 	"AVERAGEA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données y compris du texte et des valeurs logiques et trouver la moyenne La fonction AVERAGEA considère tout texte et FALSE comme égal à 0 et TRUE comme égal à 1."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Renvoie la moyenne (moyenne arithmétique) de ses arguments, en considérant que le texte et la valeur logique FAUX dans les arguments = 0 ; VRAI = 1. Les arguments peuvent être des nombres, des noms, des matrices ou des références"
 	},
 	"AVERAGEIF": {
-		"a": "(plage, critères [, plage_moyenne])",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et trouver la moyenne de tous les nombres dans une plage de cellules à la base du critère spécifié"
+		"a": "(plage; critères; [plage_moyenne])",
+		"d": "Détermine la moyenne (espérance arithmétique) des cellules satisfaisant une condition ou des critères particuliers"
 	},
 	"AVERAGEIFS": {
-		"a": "(plage_moyenne, plage_critères1, critères1, [plage_critères2, critères2],... )",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et trouver la moyenne de tous les nombres dans une plage de cellules à la base de critères multiples"
+		"a": "(plage_moyenne; plage_critères; critères; ...)",
+		"d": "Détermine la moyenne (espérance arithmétique) des cellules spécifiées par un ensemble de conditions ou de critères"
 	},
 	"BETADIST": {
-		"a": " (x, alpha, bêta, [ ,[A] [, [B]]) ",
-		"d": "Fonction statistique utilisée pour retourner la fonction de densité de probabilité bêta cumulative."
+		"a": "(x; alpha; bêta; [A]; [B])",
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi de probabilité Bêta"
 	},
 	"BETAINV": {
-		"a": " ( x , alpha , beta , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used return the inverse of the cumulative beta probability density function for a specified beta distribution"
+		"a": "(probabilité; alpha; bêta; [A]; [B])",
+		"d": "Renvoie l’inverse de la fonction de densité de distribution de la probabilité suivant une loi bêta cumulée (LOI.BÊTA)"
 	},
 	"BETA.DIST": {
-		"a": " (x, alpha, bêta, cumulative, [, [A] [, [B]]) ",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution bêta."
+		"a": "(x; alpha; bêta; cumulative; [A]; [B])",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de probabilité Bêta"
 	},
 	"BETA.INV": {
-		"a": " (probabilité, alpha, bêta, [, [A] [, [B]]) ",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la fonction de densité de probabilité cumulative bêta"
+		"a": "(probabilité; alpha; bêta; [A]; [B])",
+		"d": "Renvoie l’inverse de la fonction de densité de distribution de la probabilité suivant une loi bêta cumulée (LOI.BETA.N)"
 	},
 	"BINOMDIST": {
-		"a": "(nombre_s, essais, probabilité_s, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité d'une variable aléatoire discrète suivant la loi binomiale."
+		"a": "(nombre_succès; tirages; probabilité_succès; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant la loi binomiale"
 	},
 	"BINOM.DIST": {
-		"a": "(nombre_s, essais, probabilité_s, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité d'une variable aléatoire discrète suivant la loi binomiale."
+		"a": "(nombre_succès; tirages; probabilité_succès; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant la loi binomiale"
 	},
 	"BINOM.DIST.RANGE": {
-		"a": "(essais, probabilité_s, nombre_s [, nombre_s2])",
-		"d": "Fonction statistique utilisée pour retourner la probabilité d'un résultat d'essai en utilisant une distribution binomiale"
+		"a": "(tirages; probabilité_succès; nombre_succès; [nombre_succès2])",
+		"d": "Renvoie la probabilité d'un résultat de tirage en suivant une distribution binomiale"
 	},
 	"BINOM.INV": {
-		"a": "(essais, probabilité_s, alpha)",
-		"d": "Fonction statistique utilisée pour renvoyer la plus petite valeur pour laquelle la distribution binomiale cumulative est supérieure ou égale à une valeur de critère"
+		"a": "(tirages; probabilité_succès; alpha)",
+		"d": "Renvoie la plus petite valeur pour laquelle la distribution binomiale cumulée est supérieure ou égale à une valeur critère"
 	},
 	"CHIDIST": {
-		"a": "(x, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité à droite de la distribution du khi-carré"
+		"a": "(x; degrés_liberté)",
+		"d": "Renvoie la probabilité unilatérale à droite d’une variable aléatoire continue suivant une loi du Khi-deux"
 	},
 	"CHIINV": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la probabilité à droite de la distribution du khi-carré."
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité unilatérale à droite donnée, la valeur d’une variable aléatoire suivant une loi du Khi-deux"
 	},
 	"CHITEST": {
-		"a": "(plage_réelle, plage_attendue)",
-		"d": "Fonction statistique utilisée pour retourner le test d'indépendance, la valeur de la distribution du khi-deux (χ2) pour la statistique et les degrés de liberté appropriés"
+		"a": "(plage_réelle; plage_attendue)",
+		"d": "Renvoie le test d’indépendance : la valeur pour la statistique suivant la loi du Khi-deux et les degrés de liberté appropriés"
 	},
 	"CHISQ.DIST": {
-		"a": "(x, deg_liberté, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution du khi-carré."
+		"a": "(x; degrés_liberté; cumulative)",
+		"d": "Renvoie la probabilité unilatérale à gauche d’une variable aléatoire continue suivant une loi du Khi-deux"
 	},
 	"CHISQ.DIST.RT": {
-		"a": "(x, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité à droite de la distribution du khi-carré"
+		"a": "(x; degrés_liberté)",
+		"d": "Renvoie la probabilité unilatérale à droite d’une variable aléatoire continue suivant une loi du Khi-deux"
 	},
 	"CHISQ.INV": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la probabilité à gauche de la distribution du khi-carré."
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité unilatérale à gauche donnée, la valeur d’une variable aléatoire suivant une loi du Khi-deux"
 	},
 	"CHISQ.INV.RT": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la probabilité à droite de la distribution du khi-carré."
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité unilatérale à droite donnée, la valeur d’une variable aléatoire suivant une loi du Khi-deux"
 	},
 	"CHISQ.TEST": {
-		"a": "(plage_réelle, plage_attendue)",
-		"d": "Fonction statistique utilisée pour retourner le test d'indépendance, la valeur de la distribution du khi-deux (χ2) pour la statistique et les degrés de liberté appropriés"
+		"a": "(plage_réelle; plage_prévue)",
+		"d": "Renvoie le test d’indépendance : la valeur de la distribution Khi-deux pour la statistique et les degrés de liberté appropriés"
 	},
 	"CONFIDENCE": {
-		"a": "(alpha, écart_type, taille)",
-		"d": "Fonction statistique utilisée pour renvoyer l'intervalle de confiance."
+		"a": "(alpha; écart_type; taille)",
+		"d": "Renvoie l’intervalle de confiance pour la moyenne d’une population à l’aide d’une distribution normale. Consultez l’aide sur l’équation utilisée"
 	},
 	"CONFIDENCE.NORM": {
-		"a": "(alpha, écart_type, taille)",
-		"d": "Fonction statistique utilisée pour retourner l'intervalle de confiance pour une moyenne de population en utilisant une distribution normale."
+		"a": "(alpha; écart_type; taille)",
+		"d": "Renvoie l’intervalle de confiance pour la moyenne d’une population, à l’aide d’une loi normale"
 	},
 	"CONFIDENCE.T": {
-		"a": "(alpha, écart_type, taille)",
-		"d": "Fonction statistique utilisée pour retourner l'intervalle de confiance pour une moyenne de population, en utilisant la distribution en T de Student."
+		"a": "(alpha; écart_type; taille)",
+		"d": "Renvoie l’intervalle de confiance pour la moyenne d’une population, à l’aide de la probabilité d’une variable aléatoire suivant une loi T de Student"
 	},
 	"CORREL": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer le coefficient de corrélation entre deux séries de données."
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie le coefficient de corrélation entre deux séries de données"
 	},
 	"COUNT": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour compter le nombre de cellules sélectionnées qui contiennent des nombres en ignorant les cellules vides ou avec du texte."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Détermine le nombre de cellules d'une plage contenant des nombres"
 	},
 	"COUNTA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser la plage de cellules et compter le nombre de cellules qui ne sont pas vides."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Détermine le nombre de cellules d'une plage qui ne sont pas vides"
 	},
 	"COUNTBLANK": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de cellules et renvoyer le nombre de cellules vides."
+		"a": "(plage)",
+		"d": "Compte le nombre de cellules vides à l'intérieur d'une plage spécifique"
 	},
 	"COUNTIF": {
-		"a": "(plage, critères)",
-		"d": "Fonction statistique utilisée pour compter le nombre de cellules sélectionnées à la base du critère spécifié."
+		"a": "(plage; critère)",
+		"d": "Détermine le nombre de cellules non vides répondant à la condition à l'intérieur d'une plage"
 	},
 	"COUNTIFS": {
-		"a": "(plage_critères1,  critères1, [plage_critères2, critères2], ... )",
-		"d": "Fonction statistique utilisée pour compter le nombre de cellules sélectionnées à la base de critères multiples."
+		"a": "(plage_critères; critères; ...)",
+		"d": "Compte le nombre de cellules spécifiées par un ensemble de conditions ou de critères"
 	},
 	"COVAR": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour renvoyer la covariance de deux plages de données."
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie la covariance, moyenne du produit des écarts à la moyenne de chaque paire de points de deux séries"
 	},
 	"COVARIANCE.P": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour retourner la covariance de population, la moyenne des produits des écarts pour chaque paire de points de données dans deux ensembles de données; utilisez la covariance pour déterminer la relation entre deux ensembles de données."
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie la covariance de population, moyenne du produit des écarts à la moyenne de chaque paire de points de deux séries"
 	},
 	"COVARIANCE.S": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour retourner la covariance de l'échantillon, la moyenne des produits des écarts pour chaque paire de points de données dans deux ensembles de données."
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie la covariance d’échantillon, moyenne du produit des écarts à la moyenne de chaque paire de points de deux séries"
 	},
 	"CRITBINOM": {
-		"a": "(nombre_essais, probabilité_succès, alpha)",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur plus petite pour laquelle la distribution binomiale cumulée est supérieure ou égale à la valeur alpha spécifiée."
+		"a": "(tirages; probabilité_succès; alpha)",
+		"d": "Renvoie la plus petite valeur pour laquelle la distribution binomiale cumulée est supérieure ou égale à une valeur critère"
 	},
 	"DEVSQ": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et calculer la somme des carrés des déviations des nombres de leur moyenne."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la somme des carrés des écarts entre les points de données et leur moyenne échantillonnée"
 	},
 	"EXPONDIST": {
-		"a": "(x, lambda, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer une distribution exponentielle."
+		"a": "(x; lambda; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi exponentielle. Consultez l’aide sur l’équation utilisée"
 	},
 	"EXPON.DIST": {
-		"a": "(x, lambda, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer une distribution exponentielle."
+		"a": "(x; lambda; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi exponentielle. Consultez l’aide sur l’équation utilisée"
 	},
 	"FDIST": {
-		"a": "(x, deg-freedom1, deg-freedom2)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution de probabilité F(droite), ou le degré de diversité, pour deux ensembles de données. Vous pouvez utiliser cette fonction pour déterminer si deux ensembles de données ont des degrés de diversité différents"
+		"a": "(x; degrés_liberté1; degrés_liberté2)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi F pour deux séries de données"
 	},
 	"FINV": {
-		"a": "(probabilité, deg_liberté1, deg_liberté2)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la distribution de probabilité F à droite; la distribution F peut être utilisée dans un test F qui compare le degré de variabilité de deux ensembles de données"
+		"a": "(probabilité; degrés_liberté1; degrés_liberté2)",
+		"d": "Renvoie l’inverse de la distribution de probabilité (unilatérale à droite) suivant une loi F : si p = LOI.F (x,...), alors INVERSE.LOI.F (p,...) = x"
 	},
 	"FTEST": {
-		"a": "(matrice1, matrice2)",
-		"d": "Fonction statistique utilisée pour renvoyer le résultat d’un test F. Un test F renvoie la probabilité bilatérale que les variances des arguments matrice1 et matrice2 ne présentent pas de différences significatives"
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie le résultat d’un test F, c’est-à-dire la probabilité d’une variable aléatoire continue que les variances dans Matrice1 et Matrice2 ne soient pas différentes de manière significative"
 	},
 	"F.DIST": {
-		"a": "(x, deg_liberté1, deg_liberté2, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution de probabilité F. Vous pouvez utiliser cette fonction pour déterminer si deux ensembles de données ont des degrés de diversité différents."
+		"a": "(x; degrés_liberté1; degrés_liberté2; cumulée)",
+		"d": "Renvoie la probabilité (unilatérale à gauche) d’une variable aléatoire suivant une loi F pour deux séries de données"
 	},
 	"F.DIST.RT": {
-		"a": "(x, deg_liberté1, deg_liberté2)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution de probabilité F(droite), ou le degré de diversité, pour deux ensembles de données. Vous pouvez utiliser cette fonction pour déterminer si deux ensembles de données ont des degrés de diversité différents"
+		"a": "(x; degrés_liberté1; degrés_liberté2)",
+		"d": "Renvoie la probabilité (unilatérale à droite) d’une variable aléatoire suivant une loi F pour deux séries de données"
 	},
 	"F.INV": {
-		"a": "(probabilité, deg_liberté1, deg_liberté2)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la distribution de probabilité F à droite; la distribution F peut être utilisée dans un test F qui compare le degré de variabilité de deux ensembles de données"
+		"a": "(probabilité; degrés_liberté1; degrés_liberté2)",
+		"d": "Renvoie l’inverse de la distribution de probabilité (unilatérale à gauche) suivant une loi F : si p = LOI.F (x,...), alors INVERSE.LOI.F.N (p,...) = x"
 	},
 	"F.INV.RT": {
-		"a": "(probabilité, deg_liberté1, deg_liberté2)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la distribution de probabilité F à droite; la distribution F peut être utilisée dans un test F qui compare le degré de variabilité de deux ensembles de données"
+		"a": "(probabilité; degrés_liberté1; degrés_liberté2)",
+		"d": "Renvoie l’inverse de la distribution de probabilité (unilatérale à droite) suivant une loi F : si p = LOI.F.DROITE (x,...), alors INVERSE.LOI.F.DROITE (p,...) = x"
 	},
 	"F.TEST": {
-		"a": "(matrice1, matrice2)",
-		"d": "Fonction statistique utilisée pour retourner le résultat d’un test F, la probabilité bilatérale que les variances des arguments matrice1 et matrice2 ne présentent pas de différences significatives"
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie le résultat d’un test F, la probabilité bilatérale que les variances des matrice1 et matrice2 ne sont pas très différentes"
 	},
 	"FISHER": {
-		"a": "(nombre)",
-		"d": "Fonction statistique utilisée pour renvoyer la transformation Fisher d'un nombre."
+		"a": "(x)",
+		"d": "Renvoie la transformation de Fisher. Consultez l'aide sur l'équation utilisée"
 	},
 	"FISHERINV": {
-		"a": "(nombre)",
-		"d": "Fonction statistique utilisée pour effectuer une transformation inversée de Fisher."
+		"a": "(y)",
+		"d": "Renvoie la transformation de Fisher inverse : si y = FISHER(x), alors FISHER.INVERSE(y) = x. Consultez l'aide sur l'équation utilisée"
 	},
 	"FORECAST": {
-		"a": "(x, matrice1, matrice2)",
-		"d": "Fonction statistique utilisée pour prédire une valeur future à la base des valeurs existantes fournies."
+		"a": "(x; y_connus; x_connus)",
+		"d": "Calcule, ou prédit, une valeur future suivant une tendance linéaire, en utilisant les valeurs existantes"
 	},
 	"FORECAST.ETS": {
-		"a": "(date_cible, valeurs, chronologie, [caractère_saisonnier], [saisie_semiautomatique_données], [agrégation])",
-		"d": "Fonction statistique utilisée pour prédire une valeur future en fonction des valeurs existantes (historiques) à l’aide de la version AAA de l’algorithme de lissage exponentiel (Exponential Smoothing, ETS)"
+		"a": "(date_cible; valeurs; chronologie; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
+		"d": "Renvoie la valeur prévue pour une date cible ultérieure spécifiée à l’aide de la méthode de lissage exponentiel."
 	},
 	"FORECAST.ETS.CONFINT": {
-		"a": "(date_cible, valeurs, chronologie, [seuil_probabilité], [caractère_saisonnier], [saisie_semiautomatique_données], [agrégation])",
-		"d": "Fonction statistique utilisée pour retourner un intervalle de confiance pour la prévision à la date cible spécifiée"
+		"a": "(date_cible; valeurs; chronologie; [niveau_confiance]; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
+		"d": "Renvoie un intervalle de confiance pour la valeur de prévision à la date cible spécifiée."
 	},
 	"FORECAST.ETS.SEASONALITY": {
-		"a": "(valeurs, chronologie, [saisie_semiautomatique_données], [agrégation])",
-		"d": "Fonction statistique utilisée pour retourner la durée du modèle de répétition détecté par application pour la série chronologique spécifiée"
+		"a": "(valeurs; chronologie; [achèvement_données]; [agrégation])",
+		"d": "Renvoie la longueur du motif répétitif détecté par l'application pour la série temporelle spécifiée."
 	},
 	"FORECAST.ETS.STAT": {
-		"a": "(valeurs, chronologie, type_statistique, [caractère_saisonnier], [saisie_semiautomatique_données], [agrégation])",
-		"d": "Fonction statistique utilisée pour retourner une valeur statistique suite à la prévision de la série chronologique; le type statistique indique quelle statistique est requise par cette fonction"
+		"a": "(valeurs; chronologie; type_statistique; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
+		"d": "Renvoie les statistiques demandées pour la prévision."
 	},
 	"FORECAST.LINEAR": {
-		"a": "(x, y_connus, x_connus)",
-		"d": "Fonction statistique utilisée pour calculer, ou prédire, une valeur future en utilisant des valeurs existantes; la valeur prédite est une valeur y pour une valeur x donnée, les valeurs connues sont des valeurs x et des valeurs y existantes, et la nouvelle valeur est prédite en utilisant une régression linéaire"
+		"a": "(x; y_connus; x_connus)",
+		"d": "Calcule, ou prédit, une valeur future suivant une tendance linéaire, en utilisant les valeurs existantes"
 	},
 	"FREQUENCY": {
-		"a": "(tableau_données, matrice_intervalles)",
-		"d": "Fonction statistique utilisée pour calculer la fréquence de la présence des valeurs dans une plage de cellules sélectionnée et afficher la première valeur de la matrice de nombres renvoyée."
+		"a": "(tableau_données; matrice_classes)",
+		"d": "Calcule la fréquence à laquelle les valeurs apparaissent dans une plage de valeurs, puis renvoie une matrice verticale de nombres ayant un élément de plus que l’argument matrice_classes"
 	},
 	"GAMMA": {
-		"a": "(nombre)",
-		"d": "Fonction statistique utilisée pour retourner la valeur de la fonction gamma."
+		"a": "(x)",
+		"d": "Renvoie la valeur de la fonction Gamma"
 	},
 	"GAMMADIST": {
-		"a": "(x, alpha, bêta, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution gamma."
+		"a": "(x; alpha; bêta; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi Gamma. Consultez l’aide sur l’équation utilisée"
 	},
 	"GAMMA.DIST": {
-		"a": "(x, alpha, bêta, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution gamma."
+		"a": "(x; alpha; bêta; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi Gamma"
 	},
 	"GAMMAINV": {
-		"a": "(probabilité, alpha, bêta)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la distribution cumulative gamma."
+		"a": "(probabilité; alpha; bêta)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi Gamma : si p = LOI.GAMMA(x,...), alors LOI.GAMMA.INVERSE(p,...) = x"
 	},
 	"GAMMA.INV": {
-		"a": "(probabilité, alpha, bêta)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la distribution cumulative gamma."
+		"a": "(probabilité; alpha; bêta)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi Gamma: si p = LOI.GAMMA.N(x,...), alors LOI.GAMMA.INVERSE.N(p,...) = x"
 	},
 	"GAMMALN": {
-		"a": "(nombre)",
-		"d": "Fonction statistique utilisée pour renvoyer le logarithme naturel de la fonction Gamma."
+		"a": "(x)",
+		"d": "Renvoie le logarithme népérien de la fonction Gamma. Consultez l'aide pour obtenir des informations sur l'équation utilisée"
 	},
 	"GAMMALN.PRECISE": {
 		"a": "(x)",
-		"d": "Fonction statistique utilisée pour renvoyer le logarithme naturel de la fonction Gamma."
+		"d": "Renvoie le logarithme népérien de la fonction Gamma"
 	},
 	"GAUSS": {
-		"a": "(z)",
-		"d": "Fonction statistique utilisée pour calculer la probabilité qu'un membre d'une population normale standard se situe entre la moyenne et les écarts-types z de la moyenne."
+		"a": "(x)",
+		"d": "Renvoie 0,5 de moins que la distribution cumulée suivant une loi normale centrée réduite"
 	},
 	"GEOMEAN": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour calculer la moyenne géométrique d'une série de données."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la moyenne géométrique d'une matrice ou d'une plage de données numériques positives"
 	},
 	"GROWTH": {
-		"a": "(y_connus, [x_connus], [x_nouveaux], [constante])",
-		"d": "Fonction statistique utilisée pour сalculer la croissance exponentielle prévue à partir des données existantes. La fonction renvoie les valeurs y pour une série de nouvelles valeurs x que vous spécifiez, en utilisant des valeurs x et y existantes."
-	},	
+		"a": "(y_connus; [x_connus]; [x_nouveaux]; [constante])",
+		"d": "Calcule les valeurs de la tendance géométrique exponentielle à partir de valeurs connues"
+	},
 	"HARMEAN": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour calculer la moyenne harmonique d'une série de données."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la moyenne harmonique d'une série de données en nombres positifs : la réciproque de la moyenne arithmétique des réciproques"
 	},
 	"HYPGEOM.DIST": {
-		"a": "(succès_échantillon, nombre_échantillon, succès_population, nombre_pop, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité d'une variable aléatoire discrète suivant une loi hypergéométrique"
+		"a": "(succès_échantillon; nombre_échantillon; succès_population; nombre_population; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant une loi hypergéométrique"
 	},
 	"HYPGEOMDIST": {
-		"a": "(succès_échantillon, nombre_échantillon, succès_population ,nombre_population)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité d'une variable aléatoire discrète suivant une loi hypergéométrique"
+		"a": "(succès_échantillon; nombre_échantillon; succès_population; nombre_population)",
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant une loi hypergéométrique"
 	},
 	"INTERCEPT": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour analyser les valeurs de la première matrice et de la deuxième pour calculer le point d'intersection."
+		"a": "(y_connus; x_connus)",
+		"d": "Calcule le point auquel une droite va croiser l’axe des y en traçant une droite de régression linéaire d’après les valeurs connues de x et de y"
 	},
 	"KURT": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour renvoyer le kurtosis d'une série de données."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie le kurtosis d'une série de données. Consultez l'aide sur l'équation utilisée"
 	},
 	"LARGE": {
-		"a": "(matrice , k)",
-		"d": "Fonction statistique utilisée pour analyser une plage de cellules et renvoyer la k-ième plus grande valeur."
+		"a": "(matrice; k)",
+		"d": "Renvoie la k-ième plus grande valeur d'une série de données"
 	},
 	"LINEST": {
-		"a": "(y_connus, [x_connus], [constante], [statistiques])",
-		"d": "Fonction statistique utilisée pour calculer les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite; dans la mesure où cette fonction renvoie une matrice de valeurs, elle doit être tapée sous la forme d’une formule matricielle"
+		"a": "(y_connus; [x_connus]; [constante]; [statistiques])",
+		"d": "Renvoie une matrice qui décrit une droite de corrélation pour vos données, calculée avec la méthode des moindres carrés"
 	},
 	"LOGEST": {
-		"a": "(y_connus, [x_connus], [constante], [statistiques])",
-		"d": "Fonction statistique utilisée pour calculer les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite. Vous pouvez également combiner la fonction avec d’autres fonctions pour calculer les statistiques d’autres types de modèles linéaires dans les paramètres inconnus, y compris polynomial, logarithmique, exponentiel et série de puissances."
-	},	
+		"a": "(y_connus; [x_connus]; [constante]; [statistiques])",
+		"d": "Renvoie des statistiques qui décrivent une courbe de corrélation exponentielle à partir de valeurs connues"
+	},
 	"LOGINV": {
-		"a": "(x, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la fonction de distribution de x suivant une loi lognormale cumulée en utilisant les paramètres spécifiés"
+		"a": "(probabilité; espérance; écart_type)",
+		"d": "Renvoie l’inverse de la fonction de distribution de x suivant une loi lognormale cumulée, où In(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"LOGNORM.DIST": {
-		"a": "(x , moyenne, écart_type, cumulative)",
-		"d": "Fonction statistique utilisée pour retourner la distribution log-normale de x, où ln(x) est normalement distribué avec les paramètres moyenne et écart_type."
+		"a": "(x; espérance; écart_type; cumulative)",
+		"d": "Renvoie la fonction de distribution de x suivant une loi lognormale, où In(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"LOGNORM.INV": {
-		"a": "(probabilité, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la fonction de distribution log-normale de x, où ln(x) est normalement distribué avec les paramètres moyenne et écart_type."
+		"a": "(probabilité; espérance; écart_type)",
+		"d": "Renvoie l’inverse de la fonction de distribution de x suivant une loi lognormale cumulée, où In(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"LOGNORMDIST": {
-		"a": "(x, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour analyser les données logarithmiquement transformées et renvoyer la fonction de distribution de x suivant une loi lognormale cumulée en utilisant les paramètres spécifiés."
+		"a": "(x; espérance; écart_type)",
+		"d": "Renvoie la distribution de x suivant une loi lognormale cumulée, où ln(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"MAX": {
-		"a": "(nombre1, nombre2, ...)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et trouver le plus grand nombre."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Donne la valeur la plus grande parmi une liste de valeurs. Ignore les valeurs logiques et le texte"
 	},
 	"MAXA": {
-		"a": "(nombre1, nombre2, ...)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et trouver la plus grande valeur."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Renvoie le plus grand nombre d'un ensemble de valeurs. Prend en compte les valeurs logiques et le texte"
 	},
 	"MAXIFS": {
-		"a": "(plage_max, plage_critère1, critère1 [, plage_critère2, critère2], ...)",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur maximale parmi les cellules spécifiées par un ensemble donné de conditions ou de critères."
+		"a": "(plage_max; plage_critères; critères; ...)",
+		"d": "Renvoie la valeur maximale parmi les cellules spécifiées par un ensemble de conditions ou de critères donné"
 	},
 	"MEDIAN": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour calculer la valeur médiane de la liste d'arguments."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la valeur médiane ou le nombre qui se trouve au milieu d'une liste de nombres fournie"
 	},
 	"MIN": {
-		"a": "(nombre1, nombre2, ...)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et de trouver le plus petit nombre."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Donne la valeur la plus petite parmi une liste de valeurs. Ignore les valeurs logiques et le texte"
 	},
 	"MINA": {
-		"a": "(nombre1, nombre2, ...)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et trouver la plus petite valeur."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Renvoie la plus petite valeur d'un ensemble de données. Prend en compte des valeurs logiques et le texte"
 	},
 	"MINIFS": {
-		"a": "(plage_min, plage_critère1, critère1 [, plage_critère2, critère2], ...)",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur minimale parmi les cellules spécifiées par un ensemble donné de conditions ou de critères."
+		"a": "(plage_min; plage_critères; critères; ...)",
+		"d": "Renvoie la valeur minimale parmi les cellules spécifiées par un ensemble de conditions ou de critères donné"
 	},
 	"MODE": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer la valeur la plus fréquente."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la valeur la plus fréquente d’une série de données"
 	},
 	"MODE.MULT": {
-		"a": "(nombre1  [, nombre2] ... )",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur la plus fréquente ou répétitive dans un tableau ou une plage de données."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie une matrice verticale des valeurs les plus fréquentes d’une matrice ou série de données. Pour une matrice horizontale, utilisez =TRANSPOSER(MODE.MULTIPLE(nombre1,nombre2,...))"
 	},
 	"MODE.SNGL": {
-		"a": "(nombre1  [, nombre2] ... )",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur la plus fréquente ou répétitive dans un tableau ou une plage de données."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la valeur la plus fréquente d’une série de données"
 	},
 	"NEGBINOM.DIST": {
-		"a": "(nombre_échecs, nombre_succès, probabilité_succès, cumulative)",
-		"d": "Fonction statistique utilisée pour retourner la distribution binomiale négative, la probabilité qu'il y aura nombre_échecs échecs avant le nombre_succès-ème succès, avec une probabilité de succès probabilité_succès."
+		"a": "(nombre_échecs; nombre_succès; probabilité_succès; cumulative)",
+		"d": "Renvoie la distribution négative binomiale, probabilité d’obtenir un nombre d’échecs égal à Nombre_échecs avant le succès numéro Nombre_succès, avec une probabilité égale à Probabilité_succès"
 	},
 	"NEGBINOMDIST": {
-		"a": "(nombre_échecs, nombre_succès, probabilité_succès)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution négative binomiale."
+		"a": "(nombre_échecs; nombre_succès; probabilité_succès)",
+		"d": "Renvoie la distribution négative binomiale, probabilité d’obtenir un nombre d’échecs égal à Nombre_échecs avant le succès numéro Nombre_succès, avec une probabilité égale à Probabilité_succès"
 	},
 	"NORM.DIST": {
-		"a": "(x, moyenne, écart_type, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution normale pour la moyenne spécifiée et l'écart type."
+		"a": "(x; espérance; écart_type; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi normale pour l’espérance arithmétique et l’écart-type spécifiés"
 	},
 	"NORMDIST": {
-		"a": "(x , moyenne, écart_type, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution normale pour la moyenne spécifiée et l'écart type."
+		"a": "(x; espérance; écart_type; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi normale pour l’espérance arithmétique et l’écart-type spécifiés"
 	},
 	"NORM.INV": {
-		"a": "(probabilité, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la distribution cumulative normale pour la moyenne et l'écart-type spécifiés."
+		"a": "(probabilité; espérance; écart_type)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale pour la moyenne et l’écart-type spécifiés"
 	},
 	"NORMINV": {
-		"a": "(x, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la distribution cumulative normale pour la moyenne et l'écart-type spécifiés."
+		"a": "(probabilité; espérance; écart_type)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale pour la moyenne et l’écart-type spécifiés"
 	},
 	"NORM.S.DIST": {
-		"a": "(z, cumulative)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la distribution cumulative normale standard; la distribution a une moyenne de zéro et un écart-type de un."
+		"a": "(z; cumulative)",
+		"d": "Renvoie la distribution suivant une loi normale centrée réduite (d’espérance nulle et d’écart-type égal à 1)"
 	},
 	"NORMSDIST": {
-		"a": "(nombre)",
-		"d": "Fonction statistique utilisée pour renvoyer la fonction de distribution cumulative normale standard."
+		"a": "(z)",
+		"d": "Renvoie la distribution cumulée suivant une loi normale centrée réduite (d’espérance nulle et d’écart-type égal à 1)"
 	},
 	"NORM.S.INV": {
 		"a": "(probabilité)",
-		"d": "Fonction statistique utilisée pour retourner l'inverse de la distribution cumulative normale standard; la distribution a une moyenne de zéro et un écart-type de un."
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale standard (ou centrée réduite), c’est-à-dire ayant une moyenne de zéro et un écart-type de 1"
 	},
 	"NORMSINV": {
 		"a": "(probabilité)",
-		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la distribution cumulative normale standard."
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale standard (ou centrée réduite), c’est-à-dire ayant une moyenne de zéro et un écart-type de 1"
 	},
 	"PEARSON": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour renvoyer le coefficient de corrélation des moments du produit de Pearson."
+		"a": "(matrice1; matrice2)",
+		"d": "Renvoie le coefficient de corrélation d'échantillonnage de Pearson, r. Consultez l'aide sur l'équation utilisée"
 	},
 	"PERCENTILE": {
-		"a": "(matrice , k)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer le k-ième centile."
+		"a": "(matrice; k)",
+		"d": "Renvoie le k-ième centile des valeurs d’une plage"
 	},
 	"PERCENTILE.EXC": {
-		"a": "(matrice , k)",
-		"d": "Fonction statistique utilisée pour renvoyer le kème centile des valeurs dans une plage, où k est dans l'intervalle ouvert 0..1."
+		"a": "(matrice; k)",
+		"d": "Renvoie le k-ième centile des valeurs d’une plage, où k se trouve dans la plage de 0 à 1, non compris"
 	},
 	"PERCENTILE.INC": {
-		"a": "(matrice , k)",
-		"d": "Fonction statistique utilisée pour renvoyer le kème centile des valeurs dans une plage, où k est dans l'intervalle ouvert 0..1."
+		"a": "(matrice; k)",
+		"d": "Renvoie le k-ième centile des valeurs d’une plage, où k se trouve dans la plage de 0 à 1, compris"
 	},
 	"PERCENTRANK": {
-		"a": "(matrice, k)",
-		"d": "Fonction statistique utilisée pour renvoyer le rang d'une valeur dans une série de valeurs en tant que pourcentage de la série."
+		"a": "(matrice; x; [précision])",
+		"d": "Renvoie le rang en pourcentage d’une valeur d’une série de données"
 	},
 	"PERCENTRANK.EXC": {
-		"a": "(matrice, x[, précision])",
-		"d": "Fonction statistique utilisée pour renvoyer le rang d'une valeur dans une série de valeurs en tant qu'un pourcentage(dans l'intervalle ouvert 0..1) de la série."
+		"a": "(matrice; x; [précision])",
+		"d": "Renvoie le rang en pourcentage (0..1, non compris) d’une valeur d’une série de données"
 	},
 	"PERCENTRANK.INC": {
-		"a": "(matrice, x[, précision])",
-		"d": "Fonction statistique utilisée pour renvoyer le rang d'une valeur dans une série de valeurs en tant qu'un pourcentage(dans l'inervalle fermé 0..1) de la série."
+		"a": "(matrice; x; [précision])",
+		"d": "Renvoie le rang en pourcentage (0..1, inclus) d’une valeur d’une série de données"
 	},
 	"PERMUT": {
-		"a": "(nombre, nombre_choisi)",
-		"d": "Fonction statistique utilisée pour renvoyer le rang d'une valeur dans une série de valeurs en tant qu'un pourcentage(dans l'intervalle fermé 0..1) de la série."
+		"a": "(nombre; nombre_choisi)",
+		"d": "Renvoie le nombre de permutations pour un nombre donné d'objets"
 	},
 	"PERMUTATIONA": {
-		"a": "(nombre, nombre_choisi)",
-		"d": "Elle sert à retourner le nombre de permutations pour un nombre donné d'objets (avec des répétitions) qui peuvent être sélectionnés parmi les objets totaux."
+		"a": "(nombre; nombre_choisi)",
+		"d": "Renvoie le nombre de permutations pour un nombre donné d'objets (avec répétitions)"
 	},
 	"PHI": {
 		"a": "(x)",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur de la fonction de densité pour une distribution normale standard."
+		"d": "Renvoie la valeur de la fonction de densité pour une distribution suivant une loi normale centrée réduite"
 	},
 	"POISSON": {
-		"a": "(x, moyenne, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité d'une variable aléatoire suivant une loi de Poisson."
+		"a": "(x; espérance; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Poisson"
 	},
 	"POISSON.DIST": {
-		"a": "(x, moyenne, cumulative)",
-		"d": "Fonction statistique utilisée pour retourner la distribution de Poisson; une application courante de la distribution de Poisson est de prédire le nombre d'événements sur une période donnée, comme le nombre de voitures arrivant sur un péage en 1 minute."
+		"a": "(x; espérance; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Poisson"
 	},
 	"PROB": {
-		"a": "(plage_x, plage_probabilité, limite_inf[, limite_sup])",
-		"d": "Fonction statistique utilisée pour renvoyer la probabilité que les valeurs dans une plage se trouvent entre les limites inférieure et supérieure."
+		"a": "(plage_x; plage_probabilité; limite_inf; [limite_sup])",
+		"d": "Renvoie la probabilité pour les valeurs d'une plage d'être comprises entre deux limites ou égales à une limite inférieure"
 	},
 	"QUARTILE": {
-		"a": "(matrice , catégorie_résultats)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et renvoyer le quartile."
+		"a": "(matrice; quart)",
+		"d": "Renvoie le quartile d’une série de données"
 	},
 	"QUARTILE.INC": {
-		"a": "(matrice, quart)",
-		"d": "Fonction statistique utilisée pour retourner le quartile de l'ensemble de données, en se basant sur les valeurs de centile de l'intervalle fermé 0..1."
+		"a": "(matrice; quart)",
+		"d": "Renvoie le quartile d’une série de données, d’après des valeurs de centile comprises entre 0 et 1 inclus"
 	},
 	"QUARTILE.EXC": {
-		"a": "(matrice, quart)",
-		"d": "Fonction statistique utilisée pour envoyer le quartile de l'ensemble de données, basé sur les valeurs de centile de l'intervalle ouvert 0..1."
+		"a": "(matrice; quart)",
+		"d": "Renvoie le quartile d’une série de données, d’après des valeurs de centile comprises entre 0 et 1 non compris"
 	},
 	"RANK": {
-		"a": "(nombre, référence[, ordre])",
-		"d": "Fonction statistique utilisée pour retourner le rang d'un nombre dans une liste de nombres; le rang d'un nombre est sa taille par rapport à d'autres valeurs dans une liste, si vous deviez trier la liste, le rang du nombre serait sa position"
+		"a": "(nombre; référence; [ordre])",
+		"d": "Renvoie le rang d’un nombre dans une liste d’arguments : sa taille est relative aux autres valeurs de la liste"
 	},
 	"RANK.AVG": {
-		"a": "(nombre, référence[, ordre])",
-		"d": "Fonction statistique utilisée pour retourner le rang d'un nombre dans une liste de nombres : sa taille par rapport à d'autres valeurs dans la liste; si plus d'une valeur portent le même rang, le rang moyen est retourné"
+		"a": "(nombre; référence; [ordre])",
+		"d": "Renvoie le rang d’un nombre dans une liste d’arguments : sa taille est relative aux autres valeurs de la liste ; si plusieurs valeurs sont associées au même rang, renvoie le rang supérieur de ce jeu de valeurs"
 	},
 	"RANK.EQ": {
-		"a": "(nombre, référence[, ordre])",
-		"d": "Fonction statistique utilisée pour retourner le rang d'un nombre dans une liste de nombres : sa taille par rapport à d'autres valeurs dans la liste; si plus d'une valeur portent le même rang, le rang le plus élevé de cet ensemble de valeurs est retourné"
+		"a": "(nombre; référence; [ordre])",
+		"d": "Renvoie le rang d’un nombre dans une liste d’arguments : sa taille est relative aux autres valeurs de la liste ; si plusieurs valeurs sont associées au même rang, renvoie le rang supérieur de ce jeu de valeurs"
 	},
 	"RSQ": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour renvoyer le carré du coefficient de corrélation des moments du produit de Pearson."
+		"a": "(y_connus; x_connus)",
+		"d": "Renvoie la valeur du coefficient de détermination R^2 d’une régression linéaire"
 	},
 	"SKEW": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser la plage de données et renvoyer l'asymétrie de la distribution de la liste d'arguments."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie l'asymétrie d'une distribution : la caractérisation du degré d'asymétrie d'une distribution par rapport à sa moyenne"
 	},
 	"SKEW.P": {
-		"a": "(nombre1 [, nombre2], ...)",
-		"d": "Fonction statistique utilisée pour retourner l'asymétrie d'une distribution basée sur une population: une caractérisation du degré d'asymétrie d'une distribution autour de sa moyenne."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie l'asymétrie d'une distribution basée sur une population : la caractérisation du degré d'asymétrie d'une distribution par rapport à sa moyenne"
 	},
 	"SLOPE": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction statistique utilisée pour renvoyer la pente d'une droite de régression linéaire à travers les données dans deux matrices."
+		"a": "(y_connus; x_connus)",
+		"d": "Renvoie la pente d’une droite de régression linéaire"
 	},
 	"SMALL": {
-		"a": "(matrice , k)",
-		"d": "Fonction statistique utilisée pour analyser une plage de cellules et renvoyer la k-ième plus petite valeur."
+		"a": "(matrice; k)",
+		"d": "Renvoie la k-ième plus petite valeur d'une série de données"
 	},
 	"STANDARDIZE": {
-		"a": "(x, moyenne, écart_type)",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur normalisée de la distribution caractérisée par des paramètres spécifiés."
+		"a": "(x; espérance; écart_type)",
+		"d": "Renvoie une valeur centrée réduite, depuis une distribution caractérisée par une moyenne et un écart-type"
 	},
 	"STDEV": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer l'écart type de la population à la base d'une série de nombres."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Évalue l’écart-type d’une population en se basant sur un échantillon (ignore les valeurs logiques et le texte de l’échantillon)"
 	},
 	"STDEV.P": {
-		"a": "(number1 [, number2], ... )",
-		"d": "Fonction statistique utilisée pour calculer l'écart-type basé sur la population entière donnée comme arguments (ignore les valeurs logiques et le texte)."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule l’écart-type d’une population entière sous forme d’arguments (ignore les valeurs logiques et le texte)"
 	},
 	"STDEV.S": {
-		"a": "(number1 [, number2], ... )",
-		"d": "Fonction statistique utilisée pour estimer l'écart-type sur la base d'un échantillon (ignore les valeurs logiques et le texte de l'échantillon)."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Évalue l’écart-type d’une population en se basant sur un échantillon (ignore les valeurs logiques et le texte de l’échantillon)"
 	},
 	"STDEVA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer l'écart type de la population à la base d'une série de nombres, textes et valeurs logiques (TRUE ou FALSE). La fonction STDEVA considère tout texte et FALSE comme égal à 0 et TRUE comme égal à 1."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Évalue l'écart-type d'une population en se basant sur un échantillon, incluant les valeurs logiques et le texte. Le texte et les valeurs logiques évalués en tant que FAUX = 0 ; les valeurs logiques évaluées en tant que VRAI = 1"
 	},
 	"STDEVP": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer l'écart type de toute une population."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule l’écart-type d’une population entière sous forme d’arguments (en ignorant les valeurs logiques et le texte)"
 	},
 	"STDEVPA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer l'écart type de toute une population."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Calcule l'écart-type d'une population entière, en incluant les valeurs logiques et le texte. Le texte et les valeurs logiques évalués en tant que FAUX = 0 ; les valeurs logiques évaluées en tant que VRAI = 1"
 	},
 	"STEYX": {
-		"a": "(y_connus, x_connus)",
-		"d": "Fonction statistique utilisée pour renvoyer l'erreur standard de la valeur y prédite pour chaque x dans la ligne de régression."
+		"a": "(y_connus; x_connus)",
+		"d": "Renvoie l’erreur type de la valeur y prévue pour chaque x de la régression"
 	},
 	"TDIST": {
-		"a": "(x, deg_liberté, uni/bilatéral)",
-		"d": "Fonction statistique qui renvoie les points de pourcentage (probabilité) pour la distribution en T de Student où une valeur numérique (x) est une valeur calculée de T pour laquelle les points de pourcentage doivent être calculés; la distribution en T est utilisée dans le test d'hypothèses sur un petit échantillon de données"
+		"a": "(x; degrés_liberté; uni/bilatéral)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi T de Student"
 	},
 	"TINV": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique qui renvoie l'inverse de la distribution bilatérale en T de Student."
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur inverse bilatérale d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.DIST": {
-		"a": "(x, deg_liberté, cumulative)",
-		"d": "Fonction statistique qui renvoie la distribution T de gauche de Student. La distribution en T est utilisée dans le test d'hypothèses sur un petit échantillon de données. Utilisez cette fonction à la place d'une table de valeurs critiques pour la distribution en T."
+		"a": "(x; degrés_liberté; cumulative)",
+		"d": "Renvoie la probabilité unilatérale à gauche d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.DIST.2T": {
-		"a": "(x, deg_liberté)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution bilatérale en T de Student. La distribution bilatérale en T de Student est utilisée dans les tests d'hypothèse de petits ensembles de données d'échantillons. Utilisez cette fonction à la place d'un tableau de valeurs critiques pour la distribution en T."
+		"a": "(x; degrés_liberté)",
+		"d": "Renvoie la probabilité bilatérale d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.DIST.RT": {
-		"a": "(x, deg_liberté)",
-		"d": "Fonction statistique qui renvoie la distribution T de droite de Student. La distribution en T est utilisée dans le test d'hypothèses sur un petit échantillon de données. Utilisez cette fonction à la place d'un tableau de valeurs critiques pour la distribution en T."
+		"a": "(x; degrés_liberté)",
+		"d": "Renvoie la probabilité unilatérale à droite d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.INV": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique qui renvoie l'inverse de la distribution T de gauche de Student"
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur inverse unilatérale à gauche d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.INV.2T": {
-		"a": "(probabilité, deg_liberté)",
-		"d": "Fonction statistique qui renvoie l'inverse de la distribution bilatérale en T de Student."
+		"a": "(probabilité; degrés_liberté)",
+		"d": "Renvoie, pour une probabilité donnée, la valeur inverse bilatérale d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.TEST": {
-		"a": "(matrice1, matrice2, uni/bilatéral, type)",
-		"d": "Fonction statistique utilisée pour retourner la probabilité associée au test t de Student; Utilisez TEST.STUDENT pour déterminer si deux échantillons sont susceptibles de provenir de deux populations identiques ayant la même moyenne."
+		"a": "(matrice1; matrice2; uni/bilatéral; type)",
+		"d": "Renvoie la probabilité associée à un test T de Student"
 	},
 	"TREND": {
-		"a": "(y_connus, [x_connus], [x_nouveaux], [constante])",
-		"d": "Fonction statistique utilisée pour renvoyer des valeurs par rapport à une tendance linéaire. Elle s’adapte à une ligne droite (à l’aide de la méthode des moindres carrés) aux known_y et known_x de la matrice."
-	},	
+		"a": "(y_connus; [x_connus]; [x_nouveaux]; [constante])",
+		"d": "Calcule les valeurs de la courbe de tendance linéaire par la méthode des moindres carrés, appliquée aux valeurs connues"
+	},
 	"TRIMMEAN": {
-		"a": "(matrice, pourcentage)",
-		"d": "Fonction statistique utilisée pour renvoyer la moyenne intérieure d'un ensemble de données; MOYENNE.REDUITE calcule la moyenne prise en excluant un pourcentage de points de données des queues supérieure et inférieure d'un ensemble de données"
+		"a": "(matrice; pourcentage)",
+		"d": "Renvoie la moyenne de la partie intérieure d'une série de valeurs données"
 	},
 	"TTEST": {
-		"a": "(matrice1, matrice2, uni/bilatéral, type)",
-		"d": "Fonction statistique utilisée pour retourner la probabilité associée au test t de Student; Utilisez TEST.STUDENT pour déterminer si deux échantillons sont susceptibles de provenir de deux populations identiques ayant la même moyenne."
+		"a": "(matrice1; matrice2; uni/bilatéral; type)",
+		"d": "Renvoie la probabilité associée à un test T de Student"
 	},
 	"VAR": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer la variance de la population à la base d'une série de nombres."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule la variance en se basant sur un échantillon (en ignorant les valeurs logiques et le texte de l’échantillon)"
 	},
 	"VAR.P": {
-		"a": "(nombre1 [, nombre2], ... )",
-		"d": "Fonction statistique utilisée pour calculer la variance sur la base de toute la population(ignore les valeurs logiques et le texte dans la population)."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule la variance d’une population entière (ignore les valeurs logiques et le texte de la population)"
 	},
 	"VAR.S": {
-		"a": "(nombre1 [, nombre2], ... )",
-		"d": "Fonction statistique utilisée pour estimer la variance sur la base d'un échantillon (ignore les valeurs logiques et le texte de l'échantillon)."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Estime la variance en se basant sur un échantillon (ignore les valeurs logiques et le texte de l’échantillon)"
 	},
 	"VARA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer la variance de la population à la base d'une série de nombres."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Estime la variance d'une population en se basant sur un échantillon, texte et valeurs logiques inclus. Le texte et la valeur logique évalués FAUX = 0 ; la valeur logique VRAI = 1"
 	},
 	"VARP": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et calculer la variance de la population totale."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule la variance d’une population entière (en ignorant les valeurs logiques et le texte de la population)"
 	},
 	"VARPA": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction statistique utilisée pour analyser une plage de données et renvoyer la variance de la population totale."
+		"a": "(valeur1; [valeur2]; ...)",
+		"d": "Calcule la variance d'une population en se basant sur une population entière, en incluant le texte et les valeurs logiques. Le texte et les valeurs logiques FAUX ont la valeur 0 ; la valeur logique VRAI = 1"
 	},
 	"WEIBULL": {
-		"a": "(x, alpha, bêta, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution de Weibull; utilisez cette distribution dans une analyse de fiabilité, telle que le calcul du délai moyen de défaillance d'un appareil"
+		"a": "(x; alpha; bêta; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Weibull. Consultez l’aide sur l’équation utilisée"
 	},
 	"WEIBULL.DIST": {
-		"a": "(x, alpha, bêta, cumulative)",
-		"d": "Fonction statistique utilisée pour renvoyer la distribution de Weibull; utilisez cette distribution dans une analyse de fiabilité, telle que le calcul du délai moyen de défaillance d'un appareil"
+		"a": "(x; alpha; bêta; cumulative)",
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Weibull"
 	},
 	"Z.TEST": {
-		"a": "(matrice, x[, sigma])",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur P unilatérale d'un test Z; Pour une moyenne de population hypothétique donnée, x, Z.TEST renvoie la probabilité que la moyenne de l'échantillon soit supérieure à la moyenne des observations dans l'ensemble de données(tableau), c'est-à-dire la moyenne de l'échantillon observé"
+		"a": "(tableau; x; [sigma])",
+		"d": "Renvoie la valeur P unilatérale d’un test Z"
 	},
 	"ZTEST": {
-		"a": "(matrice, x[, sigma])",
-		"d": "Fonction statistique utilisée pour renvoyer la valeur de probabilité unilatérale d'un test Z; Pour une moyenne de population hypothétique donnée, μ0, TEST.Z renvoie la probabilité que la moyenne de l'échantillon soit supérieure à la moyenne des observations dans l'ensemble de données(tableau), c'est-à-dire la moyenne de l'échantillon observé"
+		"a": "(matrice; x; [sigma])",
+		"d": "Renvoie la valeur unilatérale P du test Z"
 	},
 	"ACCRINT": {
-		"a": "(émission, prem_coupon, règlement, taux, [val_nominale], fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer l'intérêt couru pour un titre qui paie des intérêts périodiques."
+		"a": "(émission; prem_coupon; règlement; taux; val_nominale; fréquence; [base]; [méth_calcul])",
+		"d": "Renvoie l'intérêt couru non échu d'un titre dont l'intérêt est perçu périodiquement"
 	},
 	"ACCRINTM": {
-		"a": "(émission, échéance, taux, [[val_nominale] [, [base]]])",
-		"d": "Fonction financière utilisée pour calculer les intérêts courus pour un titre qui rapporte des intérêts à l'échéance."
+		"a": "(émission; échéance; taux; val_nominale; [base])",
+		"d": "Renvoie l'intérêt couru non échu d'un titre dont l'intérêt est perçu à l'échéance"
 	},
 	"AMORDEGRC": {
-		"a": "(coût, date_achat, première_période, val_résiduelle, périodicité, taux[, [base]])",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour chaque période comptable en utilisant une méthode d'amortissement dégressif."
+		"a": "(coût; date_achat; première_période; val_résiduelle; périodicité; taux; [base])",
+		"d": "Renvoie l'amortissement linéaire proportionnel d'un bien pour chaque période comptable."
 	},
 	"AMORLINC": {
-		"a": "(coût, date_achat, première_période, val_résiduelle, périodicité, taux[, [base]])",
-		"d": "Fonction financière utilisée pour calculer l'amortissement d'un actif pour chaque période comptable en utilisant une méthode d'amortissement linéaire."
+		"a": "(coût; date_achat; première_période; val_résiduelle; périodicité; taux; [base])",
+		"d": "Renvoie l'amortissement linéaire proportionnel d'un bien pour chaque période comptable."
 	},
 	"COUPDAYBS": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le nombre de jours depuis le début de la période de coupon jusqu'à la date de règlement."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Calcule le nombre de jours entre le début de la période de coupon et la date de liquidation"
 	},
 	"COUPDAYS": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le nombre de jours dans la période de coupon comprenant la date de règlement."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Affiche le nombre de jours pour la période du coupon contenant la date de liquidation"
 	},
 	"COUPDAYSNC": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le nombre de jours entre la date de règlement et le prochain paiement du coupon."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Calcule le nombre de jours entre la date de liquidation et la date du coupon suivant la date de liquidation"
 	},
 	"COUPNCD": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer la date du coupon suivant après la date de règlement."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Détermine la date du coupon suivant la date de liquidation"
 	},
 	"COUPNUM": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le nombre de coupons entre la date de règlement et la date d'échéance."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Calcule le nombre de coupons entre la date de liquidation et la date d'échéance"
 	},
 	"COUPPCD": {
-		"a": "(liquidation, échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer la date du coupon précédent avant la date de règlement."
+		"a": "(liquidation; échéance; fréquence; [base])",
+		"d": "Calcule la date du coupon précédant la date de liquidation"
 	},
 	"CUMIPMT": {
-		"a": "(taux , npm, va, période_début, période_fin, type)",
-		"d": "Fonction financière utilisée pour calculer l'intérêt cumulé payé sur un investissement entre deux périodes en fonction d'un taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; npm; va; période_début; période_fin; type)",
+		"d": "Donne le montant cumulé des intérêts payés entre deux périodes données"
 	},
 	"CUMPRINC": {
-		"a": "(taux , npm, va, période_début, période_fin, type)",
-		"d": "Fonction financière utilisée pour calculer le capital cumulé payé sur un investissement entre deux périodes en fonction d'un taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; npm; va; période_début; période_fin; type)",
+		"d": "Donne le montant cumulé du principal payé entre deux périodes données"
 	},
 	"DB": {
-		"a": "(coût, valeur_rés, durée, période[, [mois]])",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour une période comptable spécifiée en utilisant la méthode du solde fixe dégressif."
+		"a": "(coût; valeur_rés; durée; période; [mois])",
+		"d": "Renvoie l'amortissement d'un bien durant une période spécifiée en utilisant la méthode de l'amortissement dégressif à taux fixe"
 	},
 	"DDB": {
-		"a": "(coût, valeur_rés, durée, période[, [mois]])",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour une période comptable donnée en utilisant la méthode du solde dégressif double."
+		"a": "(coût; valeur_rés; durée; période; [facteur])",
+		"d": "Renvoie l'amortissement d'un bien durant une période spécifiée suivant la méthode de l'amortissement dégressif à taux double ou selon un coefficient à spécifier"
 	},
 	"DISC": {
-		"a": "(liquidation, échéance, valeur_nominale, valeur_échéance[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le taux d'actualisation d'un titre."
+		"a": "(liquidation; échéance; valeur_nominale; valeur_échéance; [base])",
+		"d": "Calcule le taux d'escompte d'un titre"
 	},
 	"DOLLARDE": {
-		"a": "(prix_décimal, fraction)",
-		"d": "Fonction financière utilisée pour convertir un prix en dollars représenté sous forme de fraction en un prix en dollars représenté par un nombre décimal."
+		"a": "(prix_fraction; fraction)",
+		"d": "Convertit la valeur des cotations boursières de la forme fractionnaire à la forme décimale"
 	},
 	"DOLLARFR": {
-		"a": "(prix_décimal, fraction)",
-		"d": "Fonction financière utilisée pour convertir un prix en dollars représenté par un nombre décimal en un prix en dollars représenté sous forme de fraction."
+		"a": "(prix_décimal; fraction)",
+		"d": "Convertit la valeur des cotations boursières de la forme décimale à la forme fractionnaire"
 	},
 	"DURATION": {
-		"a": "(liquidation, échéance, taux, rendement, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer la duration de Macaulay d'un titre avec une valeur nominale de 100 $."
+		"a": "(liquidation; échéance; taux; rendement; fréquence; [base])",
+		"d": "Calcule la durée d'un titre avec des paiements d'intérêts périodiques"
 	},
 	"EFFECT": {
-		"a": "(taux_nominal, nb_périodes)",
-		"d": "Fonction financière utilisée pour calculer le taux d'intérêt annuel effectif d'un titre en fonction d'un taux d'intérêt annuel nominal déterminé et du nombre de périodes de composition par année."
+		"a": "(taux_nominal; nb_périodes)",
+		"d": "Calcule le taux effectif à partir du taux nominal et du nombre de périodes"
 	},
 	"FV": {
-		"a": "(taux, npm, vpm [, [va] [,[type]]])",
-		"d": "Fonction financière utilisée pour calculer la valeur future d'un investissement à la base du taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; npm; vpm; [va]; [type])",
+		"d": "Calcule la valeur future d'un investissement fondé sur des paiements réguliers et constants, et un taux d'intérêt stable."
 	},
 	"FVSCHEDULE": {
-		"a": "(va, taux)",
-		"d": "Fonction financière utilisée pour calculer la valeur future d'un investissement à la base d'une série de taux d'intérêt changeants."
+		"a": "(va; taux)",
+		"d": "Calcule la valeur future d'un investissement en appliquant une série de taux d'intérêt composites"
 	},
 	"INTRATE": {
-		"a": "(liquidation, échéance, investissement, valeur_échéance[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le taux d'intérêt d'un titre entièrement investi qui ne rapporte des intérêts à l'échéance."
+		"a": "(liquidation; échéance; investissement; valeur_échéance; [base])",
+		"d": "Affiche le taux d'intérêt d'un titre totalement investi"
 	},
 	"IPMT": {
-		"a": "(taux, pér, npm, va[, [vc] [, [type]]])",
-		"d": "Fonction financière utilisée pour calculer le paiement d'intérêts pour un investissement basé sur un taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; pér; npm; va; [vc]; [type])",
+		"d": "Calcule le montant des intérêts d'un investissement pour une période donnée, fondé sur des paiements périodiques et constants, et un taux d'intérêt stable"
 	},
 	"IRR": {
-		"a": "(valeurs [, [estimation]])",
-		"d": "Fonction financière utilisée pour calculer le taux de rendement interne d'une série de flux de trésorerie périodiques."
+		"a": "(valeurs; [estimation])",
+		"d": "Calcule le taux de rentabilité interne d'un investissement pour une succession de trésoreries"
 	},
 	"ISPMT": {
-		"a": "(taux, pér, npm, va)",
-		"d": "Fonction financière utilisée pour calculer le paiement d'intérêts pour une période déterminée d'un investissement basé sur un échéancier de paiement constant."
+		"a": "(taux; pér; npm; va)",
+		"d": "Renvoie les intérêts payés pour une période spécifique d'une opération"
 	},
 	"MDURATION": {
-		"a": "(liquidation, échéance, taux, rendement, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer la duration de Macaulay modifiée d'un titre avec une valeur nominale de 100 $."
+		"a": "(liquidation; échéance; taux; rendement; fréquence; [base])",
+		"d": "Renvoie la durée de Macauley modifiée d'un titre, pour une valeur nominale considérée égale à 100 €"
 	},
 	"MIRR": {
-		"a": "(valeurs, taux_emprunt, taux_placement)",
-		"d": "Fonction financière utilisée pour calculer le taux de rendement interne d'une série de flux de trésorerie périodiques."
+		"a": "(valeurs; taux_emprunt; taux_placement)",
+		"d": "Calcule le taux de rentabilité interne pour une série de flux de trésorerie en fonction du coût de l'investissement et de l'intérêt sur le réinvestissement des liquidités"
 	},
 	"NOMINAL": {
-		"a": "(taux_effectif, nb_périodes)",
-		"d": "Fonction financière utilisée pour calculer le taux d'intérêt annuel nominal d'un titre en fonction d'un taux d'intérêt annuel effectif déterminé et du nombre de périodes de composition par année."
+		"a": "(taux_effectif; nb_périodes)",
+		"d": "Calcule le taux d'intérêt nominal à partir du taux effectif et du nombre de périodes"
 	},
 	"NPER": {
-		"a": "(taux, vpm, va [, [vc] [,[type]]])",
-		"d": "Fonction financière utilisée pour calculer le nombre de périodes pour un investissement à la base du taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; vpm; va; [vc]; [type])",
+		"d": "Renvoie le nombre de paiements d'un investissement à versements réguliers et taux d'intérêt constant"
 	},
 	"NPV": {
-		"a": "(taux, liste_des_arguments)",
-		"d": "Fonction financière utilisée pour calculer la valeur nette actuelle d'un investissement à la base d'un taux d'escompte spécifié."
+		"a": "(taux; valeur1; [valeur2]; ...)",
+		"d": "Calcule la valeur actuelle nette d'un investissement s'appuyant sur un taux d'escompte et une série de débits futurs (valeurs négatives) et de crédits (valeurs positives)"
 	},
 	"ODDFPRICE": {
-		"a": "(règlement, échéance, émission, premier_coupon, taux, rendement, valeur_échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100$ pour un titre qui paie des intérêts périodiques mais qui a une première période impaire (elle est plus courte ou plus longue que les autres périodes)."
+		"a": "(liquidation; échéance; émission; premier_coupon; taux; rendement; valeur_échéance; fréquence; [base])",
+		"d": "Renvoie le prix pour une valeur nominale de 100 € d'un titre dont la première période est irrégulière"
 	},
 	"ODDFYIELD": {
-		"a": "(liquidation, échéance, émission, premier_coupon, taux, valeur_nominale, valeur_échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le rendement pour un titre qui paie des intérêts périodiques mais qui a une première période impaire (elle est plus courte ou plus longue que les autres périodes)."
+		"a": "(liquidation; échéance; émission; premier_coupon; taux; valeur_nominale; valeur_échéance; fréquence; [base])",
+		"d": "Calcule le rendement d'un titre dont la première période est irrégulière"
 	},
 	"ODDLPRICE": {
-		"a": "(règlement, échéance, dernier_coupon, taux, rendement, valeur_échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100$ pour un titre qui paie des intérêts périodiques mais qui a une dernière période impaire (plus courte ou plus longue que les autres périodes)."
+		"a": "(liquidation; échéance; dernier_coupon; taux; rendement; valeur_échéance; fréquence; [base])",
+		"d": "Renvoie le prix d'un titre d'une valeur nominale de 100 € dont la dernière période est irrégulière"
 	},
 	"ODDLYIELD": {
-		"a": "(règlement, échéance, dernier_coupon, taux, valeur_nominale, valeur_échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le rendement d'un titre qui paie des intérêts périodiques mais qui a une dernière période impaire(plus courte ou plus longue que les autres périodes)."
+		"a": "(liquidation; échéance; dernier_coupon; taux; valeur_nominale; valeur_échéance; fréquence; [base])",
+		"d": "Calcule le rendement d'un titre dont la dernière période est irrégulière"
 	},
 	"PDURATION": {
-		"a": "(taux, va, vc)",
-		"d": "Fonction financière utilisée pour retourner le nombre de périodes requises pour qu’un investissement atteigne une valeur spécifiée"
+		"a": "(taux; va; vc)",
+		"d": "Renvoie le nombre de périodes requises par un investissement pour atteindre une valeur spécifiée"
 	},
 	"PMT": {
-		"a": "(taux, npm, va [, [vc] [,[type]]])",
-		"d": "Fonction financière utilisée pour calculer le montant du paiement d'un emprunt à la base du taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; npm; va; [vc]; [type])",
+		"d": "Calcule le montant total de chaque remboursement périodique d'un investissement à remboursements et taux d'intérêt constants"
 	},
 	"PPMT": {
-		"a": "(taux, pér, npm, va[, [vc] [, [type]]])",
-		"d": "Fonction financière utilisée pour calculer le paiement du capital pour un investissement basé sur un taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; pér; npm; va; [vc]; [type])",
+		"d": "Calcule la part de remboursement du principal d'un emprunt, fondée sur des remboursements et un taux d'intérêt constants"
 	},
 	"PRICE": {
-		"a": "(liquidation, échéance, taux, rendement, valeur_échéance, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100 $ pour un titre qui paie des intérêts périodiques."
+		"a": "(liquidation; échéance; taux; rendement; valeur_échéance; fréquence; [base])",
+		"d": "Renvoie le prix d'un titre rapportant des intérêts périodiques, pour une valeur nominale de 100 €"
 	},
 	"PRICEDISC": {
-		"a": "(règlement, échéance, taux_escompte, valeur_échéance[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100 $ pour un titre à prix réduit."
+		"a": "(liquidation; échéance; taux; valeur_échéance; [base])",
+		"d": "Renvoie la valeur d'encaissement d'un escompte commercial, pour une valeur nominale de 100 €"
 	},
 	"PRICEMAT": {
-		"a": "(liquidation, échéance, émission, taux, rendement[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100 $ pour un titre qui paie des intérêts à l'échéance."
+		"a": "(liquidation; échéance; émission; taux; rendement; [base])",
+		"d": "Renvoie le prix d'un titre dont la valeur nominale est 100 € et qui rapporte des intérêts à l'échéance"
 	},
 	"PV": {
-		"a": "(taux, npm, vpm[, [vc] [,[type]]])",
-		"d": "Fonction financière utilisée pour calculer la valeur actuelle d'un investissement à la base du taux d'intérêt spécifié et d'un échéancier de paiement constant."
+		"a": "(taux; npm; vpm; [vc]; [type])",
+		"d": "Calcule la valeur actuelle d'un investissement : la valeur actuelle du montant total d'une série de remboursements futurs"
 	},
 	"RATE": {
-		"a": "(npm, vpm, va [, [[vc] [,[[type] [,[estimation]]]]]])",
-		"d": "Fonction financière utilisée pour calculer le taux d'intérêt d'un investissement basé sur un échéancier de paiement constant."
+		"a": "(npm; vpm; va; [vc]; [type]; [estimation])",
+		"d": "Calcule le taux d'intérêt par période d'un prêt ou d'un investissement. Par exemple, utilisez 1/4 de 6 % pour des paiements trimestriels à 6 % d’APR"
 	},
 	"RECEIVED": {
-		"a": "(règlement, échéance, investissement, taux_escompte[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le montant reçu à l'échéance pour un titre entièrement investi."
+		"a": "(liquidation; échéance; investissement; taux; [base])",
+		"d": "Renvoie la valeur nominale à l'échéance d'un titre entièrement investi"
 	},
 	"RRI": {
-		"a": "(npm, va, vf)",
-		"d": "Fonction financière utilisée pour retourner un taux d'intérêt équivalent pour la croissance d'un investissement."
+		"a": "(npm; va; vc)",
+		"d": "Renvoie un taux d'intérêt équivalent pour la croissance d'un investissement"
 	},
 	"SLN": {
-		"a": "(coût, valeur_rés, durée)",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour une période comptable en utilisant la méthode d'amortissement linéaire."
+		"a": "(coût; valeur_rés; durée)",
+		"d": "Calcule l'amortissement linéaire d'un bien pour une période donnée"
 	},
 	"SYD": {
-		"a": "(coût, valeur_rés, durée, période)",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour une période comptable donnée en utilisant la somme des chiffres de l'année."
+		"a": "(coût; valeur_rés; durée; période)",
+		"d": "Calcule l'amortissement d'un bien pour une période donnée sur la base de la méthode américaine Sum-of-Years Digits"
 	},
 	"TBILLEQ": {
-		"a": "(liquidation, échéance, taux_escompte)",
-		"d": "Fonction financière utilisée pour calculer le rendement équivalent en obligations d'un bon du Trésor."
+		"a": "(liquidation; échéance; taux_escompte)",
+		"d": "Renvoie le taux d'escompte rationnel d'un bon du trésor"
 	},
 	"TBILLPRICE": {
-		"a": "(liquidation, échéance, taux_escompte)",
-		"d": "Fonction financière utilisée pour calculer le prix par valeur nominale de 100 $ pour un bon du Trésor."
+		"a": "(liquidation; échéance; taux_escompte)",
+		"d": "Renvoie le prix d'un bon du trésor d'une valeur nominale de 100 €"
 	},
 	"TBILLYIELD": {
-		"a": "(liquidation, échéance, valeur_nominale)",
-		"d": "Fonction financière utilisée pour calculer le rendement d'un bon du Trésor."
+		"a": "(liquidation; échéance; valeur_nominale)",
+		"d": "Calcule le taux de rendement d'un bon du trésor"
 	},
 	"VDB": {
-		"a": "(coût, valeur_rés, durée, période_début, période_fin[, [[facteur][, [valeur_log]]]]])",
-		"d": "Fonction financière utilisée pour calculer la dépréciation d'un actif pour une période comptable spécifiée ou partielle en utilisant la méthode du solde dégressif variable."
+		"a": "(coût; valeur_rés; durée; période_début; période_fin; [facteur]; [valeur_log])",
+		"d": "Calcule l'amortissement d'un bien pour toute période que vous spécifiez, même partielle, en utilisant la méthode américaine Double-declining Balance ou toute autre méthode que vous spécifierez"
 	},
 	"XIRR": {
-		"a": "(valeurs, dates[, [estimation]])",
-		"d": "Fonction financière utilisée pour calculer le taux de rendement interne d'une série de flux de trésorerie irréguliers."
+		"a": "(valeurs; dates; [estimation])",
+		"d": "Calcule le taux de rentabilité interne d'un ensemble de paiements"
 	},
 	"XNPV": {
-		"a": "(taux, valeurs, dates)",
-		"d": "Fonction financière utilisée pour calculer la valeur actuelle d'un investissement à la base du taux d'intérêt spécifié et d'un échéancier de paiement irréguliers."
+		"a": "(taux; valeurs; dates)",
+		"d": "Donne la valeur actuelle nette d'un ensemble de paiements planifiés"
 	},
 	"YIELD": {
-		"a": "(liquidation, échéance, taux, valeur_nominale, valeur_rachat, fréquence[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le rendement d'un titre qui paie des intérêts périodiques."
+		"a": "(liquidation; échéance; taux; valeur_nominale; valeur_rachat; fréquence; [base])",
+		"d": "Calcule le rendement d'un titre rapportant des intérêts périodiquement"
 	},
 	"YIELDDISC": {
-		"a": "(liquidation, échéance, valeur_nominale, valeur_rachat[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le rendement annuel d'un titre à prix réduit."
+		"a": "(liquidation; échéance; valeur_nominale; valeur_rachat; [base])",
+		"d": "Calcule le taux de rendement d'un titre escompté, tel qu'un bon du trésor"
 	},
 	"YIELDMAT": {
-		"a": "(liquidation, échéance, émission, taux, valeur_nominale[, [base]])",
-		"d": "Fonction financière utilisée pour calculer le rendement annuel d'un titre qui paie des intérêts à l'échéance."
+		"a": "(liquidation; échéance; émission; taux; valeur_nominale; [base])",
+		"d": "Renvoie le rendement annuel d'un titre qui rapporte des intérêts à l'échéance"
 	},
 	"ABS": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la valeur absolue d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la valeur absolue d'un nombre, un nombre sans son signe."
 	},
 	"ACOS": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer l’arccosinus d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie l'arccosinus d'un nombre exprimé en radians, de 0 à pi. L'arccosinus est l'angle dont le cosinus est ce nombre"
 	},
 	"ACOSH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le cosinus hyperbolique inversé d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie le cosinus hyperbolique inverse d'un nombre"
 	},
 	"ACOT": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la valeur principale de l'arccotangente, ou cotangente inverse, d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie l'arccotangente d'un nombre, en radians, dans la plage 0 à Pi"
 	},
 	"ACOTH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la cotangente hyperbolique inverse d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la cotangente hyperbolique inverse d'un nombre"
 	},
 	"AGGREGATE": {
-		"a": "(no_fonction, options, réf1 [, réf2], ...)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour retourner un agrégat dans une liste ou une base de données; la fonction peut appliquer différentes fonctions d'agrégat à une liste ou une base de données avec l'option d'ignorer les lignes cachées et les valeurs d'erreur."
+		"a": "(no_fonction; options; réf1; ...)",
+		"d": "Renvoie un agrégat dans une liste ou une base de données"
 	},
 	"ARABIC": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour convertir un chiffre romain en nombres."
+		"a": "(texte)",
+		"d": "Convertit un chiffre romain en un chiffre arabe"
 	},
 	"ASC": {
 		"a": "( text )",
 		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
 	},
 	"ASIN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer l’arcsinus d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie l'arcsinus d'un nombre en radians, dans la plage -Pi/2 à +Pi/2"
 	},
 	"ASINH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le sinus hyperbolique inverse d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie le sinus hyperbolique inverse d'un nombre"
 	},
 	"ATAN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer l’arctangente d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie l'arctangente d'un nombre en radians, dans la plage -Pi/2 à Pi/2"
 	},
 	"ATAN2": {
-		"a": "(x, y)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer l’arctangente des coordonnées x et y."
+		"a": "(no_x; no_y)",
+		"d": "Renvoie l'arctangente des coordonnées x et y, en radians entre -Pi et Pi, -Pi étant exclu"
 	},
 	"ATANH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la tangente hyperbolique inverse d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la tangente hyperbolique inverse d'un nombre"
 	},
 	"BASE": {
-		"a": "(nombre, base[, longueur_min])",
-		"d": "Convertit un nombre en une représentation de texte conforme à la base donnée"
+		"a": "(nombre; base; [longueur_mini])",
+		"d": "Convertit un nombre en représentation textuelle avec la base donnée"
 	},
 	"CEILING": {
-		"a": "(x, précision)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de l'argument de précision."
+		"a": "(nombre; précision)",
+		"d": "Arrondit un nombre au multiple le plus proche de l’argument précision en s’éloignant de zéro"
 	},
 	"CEILING.MATH": {
-		"a": "(x [, [précision] [, [mode]])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
+		"a": "(nombre; [précision]; [mode])",
+		"d": "Arrondit un nombre à l'entier ou au multiple le plus proche de l'argument précision en s'éloignant de zéro"
 	},
 	"CEILING.PRECISE": {
-		"a": "(x [, précision])",
+		"a": "(x; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
 	},
 	"COMBIN": {
-		"a": "(nombre, nombre_choisi)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le nombre de combinaisons pour un certain nombre d'éléments."
+		"a": "(nombre_éléments; nb_éléments_choisis)",
+		"d": "Renvoie le nombre de combinaisons que l'on peut former avec un nombre donné d'éléments. Consultez l'aide pour l'équation utilisée"
 	},
 	"COMBINA": {
-		"a": "(nombre, nombre_choisi)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le nombre de combinaisons(avec répétitions) pour un certain nombre d'éléments."
+		"a": "(nombre; nombre_choisi)",
+		"d": "Renvoie le nombre de combinaisons avec répétitions que l'on peut former avec un nombre donné d'éléments"
 	},
 	"COS": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le cosinus d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie le cosinus d'un angle"
 	},
 	"COSH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le cosinus hyperbolique d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie le cosinus hyperbolique d'un nombre"
 	},
 	"COT": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la cotangente d'un angle spécifié en radians."
+		"a": "(nombre)",
+		"d": "Renvoie la cotangente d'un angle"
 	},
 	"COTH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la cotangente hyperbolique d'un angle hyperbolique."
+		"a": "(nombre)",
+		"d": "Renvoie la cotangente hyperbolique d'un nombre"
 	},
 	"CSC": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la cosécante d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie la cosécante d'un angle"
 	},
 	"CSCH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la cosécante hyperbolique d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie la cosécante hyperbolique d'un angle"
 	},
 	"DECIMAL": {
-		"a": "(texte, base)",
-		"d": "Convertit une représentation textuelle d'un nombre dans une base donnée en un nombre décimal."
+		"a": "(nombre; base)",
+		"d": "Convertit la représentation textuelle d'un nombre dans une base donnée en un nombre décimal"
 	},
 	"DEGREES": {
 		"a": "(angle)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour convertir en degrés une valeur en radians."
+		"d": "Convertit des radians en degrés"
 	},
 	"ECMA.CEILING": {
-		"a": "(x, précision)",
+		"a": "(x; précision)",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de l'argument de précision."
 	},
 	"EVEN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir un nombre au nombre entier pair immédiatement supérieur."
+		"a": "(nombre)",
+		"d": "Arrondit un nombre au nombre entier pair le plus proche en s'éloignant de zéro"
 	},
 	"EXP": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la constante e élevée à la puissance désirée. La constante e est égale à 2,71828182845904"
+		"a": "(nombre)",
+		"d": "Donne e (2,718) élevé à la puissance spécifiée"
 	},
 	"FACT": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la factorielle d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la factorielle d'un nombre, égale à 1*2*3*...*nombre"
 	},
 	"FACTDOUBLE": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la factorielle double d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la factorielle double d'un nombre"
 	},
 	"FLOOR": {
-		"a": "(x, précision)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de signification."
+		"a": "(nombre; précision)",
+		"d": "Arrondit un nombre à l’entier ou au multiple le plus proche de l’argument précision"
 	},
 	"FLOOR.PRECISE": {
-		"a": "(x [, précision])",
+		"a": "(x; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre par défaut à l'entier ou au multiple significatif le plus proche."
 	},
 	"FLOOR.MATH": {
-		"a": "(x [, [précision] [, [mode]])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre par défaut à l'entier ou au multiple significatif le plus proche."
+		"a": "(nombre; [précision]; [mode])",
+		"d": "Arrondit un nombre à l'entier ou au multiple le plus proche de l'argument précision en tendant vers zéro"
 	},
 	"GCD": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le plus grand dénominateur commun de deux ou plusieurs nombres."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie le plus grand dénominateur commun"
 	},
 	"INT": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour analyser et renvoyer la partie entière du nombre spécifié."
+		"a": "(nombre)",
+		"d": "Arrondit un nombre à l'entier immédiatement inférieur"
 	},
 	"ISO.CEILING": {
-		"a": "(nombre[, précision])",
+		"a": "(nombre; [précision])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche sans tenir compte du signe de ce nombre. Cependant, si le nombre ou la valeur significative est zéro, zéro est renvoyé."
 	},
 	"LCM": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le plus petit commun multiple de deux ou plusieurs nombres."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie le plus petit dénominateur commun"
 	},
 	"LN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le logarithme naturel d'un nombre."
+		"a": "(nombre)",
+		"d": "Donne le logarithme népérien d'un nombre"
 	},
 	"LOG": {
-		"a": "(x [, base])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le logarithme d'un nombre à la base spécifiée."
+		"a": "(nombre; [base])",
+		"d": "Donne le logarithme d'un nombre dans la base spécifiée"
 	},
 	"LOG10": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour calculer le logarithme en base 10 d'un nombre."
+		"a": "(nombre)",
+		"d": "Calcule le logarithme en base 10 d'un nombre"
 	},
 	"MDETERM": {
 		"a": "(matrice)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le déterminant d'une matrice."
+		"d": "Renvoie le déterminant d'une matrice"
 	},
 	"MINVERSE": {
 		"a": "(matrice)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la matrice inversée de la matrice donnée et afficher la première valeur de la matrice de nombres renvoyée."
+		"d": "Renvoie la matrice inversée de la matrice enregistrée dans un tableau"
 	},
 	"MMULT": {
-		"a": "(matrice1, matrice2)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le produit de deux matrices et afficher la première valeur de la matrice de nombres renvoyée."
+		"a": "(matrice1; matrice2)",
+		"d": "Calcule le produit de deux matrices, sous forme d'une matrice avec le même nombre de ligne que la matrice1 et de colonnes que la matrice2"
 	},
 	"MOD": {
-		"a": "(x, y)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le reste de la division de l'argument nombre par l'argument diviseur."
+		"a": "(nombre; diviseur)",
+		"d": "Renvoie le reste d'une division"
 	},
 	"MROUND": {
-		"a": "(x, multiple)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour donner l'arrondi d'un nombre au multiple spécifié."
+		"a": "(nombre; multiple)",
+		"d": "Donne l'arrondi d'un nombre au multiple spécifié"
 	},
 	"MULTINOMIAL": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le rapport de la factorielle de la somme de nombres au produit de factorielles"
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie le polynôme à plusieurs variables d'un ensemble de nombres"
 	},
 	"MUNIT": {
 		"a": "(dimension)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la matrice unitaire pour la dimension spécifiée."
+		"d": "Renvoie la matrice d'unités pour la dimension spécifiée"
 	},
 	"ODD": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l’excès au nombre entier impair le plus proche"
+		"a": "(nombre)",
+		"d": "Arrondit un nombre au nombre entier impair de valeur absolue immédiatement supérieure"
 	},
 	"PI": {
 		"a": "()",
-		"d": "fonctions mathématiques et trigonométriques. La fonction renvoie la valeur 3.14159265358979, la constante mathématique pi. Elle ne prend aucun argument."
+		"d": "Renvoie la valeur de pi, 3,14159265358979 avec une précision de 15 chiffres"
 	},
 	"POWER": {
-		"a": "(x, y)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le résultat d'un nombre élevé à la puissance désirée."
+		"a": "(nombre; puissance)",
+		"d": "Renvoie la valeur du nombre élevé à une puissance"
 	},
 	"PRODUCT": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour multiplier tous les nombres dans la plage de cellules sélectionnée et renvoyer le produit."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Donne le produit de la multiplication de tous les nombres donnés comme arguments"
 	},
 	"QUOTIENT": {
-		"a": "(dividende, diviseur)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la partie entière de la division."
+		"a": "(numérateur; dénominateur)",
+		"d": "Renvoie la partie entière du résultat d'une division"
 	},
 	"RADIANS": {
 		"a": "(angle)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour convertir en radians une valeur en degrés."
+		"d": "Convertit des degrés en radians"
 	},
 	"RAND": {
 		"a": "()",
-		"d": "Fonction mathématique et trigonométrique qui renvoie un nombre aléatoire supérieur ou égal à 0 et inférieur à 1. Elle ne prend aucun argument."
+		"d": "Renvoie un nombre aléatoire de distribution normale supérieur ou égal à 0 et inférieur à 1 (différent à chaque calcul)"
 	},
 	"RANDARRAY": {
-		"a": "([Rangées], [Colonnes], [min], [max], [nombre_entier])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un tableau de nombres aléatoires"
+		"a": "([lignes]; [colonnes]; [min]; [max]; [entières])",
+		"d": "Retourne un tableau de nombres aléatoires"
 	},
 	"RANDBETWEEN": {
-		"a": "(limite_inf [, limite_sup])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un nombre aléatoire supérieur ou égal à limite_inf et inférieur ou égal à limite_sup."
+		"a": "(min; max)",
+		"d": "Renvoie un nombre aléatoire entre les nombres que vous spécifiez"
 	},
 	"ROMAN": {
-		"a": "(nombre, type)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour convertir un nombre en un chiffre romain."
+		"a": "(nombre; [type])",
+		"d": "Convertit un chiffre arabe en chiffre romain sous forme de texte"
 	},
 	"ROUND": {
-		"a": "(x, no_chiffres)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir un nombre à un nombre de décimales spécifié."
+		"a": "(nombre; no_chiffres)",
+		"d": "Arrondit un nombre au nombre de chiffres indiqué"
 	},
 	"ROUNDDOWN": {
-		"a": "(x, no_chiffres)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir par défaut le nombre au nombre de décimales voulu"
+		"a": "(nombre; no_chiffres)",
+		"d": "Arrondit un nombre en tendant vers zéro"
 	},
 	"ROUNDUP": {
-		"a": "(x, no_chiffres)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir à l’excès le nombre au nombre de décimales voulu"
+		"a": "(nombre; no_chiffres)",
+		"d": "Arrondit un nombre en s'éloignant de zéro"
 	},
 	"SEC": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la sécante d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie la sécante d'un angle"
 	},
 	"SECH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la sécante hyperbolique d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie la sécante hyperbolique d'un angle"
 	},
 	"SERIESSUM": {
-		"a": "(x, n, m, coefficients)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la somme d'une série entière."
+		"a": "(x; n; m; coefficients)",
+		"d": "Renvoie la somme d'une série géométrique s'appuyant sur la formule"
 	},
 	"SIGN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le signe d’un nombre. Si le nombre est positif, la fonction renvoie 1. Si le nombre est négatif, la fonction renvoie -1. Si le nombre est 0, la fonction renvoie 0."
+		"a": "(nombre)",
+		"d": "Donne le signe d'un nombre\\x00a0: 1 si le nombre est zéro, ou -1 si le nombre est négatif"
 	},
 	"SIN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le sinus d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie le sinus d'un nombre"
 	},
 	"SINH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le sinus hyperbolique d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie le sinus hyperbolique d'un nombre"
 	},
 	"SQRT": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la racine carrée d'un nombre."
+		"a": "(nombre)",
+		"d": "Donne la racine carrée d'un nombre"
 	},
 	"SQRTPI": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la racine \ncarrée de la constante pi (3.14159265358979) multipliée par le nombre spécifié."
+		"a": "(nombre)",
+		"d": "Donne la racine carrée du produit (nombre * pi)"
 	},
 	"SUBTOTAL": {
-		"a": "(no_fonction, liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un sous-total dans une liste ou une base de données."
+		"a": "(no_fonction; réf1; ...)",
+		"d": "Renvoie un sous-total dans une liste ou une base de données"
 	},
 	"SUM": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner tous les nombres contenus dans une plage de cellules et renvoyer le résultat."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Calcule la somme des nombres dans une plage de cellules"
 	},
 	"SUMIF": {
-		"a": "(plage, critères [, somme_plage])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner tous les nombres dans la plage de cellules sélectionnée à la base d'un critère déterminé et renvoyer le résultat."
+		"a": "(plage; critère; [somme_plage])",
+		"d": "Additionne des cellules spécifiées selon un certain critère"
 	},
 	"SUMIFS": {
-		"a": "(somme_plage, plage_critères1, critères1, [plage_critères2, critères2], ... )",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner tous les nombres dans la plage de cellules sélectionnée en fonction de plusieurs critères et renvoyer le résultat."
+		"a": "(plage_somme; plage_critères; critères; ...)",
+		"d": "Additionne les cellules indiquées par un ensemble de conditions ou de critères donné"
 	},
 	"SUMPRODUCT": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour multiplier les valeurs de la plage de cellules sélectionnée ou matrices et renvoyer la somme des produits."
+		"a": "(matrice1; [matrice2]; [matrice3]; ...)",
+		"d": "Donne la somme des produits des plages ou matrices correspondantes"
 	},
 	"SUMSQ": {
-		"a": "(liste_des_arguments)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner les carrés des nombres et renvoyer le résultat."
+		"a": "(nombre1; [nombre2]; ...)",
+		"d": "Renvoie la somme des carrés des arguments. Les arguments peuvent être des nombres, des matrices, des noms ou des références à des cellules qui contiennent des nombres"
 	},
 	"SUMX2MY2": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner la différence des carrés entre deux matrices."
+		"a": "(matrice_x; matrice_y)",
+		"d": "Calcule la différence entre les carrés des nombres correspondants dans deux plages ou matrices, puis renvoie la somme des différences. Consultez l'aide sur l'équation utilisée"
 	},
 	"SUMX2PY2": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour additionner des carrés des nombres des matrices sélectionnées et renvoyer la somme des résultats."
+		"a": "(matrice_x; matrice_y)",
+		"d": "Calcule la somme des carrés des nombres correspondants dans deux plages ou matrices, puis renvoie le total de l'addition des sommes. Consultez l'aide sur l'équation utilisée"
 	},
 	"SUMXMY2": {
-		"a": "(matrice1 , matrice2)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la somme des carrés des différences de deux valeurs correspondantes des matrices."
+		"a": "(matrice_x; matrice_y)",
+		"d": "Renvoie la somme des carrés des différences entre les valeurs correspondantes de deux matrices. Consultez l'aide sur l'équation utilisée"
 	},
 	"TAN": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la tangente d'un angle."
+		"a": "(nombre)",
+		"d": "Renvoie la tangente d'un nombre"
 	},
 	"TANH": {
-		"a": "(x)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la tangente hyperbolique d'un nombre."
+		"a": "(nombre)",
+		"d": "Renvoie la tangente hyperbolique d'un nombre"
 	},
 	"TRUNC": {
-		"a": "(x [, no_chiffres])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un nombre tronqué au nombre de décimales spécifié."
+		"a": "(nombre; [no_chiffres])",
+		"d": "Renvoie la partie entière d'un nombre en enlevant la partie décimale ou fractionnaire du nombre"
 	},
 	"ADDRESS": {
-		"a": "(no_lig, no_col [, [no_abs] [, [a1] [, feuille_texte]]])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une représentation textuelle de l'adresse d'une cellule."
+		"a": "(no_lig; no_col; [no_abs]; [a1]; [feuille_texte])",
+		"d": "Crée une référence de cellule sous forme de texte, en fonction des numéros de lignes et colonnes spécifiées"
 	},
 	"CHOOSE": {
-		"a": "(no_index, liste_des_arguments)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une valeur à partir d'une liste de valeurs à la base d'un indice spécifié (position)."
+		"a": "(no_index; valeur1; [valeur2]; ...)",
+		"d": "Choisit une valeur ou une action à réaliser dans une liste de valeurs, en fonction d'un numéro d'index"
 	},
 	"COLUMN": {
 		"a": "([référence])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer le numéro de colonne d'une cellule."
+		"d": "Renvoie le numéro de colonne d'une référence"
 	},
 	"COLUMNS": {
-		"a": "(matrice)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer le nombre de colonnes dans une référence de cellule."
+		"a": "(tableau)",
+		"d": "Renvoie le nombre de colonnes d'une matrice ou d'une référence"
 	},
 	"FORMULATEXT": {
 		"a": "(référence)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une formule sous forme de chaîne"
+		"d": "Renvoie une formule en tant que chaîne"
 	},
 	"HLOOKUP": {
-		"a": "(valeur_cherchée, table_matrice, no_index_col[, [valeur_proche]])",
-		"d": "Fonction de recherche et référence utilisée pour effectuer la recherche horizontale d'une valeur dans la ligne supérieure d'un tableau ou renvoyer la valeur dans la même colonne à la base d'un numéro d'index de ligne spécifié"
+		"a": "(valeur_cherchée; tableau; no_index_lig; [valeur_proche])",
+		"d": "Cherche une valeur dans la première ligne d'une matrice de valeurs ou d'un tableau et renvoie la valeur de la même colonne à partir d'une ligne spécifiée"
 	},
 	"HYPERLINK": {
-		"a": "( link_location  ,  [  ,  [  friendly_name  ] ] )",
-		"d": "Lookup and reference function used to create a shortcut that jumps to another location in the current workbook, or opens a document stored on a network server, an intranet, or the Internet"
+		"a": "(emplacement_lien; [nom_convivial])",
+		"d": "Crée un raccourci pour ouvrir un document enregistré sur votre disque dur, un serveur de réseau, ou sur Internet"
 	},
 	"INDEX": {
-		"a": "(matrice, [no_lig][, [no_col]])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une valeur dans une plage de cellules sur la base d'un numéro de ligne et de colonne spécifié. La fonction INDEX a deux formes."
+		"a": "(matrice; no_lig; [no_col]!réf; no_lig; [no_col]; [no_zone])",
+		"d": "Renvoie une valeur ou la référence de la cellule à l'intersection d'une ligne et d'une colonne particulières, dans une plage données"
 	},
 	"INDIRECT": {
-		"a": "(réf_texte [, a1])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer la référence à une cellule en fonction de sa représentation sous forme de chaîne."
+		"a": "(réf_texte; [a1])",
+		"d": "Donne la référence spécifiée par une chaîne de caractères"
 	},
 	"LOOKUP": {
-		"a": "(valeur_cherchée, vecteur_recherche, vecteur_résultat)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une valeur à partir d'une plage sélectionnée (ligne ou colonne contenant les données dans l'ordre croissant)"
+		"a": "(valeur_cherchée; vecteur_recherche; [vecteur_résultat]!valeur_cherchée; matrice)",
+		"d": "Renvoie une valeur soit à partir d'une plage d'une ligne ou d'une colonne, soit à partir d'une matrice. Fournie pour la compatibilité ascendante"
 	},
 	"MATCH": {
-		"a": "(valeur_cherchée, matrice_recherche[ , [type]])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer la position relative d'un élément spécifié dans une plage de cellules."
+		"a": "(valeur_cherchée; tableau_recherche; [type])",
+		"d": "Renvoie la position relative d'un élément dans une matrice qui correspond à une valeur spécifique dans un ordre spécifique"
 	},
 	"OFFSET": {
-		"a": "(réf, lignes, colonnes[, [hauteur] [, [largeur]]])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une référence à une cellule déplacée de la cellule spécifiée (ou de la cellule supérieure gauche dans la plage de cellules) à un certain nombre de lignes et de colonnes."
+		"a": "(réf; lignes; colonnes; [hauteur]; [largeur])",
+		"d": "Donne une référence à une plage dont le nombre de colonnes et de lignes est spécifié dans une cellule ou une plage de cellules"
 	},
 	"ROW": {
 		"a": "([référence])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer le numéro de ligne d'une cellule."
+		"d": "Donne le numéro de ligne d'une référence"
 	},
 	"ROWS": {
-		"a": "(matrice)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer le nombre de lignes dans une référence de cellule"
+		"a": "(tableau)",
+		"d": "Renvoie le nombre de lignes d'une référence ou d'une matrice."
 	},
 	"TRANSPOSE": {
-		"a": "(matrice)",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer le premier élément d'un tableau"
+		"a": "(tableau)",
+		"d": "Change une plage de cellules verticale en plage horizontale, et vice-versa"
 	},
 	"UNIQUE": {
-		"a": "(matrice, [by_col], [exactly_once])",
-		"d": "Fonction de recherche et référence utilisée pour renvoyer une liste de valeurs uniques au sein d’une liste ou d’une plage"
+		"a": "(matrice; [by_col]; [exactly_once])",
+		"d": " Renvoie les valeurs uniques d’une plage ou d’une matrice. "
 	},
 	"VLOOKUP": {
-		"a": "(valeur_cherchée, table_matrice, no_index_col[, [valeur_proche]])",
-		"d": "Fonction de recherche et référence utilisée pour effectuer la recherche verticale d'une valeur dans la première colonne à gauche d'un tableau et retourner la valeur qui se trouve dans la même ligne à la base d'un numéro d'index de colonne spécifié"
+		"a": "(valeur_cherchée; table_matrice; no_index_col; [valeur_proche])",
+		"d": "Cherche une valeur dans la première colonne à gauche d'un tableau, puis renvoie une valeur dans la même ligne à partir d'une colonne spécifiée. Par défaut, le tableau doit être trié par ordre croissant"
 	},
 	"XLOOKUP": {
-		"a": "(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
-		"d": "Fonction de recherche et référence recherche une plage ou une matrice, puis renvoie l’élément correspondant à la première correspondance qu’elle trouve. S’il n’existe aucune correspondance, XLOOKUP peut renvoyer la correspondance la plus proche (approximative)"
+		"a": "(valeur_cherchée; tableau_recherche; tableau_renvoyé; [si_non_trouvé]; [mode_correspondance]; [mode_recherche])",
+		"d": "Recherche une correspondance dans une plage ou un tableau et renvoie l’élément correspondant dans un deuxième tableau ou plage. Par défaut, une correspondance exacte est utilisée"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
+		"a": "(info_type; [reference])",
 		"d": "Fonction d’information utilisée pour renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
 	},
 	"ERROR.TYPE": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour renvoyer un nombre correspondant à un type d'erreur"
+		"d": "Renvoie un numéro qui correspond à une valeur d'erreur."
 	},
 	"ISBLANK": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier si la cellule est vide ou non Si la cellule ne contient pas de valeur, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Contrôle si une référence renvoie à une cellule vide et renvoie VRAI ou FAUX"
 	},
 	"ISERR": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une valeur d'erreur. Si la cellule contient une valeur d'erreur (à l'exception de #N/A), la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Vérifie si l’argument valeur fait référence à une erreur autre que #N/A (valeur non disponible), et renvoie VRAI ou FAUX selon le résultat"
 	},
 	"ISERROR": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une valeur d'erreur. Si la cellule contient une des valeurs d'erreur : #N/A, #VALEUR!, #REF!, #DIV/0!, #NOMBRE!, #NOM? ou #NUL, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Vérifie si l’argument valeur fait référence à une erreur, et renvoie VRAI ou FAUX selon le résultat"
 	},
 	"ISEVEN": {
 		"a": "(nombre)",
-		"d": "Fonction d’information utilisée pour vérifier si une valeur est paire. Si la cellule contient une valeur paire, la fonction renvoie vrai ( TRUE ). Si la valeur est impaire, elle renvoie faux (FALSE)."
+		"d": "Renvoie VRAI si le nombre est pair"
 	},
 	"ISFORMULA": {
-		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier s'il existe une référence à une cellule contenant une formule, elle renvoie vrai (TRUE) ou faux (FALSE)"
+		"a": "(référence)",
+		"d": "Vérifie si une référence renvoie à une cellule contenant une formule, et renvoie TRUE ou FALSE"
 	},
 	"ISLOGICAL": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une valeur logique (TRUE ou FALSE). Si la cellule contient une valeur logique, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Renvoie VRAI si l'argument valeur fait référence à une valeur logique, que ce soit VRAI ou FAUX"
 	},
 	"ISNA": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une erreur #N/A. Si la cellule contient une valeur d'erreur #N/A, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Renvoie VRAI si l'argument valeur fait référence à la valeur d'erreur #N/A (valeur non disponible)"
 	},
 	"ISNONTEXT": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier si une valeur ne correspond pas à du texte. Si la cellule ne contient pas une valeur de texte, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Renvoie VRAI si l'argument valeur fait référence à autre chose que du texte (les cellules vides ne sont pas du texte)"
 	},
 	"ISNUMBER": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une valeur numérique. Si la cellule contient une valeur numérique, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Contrôle si la valeur est un nombre et renvoie VRAI ou FAUX"
 	},
 	"ISODD": {
 		"a": "(nombre)",
-		"d": "Fonction d’information utilisée pour vérifier si une valeur est impaire. Si la cellule contient une valeur impaire, la fonction renvoie vrai ( TRUE ). Si la valeur est paire elle renvoie faux (FALSE)."
+		"d": "Renvoie VRAI si le nombre est impair"
 	},
 	"ISREF": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier si une valeur est une référence de cellule valide."
+		"d": "Renvoie VRAI ou FAUX si l'argument valeur est une référence"
 	},
 	"ISTEXT": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour vérifier une valeur de texte. Si la cellule contient une valeur de texte, la fonction renvoie vrai (TRUE), sinon la fonction renvoie faux (FALSE)."
+		"d": "Contrôle si une valeur fait référence à du texte et renvoie VRAI ou FAUX "
 	},
 	"N": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour convertir une valeur en nombre."
+		"d": "Renvoie une valeur convertie en nombre. Les nombres sont convertis en nombres, les dates en numéros de série, les VRAI en 1, et tout le reste en 0 (zéro)"
 	},
 	"NA": {
 		"a": "()",
-		"d": "Fonction d’information utilisée pour renvoyer la valeur d'erreur #N/A. Cette fonction ne nécessite pas d'argument."
+		"d": "Renvoie la valeur d'erreur #N/A (valeur non disponible)"
 	},
 	"SHEET": {
-		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour renvoyer le numéro de feuille d'une feuille de référence."
+		"a": "([valeur])",
+		"d": "Renvoie le numéro de la feuille référencée"
 	},
 	"SHEETS": {
-		"a": "(référence)",
-		"d": "Fonction d’information utilisée pour renvoyer le nombre de feuilles dans une référence."
+		"a": "([référence])",
+		"d": "Renvoie le nombre de feuilles dans une référence"
 	},
 	"TYPE": {
 		"a": "(valeur)",
-		"d": "Fonction d’information utilisée pour déterminer le type de la valeur résultante ou affichée."
+		"d": "Renvoie un nombre indiquant le type de données d’une valeur : nombre = 1 ; texte = 2 ; valeur logique = 4 ; valeur d’erreur = 16 ; tableau = 64 ; données composites = 128"
 	},
 	"AND": {
-		"a": "(logique1, logique2, ... )",
-		"d": "Fonction logique qui sert à vérifier si la valeur logique saisie est vraie (TRUE) ou fausse (FALSE). La fonction retourne vrai (TRUE) si tous les arguments sont vrais (TRUE)."
+		"a": "(valeur_logique1; [valeur_logique2]; ...)",
+		"d": "Vérifie si tous les arguments sont VRAI et renvoie VRAI si tous les arguments sont VRAI"
 	},
 	"FALSE": {
 		"a": "()",
-		"d": "fonctions logiques La fonction renvoie la valeur logique faux (FALSE) et n'exige aucun argument."
+		"d": "Renvoie la valeur logique FAUX"
 	},
 	"IF": {
-		"a": "( test_logique, valeur_si_vrai [ , valeur_si_faux ] )",
-		"d": "Fonction logique qui sert à analyser une expression logique et renvoyer une valeur si elle est vraie (TRUE) et une autre valeur si elle est fausse (FALSE)."
+		"a": "(test_logique; [valeur_si_vrai]; [valeur_si_faux])",
+		"d": "Vérifie si la condition est respectée et renvoie une valeur si le résultat d'une condition que vous avez spécifiée est VRAI, et une autre valeur si le résultat est FAUX"
 	},
 	"IFS": {
-		"a": "( test_logique1 , valeur_si_vrai1 , [ test_logique2 , valeur_si_vrai2 ] , … )",
-		"d": "Fonction logique utilisée pour vérifier si une ou plusieurs conditions sont remplies et renvoie une valeur correspondant à la première condition VRAI"
+		"a": "(test_logique; valeur_si_vrai; ...)",
+		"d": "Vérifie si une ou plusieurs conditions sont remplies et renvoie une valeur correspondant à la première condition VRAI"
 	},
 	"IFERROR": {
-		"a": " (valeur, valeur_si_erreur)",
-		"d": "Fonction logique utilisée pour vérifier s'il y a une erreur dans le premier argument de la formule. La fonction renvoie le résultat de la formule s'il n'y a pas d'erreur, ou la valeur_si_erreur si la formule génère une erreur."
+		"a": "(valeur; valeur_si_erreur)",
+		"d": "Renvoie « valeur_si_erreur » si l'expression est une erreur et la valeur de l'expression dans le cas contaire"
 	},
 	"IFNA": {
-		"a": "(value, valeur_si_na)",
-		"d": "Fonction logique utilisée pour vérifier s'il y a une erreur dans le premier argument de la formule. La fonction renvoie la valeur que vous spécifiez si la formule renvoie la valeur d'erreur #N/A, sinon renvoie le résultat de la formule."
+		"a": "(valeur; valeur_si_na)",
+		"d": "Renvoie la valeur que vous avez spécifiée si le résultat de l'expression est #N/A, sinon renvoie le résultat de l'expression"
 	},
 	"NOT": {
 		"a": "(valeur_logique)",
-		"d": "Fonction logique qui sert à vérifier si la valeur logique saisie est vraie (TRUE) ou fausse (FALSE). La fonction renvoie vrai (TRUE) si l'argument est faux (FALSE) et renvoie faux (FALSE) si l'argument est vrai (TRUE)."
+		"d": "Inverse la valeur logique de l'argument: renvoie FAUX pour un argument VRAI et VRAI pour un argument FAUX"
 	},
 	"OR": {
-		"a": "(logique1, logique2, ...)",
-		"d": "Fonction logique qui sert à vérifier si la valeur logique saisie est vraie (TRUE) ou fausse (FALSE). La fonction renvoie faux (FALSE) si tous les arguments sont faux (FALSE)."
+		"a": "(valeur_logique1; [valeur_logique2]; ...)",
+		"d": "Vérifie si un argument est VRAI et renvoie VRAI ou FAUX. Renvoie FAUX uniquement si tous les arguments sont FAUX"
 	},
 	"SWITCH": {
-		"a": "(expression, valeur1, résultat1 [, [valeur_par_défaut ou valeur2] [, [résultat2]], ...[valeur_par_défaut ou valeur3, résultat3]])",
-		"d": "Fonction logique utilisée pour évaluer une valeur (appelée l'expression) par rapport à une liste de valeurs et renvoyer le résultat correspondant à la première valeur correspondante; si aucune valeur ne correspond, une valeur par défaut facultative peut être renvoyée"
+		"a": "(expression; valeur1; résultat1; [défaut_ou_valeur2]; [résultat2]; ...)",
+		"d": "Compare une expression avec les valeurs d’une liste et renvoie le résultat égal à la première valeur correspondante. Si aucune correspondance n’est trouvée, une valeur facultative par défaut est renvoyée"
 	},
 	"TRUE": {
 		"a": "()",
-		"d": "La fonction renvoie vrai (TRUE) et n'exige aucun argument."
+		"d": "Renvoie la valeur logique VRAI"
 	},
 	"XOR": {
-		"a": "(logique1, logique2, ... )",
-		"d": "Fonction logique utilisée pour retourner un OU exclusif logique de tous les arguments."
+		"a": "(valeur_logique1; [valeur_logique2]; ...)",
+		"d": "Renvoie une valeur logique « Ou exclusif » de tous les arguments"
 	}
 }

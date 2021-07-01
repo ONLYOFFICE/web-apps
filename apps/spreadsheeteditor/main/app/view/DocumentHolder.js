@@ -46,9 +46,6 @@ define([
     'backbone',
     'gateway',
     'common/main/lib/component/Menu'
-//    'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-//    'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
-//    'spreadsheeteditor/main/app/view/TableSettingsAdvanced'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     SSE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -820,6 +817,10 @@ define([
                 })
             });
 
+            me.menuImgMacro = new Common.UI.MenuItem({
+                caption: me.textMacro
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
@@ -833,6 +834,7 @@ define([
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
+                    me.menuImgMacro,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
                     me.mnuChartEdit,
@@ -1247,7 +1249,8 @@ define([
         txtCustomSort: 'Custom sort',
         txtCondFormat: 'Conditional Formatting',
         textBullets: 'Bullets',
-        textNumbering: 'Numbering'
+        textNumbering: 'Numbering',
+        textMacro: 'Assign Macro'
 
     }, SSE.Views.DocumentHolder || {}));
 });

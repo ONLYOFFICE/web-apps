@@ -3,6 +3,8 @@
     background-color: transparent;
 
     .thumb {
+        width: 13px;
+        height: 15px;
         top: 18px;
         background: none;
 
@@ -48,8 +50,8 @@
             border-radius: 2px;
             box-sizing: content-box;
             .thumb-bottom-inner {
-                border: solid @scaled-one-px-value-ie @border-regular-control-ie;
-                border: solid @scaled-one-px-value @border-regular-control;
+                border: solid @scaled-one-px-value-ie @background-normal-ie;
+                border: solid @scaled-one-px-value @background-normal;
                 border-top: none;
                 height: 100%;
             }
@@ -57,10 +59,10 @@
 
         &.active {
             .thumb-top {
-                border-top: solid @scaled-one-px-value-ie @border-regular-control-ie;
-                border-top: solid @scaled-one-px-value @border-regular-control;
-                border-left: solid @scaled-one-px-value-ie @border-regular-control-ie;
-                border-left: solid @scaled-one-px-value @border-regular-control;
+                border-top: solid @scaled-one-px-value-ie @border-control-focus-ie;
+                border-top: solid @scaled-one-px-value @border-control-focus;
+                border-left: solid @scaled-one-px-value-ie @border-control-focus-ie;
+                border-left: solid @scaled-one-px-value @border-control-focus;
             }
             .thumb-bottom {
                 border: solid @scaled-one-px-value-ie @border-control-focus-ie;

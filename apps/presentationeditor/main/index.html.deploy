@@ -82,7 +82,7 @@
 
         .loadmask > .sktoolbar li {
             background: #ccc;
-            background: var(--highlight-button-pressed, #ccc);
+            background: var(--highlight-button-hover, #ccc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -253,17 +253,13 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
-        if ( !!ui_theme_name ) {
-            document.documentElement.classList.add(ui_theme_name);
-        }
-
         if ( window.AscDesktopEditor ) {
             window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
+            window.desktop.execCommand('webapps:entry', '');
         }
     </script>
 

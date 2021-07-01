@@ -193,7 +193,7 @@ define([
                     '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',
                         '<div style="width:8px;height:12px;display: inline-block;vertical-align: middle;" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
                         '<div style="width:95px;padding-left: 5px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>',
-                        '<div style="width: 110px;padding-left: 5px;display: inline-block;vertical-align: middle;color: initial;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
+                        '<div style="width: 110px;padding-left: 5px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
                         '<div style="padding-left: 55px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'
                 ].join(''))
@@ -232,8 +232,25 @@ define([
                 this.mnuChartTypePicker.selectRecord(record, true);
                 if (record) {
                     this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
-                } else
-                    this.btnChartType.setIconCls('svgicon');
+                } else {
+                    var iconcls = '';
+                    switch (this.currentChartType) {
+                        case Asc.c_oAscChartTypeSettings.surfaceNormal:
+                            iconcls = 'chart-surface-normal';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.surfaceWireframe:
+                            iconcls = 'chart-surface-wireframe';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.contourNormal:
+                            iconcls = 'chart-contour-wireframe';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.contourWireframe:
+                            iconcls = 'chart-contour-wireframe';
+                            break;
+
+                    }
+                    this.btnChartType.setIconCls('svgicon ' + iconcls);
+                }
                 this.seriesList.on('item:add', _.bind(this.addControls, this));
                 this.seriesList.on('item:change', _.bind(this.addControls, this));
                 this.ShowHideSettings(this.currentChartType);
@@ -285,14 +302,19 @@ define([
                 return;
             }
 
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this.currentChartType = rawData.type;
-            this.chartSettings.changeType(this.currentChartType);
-            this.ShowHideSettings(this.currentChartType);
-            if (isCombo)
-                this.updateSeriesList(this.chartSettings.getSeries());
-            else
-                this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+            var res = this.chartSettings.changeType(rawData.type);
+            if (res) {
+                this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
+                this.currentChartType = rawData.type;
+                this.ShowHideSettings(this.currentChartType);
+                if (isCombo)
+                    this.updateSeriesList(this.chartSettings.getSeries());
+                else
+                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+            } else {
+                picker.selectRecord(picker.store.findWhere({type: this.currentChartType}), true);
+            }
+
         },
 
         updateChartStyles: function(styles) {
@@ -388,7 +410,7 @@ define([
                 template: _.template([
                     '<span class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle no-highlighted" tabindex="0" data-toggle="dropdown">',
                         '<input type="text" class="form-control" spellcheck="false">',
-                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="' + id + '"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="' + id + '"><span class="caret"></span></button>',
                     '</span>'
                 ].join(''))
             });

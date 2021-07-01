@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Warning",
   "SSE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
+  "SSE.ApplicationController.textAnonymous": "Anonymous",
+  "SSE.ApplicationController.textGuest": "Guest",
   "SSE.ApplicationController.textLoadingDocument": "Loading spreadsheet",
   "SSE.ApplicationController.textOf": "of",
   "SSE.ApplicationController.txtClose": "Close",
@@ -25,6 +27,7 @@
   "SSE.ApplicationController.waitText": "Please, wait...",
   "SSE.ApplicationView.txtDownload": "Download",
   "SSE.ApplicationView.txtEmbed": "Embed",
+  "SSE.ApplicationView.txtFileLocation": "Open file location",
   "SSE.ApplicationView.txtFullScreen": "Full Screen",
   "SSE.ApplicationView.txtPrint": "Print",
   "SSE.ApplicationView.txtShare": "Share"

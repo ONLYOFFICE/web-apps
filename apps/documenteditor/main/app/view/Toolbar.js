@@ -82,7 +82,7 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [
+                this.SchemeNames = [ this.txtScheme22,
                     this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
                     this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
                     this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
@@ -344,7 +344,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -356,7 +355,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -368,7 +366,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -380,13 +377,11 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
-
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
@@ -517,7 +512,8 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
                                 {caption: this.mniDrawTable, value: 'draw', checkable: true},
-                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true},
+                                {caption: this.mniTextToTable, value: 'convert'}
                             ]
                         }),
                         dataHint: '1',
@@ -1843,11 +1839,11 @@ define([
                 // set menus
 
                 var me = this;
-                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 160px; height: 30px;"></div></a>');
+                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 200px; height: 30px;"></div></a>');
                 var items = [], ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-markers-level-' + i);
-                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1855,6 +1851,7 @@ define([
                         style: 'min-width: 139px',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
@@ -1875,16 +1872,17 @@ define([
                     })
                 );
 
-                items = [], ids = [];
+                items = []; ids = [];
                 for (var i=0; i<9; i++) {
                     ids.push('id-toolbar-menu-numbering-level-' + i);
-                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
                                 style: 'padding-right:20px;',
@@ -1904,13 +1902,29 @@ define([
                         ]
                     })
                 );
-
+                items = []; ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-multilevels-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
+                }
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 177px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
+                            this.mnuMultiChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
@@ -2211,6 +2225,10 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
+                    this.btnUndo.setDisabled(true);
+                    this.btnRedo.setDisabled(true);
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
@@ -2259,7 +2277,7 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 21) {
+                    if (index == 22) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
@@ -2269,7 +2287,7 @@ define([
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -2599,7 +2617,9 @@ define([
             mniUpperCase: 'UPPERCASE',
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
-            textChangeLevel: 'Change List Level'
+            textChangeLevel: 'Change List Level',
+            mniTextToTable: 'Convert Text to Table',
+            txtScheme22: 'New Office'
         }
     })(), DE.Views.Toolbar || {}));
 });

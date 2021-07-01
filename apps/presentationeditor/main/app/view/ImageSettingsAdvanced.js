@@ -133,6 +133,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 el: $('#image-advanced-button-original-size')
             });
             this.btnOriginalSize.on('click', _.bind(function(btn, e) {
+                this.spnAngle.setValue(0);
                 this.spnWidth.setValue(this.sizeOriginal.width, true);
                 this.spnHeight.setValue(this.sizeOriginal.height, true);
                 this._nRatio = this.sizeOriginal.width/this.sizeOriginal.height;

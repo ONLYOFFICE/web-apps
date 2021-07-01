@@ -100,7 +100,7 @@ define([
                     '</div>',
                     '<div style="float: right;">',
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
-                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
+                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -305,6 +305,8 @@ define([
             this.window = this.getChild();
             this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.updateMetricUnit();
         },
 
@@ -314,6 +316,12 @@ define([
 
         getDefaultFocusableComponent: function () {
             return this.spnTop;
+        },
+
+        onAnimateAfter: function() {
+            if (this.api && this.properties) {
+                this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+            }
         },
 
         _handleInput: function(state) {
@@ -374,10 +382,6 @@ define([
                     this.cmbGutterPosition.setValue(0);
                 }
                 this.cmbGutterPosition.setDisabled(mirrorMargins);
-
-                if (this.api) {
-                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
-                }
             }
         },
 

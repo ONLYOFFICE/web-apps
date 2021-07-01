@@ -73,7 +73,8 @@ define([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog'
+    'spreadsheeteditor/main/app/view/PivotGroupDialog',
+    'spreadsheeteditor/main/app/view/MacroDialog'
 ], function () {
     'use strict';
 
@@ -244,7 +245,7 @@ define([
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
-
+                view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -985,6 +986,22 @@ define([
                         })).show();
                 }
             }
+        },
+
+        onImgMacro: function(item) {
+            var me = this;
+
+            (new SSE.Views.MacroDialog({
+                props: {macroList: me.api.asc_getAllMacrosNames(), current: me.api.asc_getCurrentDrawingMacrosName()},
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_assignMacrosToCurrentDrawing(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
         },
 
         onApiCoAuthoringDisconnect: function() {
@@ -1807,6 +1824,8 @@ define([
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
+                documentHolder.menuImgMacro.setDisabled(isObjLocked);
+
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
                 documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
@@ -2268,7 +2287,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
-        onFormulaCompleteMenu: function(funcarr) {
+        onFormulaCompleteMenu: function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
             if (funcarr) {
@@ -2373,8 +2392,7 @@ define([
                 }
 
                 var coord  = me.api.asc_getActiveCellCoord(),
-                    offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 menu.alignPosition();
 
@@ -3494,6 +3512,7 @@ define([
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
                 properties.put_ResetCrop(true);
+                properties.put_Rot(0);
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);

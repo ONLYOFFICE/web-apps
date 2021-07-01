@@ -90,12 +90,12 @@ define([
                 el: $('#named-range-paste-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                cls: 'dbl-clickable',
                 itemTemplate: _.template([
                     '<div style="pointer-events:none;">',
-                        '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:inline-block;">',
+                        '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
-                            '<div style="width:186px;padding-right: 5px;"><%= name %></div>',
+                            '<div style="width:186px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '</div>',
                     '</div>'
                 ].join(''))

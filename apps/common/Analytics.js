@@ -30,8 +30,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-if (Common === undefined)
-    var Common = {};
+if (window.Common === undefined)
+    window.Common = {};
 
 Common.component = Common.component || {};
 

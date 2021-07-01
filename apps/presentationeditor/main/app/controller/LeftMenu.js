@@ -227,7 +227,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); break;
+            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
                 this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
@@ -242,9 +242,10 @@ define([
                     documentCaption = me.api.asc_getDocumentName();
                 (new Common.Views.RenameDialog({
                     filename: documentCaption,
+                    maxLength: this.mode.wopi ? this.mode.wopi.FileNameMaxLength : undefined,
                     handler: function(result, value) {
                         if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
-                            Common.Gateway.requestRename(value);
+                            me.mode.wopi ? me.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
@@ -758,11 +759,13 @@ define([
         },
 
         showHistory: function() {
-            var maincontroller = PE.getController('Main');
-            if (!maincontroller.loadMask)
-                maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
-            maincontroller.loadMask.setTitle(this.textLoadHistory);
-            maincontroller.loadMask.show();
+            if (!this.mode.wopi) {
+                var maincontroller = PE.getController('Main');
+                if (!maincontroller.loadMask)
+                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
+                maincontroller.loadMask.setTitle(this.textLoadHistory);
+                maincontroller.loadMask.show();
+            }
             Common.Gateway.requestHistory();
         },
 

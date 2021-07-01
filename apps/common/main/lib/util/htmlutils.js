@@ -32,10 +32,25 @@ var params = (function() {
     return urlParams;
 })();
 
-if ( !!params.uitheme && localStorage.getItem("ui-theme") != params.uitheme)
-    localStorage.setItem("ui-theme", params.uitheme);
+if ( !!params.uitheme && !localStorage.getItem("ui-theme-id") ) {
+    // const _t = params.uitheme.match(/([\w-]+)/g);
 
-var ui_theme_name = localStorage.getItem("ui-theme");
+    if ( params.uitheme == 'default-dark' )
+        params.uitheme = 'theme-dark';
+    else
+    if ( params.uitheme == 'default-light' )
+        params.uitheme = 'theme-classic-light';
+
+    localStorage.setItem("ui-theme-id", params.uitheme);
+}
+
+var ui_theme_name = localStorage.getItem("ui-theme-id");
+if ( !ui_theme_name ) {
+    if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+        ui_theme_name = 'theme-dark';
+        localStorage.setItem("ui-theme-id", ui_theme_name);
+    }
+}
 if ( !!ui_theme_name ) {
     document.body.classList.add(ui_theme_name);
 }

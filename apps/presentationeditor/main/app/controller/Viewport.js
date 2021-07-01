@@ -120,6 +120,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange', this.onApiZoomChange.bind(this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
+            this.api.asc_registerCallback('asc_onNotesShow', this.onNotesShow.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
@@ -255,6 +256,13 @@ define([
                 if (!config.isEdit)
                     mnuitemHideRulers.hide();
 
+                me.header.mnuitemHideNotes = new Common.UI.MenuItem({
+                    caption: me.header.textHideNotes,
+                    checked: Common.localStorage.getBool('pe-hidden-notes', config.customization && config.customization.hideNotes===true),
+                    checkable: true,
+                    value: 'notes'
+                });
+
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
                     checkable: true,
@@ -292,6 +300,7 @@ define([
                             me.header.mnuitemCompactToolbar,
                             mnuitemHideStatusBar,
                             mnuitemHideRulers,
+                            me.header.mnuitemHideNotes,
                             {caption:'--'},
                             me.header.mnuitemFitPage,
                             me.header.mnuitemFitWidth,
@@ -452,6 +461,11 @@ define([
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
+            case 'notes':
+                me.api.asc_ShowNotes(!item.isChecked());
+                Common.localStorage.setBool('pe-hidden-notes', item.isChecked());
+                Common.NotificationCenter.trigger('edit:complete', me.header);
+                break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();
                 Common.NotificationCenter.trigger('edit:complete', me.header);
@@ -478,6 +492,11 @@ define([
 
         SetDisabled: function(disable) {
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
+        },
+
+        onNotesShow: function(bIsShow) {
+            this.header && this.header.mnuitemHideNotes.setChecked(!bIsShow, true);
+            Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
         },
 
         textFitPage: 'Fit to Page',

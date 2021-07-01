@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
-    'documenteditor/main/app/view/LineNumbersDialog'
+    'documenteditor/main/app/view/LineNumbersDialog',
+    'documenteditor/main/app/view/TextToTableDialog'
 ], function () {
     'use strict';
 
@@ -304,6 +305,9 @@ define([
             toolbar.mnuNumberChangeLevel && toolbar.mnuNumberChangeLevel.menu &&
             toolbar.mnuNumberChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 1));
             toolbar.mnuNumberChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 1));
+            toolbar.mnuMultiChangeLevel && toolbar.mnuMultiChangeLevel.menu &&
+            toolbar.mnuMultiChangeLevel.menu.on('show:after',           _.bind(this.onChangeLevelShowAfter, this, 2));
+            toolbar.mnuMultiChangeLevel.menu.on('item:click',           _.bind(this.onChangeLevelClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -529,6 +533,7 @@ define([
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx;
@@ -564,6 +569,7 @@ define([
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1058,7 +1064,7 @@ define([
 
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1221,8 +1227,12 @@ define([
 
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
-            if (this.api)
+            if (this.api) {
+                if (!btn.pressed) {
+                    type = (type==1) ? 3 : 1;
+                }
                 this.api.put_PrAlign(type);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Align');
@@ -1425,6 +1435,9 @@ define([
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            var item = _.find(menu.items, function(item) { return item.options.level == level; });
+            menu.clearAll();
+            item && item.setChecked(true);
             if (props) {
                 this.api.SetDrawImagePreviewBulletChangeListLevel(menu.options.previewIds, props);
             }
@@ -1511,9 +1524,8 @@ define([
         },
 
         onInsertTableClick: function(menu, item, e) {
+            var me = this;
             if (item.value === 'custom') {
-                var me = this;
-
                 (new Common.Views.InsertTableDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1534,6 +1546,16 @@ define([
             } else if (item.value == 'erase') {
                 item.isChecked() && menu.items[2].setChecked(false, true);
                 this.api.SetTableEraseMode(item.isChecked());
+            } else if (item.value == 'convert') {
+                (new DE.Views.TextToTableDialog({
+                    props: this.api.asc_PreConvertTextToTable(),
+                    handler: function(result, value) {
+                        if (result == 'ok' && me.api) {
+                            me.api.asc_ConvertTextToTable(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 
@@ -1543,7 +1565,7 @@ define([
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
                 if (this.api)
-                    this.api.asc_addImage();
+                    setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
@@ -2401,6 +2423,7 @@ define([
             this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
             this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
             this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
+            this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -3097,8 +3120,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3146,21 +3169,23 @@ define([
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
             if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
-                tab = {caption: me.textTabForms, action: 'forms'};
-                var forms = me.getApplication().getController('FormsTab');
-                forms.setApi(me.api).setConfig({toolbar: me, config: config});
-                $panel = forms.createToolbarPanel();
-                if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 4);
-                    me.toolbar.setVisible('forms', true);
-                    if (config.isEdit && config.canFeatureContentControl) {
-                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
-                        me.onChangeSdtGlobalSettings();
-                    } else if (!compactview) {
-                        me.toolbar.setTab('forms');
+                if (config.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.setVisible('forms', true);
+                        if (config.isEdit && config.canFeatureContentControl) {
+                            Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        } else if (!compactview) {
+                            me.toolbar.setTab('forms');
+                        }
                     }
                 }
             }
+            config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
         },
 
         onAppReady: function (config) {

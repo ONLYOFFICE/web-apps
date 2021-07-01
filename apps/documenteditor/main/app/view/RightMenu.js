@@ -211,7 +211,7 @@ define([
                 this.signatureSettings = new DE.Views.SignatureSettings();
             }
 
-            if (mode && mode.canFeatureContentControl && mode.canEditContentControl) {
+            if (mode && mode.canFeatureContentControl && mode.canEditContentControl && mode.canFeatureForms) {
                 this.btnForm = new Common.UI.Button({
                     hint: this.txtFormSettings,
                     asctype: Common.Utils.documentSettingsType.Form,

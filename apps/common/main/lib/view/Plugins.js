@@ -287,7 +287,7 @@ define([
 
         parseIcons: function(icons) {
             if (icons.length && typeof icons[0] !== 'string') {
-                var theme = Common.UI.Themes.current().toLowerCase(),
+                var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
                     style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
                     idx = -1;
                 for (var i=0; i<icons.length; i++) {

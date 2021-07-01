@@ -271,7 +271,7 @@ define([
                         el: $('#formula-dlg-combo-functions'),
                         store: this.functions,
                         tabindex: 1,
-                        itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
+                        cls: 'dbl-clickable'
                     });
 
                     this.cmbListFunctions.on('item:select', _.bind(this.onSelectFunction, this));

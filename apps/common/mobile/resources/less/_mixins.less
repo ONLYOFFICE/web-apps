@@ -1,6 +1,16 @@
 // Encoded SVG Background
-.encoded-svg-mask(@svg) {
+.encoded-svg-mask(@svg, @color: @themeColor) {
   @url: `encodeURIComponent(@{svg})`;
-  background-color: @themeColor;
+  background-color: @color;
   -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,@{url}");
+}
+
+.encoded-svg-uncolored-mask(@svg) {
+    @url: `encodeURIComponent(@{svg})`;
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,@{url}");
+}
+
+.encoded-svg-background(@svg) {
+  @url: `encodeURIComponent(@{svg})`;
+  background-image: url("data:image/svg+xml;charset=utf-8,@{url}");
 }

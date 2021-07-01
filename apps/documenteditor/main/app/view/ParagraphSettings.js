@@ -277,7 +277,9 @@ define([
             this.numIndentsRight.on('change', this.onNumIndentsRightChange.bind(this));
             this.numSpecialBy.on('change', this.onFirstLineChange.bind(this));
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
-
+            this.numIndentsLeft.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numIndentsRight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpecialBy.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.linkAdvanced = $markup.findById('#paragraph-advanced-link');
             this.linkAdvanced.toggleClass('disabled', this._locked);
@@ -393,6 +395,13 @@ define([
             var props = new Asc.asc_CParagraphProperty();
             props.put_Ind(new Asc.asc_CParagraphInd());
             props.get_Ind().put_FirstLine(specialBy);
+            if (specialBy<0 || this._state.FirstLine<0) {
+                var left = this._state.LeftIndent;
+                if (left !== undefined && left !== null) {
+                    props.get_Ind().put_Left(specialBy<0 ? left-specialBy : left);
+                }
+            }
+
             if (this.api)
                 this.api.paraApply(props);
             this.fireEvent('editcomplete', this);
@@ -407,22 +416,27 @@ define([
             var props = new Asc.asc_CParagraphProperty();
             props.put_Ind(new Asc.asc_CParagraphInd());
             props.get_Ind().put_FirstLine(specialBy);
+            if (specialBy<0 || this._state.FirstLine<0) {
+                var left = this._state.LeftIndent;
+                if (left !== undefined && left !== null) {
+                    props.get_Ind().put_Left(specialBy<0 ? left-specialBy : left);
+                }
+            }
+
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         onNumIndentsLeftChange: function(field, newValue, oldValue, eOpts){
-            var left = field.getNumberValue();
+            var left = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
             if (this._state.FirstLine<0) {
                 left = left-this._state.FirstLine;
             }
             var props = new Asc.asc_CParagraphProperty();
             props.put_Ind(new Asc.asc_CParagraphInd());
-            props.get_Ind().put_Left(Common.Utils.Metric.fnRecalcToMM(left));
+            props.get_Ind().put_Left(left);
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         onNumIndentsRightChange: function(field, newValue, oldValue, eOpts){
@@ -431,7 +445,6 @@ define([
             props.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             if (this.api)
                 this.api.paraApply(props);
-            this.fireEvent('editcomplete', this);
         },
 
         ChangeSettings: function(prop) {
@@ -569,7 +582,10 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    if (spinner.el.id == 'paragraphadv-spin-position' || spinner.el.id == 'paragraph-spin-spacing-before' || spinner.el.id == 'paragraph-spin-spacing-after')
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    else
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
             this._arrLineRule[2].defaultUnit =  this._arrLineRule[0].defaultUnit = Common.Utils.Metric.getCurrentMetricName();

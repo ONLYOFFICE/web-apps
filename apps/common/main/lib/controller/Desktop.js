@@ -48,7 +48,7 @@ define([
         uithemes: true
     };
 
-    var native = window.AscDesktopEditor;
+    var native = window.desktop || window.AscDesktopEditor;
     !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
@@ -86,6 +86,9 @@ define([
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
+                    } else
+                    if ( obj.lockthemes != undefined ) {
+                        Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -243,7 +246,9 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close')
                         , 'uitheme:changed' : function (name) {
-                            native.execCommand("uitheme:changed", name);
+                            var theme = Common.UI.Themes.get(name);
+                            if ( theme )
+                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                         }
                     });
                 }

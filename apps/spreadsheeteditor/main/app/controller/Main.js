@@ -143,7 +143,9 @@ define([
                         'Days': this.txtDays,
                         'Months': this.txtMonths,
                         'Quarters': this.txtQuarters,
-                        'Years': this.txtYears
+                        'Years': this.txtYears,
+                        '%1 or %2': this.txtOr,
+                        'Qtr': this.txtQuarter
                     };
 
                 styleNames.forEach(function(item){
@@ -226,6 +228,7 @@ define([
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
+                Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                 Common.Gateway.appReady();
 
                 this.getApplication().getController('Viewport').setApi(this.api);
@@ -355,7 +358,10 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
+                                                  Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+                this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
+
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -437,6 +443,8 @@ define([
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("sse-macros-mode", value);
 
+                this.appOptions.wopi = this.editorConfig.wopi;
+                
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -455,6 +463,7 @@ define([
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
@@ -732,7 +741,7 @@ define([
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
+                        title   = this.loadingDocumentTitleText + '           ';
                         break;
                     default:
                         if (typeof action.id == 'string'){
@@ -1036,7 +1045,7 @@ define([
             onOpenDocument: function(progress) {
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-                proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
+                proc = this.textLoadingDocument + ': ' + Common.Utils.String.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + "%";
                 elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
@@ -1431,6 +1440,14 @@ define([
                         config.msg = this.errorStockChart;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataSeriesError:
+                        config.msg = this.getApplication().getController('Toolbar').errorMaxRows;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.getApplication().getController('Toolbar').errorComboSeries;
+                        break;
+
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
@@ -1724,7 +1741,7 @@ define([
                 }
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
-                    Common.UI.alert(config).$window.attr('data-value', id);
+                    setTimeout(function() {Common.UI.alert(config).$window.attr('data-value', id);}, 1);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
@@ -1992,10 +2009,10 @@ define([
 
             onConfirmAction: function(id, apiCallback) {
                 var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
+                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
                     Common.UI.warning({
                         title: this.notcriticalErrorTitle,
-                        msg: this.confirmMoveCellRange,
+                        msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: _.bind(function(btn) {
@@ -2375,6 +2392,11 @@ define([
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
                 app.getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.appOptions.spreadsheet});
                 Common.Gateway.metaChange(meta);
+
+                if (this.appOptions.wopi) {
+                    var idx = meta.title.lastIndexOf('.');
+                    Common.Gateway.requestRename(idx>0 ? meta.title.substring(0, idx) : meta.title);
+                }
             },
 
             onPrint: function() {
@@ -2488,6 +2510,10 @@ define([
                 value = Common.localStorage.getBool("sse-settings-autoformat-new-rows", true);
                 Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
                 me.api.asc_setIncludeNewRowColTable(value);
+
+                value = Common.localStorage.getBool("sse-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("sse-settings-autoformat-hyperlink", value);
+                me.api.asc_setAutoCorrectHyperlinks(value);
             },
 
             showRenameUserDialog: function() {
@@ -2522,6 +2548,10 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2921,7 +2951,10 @@ define([
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.'
+            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
+            txtQuarter: 'Qtr',
+            txtOr: '%1 or %2',
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
         }
     })(), SSE.Controllers.Main || {}))
 });

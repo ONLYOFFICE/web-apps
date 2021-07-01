@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Пожалуйста, подождите...",
   "PE.ApplicationView.txtDownload": "Скачать файл",
   "PE.ApplicationView.txtEmbed": "Встроить",
+  "PE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "PE.ApplicationView.txtFullScreen": "Во весь экран",
   "PE.ApplicationView.txtPrint": "Печать",
   "PE.ApplicationView.txtShare": "Поделиться"

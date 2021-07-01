@@ -87,6 +87,7 @@ define([
                     'viewtab:formula': this.onViewSettings,
                     'viewtab:headings': this.onViewSettings,
                     'viewtab:gridlines': this.onViewSettings,
+                    'viewtab:zeros': this.onViewSettings,
                     'viewtab:zoom': this.onZoom,
                     'viewtab:showview': this.onShowView,
                     'viewtab:openview': this.onOpenView,
@@ -120,9 +121,9 @@ define([
                                       {array: [this.view.btnCloseView]});
         },
 
-        onFreeze: function(state) {
+        onFreeze: function(type) {
             if (this.api) {
-                this.api.asc_freezePane();
+                this.api.asc_freezePane(type);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -140,6 +141,7 @@ define([
                     case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
                     case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
                     case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
+                    case 3: this.api.asc_setShowZeros( value=='checked'); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -156,7 +158,12 @@ define([
                     caption : item.asc_getName(),
                     checkable: true,
                     allowDepress: false,
-                    checked : item.asc_getIsActive()
+                    checked : item.asc_getIsActive(),
+                    template    : _.template([
+                        '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                        '<%= Common.Utils.String.htmlEncode(caption) %>',
+                        '</a>'
+                    ].join(''))
                 }));
                 if (item.asc_getIsActive())
                     active = true;
@@ -191,7 +198,7 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes]});
+                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
             }
         },
 
@@ -201,7 +208,8 @@ define([
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
-            this.view.btnFreezePanes.toggle(!!params.asc_getIsFreezePane(), true);
+            this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
+            this.view.chZeros.setValue(!!params.asc_getShowZeros(), true);
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));

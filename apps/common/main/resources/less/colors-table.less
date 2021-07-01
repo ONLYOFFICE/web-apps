@@ -27,7 +27,7 @@
     --background-alt-key-hint: #FFD938;
 
     --highlight-button-hover: #e0e0e0;
-    --highlight-button-pressed: #ccc;
+    --highlight-button-pressed: #cbcbcb;
     --highlight-button-pressed-hover: #bababa;
     --highlight-primary-dialog-button-hover: #1c1c1c;
     --highlight-header-button-hover: fade(#fff, 15%);
@@ -39,10 +39,10 @@
     --border-divider: #dfdfdf;
     --border-regular-control: #c0c0c0;
     --border-toolbar-button-hover: #e0e0e0;
-    --border-preview-hover: #cfcfcf;
-    --border-preview-select: #aaa;
+    --border-preview-hover: #bababa;
+    --border-preview-select: #888;
     --border-control-focus: #848484;
-    --border-color-shading: fade(#000, 10%);
+    --border-color-shading: fade(#000, 15%);
     --border-error: #f62211;
 
     --text-normal: fade(#000, 80%);
@@ -50,6 +50,9 @@
     --text-secondary: fade(#000, 60%);
     --text-tertiary: fade(#000, 40%);
     --text-link: #445799;
+    --text-link-hover: #445799;
+    --text-link-active: #445799;
+    --text-link-visited: #445799;
     --text-inverse: #fff;
     --text-toolbar-header: #fff;
     --text-contrast-background: #fff;
@@ -75,14 +78,14 @@
     --canvas-ruler-handle-border-disabled: #aaa;
 
     --canvas-high-contrast: #000;
-    --canvas-high-contrast-disabled: #999;
+    --canvas-high-contrast-disabled: #666;
 
-    --canvas-cell-border: fade(black, 10%);
+    --canvas-cell-border: fade(#000, 10%);
+    --canvas-cell-title-hover: #dfdfdf;
+    --canvas-cell-title-selected: #cfcfcf;
     --canvas-cell-title-border: #d8d8d8;
     --canvas-cell-title-border-hover: #c9c9c9;
     --canvas-cell-title-border-selected: #bbb;
-    --canvas-cell-title-hover: #dfdfdf;
-    --canvas-cell-title-selected: #cfcfcf;
 
     --canvas-dark-cell-title: #444;
     --canvas-dark-cell-title-hover: #666 ;
@@ -128,6 +131,11 @@
     --component-active-icon-opacity: 1;
     --component-active-hover-icon-opacity: 1;
     --component-disabled-opacity: .4;
+
+    --header-component-normal-icon-opacity: 1;
+    --header-component-hover-icon-opacity: 1;
+    --header-component-active-icon-opacity: 1;
+    --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
 }
 
@@ -174,6 +182,9 @@
 @text-secondary: var(--text-secondary);
 @text-tertiary: var(--text-tertiary);
 @text-link: var(--text-link);
+@text-link-hover: var(--text-link-hover);
+@text-link-active: var(--text-link-active);
+@text-link-visited: var(--text-link-visited);
 @text-inverse: var(--text-inverse);
 @text-toolbar-header: var(--text-toolbar-header);
 @text-contrast-background: var(--text-contrast-background);
@@ -209,8 +220,17 @@
 @component-disabled-opacity: var(--component-disabled-opacity, .4);
 //@button-icon-opacity: var(--button-icon-opacity, 1);
 
+@header-component-normal-icon-opacity: var(--header-component-normal-icon-opacity, 1);
+@header-component-hover-icon-opacity: var(--header-component-hover-icon-opacity, 1);
+@header-component-active-icon-opacity: var(--header-component-active-icon-opacity, 1);
+@header-component-active-hover-icon-opacity: var(--header-component-active-hover-icon-opacity, 1);
+
 @menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
+@img-border-type-filter: var(--image-border-types-filter, none);
+@img-border-type-filter-selected: var(--image-border-types-filter-selected, none);
 
 // Canvas
 // ---------------------------
+@canvas-background: var(--canvas-background);
 @canvas-content-background: var(--canvas-content-background);
+@canvas-page-border: var(--canvas-page-border);

@@ -103,7 +103,7 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption'],
+                                  'Caption', 'endnote text'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -143,7 +143,10 @@ define([
                     "Enter a date": this.txtEnterDate,
                     "Type equation here": this.txtTypeEquation,
                     "Click to load image": this.txtClickToLoad,
-                    "None": this.txtNone
+                    "None": this.txtNone,
+                    "No table of figures entries found.": this.txtNoTableOfFigures,
+                    "table of figures": this.txtTableOfFigures,
+                    "TOC Heading": this.txtTOCHeading
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -222,6 +225,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
 //                $(window.top).resize(_.bind(this.onDocumentResize, this));
@@ -359,7 +363,10 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
+                                                                            Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+                this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
+
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -390,6 +397,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
+                this.appOptions.canFeatureForms = true;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -411,6 +419,8 @@ define([
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("de-macros-mode", value);
 
+                this.appOptions.wopi = this.editorConfig.wopi;
+
                 Common.Controllers.Desktop.init(this.appOptions);
             },
 
@@ -429,6 +439,7 @@ define([
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
@@ -933,7 +944,7 @@ define([
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
+                        title   = this.loadingDocumentTitleText + '           ';
                         text    = this.loadingDocumentTextText;
                         break;
                     default:
@@ -1237,7 +1248,7 @@ define([
             onOpenDocument: function(progress) {
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-                proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
+                proc = this.textLoadingDocument + ': ' + Common.Utils.String.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + "%";
                 elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
@@ -1348,7 +1359,7 @@ define([
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
-                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -2326,13 +2337,18 @@ define([
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
                 this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
+
+                if (this.appOptions.wopi) {
+                    var idx = meta.title.lastIndexOf('.');
+                    Common.Gateway.requestRename(idx>0 ? meta.title.substring(0, idx) : meta.title);
+                }
             },
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2493,6 +2509,10 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
             },
 
             showRenameUserDialog: function() {
@@ -2527,6 +2547,10 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2896,7 +2920,11 @@ define([
             txtClickToLoad: 'Click to load image',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            txtNone: 'None'
+            txtNone: 'None',
+            txtNoTableOfFigures: "No table of figures entries found.",
+            txtTableOfFigures: 'Table of figures',
+            txtStyle_endnote_text: 'Endnote Text',
+            txtTOCHeading: 'TOC Heading'
         }
     })(), DE.Controllers.Main || {}))
 });

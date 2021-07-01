@@ -340,6 +340,18 @@
             "files": "../deploy/web-apps/apps/presentationeditor/mobile/**/*.json"
         },
         "copy": {
+            "assets": [
+                {
+                    "src": "../apps/presentationeditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/dist"
+                }
+            ],
             "template-backup": [
                 {
                     "expand": true,
@@ -359,8 +371,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html",
+                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index.html"
             },
             "localization": [
                 {
@@ -374,7 +386,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/mobile/resources/img/",
-                    "src": "**",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/presentationeditor/mobile/resources/img/"
                 }
             ],
@@ -402,7 +414,9 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
                 "../apps/presentationeditor/embed/js/ApplicationView.js",

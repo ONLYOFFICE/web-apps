@@ -341,6 +341,18 @@
             "files": "../deploy/web-apps/apps/spreadsheeteditor/mobile/**/*.json"
         },
         "copy": {
+            "assets": [
+                {
+                    "src": "../apps/spreadsheeteditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/dist"
+                }
+            ],
             "template-backup": [
                 {
                     "expand": true,
@@ -360,14 +372,14 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index_loader.html": "../apps/spreadsheeteditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html",
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index_loader.html": "../apps/spreadsheeteditor/mobile/index.html"
             },
             "localization": [
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
-                    "src": "*",
+                    "src": "**/*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
                 },
                 {
@@ -381,7 +393,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/resources/img/",
-                    "src": "**/*.png",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
                 },
                 {
@@ -415,7 +427,9 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationView.js",

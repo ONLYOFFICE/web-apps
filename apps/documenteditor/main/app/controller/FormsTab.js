@@ -170,7 +170,7 @@ define([
         },
 
         onControlsSelect: function(type) {
-            if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl)) return;
+            if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl && this.toolbar.mode.canFeatureForms)) return;
 
             var oPr,
                 oFormPr = new AscCommon.CSdtFormPr();
@@ -212,7 +212,7 @@ define([
 
         onNoControlsColor: function(item) {
             if (!item.isChecked())
-                this.api.asc_SetSpecialFormsHighlightColor(255, 192, 0);
+                this.api.asc_SetSpecialFormsHighlightColor(201, 200, 255);
             else
                 this.api.asc_SetSpecialFormsHighlightColor();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -233,6 +233,18 @@ define([
         },
 
         onSubmitClick: function() {
+            if (!this.api.asc_IsAllRequiredFormsFilled()) {
+                var me = this;
+                Common.UI.warning({
+                    msg: this.view.textRequired,
+                    callback: function() {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
             this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },

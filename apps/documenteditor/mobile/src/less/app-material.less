@@ -1,0 +1,78 @@
+
+// Colors
+@themeColorLight: #a2bdde;
+@navBarIconColor: #fff;
+
+
+.device-android {
+    // Main Toolbar
+    #editor-navbar.navbar .right {
+        padding-right: 4px;
+    }
+    #editor-navbar.navbar .right a.link,
+    #editor-navbar.navbar .left a.link {
+        padding: 0 13px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        align-items: center;
+        width: auto;
+    }
+
+    .toggle input[type="checkbox"]:checked + .toggle-icon {
+        background-color: rgba(68,105,149,.5);
+    }
+
+    // Review
+    .page-review {
+        .header-change {
+            display: flex;
+        }
+        .toolbar {
+            height: 56px;
+            .toolbar-inner {
+                padding: 0 15px;
+                .link {
+                    padding: 0;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                }
+            }
+        }
+        .initials {
+            height: 40px;
+            width: 40px;
+            border-radius: 50px;
+            color: @white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+            font-size: 18px;
+        }
+    }
+}
+
+// Color Schemes
+
+.color-schemes-menu {
+    cursor: pointer;
+    display: block;
+    background-color: #fff;
+    .item-inner {
+        justify-content: flex-start;
+    }
+    .color-schema-block {
+        display: flex;
+    }
+    .color {
+        min-width: 26px;
+        min-height: 26px;
+        margin: 0 2px 0 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    }
+    .item-title {
+        margin-left: 20px;
+        color: #212121;
+    }
+}

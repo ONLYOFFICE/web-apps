@@ -488,7 +488,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '46px', 'width': '61px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._state.TemplateName=value;
                 }

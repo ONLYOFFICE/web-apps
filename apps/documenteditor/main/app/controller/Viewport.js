@@ -165,7 +165,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms) ||
+            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
 
@@ -205,8 +205,8 @@ define([
         onAppReady: function (config) {
             var me = this;
             if ( me.header.btnOptions ) {
-                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
-                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
+                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
+                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
                     if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                         compactview = Common.localStorage.getBool("de-compact-toolbar");
                     } else

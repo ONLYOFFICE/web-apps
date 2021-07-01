@@ -39,15 +39,15 @@
 
             &:focus, &.focus {
                 outline: 0;
-                color: @text-normal-pressed-ie;
-                color: @text-normal-pressed;
+                color: @text-normal-ie;
+                color: @text-normal;
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
 
             &:hover {
-                color: @text-normal-pressed-ie;
-                color: @text-normal-pressed;
+                color: @text-normal-ie;
+                color: @text-normal;
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
@@ -55,14 +55,14 @@
 
         &.over > a {
             text-decoration: none;
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
+            //color: @text-normal-pressed-ie;
+            //color: @text-normal-pressed;
             background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
 
             &:after {
-                border-left-color: @icon-normal-pressed-ie;
-                border-left-color: @icon-normal-pressed;
+                border-left-color: @icon-normal-ie;
+                border-left-color: @icon-normal;
             }
         }
 
@@ -152,5 +152,16 @@
         height: @scaled-one-px-value;
         background-color: @border-divider-ie;
         background-color: @border-divider;
+    }
+
+    .dataview {
+        .item {
+            .options__icon {
+            }
+
+            .options__icon-huge {
+                background-position-x: var(--button-huge-normal-icon-offset-x, 0);
+            }
+        }
     }
 }

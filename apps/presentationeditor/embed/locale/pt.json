@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Por favor, aguarde...",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Incorporar",
+  "PE.ApplicationView.txtFileLocation": "Local do arquivo aberto",
   "PE.ApplicationView.txtFullScreen": "Tela cheia",
   "PE.ApplicationView.txtPrint": "Imprimir",
   "PE.ApplicationView.txtShare": "Compartilhar"

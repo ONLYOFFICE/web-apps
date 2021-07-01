@@ -6,7 +6,7 @@
     </section>
     <section class="box-controls">
         <section class="panel static">
-            <div class="group no-mask">
+            <div class="group no-mask small">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="separator long"></div>
-            <div class="group">
+            <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
@@ -33,7 +33,7 @@
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset" style="width:208px;">
                         <span class="btn-slot" style="float: left; width: 89px;" id="slot-field-fontname"></span>
                         <span class="btn-slot" style="float: left; width: 40px; margin-left: 2px;" id="slot-field-fontsize"></span>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-markers"></span>
                         <span class="btn-slot split" id="slot-btn-numbering"></span>
@@ -82,7 +82,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                 </div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
                     </div>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clearstyle"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
@@ -101,7 +101,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group flex" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
+                <div class="group flex small" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">

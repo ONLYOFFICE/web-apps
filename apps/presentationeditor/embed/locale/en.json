@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "PE.ApplicationController.notcriticalErrorTitle": "Warning",
   "PE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
+  "PE.ApplicationController.textAnonymous": "Anonymous",
+  "PE.ApplicationController.textGuest": "Guest",
   "PE.ApplicationController.textLoadingDocument": "Loading presentation",
   "PE.ApplicationController.textOf": "of",
   "PE.ApplicationController.txtClose": "Close",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "Please, wait...",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
+  "PE.ApplicationView.txtFileLocation": "Open file location",
   "PE.ApplicationView.txtFullScreen": "Full Screen",
   "PE.ApplicationView.txtPrint": "Print",
   "PE.ApplicationView.txtShare": "Share"

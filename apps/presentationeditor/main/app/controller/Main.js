@@ -201,6 +201,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
                     this.getApplication().getController('Viewport').setApi(this.api);
@@ -323,7 +324,10 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
+                                                  Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+                this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
+
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -374,6 +378,8 @@ define([
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("pe-macros-mode", value);
 
+                this.appOptions.wopi = this.editorConfig.wopi;
+                
                 Common.Controllers.Desktop.init(this.appOptions);
             },
 
@@ -392,6 +398,7 @@ define([
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
@@ -686,7 +693,7 @@ define([
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
+                        title   = this.loadingDocumentTitleText + '           ';
                         text    = this.loadingDocumentTextText;
                         break;
                     default:
@@ -749,6 +756,9 @@ define([
                 value = Common.localStorage.getBool("pe-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
                 Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
+
+                value = Common.localStorage.getBool('pe-hidden-notes', this.appOptions.customization && this.appOptions.customization.hideNotes===true);
+                me.api.asc_ShowNotes(!value);
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -973,7 +983,7 @@ define([
             onOpenDocument: function(progress) {
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-                proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
+                proc = this.textLoadingDocument + ': ' + Common.Utils.String.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + "%";
                 elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
@@ -1980,13 +1990,18 @@ define([
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
                 this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
+
+                if (this.appOptions.wopi) {
+                    var idx = meta.title.lastIndexOf('.');
+                    Common.Gateway.requestRename(idx>0 ? meta.title.substring(0, idx) : meta.title);
+                }
             },
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2139,6 +2154,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
+                value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
             },
 
             showRenameUserDialog: function() {
@@ -2324,6 +2342,10 @@ define([
 
             generateUserColor: function(color) {
                 return"#"+("000000"+color.toString(16)).substr(-6);
+            },
+
+            onGrabFocus: function() {
+                this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
             // Translation

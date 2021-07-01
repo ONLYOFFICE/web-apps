@@ -99,7 +99,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row" style="margin-bottom: 15px; border-bottom: 1px solid #cfcfcf;">',
+                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0; margin-left:-1px;">', this.textEven,'</button>',
@@ -115,17 +115,17 @@ define([
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -139,17 +139,17 @@ define([
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -646,7 +646,7 @@ define([
             this.cmbFonts[1].fillFonts(this.fontStore);
             this.updateThemeColors();
 
-            this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
+            this.HFObject = new Asc.asc_CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
             this._setDefaults(this.props);
             this.editorCanvas = this.$window.find('#ce-canvas-menu');
             var me = this;

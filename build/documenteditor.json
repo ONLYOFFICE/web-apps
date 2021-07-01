@@ -355,8 +355,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy",
-                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index_loader.html.deploy"
+                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html",
+                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index.html"
             },
             "localization": [
                 {
@@ -370,7 +370,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/documenteditor/mobile/resources/img/",
-                    "src": "**",
+                    "src": "**/*.{png,svg}",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
                 }
             ],
@@ -380,6 +380,18 @@
                     "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
+                }
+            ],
+            "assets": [
+                {
+                    "src": "../apps/documenteditor/mobile/css/app.css",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/css/app.css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/dist"
                 }
             ]
         }
@@ -398,7 +410,9 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
                 "../apps/documenteditor/embed/js/ApplicationView.js",

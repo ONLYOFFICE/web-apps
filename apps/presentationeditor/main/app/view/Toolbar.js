@@ -104,7 +104,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.SchemeNames = [
+                me.SchemeNames = [me.txtScheme22,
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -1507,6 +1507,9 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
+                    this.lockToolbar( PE.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else
@@ -1553,7 +1556,7 @@ define([
                             schemecolors.push(clr);
                         }
 
-                        if (index == 21) {
+                        if (index == 22) {
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
@@ -1563,7 +1566,7 @@ define([
                             template: itemTemplate,
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
-                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                             value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
@@ -1924,7 +1927,8 @@ define([
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
-            tipHighlightColor: 'Highlight color'
+            tipHighlightColor: 'Highlight color',
+            txtScheme22: 'New Office'
         }
     }()), PE.Views.Toolbar || {}));
 });

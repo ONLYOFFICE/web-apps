@@ -57,8 +57,8 @@ define([
                 });
             }
 
-            me.btnFreezePanes.on('click', function (btn, e) {
-                me.fireEvent('viewtab:freeze', [btn.pressed]);
+            me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('viewtab:freeze', [item.value]);
             });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
@@ -68,6 +68,9 @@ define([
             });
             this.chGridlines.on('change', function (field, value) {
                 me.fireEvent('viewtab:gridlines', [2, value]);
+            });
+            this.chZeros.on('change', function (field, value) {
+                me.fireEvent('viewtab:zeros', [3, value]);
             });
             this.cmbZoom.on('selected', function(combo, record) {
                 me.fireEvent('viewtab:zoom', [record.value]);
@@ -125,8 +128,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-freeze-panes',
                     caption: this.capBtnFreeze,
-                    split: false,
-                    enableToggle: true,
+                    menu: true,
                     lock: [_set.sheetLock, _set.lostConnect, _set.coAuth],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -187,6 +189,13 @@ define([
                 });
                 this.lockedControls.push(this.chGridlines);
 
+                this.chZeros = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-zeros'),
+                    labelText: this.textZeros,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
+                });
+                this.lockedControls.push(this.chZeros);
+
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -211,6 +220,22 @@ define([
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
                     }
+                    me.btnFreezePanes.setMenu(new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: me.toolbar && me.toolbar.api && !!me.toolbar.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.textUnFreeze : me.capBtnFreeze,
+                                value: undefined
+                            },
+                            {
+                                caption: me.textFreezeRow,
+                                value: Asc.c_oAscFrozenPaneAddType.firstRow
+                            },
+                            {
+                                caption: me.textFreezeCol,
+                                value: Asc.c_oAscFrozenPaneAddType.firstCol
+                            }
+                        ]
+                    }));
                     me.btnFreezePanes.updateHint(me.tipFreeze);
 
                     setEvents.call(me);
@@ -330,7 +355,11 @@ define([
             textClose: 'Close',
             textFormula: 'Formula bar',
             textHeadings: 'Headings',
-            textGridlines: 'Gridlines'
+            textGridlines: 'Gridlines',
+            textFreezeRow: 'Freeze Top Row',
+            textFreezeCol: 'Freeze First Column',
+            textUnFreeze: 'Unfreeze Panes',
+            textZeros: 'Show zeros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

@@ -58,7 +58,7 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
-            '<div class="group no-group-mask form-view" style="display: none;">' +
+            '<div class="group no-group-mask form-view small" style="display: none;">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
                 '</div>' +
@@ -388,7 +388,8 @@ define([
             tipPrevForm: 'Go to the previous field',
             tipNextForm: 'Go to the next field',
             tipSubmit: 'Submit form',
-            textSubmited: 'Form submitted successfully'
+            textSubmited: 'Form submitted successfully',
+            textRequired: 'Fill all required fields to send form.'
         }
     }()), DE.Views.FormsTab || {}));
 });

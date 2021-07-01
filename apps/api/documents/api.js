@@ -162,6 +162,8 @@
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
+                    hideNotes: false // hide or show notes panel on first loading (presentation editor)
+                    uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
@@ -175,6 +177,9 @@
                         "speech/config.json",
                         "clipart/config.json",
                     ]
+                },
+                wopi: { // only for wopi
+                    FileNameMaxLength: 250 // max filename length for rename, 250 by default
                 }
             },
             events: {
@@ -688,6 +693,22 @@
             });
         };
 
+        var _grabFocus = function(data) {
+            setTimeout(function(){
+                _sendCommand({
+                    command: 'grabFocus',
+                    data: data
+                });
+            }, 10);
+        };
+
+        var _blurFocus = function(data) {
+            _sendCommand({
+                command: 'blurFocus',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -720,7 +741,9 @@
             setMailMergeRecipients: _setMailMergeRecipients,
             setRevisedFile      : _setRevisedFile,
             setFavorite         : _setFavorite,
-            requestClose        : _requestClose
+            requestClose        : _requestClose,
+            grabFocus           : _grabFocus,
+            blurFocus           : _blurFocus
         }
     };
 
@@ -843,7 +866,8 @@
         path += app + "/";
         path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
-            : config.type === "embedded"
+            : (config.type === "embedded" || (app=='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
+                                                                       (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
                 ? "embed"
                 : "main";
 

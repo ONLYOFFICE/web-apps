@@ -19,8 +19,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background: #f0f0f0;
-            background: var(--canvas-background, #f0f0f0);
+            background: #e2e2e2;
+            background: var(--canvas-background, #e2e2e2);
             z-index: 1001;
         }
 
@@ -60,12 +60,13 @@
             height: 12px;
             border-radius: 3px;
             margin: 0 10px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
         }
 
         .loadmask > .sktoolbar {
-            background: #f7f7f7;
-            background: var(--background-toolbar, #f7f7f7);
+            background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
             border-bottom: 1px solid #cbcbcb;
             border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
             height: 46px;
@@ -81,8 +82,8 @@
         }
 
         .loadmask > .sktoolbar li {
-            background: #ccc;
-            background: var(--highlight-button-pressed, #ccc);
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -111,15 +112,15 @@
             width: 794px;
             margin: 46px auto;
             height: 100%;
-            border: 1px solid #ccc;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
+            border: 1px solid #bbbec2;
+            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
             padding-top: 50px;
         }
 
         .loadmask > .placeholder > .line {
             height: 15px;
             margin: 30px 80px;
-            background: #e2e2e2;
+            background: rgba(0,0,0,.05);
             overflow: hidden;
             position: relative;
 
@@ -216,6 +217,7 @@
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
+            window.desktop.execCommand('webapps:entry', '');
         }
     </script>
 

@@ -56,7 +56,7 @@ define([
 
 
         var createExternalEditor = function() {
-            !!customization && (customization.uiTheme = Common.localStorage.getItem("ui-theme", "theme-light"));
+            !!customization && (customization.uiTheme = Common.localStorage.getItem("ui-theme-id", "theme-light"));
             externalEditor = new DocsAPI.DocEditor('id-diagram-editor-placeholder', {
                 width       : '100%',
                 height      : '100%',
@@ -245,7 +245,7 @@ define([
 
             showExternalEditor: function () {
                 if ( externalEditor ) {
-                    var value = Common.localStorage.getItem("ui-theme", "theme-light");
+                    var value = Common.localStorage.getItem("ui-theme-id", "theme-light");
                     externalEditor.serviceCommand('theme:change', value);
                 }
 

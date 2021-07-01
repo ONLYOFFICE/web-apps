@@ -42,7 +42,10 @@ SSE.ApplicationController = new(function(){
         iframePrint = null;
     var $ttEl,
         $tooltip,
-        ttOffset = [6, -15];
+        ttOffset = [6, -15],
+        labelDocName;
+
+    var LoadingDocument = -256;
 
     // Initialize analytics
     // -------------------------
@@ -58,6 +61,9 @@ SSE.ApplicationController = new(function(){
         return;
     }
 
+    common.localStorage.setId('text');
+    common.localStorage.setKeysFilter('sse-,asc.table');
+    common.localStorage.sync();
 
     // Handlers
     // -------------------------
@@ -67,9 +73,6 @@ SSE.ApplicationController = new(function(){
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
         common.controller.modals.init(embedConfig);
-
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose)))
-            $('#id-btn-close').hide();
 
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'bottom') {
@@ -81,6 +84,9 @@ SSE.ApplicationController = new(function(){
             $('#toolbar').addClass('top');
             $('.viewer').addClass('top');
         }
+
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -92,7 +98,19 @@ SSE.ApplicationController = new(function(){
             var _permissions = $.extend({}, docConfig.permissions),
                 docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
-            _user.put_Id(config.user && config.user.id ? config.user.id : ('uid-' + Date.now()));
+
+            var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
+                guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
+                (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
+                    common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
+                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
+                user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
+                    common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+            user.anonymous && common.localStorage.setItem("guest-id", user.id);
+
+            _user.put_Id(user.id);
+            _user.put_FullName(user.fullname);
+            _user.put_IsAnonymousUser(user.anonymous);
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
@@ -120,6 +138,8 @@ SSE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -165,7 +185,7 @@ SSE.ApplicationController = new(function(){
 
     function onPrint() {
         if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
     }
 
     function onPrintUrl(url) {
@@ -178,6 +198,7 @@ SSE.ApplicationController = new(function(){
 
     function onDocumentContentReady() {
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         if ( permissions.print === false)
             $('#idt-print').hide();
@@ -188,14 +209,19 @@ SSE.ApplicationController = new(function(){
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
+        if (!config.canBackToFolder)
+            $('#idt-close').hide();
+
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
+        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -207,6 +233,7 @@ SSE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -223,7 +250,7 @@ SSE.ApplicationController = new(function(){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -231,18 +258,19 @@ SSE.ApplicationController = new(function(){
 
         SSE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 Common.Analytics.trackEvent('Print');
             });
 
-        $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback) {
-                if (config.customization.goback.requestClose && config.canRequestClose)
-                    Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
-            }
-        });
+        SSE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
+                if (config.customization && config.customization.goback) {
+                    if (config.customization.goback.requestClose && config.canRequestClose)
+                        Common.Gateway.requestClose();
+                    else if (config.customization.goback.url)
+                        window.parent.location.href = config.customization.goback.url;
+                }
+            });
 
         $('#id-btn-zoom-in').on('click', function () {
             if (api){
@@ -337,24 +365,24 @@ SSE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
+
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
     }
     
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     function onLongActionBegin(type, id){
@@ -364,14 +392,19 @@ SSE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Print']:
                 text = me.downloadTextText;
                 break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
+                break;
             default:
                 text = me.waitText;
                 break;
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
@@ -390,7 +423,7 @@ SSE.ApplicationController = new(function(){
                     break;
             }
 
-            hideMask();
+            me.loadMask && me.loadMask.hide();
         }
     }
 
@@ -406,6 +439,7 @@ SSE.ApplicationController = new(function(){
         }
 
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
 
@@ -561,6 +595,9 @@ SSE.ApplicationController = new(function(){
             if (api) api.asc_runAutostartMacroses();
     }
 
+    function onBeforeUnload () {
+        common.localStorage.save();
+    }
     // Helpers
     // -------------------------
 
@@ -580,14 +617,14 @@ SSE.ApplicationController = new(function(){
         $(window).resize(function(){
             onDocumentResize();
         });
-
+        window.onbeforeunload = onBeforeUnload;
+        
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
             'embedded' : true
         });
 
         if (api){
-            api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
@@ -624,6 +661,8 @@ SSE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading spreadsheet',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textGuest: 'Guest',
+        textAnonymous: 'Anonymous'
     }
 })();

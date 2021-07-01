@@ -752,9 +752,9 @@ define([
                 el: $window.find('#symbol-table-special-list'),
                 store: new Common.UI.DataViewStore(data),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                cls: 'dbl-clickable',
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
                         '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
                         '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',

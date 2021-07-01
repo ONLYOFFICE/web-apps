@@ -1,0 +1,52 @@
+
+// Colors
+@themeColorLight: #a2bdde;
+@navBarIconColor: #fff;
+@listButtonBorderColor: rgba(0,0,0,0.15);
+
+
+.device-android {
+    --f7-navbar-bg-color: @themeColor;
+    --f7-navbar-link-color: @navBarIconColor;
+    --f7-navbar-text-color: @navBarIconColor;
+    --f7-list-button-border-color: @listButtonBorderColor;
+
+    // Main Toolbar
+    #editor-navbar.navbar .right {
+        padding-right: 4px;
+    }
+    #editor-navbar.navbar .right a.link,
+    #editor-navbar.navbar .left a.link {
+        padding: 0 13px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        align-items: center;
+        width: auto;
+    }
+
+    // For filter options
+    .radio-checkbox-item {
+        .icon.icon-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            border: 2px solid var(--f7-checkbox-inactive-color);
+        }
+        label.item-checkbox input[type='checkbox']:checked ~ .icon-checkbox {
+            border-color: @themeColor;
+            background-color: transparent;
+        }
+        label.item-content i.icon.icon-checkbox:after {
+            content: ' ';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            left: 50%;
+            top: 50%;
+            margin-left: -5px;
+            margin-top: -5px;
+            background-color: @themeColor;
+            border-radius: 100%;
+        }
+    }
+}

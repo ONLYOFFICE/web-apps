@@ -9,7 +9,7 @@
 }
 
 .combo-pattern-item {
-    .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
+    .background-ximage-v2('right-panels/patterns.png', 112px);
 }
 
 .combo-dataview-menu {
@@ -208,23 +208,14 @@
 .combo-border-size.cell-border-type {
     img, .image {
         background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize.png)";
+        background-size: 60px auto;
 
-        @media only screen {
-          //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-          //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-          //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-          //{
-          //    background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-          //    background-size:  60px auto;
-          //}
+        .pixel-ratio__1_5 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+        }
 
-            @media (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 2dppx),
-            (min-resolution: 192dpi)
-            {
-                background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
-                background-size: 60px auto;
-            }
+        .pixel-ratio__2 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
         }
     }
 }

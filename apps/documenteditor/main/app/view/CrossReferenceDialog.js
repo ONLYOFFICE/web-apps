@@ -183,7 +183,8 @@ define([
             this.refList = new Common.UI.ListView({
                 el: $window.find('#id-dlg-cross-list'),
                 store: new Common.UI.DataViewStore(),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>')
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.refList.on('entervalue', _.bind(this.onPrimary, this))
                         .on('item:dblclick', _.bind(this.onPrimary, this));

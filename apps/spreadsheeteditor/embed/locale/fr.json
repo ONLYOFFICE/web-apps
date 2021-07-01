@@ -25,6 +25,7 @@
   "SSE.ApplicationController.waitText": "Veuillez patienter...",
   "SSE.ApplicationView.txtDownload": "Télécharger",
   "SSE.ApplicationView.txtEmbed": "Incorporer",
+  "SSE.ApplicationView.txtFileLocation": "Ouvrir l'emplacement du fichier",
   "SSE.ApplicationView.txtFullScreen": "Plein écran",
   "SSE.ApplicationView.txtPrint": "Imprimer",
   "SSE.ApplicationView.txtShare": "Partager"

@@ -48,8 +48,8 @@
     {"src":"UsageInstructions/AlignArrangeObjects.htm", "name": "Выравнивание и упорядочивание объектов на странице" },
     {"src": "UsageInstructions/ChangeWrappingStyle.htm", "name": "Изменение стиля обтекания текстом" },
     {"src": "UsageInstructions/InsertContentControls.htm", "name": "Вставка элементов управления содержимым" },
-  {"src": "UsageInstructions/CreateTableOfContents.htm","name": "Создание оглавления"},
-  {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Вставка и форматирование списка иллюстраций" },
+    {"src": "UsageInstructions/CreateTableOfContents.htm","name": "Создание оглавления"},
+    {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Вставка и форматирование списка иллюстраций" },
     {"src":"UsageInstructions/UseMailMerge.htm", "name": "Использование слияния", "headername": "Слияние"},
     { "src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул", "headername": "Математические формулы" },    
     {"src":"HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование документа", "headername": "Совместное редактирование документов"},
@@ -62,6 +62,7 @@
     {"src":"HelpfulHints/Search.htm", "name": "Функция поиска и замены"},
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Проверка орфографии" },    
     {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Функции автозамены" },
+    {"src": "HelpfulHints/Password.htm", "name": "Защита с помощью пароля"},
     {"src":"HelpfulHints/About.htm", "name": "О редакторе документов", "headername": "Полезные советы"},
     {"src":"HelpfulHints/SupportedFormats.htm", "name": "Поддерживаемые форматы электронных документов"},    
     {"src":"HelpfulHints/KeyboardShortcuts.htm", "name": "Сочетания клавиш"}

@@ -436,11 +436,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: Common.UI.Themes.THEME_LIGHT_ID, displayValue: this.txtThemeLight },
-                    { value: Common.UI.Themes.THEME_DARK_ID, displayValue: this.txtThemeDark }
-                ],
-                dataHint: '2',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -568,8 +564,16 @@ define([
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
 
-            item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.current()});
-            this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.THEME_LIGHT_ID);
+            var data = [];
+            for (var t in Common.UI.Themes.map()) {
+                data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
+            }
+
+            if ( data.length ) {
+                this.cmbTheme.setData(data);
+                item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
+                this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
+            }
         },
 
         applySettings: function() {
