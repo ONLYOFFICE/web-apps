@@ -8,6 +8,9 @@
     </div>
     <div id="status-addtabs-box" class="status-group">
         <button id="status-btn-addtab" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+        <div class="cnt-tabslist">
+            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
+        </div>
     </div>
     <div id="status-zoom-box" class="status-group">
         <div class="separator short"></div>
