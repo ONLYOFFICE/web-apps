@@ -116,10 +116,29 @@ class EditCellController extends Component {
         api.asc_setCellAngle(angle);
     }
 
-    onCellFormat(value) {
+    onCellFormat(format) {
         const api = Common.EditorApi.get();
-        let type = decodeURIComponent(atob(value));
-        api.asc_setCellFormat(type);
+        // let type = decodeURIComponent(atob(value));
+        api.asc_setCellFormat(format);
+    }
+
+    onCurrencyCellFormat(format) {
+        const api = Common.EditorApi.get();
+        api.asc_setCellFormat(format);
+    }
+
+    onAccountingCellFormat(value) {
+        const api = Common.EditorApi.get();
+        let info = new Asc.asc_CFormatCellsInfo();
+
+        info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+        info.asc_setSeparator(false);
+        info.asc_setSymbol(value);
+
+        let format = api.asc_getFormatCells(info);
+
+        if (format && format.length > 0)
+            api.asc_setCellFormat(format[0]);
     }
 
     onBorderStyle(type, borderInfo) {
@@ -168,6 +187,8 @@ class EditCellController extends Component {
                 onCellFormat={this.onCellFormat}
                 onTextOrientationChange={this.onTextOrientationChange}
                 onBorderStyle={this.onBorderStyle}
+                onCurrencyCellFormat={this.onCurrencyCellFormat}
+                onAccountingCellFormat={this.onAccountingCellFormat}
             />
         )
     }
