@@ -68,6 +68,9 @@ export class storeAppOptions {
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
+
+        AscCommon.UserInfoParser.setParser(true);
+        AscCommon.UserInfoParser.setCurrentName(this.user.fullname);
     }
 
     setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
