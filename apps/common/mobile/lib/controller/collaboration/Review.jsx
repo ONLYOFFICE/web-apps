@@ -139,7 +139,7 @@ class ReviewChange extends Component {
         if (this.appConfig && this.appConfig.canUseReviewPermissions) {
             const permissions = this.appConfig.customization.reviewPermissions;
             let arr = [];
-            const groups  =  Common.Utils.UserInfoParser.getParsedGroups(Common.Utils.UserInfoParser.getCurrentName());
+            const groups  =  AscCommon.UserInfoParser.canEditReview(AscCommon.UserInfoParser.getCurrentName());
             groups && groups.forEach(function(group) {
                 const item = permissions[group.trim()];
                 item && (arr = arr.concat(item));
@@ -159,7 +159,7 @@ class ReviewChange extends Component {
         return arr;
     }
     checkUserGroups (username) {
-        const groups = Common.Utils.UserInfoParser.getParsedGroups(username);
+        const groups = AscCommon.UserInfoParser.canEditReview(username);
         return this.currentUserGroups && groups && (this.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
     }
     dateToLocaleTimeString (date) {
@@ -496,7 +496,7 @@ class ReviewChange extends Component {
             change = {
                 date: arrChangeReview[0].date,
                 user: arrChangeReview[0].user,
-                userName: Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(arrChangeReview[0].user)),
+                userName: Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(arrChangeReview[0].user)),
                 color: arrChangeReview[0].userColor.get_hex(),
                 text: arrChangeReview[0].changeText,
                 initials: this.props.users.getInitials(arrChangeReview[0].user),
