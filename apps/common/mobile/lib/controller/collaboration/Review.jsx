@@ -147,20 +147,8 @@ class ReviewChange extends Component {
             this.currentUserGroups = arr;
         }
     }
-    intersection (arr1, arr2) { //Computes the list of values that are the intersection of all the arrays.
-        const arr = [];
-        arr1.forEach((item1) => {
-            arr2.forEach((item2) => {
-                if (item1 === item2) {
-                    arr.push(item2);
-                }
-            });
-        });
-        return arr;
-    }
     checkUserGroups (username) {
-        const groups = AscCommon.UserInfoParser.canEditReview(username);
-        return this.currentUserGroups && groups && (this.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+        return this.currentUserGroups && AscCommon.UserInfoParser.canEditReview(username);
     }
     dateToLocaleTimeString (date) {
         const format = (date) => {
