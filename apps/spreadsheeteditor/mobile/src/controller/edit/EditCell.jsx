@@ -1,12 +1,33 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
+import {observer, inject} from "mobx-react";
 
 import { EditCell } from '../../view/edit/EditCell';
 
 class EditCellController extends Component {
     constructor (props) {
         super(props);
+        this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
+        this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
+    }
+
+    initFormats(type, exampleVal) {
+        const api = Common.EditorApi.get();
+        let info = new Asc.asc_CFormatCellsInfo();
+
+        info.asc_setType(type);
+        info.asc_setDecimalPlaces(0);
+        info.asc_setSeparator(false);
+
+        let formatsArr = api.asc_getFormatCells(info),
+            data = [];
+
+        formatsArr.forEach(function(item) {
+            data.push({value: item, displayValue: api.asc_getLocaleExample(item, exampleVal)});
+        });
+
+        return data;
     }
 
     toggleBold(value) {
@@ -118,12 +139,6 @@ class EditCellController extends Component {
 
     onCellFormat(format) {
         const api = Common.EditorApi.get();
-        // let type = decodeURIComponent(atob(value));
-        api.asc_setCellFormat(format);
-    }
-
-    onCurrencyCellFormat(format) {
-        const api = Common.EditorApi.get();
         api.asc_setCellFormat(format);
     }
 
@@ -187,11 +202,12 @@ class EditCellController extends Component {
                 onCellFormat={this.onCellFormat}
                 onTextOrientationChange={this.onTextOrientationChange}
                 onBorderStyle={this.onBorderStyle}
-                onCurrencyCellFormat={this.onCurrencyCellFormat}
                 onAccountingCellFormat={this.onAccountingCellFormat}
+                dateFormats={this.dateFormats}
+                timeFormats={this.timeFormats}
             />
         )
     }
 }
 
-export default EditCellController;
+export default inject("storeCellSettings")(observer(EditCellController));

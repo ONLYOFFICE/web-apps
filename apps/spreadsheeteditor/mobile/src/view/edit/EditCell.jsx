@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -90,7 +90,9 @@ const EditCell = props => {
                 <ListItem title={_t.textFormat} link="/edit-format-cell/" routeProps={{
                     onCellFormat: props.onCellFormat,
                     onCurrencyCellFormat: props.onCurrencyCellFormat,
-                    onAccountingCellFormat: props.onAccountingCellFormat
+                    onAccountingCellFormat: props.onAccountingCellFormat,
+                    dateFormats: props.dateFormats,
+                    timeFormats: props.timeFormats
                 }}>
                     {!isAndroid ?
                         <Icon slot="media" icon="icon-format-general"></Icon> : null
@@ -777,17 +779,19 @@ const PageFormatCell = props => {
                     <Icon slot="media" icon="icon-format-accounting"></Icon>
                 </ListItem>
                 <ListItem title={_t.textCurrency} link="/edit-currency-format-cell/" routeProps={{
-                    onCurrencyCellFormat: props.onCurrencyCellFormat
+                    onCellFormat: props.onCellFormat
                 }}>
                     <Icon slot="media" icon="icon-format-currency"></Icon>
                 </ListItem>
                 <ListItem title={_t.textDate} link='/edit-date-format-cell/' routeProps={{
-                    onCellFormat: props.onCellFormat
+                    onCellFormat: props.onCellFormat,
+                    dateFormats: props.dateFormats
                 }}>
                     <Icon slot="media" icon="icon-format-date"></Icon>
                 </ListItem>
                 <ListItem title={_t.textTime} link='/edit-time-format-cell/' routeProps={{
-                    onCellFormat: props.onCellFormat
+                    onCellFormat: props.onCellFormat,
+                    timeFormats: props.timeFormats
                 }}>
                     <Icon slot="media" icon="icon-format-time"></Icon>
                 </ListItem>
@@ -851,19 +855,19 @@ const PageCurrencyFormatCell = props => {
             </Navbar>
             <List>
                 <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
-                    onClick={() => props.onCurrencyCellFormat('[$$-409]#,##0.00')}>
+                    onClick={() => props.onCellFormat('[$$-409]#,##0.00')}>
                 </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textEuro} after='€'
-                    onClick={() => props.onCurrencyCellFormat('#,##0.00\ [$€-407]')}>
+                    onClick={() => props.onCellFormat('#,##0.00\ [$€-407]')}>
                 </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textPound} after='£'
-                    onClick={() => props.onCurrencyCellFormat('[$£-809]#,##0.00')}>
+                    onClick={() => props.onCellFormat('[$£-809]#,##0.00')}>
                 </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textRouble} after='₽'
-                    onClick={() => props.onCurrencyCellFormat('#,##0.00\ [$₽-419]')}>
+                    onClick={() => props.onCellFormat('#,##0.00\ [$₽-419]')}>
                 </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textYen} after='¥'
-                    onClick={() => props.onCurrencyCellFormat('[$¥-411]#,##0.00')}>
+                    onClick={() => props.onCellFormat('[$¥-411]#,##0.00')}>
                 </ListItem>
             </List>
         </Page>
@@ -873,6 +877,7 @@ const PageCurrencyFormatCell = props => {
 const PageDateFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const dateFormats = props.dateFormats;
 
     return (
         <Page>
@@ -884,26 +889,12 @@ const PageDateFormatCell = props => {
                 }
             </Navbar>
             <List>
-                <ListItem link='#' className='no-indicator' title='07-24-88' after='MM-dd-yy'
-                    onClick={() => props.onCellFormat('TU0tZGQteXk=')}></ListItem>
-                <ListItem link='#' className='no-indicator' title='07-24-1988' after='MM-dd-yyyy'
-                    onClick={() => props.onCellFormat('TU0tZGQteXl5eQ==')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='24-07-88' after='dd-MM-yy'
-                    onClick={() => props.onCellFormat('ZGQtTU0teXk=')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='24-07-1988' after='dd-MM-yyyy'
-                    onClick={() => props.onCellFormat('ZGQtTU0teXl5eQ==')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='24-Jul-1988' after='dd-MMM-yyyy'
-                    onClick={() => props.onCellFormat('ZGQtTU1NLXl5eXk=')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='24-Jul' after='dd-MMM'
-                    onClick={() => props.onCellFormat('ZGQtTU1N')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='Jul-88' after='MMM-yy'
-                    onClick={() => props.onCellFormat('TU1NLXl5')}>
-                </ListItem>
+                {dateFormats.map((format, index) => {
+                    return (
+                        <ListItem link='#' key={index} className='no-indicator' title={format.displayValue}
+                            onClick={() => props.onCellFormat(format.value)}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -912,6 +903,7 @@ const PageDateFormatCell = props => {
 const PageTimeFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const timeFormats = props.timeFormats;
 
     return (
         <Page>
@@ -923,21 +915,12 @@ const PageTimeFormatCell = props => {
                 }
             </Navbar>
             <List>
-                <ListItem link='#' className='no-indicator' title='10:56' after='HH:mm'
-                    onClick={() => props.onCellFormat('aCUzQW1tJTNCJTQw')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='21:56:00' after='HH:MM:ss'
-                    onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlM0IlNDA=')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='05:56 AM' after='hh:mm tt'
-                    onClick={() => props.onCellFormat('aCUzQW1tJTIwQU0lMkZQTSUzQiU0MA==')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='05:56:00 AM' after='hh:mm:ss tt'
-                    onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlMjBBTSUyRlBNJTNCJTQw')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title='38:56:00' after='[h]:mm:ss'
-                    onClick={() => props.onCellFormat('JTVCaCU1RCUzQW1tJTNBc3MlM0IlNDA=')}>
-                </ListItem>
+                {timeFormats.map((format, index) => {
+                    return (
+                        <ListItem link='#' key={index} className='no-indicator' title={format.displayValue}
+                            onClick={() => props.onCellFormat(format.value)}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
