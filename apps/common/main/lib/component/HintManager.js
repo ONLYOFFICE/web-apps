@@ -177,7 +177,7 @@ Common.UI.HintManager = new(function() {
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
-            if (!item.hasClass('disabled') && !item.parent().hasClass('disabled')) {
+            if (!item.hasClass('disabled') && !item.parent().hasClass('disabled') && !item.attr('disabled')) {
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
                 // exceptions

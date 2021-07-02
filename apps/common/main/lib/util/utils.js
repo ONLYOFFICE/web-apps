@@ -886,7 +886,7 @@ Common.Utils.lockControls = function(causes, lock, opts, defControls) {
     });
 };
 
-Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset) {
+Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
     var btnsArr = createButtonSet();
     btnsArr.setDisabled(true);
     id = id || ("id-toolbar-" + iconCls);
@@ -907,7 +907,8 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             disabled: true,
             dataHint: dataHint,
             dataHintDirection: dataHintDirection,
-            dataHintOffset: dataHintOffset
+            dataHintOffset: dataHintOffset,
+            dataHintTitle: dataHintTitle
         });
 
         btnsArr.add(button);

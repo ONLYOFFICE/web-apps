@@ -85,7 +85,7 @@ define([
                                 '<div class="hedset">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users" data-hint="0">' +
+                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption">&plus;</label>' +
                                         '</div>' +
