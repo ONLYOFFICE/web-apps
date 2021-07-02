@@ -468,13 +468,14 @@ class ReviewChange extends Component {
         let change;
         let goto = false;
         if (arrChangeReview.length > 0) {
+            const name = AscCommon.UserInfoParser.getParsedName(arrChangeReview[0].user);
             change = {
                 date: arrChangeReview[0].date,
                 user: arrChangeReview[0].user,
-                userName: Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(arrChangeReview[0].user)),
+                userName: Common.Utils.String.htmlEncode(name),
                 color: arrChangeReview[0].userColor.get_hex(),
                 text: arrChangeReview[0].changeText,
-                initials: this.props.users.getInitials(arrChangeReview[0].user),
+                initials: this.props.users.getInitials(name),
                 editable: arrChangeReview[0].editable
             };
             goto = arrChangeReview[0].goto;

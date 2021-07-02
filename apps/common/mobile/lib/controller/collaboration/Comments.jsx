@@ -43,6 +43,9 @@ const dateToLocaleTimeString = (date) => {
     // MM/dd/yyyy hh:mm AM
     return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
 };
+const parseUserName = name => {
+    return AscCommon.UserInfoParser.getParsedName(name);
+};
 //end utils
 
 class CommentsController extends Component {
@@ -123,10 +126,14 @@ class CommentsController extends Component {
             ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
 
         let user = this.usersStore.searchUserById(data.asc_getUserId());
+        const name = data.asc_getUserName();
+        const parsedName = parseUserName(name);
 
         changeComment.comment = data.asc_getText();
         changeComment.userId = data.asc_getUserId();
-        changeComment.userName = data.asc_getUserName();
+        changeComment.userName = name;
+        changeComment.parsedName = Common.Utils.String.htmlEncode(parsedName);
+        changeComment.userInitials = this.usersStore.getInitials(parsedName);
         changeComment.userColor = (user) ? user.asc_getColor() : null;
         changeComment.resolved = data.asc_getSolved();
         changeComment.quote = data.asc_getQuoteText();
@@ -146,15 +153,17 @@ class CommentsController extends Component {
 
             user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
             const userName = data.asc_getReply(i).asc_getUserName();
+            const parsedName = parseUserName(userName);
             replies.push({
                 ind: i,
                 userId: data.asc_getReply(i).asc_getUserId(),
                 userName: userName,
+                parsedName: Common.Utils.String.htmlEncode(parsedName),
                 userColor: (user) ? user.asc_getColor() : null,
                 date: dateToLocaleTimeString(dateReply),
                 reply: data.asc_getReply(i).asc_getText(),
                 time: dateReply.getTime(),
-                userInitials: this.usersStore.getInitials(userName),
+                userInitials: this.usersStore.getInitials(parsedName),
                 editable: this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
                 removable: this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
             });
@@ -172,10 +181,12 @@ class CommentsController extends Component {
         const user = this.usersStore.searchUserById(data.asc_getUserId());
         const groupName = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
         const userName = data.asc_getUserName();
+        const parsedName = parseUserName(userName);
         const comment = {
             uid                 : id,
             userId              : data.asc_getUserId(),
             userName            : userName,
+            parsedName          : Common.Utils.String.htmlEncode(parsedName),
             userColor           : (user) ? user.asc_getColor() : null,
             date                : dateToLocaleTimeString(date),
             quote               : data.asc_getQuoteText(),
@@ -185,7 +196,7 @@ class CommentsController extends Component {
             time                : date.getTime(),
             replies             : [],
             groupName           : (groupName && groupName.length>1) ? groupName[1] : null,
-            userInitials        : this.usersStore.getInitials(userName),
+            userInitials        : this.usersStore.getInitials(parsedName),
             editable            : this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId),
             removable           : this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId)
         };
@@ -208,15 +219,17 @@ class CommentsController extends Component {
                     ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
                 const user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
                 const userName = data.asc_getReply(i).asc_getUserName();
+                const parsedName = parseUserName(userName);
                 replies.push({
                     ind                 : i,
                     userId              : data.asc_getReply(i).asc_getUserId(),
                     userName            : userName,
+                    parsedName          : Common.Utils.String.htmlEncode(parsedName),
                     userColor           : (user) ? user.asc_getColor() : null,
                     date                : dateToLocaleTimeString(date),
                     reply               : data.asc_getReply(i).asc_getText(),
                     time                : date.getTime(),
-                    userInitials        : this.usersStore.getInitials(userName),
+                    userInitials        : this.usersStore.getInitials(parsedName),
                     editable            : this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
                     removable           : this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
                 });
@@ -252,9 +265,9 @@ class AddCommentController extends Component {
         if (!this.currentUser) {
             this.currentUser = this.props.users.setCurrentUser(this.props.storeAppOptions.user.id);
         }
-        const name = this.currentUser.asc_getUserName();
+        const name = parseUserName(this.currentUser.asc_getUserName());
         return {
-            name: name,
+            name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
             color: this.currentUser.asc_getColor()
         };
@@ -296,9 +309,9 @@ class EditCommentController extends Component {
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
-        const name = this.currentUser.asc_getUserName();
+        const name = parseUserName(this.currentUser.asc_getUserName());
         return {
-            name: name,
+            name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
             color: this.currentUser.asc_getColor()
         };

@@ -223,7 +223,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                     <div className='initials' style={{backgroundColor: `${comment.userColor}`}}>{comment.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{comment.userName}</div>
+                        <div className='name'>{comment.parsedName}</div>
                         <div className='comment-date'>{comment.date}</div>
                     </div>
                 </div>
@@ -260,7 +260,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${comment.userName}</div>
+                            <div class='name'>${comment.parsedName}</div>
                             <div class='comment-date'>${comment.date}</div>
                         </div>
                     </div>
@@ -479,7 +479,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                     <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{reply.userName}</div>
+                        <div className='name'>{reply.parsedName}</div>
                         <div className='reply-date'>{reply.date}</div>
                     </div>
                 </div>
@@ -516,7 +516,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${reply.userName}</div>
+                            <div class='name'>${reply.parsedName}</div>
                             <div class='reply-date'>${reply.date}</div>
                         </div>
                     </div>
@@ -663,7 +663,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     <div className='left'>
                                         {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
                                         <div>
-                                            <div className='user-name'>{comment.userName}</div>
+                                            <div className='user-name'>{comment.parsedName}</div>
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
@@ -693,7 +693,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                     <div className='left'>
                                                                         {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
                                                                         <div>
-                                                                            <div className='user-name'>{reply.userName}</div>
+                                                                            <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
@@ -792,7 +792,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                 <div className='left'>
                                     {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
                                     <div>
-                                        <div className='user-name'>{comment.userName}</div>
+                                        <div className='user-name'>{comment.parsedName}</div>
                                         <div className='comment-date'>{comment.date}</div>
                                     </div>
                                 </div>
@@ -822,7 +822,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                                                 <div className='left'>
                                                                     {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
                                                                     <div>
-                                                                        <div className='user-name'>{reply.userName}</div>
+                                                                        <div className='user-name'>{reply.parsedName}</div>
                                                                         <div className='reply-date'>{reply.date}</div>
                                                                     </div>
                                                                 </div>
