@@ -806,16 +806,18 @@ define([
                         this.chMulti.setValue(!!val, true);
                         this._state.Multi=val;
                     }
+                    this.chMulti.setDisabled(!this._state.Fixed);
 
                     val = formTextPr.get_AutoFit();
                     if ( this._state.AutoFit!==val ) {
                         this.chAutofit.setValue(!!val, true);
                         this._state.AutoFit=val;
                     }
+                    this.chAutofit.setDisabled(!this._state.Fixed);
 
-                    this.btnColor.setDisabled(!val);
+                    this.btnColor.setDisabled(!this._state.Comb);
 
-                    this.spnWidth.setDisabled(!val);
+                    this.spnWidth.setDisabled(!this._state.Comb);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
