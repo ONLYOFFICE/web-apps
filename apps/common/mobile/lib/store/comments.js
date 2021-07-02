@@ -71,6 +71,7 @@ export class storeComments {
             comment.userId = changeComment.userId;
             comment.userName = changeComment.userName;
             comment.parsedName = changeComment.parsedName;
+            comment.userInitials = changeComment.userInitials;
             comment.userColor = changeComment.userColor;
             comment.resolved = changeComment.resolved;
             comment.quote = changeComment.quote;

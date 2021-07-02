@@ -52,7 +52,7 @@ export class storeUsers {
     }
 
     getInitials (name) {
-        const fio = AscCommon.UserInfoParser.getParsedName(name).split(' ');
+        const fio = name.split(' ');
         let initials = fio[0].substring(0, 1).toUpperCase();
         for (let i = fio.length-1; i>0; i--) {
             if (fio[i][0]!=='(' && fio[i][0]!==')') {

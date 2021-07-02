@@ -44,9 +44,7 @@ const dateToLocaleTimeString = (date) => {
     return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
 };
 const parseUserName = name => {
-    return (
-        Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(name))
-    )
+    return AscCommon.UserInfoParser.getParsedName(name);
 };
 //end utils
 
@@ -129,11 +127,13 @@ class CommentsController extends Component {
 
         let user = this.usersStore.searchUserById(data.asc_getUserId());
         const name = data.asc_getUserName();
+        const parsedName = parseUserName(name);
 
         changeComment.comment = data.asc_getText();
         changeComment.userId = data.asc_getUserId();
         changeComment.userName = name;
-        changeComment.parsedName = parseUserName(name);
+        changeComment.parsedName = Common.Utils.String.htmlEncode(parsedName);
+        changeComment.userInitials = this.usersStore.getInitials(parsedName);
         changeComment.userColor = (user) ? user.asc_getColor() : null;
         changeComment.resolved = data.asc_getSolved();
         changeComment.quote = data.asc_getQuoteText();
@@ -158,7 +158,7 @@ class CommentsController extends Component {
                 ind: i,
                 userId: data.asc_getReply(i).asc_getUserId(),
                 userName: userName,
-                parsedName: parsedName,
+                parsedName: Common.Utils.String.htmlEncode(parsedName),
                 userColor: (user) ? user.asc_getColor() : null,
                 date: dateToLocaleTimeString(dateReply),
                 reply: data.asc_getReply(i).asc_getText(),
@@ -186,7 +186,7 @@ class CommentsController extends Component {
             uid                 : id,
             userId              : data.asc_getUserId(),
             userName            : userName,
-            parsedName          : parsedName,
+            parsedName          : Common.Utils.String.htmlEncode(parsedName),
             userColor           : (user) ? user.asc_getColor() : null,
             date                : dateToLocaleTimeString(date),
             quote               : data.asc_getQuoteText(),
@@ -224,7 +224,7 @@ class CommentsController extends Component {
                     ind                 : i,
                     userId              : data.asc_getReply(i).asc_getUserId(),
                     userName            : userName,
-                    parsedName          : parsedName,
+                    parsedName          : Common.Utils.String.htmlEncode(parsedName),
                     userColor           : (user) ? user.asc_getColor() : null,
                     date                : dateToLocaleTimeString(date),
                     reply               : data.asc_getReply(i).asc_getText(),
@@ -267,7 +267,7 @@ class AddCommentController extends Component {
         }
         const name = parseUserName(this.currentUser.asc_getUserName());
         return {
-            name: name,
+            name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
             color: this.currentUser.asc_getColor()
         };
@@ -311,7 +311,7 @@ class EditCommentController extends Component {
         this.currentUser = this.props.users.currentUser;
         const name = parseUserName(this.currentUser.asc_getUserName());
         return {
-            name: name,
+            name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
             color: this.currentUser.asc_getColor()
         };
