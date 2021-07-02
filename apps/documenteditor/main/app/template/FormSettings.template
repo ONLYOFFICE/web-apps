@@ -74,6 +74,17 @@
     </tr>
     <tr class="form-image">
         <td class="padding-large">
+            <label class="input-label"><%= scope.textScale %></label>
+            <div id="form-combo-scale" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-chb-aspect"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
             <div id="form-button-replace" style="width:100%;"></div>
         </td>
     </tr>
