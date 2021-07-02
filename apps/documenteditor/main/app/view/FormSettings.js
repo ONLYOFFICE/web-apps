@@ -343,6 +343,29 @@ define([
                 }
             }, this));
 
+            this.chAspect = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-aspect'),
+                labelText: this.textAspect
+            });
+            this.chAspect.on('change', this.onChAspect.bind(this));
+            this.lockedControls.push(this.chAspect);
+
+            this.cmbScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
+                    { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
+                    { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+            });
+            this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
+            this.lockedControls.push(this.cmbScale);
+            this.cmbScale.on('selected', this.onScaleChanged.bind(this));
+            this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
+            this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -503,6 +526,28 @@ define([
                 this.api.asc_SetFixedForm(this.internalId, field.getValue()=='checked');
                 this.fireEvent('editcomplete', this);
              }
+        },
+
+        onChAspect: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ConstantProportions(field.getValue()=='checked');
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ScaleFlag(record.value);
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         onGroupKeyChanged: function(combo, record) {
@@ -790,6 +835,22 @@ define([
                     }
                 }
 
+                var pictPr = props.get_PictureFormPr();
+                if (pictPr) {
+                    this._originalPictProps = pictPr;
+                    val = pictPr.get_ConstantProportions();
+                    if ( this._state.Aspect!==val ) {
+                        this.chAspect.setValue(!!val, true);
+                        this._state.Aspect=val;
+                    }
+
+                    val = pictPr.get_ScaleFlag();
+                    if (this._state.scaleFlag!==val) {
+                        this.cmbScale.setValue(val);
+                        this._state.scaleFlag=val;
+                    }
+                }
+
                 var formTextPr = props.get_TextFormPr();
                 if (formTextPr) {
                     this._originalTextFormProps = formTextPr;
@@ -1021,7 +1082,13 @@ define([
         textFixed: 'Fixed size field',
         textRequired: 'Required',
         textAutofit: 'AutoFit',
-        textMulti: 'Multiline field'
+        textMulti: 'Multiline field',
+        textAspect: 'Lock aspect ratio',
+        textAlways: 'Always',
+        textNever: 'Never',
+        textTooBig: 'Image is Too Big',
+        textTooSmall: 'Image is Too Small',
+        textScale: 'When to scale'
 
     }, DE.Views.FormSettings || {}));
 });
