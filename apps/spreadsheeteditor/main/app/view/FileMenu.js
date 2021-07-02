@@ -127,6 +127,10 @@ define([
                 caption : this.btnRenameCaption,
                 canFocused: false
             });
+            if ( !!this.options.miRename ) {
+                this.miRename.setDisabled(this.options.miRename.isDisabled());
+                delete this.options.miRename;
+            }
 
             this.miProtect = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-protect'),
@@ -249,6 +253,8 @@ define([
         },
 
         applyMode: function() {
+            if (!this.rendered) return;
+            
             if (!this.panels) {
                 this.panels = {
                     'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
@@ -324,8 +330,7 @@ define([
             }
 
             if ( this.mode.disableEditing != undefined ) {
-                this.panels['opts'].disableEditing(this.mode.disableEditing);
-                this.miProtect.setDisabled(this.mode.disableEditing);
+                this.panels['opts'].SetDisabled(this.mode.disableEditing);
                 delete this.mode.disableEditing;
             }
         },
@@ -343,8 +348,7 @@ define([
             }
 
             if (!delay) {
-                if ( this.rendered )
-                    this.applyMode();
+                this.applyMode();
             }
         },
 
@@ -402,6 +406,8 @@ define([
             if ( !this.rendered ) {
                 if (type == 'save') {
                     return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
+                } else if (type == 'rename') {
+                    return this.options.miRename ? this.options.miRename : (this.options.miRename = new Common.UI.MenuItem({}));
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
@@ -410,19 +416,25 @@ define([
                 if (type == 'save') {
                     return this.miSave;
                 } else
+                if (type == 'rename') {
+                    return this.miRename;
+                }else
                 if (type == 'protect') {
                     return this.miProtect;
                 }
             }
         },
 
-        disableEditing: function(disabled) {
+        SetDisabled: function(disable, options) {
             if ( !this.panels ) {
-                this.mode.disableEditing = disabled;
+                this.mode.disableEditing = disable;
             } else {
-                this.panels['opts'].disableEditing(disabled);
-                this.miProtect.setDisabled(disabled);
+                this.panels['opts'].SetDisabled(disable);
             }
+
+            var _btn_protect = this.getButton('protect');
+
+            options && options.protect && _btn_protect.setDisabled(disable || !this.mode.isEdit);
         },
 
         btnSaveCaption          : 'Save',

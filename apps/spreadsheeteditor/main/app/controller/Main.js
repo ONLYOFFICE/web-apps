@@ -209,7 +209,8 @@ define([
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
-                Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('editing:disable',              _.bind(this.onEditingDisable, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -217,6 +218,11 @@ define([
                 });
 
                 this.stackLongActions.push({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
+
+                this.stackDisableActions = new Common.IrregularStack({
+                    strongCompare   : this._compareActionWeak,
+                    weakCompare     : this._compareActionWeak
+                });
 
                 this.isShowOpenDialog = false;
 
@@ -670,6 +676,9 @@ define([
                     if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
+                if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
+                    this.disableEditing(false, true);
+                }
             },
 
             setLongActionView: function(action) {
@@ -741,6 +750,12 @@ define([
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText + '           ';
                         break;
+
+                    case Asc.c_oAscAsyncAction['Disconnect']:
+                        title    = this.textDisconnect;
+                        this.disableEditing(true, true);
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -1032,11 +1047,75 @@ define([
                 }
             },
 
-            disableEditing: function(disable) {
+            disableEditing: function(disable, temp) {
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: false,
+                    allowProtect: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: true, previewMode: true},
+                    fileMenu: {protect: true, history: temp},
+                    comments: {disable: !temp, previewMode: true},
+                    chat: true,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true,
+                    celleditor: {previewMode: true}
+                }, temp ? 'reconnect' : 'disconnect');
+            },
+
+            onEditingDisable: function(disable, options, type) {
                 var app = this.getApplication();
-                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('Toolbar').DisableToolbar(disable);
+
+                var action = {type: type, disable: disable, options: options};
+                if (disable && !this.stackDisableActions.get({type: type}))
+                    this.stackDisableActions.push(action);
+                !disable && this.stackDisableActions.pop({type: type});
+                var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
+
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+                if (options.statusBar) {
+                    app.getController('Statusbar').SetDisabled(disable);
+                }
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                }
+                if (options.viewport) {
+                    app.getController('Viewport').SetDisabled(disable);
+                }
+                if (options.toolbar) {
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
+                }
+                if (options.documentHolder) {
+                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect);
+                }
+                if (options.leftMenu) {
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').SetDisabled(disable, options);
+                    if (options.leftMenu.previewMode)
+                        app.getController('LeftMenu').setPreviewMode(disable);
+                }
+                if (options.fileMenu) {
+                    app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                }
+                if (options.comments) {
+                    var comments = this.getApplication().getController('Common.Controllers.Comments');
+                    if (comments && options.comments.previewMode)
+                        comments.setPreviewMode(disable);
+                }
+                if (options.celleditor && options.celleditor.previewMode) {
+                    app.getController('CellEditor').setPreviewMode(disable);
+                }
+
+                if (prev_options) {
+                    this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
             },
 
@@ -2437,20 +2516,7 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
-                        me.disableEditing(disable);
-                        var app = me.getApplication();
-                        app.getController('Toolbar').DisableToolbar(disable,disable);
-                        app.getController('RightMenu').SetDisabled(disable, true);
-                        app.getController('Statusbar').SetDisabled(disable);
-                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        app.getController('DocumentHolder').SetDisabled(disable);
-                        var leftMenu = app.getController('LeftMenu');
-                        leftMenu.setPreviewMode(disable);
-                        leftMenu.disableEditing(disable);
-                        app.getController('CellEditor').disableEditing(disable);
-                        app.getController('Viewport').disableEditing(disable);
-                        var comments = app.getController('Common.Controllers.Comments');
-                        if (comments) comments.setPreviewMode(disable);
+                        me.disableEditing(disable, true);
                 }});
             },
 
@@ -2952,7 +3018,8 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
-            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            textDisconnect: 'Connection is lost'
         }
     })(), SSE.Controllers.Main || {}))
 });

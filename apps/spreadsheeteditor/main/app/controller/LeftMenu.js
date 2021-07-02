@@ -188,13 +188,28 @@ define([
             return this;
         },
 
-        disableEditing: function(disabled) {
-            this.leftMenu.btnComments.setDisabled(disabled);
-            this.leftMenu.btnChat.setDisabled(disabled);
-            this.leftMenu.btnPlugins.setDisabled(disabled);
-            this.leftMenu.btnSpellcheck.setDisabled(disabled);
+        SetDisabled: function(disable, options) {
+            if (this.leftMenu._state.disabled !== disable) {
+                this.leftMenu._state.disabled = disable;
+                if (disable) {
+                    this.previsEdit = this.mode.isEdit;
+                    this.prevcanEdit = this.mode.canEdit;
+                    this.mode.isEdit = this.mode.canEdit = !disable;
+                } else {
+                    this.mode.isEdit = this.previsEdit;
+                    this.mode.canEdit = this.prevcanEdit;
+                }
+            }
 
-            this.leftMenu.getMenu('file').disableEditing(disabled);
+            if (disable) this.leftMenu.close();
+
+            if (!options || options.comments && options.comments.disable)
+                this.leftMenu.btnComments.setDisabled(disable);
+            if (!options || options.chat)
+                this.leftMenu.btnChat.setDisabled(disable);
+
+            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.btnSpellcheck.setDisabled(disable);
         },
 
         createDelayedElements: function() {

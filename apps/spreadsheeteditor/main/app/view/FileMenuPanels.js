@@ -261,10 +261,11 @@ define([
             this.spellcheckSettings && this.spellcheckSettings.setApi(api);
         },
 
-        disableEditing: function(disabled) {
+        SetDisabled: function(disabled) {
             if ( disabled ) {
                 $(this.viewSettingsPicker.dataViewItems[1].el).hide();
                 $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+                this.viewSettingsPicker.selectByIndex(0, true);
             } else {
                 if ( this.mode.canPrint )
                     $(this.viewSettingsPicker.dataViewItems[1].el).show();
