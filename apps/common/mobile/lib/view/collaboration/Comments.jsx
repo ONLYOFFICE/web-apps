@@ -56,7 +56,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     {Device.android &&
                     <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
                     }
-                    <div className='name'>{GetUserName(userInfo.name)}</div>
+                    <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
                     <Input type='textarea' placeholder={_t.textAddComment} autofocus value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
@@ -91,7 +91,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                 <div class='wrap-comment'>
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
-                        <div class='name'>${GetUserName(userInfo.name)}</div>
+                        <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
                         <textarea id='comment-text' placeholder='${_t.textAddComment}' autofocus></textarea>
@@ -223,7 +223,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                     <div className='initials' style={{backgroundColor: `${comment.userColor}`}}>{comment.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{GetUserName(comment.userName)}</div>
+                        <div className='name'>{comment.parsedName}</div>
                         <div className='comment-date'>{comment.date}</div>
                     </div>
                 </div>
@@ -260,7 +260,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${GetUserName(comment.userName)}</div>
+                            <div class='name'>${comment.parsedName}</div>
                             <div class='comment-date'>${comment.date}</div>
                         </div>
                     </div>
@@ -352,7 +352,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                     {Device.android &&
                     <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
                     }
-                    <div className='name'>{GetUserName(userInfo.name)}</div>
+                    <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
                     <Input type='textarea' placeholder={_t.textAddReply} autofocus value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
@@ -386,7 +386,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                 <div class='wrap-comment'>
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
-                        <div class='name'>${GetUserName(userInfo.name)}</div>
+                        <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
                         <textarea id='reply-text' placeholder='${_t.textAddReply}' autofocus></textarea>
@@ -479,7 +479,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                     <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{GetUserName(reply.userName)}</div>
+                        <div className='name'>{reply.parsedName}</div>
                         <div className='reply-date'>{reply.date}</div>
                     </div>
                 </div>
@@ -516,7 +516,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${GetUserName(reply.userName)}</div>
+                            <div class='name'>${reply.parsedName}</div>
                             <div class='reply-date'>${reply.date}</div>
                         </div>
                     </div>
@@ -663,7 +663,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     <div className='left'>
                                         {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
                                         <div>
-                                            <div className='user-name'>{GetUserName(comment.userName)}</div>
+                                            <div className='user-name'>{comment.parsedName}</div>
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
@@ -693,7 +693,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                     <div className='left'>
                                                                         {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
                                                                         <div>
-                                                                            <div className='user-name'>{GetUserName(reply.userName)}</div>
+                                                                            <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
@@ -792,7 +792,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                 <div className='left'>
                                     {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
                                     <div>
-                                        <div className='user-name'>{GetUserName(comment.userName)}</div>
+                                        <div className='user-name'>{comment.parsedName}</div>
                                         <div className='comment-date'>{comment.date}</div>
                                     </div>
                                 </div>
@@ -822,7 +822,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                                                 <div className='left'>
                                                                     {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
                                                                     <div>
-                                                                        <div className='user-name'>{GetUserName(reply.userName)}</div>
+                                                                        <div className='user-name'>{reply.parsedName}</div>
                                                                         <div className='reply-date'>{reply.date}</div>
                                                                     </div>
                                                                 </div>
@@ -926,12 +926,6 @@ const ViewCurrentComments = props => {
         Device.phone ?
             <ViewCommentSheet {...props}/> :
             <ViewCommentPopover {...props}/>
-    )
-};
-
-const GetUserName = name => {
-    return (
-        Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(name))
     )
 };
 
