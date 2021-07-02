@@ -806,12 +806,14 @@ define([
                         this.chMulti.setValue(!!val, true);
                         this._state.Multi=val;
                     }
+                    this.chMulti.setDisabled(!this._state.Fixed);
 
                     val = formTextPr.get_AutoFit();
                     if ( this._state.AutoFit!==val ) {
                         this.chAutofit.setValue(!!val, true);
                         this._state.AutoFit=val;
                     }
+                    this.chAutofit.setDisabled(!this._state.Fixed);
 
                     this.btnColor.setDisabled(!this._state.Comb);
 
