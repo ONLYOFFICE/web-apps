@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';

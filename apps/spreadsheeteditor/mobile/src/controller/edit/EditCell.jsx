@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import { f7 } from 'framework7-react';
-import {Device} from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
-
 import { EditCell } from '../../view/edit/EditCell';
 
 class EditCellController extends Component {
@@ -210,4 +206,4 @@ class EditCellController extends Component {
     }
 }
 
-export default inject("storeCellSettings")(observer(EditCellController));
+export default EditCellController;
