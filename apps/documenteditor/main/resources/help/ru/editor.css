@@ -1,6 +1,6 @@
 ﻿body
 {
-font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
 font-size: 12px;
 color: #444;
 background: #fff;
@@ -180,7 +180,7 @@ text-decoration: none;
     font-style: italic;
 }
 #search-results a {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
     font-size: 1em;
     font-weight: bold;
     color: #444;

@@ -273,7 +273,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -281,7 +281,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -298,9 +298,9 @@ define([
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -313,9 +313,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -376,9 +376,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-h-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -392,9 +392,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-f-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -662,14 +662,14 @@ define([
             });
 
             this.btnPresetsH.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
             this.btnPresetsF.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets

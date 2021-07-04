@@ -7,6 +7,8 @@ define([
 ], function () {
     'use strict';
 
+    !Common.UI && (Common.UI = {});
+    
     Common.UI.Themes = new (function(locale) {
         !locale && (locale = {});
         var themes_map = {
@@ -237,7 +239,7 @@ define([
 
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
-                        me.setTheme(e.originalEvent.newValue);
+                        me.setTheme(e.originalEvent.newValue, true);
                     }
                 })
 
@@ -248,6 +250,10 @@ define([
 
                 if ( !$('body').hasClass(theme_name) ) {
                     $('body').addClass(theme_name);
+                }
+
+                if ( !document.body.className.match(/theme-type-/) ) {
+                    document.body.classList.add('theme-type-' + themes_map[theme_name].type);
                 }
 
                 var obj = get_current_theme_colors(name_colors);
@@ -263,7 +269,7 @@ define([
             },
 
             setAvailable: function (value) {
-                this.locked = value;
+                this.locked = !value;
             },
 
             map: function () {
@@ -293,16 +299,16 @@ define([
             setTheme: function (obj, force) {
                 var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
-                    var classname = document.body.className.replace(/theme-\w+\s?/, '');
-                    document.body.className = classname;
+                    document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
+                    document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
-                    $('body').addClass(id);
+                    if ( this.api ) {
+                        var obj = get_current_theme_colors(name_colors);
+                        obj.type = themes_map[id].type;
+                        obj.name = id;
 
-                    var obj = get_current_theme_colors(name_colors);
-                    obj.type = themes_map[id].type;
-                    obj.name = id;
-
-                    this.api.asc_setSkin(obj);
+                        this.api.asc_setSkin(obj);
+                    }
 
                     if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
                         var theme_obj = {
