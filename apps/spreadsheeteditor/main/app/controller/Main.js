@@ -1062,7 +1062,7 @@ define([
                     if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                         this._state.licenseType = licType;
 
-                    if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
                     if (params.asc_getRights() !== Asc.c_oRights.Edit)
                         this.permissions.edit = false;
@@ -2552,6 +2552,18 @@ define([
                 this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    Common.UI.warning({
+                        msg: this.errorLang,
+                        buttons: [],
+                        closable: false
+                    });
+                    return false;
+                }
+                return true;
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2952,6 +2964,7 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
         }
     })(), SSE.Controllers.Main || {}))

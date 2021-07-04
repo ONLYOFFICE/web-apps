@@ -48,7 +48,7 @@ define([
     'common/main/lib/view/ExternalDiagramEditor'
 ], function () { 'use strict';
     Common.Controllers.ExternalDiagramEditor = Backbone.Controller.extend(_.extend((function() {
-        var appLang         = 'en',
+        var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
             externalEditor  = null,

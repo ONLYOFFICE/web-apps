@@ -999,7 +999,7 @@ define([
                 if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                     this._state.licenseType = licType;
 
-                if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = false;
@@ -2191,6 +2191,18 @@ define([
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
             },
 
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    Common.UI.warning({
+                        msg: this.errorLang,
+                        buttons: [],
+                        closable: false
+                    });
+                    return false;
+                }
+                return true;
+            },
+
             onRefreshHistory: function(opts) {
                 if (!this.appOptions.canUseHistory) return;
 
@@ -2709,6 +2721,7 @@ define([
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             txtErrorLoadHistory: 'Loading history failed',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
