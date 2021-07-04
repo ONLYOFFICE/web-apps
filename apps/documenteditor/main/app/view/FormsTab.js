@@ -58,8 +58,8 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
-            '<div class="group no-group-mask form-view small" style="display: none;">' +
-                '<div class="elset">' +
+            '<div class="group no-group-mask inner-elset small" style="display: none;">' +
+                '<div class="elset no-group-mask form-view">' +
                     '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
                 '</div>' +
                 '<div class="elset">' +
