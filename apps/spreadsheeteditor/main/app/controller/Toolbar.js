@@ -2175,6 +2175,10 @@ define([
                     toolbar.listStyles.resumeEvents();
                     this._state.prstyle = undefined;
                 }
+
+                if ( this.appConfig.isDesktopApp && this.appConfig.canProtect ) {
+                    this.getApplication().getController('Common.Controllers.Protection').SetDisabled(is_cell_edited, false);
+                }
             } else {
                 if (state == Asc.c_oAscCellEditorState.editText) var is_text = true, is_formula = false; else
                 if (state == Asc.c_oAscCellEditorState.editFormula) is_text = !(is_formula = true); else
