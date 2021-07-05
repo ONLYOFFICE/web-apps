@@ -318,6 +318,7 @@
             "textThin": "Thin",
             "textMedium": "Medium",
             "textThick": "Thick",
+            "textFraction": "Fraction",
             "textGeneral": "General",
             "textNumber": "Number",
             "textInteger": "Integer",
