@@ -254,6 +254,7 @@ class AddCommentController extends Component {
         };
 
         Common.Notifications.on('addcomment', () => {
+            f7.popover.close('#idx-context-menu-popover'); //close context menu
             this.setState({isOpen: true});
         });
     }
