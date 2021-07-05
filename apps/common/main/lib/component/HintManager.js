@@ -82,7 +82,7 @@ Common.UI.HintManager = new(function() {
         if (_currentHints.length > 0) {
             _hintVisible = true;
             _currentHints.forEach(function(item) {
-                item.show()
+                item.show();
             });
         } else
             _hintVisible = false;
@@ -161,7 +161,7 @@ Common.UI.HintManager = new(function() {
         var index = 0;
         visibleItems.forEach(function (item) {
             var el = $(item);
-            if (usedLetters.indexOf(index) !== -1) {
+            while (usedLetters.indexOf(index) !== -1) {
                 index++;
             }
             var title = el.attr('data-hint-title');
@@ -178,6 +178,12 @@ Common.UI.HintManager = new(function() {
             _getControls();
         _currentControls.forEach(function(item, index) {
             if (!item.hasClass('disabled') && !item.parent().hasClass('disabled') && !item.attr('disabled')) {
+                if (window.SSE && item.parent().prop('id') === 'statusbar_bottom') {
+                    var $statusbar = item.parent();
+                    if (item.offset().left > $statusbar.offset().left + $statusbar.width()) {
+                        return;
+                    }
+                }
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
                 // exceptions
@@ -306,7 +312,10 @@ Common.UI.HintManager = new(function() {
                     }
                     if (curr) {
                         var tag = curr.prop("tagName").toLowerCase();
-                        if (tag === 'input' || tag === 'textarea') {
+                        if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
+                            curr.contextmenu();
+                            _hideHints();
+                        } else if (tag === 'input' || tag === 'textarea') {
                             curr.trigger(jQuery.Event('click', {which: 1}));
                             curr.focus();
                             _hideHints();
