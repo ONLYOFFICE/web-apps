@@ -697,6 +697,9 @@ define([
         getUserName: function (username) {
             return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
         },
+        getEncodedName: function (username) {
+            return Common.Utils.String.htmlEncode(username);
+        },
 
         pickLink: function (message) {
             var arr = [], offset, len;

@@ -1374,6 +1374,7 @@ define([
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
                         username: AscCommon.UserInfoParser.getCurrentName(),
+                        parsedName: AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()),
                         usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
                         showReplyInPopover: false,
