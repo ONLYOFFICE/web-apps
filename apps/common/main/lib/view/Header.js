@@ -442,7 +442,10 @@ define([
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
-                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite',
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 Common.NotificationCenter.on({

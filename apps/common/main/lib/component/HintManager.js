@@ -118,6 +118,10 @@ Common.UI.HintManager = new(function() {
         return arr;
     };
 
+    var _isItemDisabled = function (item) {
+        return (item.hasClass('disabled') || item.parent().hasClass('disabled') || item.attr('disabled'));
+    };
+
     var _getControls = function() {
         _currentControls = [];
         var arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
@@ -177,7 +181,10 @@ Common.UI.HintManager = new(function() {
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
-            if (!item.hasClass('disabled') && !item.parent().hasClass('disabled') && !item.attr('disabled')) {
+            if (!_isItemDisabled(item)) {
+                if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                    return;
+                }
                 if (window.SSE && item.parent().prop('id') === 'statusbar_bottom') {
                     var $statusbar = item.parent();
                     if (item.offset().left > $statusbar.offset().left + $statusbar.width()) {
@@ -264,10 +271,13 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function() {
-        Common.NotificationCenter.on('app:ready', function (mode) {
-            _lang = mode.lang;
-            _getAlphabetLetters();
-        }.bind(this));
+        Common.NotificationCenter.on({
+            'app:ready': function (mode) {
+                _lang = mode.lang;
+                _getAlphabetLetters();
+            },
+            'hints:clear': _clearHints
+        });
         $(document).on('keyup', function(e) {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
@@ -305,7 +315,7 @@ Common.UI.HintManager = new(function() {
                     _inputLetters = _inputLetters + curLetter.toUpperCase();
                     for (var i = 0; i < _currentControls.length; i++) {
                         var item = _currentControls[i];
-                        if (item.attr('data-hint-title') === _inputLetters) {
+                        if (!_isItemDisabled(item) && item.attr('data-hint-title') === _inputLetters) {
                             curr = item;
                             break;
                         }
@@ -374,8 +384,16 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
+    var _clearHints = function () {
+        if (_hintVisible) {
+            _hideHints();
+            _resetToDefault();
+        }
+    };
+
     return {
         init: _init,
+        clearHints: _clearHints,
         needCloseMenu: _needCloseMenu
     }
 })();
