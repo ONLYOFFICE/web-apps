@@ -80,6 +80,7 @@ export class storeComments {
             comment.editable = changeComment.editable;
             comment.removable = changeComment.removable;
             comment.replies = changeComment.replies;
+            comment.hide =changeComment.hide;
         }
     }
 

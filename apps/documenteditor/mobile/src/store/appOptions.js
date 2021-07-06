@@ -113,6 +113,7 @@ export class storeAppOptions {
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
         this.canChat = this.canLicense && !this.isOffline && !((typeof (this.customization) == 'object') && this.customization.chat === false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
@@ -134,8 +135,11 @@ export class storeAppOptions {
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;
         }
-
-        this.canUseReviewPermissions = this.canLicense && this.customization && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object');
+        this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
+            && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
+        this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
+        this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);    
     }
     setCanViewReview (value) {
         this.canViewReview = value;

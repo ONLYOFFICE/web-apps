@@ -148,9 +148,9 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
             <ActionsGroup>
                 {comment && <Fragment>
                     {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
-                    {!comment.resolved ?
+                    {!comment.resolved && comment.editable ?
                         <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textResolve}</ActionsButton> :
-                        <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
+                       comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
                     }
                     <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
                     {comment.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteComment', comment);}}>{_t.textDeleteComment}</ActionsButton>}
@@ -657,6 +657,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                 <List className='comment-list'>
                     {sortComments.map((comment, indexComment) => {
                         return (
+                            !comment.hide &&
                             <ListItem key={`comment-${indexComment}`} onClick={e => {
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
@@ -669,7 +670,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>{comment.editable && <Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} />}</div>
                                             <div className='comment-menu'
                                                  onClick={() => {setComment(comment); openActionComment(true);}}
                                             ><Icon icon='icon-menu-comment'/></div>
