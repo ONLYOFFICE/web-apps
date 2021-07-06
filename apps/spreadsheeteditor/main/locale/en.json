@@ -191,6 +191,7 @@
   "Common.Views.Comments.mniPosition": "Sort by Position",
   "Common.Views.Comments.mniAuthor": "Sort by Authors",
   "Common.Views.Comments.mniDate": "Sort by Date",
+  "Common.Views.Comments.textClosePanel": "Close comments",
   "Common.Views.CopyWarningDialog.textDontShow": "Don't show this message again",
   "Common.Views.CopyWarningDialog.textMsg": "Copy, cut and paste actions using the editor toolbar buttons and context menu actions will be performed within this editor tab only.<br><br>To copy or paste to or from applications outside the editor tab use the following keyboard combinations:",
   "Common.Views.CopyWarningDialog.textTitle": "Copy, Cut and Paste Actions",

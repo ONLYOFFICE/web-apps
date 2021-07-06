@@ -98,6 +98,7 @@ define([
                 }
             });
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
         },
 
         onLaunch: function() {
@@ -957,6 +958,18 @@ define([
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
+            }
+        },
+
+        onMenuChange: function (value) {
+            if ('hide' === value) {
+                if (this.leftMenu.btnComments.isActive() && this.api) {
+                    this.leftMenu.btnComments.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+
+                    // focus to sdk
+                    this.api.asc_enableKeyEvents(true);
                 }
             }
         },

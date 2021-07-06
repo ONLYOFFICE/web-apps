@@ -359,9 +359,17 @@ define([
                     })
                 });
 
+                this.buttonClose = new Common.UI.Button({
+                    parentEl: $('#comments-btn-close', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-close',
+                    hint: this.textClosePanel
+                });
+
                 this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
+                this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
@@ -776,6 +784,10 @@ define([
             state && this.fireEvent('comment:sort', [item.value]);
         },
 
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
         textComments            : 'Comments',
         textAnonym              : 'Guest',
         textAddCommentToDoc     : 'Add Comment to Document',
@@ -794,6 +806,7 @@ define([
         textSort: 'Sort comments',
         mniPosition: 'Sort by Position',
         mniAuthor: 'Sort by Authors',
-        mniDate: 'Sort by Date'
+        mniDate: 'Sort by Date',
+        textClosePanel: 'Close comments'
     }, Common.Views.Comments || {}))
 });
