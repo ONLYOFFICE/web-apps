@@ -328,7 +328,7 @@ define([
                 this.buttonSort = new Common.UI.Button({
                     parentEl: $('#comments-btn-sort', this.$el),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-rotate-270',
+                    iconCls: 'toolbar__icon btn-setmarkers',
                     hint: this.textSort,
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-br',
