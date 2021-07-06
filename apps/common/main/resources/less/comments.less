@@ -7,6 +7,24 @@
         display: table-row;
     }
 
+    #comments-header {
+        position: absolute;
+        height: 45px;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+
+        label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+    }
+
     .messages-ct {
         position: absolute;
         overflow: hidden;
@@ -14,6 +32,7 @@
         right: 0;
         bottom: 45px;
         height: 300px;
+        padding-top: 45px;
         border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
 
