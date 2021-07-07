@@ -26,7 +26,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeTableSettings",
     "storeDocumentInfo",
     "storeChartSettings",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeLinkSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -570,6 +571,12 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onTextShd', (shd) => {
             let color = shd.get_Color();
             storeTextSettings.resetBackgroundColor(color);
+        });
+
+        // link settings
+        const storeLinkSettings = this.props.storeLinkSettings;
+        this.api.asc_registerCallback('asc_onCanAddHyperlink', (value) => {
+            storeLinkSettings.canAddHyperlink(value);
         });
 
         //paragraph settings

@@ -242,16 +242,25 @@ class AddOtherController extends Component {
 
     render () {
         return (
-            <AddOther closeModal={this.closeModal}
-                      onInsertPageNumber={this.onInsertPageNumber}
-                      onPageBreak={this.onPageBreak}
-                      onColumnBreak={this.onColumnBreak}
-                      onInsertSectionBreak={this.onInsertSectionBreak}
-                      getFootnoteProps={this.getFootnoteProps}
-                      getFootnoteStartAt={this.getFootnoteStartAt}
-                      onFootnoteStartAt={this.onFootnoteStartAt}
-                      onInsertFootnote={this.onInsertFootnote}
-                      initFootnoteStartAt={this.initFootnoteStartAt}
+            <AddOther 
+                closeModal={this.closeModal}
+                onInsertPageNumber={this.onInsertPageNumber}
+                onPageBreak={this.onPageBreak}
+                onColumnBreak={this.onColumnBreak}
+                onInsertSectionBreak={this.onInsertSectionBreak}
+                getFootnoteProps={this.getFootnoteProps}
+                getFootnoteStartAt={this.getFootnoteStartAt}
+                onFootnoteStartAt={this.onFootnoteStartAt}
+                onInsertFootnote={this.onInsertFootnote}
+                initFootnoteStartAt={this.initFootnoteStartAt}
+                inFootnote={this.props.inFootnote} 
+                inControl={this.props.inControl} 
+                paragraphLocked={this.props.paragraphLocked} 
+                controlPlain={this.props.controlPlain}
+                richDelLock={this.props.richDelLock}
+                richEditLock={this.props.richEditLock}
+                plainDelLock={this.props.plainDelLock}
+                plainEditLock={this.props.plainEditLock}      
             />
         )
     }

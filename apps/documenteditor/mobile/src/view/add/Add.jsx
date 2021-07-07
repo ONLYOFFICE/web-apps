@@ -84,45 +84,44 @@ const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPa
     const options = storeFocusObjects.settings;
     const paragraphObj = storeFocusObjects.paragraphObject;
 
-    let need_disable = false,
-        can_add_table = true,
-        can_add_image = true,
-        paragraph_locked = false,
-        in_footnote = false,
-        in_control = false,
-        control_props = false,
-        lock_type = false,
-        control_plain = false,
-        content_locked = false,
-        rich_del_lock = false,
-        rich_edit_lock = false,
-        plain_del_lock = false,
-        plain_edit_lock = false;
+    let needDisable = false,
+        canAddTable = true,
+        canAddImage = true,
+        paragraphLocked = false,
+        inFootnote = false,
+        inControl = false,
+        controlProps = false,
+        lockType = false,
+        controlPlain = false,
+        contentLocked = false,
+        richDelLock = false,
+        richEditLock = false,
+        plainDelLock = false,
+        plainEditLock = false;
 
     if(paragraphObj) {
-        can_add_table = paragraphObj.get_CanAddTable();
-        can_add_image = paragraphObj.get_CanAddImage();
-        paragraph_locked = paragraphObj.get_Locked();
+        canAddTable = paragraphObj.get_CanAddTable();
+        canAddImage = paragraphObj.get_CanAddImage();
+        paragraphLocked = paragraphObj.get_Locked();
 
-        in_footnote = api.asc_IsCursorInFootnote() || api.asc_IsCursorInEndnote();
-        in_control = api.asc_IsContentControl();
+        inFootnote = api.asc_IsCursorInFootnote() || api.asc_IsCursorInEndnote();
+        inControl = api.asc_IsContentControl();
 
-        control_props = in_control ? api.asc_GetContentControlProperties() : null;
-        lock_type = (in_control && control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
-        control_plain = (in_control && control_props) ? (control_props.get_ContentControlType() == Asc.c_oAscSdtLevelType.Inline) : false;
-        content_locked = lock_type == Asc.c_oAscSdtLockType.SdtContentLocked || lock_type == Asc.c_oAscSdtLockType.ContentLocked;
+        controlProps = inControl ? api.asc_GetContentControlProperties() : null;
+        lockType = (inControl && controlProps) ? controlProps.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+        controlPlain = (inControl && controlProps) ? (controlProps.get_ContentControlType() == Asc.c_oAscSdtLevelType.Inline) : false;
+        contentLocked = lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.ContentLocked;
 
-        rich_del_lock = paragraphObj ? !paragraphObj.can_DeleteBlockContentControl() : false;
-        rich_edit_lock = paragraphObj ? !paragraphObj.can_EditBlockContentControl() : false;
-        plain_del_lock = paragraphObj ? !paragraphObj.can_DeleteInlineContentControl() : false;
-        plain_edit_lock = paragraphObj ? !paragraphObj.can_EditInlineContentControl() : false;
+        richDelLock = paragraphObj ? !paragraphObj.can_DeleteBlockContentControl() : false;
+        richEditLock = paragraphObj ? !paragraphObj.can_EditBlockContentControl() : false;
+        plainDelLock = paragraphObj ? !paragraphObj.can_DeleteInlineContentControl() : false;
+        plainEditLock = paragraphObj ? !paragraphObj.can_EditInlineContentControl() : false;
     }
 
     if (!showPanels && options.indexOf('text') > -1) {
-        need_disable = !can_add_table || control_plain || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
-        // console.log(need_disable);
+        needDisable = !canAddTable || controlPlain || richEditLock || plainEditLock || richDelLock || plainDelLock;
 
-        if(!need_disable) {
+        if(!needDisable) {
             tabs.push({
                 caption: _t.textTable,
                 id: 'add-table',
@@ -132,10 +131,9 @@ const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPa
         }
     }
     if(!showPanels) {
-        need_disable = paragraph_locked || control_plain || content_locked || in_footnote;
-        // console.log(need_disable);
+        needDisable = paragraphLocked || controlPlain || contentLocked || inFootnote;
 
-        if(!need_disable) {
+        if(!needDisable) {
             tabs.push({
                 caption: _t.textShape,
                 id: 'add-shape',
@@ -145,10 +143,9 @@ const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPa
         }
     }
     if(!showPanels) {
-        need_disable = paragraph_locked || paragraphObj && !can_add_image || control_plain || rich_del_lock || plain_del_lock || content_locked;
-        // console.log(need_disable);
+        needDisable = paragraphLocked || paragraphObj && !canAddImage || controlPlain || richDelLock || plainDelLock || contentLocked;
 
-        if(!need_disable) {
+        if(!needDisable) {
             tabs.push({
                 caption: _t.textImage,
                 id: 'add-image',
@@ -162,7 +159,17 @@ const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPa
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController/>
+            component: 
+                <AddOtherController 
+                    inFootnote={inFootnote} 
+                    inControl={inControl} 
+                    paragraphLocked={paragraphLocked} 
+                    controlPlain={controlPlain}
+                    richDelLock={richDelLock}
+                    richEditLock={richEditLock}
+                    plainDelLock={plainDelLock}
+                    plainEditLock={plainEditLock}      
+                />
         });
     }
     if (showPanels && showPanels === 'link') {
