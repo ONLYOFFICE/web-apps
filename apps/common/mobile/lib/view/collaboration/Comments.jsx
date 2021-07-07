@@ -633,7 +633,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
-    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? 1 : -1) : null;
+    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);

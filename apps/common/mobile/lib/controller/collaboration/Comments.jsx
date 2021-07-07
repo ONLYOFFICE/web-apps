@@ -77,7 +77,7 @@ class CommentsController extends Component {
                 const api = Common.EditorApi.get();
                 /** coauthoring begin **/
                 const isLiveCommenting = LocalStorage.getBool(`${window.editorType}-mobile-settings-livecomment`, true);
-                const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`, true);
+                const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`);
                 this.storeApplicationSettings.changeDisplayComments(isLiveCommenting);
                 this.storeApplicationSettings.changeDisplayResolved(resolved);
                 isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
@@ -494,9 +494,10 @@ class ViewCommentsController extends Component {
                 });
             }
             const api = Common.EditorApi.get();
+            api.asc_showComments(this.props.storeApplicationSettings.isResolvedComments);
             api.asc_changeComment(comment.uid, ascComment);
 
-            if(!this.props.storeApplicationSettings.isResolvedComments) {
+            if(this.props.storeApplicationSettings.isResolvedComments) {
                 this.closeViewCurComments();
             }
         }

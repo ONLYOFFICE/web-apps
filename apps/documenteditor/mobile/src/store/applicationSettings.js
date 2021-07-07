@@ -51,6 +51,8 @@ export class storeApplicationSettings {
     }
 
     changeDisplayResolved(value) {
+        const api = Common.EditorApi.get();
+        api.asc_showComments(value);
         this.isResolvedComments = value;
     }
 
