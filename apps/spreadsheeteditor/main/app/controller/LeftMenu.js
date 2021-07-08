@@ -847,7 +847,7 @@ define([
                     return false;
                 case 'escape':
                     if ( this.leftMenu.menuFile.isVisible() ) {
-                        if (Common.UI.HintManager.needCloseMenu())
+                        if (Common.UI.HintManager.needCloseFileMenu())
                             this.leftMenu.menuFile.hide();
                         return false;
                     }
@@ -867,8 +867,10 @@ define([
                     }
                     if ( this.leftMenu.btnAbout.pressed ||
                         ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
-                        this.leftMenu.close();
-                        Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        if (!Common.UI.HintManager.isHintVisible()) {
+                            this.leftMenu.close();
+                            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        }
                         return false;
                     }
                     if (this.mode.isEditDiagram || this.mode.isEditMailMerge) {

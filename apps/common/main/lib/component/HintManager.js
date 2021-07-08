@@ -58,7 +58,8 @@ Common.UI.HintManager = new(function() {
         _currentSection = document,
         _currentControls = [],
         _currentHints = [],
-        _inputLetters = '';
+        _inputLetters = '',
+        _isClear = false;
 
     var _setCurrentSection = function (btn) {
         if (btn === 'esc') {
@@ -324,11 +325,11 @@ Common.UI.HintManager = new(function() {
                         var tag = curr.prop("tagName").toLowerCase();
                         if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                             curr.contextmenu();
-                            _hideHints();
+                            _clearHints();
                         } else if (tag === 'input' || tag === 'textarea') {
                             curr.trigger(jQuery.Event('click', {which: 1}));
                             curr.focus();
-                            _hideHints();
+                            _clearHints();
                         } else {
                             if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
                                 if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
@@ -341,23 +342,22 @@ Common.UI.HintManager = new(function() {
                                 }
                             }
                             if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
-                                _hideHints();
-                                _resetToDefault();
-                                return;
+                                _clearHints();
                             }
                             if (curr.prop('id') === 'add-comment-doc') {
                                 _removeHints();
                                 _currentHints.length = 0;
                                 _currentControls.length = 0;
-                            } else {
-                                _nextLevel();
+                                _showHints();
+                                return;
                             }
-                            _setCurrentSection(curr);
-                            _showHints();
+                            if (!_isClear) {
+                                _nextLevel();
+                                _setCurrentSection(curr);
+                                _showHints();
+                            }
                         }
-                        if (!_hintVisible) { // if there isn't new level, reset settings to start
-                            _resetToDefault();
-                        }
+                        _isClear = false;
                     }
                 }
                 e.preventDefault();
@@ -380,7 +380,7 @@ Common.UI.HintManager = new(function() {
         });
     };
 
-    var _needCloseMenu = function () {
+    var _needCloseFileMenu = function () {
         return !(_hintVisible && _currentLevel > 1);
     };
 
@@ -388,12 +388,18 @@ Common.UI.HintManager = new(function() {
         if (_hintVisible) {
             _hideHints();
             _resetToDefault();
+            _isClear = true;
         }
+    };
+
+    var _isHintVisible = function () {
+        return _hintVisible;
     };
 
     return {
         init: _init,
         clearHints: _clearHints,
-        needCloseMenu: _needCloseMenu
+        needCloseFileMenu: _needCloseFileMenu,
+        isHintVisible: _isHintVisible
     }
 })();
