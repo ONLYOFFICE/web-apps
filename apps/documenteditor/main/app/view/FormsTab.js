@@ -156,7 +156,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-field',
                         caption: this.capBtnText,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnTextField);
 
@@ -164,7 +167,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
                         caption: this.capBtnComboBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnComboBox);
 
@@ -172,7 +178,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
                         caption: this.capBtnDropDown,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnDropDown);
 
@@ -180,7 +189,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
                         caption: this.capBtnCheckBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnCheckBox);
 
@@ -188,7 +200,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
                         caption: this.capBtnRadioBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnRadioBox);
 
@@ -196,7 +211,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
                         caption: this.capBtnImage,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnImageField);
 
@@ -205,7 +223,10 @@ define([
                         iconCls: 'toolbar__icon btn-sheet-view',
                         caption: this.capBtnView,
                         enableToggle: true,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnViewForm);
 
@@ -213,7 +234,10 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-clearstyle',
                         caption     : this.textClearFields,
-                        disabled: true
+                        disabled: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnClearFields);
 
@@ -222,7 +246,10 @@ define([
                         iconCls     : 'toolbar__icon btn-highlight',
                         caption     : this.textHighlight,
                         menu        : true,
-                        disabled: true
+                        disabled: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnHighlight);
                 }
@@ -230,14 +257,20 @@ define([
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
-                    caption: this.capBtnPrev
+                    caption: this.capBtnPrev,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
-                    caption: this.capBtnNext
+                    caption: this.capBtnNext,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnNextForm);
 
@@ -245,7 +278,10 @@ define([
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon submit-form',
-                        caption: this.capBtnSubmit
+                        caption: this.capBtnSubmit,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnSubmit);
                 }

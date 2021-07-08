@@ -117,7 +117,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: []
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbKey.setValue('');
             this.lockedControls.push(this.cmbKey);
@@ -131,7 +134,10 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.txtPlaceholder);
             this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
@@ -140,7 +146,10 @@ define([
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
                 style       : 'width: 100%; height: 60px;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.textareaHelp);
             this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
@@ -149,7 +158,10 @@ define([
             // Text props
             this.chMaxChars = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-max-chars'),
-                labelText: this.textMaxChars
+                labelText: this.textMaxChars,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chMaxChars.on('change', this.onChMaxCharsChanged.bind(this));
             this.lockedControls.push(this.chMaxChars);
@@ -161,7 +173,10 @@ define([
                 defaultUnit : "",
                 value: '10',
                 maxValue: 1000000,
-                minValue: 1
+                minValue: 1,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.spnMaxChars);
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
@@ -169,7 +184,10 @@ define([
 
             this.chComb = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-comb'),
-                labelText: this.textComb
+                labelText: this.textComb,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chComb.on('change', this.onChCombChanged.bind(this));
             this.lockedControls.push(this.chComb);
@@ -182,7 +200,10 @@ define([
                 value: 'Auto',
                 allowAuto: true,
                 maxValue: 55.88,
-                minValue: 0.1
+                minValue: 0.1,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.spnWidth);
             this.spinners.push(this.spnWidth);
@@ -191,14 +212,20 @@ define([
 
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
-                labelText: this.textRequired
+                labelText: this.textRequired,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
 
             this.chFixed = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-fixed'),
-                labelText: this.textFixed
+                labelText: this.textFixed,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chFixed.on('change', this.onChFixed.bind(this));
             this.lockedControls.push(this.chFixed);
@@ -209,7 +236,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: []
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbGroupKey.setValue('');
             this.lockedControls.push(this.cmbGroupKey);
@@ -224,7 +254,10 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.txtNewValue);
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -249,7 +282,10 @@ define([
                 parentEl: $markup.findById('#form-list-add'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-zoomup',
-                hint: this.textTipAdd
+                hint: this.textTipAdd,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
             this.lockedControls.push(this.btnListAdd);
@@ -258,7 +294,10 @@ define([
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon cc-remove',
-                hint: this.textTipDelete
+                hint: this.textTipDelete,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListDelete.on('click', _.bind(this.onDeleteItem, this));
             this.lockedControls.push(this.btnListDelete);
@@ -267,7 +306,10 @@ define([
                 parentEl: $markup.findById('#form-list-up'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-up',
-                hint: this.textTipUp
+                hint: this.textTipUp,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
             this.lockedControls.push(this.btnListUp);
@@ -276,7 +318,10 @@ define([
                 parentEl: $markup.findById('#form-list-down'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-down',
-                hint: this.textTipDown
+                hint: this.textTipDown,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
             this.lockedControls.push(this.btnListDown);
@@ -295,7 +340,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -306,7 +354,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;'
+                style       : 'text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnRemForm.on('click', _.bind(function(btn){
                 this.api.asc_RemoveContentControl(this._state.id);
@@ -318,7 +369,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;'
+                style       : 'text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnLockForm.on('click', _.bind(function(btn){
                 if (this.api  && !this._noApply) {
@@ -860,7 +914,10 @@ define([
                         '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                         '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                     ],
-                    paletteHeight: 94
+                    paletteHeight: 94,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnColor);
                 this.mnuNoBorder.on('click', _.bind(this.onNoBorderClick, this));
