@@ -164,6 +164,7 @@ const AddOther = props => {
     let disabledAddLink = false,
         disabledAddBreak = false,
         disabledAddFootnote = false,
+        disabledAddPageNumber = false,
         inFootnote = props.inFootnote,
         inControl = props.inControl, 
         paragraphLocked = props.paragraphLocked, 
@@ -176,6 +177,7 @@ const AddOther = props => {
     disabledAddBreak = paragraphLocked || inFootnote || inControl || richEditLock || plainEditLock || richDelLock || plainDelLock;
     disabledAddFootnote = paragraphLocked || controlPlain || richEditLock || plainEditLock;
     disabledAddLink = paragraphLocked || !canAddLink;
+    disabledAddPageNumber = controlPlain;
 
     return (
         <List>
@@ -191,11 +193,13 @@ const AddOther = props => {
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>}
-            <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
-                onInsertPageNumber: props.onInsertPageNumber
-            }}>
-                <Icon slot="media" icon="icon-pagenumber"></Icon>
-            </ListItem>
+            {!disabledAddPageNumber &&
+                <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
+                    onInsertPageNumber: props.onInsertPageNumber
+                }}>
+                    <Icon slot="media" icon="icon-pagenumber"></Icon>
+                </ListItem>
+            }
             {(isShape || isChart) || (isText && disabledAddBreak) ? null :
                 <ListItem key='break' title={_t.textBreak} link={'/add-break/'} routeProps={{
                     onPageBreak: props.onPageBreak,
