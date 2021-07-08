@@ -497,7 +497,7 @@ class ViewCommentsController extends Component {
             api.asc_showComments(this.props.storeApplicationSettings.isResolvedComments);
             api.asc_changeComment(comment.uid, ascComment);
 
-            if(this.props.storeApplicationSettings.isResolvedComments) {
+            if(!this.props.storeApplicationSettings.isResolvedComments) {
                 this.closeViewCurComments();
             }
         }
