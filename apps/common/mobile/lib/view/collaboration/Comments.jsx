@@ -670,7 +670,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>{comment.editable && <Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} />}</div>
+                                            {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
                                             <div className='comment-menu'
                                                  onClick={() => {setComment(comment); openActionComment(true);}}
                                             ><Icon icon='icon-menu-comment'/></div>
@@ -799,7 +799,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                 </div>
                                 {!viewMode &&
                                 <div className='right'>
-                                    <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>{comment.editable && <Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/>}</div>
+                                    {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
                                     <div className='comment-menu'
                                         onClick={() => {openActionComment(true);}}
                                     ><Icon icon='icon-menu-comment'/></div>
