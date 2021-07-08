@@ -658,7 +658,6 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                 <div className='no-comments'>{_t.textNoComments}</div> :
                 <List className='comment-list'>
                     {sortComments.map((comment, indexComment) => {
-                        console.log(comment);
                         return (
                             <ListItem key={`comment-${indexComment}`} onClick={e => {
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
