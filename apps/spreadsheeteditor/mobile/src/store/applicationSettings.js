@@ -108,10 +108,7 @@ export class storeApplicationSettings {
     }
 
     changeDisplayResolved(value) {
-        const api = Common.EditorApi.get();
-        api.asc_showComments(value);
         this.isResolvedComments = value;
-        LocalStorage.setBool("sse-settings-resolvedcomment", value);
     }
 
     changeRefStyle(value) {

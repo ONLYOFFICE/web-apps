@@ -49,7 +49,7 @@ class ApplicationSettingsController extends Component {
 
     onChangeDisplayResolved(value) {
         const api = Common.EditorApi.get();
-        let displayComments = LocalStorage.getBool("sse-mobile-settings-livecomment");
+        let displayComments = LocalStorage.getBool("sse-mobile-settings-livecomment",true);
 
         if (displayComments) {
             api.asc_showComments(value);
