@@ -4,7 +4,7 @@
     <!-- comment block -->
 
     <div class="user-name">
-        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(username) %>
+        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getEncodedName(parsedName) %>
     </div>
     <div class="user-date"><%=date%></div>
     <% if (!editTextInPopover || hint) { %>
@@ -32,7 +32,7 @@
             <% } %>
             <div class="reply-item-ct">
                 <div class="user-name">
-                    <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(item.get("username")) %>
+                    <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getEncodedName(item.get("parsedName")) %>
                 </div>
                 <div class="user-date"><%=item.get("date")%></div>
                 <% if (!item.get("editTextInPopover")) { %>
