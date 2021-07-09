@@ -71,6 +71,8 @@ Common.UI.FocusManager = new(function() {
                         item.selector = '.radiobox';
                     else if (field instanceof Common.UI.TreeView)
                         item.selector = '.treeview';
+                    else if (field instanceof Common.UI.ColorButton)
+                        item.selector = '.btn-group';
                     else if (field instanceof Common.UI.Button)
                         item.selector = 'button';
                     else

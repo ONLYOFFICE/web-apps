@@ -681,6 +681,15 @@
     }
 }
 
+.btn-group {
+    &:focus, &:active, &.open {
+        .btn-color:not(.disabled) {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+        }
+    }
+}
+
 // for color button auto color
 .dropdown-menu {
     li > a.selected,

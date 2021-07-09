@@ -86,6 +86,8 @@ define([
             if (this.options.auto)
                 this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
 
+            this.cmpEl.on('keydown.after.bs.dropdown', _.bind(this.onAfterKeydownMenu, this));
+
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);
         },
@@ -112,7 +114,8 @@ define([
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
                     transparent: this.options.transparent,
                     value: color,
-                    colors: colors
+                    colors: colors,
+                    parentMenu: (typeof this.menu == 'object') ? this.menu : undefined
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
@@ -121,6 +124,12 @@ define([
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
                     (color == 'auto') && this.setAutoColor(true);
                 }
+                var me = this;
+                (typeof this.menu == 'object') && this.menu.on('show:after', function(menu) {
+                    _.delay(function() {
+                        me.colorPicker.focus();
+                    }, 10);
+                })
             }
             return this.colorPicker;
         },
@@ -149,6 +158,18 @@ define([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
                         { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
                     ])
+                });
+                this.colorPicker && (this.colorPicker.parentMenu = menu);
+                var me = this;
+                menu.on('show:after', function(menu) {
+                    me.colorPicker && _.delay(function() {
+                        me.colorPicker.showLastSelected();
+                        me.colorPicker.focus();
+                    }, 10);
+                }).on('hide:after', function() {
+                    if (me.options.takeFocusOnClose) {
+                        setTimeout(function(){me.focus();}, 1);
+                    }
                 });
                 return menu;
             }
@@ -182,6 +203,21 @@ define([
 
         isAutoColor: function() {
             return this.colorAuto && this.colorAuto.hasClass('selected');
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.focus();
+        },
+
+        onAfterKeydownMenu: function(e) {
+            if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
+                $('button', this.cmpEl).click();
+                return false;
+            }
+        },
+
+        isMenuOpen: function() {
+            return this.cmpEl.hasClass('open');
         },
 
         textNewColor: 'Add New Custom Color',
