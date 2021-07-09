@@ -4,6 +4,7 @@ export class storeFocusObjects {
     constructor() {
         makeObservable(this, {
             focusOn: observable,
+            changeFocus: action,
             _focusObjects: observable,
             _cellInfo: observable,
             resetFocusObjects: action,
@@ -17,10 +18,14 @@ export class storeFocusObjects {
     }
 
     focusOn = undefined;
+
+    changeFocus(isObj) {
+        this.focusOn = isObj ? 'obj' : 'cell';
+    }
+
     _focusObjects = [];
 
     resetFocusObjects(objects) {
-        this.focusOn = 'obj';
         this._focusObjects = objects;
     }
 
@@ -56,7 +61,6 @@ export class storeFocusObjects {
     _cellInfo;
 
     resetCellInfo (cellInfo) {
-        this.focusOn = 'cell';
         this._cellInfo = cellInfo;
     }
 
