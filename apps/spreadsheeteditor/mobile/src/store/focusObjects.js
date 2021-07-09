@@ -13,7 +13,9 @@ export class storeFocusObjects {
             selections: computed,
             shapeObject: computed,
             imageObject: computed,
-            chartObject: computed
+            chartObject: computed,
+            isLocked: observable,
+            setIsLocked: action
         });
     }
 
@@ -78,6 +80,30 @@ export class storeFocusObjects {
 
     get chartObject() {
         return !!this.intf ? this.intf.getChartObject() : null;
+    }
+
+    isLocked = false;
+
+    setIsLocked(info) {
+        let islocked = false;
+        switch (info.asc_getSelectionType()) {
+            case Asc.c_oAscSelectionType.RangeChart:
+            case Asc.c_oAscSelectionType.RangeImage:
+            case Asc.c_oAscSelectionType.RangeShape:
+            case Asc.c_oAscSelectionType.RangeChartText:
+            case Asc.c_oAscSelectionType.RangeShapeText:
+                const objects = Common.EditorApi.get().asc_getGraphicObjectProps();
+                for ( let i in objects ) {
+                    if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
+                        if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
+                            break;
+                    }
+                }
+                break;
+            default:
+                islocked = info.asc_getLocked();
+        }
+        this.isLocked = islocked;
     }
 
 }
