@@ -115,7 +115,7 @@ define([
                     transparent: this.options.transparent,
                     value: color,
                     colors: colors,
-                    parentMenu: (typeof this.menu == 'object') ? this.menu : undefined
+                    parentButton: this
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
@@ -124,12 +124,6 @@ define([
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
                     (color == 'auto') && this.setAutoColor(true);
                 }
-                var me = this;
-                (typeof this.menu == 'object') && this.menu.on('show:after', function(menu) {
-                    _.delay(function() {
-                        me.colorPicker.focus();
-                    }, 10);
-                })
             }
             return this.colorPicker;
         },
@@ -156,15 +150,19 @@ define([
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
+                        {
+                            id: id + '-color-new',
+                            template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
+                        }
                     ])
                 });
-                this.colorPicker && (this.colorPicker.parentMenu = menu);
+                this.colorPicker && (this.colorPicker.parentButton = menu);
                 var me = this;
+                menu.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
                 menu.on('show:after', function(menu) {
                     me.colorPicker && _.delay(function() {
                         me.colorPicker.showLastSelected();
-                        me.colorPicker.focus();
+                        !(options.additionalItems || options.auto) && me.colorPicker.focus();
                     }, 10);
                 }).on('hide:after', function() {
                     if (me.options.takeFocusOnClose) {
@@ -216,8 +214,48 @@ define([
             }
         },
 
+        onBeforeKeyDown: function(menu, e) {
+            console.log(e.keyCode);
+            if (e.keyCode == Common.UI.Keys.RETURN) {
+                e.preventDefault();
+                e.stopPropagation();
+                var li = $(e.target).closest('li');
+                (li.length>0) && li.click();
+                Common.UI.Menu.Manager.hideAll();
+            } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
+                if (!$items.length) return;
+                var index = $items.index($items.filter(':focus')),
+                    me = this,
+                    pickerIndex = $items.length-1 ;
+                if (e.keyCode == Common.UI.Keys.DOWN && (index==pickerIndex-1 || pickerIndex==0) || e.keyCode == Common.UI.Keys.UP && index==pickerIndex) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    _.delay(function() {
+                        me.focusInner(e);
+                        // me.colorPicker.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
+                    }, 10);
+                }
+            }
+        },
+
         isMenuOpen: function() {
             return this.cmpEl.hasClass('open');
+        },
+
+        focusInner: function(e) {
+            if (!this.colorPicker) return;
+
+            this.colorPicker.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
+        },
+
+        focusOuter: function(e) {
+            if (!this.menu) return;
+
+            var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', this.menu.$el).find('> a');
+            if (!$items.length) return;
+
+            $items.eq(e.keyCode == Common.UI.Keys.UP ? $items.length-2 : $items.length-1).focus();
         },
 
         textNewColor: 'Add New Custom Color',

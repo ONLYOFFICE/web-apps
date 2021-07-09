@@ -105,7 +105,7 @@ define([
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
             this.enableKeyEvents= me.options.enableKeyEvents;
             this.tabindex = me.options.tabindex || 0;
-            this.parentMenu     = me.options.parentMenu;
+            this.parentButton     = me.options.parentButton;
             this.lastSelectedIdx = -1;
 
             me.colorItems = [];
@@ -200,7 +200,7 @@ define([
             if (target.length==0) return;
 
             if (target.hasClass('color-transparent') ) {
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                me.clearSelection(true);
                 target.addClass(me.selectedCls);
                 if (!e.suppressEvent) {
                     me.lastSelectedIdx = parseInt(target.attr('idx'));
@@ -209,7 +209,7 @@ define([
                 }
             } else if ( !(target[0].className.search('color-dynamic')<0) ) {
                 if (!/dynamic-empty-color/.test(target[0].className)) {
-                    $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                    me.clearSelection(true);
                     target.addClass(me.selectedCls);
                     if (color && !e.suppressEvent)  {
                         me.lastSelectedIdx = parseInt(target.attr('idx'));
@@ -219,7 +219,7 @@ define([
                     }
                 } else {
                     if (e.suppressEvent) {
-                        $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                        me.clearSelection(true);
                         target.addClass(me.selectedCls);
                     } else
                         setTimeout(function(){
@@ -230,7 +230,7 @@ define([
                 if (!/^[a-fA-F0-9]{6}$/.test(me.value) || _.indexOf(me.colors, me.value)<0 )
                     me.value = false;
 
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                me.clearSelection(true);
                 target.addClass(me.selectedCls);
 
                 color = target[0].className.match(me.colorRe)[1];
@@ -259,8 +259,7 @@ define([
             color = /#?([a-fA-F0-9]{6})/.exec(color);
             if (color) {
                 this.saveCustomColor(color[1]);
-
-                el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+                this.clearSelection(true);
 
                 var child = el.find('.dynamic-empty-color');
                 if (child.length==0) {
@@ -307,7 +306,7 @@ define([
 
         select: function(color, suppressEvent) {
             var el = this.$el || $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.clearSelection(true);
 
             if (typeof(color) == 'object' ) {
                 var effectEl;
@@ -360,7 +359,7 @@ define([
 
         selectByRGB: function(rgb, suppressEvent) {
             var el = this.$el || $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.clearSelection(true);
 
             var color = (typeof(rgb) == 'object') ? rgb.color : rgb;
             if (/#?[a-fA-F0-9]{6}/.test(color)) {
@@ -456,8 +455,10 @@ define([
 
         clearSelection: function(suppressEvent) {
             this.$el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
-            this.value = undefined;
-            this.lastSelectedIdx = -1;
+            if (!suppressEvent) {
+                this.value = undefined;
+                this.lastSelectedIdx = -1;
+            }
         },
 
         showLastSelected: function() {
@@ -471,8 +472,7 @@ define([
         },
 
         selectByIndex: function(index, suppressEvent) {
-            var el = this.$el || $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.clearSelection(true);
 
             if (index>=0 && index<this.colorItems.length) {
                 this.handleClick({target: this.colorItems[index].el, suppressEvent: suppressEvent});
@@ -516,8 +516,8 @@ define([
                 var rec = this.getSelectedColor();
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     rec && this.selectByIndex(rec.index);
-                    if (this.parentMenu)
-                        this.parentMenu.hide();
+                    if (this.parentButton && this.parentButton.menu)
+                        this.parentButton.menu.hide();
                 } else {
                     var idx = rec ? rec.index : -1;
                     if (idx<0) {
@@ -544,17 +544,25 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.parentButton) {
+                                this.clearSelection(true);
+                                this.parentButton.focusOuter(data);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.parentButton) {
+                                this.clearSelection(true);
+                                this.parentButton.focusOuter(data);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -612,9 +620,19 @@ define([
             }
         },
 
-        focus: function() {
+        focus: function(index) {
             var el = this.$el || $(this.el);
             el && el.focus();
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                this.selectByIndex(index, true);
         },
 
         textThemeColors         : 'Theme Colors',
