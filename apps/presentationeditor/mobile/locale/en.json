@@ -20,7 +20,11 @@
         "Slide number": "Slide number",
         "Slide subtitle": "Slide subtitle",
         "Table": "Table",
-        "Slide title": "Slide title"
+        "Slide title": "Slide title",
+        "Loading": "Loading",
+        "Click to add notes": "Click to add notes",
+        "Click to add first slide": "Click to add first slide",
+        "None": "None"
       },
       "textGuest": "Guest",
       "textAnonymous": "Anonymous",
