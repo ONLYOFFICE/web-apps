@@ -578,7 +578,7 @@ const pickLink = (message) => {
         if (result)
             subStr = subStr.substring(0, result.index);
         offset = arguments[arguments.length-2];
-        arrayComment.push({start: offset, end: subStr.length+offset, str: `<a href="${subStr}" href={subStr} target="_blank" data-can-copy="true">${subStr}</a>`});
+        arrayComment.push({start: offset, end: subStr.length+offset, str: <a onClick={() => window.open(subStr)}  href={subStr} target="_blank" data-can-copy="true">{subStr}</a>});
         return '';
     });
 
@@ -595,7 +595,7 @@ const pickLink = (message) => {
                     (offset<=item.start) && (offset+len>item.start));
             });
             if (!elem)
-                arrayComment.push({start: offset, end: len+offset, str: `<a href="${ref}" target="_blank" data-can-copy="true">${subStr}</a>`});
+                arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref} target="_blank" data-can-copy="true">{subStr}</a>});
             return '';
         });
 
@@ -608,20 +608,20 @@ const pickLink = (message) => {
                         (offset<=item.start) && (offset+len>item.start));
         });
         if (!elem)
-            arrayComment.push({start: offset, end: len+offset, str: `<a href="${ref}">${subStr}</a>`});
+            arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
         return '';
     });
 
     arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
     
-    let str_res = (arrayComment.length>0) ? (Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start)) + arrayComment[0].str) : Common.Utils.String.htmlEncode(message);
+    let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{message}</label>;
 
     for (var i=1; i<arrayComment.length; i++) {
-        str_res += (Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start)) + arrayComment[i].str);
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
     }
 
     if (arrayComment.length>0) {
-        str_res += Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length));
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
     }
 
     return str_res;         
