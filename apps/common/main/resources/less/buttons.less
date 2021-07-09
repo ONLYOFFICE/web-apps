@@ -748,6 +748,11 @@
         width: 28px;
         height: 28px;
     }
+
+    &:focus:not(.disabled) {
+        box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-control-focus-ie;
+        box-shadow: inset 0 0 0 @scaled-one-px-value @border-control-focus;
+    }
 }
 
 .btn-text-default {
