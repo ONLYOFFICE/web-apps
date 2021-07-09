@@ -206,7 +206,7 @@ define([
         },
 
         focus: function() {
-            this.cmpEl && this.cmpEl.focus();
+            $('button', this.cmpEl).focus();
         },
 
         onAfterKeydownMenu: function(e) {

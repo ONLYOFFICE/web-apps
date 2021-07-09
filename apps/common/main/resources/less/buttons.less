@@ -679,11 +679,9 @@
         .caret {
         }
     }
-}
 
-.btn-group {
-    &:focus, &:active, &.open {
-        .btn-color:not(.disabled) {
+    &:not(.disabled) {
+        &:focus, .btn-group.open &, .btn-group:active & {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
         }
