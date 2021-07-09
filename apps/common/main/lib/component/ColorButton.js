@@ -137,7 +137,7 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
-                var height = options.paletteHeight || 216,
+                var height = options.paletteHeight || 240,
                     id = Common.UI.getId(),
                     auto = [];
                 if (options.auto) {

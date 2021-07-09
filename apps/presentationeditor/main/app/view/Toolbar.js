@@ -365,7 +365,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'shifted-left',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 240px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
                             ]
                         })

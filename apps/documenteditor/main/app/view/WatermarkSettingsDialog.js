@@ -343,7 +343,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                         template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                     },
                     {caption: '--'},
-                        { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 240px; margin: 10px;"></div>') },
                         { template: _.template('<a id="watermark-menu-textcolor-new">' + this.textNewColor + '</a>') }
                     ]
                 })

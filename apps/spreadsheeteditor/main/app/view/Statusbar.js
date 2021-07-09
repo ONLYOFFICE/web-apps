@@ -345,7 +345,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 240px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });

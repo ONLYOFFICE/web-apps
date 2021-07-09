@@ -559,7 +559,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 240px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -578,7 +578,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 240px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })

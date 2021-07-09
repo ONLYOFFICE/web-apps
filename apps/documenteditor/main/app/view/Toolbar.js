@@ -268,7 +268,7 @@ define([
                                     template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                                 },
                                 {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 240px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
                             ]
                         })
@@ -282,7 +282,7 @@ define([
                         split: true,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 240px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
                             ]
                         })
