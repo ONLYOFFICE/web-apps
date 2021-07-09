@@ -61,6 +61,8 @@ Common.UI.HintManager = new(function() {
         _inputLetters = '',
         _isClear = false;
 
+    var _api;
+
     var _setCurrentSection = function (btn) {
         if (btn === 'esc') {
             if (_currentLevel === 0) {
@@ -76,6 +78,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _showHints = function () {
+        _api && _api.asc_enableKeyEvents(false);
         _inputLetters = '';
         if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible') && _currentLevel === 1)) {
             _getHints();
@@ -90,6 +93,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _hideHints = function() {
+        _api && _api.asc_enableKeyEvents(true);
         _hintVisible = false;
         _currentHints && _currentHints.forEach(function(item) {
             item.hide()
@@ -271,7 +275,8 @@ Common.UI.HintManager = new(function() {
         _currentControls.length = 0;
     };
 
-    var _init = function() {
+    var _init = function(api) {
+        _api = api;
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 _lang = mode.lang;
