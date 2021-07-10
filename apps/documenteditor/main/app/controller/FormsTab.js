@@ -90,7 +90,6 @@ define([
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
-                    'forms:new-color': this.onNewControlsColor,
                     'forms:clear': this.onClearClick,
                     'forms:no-color': this.onNoControlsColor,
                     'forms:select-color': this.onSelectControlsColor,
@@ -204,10 +203,6 @@ define([
                 this.api.asc_ClearAllSpecialForms();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onNewControlsColor: function() {
-            this.view.mnuFormsColorPicker.addNewColor();
         },
 
         onNoControlsColor: function(item) {

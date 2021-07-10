@@ -259,19 +259,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
                         split: true,
-                        menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            items: [
-                                {
-                                    id: 'id-toolbar-menu-auto-fontcolor',
-                                    caption: this.textAutoColor,
-                                    template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
-                                },
-                                {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 240px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
-                            ]
-                        })
+                        menu: true,
+                        auto: true
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
@@ -280,12 +269,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
                         split: true,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 240px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
-                            ]
-                        })
+                        transparent: true,
+                        menu: true
                     });
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
@@ -2005,21 +1990,19 @@ define([
                         ]
                     });
                     this.mnuHighlightColorPicker.select('FFFF00');
+                    this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
                 }
 
                 if (this.btnFontColor.cmpEl) {
+                    this.btnFontColor.setMenu();
+                    this.mnuFontColorPicker = this.btnFontColor.getPicker();
                     this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
-                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 }
 
                 if (this.btnParagraphColor.cmpEl) {
+                    this.btnParagraphColor.setMenu();
+                    this.mnuParagraphColorPicker = this.btnParagraphColor.getPicker();
                     this.btnParagraphColor.setColor(this.btnParagraphColor.currentColor || 'transparent');
-                    this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-paracolor'),
-                        transparent: true
-                    });
                 }
 
                 if (this.btnContentControls.cmpEl) {

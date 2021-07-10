@@ -310,14 +310,12 @@ define([
             toolbar.mnuMultiChangeLevel.menu.on('item:click',           _.bind(this.onChangeLevelClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
+            toolbar.btnFontColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
+            toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
-            toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
-            toolbar.mnuParagraphColorPicker.on('select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
-            $('#id-toolbar-menu-auto-fontcolor').on('click',            _.bind(this.onAutoFontColor, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
-            $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewParagraphColor, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
@@ -2437,10 +2435,6 @@ define([
             return out_value;
         },
 
-        onNewFontColor: function(picker, color) {
-            this.toolbar.mnuFontColorPicker.addNewColor();
-        },
-
         onAutoFontColor: function(e) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
@@ -2449,14 +2443,7 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            this.toolbar.btnFontColor.setColor('000');
-
-            this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
-        },
-
-        onNewParagraphColor: function(picker, color) {
-            this.toolbar.mnuParagraphColorPicker.addNewColor();
         },
 
         onSelectHighlightColor: function(picker, color) {
@@ -2562,9 +2549,8 @@ define([
         onApiTextColor: function(color) {
             if (color.get_auto()) {
                 if (this._state.clrtext !== 'auto') {
+                    this.toolbar.btnFontColor.setAutoColor(true);
                     this.toolbar.mnuFontColorPicker.clearSelection();
-                    var clr_item = this.toolbar.btnFontColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
-                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
                     this._state.clrtext = 'auto';
                 }
             } else {
@@ -2583,8 +2569,7 @@ define([
                     (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrtext.indexOf(clr)<0 )) {
 
-                    var clr_item = this.toolbar.btnFontColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
-                    clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                    this.toolbar.btnFontColor.setAutoColor(false);
                     if ( typeof(clr) == 'object' ) {
                         var isselected = false;
                         for (var i=0; i<10; i++) {
