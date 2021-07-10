@@ -211,7 +211,7 @@ define([
                 if (!/dynamic-empty-color/.test(target[0].className)) {
                     me.clearSelection(true);
                     target.addClass(me.selectedCls);
-                    if (color && !e.suppressEvent)  {
+                    if (!e.suppressEvent)  {
                         me.lastSelectedIdx = parseInt(target.attr('idx'));
                         color = target.attr('color');
                         me.trigger('select', me, color);
