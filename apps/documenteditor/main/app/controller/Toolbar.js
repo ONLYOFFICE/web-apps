@@ -2501,9 +2501,6 @@ define([
 
         onHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
-            item.setChecked(true, true);
-            this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2968,7 +2965,8 @@ define([
             var me = this;
 
             if (h === 'menu') {
-                me.toolbar.mnuHighlightTransparent.setChecked(false);
+                me._state.clrhighlight = undefined;
+                me.onApiHighlightColor();
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
                 me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
