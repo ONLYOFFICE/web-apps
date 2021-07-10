@@ -301,8 +301,7 @@ define([
             toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
             toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
-            toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -1871,11 +1870,7 @@ define([
             return out_value;
         },
 
-        onNewFontColor: function(picker, color) {
-            this.toolbar.mnuFontColorPicker.addNewColor();
-        },
-
-        onSelectFontColor: function(picker, color) {
+        onSelectFontColor: function(btn, color) {
             this._state.clrtext = this._state.clrtext_asccolor  = undefined;
 
             this.toolbar.btnFontColor.currentColor = color;

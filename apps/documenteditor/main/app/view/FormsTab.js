@@ -108,7 +108,7 @@ define([
                 me.fireEvent('forms:clear');
             });
             if (this.mnuFormsColorPicker) {
-                this.btnHighlight.on('color:select', function(picker, color) {
+                this.btnHighlight.on('color:select', function(btn, color) {
                     me.fireEvent('forms:select-color', [color]);
                 });
                 this.mnuNoFormsColor.on('click', function (item) {

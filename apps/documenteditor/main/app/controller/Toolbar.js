@@ -2450,7 +2450,7 @@ define([
             this._setMarkerColor(color, 'menu');
         },
 
-        onSelectFontColor: function(picker, color) {
+        onSelectFontColor: function(btn, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
             this.toolbar.btnFontColor.currentColor = color;
@@ -2463,7 +2463,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
-        onParagraphColorPickerSelect: function(picker, color) {
+        onParagraphColorPickerSelect: function(btn, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
             this.toolbar.btnParagraphColor.currentColor = color;

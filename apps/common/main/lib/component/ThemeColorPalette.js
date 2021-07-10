@@ -306,7 +306,7 @@ define([
 
         select: function(color, suppressEvent) {
             var el = this.$el || $(this.el);
-            this.clearSelection(true);
+            this.clearSelection();
 
             if (typeof(color) == 'object' ) {
                 var effectEl;

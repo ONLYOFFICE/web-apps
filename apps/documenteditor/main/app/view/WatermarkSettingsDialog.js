@@ -382,7 +382,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             }, 10);
         },
 
-        onColorSelect: function(picker, color) {
+        onColorSelect: function(btn, color) {
             this.isAutoColor = false;
             this.btnTextColor.currentColor = color;
         },

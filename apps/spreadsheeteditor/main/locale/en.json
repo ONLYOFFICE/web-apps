@@ -102,6 +102,8 @@
   "Common.Translation.warnFileLocked": "The file is being edited in another app. You can continue editing and save it as a copy.",
   "Common.Translation.warnFileLockedBtnEdit": "Create a copy",
   "Common.Translation.warnFileLockedBtnView": "Open for viewing",
+  "Common.UI.ButtonColored.textAutoColor": "Automatic",
+  "Common.UI.ButtonColored.textNewColor": "Add New Custom Color",
   "Common.UI.ColorButton.textAutoColor": "Automatic",
   "Common.UI.ColorButton.textNewColor": "Add New Custom Color",
   "Common.UI.ComboBorderSize.txtNoBorders": "No borders",
