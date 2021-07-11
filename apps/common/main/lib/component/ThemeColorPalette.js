@@ -166,7 +166,7 @@ define([
         updateCustomColors: function() {
             var el = this.$el || $(this.el);
             if (el) {
-                var selected = el.find('a.' + this.selectedCls),
+                var selected = (this.lastSelectedIdx>=0) ? $(this.colorItems[this.lastSelectedIdx].el) : el.find('a.' + this.selectedCls),
                     color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
                 if (color) { // custom color was selected
                     color = color.toUpperCase();
