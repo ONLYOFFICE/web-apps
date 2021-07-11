@@ -49,8 +49,6 @@ define([
             if (this.options.auto)
                 this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
 
-            this.cmpEl.on('keydown.after.bs.dropdown', _.bind(this.onAfterKeydownMenu, this));
-
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);
         },
@@ -171,19 +169,18 @@ define([
             this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
         },
 
-        onAfterKeydownMenu: function(e) {
+        onBeforeKeyDown: function(menu, e) {
             if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
                 $('button', this.cmpEl).click();
                 return false;
             }
-        },
-
-        onBeforeKeyDown: function(menu, e) {
             if (e.keyCode == Common.UI.Keys.RETURN) {
-                e.preventDefault();
-                e.stopPropagation();
                 var li = $(e.target).closest('li');
-                (li.length>0) && li.click();
+                if (li.length>0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    li.click();
+                }
                 Common.UI.Menu.Manager.hideAll();
             } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
                 var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
@@ -272,8 +269,6 @@ define([
 
             if (this.options.auto)
                 this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
-
-            this.cmpEl.on('keydown.after.bs.dropdown', _.bind(this.onAfterKeydownMenu, this));
 
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);

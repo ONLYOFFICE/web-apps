@@ -141,7 +141,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                     '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                 ],
-                paletteHeight: 94
+                paletteHeight: 94,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.colors = this.btnColor.getPicker();
 
@@ -357,7 +359,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         getFocusedComponents: function() {
             return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnApplyAll, // 0 tab
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
                 this.list, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang // 3 tab

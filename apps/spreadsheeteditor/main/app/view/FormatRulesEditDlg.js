@@ -881,15 +881,21 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-pos-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '638EC6'
+                color       : '638EC6',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnPosFill);
 
             this.btnNegFill = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-neg-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : 'FF0000'
+                color       : 'FF0000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnNegFill);
 
             this.chFill = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-fill'),
@@ -932,15 +938,21 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-pos-border'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnPosBorder);
 
             this.btnNegBorder = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-neg-border'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnNegBorder);
 
             this.chBorder = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-border'),
@@ -1001,8 +1013,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-axis-color'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnAxisColor);
 
             this.panels.databar.rendered = true;
             this.updateThemeColors();
@@ -1056,8 +1071,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
                     menu        : true,
                     type        : i,
-                    color       : '000000'
+                    color       : '000000',
+                    cls: 'move-focus',
+                    takeFocusOnClose: true
                 });
+                Common.UI.FocusManager.add(this, color);
                 this.scaleControls.push({combo: combo, range: range, color: color});
             }
             this.panels.scale.rendered = true;
