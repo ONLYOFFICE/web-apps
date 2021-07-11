@@ -390,21 +390,18 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
-                split       : true,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
                 menu        : true
             });
             this.mnuTextColorPicker = initNewColor(this.btnTextColor);
             this.btnTextColor.on('color:select', _.bind(this.onFormatTextColorSelect, this));
-            this.btnTextColor.on('click', _.bind(this.onFormatTextColor, this));
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
-                split       : true,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
                 transparent: true,
@@ -412,7 +409,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.mnuFillColorPicker = initNewColor(this.btnFillColor);
             this.btnFillColor.on('color:select', _.bind(this.onFormatFillColorSelect, this));
-            this.btnFillColor.on('click', _.bind(this.onFormatFillColor, this));
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -1682,10 +1678,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.previewFormat();
         },
 
-        onFormatTextColor: function(btn, e) {
-            this.mnuTextColorPicker.trigger('select', this.mnuTextColorPicker, this.mnuTextColorPicker.currentColor, true);
-        },
-
         onFormatFillColorSelect: function(btn, color, fromBtn) {
             this.btnFillColor.currentColor = color;
             this.mnuFillColorPicker.currentColor = color;
@@ -1693,10 +1685,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
             this.previewFormat();
-        },
-
-        onFormatFillColor: function(picker, btn, e) {
-            this.mnuFillColorPicker.trigger('select', this.mnuFillColorPicker, this.mnuFillColorPicker.currentColor, true);
         },
 
         onNumberFormatSelect: function(combo, record) {
