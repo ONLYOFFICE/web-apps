@@ -377,19 +377,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
 
-            var initNewColor = function(btn, picker_el, transparent) {
-                if (btn && btn.cmpEl) {
-                    btn.currentColor = '#000000';
-                    btn.setColor(btn.currentColor);
-                    var picker = new Common.UI.ThemeColorPalette({
-                        el: $(picker_el),
-                        transparent: transparent
-                    });
-                    picker.currentColor = btn.currentColor;
-                }
-                btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
-                    picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-                }, me));
+            var initNewColor = function(btn) {
+                btn.setMenu();
+                btn.currentColor = '000000';
+                var picker = btn.getPicker();
+                picker.currentColor = btn.currentColor;
                 return picker;
             };
 
@@ -399,17 +391,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="format-rules-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="format-rules-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                color: '000000',
+                menu        : true
             });
-            this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#format-rules-menu-fontcolor");
-            this.mnuTextColorPicker.on('select', _.bind(me.onFormatTextColorSelect, me));
-            this.btnTextColor.on('click', _.bind(me.onFormatTextColor, me));
+            this.mnuTextColorPicker = initNewColor(this.btnTextColor);
+            this.btnTextColor.on('color:select', _.bind(this.onFormatTextColorSelect, this));
+            this.btnTextColor.on('click', _.bind(this.onFormatTextColor, this));
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
@@ -417,17 +405,14 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="format-rules-menu-fillcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="format-rules-menu-fillcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                color: '000000',
+                transparent: true,
+                menu        : true
             });
-            this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor", true);
-            this.mnuFillColorPicker.on('select', _.bind(me.onFormatFillColorSelect, me));
-            this.btnFillColor.on('click', _.bind(me.onFormatFillColor, me));
+            this.mnuFillColorPicker = initNewColor(this.btnFillColor);
+            this.btnFillColor.on('color:select', _.bind(this.onFormatFillColorSelect, this));
+            this.btnFillColor.on('click', _.bind(this.onFormatFillColor, this));
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -1293,17 +1278,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
                 this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
 
-                var color = this.setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
-                this.btnTextColor.currentColor = color;
-                this.mnuTextColorPicker.currentColor = color;
-                color = (typeof(color) == 'object') ? color.color : color;
-                $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
-
-                color = this.setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
-                this.btnFillColor.currentColor = color;
-                this.mnuFillColorPicker.currentColor = color;
-                color = (typeof(color) == 'object') ? color.color : color;
-                $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', color=='transparent' ? 'transparent' : '#' + color);
+                var color = this.setColor(xfs.asc_getFontColor(), this.btnTextColor, this.mnuTextColorPicker);
+                color = this.setColor(xfs.asc_getFillColor(), this.btnFillColor, this.mnuFillColorPicker);
 
                 var val = xfs.asc_getNumFormatInfo();
                 val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
@@ -1697,11 +1673,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }
         },
 
-        onFormatTextColorSelect: function(picker, color, fromBtn) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
+        onFormatTextColorSelect: function(btn, color, fromBtn) {
             this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
-            picker.currentColor = color;
+            this.mnuTextColorPicker.currentColor = color;
 
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
@@ -1712,11 +1686,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.mnuTextColorPicker.trigger('select', this.mnuTextColorPicker, this.mnuTextColorPicker.currentColor, true);
         },
 
-        onFormatFillColorSelect: function(picker, color, fromBtn) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
+        onFormatFillColorSelect: function(btn, color, fromBtn) {
             this.btnFillColor.currentColor = color;
-            $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
-            picker.currentColor = color;
+            this.mnuFillColorPicker.currentColor = color;
 
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
