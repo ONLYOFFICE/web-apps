@@ -342,17 +342,31 @@ define([
                             //     toggleGroup: 'sortcomments'
                             // },
                             {
-                                caption: this.mniAuthor,
-                                value: 'author',
+                                caption: this.mniDateDesc,
+                                value: 'date-desc',
                                 checkable: true,
-                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author',
+                                checked: (Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date-desc') === 'date-desc',
                                 toggleGroup: 'sortcomments'
                             },
                             {
-                                caption: this.mniDate,
-                                value: 'date',
+                                caption: this.mniDateAsc,
+                                value: 'date-asc',
                                 checkable: true,
-                                checked: (Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date') === 'date',
+                                checked: (Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date-desc') === 'date-asc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniAuthorAsc,
+                                value: 'author-asc',
+                                checkable: true,
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-asc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniAuthorDesc,
+                                value: 'author-desc',
+                                checkable: true,
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-desc',
                                 toggleGroup: 'sortcomments'
                             }
                         ]
@@ -805,8 +819,10 @@ define([
         textHintAddComment      : 'Add Comment',
         textSort: 'Sort comments',
         mniPosition: 'Sort by Position',
-        mniAuthor: 'Sort by Authors',
-        mniDate: 'Sort by Date',
+        mniAuthorAsc: 'Sort by Author A to Z',
+        mniAuthorDesc: 'Sort by Author Z to A',
+        mniDateDesc: 'Sort by Newest',
+        mniDateAsc: 'Sort by Oldest',
         textClosePanel: 'Close comments'
     }, Common.Views.Comments || {}))
 });

@@ -210,19 +210,24 @@ define([
             if (this.collection) {
                 var sort = (type !== undefined);
                 if (type === undefined) {
-                    type = Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date';
+                    type = Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date-desc';
                 }
                 Common.localStorage.setItem(this.appPrefix + "comments-sort", type);
                 Common.Utils.InternalSettings.set(this.appPrefix + "comments-sort", type);
 
                 if (type=='position') {
-                } else if (type=='author') {
-                    this.collection.comparator = function (collection) {
-                        return collection.get('parsedName').toLowerCase();
+                } else if (type=='author-asc' || type=='author-desc') {
+                    var direction = (type=='author-asc') ? 1 : -1;
+                    this.collection.comparator = function(item1, item2) {
+                        var n1 = item1.get('parsedName').toLowerCase(),
+                            n2 = item2.get('parsedName').toLowerCase();
+                        if (n1==n2) return 0;
+                        return (n1<n2) ? -direction : direction;
                     };
                 } else { // date
+                    var direction = (type=='date-asc') ? 1 : -1;
                     this.collection.comparator = function (collection) {
-                        return -collection.get('time');
+                        return direction * collection.get('time');
                     };
                 }
                 sort && this.updateComments(true);
@@ -805,7 +810,7 @@ define([
                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
                 var user = this.userCollection.findOriginalUser(data.asc_getUserId());
-                var needSort = (this.getComparator() == 'author') && (data.asc_getUserName() !== comment.get('username'));
+                var needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username'));
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
