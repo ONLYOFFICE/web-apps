@@ -42,7 +42,7 @@
             <td class="padding-small">
                 <label class="header"><%= scope.textPreview %></label>
                 <div style="border: 1px solid #cbcbcb;width: 150px; height: 40px; padding: 3px;">
-                    <div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>
+                    <div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;background-color: #ffffff;"></div>
                     </div>
                 </td>
             </tr>
