@@ -879,7 +879,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el: $('#tableadv-combo-border-size'),
-                style: "width: 93px;"
+                style: "width: 93px;",
+                takeFocusOnClose: true
             });
             var rec = this.cmbBorderSize.store.at(1);
             this.BorderSize = {ptValue: rec.get('value'), pxValue: rec.get('pxValue')};
@@ -890,7 +891,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
-                auto: true
+                auto: true,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
             this.btnBorderColor.on('auto:select', _.bind(me.onColorsBorderSelect, me));
@@ -899,7 +902,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-button-back-color'),
                 additionalAlign: this.menuAddAlign,
-                transparent: true
+                transparent: true,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
             this.colorsBack = this.btnBackColor.getPicker();
@@ -907,7 +912,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnTableBackColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-button-table-back-color'),
                 additionalAlign: this.menuAddAlign,
-                transparent: true
+                transparent: true,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));
             this.colorsTableBack = this.btnTableBackColor.getPicker();
@@ -1012,11 +1019,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             return [
                 this.chWidth, this.nfWidth, this.cmbUnit, this.chAutofit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.chAllowSpacing, this.nfSpacing, // 0 tab
                 this.chPrefWidth, this.nfPrefWidth, this.cmbPrefWidthUnit, this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, this.chWrapText, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat(this._btnsTableBorderPosition).concat([this.btnBackColor, this.btnTableBackColor,
                 this.radioHAlign, this.cmbHAlign , this.radioHPosition, this.cmbHRelative, this.spnX, this.cmbHPosition,
                 this.radioVAlign, this.cmbVAlign , this.radioVPosition, this.cmbVRelative, this.spnY, this.cmbVPosition, this.chMove, this.chOverlap, // 3 tab
                 this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
                 this.inputAltTitle, this.textareaAltDescription  // 5 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {
@@ -1037,6 +1045,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                             me.nfPrefWidth.focus();
                         else
                             me.chPrefWidth.focus();
+                        break;
+                    case 2:
+                        me.cmbBorderSize.focus();
                         break;
                     case 3:
                         if (!me.cmbHAlign.isDisabled())

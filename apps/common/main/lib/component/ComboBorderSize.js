@@ -122,6 +122,7 @@ define([
 
         render : function(parentEl) {
             Common.UI.ComboBox.prototype.render.call(this, parentEl);
+            this._formControl  = this.cmpEl.find('.form-control');
             return this;
         },
 
@@ -170,6 +171,10 @@ define([
             } else {
                 $(this.el).find('.form-control > .text').text("").show();
             }
+        },
+
+        focus: function() {
+            this._formControl && this._formControl.focus();
         },
 
         txtNoBorders: 'No Borders'

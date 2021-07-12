@@ -679,6 +679,13 @@
         .caret {
         }
     }
+
+    &:not(.disabled) {
+        &:focus, .btn-group.open &, .btn-group:active & {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+        }
+    }
 }
 
 // for color button auto color
@@ -738,6 +745,11 @@
         min-width: 28px;
         width: 28px;
         height: 28px;
+    }
+
+    &:focus:not(.disabled) {
+        box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-control-focus-ie;
+        box-shadow: inset 0 0 0 @scaled-one-px-value @border-control-focus;
     }
 }
 

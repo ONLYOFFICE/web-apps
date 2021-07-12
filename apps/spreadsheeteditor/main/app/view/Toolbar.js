@@ -488,19 +488,8 @@ define([
                     iconCls     : 'toolbar__icon btn-fontcolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
-                    menu        : new Common.UI.Menu({
-                        cls: 'shifted-left',
-                        items: [
-                            {
-                                id: 'id-toolbar-menu-auto-fontcolor',
-                                caption: this.textAutoColor,
-                                template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
-                            },
-                            {caption: '--'},
-                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                        ]
-                    })
+                    menu: true,
+                    auto: true
                 });
 
                 me.mnuBackColorPicker = dummyCmp();
@@ -510,12 +499,8 @@ define([
                     iconCls     : 'toolbar__icon btn-paracolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                        ]
-                    })
+                    transparent: true,
+                    menu: true
                 });
 
                 me.btnBorders = new Common.UI.Button({
@@ -1896,7 +1881,7 @@ define([
                                         stopPropagation: true
                                     },
                                     {caption: '--'},
-                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 216px; margin: 10px;"></div>'), stopPropagation: true },
+                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 240px;"></div>'), stopPropagation: true },
                                     { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]
                             })
@@ -2154,17 +2139,14 @@ define([
             // DataView and pickers
             //
             if (this.btnTextColor && this.btnTextColor.cmpEl) {
+                this.btnTextColor.setMenu();
+                this.mnuTextColorPicker = this.btnTextColor.getPicker();
                 this.btnTextColor.setColor(this.btnTextColor.currentColor || 'transparent');
-                this.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-fontcolor')
-                });
             }
             if (this.btnBackColor && this.btnBackColor.cmpEl) {
+                this.btnBackColor.setMenu();
+                this.mnuBackColorPicker = this.btnBackColor.getPicker();
                 this.btnBackColor.setColor(this.btnBackColor.currentColor || 'transparent');
-                this.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-paracolor'),
-                    transparent: true
-                });
             }
         },
 
