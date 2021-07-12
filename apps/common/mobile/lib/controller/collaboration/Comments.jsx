@@ -77,7 +77,7 @@ class CommentsController extends Component {
                 const api = Common.EditorApi.get();
                 /** coauthoring begin **/
                 const isLiveCommenting = LocalStorage.getBool(`${window.editorType}-mobile-settings-livecomment`, true);
-                const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`, true);
+                const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`);
                 this.storeApplicationSettings.changeDisplayComments(isLiveCommenting);
                 this.storeApplicationSettings.changeDisplayResolved(resolved);
                 isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
@@ -139,8 +139,9 @@ class CommentsController extends Component {
         changeComment.quote = data.asc_getQuoteText();
         changeComment.time = date.getTime();
         changeComment.date = dateToLocaleTimeString(date);
-        changeComment.editable = this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId);
-        changeComment.removable = this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId);
+        changeComment.editable = (this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canEditComment(name);
+        changeComment.removable = (this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canDeleteComment(name);
+        changeComment.hide = !AscCommon.UserInfoParser.canViewComment(name);
 
         let dateReply = null;
         const replies = [];
@@ -164,8 +165,8 @@ class CommentsController extends Component {
                 reply: data.asc_getReply(i).asc_getText(),
                 time: dateReply.getTime(),
                 userInitials: this.usersStore.getInitials(parsedName),
-                editable: this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
-                removable: this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
+                editable: (this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canEditComment(userName),
+                removable: (this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canDeleteComment(userName)
             });
         }
         changeComment.replies = replies;
@@ -197,8 +198,9 @@ class CommentsController extends Component {
             replies             : [],
             groupName           : (groupName && groupName.length>1) ? groupName[1] : null,
             userInitials        : this.usersStore.getInitials(parsedName),
-            editable            : this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId),
-            removable           : this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId)
+            editable            : (this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canEditComment(userName),
+            removable           : (this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canDeleteComment(userName),
+            hide                : !AscCommon.UserInfoParser.canViewComment(userName),
         };
         if (comment) {
             const replies = this.readSDKReplies(data);
@@ -230,8 +232,8 @@ class CommentsController extends Component {
                     reply               : data.asc_getReply(i).asc_getText(),
                     time                : date.getTime(),
                     userInitials        : this.usersStore.getInitials(parsedName),
-                    editable            : this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId),
-                    removable           : this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)
+                    editable            : (this.appOptions.canEditComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canEditComment(userName),
+                    removable           : (this.appOptions.canDeleteComments || (data.asc_getReply(i).asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canDeleteComment(userName)
                 });
             }
         }
@@ -493,6 +495,7 @@ class ViewCommentsController extends Component {
                 });
             }
             const api = Common.EditorApi.get();
+            api.asc_showComments(this.props.storeApplicationSettings.isResolvedComments);
             api.asc_changeComment(comment.uid, ascComment);
 
             if(!this.props.storeApplicationSettings.isResolvedComments) {
