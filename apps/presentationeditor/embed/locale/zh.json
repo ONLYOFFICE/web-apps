@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "请稍候...",
   "PE.ApplicationView.txtDownload": "下载",
   "PE.ApplicationView.txtEmbed": "嵌入",
+  "PE.ApplicationView.txtFileLocation": "打开文件所在位置",
   "PE.ApplicationView.txtFullScreen": "全屏",
   "PE.ApplicationView.txtPrint": "打印",
   "PE.ApplicationView.txtShare": "共享"
