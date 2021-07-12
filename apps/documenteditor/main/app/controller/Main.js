@@ -178,7 +178,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                Common.UI.HintManager.init();
+                Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
 
                 if (this.api){
@@ -803,7 +803,7 @@ define([
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
 
-                Common.UI.HintManager.clearHints();
+                Common.UI.HintManager.clearHints(true);
             },
 
             onLongActionBegin: function(type, id) {

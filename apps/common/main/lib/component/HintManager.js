@@ -59,7 +59,10 @@ Common.UI.HintManager = new(function() {
         _currentControls = [],
         _currentHints = [],
         _inputLetters = '',
-        _isClear = false;
+        _isComplete = false,
+        _isLockedKeyEvents = false;
+
+    var _api;
 
     var _setCurrentSection = function (btn) {
         if (btn === 'esc') {
@@ -75,18 +78,27 @@ Common.UI.HintManager = new(function() {
         }
     };
 
+    var _lockedKeyEvents = function (isLocked) {
+        if (_api) {
+            _isLockedKeyEvents = isLocked;
+            _api.asc_enableKeyEvents(!isLocked);
+        }
+    };
+
     var _showHints = function () {
         _inputLetters = '';
         if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible') && _currentLevel === 1)) {
             _getHints();
         }
         if (_currentHints.length > 0) {
+            !_isLockedKeyEvents && _lockedKeyEvents(true);
             _hintVisible = true;
             _currentHints.forEach(function(item) {
                 item.show();
             });
-        } else
+        } else {
             _hintVisible = false;
+        }
     };
 
     var _hideHints = function() {
@@ -271,13 +283,20 @@ Common.UI.HintManager = new(function() {
         _currentControls.length = 0;
     };
 
-    var _init = function() {
+    var _init = function(api) {
+        _api = api;
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 _lang = mode.lang;
                 _getAlphabetLetters();
             },
             'hints:clear': _clearHints
+        });
+        $('#editor_sdk').on('click', function () {
+            _clearHints();
+        });
+        $(document).on('mousedown', function () {
+            _clearHints();
         });
         $(document).on('keyup', function(e) {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
@@ -290,6 +309,10 @@ Common.UI.HintManager = new(function() {
                 } else {
                     _hideHints();
                     _resetToDefault();
+                    if (_isLockedKeyEvents) {
+                        _isLockedKeyEvents = false;
+                        _api.asc_enableKeyEvents(true);
+                    }
                 }
             }
             _isAlt = false;
@@ -299,6 +322,7 @@ Common.UI.HintManager = new(function() {
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     if (_currentLevel === 0) {
                         _hideHints();
+                        _lockedKeyEvents(false);
                     } else {
                         _prevLevel();
                         _setCurrentSection('esc');
@@ -324,13 +348,17 @@ Common.UI.HintManager = new(function() {
                     if (curr) {
                         var tag = curr.prop("tagName").toLowerCase();
                         if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
+                            _hideHints();
                             curr.contextmenu();
-                            _clearHints();
+                            _resetToDefault();
                         } else if (tag === 'input' || tag === 'textarea') {
+                            _hideHints();
                             curr.trigger(jQuery.Event('click', {which: 1}));
                             curr.focus();
-                            _clearHints();
+                            _resetToDefault();
                         } else {
+                            _isComplete = false;
+                            _hideHints();
                             if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
                                 if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                     curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
@@ -342,7 +370,8 @@ Common.UI.HintManager = new(function() {
                                 }
                             }
                             if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
-                                _clearHints();
+                                _resetToDefault();
+                                return;
                             }
                             if (curr.prop('id') === 'add-comment-doc') {
                                 _removeHints();
@@ -351,13 +380,12 @@ Common.UI.HintManager = new(function() {
                                 _showHints();
                                 return;
                             }
-                            if (!_isClear) {
+                            if (!_isComplete) {
                                 _nextLevel();
                                 _setCurrentSection(curr);
                                 _showHints();
                             }
                         }
-                        _isClear = false;
                     }
                 }
                 e.preventDefault();
@@ -384,11 +412,15 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
-    var _clearHints = function () {
-        if (_hintVisible) {
-            _hideHints();
+    var _clearHints = function (isComplete) {
+        _hintVisible && _hideHints();
+        if (_currentHints.length > 0) {
             _resetToDefault();
-            _isClear = true;
+        }
+        _isLockedKeyEvents && _lockedKeyEvents(false);
+
+        if (isComplete) {
+            _isComplete = true;
         }
     };
 
