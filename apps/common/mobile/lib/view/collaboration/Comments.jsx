@@ -583,46 +583,48 @@ const pickLink = (message) => {
     });
 
     if (message.length<1000 || message.search(/\S{255,}/)<0)
-            message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
-                let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
-                if (result)
-                    subStr = subStr.substring(0, result.index);
-                let ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
-                offset = arguments[arguments.length-2];
-                len = subStr.length;
-                let elem = arrayComment.find(function(item){
-                    return ( (offset>=item.start) && (offset<item.end) ||
-                        (offset<=item.start) && (offset+len>item.start));
-                });
-                if (!elem)
+        message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+            let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+            if (result)
+                subStr = subStr.substring(0, result.index);
+            let ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
+            offset = arguments[arguments.length-2];
+            len = subStr.length;
+            let elem = arrayComment.find(function(item){
+                return ( (offset>=item.start) && (offset<item.end) ||
+                    (offset<=item.start) && (offset+len>item.start));
+            });
+            if (!elem)
                 arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref} target="_blank" data-can-copy="true">{subStr}</a>});
-                return '';
-            });
+            return '';
+        });
 
-            message.replace(Common.Utils.emailStrongRe, function(subStr) {
-                let ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
-                offset = arguments[arguments.length-2];
-                len = subStr.length;
-                let elem = arrayComment.find(function(item){
-                    return ( (offset>=item.start) && (offset<item.end) ||
-                             (offset<=item.start) && (offset+len>item.start));
-                });
-                if (!elem)
-                arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
-                return '';
-            });
+    message.replace(Common.Utils.emailStrongRe, function(subStr) {
+        let ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
+        offset = arguments[arguments.length-2];
+        len = subStr.length;
+        let elem = arrayComment.find(function(item){
+            return ( (offset>=item.start) && (offset<item.end) ||
+                        (offset<=item.start) && (offset+len>item.start));
+        });
+        if (!elem)
+            arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
+        return '';
+    });
 
-            arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
-            
-            let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{Common.Utils.String.htmlEncode(message)}</label>;
-            for (var i=1; i<arrayComment.length; i++) {
-                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
-            }
-            if (arrayComment.length>0) {
-                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
-            }
-            return str_res;
-            
+    arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
+    
+    let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{message}</label>;
+
+    for (var i=1; i<arrayComment.length; i++) {
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
+    }
+
+    if (arrayComment.length>0) {
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
+    }
+
+    return str_res;         
 }
 
 // View comments
