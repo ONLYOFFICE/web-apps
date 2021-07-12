@@ -715,7 +715,7 @@
   "PE.Controllers.Main.unsupportedBrowserErrorText": "Ваш браузер не поддерживается.",
   "PE.Controllers.Main.uploadImageExtMessage": "Неизвестный формат изображения.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Ни одного изображения не загружено.",
-  "PE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
+  "PE.Controllers.Main.uploadImageSizeMessage": "Слишком большое изображение. Максимальный размер - 25 MB.",
   "PE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "PE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
   "PE.Controllers.Main.waitText": "Пожалуйста, подождите...",
