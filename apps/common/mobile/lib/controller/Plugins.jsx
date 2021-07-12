@@ -182,7 +182,31 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
     const onPluginsInit = pluginsdata => {
         !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-        registerPlugins(pluginsdata)
+        parsePlugins(pluginsdata)
+    };
+
+    const parsePlugins = pluginsdata => {
+        let isEdit = storeAppOptions.isEdit;
+        
+        if ( pluginsdata instanceof Array ) { 
+            let lang = storeAppOptions.lang.split(/[\-_]/)[0];
+            pluginsdata.forEach((item) => {
+                item.variations.forEach( (itemVar) => { 
+                    let description = itemVar.description;
+                    if (typeof itemVar.descriptionLocale == 'object')
+                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                    if(itemVar.buttons !== undefined) {
+                        itemVar.buttons.forEach( (button) => {
+                            if (typeof button.textLocale == 'object')
+                                    button.text = button.textLocale[lang] || button.textLocale['en'] || button.text || '';
+                            button.visible = (isEdit || button.isViewer !== false);
+                        })
+                    }
+                })
+            });
+        } 
+        registerPlugins(pluginsdata);
     };
 
     const registerPlugins = plugins => {
@@ -245,7 +269,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                 arr = arr.concat(plugins.plugins);
             }
 
-            registerPlugins(arr);
+            parsePlugins(arr);
         }
     };
 
