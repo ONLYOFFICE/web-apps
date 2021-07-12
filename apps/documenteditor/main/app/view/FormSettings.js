@@ -867,14 +867,14 @@ define([
                         this.chMulti.setValue(!!val, true);
                         this._state.Multi=val;
                     }
-                    this.chMulti.setDisabled(!this._state.Fixed);
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
 
                     val = formTextPr.get_AutoFit();
                     if ( this._state.AutoFit!==val ) {
                         this.chAutofit.setValue(!!val, true);
                         this._state.AutoFit=val;
                     }
-                    this.chAutofit.setDisabled(!this._state.Fixed);
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
 
                     this.btnColor.setDisabled(!this._state.Comb);
 

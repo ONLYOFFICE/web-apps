@@ -229,7 +229,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : cmbData,
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                scrollAlwaysVisible: false
             }).on('selected', function(combo, record) {
                 me.refreshRules(record.value);
             });
