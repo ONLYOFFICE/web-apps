@@ -334,13 +334,6 @@ define([
                         menuAlign: 'tr-br',
                         style: 'min-width: auto;',
                         items: [
-                            // {
-                            //     caption: this.mniPosition,
-                            //     value: 'position',
-                            //     checkable: true,
-                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position',
-                            //     toggleGroup: 'sortcomments'
-                            // },
                             {
                                 caption: this.mniDateDesc,
                                 value: 'date-desc',
@@ -369,6 +362,20 @@ define([
                                 checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-desc',
                                 toggleGroup: 'sortcomments'
                             }
+                            // {
+                            //     caption: this.mniPositionAsc,
+                            //     value: 'position-asc',
+                            //     checkable: true,
+                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-asc',
+                            //     toggleGroup: 'sortcomments'
+                            // }
+                            // {
+                            //     caption: this.mniPositionDesc,
+                            //     value: 'position-desc',
+                            //     checkable: true,
+                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
+                            //     toggleGroup: 'sortcomments'
+                            // }
                         ]
                     })
                 });
@@ -818,11 +825,12 @@ define([
         textOpenAgain           : "Open Again",
         textHintAddComment      : 'Add Comment',
         textSort: 'Sort comments',
-        mniPosition: 'Sort by Position',
-        mniAuthorAsc: 'Sort by Author A to Z',
-        mniAuthorDesc: 'Sort by Author Z to A',
-        mniDateDesc: 'Sort by Newest',
-        mniDateAsc: 'Sort by Oldest',
+        mniPositionAsc: 'From top',
+        mniPositionDesc: 'From bottom',
+        mniAuthorAsc: 'Author A to Z',
+        mniAuthorDesc: 'Author Z to A',
+        mniDateDesc: 'Newest',
+        mniDateAsc: 'Oldest',
         textClosePanel: 'Close comments'
     }, Common.Views.Comments || {}))
 });
