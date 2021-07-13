@@ -662,7 +662,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 type        : i,
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 55px;background-repeat: no-repeat; background-position: 16px center;"></div>',
+                    '<div class="form-control image" style="display: block;width: 85px;">',
+                        '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;padding-top: 2px;background-repeat: no-repeat; background-position: 27px center;white-space:nowrap;"></div>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -673,6 +675,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: 'min-width: 105px;',
                 additionalAlign: this.menuAddAlign,
                 items: [
+                    { caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) },
                     { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
                 ]
             })).render($('#format-rules-combo-icon-' + (i+1)));
@@ -684,10 +687,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
                 type        : i
             });
-            picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
+            picker.on('item:click', _.bind(this.onSelectIcon, this, combo, menu.items[0]));
+            menu.items[0].on('toggle', _.bind(this.onSelectNoIcon, this, combo, picker));
 
             this.iconsControls[i].cmbIcons = combo;
             this.iconsControls[i].pickerIcons = picker;
+            this.iconsControls[i].itemNoIcons = menu.items[0];
 
             combo = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-op-' + (i+1)),
@@ -1429,19 +1434,26 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             value.asc_setGte(controls.cmbOperator.getValue());
                             values.push(value);
                             if (icons) {
-                                var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
-                                for (var k=0; k<this.collectionPresets.length; k++) {
-                                    var items = this.collectionPresets.at(k).get('icons');
-                                    for (var j=0; j<items.length; j++) {
-                                        if (icon==items[j]) {
-                                            icon = new Asc.asc_CConditionalFormatIconSet();
-                                            icon.asc_setIconSet(k);
-                                            icon.asc_setIconId(j);
-                                            this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
-                                            break;
+                                if (controls.itemNoIcons.isChecked()) {
+                                    var icon = new Asc.asc_CConditionalFormatIconSet();
+                                    icon.asc_setIconSet(Asc.EIconSetType.NoIcons);
+                                    icon.asc_setIconId(0);
+                                    this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
+                                } else {
+                                    var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
+                                    for (var k=0; k<this.collectionPresets.length; k++) {
+                                        var items = this.collectionPresets.at(k).get('icons');
+                                        for (var j=0; j<items.length; j++) {
+                                            if (icon==items[j]) {
+                                                icon = new Asc.asc_CConditionalFormatIconSet();
+                                                icon.asc_setIconSet(k);
+                                                icon.asc_setIconId(j);
+                                                this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
+                                                break;
+                                            }
                                         }
+                                        if (typeof icon=='object') break;
                                     }
-                                    if (typeof icon=='object') break;
                                 }
                             }
                         }
@@ -1860,7 +1872,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             if (icons && icons.length>0) {
                 this.cmbIconsPresets.setValue(this.textCustom);
                 _.each(icons, function(item) {
-                    iconsIndexes.push(me.collectionPresets.at(item.asc_getIconSet()).get('icons')[item.asc_getIconId()]);
+                    if (item.asc_getIconSet()==Asc.EIconSetType.NoIcons) {
+                        iconsIndexes.push(-1);
+                    } else
+                        iconsIndexes.push(me.collectionPresets.at(item.asc_getIconSet()).get('icons')[item.asc_getIconId()]);
                 });
             } else {
                 this.cmbIconsPresets.setValue(iconSet);
@@ -1870,8 +1885,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var len = iconsIndexes.length;
             for (var i=0; i<iconsIndexes.length; i++) {
                 var controls = arr[isReverse ? len-i-1 : i];
-                var rec = controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
-                rec && controls.pickerIcons.selectRecord(rec, true);
+                var rec = (iconsIndexes[i]==-1) ? null : controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
+                rec ? controls.pickerIcons.selectRecord(rec, true) : controls.pickerIcons.deselectAll(true);
+                controls.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls.cmbIcons, rec);
             }
             this.fillIconsLabels();
@@ -1896,25 +1912,36 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             for (var i=0; i<len/2; i++) {
                 var controls1 = arr[i],
                     controls2 = arr[len-i-1];
-                var icon1 = controls1.pickerIcons.getSelectedRec().get('value'),
-                    icon2 = controls2.pickerIcons.getSelectedRec().get('value');
+                var icon1 = controls1.itemNoIcons.isChecked() ? -1 : controls1.pickerIcons.getSelectedRec().get('value'),
+                    icon2 = controls2.itemNoIcons.isChecked() ? -1 : controls2.pickerIcons.getSelectedRec().get('value');
                 var rec = controls1.pickerIcons.store.findWhere({value: icon2});
-                rec && controls1.pickerIcons.selectRecord(rec, true);
+                rec ? controls1.pickerIcons.selectRecord(rec, true) : controls1.pickerIcons.deselectAll(true);
+                controls1.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls1.cmbIcons, rec);
                 rec = controls2.pickerIcons.store.findWhere({value: icon1});
-                rec && controls2.pickerIcons.selectRecord(rec, true);
+                rec ? controls2.pickerIcons.selectRecord(rec, true) : controls2.pickerIcons.deselectAll(true);
+                controls2.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls2.cmbIcons, rec);
             }
         },
 
-        onSelectIcon: function(combo, picker, view, record) {
+        onSelectIcon: function(combo, noIconItem, picker, view, record) {
             this.selectIconItem(combo, record);
+            noIconItem.setChecked(false, true);
+            this.cmbIconsPresets.setValue(this.textCustom);
+        },
+
+        onSelectNoIcon: function(combo, picker, item, state) {
+            if (!state) return;
+            this.selectIconItem(combo);
+            picker.deselectAll(true);
             this.cmbIconsPresets.setValue(this.textCustom);
         },
 
         selectIconItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control');
+            var formcontrol = $(combo.el).find('.form-control > div');
             formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
+            formcontrol.text(record ? '' : this.txtNoCellIcon);
         },
 
         isRangeValid: function() {
@@ -2191,7 +2218,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         textInvalid: 'Invalid data range.',
         textClear: 'Clear',
         textItem: 'Item',
-        textPresets: 'Presets'
+        textPresets: 'Presets',
+        txtNoCellIcon: 'No Icon'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
