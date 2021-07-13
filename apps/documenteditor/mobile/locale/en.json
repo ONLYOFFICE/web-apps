@@ -340,7 +340,10 @@
     "textMarginsW": "Left and right margins are too high for a given page width",
     "textMarginsH": "Top and bottom margins are too high for a given page height",
     "textCollaboration": "Collaboration",
-    "textFindAndReplaceAll": "Find and Replace All"
+    "textFindAndReplaceAll": "Find and Replace All",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "textChooseEncoding": "Choose Encoding"
   },
   "Edit": {
     "textClose": "Close",

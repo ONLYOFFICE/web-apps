@@ -12,6 +12,8 @@ import ApplicationSettingsController from "../../controller/settings/Application
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
+import EncodingController from '../../controller/settings/Encoding';
+import { EncodingList } from '../../view/settings/Encoding';
 
 const routes = [
     {
@@ -53,6 +55,14 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/encoding/',
+        component: EncodingController
+    },
+    {
+        path: '/encoding-list/',
+        component: EncodingList
     }
 ];
 
