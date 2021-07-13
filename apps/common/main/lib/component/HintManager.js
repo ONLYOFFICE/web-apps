@@ -38,6 +38,59 @@
  *
  */
 
+/**
+ *  Example usage with simple items:
+ *
+ *      <button ... data-hint="1" data-hint-direction="right" data-hint-offset="big" data-hint-title="B">...</button>
+ *      <label ... data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" data-hint-title="L">...</label>
+ *
+ *  Example usage with components:
+ *
+ *      new Common.UI.Button({
+ *          ...
+ *          dataHint: '1',                  // '0' - tabs in toolbar, left and right menu, statusbar;
+ *                                          // '1' - file menu, contents of toolbar tabs, contents of right and left panels
+ *          dataHintDirection: 'bottom',    // top, bottom, right, left, left-top
+ *          dataHintOffset: 'small',        // big - 6px, medium - 4px, small - 2px
+ *          dataHintTitle : 'S'
+ *      });
+ *
+ *      new Common.UI.CheckBox({
+ *          ...
+ *          dataHint: '1',
+ *          dataHintDirection: 'left',
+ *          dataHintOffset: 'small'
+ *      });
+ *
+ *      new Common.UI.ComboBox({
+ *          ...
+ *          dataHint: '1',
+ *          dataHintDirection: 'bottom',
+ *          dataHintOffset: 'big'
+ *      });
+ *
+ *      new Common.UI.InputField({
+ *          ...
+ *          dataHint: '1',
+ *          dataHintDirection: 'left',
+ *          dataHintOffset: 'small'
+ *      });
+ *
+ *      new Common.UI.MetricSpinner({
+ *          ...
+ *          dataHint: '1',
+ *          dataHintDirection: 'bottom',
+ *          dataHintOffset: 'big'
+ *      });
+ *
+ *      new Common.UI.RadioBox({
+ *          ...
+ *          dataHint: '1',
+ *          dataHintDirection: 'left',
+ *          dataHintOffset: 'small'
+ *      });
+ */
+
 
 if (Common === undefined)
     var Common = {};
