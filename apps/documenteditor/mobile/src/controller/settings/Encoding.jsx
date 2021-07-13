@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import { Device } from '../../../../../common/mobile/utils/device';
-import { f7, Page, Navbar, List, ListItem, BlockTitle, ListButton, Popover, Popup } from "framework7-react";
-import { withTranslation } from 'react-i18next';
-import { observer, inject } from "mobx-react";
+import { f7 } from "framework7-react";
 import { Encoding } from "../../view/settings/Encoding";
 
 class EncodingController extends Component {
     constructor(props) {
         super(props);
+        this.onSaveFormat = this.onSaveFormat.bind(this);
     }
 
-    onSaveFormat(type, value) {
+    closeModal() {
+        if (Device.phone) {
+            f7.sheet.close('.settings-popup', true);
+        } else {
+            f7.popover.close('#settings-popover');
+        }
+    }
+
+    onSaveFormat(formatOptions, value) {
         const api = Common.EditorApi.get();
-        api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(value));
+
+        this.closeModal();
+        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(value));
+        api.asc_DownloadAs(formatOptions);
     }
 
     render() {

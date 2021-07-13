@@ -31,11 +31,12 @@ class DownloadController extends Component {
                     _t.notcriticalErrorTitle,
                     () => {
                         if (format == Asc.c_oAscFileType.TXT) {
-                            const isDocReady = this.props.storeAppOptions.isDocReady;
                             const advOptions = api.asc_getAdvancedOptions();
                             
                             this.props.storeEncoding.initOptions({type: Asc.c_oAscAdvancedOptionsID.TXT, advOptions, formatOptions: new Asc.asc_CDownloadOptions(format)});
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                            this.props.storeEncoding.initPages();
+                            this.props.storeEncoding.changeEncoding(advOptions.asc_getRecommendedSettings().asc_getCodePage());
+                            f7.views.current.router.navigate('/encoding/');
                         }
                         else {
                             this.closeModal();
@@ -68,67 +69,8 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
     if ($$('.dlg-adv-options.modal-in').length > 0) return;
 
     const api = Common.EditorApi.get();
-    if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
-        f7.views.current.router.navigate('/encoding/');
-        // let picker;
-        // const pages = [];
-        // const pagesName = [];
-        // for (let page of advOptions.asc_getCodePages()) {
-        //     pages.push(page.asc_getCodePage());
-        //     pagesName.push(page.asc_getCodePageName());
-        // }
-        // Common.Notifications.trigger('preloader:close');
-        // Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
-        // const buttons = [];
-        // if (mode === 2) {
-        //     buttons.push({
-        //         text: _t.textCancel
-        //     });
-        // }
-        // buttons.push({
-        //     text: 'OK',
-        //     bold: true,
-        //     onClick: function() {
-        //         const encoding = picker.value;
-        //         if (mode==2) {
-        //             formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
-        //             api.asc_DownloadAs(formatOptions);
-        //         } else {
-        //             api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
-        //         }
-        //         if (!isDocReady) {
-        //             Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
-        //         }
-        //     }
-        // });
-        // const dialog = f7.dialog.create({
-        //     title: _t.advTxtOptions,
-        //     text: '',
-        //     content:
-        //         '<div class="content-block">' +
-        //         '<div class="row">' +
-        //         '<div class="col-100">' + _t.textEncoding + '</div>' +
-        //         '</div>' +
-        //         '<div id="txt-encoding"></div>' +
-        //         '</div>',
-        //     buttons: buttons,
-        //     cssClass: 'dlg-adv-options'
-        // }).open();
-        // dialog.on('opened', () => {
-        //     picker = f7.picker.create({
-        //         containerEl: document.getElementById('txt-encoding'),
-        //         cols: [
-        //             {
-        //                 values: pages,
-        //                 displayValues: pagesName
-        //             }
-        //         ],
-        //         toolbar: false,
-        //         rotateEffect: true,
-        //         value: [advOptions.asc_getRecommendedSettings().asc_getCodePage()],
-        //     });
-        // });
-    } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+
+    if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{
