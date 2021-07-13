@@ -1,3 +1,72 @@
 {
-
+  "About": {
+    "textAbout": "À propos de",
+    "textAddress": "Adresse",
+    "textBack": "Retour"
+  },
+  "Common": {
+    "Collaboration": {
+      "textAddComment": "Ajouter un commentaire",
+      "textAddReply": "Ajouter une réponse",
+      "textBack": "Retour",
+      "textCancel": "Annuler"
+    }
+  },
+  "ContextMenu": {
+    "menuAddComment": "Ajouter un commentaire",
+    "menuAddLink": "Ajouter un lien",
+    "menuCancel": "Annuler"
+  },
+  "Controller": {
+    "Main": {
+      "textAnonymous": "Anonyme"
+    }
+  },
+  "Error": {
+    "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
+    "openErrorText": "Une erreur s’est produite lors de l'ouverture du fichier",
+    "saveErrorText": "Une erreur s'est produite lors du chargement du fichier"
+  },
+  "View": {
+    "Add": {
+      "textAddLink": "Ajouter un lien",
+      "textAddress": "Adresse",
+      "textBack": "Retour",
+      "textCancel": "Annuler"
+    },
+    "Edit": {
+      "textAddCustomColor": "Ajouter une couleur personnalisée",
+      "textAdditional": "Additionnel",
+      "textAdditionalFormatting": "Mise en forme supplémentaire",
+      "textAddress": "Adresse",
+      "textAfter": "après",
+      "textAlign": "Aligner",
+      "textAlignBottom": "Aligner en bas",
+      "textAlignCenter": "Aligner au centre",
+      "textAlignLeft": "Aligner à gauche",
+      "textAlignMiddle": "Aligner au centre",
+      "textAlignRight": "Aligner à droite",
+      "textAlignTop": "Aligner en haut",
+      "textAllCaps": "Tout en majuscules",
+      "textApplyAll": "Appliquer à toutes les diapositives",
+      "textAuto": "Auto",
+      "textBack": "Retour",
+      "textBandedColumn": "Colonne à couleur alternée",
+      "textBandedRow": "Ligne à couleur alternée",
+      "textBefore": "Avant",
+      "textBorder": "Bordure",
+      "textBottom": "Bas",
+      "textBottomLeft": "En bas à gauche",
+      "textBottomRight": "En bas à droite",
+      "textBringToForeground": "Mettre au premier plan"
+    },
+    "Settings": {
+      "textAbout": "À propos de",
+      "textAddress": "Adresse :",
+      "textApplication": "Application",
+      "textApplicationSettings": "Paramètres de l'application",
+      "textAuthor": "Auteur",
+      "textBack": "Retour"
+    }
+  }
 }
