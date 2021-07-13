@@ -71,6 +71,8 @@
     var key, handler, k, i, modifiersMatch, scope;
     key = event.keyCode;
 
+    if (key !== 27 && Common.UI.HintManager.isHintVisible()) return;
+
     if (index(_downKeys, key) == -1) {
         _downKeys.push(key);
     }
@@ -105,8 +107,6 @@
         for(k in _mods)
           if((!_mods[k] && index(handler.mods, +k) > -1) ||
             (_mods[k] && index(handler.mods, +k) == -1)) modifiersMatch = false;
-        if (modifiersMatch)
-          Common.NotificationCenter.trigger('hints:clear');
         // call the handler and stop the event if neccessary
         if((handler.mods.length == 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91]) || modifiersMatch){
           if(locked===true || handler.locked || handler.method(event, handler)===false){

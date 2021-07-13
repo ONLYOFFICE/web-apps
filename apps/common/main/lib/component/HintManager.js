@@ -60,7 +60,8 @@ Common.UI.HintManager = new(function() {
         _currentHints = [],
         _inputLetters = '',
         _isComplete = false,
-        _isLockedKeyEvents = false;
+        _isLockedKeyEvents = false,
+        _inputTimer;
 
     var _api;
 
@@ -96,6 +97,11 @@ Common.UI.HintManager = new(function() {
             _currentHints.forEach(function(item) {
                 item.show();
             });
+            _inputTimer = setInterval(function () {
+                if (_inputLetters.length > 0) {
+                    _inputLetters = '';
+                }
+            }, 5000);
         } else {
             _hintVisible = false;
         }
@@ -106,6 +112,7 @@ Common.UI.HintManager = new(function() {
         _currentHints && _currentHints.forEach(function(item) {
             item.hide()
         });
+        clearInterval(_inputTimer);
     };
 
     var _nextLevel = function() {
