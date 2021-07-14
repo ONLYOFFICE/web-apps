@@ -212,6 +212,17 @@ define([
             this.rendered = true;
             this.$el.html($markup);
             this.$el.find('.content-box').hide();
+            if (_.isUndefined(this.scroller)) {
+                var me = this;
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el.find('.panel-menu'),
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+                Common.NotificationCenter.on('window:resize', function() {
+                    me.scroller.update();
+                });
+            }
             this.applyMode();
 
             if ( !!this.api ) {
@@ -235,6 +246,7 @@ define([
             if (!panel)
                 panel = this.active || defPanel;
             this.$el.show();
+            this.scroller.update();
             this.selectMenu(panel, defPanel);
 
             this.api.asc_enableKeyEvents(false);
@@ -377,6 +389,17 @@ define([
                     this.$el.find('.content-box:visible').hide();
                     panel.show();
 
+                    if (this.scroller) {
+                        var itemTop = item.$el.position().top,
+                            itemHeight = item.$el.outerHeight(),
+                            listHeight = this.$el.outerHeight();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            var height = this.scroller.$el.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            this.scroller.scrollTop(height);
+                        }
+                    }
+                    
                     this.active = menu;
                 }
             }
