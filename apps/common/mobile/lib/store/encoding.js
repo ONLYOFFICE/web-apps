@@ -12,7 +12,13 @@ export class storeEncoding {
             valueEncoding: observable,
             nameEncoding: observable,
             initPages: action,
-            changeEncoding: action
+            changeEncoding: action,
+            valueDelimeter: observable,
+            nameDelimeter: observable,
+            changeDelimeter: action,
+            namesDelimeter: observable,
+            valuesDelimeter: observable,
+            initNamesDelimeter: action
         });
     }
 
@@ -23,6 +29,10 @@ export class storeEncoding {
     formatOptions;
     valueEncoding;
     nameEncoding;
+    namesDelimeter = [];
+    valuesDelimeter = [4, 2, 3, 1, 5];
+    nameDelimeter;
+    valueDelimeter;
 
     initOptions ({type, advOptions, formatOptions}) {
         this.type= type;
@@ -37,8 +47,17 @@ export class storeEncoding {
         }
     }
 
+    initNamesDelimeter(names) {
+        this.namesDelimeter = names;
+    }
+
     changeEncoding(value) {
         this.nameEncoding = this.pagesName[this.pages.indexOf(value)];
         this.valueEncoding = value;
+    }
+
+    changeDelimeter(value) {
+        this.nameDelimeter = this.namesDelimeter[this.valuesDelimeter.indexOf(value)];
+        this.valueDelimeter = value;
     }
 }

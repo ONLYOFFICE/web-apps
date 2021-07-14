@@ -513,7 +513,16 @@
             "textValues": "Values",
             "textNoTextFound": "Text not found",
             "textReplaceAll": "Replace All",
-            "textCollaboration": "Collaboration"
+            "textCollaboration": "Collaboration",
+            "textChooseCsvOptions": "Choose CSV Options",
+            "txtDownloadCsv": "Download CSV",
+            "textDelimeter": "Delimeter",
+            "textEncoding": "Encoding",
+            "textChooseEncoding": "Choose Encoding",
+            "textChooseDelimeter": "Choose Delimeter",
+            "txtComma": "Comma",
+            "txtSemicolon": "Semicolon",
+            "txtColon": "Colon"
         }
     },
     "Statusbar": {

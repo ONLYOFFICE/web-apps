@@ -3,6 +3,7 @@ import Download from "../../view/settings/Download";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { withTranslation, useTranslation } from 'react-i18next';
 import { f7 } from 'framework7-react';
+import { observer, inject } from "mobx-react";
 
 class DownloadController extends Component {
     constructor(props) {
@@ -17,11 +18,20 @@ class DownloadController extends Component {
 
         if (format) {
             if (format == Asc.c_oAscFileType.CSV) {
+                const advOptions = api.asc_getAdvancedOptions();
+                const recommendedSettings = advOptions.asc_getRecommendedSettings();
+
                 f7.dialog.confirm(
                     _t.warnDownloadAs,
                     _t.notcriticalErrorTitle,
-                    function () {
-                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
+                    () => {
+                        this.props.storeEncoding.initOptions({type: Asc.c_oAscAdvancedOptionsID.CSV, advOptions, formatOptions: new Asc.asc_CDownloadOptions(format)});
+                        this.props.storeEncoding.initPages();
+                        this.props.storeEncoding.initNamesDelimeter([_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace]);
+                        this.props.storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
+                        this.props.storeEncoding.changeDelimeter(recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4);
+                        f7.views.current.router.navigate('/encoding/');
+                        // onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
                     }
                 )
             } else {
@@ -37,92 +47,93 @@ class DownloadController extends Component {
     }
 }
 
-const DownloadWithTranslation = withTranslation()(DownloadController);
+const DownloadWithTranslation = inject("storeEncoding")(observer(withTranslation()(DownloadController)));
 
 const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
     const api = Common.EditorApi.get();
 
-    if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-        let picker;
-        const pages = [];
-        const pagesName = [];
+    // if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+    //     let picker;
+    //     const pages = [];
+    //     const pagesName = [];
 
-        for (let page of advOptions.asc_getCodePages()) {
-            pages.push(page.asc_getCodePage());
-            pagesName.push(page.asc_getCodePageName());
-        }
+    //     for (let page of advOptions.asc_getCodePages()) {
+    //         pages.push(page.asc_getCodePage());
+    //         pagesName.push(page.asc_getCodePageName());
+    //     }
 
-        Common.Notifications.trigger('preloader:close');
-        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
+    //     Common.Notifications.trigger('preloader:close');
+    //     Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
 
-        const buttons = [];
+    //     const buttons = [];
 
-        if (mode === 2) {
-            buttons.push({
-                text: _t.textCancel
-            });
-        }
+    //     if (mode === 2) {
+    //         buttons.push({
+    //             text: _t.textCancel
+    //         });
+    //     }
 
-        buttons.push({
-            text: 'OK',
-            bold: true,
-            onClick: function() {
-                let encoding = picker.cols[0].value,
-                    delimiter = picker.cols[1].value;
+    //     buttons.push({
+    //         text: 'OK',
+    //         bold: true,
+    //         onClick: function() {
+    //             let encoding = picker.cols[0].value,
+    //                 delimiter = picker.cols[1].value;
 
-                if (mode == 2) {
-                    formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter));
-                    api.asc_DownloadAs(formatOptions);
-                } else {
-                    api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
-                }
+    //             if (mode == 2) {
+    //                 formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter));
+    //                 api.asc_DownloadAs(formatOptions);
+    //             } else {
+    //                 api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
+    //             }
 
-                if (!isDocReady) {
-                    Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
-                }
-            }
-        });
+    //             if (!isDocReady) {
+    //                 Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256);
+    //             }
+    //         }
+    //     });
 
-        const dialog = f7.dialog.create({
-            title: _t.advCSVOptions,
-            text: '',
-            content:
-            '<div class="content-block small-picker" style="padding: 0; margin: 20px 0 0;">' +
-                '<div class="row">' +
-                    '<div class="col-50" style="text-align: left;">' + _t.txtEncoding + '</div>' +
-                    '<div class="col-50" style="text-align: right;">' + _t.txtDelimiter + '</div>' +
-                '</div>' +
-                '<div id="txt-encoding" class="small"></div>' +
-            '</div>',
-            buttons: buttons,
-            cssClass: 'dlg-adv-options'
-        }).open();
+    //     const dialog = f7.dialog.create({
+    //         title: _t.advCSVOptions,
+    //         text: '',
+    //         content:
+    //         '<div class="content-block small-picker" style="padding: 0; margin: 20px 0 0;">' +
+    //             '<div class="row">' +
+    //                 '<div class="col-50" style="text-align: left;">' + _t.txtEncoding + '</div>' +
+    //                 '<div class="col-50" style="text-align: right;">' + _t.txtDelimiter + '</div>' +
+    //             '</div>' +
+    //             '<div id="txt-encoding" class="small"></div>' +
+    //         '</div>',
+    //         buttons: buttons,
+    //         cssClass: 'dlg-adv-options'
+    //     }).open();
 
-        const recommendedSettings = advOptions.asc_getRecommendedSettings();
+    //     const recommendedSettings = advOptions.asc_getRecommendedSettings();
 
-        dialog.on('opened', () => {
-            picker = f7.picker.create({
-                containerEl: document.getElementById('txt-encoding'),
-                cols: [{
-                    textAlign: 'left',
-                    values: pages,
-                    displayValues: pagesName
-                },{
-                    textAlign: 'right',
-                    width: 120,
-                    values: [4, 2, 3, 1, 5],
-                    displayValues: [',', ';', ':', _t.txtTab, _t.txtSpace]
-                }],
-                toolbar: false,
-                rotateEffect: true,
-                value: [
-                    recommendedSettings && recommendedSettings.asc_getCodePage(),
-                    (recommendedSettings && recommendedSettings.asc_getDelimiter()) ? recommendedSettings.asc_getDelimiter() : 4
-                ],
-            });
-        });
+    //     dialog.on('opened', () => {
+    //         picker = f7.picker.create({
+    //             containerEl: document.getElementById('txt-encoding'),
+    //             cols: [{
+    //                 textAlign: 'left',
+    //                 values: pages,
+    //                 displayValues: pagesName
+    //             },{
+    //                 textAlign: 'right',
+    //                 width: 120,
+    //                 values: [4, 2, 3, 1, 5],
+    //                 displayValues: [',', ';', ':', _t.txtTab, _t.txtSpace]
+    //             }],
+    //             toolbar: false,
+    //             rotateEffect: true,
+    //             value: [
+    //                 recommendedSettings && recommendedSettings.asc_getCodePage(),
+    //                 (recommendedSettings && recommendedSettings.asc_getDelimiter()) ? recommendedSettings.asc_getDelimiter() : 4
+    //             ],
+    //         });
+    //     });
 
-    } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+    // } else 
+    if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{

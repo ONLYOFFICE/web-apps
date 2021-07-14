@@ -12,6 +12,8 @@ import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from '.
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
+import EncodingController from '../../controller/settings/Encoding';
+import { EncodingList, DelimeterList } from '../../view/settings/Encoding';
 
 const routes = [
     {
@@ -61,6 +63,18 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/encoding/',
+        component: EncodingController
+    },
+    {
+        path: '/encoding-list/',
+        component: EncodingList
+    },
+    {
+        path: '/delimeter-list/',
+        component: DelimeterList
     }
 ];
 

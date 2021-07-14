@@ -10,7 +10,7 @@ import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
 import {storeApplicationSettings} from './applicationSettings';
-import {storeEncoding} from "./encoding";
+import {storeEncoding} from "../../../../common/mobile/lib/store/encoding";
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
 import {storeReview} from "./review";

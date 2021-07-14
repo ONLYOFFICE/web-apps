@@ -11,6 +11,7 @@ import {storeShapeSettings} from "./shapeSettings";
 import {storeCellSettings} from "./cellSettings";
 import {storeSpreadsheetInfo} from "./spreadsheetInfo";
 import {storeAppOptions} from "./appOptions";
+import {storeEncoding} from "../../../../common/mobile/lib/store/encoding";
 // import {storeImageSettings} from "./imageSettings";
 // import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
@@ -22,6 +23,7 @@ export const stores = {
     storeSpreadsheetSettings: new storeSpreadsheetSettings(),
     storeApplicationSettings: new storeApplicationSettings(),
     users: new storeUsers(),
+    storeEncoding: new storeEncoding(),
     sheets: new storeWorksheets(),
     storeFunctions: new storeFunctions(),
     storeTextSettings: new storeTextSettings(),
