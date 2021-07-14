@@ -198,7 +198,7 @@ define([
                     if (innerEl) {
                         (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
 
-                        if (opts && opts.at!==undefined) {
+                        if (opts && (typeof opts.at==='number')) {
                             var idx = opts.at;
                             var innerDivs = innerEl.find('> div');
                             if (idx > 0)
