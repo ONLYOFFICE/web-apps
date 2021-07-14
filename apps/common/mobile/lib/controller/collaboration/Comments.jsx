@@ -457,7 +457,11 @@ class ViewCommentsController extends Component {
         });
     }
     closeViewCurComments () {
-        f7.sheet.close('#view-comment-sheet');
+        if (Device.phone) {
+            f7.sheet.close('#view-comment-sheet');
+        } else {
+            f7.popover.close('#view-comment-popover');
+        }
         this.setState({isOpenViewCurComments: false});
     }
     onResolveComment (comment) {
