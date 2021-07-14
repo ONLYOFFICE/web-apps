@@ -218,6 +218,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             plugin.set_Name(item['name']);
             plugin.set_Guid(item['guid']);
             plugin.set_BaseUrl(item['baseUrl']);
+            plugin.set_MinVersion && plugin.set_MinVersion(item.get('minVersion'));
 
             let variations = item['variations'],
                 variationsArr = [];
