@@ -1322,7 +1322,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             if (rec) {
                 props = this._originalProps || new Asc.asc_CConditionalFormattingRule();
-                var type = rec.get('type');
+                var type = rec.get('type'),
+                    type_changed = (type!==props.asc_getType());
                 props.asc_setType(type);
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
@@ -1364,7 +1365,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setValue1(this.txtRange1.getValue());
                         break;
                     case Asc.c_oAscCFType.colorScale:
-                        var scaleProps = new Asc.asc_CColorScale();
+                        var scaleProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CColorScale();
                         var scalesCount = rec.get('num');
                         var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
                         var colors = [], scales = [];
@@ -1381,7 +1382,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(scaleProps);
                         break;
                     case Asc.c_oAscCFType.dataBar:
-                        var barProps = new Asc.asc_CDataBar();
+                        var barProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CDataBar();
+                        type_changed && barProps.asc_setInterfaceDefault();
                         var arr = this.barControls;
                         var bars = [];
                         for (var i=0; i<arr.length; i++) {
@@ -1417,7 +1419,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(barProps);
                         break;
                     case Asc.c_oAscCFType.iconSet:
-                        var iconsProps = new Asc.asc_CIconSet();
+                        var iconsProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CIconSet();
                         iconsProps.asc_setShowValue(this.chIconShow.getValue()!=='checked');
                         iconsProps.asc_setReverse(!!this.iconsProps.isReverse);
                         iconsProps.asc_setIconSet(this.iconsProps.iconsSet);
@@ -1506,6 +1508,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     this._changedProps.asc_setColorScaleOrDataBarOrIconSetRule(this.scaleProps);
                 } else if (type == Asc.c_oAscCFType.dataBar) {
                     this.barProps = new Asc.asc_CDataBar();
+                    this.barProps.asc_setInterfaceDefault();
                     this.barProps.asc_setGradient(this.cmbFill.getValue());
                     this.barProps.asc_setColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosFill.colorPicker.currentColor));
                     var hasBorder = !this.cmbBorder.getValue();
