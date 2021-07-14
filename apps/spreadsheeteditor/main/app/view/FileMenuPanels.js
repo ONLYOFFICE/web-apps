@@ -897,6 +897,7 @@ define([
                 { value: 'lo', displayValue: this.txtLo, exampleValue: this.txtExampleEn },
                 { value: 'nb', displayValue: this.txtNb, exampleValue: this.txtExampleNb },
                 { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl },
+                { value: 'br', displayValue: this.txtBrlang, exampleValue: this.txtExampleBr },
                 { value: 'pt', displayValue: this.txtPtlang, exampleValue: this.txtExamplePt },
                 { value: 'ro', displayValue: this.txtRo, exampleValue: this.txtExampleEn },
                 { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
@@ -1387,7 +1388,8 @@ define([
         txtLv: 'Latvian',
         txtLo: 'Lao',
         txtNb: 'Norwegian',
-        txtPtlang: 'Portuguese',
+        txtPtlang: 'Portuguese (Portugal)',
+        txtBrlang: 'Portuguese (Brazil)',
         txtRo: 'Romanian',
         txtSk: 'Slovak',
         txtSl: 'Slovenian',
@@ -1404,6 +1406,7 @@ define([
         txtExampleHu: 'SZUM; MIN; MAX; DARAB',
         txtExampleNb: 'SUMMER; MIN; STØRST; ANTALL',
         txtExamplePt: 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
+        txtExampleBr: 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
         txtExampleSv: 'SUMMA; MIN; MAX; ANTAL',
         txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
 
