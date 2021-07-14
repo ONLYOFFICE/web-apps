@@ -674,11 +674,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 rec = this.rulesList.getSelectedRec();
             if (rec) {
                 var index = store.indexOf(rec);
-                var newrec = store.at(up ? this.getPrevRuleIndex(index) : this.getNextRuleIndex(index)),
+                var newindex = up ? this.getPrevRuleIndex(index) : this.getNextRuleIndex(index),
+                    newrec = store.at(newindex),
                     prioritynew = newrec.get('priority');
                 newrec.set('priority', rec.get('priority'));
                 rec.set('priority', prioritynew);
-                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                store.add(store.remove(rec), {at: up ? Math.max(0, newindex) : Math.min(length-1, newindex)});
+                store.add(store.remove(newrec), {at: up ? Math.max(0, index) : Math.min(length-1, index)});
                 this.rulesList.selectRecord(rec);
                 this.rulesList.scrollToRecord(rec);
             }
