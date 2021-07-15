@@ -565,7 +565,7 @@ define([
 
                     allItems.forEach(function(item){
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
-                            style: 'white-space: pre-wrap',
+                            style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
                             value: item.sheetindex,
                             checkable: true,
