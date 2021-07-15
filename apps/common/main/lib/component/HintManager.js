@@ -374,11 +374,14 @@ Common.UI.HintManager = new(function() {
                         _api.asc_enableKeyEvents(true);
                     }
                 }
+            } else if (_hintVisible) {
+                e.preventDefault();
             }
             _isAlt = false;
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
+                e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     if (_currentLevel === 0) {
                         _hideHints();
@@ -389,66 +392,71 @@ Common.UI.HintManager = new(function() {
                         _showHints();
                     }
                 } else {
-                    var curr;
-                    var curLetter = _lang === 'en' ? String.fromCharCode(e.keyCode) : e.key;
-                    if (_lang !== 'en' && _arrAlphabet.indexOf(curLetter.toLowerCase()) === -1) {
-                        var ind = _arrEnQwerty.indexOf(curLetter.toLowerCase());
-                        if (ind !== -1) {
-                            curLetter = _arrQwerty[ind];
-                        }
+                    var curLetter = null;
+                    var keyCode = e.keyCode;
+                    if (keyCode !== 16 && keyCode !== 17 && keyCode !== 18 && keyCode !== 91) {
+                        curLetter = _lang === 'en' ? ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) : e.key;
                     }
-                    _inputLetters = _inputLetters + curLetter.toUpperCase();
-                    for (var i = 0; i < _currentControls.length; i++) {
-                        var item = _currentControls[i];
-                        if (!_isItemDisabled(item) && item.attr('data-hint-title') === _inputLetters) {
-                            curr = item;
-                            break;
+                    if (curLetter) {
+                        var curr;
+                        if (_lang !== 'en' && _arrAlphabet.indexOf(curLetter.toLowerCase()) === -1) {
+                            var ind = _arrEnQwerty.indexOf(curLetter.toLowerCase());
+                            if (ind !== -1) {
+                                curLetter = _arrQwerty[ind];
+                            }
                         }
-                    }
-                    if (curr) {
-                        var tag = curr.prop("tagName").toLowerCase();
-                        if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
-                            _hideHints();
-                            curr.contextmenu();
-                            _resetToDefault();
-                        } else if (tag === 'input' || tag === 'textarea') {
-                            _hideHints();
-                            curr.trigger(jQuery.Event('click', {which: 1}));
-                            curr.focus();
-                            _resetToDefault();
-                        } else {
-                            _isComplete = false;
-                            _hideHints();
-                            if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
-                                if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
-                                    curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
-                                    if (curr.attr('for')) { // to trigger event in checkbox
-                                        $(`#${curr.attr('for')}`).trigger(jQuery.Event('click', {which: 1}));
-                                    } else {
-                                        curr.trigger(jQuery.Event('click', {which: 1}));
+                        _inputLetters = _inputLetters + curLetter.toUpperCase();
+                        for (var i = 0; i < _currentControls.length; i++) {
+                            var item = _currentControls[i];
+                            if (!_isItemDisabled(item) && item.attr('data-hint-title') === _inputLetters) {
+                                curr = item;
+                                break;
+                            }
+                        }
+                        if (curr) {
+                            var tag = curr.prop("tagName").toLowerCase();
+                            if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
+                                _hideHints();
+                                curr.contextmenu();
+                                _resetToDefault();
+                            } else if (tag === 'input' || tag === 'textarea') {
+                                _hideHints();
+                                curr.trigger(jQuery.Event('click', {which: 1}));
+                                curr.focus();
+                                _resetToDefault();
+                            } else {
+                                _isComplete = false;
+                                _hideHints();
+                                if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
+                                    if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
+                                        curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
+                                        if (curr.attr('for')) { // to trigger event in checkbox
+                                            $(`#${curr.attr('for')}`).trigger(jQuery.Event('click', {which: 1}));
+                                        } else {
+                                            curr.trigger(jQuery.Event('click', {which: 1}));
+                                        }
                                     }
                                 }
-                            }
-                            if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
-                                _resetToDefault();
-                                return;
-                            }
-                            if (curr.prop('id') === 'add-comment-doc') {
-                                _removeHints();
-                                _currentHints.length = 0;
-                                _currentControls.length = 0;
-                                _showHints();
-                                return;
-                            }
-                            if (!_isComplete) {
-                                _nextLevel();
-                                _setCurrentSection(curr);
-                                _showHints();
+                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
+                                    _resetToDefault();
+                                    return;
+                                }
+                                if (curr.prop('id') === 'add-comment-doc') {
+                                    _removeHints();
+                                    _currentHints.length = 0;
+                                    _currentControls.length = 0;
+                                    _showHints();
+                                    return;
+                                }
+                                if (!_isComplete) {
+                                    _nextLevel();
+                                    _setCurrentSection(curr);
+                                    _showHints();
+                                }
                             }
                         }
                     }
                 }
-                e.preventDefault();
             }
 
             _isAlt = (e.keyCode == Common.UI.Keys.ALT);
