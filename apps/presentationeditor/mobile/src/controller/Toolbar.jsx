@@ -131,7 +131,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
         }
     }
 
-    const [disabledAdd, setDisabledAdd] = useState(false);
     const [disabledEdit, setDisabledEdit] = useState(false);
     const onApiFocusObject = (objects) => {
         if (isDisconnected) return;
@@ -153,7 +152,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
                 }
             });
 
-            setDisabledAdd(slide_deleted);
             setDisabledEdit(slide_deleted || (objectLocked || no_object) && slide_lock);
         }
     };
@@ -194,7 +192,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}
                      onRedo={onRedo}
-                     disabledAdd={disabledAdd}
                      disabledEdit={disabledEdit}
                      disabledPreview={disabledPreview}
                      disabledControls={disabledControls}
