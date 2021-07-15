@@ -62,7 +62,7 @@ const AddLinkView = props => {
     const displayDisabled = displayText === 'locked';
     displayText = displayDisabled ? _t.textSelectedRange : displayText;
     const [stateDisplayText, setDisplayText] = useState(displayText);
-
+    const [stateAutoUpdate, setAutoUpdate] = useState(true);
     const [screenTip, setScreenTip] = useState('');
 
     const activeSheet = props.activeSheet;
@@ -88,7 +88,8 @@ const AddLinkView = props => {
                                placeholder={_t.textLink}
                                value={link}
                                onChange={(event) => {
-                                setLink(event.target.value)
+                                setLink(event.target.value);
+                                if(stateAutoUpdate) setDisplayText(event.target.value);
                             }}
                                className={isIos ? 'list-input-right' : ''}
                     />
@@ -114,7 +115,8 @@ const AddLinkView = props => {
                            placeholder={_t.textDisplay}
                            value={stateDisplayText}
                            disabled={displayDisabled}
-                           onChange={(event) => {setDisplayText(event.target.value)}}
+                           onChange={(event) => {setDisplayText(event.target.value);
+                            setAutoUpdate(event.target.value == ''); }}
                            className={isIos ? 'list-input-right' : ''}
                 />
                 <ListInput label={_t.textScreenTip}
