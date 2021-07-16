@@ -31,12 +31,11 @@ class DownloadController extends Component {
                     _t.notcriticalErrorTitle,
                     () => {
                         if (format == Asc.c_oAscFileType.TXT) {
+                            const canRequestClose = this.props.storeAppOptions.canRequestClose;
+                            const storeEncoding = this.props.storeEncoding;
                             const advOptions = api.asc_getAdvancedOptions();
-                            
-                            this.props.storeEncoding.initOptions({type: Asc.c_oAscAdvancedOptionsID.TXT, advOptions, formatOptions: new Asc.asc_CDownloadOptions(format)});
-                            this.props.storeEncoding.initPages();
-                            this.props.storeEncoding.changeEncoding(advOptions.asc_getRecommendedSettings().asc_getCodePage());
-                            f7.views.current.router.navigate('/encoding/');
+
+                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format), _t, true, canRequestClose, false, storeEncoding);
                         }
                         else {
                             this.closeModal();
@@ -65,12 +64,25 @@ class DownloadController extends Component {
 
 const DownloadWithTranslation = inject("storeAppOptions", "storeEncoding")(observer(withTranslation()(DownloadController)));
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM, storeEncoding) => {
     if ($$('.dlg-adv-options.modal-in').length > 0) return;
 
     const api = Common.EditorApi.get();
 
-    if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+    if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
+        
+        const recommendedSettings = advOptions.asc_getRecommendedSettings();
+
+        storeEncoding.initOptions({type, advOptions, formatOptions});
+        storeEncoding.initPages();
+        storeEncoding.setMode(mode);
+        storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
+
+        f7.views.current.router.navigate('/encoding/');
+    }
+    else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{

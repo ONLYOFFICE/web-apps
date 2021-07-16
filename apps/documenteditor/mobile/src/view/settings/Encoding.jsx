@@ -9,7 +9,7 @@ const PageEncoding = props => {
     const storeEncoding = props.storeEncoding;
     const valueEncoding= storeEncoding.valueEncoding;
     const nameEncoding = storeEncoding.nameEncoding;
-    const formatOptions = storeEncoding.formatOptions;
+    const mode = storeEncoding.mode;
     
     return (
         <Page>
@@ -19,7 +19,7 @@ const PageEncoding = props => {
                 <ListItem title={nameEncoding} href="/encoding-list/"></ListItem>
             </List>
             <List className="buttons-list">
-                <ListButton className='button-fill button-raised' title={_t.textDownload} onClick={() => props.onSaveFormat(formatOptions, valueEncoding)}></ListButton>
+                <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.textOk} onClick={() => props.onSaveFormat(mode, valueEncoding)}></ListButton>
             </List>
         </Page>
     )

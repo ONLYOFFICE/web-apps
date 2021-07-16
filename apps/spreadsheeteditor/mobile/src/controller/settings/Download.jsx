@@ -19,19 +19,14 @@ class DownloadController extends Component {
         if (format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 const advOptions = api.asc_getAdvancedOptions();
-                const recommendedSettings = advOptions.asc_getRecommendedSettings();
+                const storeEncoding = this.props.storeEncoding;
 
                 f7.dialog.confirm(
                     _t.warnDownloadAs,
                     _t.notcriticalErrorTitle,
                     () => {
-                        this.props.storeEncoding.initOptions({type: Asc.c_oAscAdvancedOptionsID.CSV, advOptions, formatOptions: new Asc.asc_CDownloadOptions(format)});
-                        this.props.storeEncoding.initPages();
-                        this.props.storeEncoding.initNamesDelimeter([_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace]);
-                        this.props.storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
-                        this.props.storeEncoding.changeDelimeter(recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4);
-                        f7.views.current.router.navigate('/encoding/');
-                        // onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
+                        const canRequestClose = this.props.storeAppOptions.canRequestClose;
+                        onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, advOptions, 2, new Asc.asc_CDownloadOptions(format), _t, true, canRequestClose, false, storeEncoding);
                     }
                 )
             } else {
@@ -47,12 +42,26 @@ class DownloadController extends Component {
     }
 }
 
-const DownloadWithTranslation = inject("storeEncoding")(observer(withTranslation()(DownloadController)));
+const DownloadWithTranslation = inject("storeAppOptions", "storeEncoding")(observer(withTranslation()(DownloadController)));
 
-const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM) => {
+const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady, canRequestClose, isDRM, storeEncoding) => {
     const api = Common.EditorApi.get();
 
-    // if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+    if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+        Common.Notifications.trigger('preloader:close');
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
+
+        const recommendedSettings = advOptions.asc_getRecommendedSettings();
+
+        storeEncoding.initOptions({type, advOptions, formatOptions});
+        storeEncoding.initPages();
+        storeEncoding.initNamesDelimeter([_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace]);
+        storeEncoding.setMode(mode);
+        storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
+        storeEncoding.changeDelimeter(recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4);
+
+        f7.views.current.router.navigate('/encoding/');
+    }
     //     let picker;
     //     const pages = [];
     //     const pagesName = [];
@@ -133,7 +142,7 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
     //     });
 
     // } else 
-    if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+    else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
         const buttons = [{

@@ -26,7 +26,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeTableSettings",
     "storeDocumentInfo",
     "storeChartSettings",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeEncoding"
     )
 class MainController extends Component {
     constructor(props) {
@@ -607,11 +608,13 @@ class MainController extends Component {
             storeDocumentSettings.addSchemes(arr);
         });
 
+        const storeEncoding = this.props.storeEncoding;
+
         // Downloaded Advanced Options
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM, storeEncoding);
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
         });
     }

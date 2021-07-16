@@ -522,7 +522,8 @@
             "textChooseDelimeter": "Choose Delimeter",
             "txtComma": "Comma",
             "txtSemicolon": "Semicolon",
-            "txtColon": "Colon"
+            "txtColon": "Colon",
+            "txtOk": "Ok"
         }
     },
     "Statusbar": {

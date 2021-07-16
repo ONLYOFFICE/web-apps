@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { f7 } from "framework7-react";
 import { Encoding } from "../../view/settings/Encoding";
+import { observer, inject } from "mobx-react";
 
 class EncodingController extends Component {
     constructor(props) {
@@ -17,12 +18,19 @@ class EncodingController extends Component {
         }
     }
 
-    onSaveFormat(formatOptions, value) {
+    onSaveFormat(mode, valueEncoding) {
         const api = Common.EditorApi.get();
 
         this.closeModal();
-        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(value));
-        api.asc_DownloadAs(formatOptions);
+
+        if(mode === 2) {
+            const formatOptions = this.props.storeEncoding.formatOptions;
+            formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding));
+            api.asc_DownloadAs(formatOptions);
+        } else {
+            const type = this.props.storeEncoding.type;
+            api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(valueEncoding));
+        }
     }
 
     render() {
@@ -32,4 +40,4 @@ class EncodingController extends Component {
     }
 }
 
-export default EncodingController;
+export default inject("storeEncoding")(observer(EncodingController));

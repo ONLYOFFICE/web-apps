@@ -343,7 +343,8 @@
     "textFindAndReplaceAll": "Find and Replace All",
     "textChooseTxtOptions": "Choose TXT Options",
     "txtDownloadTxt": "Download TXT",
-    "textChooseEncoding": "Choose Encoding"
+    "textChooseEncoding": "Choose Encoding",
+    "txtOk": "Ok"
   },
   "Edit": {
     "textClose": "Close",

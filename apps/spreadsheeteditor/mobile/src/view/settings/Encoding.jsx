@@ -11,7 +11,7 @@ const PageEncoding = props => {
     const nameDelimeter = storeEncoding.nameDelimeter;
     const valueDelimeter = storeEncoding.valueDelimeter;
     const nameEncoding = storeEncoding.nameEncoding;
-    const formatOptions = storeEncoding.formatOptions;
+    const mode = storeEncoding.mode;
 
     return (
         <Page>
@@ -25,7 +25,7 @@ const PageEncoding = props => {
                 <ListItem title={nameEncoding} href="/encoding-list/"></ListItem>
             </List>
             <List className="buttons-list">
-                <ListButton className='button-fill button-raised' title={_t.textDownload} onClick={() => props.onSaveFormat(formatOptions, valueEncoding, valueDelimeter)}></ListButton>
+                <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(mode, valueEncoding, valueDelimeter)}></ListButton>
             </List>
         </Page>
     )

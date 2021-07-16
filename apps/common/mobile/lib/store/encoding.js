@@ -4,6 +4,8 @@ export class storeEncoding {
     constructor() {
         makeObservable(this, {
             type: observable,
+            mode: observable,
+            setMode: action,
             advOptions: observable,
             formatOptions: observable,
             pages: observable,
@@ -22,9 +24,10 @@ export class storeEncoding {
         });
     }
 
+    type;
+    mode;
     pages = [];
     pagesName = [];
-    type;
     advOptions;
     formatOptions;
     valueEncoding;
@@ -35,7 +38,7 @@ export class storeEncoding {
     valueDelimeter;
 
     initOptions ({type, advOptions, formatOptions}) {
-        this.type= type;
+        this.type = type;
         this.advOptions = advOptions;
         this.formatOptions = formatOptions;
     }
@@ -49,6 +52,10 @@ export class storeEncoding {
 
     initNamesDelimeter(names) {
         this.namesDelimeter = names;
+    }
+
+    setMode(value) {
+        this.mode = value;
     }
 
     changeEncoding(value) {
