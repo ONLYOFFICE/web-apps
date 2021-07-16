@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "PE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
+  "PE.ApplicationController.textAnonymous": "Анонимный пользователь",
+  "PE.ApplicationController.textGuest": "Гость",
   "PE.ApplicationController.textLoadingDocument": "Загрузка презентации",
   "PE.ApplicationController.textOf": "из",
   "PE.ApplicationController.txtClose": "Закрыть",
