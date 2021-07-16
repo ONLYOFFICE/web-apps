@@ -121,7 +121,10 @@ define([
             if (this.formulasGroups && this.api) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
 
-                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
+                var deflang = (this.appOptions.lang || 'en').toLowerCase();
+                if (deflang=='pt-br' || deflang=='pt_br')
+                    deflang = 'br';
+                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || deflang, true);
 
                 var me = this;
 
