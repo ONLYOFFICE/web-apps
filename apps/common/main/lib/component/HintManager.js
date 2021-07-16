@@ -427,6 +427,10 @@ Common.UI.HintManager = new(function() {
                             } else {
                                 _isComplete = false;
                                 _hideHints();
+                                if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || curr.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                                    _resetToDefault();
+                                    return;
+                                }
                                 if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
@@ -452,6 +456,9 @@ Common.UI.HintManager = new(function() {
                                     _nextLevel();
                                     _setCurrentSection(curr);
                                     _showHints();
+                                    if (_currentHints.length < 1) {
+                                        _resetToDefault();
+                                    }
                                 }
                             }
                         }
