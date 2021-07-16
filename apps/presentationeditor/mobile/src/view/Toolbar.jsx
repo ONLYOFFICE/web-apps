@@ -29,8 +29,8 @@ const ToolbarView = props => {
                     <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                    disabledAdd: props.disabledAdd || props.disabledControls || isDisconnected,
-                    disabledEdit: props.disabledEdit || props.disabledControls || isDisconnected,
+                    disabledEdit: props.disabledEdit || props.disabledControls || isDisconnected || props.disabledPreview,
+                    disabledAdd: props.disabledControls || isDisconnected,
                     onEditClick: () => props.openOptions('edit'),
                     onAddClick: () => props.openOptions('add')
                 })}
