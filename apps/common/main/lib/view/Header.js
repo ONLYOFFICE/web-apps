@@ -85,7 +85,7 @@ define([
                                 '<div class="hedset">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users">' +
+                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption">&plus;</label>' +
                                         '</div>' +
@@ -415,7 +415,10 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true
+                    split: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -428,7 +431,10 @@ define([
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true
+                    menu: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.mnuZoom = {options: {value: 100}};
@@ -436,7 +442,10 @@ define([
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
-                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite',
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 Common.NotificationCenter.on({
@@ -459,7 +468,10 @@ define([
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
-                        disabled: disabled === true
+                        disabled: disabled === true,
+                        dataHint:'0',
+                        dataHintDirection: 'left',
+                        dataHintOffset: '10, 10'
                     })).render(slot);
                 }
 

@@ -71,11 +71,15 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
+        template    : _.template('<label class="radiobox" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
                                     '<label for="<%= id %>" class="radiobox__shape"></label><span></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            this.dataHint = options.dataHint;
+            this.dataHintDirection = options.dataHintDirection;
+            this.dataHintOffset = options.dataHintOffset;
 
             var me = this;
 
@@ -100,7 +104,10 @@ define([
             el.html(this.template({
                 labelText: this.options.labelText,
                 name: this.name,
-                id: Common.UI.getId('rdb-')
+                id: Common.UI.getId('rdb-'),
+                dataHint: this.dataHint,
+                dataHintDirection: this.dataHintDirection,
+                dataHintOffset: this.dataHintOffset
             }));
 
             this.$radio = el.find('input[type=radio]');

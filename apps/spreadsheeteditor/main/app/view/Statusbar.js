@@ -591,6 +591,8 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
+                    this.tabbar.addDataHint(sindex);
+
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
@@ -668,6 +670,8 @@ define([
                 if (this.hasTabInvisible && !this.tabbar.isTabVisible(index)) {
                     this.tabbar.setTabVisible(index);
                 }
+
+                this.tabbar.addDataHint(index);
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);

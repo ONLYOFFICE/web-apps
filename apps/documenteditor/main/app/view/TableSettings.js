@@ -242,37 +242,55 @@ define([
 
             this.chHeader = new Common.UI.CheckBox({
                 el: $('#table-checkbox-header'),
-                labelText: this.textHeader
+                labelText: this.textHeader,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chHeader);
 
             this.chTotal = new Common.UI.CheckBox({
                 el: $('#table-checkbox-total'),
-                labelText: this.textTotal
+                labelText: this.textTotal,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chTotal);
 
             this.chBanded = new Common.UI.CheckBox({
                 el: $('#table-checkbox-banded'),
-                labelText: this.textBanded
+                labelText: this.textBanded,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chBanded);
 
             this.chFirst = new Common.UI.CheckBox({
                 el: $('#table-checkbox-first'),
-                labelText: this.textFirst
+                labelText: this.textFirst,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chFirst);
 
             this.chLast = new Common.UI.CheckBox({
                 el: $('#table-checkbox-last'),
-                labelText: this.textLast
+                labelText: this.textLast,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chLast);
 
             this.chColBanded = new Common.UI.CheckBox({
                 el: $('#table-checkbox-col-banded'),
-                labelText: this.textBanded
+                labelText: this.textBanded,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chColBanded);
 
@@ -284,16 +302,16 @@ define([
             this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
 
             var _arrBorderPosition = [
-                ['l', 'toolbar__icon btn-border-left', 'table-button-border-left',              this.tipLeft],
-                ['c', 'toolbar__icon btn-border-insidevert', 'table-button-border-inner-vert',  this.tipInnerVert],
-                ['r', 'toolbar__icon btn-border-right', 'table-button-border-right',            this.tipRight],
-                ['t', 'toolbar__icon btn-border-top', 'table-button-border-top',                this.tipTop],
-                ['m', 'toolbar__icon btn-border-insidehor', 'table-button-border-inner-hor',    this.tipInnerHor],
-                ['b', 'toolbar__icon btn-border-bottom', 'table-button-border-bottom',          this.tipBottom],
-                ['cm', 'toolbar__icon btn-border-inside', 'table-button-border-inner',          this.tipInner],
-                ['lrtb', 'toolbar__icon btn-border-out', 'table-button-border-outer',           this.tipOuter],
-                ['lrtbcm', 'toolbar__icon btn-border-all', 'table-button-border-all',           this.tipAll],
-                ['', 'toolbar__icon btn-border-no', 'table-button-border-none',                 this.tipNone]
+                ['l', 'toolbar__icon btn-border-left', 'table-button-border-left',              this.tipLeft,       'bottom'],
+                ['c', 'toolbar__icon btn-border-insidevert', 'table-button-border-inner-vert',  this.tipInnerVert,  'bottom'],
+                ['r', 'toolbar__icon btn-border-right', 'table-button-border-right',            this.tipRight,      'bottom'],
+                ['t', 'toolbar__icon btn-border-top', 'table-button-border-top',                this.tipTop,        'bottom'],
+                ['m', 'toolbar__icon btn-border-insidehor', 'table-button-border-inner-hor',    this.tipInnerHor,   'bottom'],
+                ['b', 'toolbar__icon btn-border-bottom', 'table-button-border-bottom',          this.tipBottom,     'bottom'],
+                ['cm', 'toolbar__icon btn-border-inside', 'table-button-border-inner',          this.tipInner,      'top'],
+                ['lrtb', 'toolbar__icon btn-border-out', 'table-button-border-outer',           this.tipOuter,      'top'],
+                ['lrtbcm', 'toolbar__icon btn-border-all', 'table-button-border-all',           this.tipAll,        'top'],
+                ['', 'toolbar__icon btn-border-no', 'table-button-border-none',                 this.tipNone,       'top']
             ];
 
             this._btnsBorderPosition = [];
@@ -303,7 +321,10 @@ define([
                     cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     strId   :item[0],
-                    hint: item[3]
+                    hint: item[3],
+                    dataHint: '1',
+                    dataHintDirection: item[4],
+                    dataHintOffset: 'small'
                 });
                 _btn.on('click', _.bind(this.onBtnBordersClick, this));
                 this._btnsBorderPosition.push( _btn );
@@ -312,7 +333,10 @@ define([
 
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el: $('#table-combo-border-size'),
-                style: "width: 93px;"
+                style: "width: 93px;",
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);
@@ -343,7 +367,10 @@ define([
                         { caption: this.mergeCellsText,  value: 11 },
                         { caption: this.splitCellsText,  value: 12 }
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.mnuMerge = this.btnEdit.menu.items[this.btnEdit.menu.items.length-2];
             this.mnuSplit = this.btnEdit.menu.items[this.btnEdit.menu.items.length-1];
@@ -359,7 +386,10 @@ define([
 
             this.chRepeatRow = new Common.UI.CheckBox({
                 el: $('#table-checkbox-repeat-row'),
-                labelText: this.strRepeatRow
+                labelText: this.strRepeatRow,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chRepeatRow.on('change', _.bind(this.onCheckRepeatRowChange, this));
             this.lockedControls.push(this.chRepeatRow);
@@ -371,7 +401,10 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){			
 				var _props = new Asc.CTableProp();
@@ -389,7 +422,10 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
 				var _props = new Asc.CTableProp();
@@ -668,14 +704,20 @@ define([
                  this.btnBorderColor = new Common.UI.ColorButton({
                      parentEl: $('#table-border-color-btn'),
                      color: 'auto',
-                     auto: true
+                     auto: true,
+                     dataHint: '1',
+                     dataHintDirection: 'bottom',
+                     dataHintOffset: 'big'
                  });
                  this.lockedControls.push(this.btnBorderColor);
                  this.borderColor = this.btnBorderColor.getPicker();
 
                  this.btnBackColor = new Common.UI.ColorButton({
                      parentEl: $('#table-back-color-btn'),
-                     transparent: true
+                     transparent: true,
+                     dataHint: '1',
+                     dataHintDirection: 'bottom',
+                     dataHintOffset: 'big'
                  });
                  this.lockedControls.push(this.btnBackColor);
                  this.colorsBack = this.btnBackColor.getPicker();
@@ -699,7 +741,10 @@ define([
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
-                    })
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({

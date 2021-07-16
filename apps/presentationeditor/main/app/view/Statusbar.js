@@ -244,7 +244,10 @@ define([
                             {caption: this.textShowCurrent, value: 1},
                             {caption: this.textShowPresenterView, value: 2}
                         ]
-                    })
+                    }),
+                    dataHint: '0',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
                 });
 
                 var panelLang = $('.cnt-lang',this.el);

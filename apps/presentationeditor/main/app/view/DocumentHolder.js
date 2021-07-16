@@ -219,6 +219,8 @@ define([
             };
 
             var onContextMenu = function(event){
+                if (Common.UI.HintManager.isHintVisible())
+                    Common.UI.HintManager.clearHints();
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                         showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.slideMenu : me.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
@@ -303,7 +305,8 @@ define([
                     }
                     if (key == Common.UI.Keys.ESC) {
                         Common.UI.Menu.Manager.hideAll();
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+                        if (!Common.UI.HintManager.isHintVisible())
+                            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                     }
                 }
             };

@@ -673,7 +673,8 @@ define([
 //                        if (!this.leftMenu.isOpened()) return true;
                     // TODO:
                     if ( this.leftMenu.menuFile.isVisible() ) {
-                        this.leftMenu.menuFile.hide();
+                        if (Common.UI.HintManager.needCloseFileMenu())
+                            this.leftMenu.menuFile.hide();
                         return false;
                     }
 
@@ -693,8 +694,10 @@ define([
 
                     if ( this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length ) {
-                        this.leftMenu.close();
-                        Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        if (!Common.UI.HintManager.isHintVisible()) {
+                            this.leftMenu.close();
+                            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        }
                         return false;
                     }
                     break;

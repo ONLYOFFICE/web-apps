@@ -60,7 +60,10 @@ define([
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
             showLast: true,
-            minWidth: -1
+            minWidth: -1,
+            dataHint: '',
+            dataHintDirection: '',
+            dataHintOffset: ''
         },
 
         template: _.template([
@@ -110,7 +113,10 @@ define([
                     items: [
                         {template: _.template('<div class="menu-picker-container"></div>')}
                     ]
-                })
+                }),
+                dataHint: this.options.dataHint,
+                dataHintDirection: this.options.dataHintDirection,
+                dataHintOffset: this.options.dataHintOffset
             });
 
             if  (this.options.additionalMenuItems != null) {

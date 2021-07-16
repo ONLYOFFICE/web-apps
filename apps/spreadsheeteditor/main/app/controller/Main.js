@@ -56,7 +56,8 @@ define([
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
-    'spreadsheeteditor/main/app/controller/FormulaDialog'
+    'spreadsheeteditor/main/app/controller/FormulaDialog',
+    'common/main/lib/component/HintManager'
 ], function () {
     'use strict';
 
@@ -181,6 +182,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
 
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
@@ -629,6 +631,8 @@ define([
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
                 }
+
+                Common.UI.HintManager.clearHints(true);
             },
 
             onSelectionChanged: function(info){
