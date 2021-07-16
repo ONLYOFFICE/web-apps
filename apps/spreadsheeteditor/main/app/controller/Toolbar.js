@@ -148,7 +148,6 @@ define([
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
             Common.NotificationCenter.on('formula:settings', _.bind(this.applyFormulaSettings, this));
-            Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
 
             this.editMode = true;
             this._isAddingShape = false;
@@ -1821,6 +1820,7 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateDocumentProps',      _.bind(this.onUpdateDocumentProps, this));
                 this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
+                Common.NotificationCenter.on('protect:wslock',                  _.bind(this.onChangeProtectSheet, this));
             }
 
             if ( !this.appConfig.isEditMailMerge ) {
@@ -1950,7 +1950,7 @@ define([
                     };
             Common.util.Shortcuts.delegateShortcuts({shortcuts: shortcuts});
 
-            this.onApiSelectionChanged(this.api.asc_getCellInfo());
+            this.onChangeProtectSheet();
             this.attachToControlEvents();
             this.onApiSheetChanged();
 
@@ -2506,7 +2506,7 @@ define([
             // disable on protected sheet
             need_disable = (selectionType === Asc.c_oAscSelectionType.RangeImage || selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText ||
                             selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeSlicer);
-            toolbar.lockToolbar(need_disable ? SSE.enumLock['Objects'] : SSE.enumLock['FormatCells'], need_disable ? this._state.wsProps['Objects'] : this._state.wsProps['FormatCells'],
+            toolbar.lockToolbar(need_disable ? SSE.enumLock['Objects'] : SSE.enumLock['FormatCells'], need_disable ? !!this._state.wsProps['Objects'] : !!this._state.wsProps['FormatCells'],
                                 { clear: [SSE.enumLock['FormatCells'], SSE.enumLock['Objects']]});
 
             if (editOptionsDisabled) return;
@@ -3992,12 +3992,17 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onChangeProtectSheet: function(props, state) {
-            this._state.wsProps = props;
-            this._state.wsLock = state;
-
-            if (this._state.activated) {
-                this.toolbar.lockToolbar(SSE.enumLock.wsLock, state);
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
+                
+                this.toolbar.lockToolbar(SSE.enumLock.wsLock, this._state.wsLock);
+                this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
                 this.onApiSelectionChanged(this.api.asc_getCellInfo());
             }
         },

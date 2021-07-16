@@ -68,7 +68,7 @@ define([
             });
         },
         onLaunch: function () {
-            this._state = {wsLock: false};
+            this._state = {};
             this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
                 'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
             SSE.enumLock && this.wsLockOptions.forEach(function(item){
@@ -94,7 +94,6 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
-            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         setMode: function(mode) {
@@ -271,7 +270,7 @@ define([
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
                 me.view.btnProtectSheet.toggle(me.api.asc_isProtectedSheet(), true); //current sheet
-                me.onChangeProtectSheet();
+                me.onChangeProtectSheet(true);
             });
         },
 
@@ -279,11 +278,19 @@ define([
             this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
         },
 
-        onChangeProtectSheet: function() {
-            var wsProtected = !!this.api.asc_isProtectedSheet();
-            if (this._state.wsLock===wsProtected && !wsProtected) return;
+        onChangeProtectSheet: function(suppressEvent) {
+            var props = this.getWSProps();
 
-            this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
+            this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
+            !suppressEvent && Common.NotificationCenter.trigger('protect:wslock', props);
+        },
+
+        onApiSheetChanged: function() {
+            this.onChangeProtectSheet(); //current sheet
+        },
+
+        getWSProps: function() {
+            var wsProtected = !!this.api.asc_isProtectedSheet();
             var arr = [];
             if (wsProtected) {
                 arr = [];
@@ -296,12 +303,8 @@ define([
                     arr[item] = false;
                 });
             }
-            this._state.wsLock = wsProtected;
-            Common.NotificationCenter.trigger('protect:wslock', arr, this._state.wsLock);
-        },
 
-        onApiSheetChanged: function() {
-            this.onChangeProtectSheet(); //current sheet
+            return {wsLock: wsProtected, wsProps: arr};
         },
 
         onApiSelectionChanged: function(info) {
@@ -315,10 +318,6 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
-        },
-
-        onDocumentReady: function() {
-            // this.onChangeProtectSheet();
         }
 
     }, SSE.Controllers.WBProtection || {}));
