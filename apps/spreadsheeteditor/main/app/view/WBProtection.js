@@ -116,7 +116,7 @@ define([
                     iconCls: 'toolbar__icon protect-workbook',
                     enableToggle: true,
                     caption: this.txtProtectWB,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnProtectWB);
 
@@ -125,7 +125,7 @@ define([
                     iconCls: 'toolbar__icon protect-sheet',
                     enableToggle: true,
                     caption: this.txtProtectSheet,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnProtectSheet);
 
@@ -133,31 +133,31 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon allow-edit-ranges',
                     caption: this.txtAllowRanges,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnAllowRanges);
 
                 this.chLockedCell = new Common.UI.CheckBox({
                     labelText: this.txtLockedCell,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chLockedCell);
 
                 this.chLockedShape = new Common.UI.CheckBox({
                     labelText: this.txtLockedShape,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chLockedShape);
 
                 this.chLockedText = new Common.UI.CheckBox({
                     labelText: this.txtLockedText,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chLockedText);
 
                 this.chHiddenFormula = new Common.UI.CheckBox({
                     labelText: this.txtHiddenFormula,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chHiddenFormula);
 
@@ -193,6 +193,12 @@ define([
                 this.chHiddenFormula.render(this.$el.find('#slot-chk-hidden-formula'));
 
                 return this.$el;
+            },
+
+            getButtons: function(type) {
+                if (type===undefined)
+                    return this.lockedControls;
+                return [];
             },
 
             show: function () {

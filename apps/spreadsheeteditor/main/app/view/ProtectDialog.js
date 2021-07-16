@@ -299,6 +299,8 @@ define([
         updateCellCheck: function (listView, record) {
             if (record && listView) {
                 record.set('check', !record.get('check'));
+                if (record.get('optionName') == 'SelectLockedCells' && record.get('check'))
+                    this.optionsList.store.findWhere({optionName: 'SelectUnlockedCells'}).set('check', true);
                 // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },

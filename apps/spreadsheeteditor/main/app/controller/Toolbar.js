@@ -194,7 +194,9 @@ define([
                 pgorient: undefined,
                 lock_doc: undefined,
                 cf_locked: [],
-                selectedCells: 0
+                selectedCells: 0,
+                wsLock: false,
+                wsProps: {}
             };
             this.binding = {};
 
@@ -1818,6 +1820,7 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateDocumentProps',      _.bind(this.onUpdateDocumentProps, this));
                 this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
+                Common.NotificationCenter.on('protect:wslock',                  _.bind(this.onChangeProtectSheet, this));
             }
 
             if ( !this.appConfig.isEditMailMerge ) {
@@ -2499,6 +2502,12 @@ define([
             var objcount = this.api.asc_getSelectedDrawingObjectsCount();
             toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);
             toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
+
+            // disable on protected sheet
+            need_disable = (selectionType === Asc.c_oAscSelectionType.RangeImage || selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText ||
+                            selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeSlicer);
+            toolbar.lockToolbar(need_disable ? SSE.enumLock['Objects'] : SSE.enumLock['FormatCells'], need_disable ? this._state.wsProps['Objects'] : this._state.wsProps['FormatCells'],
+                                { clear: [SSE.enumLock['FormatCells'], SSE.enumLock['Objects']]});
 
             if (editOptionsDisabled) return;
 
@@ -3709,8 +3718,10 @@ define([
                     var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
                         config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                        $panel.append(me.getApplication().getController('WBProtection').createToolbarPanel());
+                        var wbtab = me.getApplication().getController('WBProtection');
+                        $panel.append(wbtab.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
+                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                     }
 
                     var viewtab = me.getApplication().getController('ViewTab');
@@ -3979,6 +3990,11 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onChangeProtectSheet: function(props) {
+            this._state.wsProps = props;
+            this.onApiSelectionChanged(this.api.asc_getCellInfo());
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

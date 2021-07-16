@@ -68,7 +68,12 @@ define([
             });
         },
         onLaunch: function () {
-            this._state = {};
+            this._state = {wsLock: false};
+            this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
+                'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
+            SSE.enumLock && this.wsLockOptions.forEach(function(item){
+                SSE.enumLock[item] = item;
+            });
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
@@ -86,6 +91,7 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorksheet',_.bind(this.onChangeProtectSheet, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',        _.bind(this.onApiSheetChanged, this));
+                this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
@@ -272,11 +278,32 @@ define([
         },
 
         onChangeProtectSheet: function() {
+            var wsProtected = this.api.asc_isProtectedSheet();
+            if (this._state.wsLock===wsProtected && !wsProtected) return;
+
             this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
+            var arr = [];
+            if (wsProtected) {
+                var props = this.api.asc_getProtectedSheet();
+                props && this.wsLockOptions.forEach(function(item){
+                    arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                });
+            }
+            this._state.wsLock = wsProtected;
+            Common.NotificationCenter.trigger('protect:wslock', arr);
         },
 
         onApiSheetChanged: function() {
-            this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
+            this.onChangeProtectSheet(); //current sheet
+        },
+
+        onApiSelectionChanged: function(info) {
+            if ($('.asc-window.enable-key-events:visible').length>0) return;
+
+            var selectionType = info.asc_getSelectionType();
+            var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
+                                selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
+            Common.Utils.lockControls(SSE.enumLock.selRange, need_disable, { array: [this.view.chLockedText, this.view.chLockedShape]});
         },
 
         onCoAuthoringDisconnect: function() {
