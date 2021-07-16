@@ -169,7 +169,6 @@ export class storeCellSettings {
 
     changeBorderSize(size) {
         this.borderInfo.width = size;
-        console.log('change border width ' + size);
     }
 
     changeBorderStyle(type) {

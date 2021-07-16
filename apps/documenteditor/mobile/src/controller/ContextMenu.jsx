@@ -113,8 +113,6 @@ class ContextMenu extends ContextMenuController {
                 }, 400);
                 break;
         }
-
-        console.log("click context menu item: " + action);
     }
 
     showCopyCutPasteModal() {
