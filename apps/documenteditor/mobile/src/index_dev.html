@@ -59,42 +59,12 @@
             return urlParams;
         };
 
-        const encodeUrlParam = str => str.replace(/&/g, '&amp;')
-                                            .replace(/"/g, '&quot;')
-                                            .replace(/'/g, '&#39;')
-                                            .replace(/</g, '&lt;')
-                                            .replace(/>/g, '&gt;');
-
         let params = getUrlParams(),
-            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null,
-            logoOO = null;
-        if (!logo) {
-            logoOO = isAndroid ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
-        }
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
         window.Common = {Locale: {currentLang: lang}};
-
-        let brendpanel = document.getElementsByClassName('brendpanel')[0];
-        if (brendpanel) {
-            if ( isAndroid ) {
-                brendpanel.classList.add('android');
-            }
-            brendpanel.classList.add('visible');
-
-            let elem = document.querySelector('.loading-logo');
-            if (elem) {
-                logo && (elem.innerHTML = '<img src=' + logo + '>');
-                logoOO && (elem.innerHTML = '<img src=' + logoOO + '>');
-                elem.style.opacity = 1;
-            }
-            var placeholder = document.getElementsByClassName('placeholder')[0];
-            if (placeholder && isAndroid) {
-                placeholder.classList.add('android');
-            }
-        }
     </script>
 
     <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
