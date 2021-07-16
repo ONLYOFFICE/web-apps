@@ -148,6 +148,7 @@ define([
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
             Common.NotificationCenter.on('formula:settings', _.bind(this.applyFormulaSettings, this));
+            Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
 
             this.editMode = true;
             this._isAddingShape = false;
@@ -196,7 +197,7 @@ define([
                 cf_locked: [],
                 selectedCells: 0,
                 wsLock: false,
-                wsProps: {}
+                wsProps: []
             };
             this.binding = {};
 
@@ -1820,7 +1821,6 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateDocumentProps',      _.bind(this.onUpdateDocumentProps, this));
                 this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
-                Common.NotificationCenter.on('protect:wslock',                  _.bind(this.onChangeProtectSheet, this));
             }
 
             if ( !this.appConfig.isEditMailMerge ) {
@@ -2837,13 +2837,13 @@ define([
             }
 
             val = filterInfo && filterInfo.asc_getIsApplyAutoFilter();
-            if ( this._state.controlsdisabled.cells_right!==(this._state.controlsdisabled.rows || val) ) {
-                this._state.controlsdisabled.cells_right = (this._state.controlsdisabled.rows || val);
+            if ( this._state.controlsdisabled.cells_right!==(this._state.controlsdisabled.rows || val || this._state.wsLock) ) {
+                this._state.controlsdisabled.cells_right = (this._state.controlsdisabled.rows || val || this._state.wsLock);
                 toolbar.btnAddCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
                 toolbar.btnDeleteCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
             }
-            if ( this._state.controlsdisabled.cells_down!==(this._state.controlsdisabled.cols || val) ) {
-                this._state.controlsdisabled.cells_down = (this._state.controlsdisabled.cols || val);
+            if ( this._state.controlsdisabled.cells_down!==(this._state.controlsdisabled.cols || val || this._state.wsLock) ) {
+                this._state.controlsdisabled.cells_down = (this._state.controlsdisabled.cols || val || this._state.wsLock);
                 toolbar.btnAddCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
                 toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
             }
@@ -3992,9 +3992,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onChangeProtectSheet: function(props) {
+        onChangeProtectSheet: function(props, state) {
             this._state.wsProps = props;
-            this.onApiSelectionChanged(this.api.asc_getCellInfo());
+            this._state.wsLock = state;
+
+            if (this._state.activated) {
+                this.toolbar.lockToolbar(SSE.enumLock.wsLock, state);
+                this.onApiSelectionChanged(this.api.asc_getCellInfo());
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

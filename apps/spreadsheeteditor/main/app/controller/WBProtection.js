@@ -94,6 +94,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         setMode: function(mode) {
@@ -270,6 +271,7 @@ define([
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
                 me.view.btnProtectSheet.toggle(me.api.asc_isProtectedSheet(), true); //current sheet
+                me.onChangeProtectSheet();
             });
         },
 
@@ -278,19 +280,24 @@ define([
         },
 
         onChangeProtectSheet: function() {
-            var wsProtected = this.api.asc_isProtectedSheet();
+            var wsProtected = !!this.api.asc_isProtectedSheet();
             if (this._state.wsLock===wsProtected && !wsProtected) return;
 
             this.view.btnProtectSheet.toggle(this.api.asc_isProtectedSheet(), true); //current sheet
             var arr = [];
             if (wsProtected) {
+                arr = [];
                 var props = this.api.asc_getProtectedSheet();
                 props && this.wsLockOptions.forEach(function(item){
                     arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
                 });
+            } else {
+                this.wsLockOptions.forEach(function(item){
+                    arr[item] = false;
+                });
             }
             this._state.wsLock = wsProtected;
-            Common.NotificationCenter.trigger('protect:wslock', arr);
+            Common.NotificationCenter.trigger('protect:wslock', arr, this._state.wsLock);
         },
 
         onApiSheetChanged: function() {
@@ -308,6 +315,10 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onDocumentReady: function() {
+            // this.onChangeProtectSheet();
         }
 
     }, SSE.Controllers.WBProtection || {}));

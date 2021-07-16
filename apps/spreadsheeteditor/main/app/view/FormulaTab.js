@@ -260,7 +260,7 @@ define([
                     hint: this.toolbar.txtNamedRange,
                     split: false,
                     disabled: true,
-                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.wsLock],
                     menu: new Common.UI.Menu({
                         items: [
                             {
