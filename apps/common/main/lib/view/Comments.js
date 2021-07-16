@@ -293,6 +293,9 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.store = this.options.store;
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
         },
 
         render: function () {
@@ -304,7 +307,8 @@ define([
                     textAddComment: me.textAddComment,
                     textCancel: me.textCancel,
                     textEnterCommentHint: me.textEnterCommentHint,
-                    maxCommLength: Asc.c_oAscMaxCellOrCommentLength
+                    maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
+                    textComments: me.textComments
                 }));
 
                 this.buttonAddCommentToDoc = new Common.UI.Button({
@@ -321,9 +325,73 @@ define([
                     enableToggle: false
                 });
 
+                this.buttonSort = new Common.UI.Button({
+                    parentEl: $('#comments-btn-sort', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-sorting',
+                    hint: this.textSort,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        style: 'min-width: auto;',
+                        items: [
+                            {
+                                caption: this.mniDateDesc,
+                                value: 'date-desc',
+                                checkable: true,
+                                checked: (Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date-desc') === 'date-desc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniDateAsc,
+                                value: 'date-asc',
+                                checkable: true,
+                                checked: (Common.localStorage.getItem(this.appPrefix + "comments-sort") || 'date-desc') === 'date-asc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniAuthorAsc,
+                                value: 'author-asc',
+                                checkable: true,
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-asc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniAuthorDesc,
+                                value: 'author-desc',
+                                checkable: true,
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-desc',
+                                toggleGroup: 'sortcomments'
+                            }
+                            // {
+                            //     caption: this.mniPositionAsc,
+                            //     value: 'position-asc',
+                            //     checkable: true,
+                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-asc',
+                            //     toggleGroup: 'sortcomments'
+                            // }
+                            // {
+                            //     caption: this.mniPositionDesc,
+                            //     value: 'position-desc',
+                            //     checkable: true,
+                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
+                            //     toggleGroup: 'sortcomments'
+                            // }
+                        ]
+                    })
+                });
+
+                this.buttonClose = new Common.UI.Button({
+                    parentEl: $('#comments-btn-close', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-close',
+                    hint: this.textClosePanel
+                });
+
                 this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
+                this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
+                this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.txtComment.keydown(function (event) {
@@ -658,6 +726,9 @@ define([
         getUserName: function (username) {
             return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
         },
+        getEncodedName: function (username) {
+            return Common.Utils.String.htmlEncode(username);
+        },
 
         pickLink: function (message) {
             var arr = [], offset, len;
@@ -730,6 +801,14 @@ define([
             });
         },
 
+        onSortClick: function(menu, item, state) {
+            state && this.fireEvent('comment:sort', [item.value]);
+        },
+
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
         textComments            : 'Comments',
         textAnonym              : 'Guest',
         textAddCommentToDoc     : 'Add Comment to Document',
@@ -744,6 +823,14 @@ define([
         textEdit                : 'Edit',
         textAdd                 : "Add",
         textOpenAgain           : "Open Again",
-        textHintAddComment      : 'Add Comment'
+        textHintAddComment      : 'Add Comment',
+        textSort: 'Sort comments',
+        mniPositionAsc: 'From top',
+        mniPositionDesc: 'From bottom',
+        mniAuthorAsc: 'Author A to Z',
+        mniAuthorDesc: 'Author Z to A',
+        mniDateDesc: 'Newest',
+        mniDateAsc: 'Oldest',
+        textClosePanel: 'Close comments'
     }, Common.Views.Comments || {}))
 });

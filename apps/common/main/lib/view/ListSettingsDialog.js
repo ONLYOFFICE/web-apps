@@ -292,7 +292,9 @@ define([
                 parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
-                color: this.color
+                color: this.color,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.colors = this.btnColor.getPicker();
@@ -321,7 +323,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart];
+            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart, this.btnColor];
         },
 
         afterRender: function() {

@@ -112,6 +112,7 @@ define([
                 spacingMode: false
             });
 
+            this._btnsBorderPosition = [];
             _.each([
                 [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
                 [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
@@ -134,6 +135,7 @@ define([
                 _btn.on('click', function(btn) {
                     me._ApplyBorderPreset(btn.options.strId);
                 });
+                me._btnsBorderPosition.push( _btn );
             }, this);
 
             var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
@@ -164,7 +166,9 @@ define([
                 parentEl: $('#drop-advanced-button-bordercolor'),
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
-                auto: true
+                auto: true,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
                 this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
@@ -177,7 +181,9 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-color'),
                 additionalAlign: this.menuAddAlign,
-                transparent: true
+                transparent: true,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(function(btn, color) {
                 var clr, border;
@@ -720,8 +726,9 @@ define([
             return [
                 this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
                 this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {
@@ -729,12 +736,20 @@ define([
 
             var me = this;
             setTimeout(function(){
-                if (index==0) {
-                    me.cmbWidth.focus();
-                } else if (index==1) {
-                    me.cmbFonts.focus();
-                } else if (index==3)
-                    me.spnMarginTop.focus();
+                switch (index) {
+                    case 0:
+                        me.cmbWidth.focus();
+                        break;
+                    case 1:
+                        me.cmbFonts.focus();
+                        break;
+                    case 2:
+                        me.cmbBorderSize.focus();
+                        break;
+                    case 3:
+                        me.spnMarginTop.focus();
+                        break;
+                }
             }, 100);
         },
 

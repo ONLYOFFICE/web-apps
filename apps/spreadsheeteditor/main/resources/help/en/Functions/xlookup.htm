@@ -18,11 +18,11 @@
 			<p>The <b>XLOOKUP</b> function syntax is:</p>
 			<p style="text-indent: 150px;"><b><em>XLOOKUP (lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])</em></b></p>
 			<p><em>where</em></p>
-			<p style="text-indent: 50px;"><b><em>lookup-value</em></b> is a value to search for.</p>
+			<p style="text-indent: 50px;"><b><em>lookup_value</em></b> is a value to search for.</p>
 			<p style="text-indent: 50px;"><b><em>lookup_array</em></b> is an array or range to search in.</p>
 			<p style="text-indent: 50px;"><b><em>return_array</em></b> is an array or range to return the results to.</p>
 			<p style="text-indent: 50px;"><b><em>if_not_found</em></b> is an optional argument. If there is no search result, the argument returns the text stated in [if_not_found]. In case the text is not specified, the “N/A” is returned.</p>
-			<p style="text-indent: 50px;"><b><em>match_mode</em></b> is an optional argument.
+			<p style="text-indent: 50px;"><b><em>match_mode</em></b> is an optional argument. The following values are available: 
 			<ul>
 				<li><b><em>0</em></b> (set by default) returns the exact match; if there is no match, the “N/A” is returned instead.</li>
 				<li><b><em>-1</em></b> returns the exact match; if there is none, the next smaller item is returned.</li>
@@ -30,7 +30,7 @@
 				<li><b><em>2</em></b> is a wildcard match.</li>
 				</ul>
 			</p>
-			<p style="text-indent: 50px;"><b><em>search_mode</em></b> is an optional argument.
+			<p style="text-indent: 50px;"><b><em>search_mode</em></b> is an optional argument. The following values are available:
 			<ul>
 				<li><b><em>1</em></b> starts a search at the first item (set by default).</li>
 				<li><b><em>-1</em></b> starts a reverse search, i.e. at the last item.</li>
@@ -51,7 +51,7 @@
 				</li>
 				<li>select the <b>Lookup and Reference</b> function group from the list,</li>
 				<li>click the <b>XLOOKUP</b> function,</li>
-				<li>enter the required arguments separating them by comma,</li>
+				<li>enter the required arguments in the <b>Function Arguments</b> window,</li>
 				<li>press the <b>Enter</b> button.</li>
 			</ol>
 			<p>The result will be displayed in the selected cell.</p>

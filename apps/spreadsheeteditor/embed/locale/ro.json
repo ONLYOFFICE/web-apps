@@ -25,6 +25,7 @@
   "SSE.ApplicationController.waitText": "Vă rugăm să așteptați...",
   "SSE.ApplicationView.txtDownload": "Descărcare",
   "SSE.ApplicationView.txtEmbed": "Încorporare",
+  "SSE.ApplicationView.txtFileLocation": "Deschidere locația fișierului",
   "SSE.ApplicationView.txtFullScreen": "Ecran complet",
   "SSE.ApplicationView.txtPrint": "Imprimare",
   "SSE.ApplicationView.txtShare": "Partajează"

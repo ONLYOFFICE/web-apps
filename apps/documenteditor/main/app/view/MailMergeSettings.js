@@ -837,18 +837,26 @@ define([
         },
 
         disableEditing: function(disable) {
-            DE.getController('Toolbar').DisableToolbar(disable, disable);
-            DE.getController('RightMenu').SetDisabled(disable, true);
-            DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-            DE.getController('DocumentHolder').getView().SetDisabled(disable);
-            DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
-
-            var comments = DE.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
-
-            DE.getController('LeftMenu').setPreviewMode(disable);
+            Common.NotificationCenter.trigger('editing:disable', disable, {
+                viewMode: disable,
+                reviewMode: false,
+                fillFormwMode: false,
+                allowMerge: true,
+                allowSignature: false,
+                allowProtect: false,
+                rightMenu: {clear: false, disable: true},
+                statusBar: true,
+                leftMenu: {disable: false, previewMode: true},
+                fileMenu: false,
+                navigation: {disable: false, previewMode: true},
+                comments: {disable: false, previewMode: true},
+                chat: false,
+                review: true,
+                viewport: false,
+                documentHolder: true,
+                toolbar: true,
+                plugins: false
+            }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },

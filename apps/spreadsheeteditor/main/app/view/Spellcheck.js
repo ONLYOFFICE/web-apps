@@ -64,7 +64,7 @@ define([
                 '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                 '<div id="spellcheck-dictionary-language"></div>',
                 '<div id="spellcheck-complete" class="hidden">',
-                    '<i class="img-commonctrl img-colored img-complete" style="display: inline-block;margin-right: 10px;"></i>',
+                    '<i class="btn-resolve" style="display: inline-block;margin-right: 10px;"></i>',
                     '<%= scope.txtComplete %>' ,
                 '</div>',
             '</div>'

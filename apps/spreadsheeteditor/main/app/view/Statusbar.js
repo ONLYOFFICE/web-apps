@@ -345,7 +345,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 240px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -507,7 +507,7 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected);
+                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
 
@@ -565,7 +565,7 @@ define([
 
                     allItems.forEach(function(item){
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
-                            style: 'white-space: pre-wrap',
+                            style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
                             value: item.sheetindex,
                             checkable: true,

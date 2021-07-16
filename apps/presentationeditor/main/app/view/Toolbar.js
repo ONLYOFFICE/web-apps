@@ -397,13 +397,7 @@ define([
                         iconCls: 'toolbar__icon btn-fontcolor',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         split: true,
-                        menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
-                            ]
-                        }),
+                        menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
@@ -1470,10 +1464,9 @@ define([
                 // DataView and pickers
                 //
                 if (this.btnFontColor.cmpEl) {
+                    this.btnFontColor.setMenu();
+                    this.mnuFontColorPicker = this.btnFontColor.getPicker();
                     this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
-                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 }
                 if (this.btnHighlightColor.cmpEl) {
                     this.btnHighlightColor.currentColor = 'FFFF00';
@@ -1486,6 +1479,7 @@ define([
                         ]
                     });
                     this.mnuHighlightColorPicker.select('FFFF00');
+                    this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
                 }
             },
 
@@ -1842,7 +1836,6 @@ define([
             txtDistribVert: 'Distribute Vertically',
             tipChangeSlide: 'Change Slide Layout',
             tipColorSchemas: 'Change Color Scheme',
-            textNewColor: 'Add New Custom Color',
             mniSlideStandard: 'Standard (4:3)',
             mniSlideWide: 'Widescreen (16:9)',
             mniSlideAdvanced: 'Advanced Settings',

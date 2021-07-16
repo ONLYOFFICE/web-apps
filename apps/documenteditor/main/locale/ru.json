@@ -846,7 +846,7 @@
   "DE.Controllers.Main.uploadDocSizeMessage": "Превышен максимальный размер документа.",
   "DE.Controllers.Main.uploadImageExtMessage": "Неизвестный формат изображения.",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Ни одного изображения не загружено.",
-  "DE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
+  "DE.Controllers.Main.uploadImageSizeMessage": "Слишком большое изображение. Максимальный размер - 25 MB.",
   "DE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "DE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
   "DE.Controllers.Main.waitText": "Пожалуйста, подождите...",

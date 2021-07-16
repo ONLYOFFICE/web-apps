@@ -105,15 +105,15 @@ define([
                     '<table style="margin-top: 30px;">',
                         '<tr>',
                             '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
-                            '<td rowspan="2" style="vertical-align: top; padding-left: 30px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="">' + this.textSelect + '</button></td>',
+                            '<td rowspan="2" style="vertical-align: top; padding-left: 20px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="float:right;">' + this.textSelect + '</button></td>',
                         '</tr>',
-                        '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 212px;overflow: hidden;"></td></tr>',
+                        '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 240px;overflow: hidden;white-space: nowrap;"></td></tr>',
                     '</table>',
                 '</div>'
             ].join('');
 
             this.templateCertificate = _.template([
-                '<label style="display: block;margin-bottom: 3px;"><%= Common.Utils.String.htmlEncode(name) %></label>',
+                '<label style="display: block;margin-bottom: 3px;overflow: hidden;text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(name) %></label>',
                 '<label style="display: block;"><%= Common.Utils.String.htmlEncode(valid) %></label>'
             ].join(''));
 

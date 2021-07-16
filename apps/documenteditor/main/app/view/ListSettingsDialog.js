@@ -171,7 +171,9 @@ define([
                         style: 'padding-left: 20px;'
                     },
                     {caption: '--'}],
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.btnColor.menu.items[0].on('toggle', _.bind(this.onLikeTextColor, this));
@@ -342,7 +344,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.btnEdit, this.cmbFormat, this.cmbAlign, this.cmbSize, this.levelsList];
+            return [this.btnEdit, this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnColor, this.levelsList];
         },
 
         getDefaultFocusableComponent: function () {

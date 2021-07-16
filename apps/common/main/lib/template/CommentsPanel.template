@@ -10,4 +10,9 @@
         <button class="btn add normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textAddComment%></button>
         <button class="btn cancel normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textCancel%></button>
     </div>
+    <div id="comments-header" class="">
+        <label><%=textComments%></label>
+        <div id="comments-btn-close" style="float:right;margin-left: 4px;"></div>
+        <div id="comments-btn-sort" style="float:right;"></div>
+    </div>
 </div>
