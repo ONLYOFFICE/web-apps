@@ -2400,13 +2400,18 @@ define([
 
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            /*var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+            }*/
+            var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
+            var $panel = me.getApplication().getController('Common.Controllers.Transitions').createToolbarPanel();
+            if ( $panel ) {
+                me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.setVisible('transit', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }
-
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
@@ -2454,7 +2459,10 @@ define([
                         });
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
+                        if (btn.cmpEl.closest('#transitions-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
+
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }

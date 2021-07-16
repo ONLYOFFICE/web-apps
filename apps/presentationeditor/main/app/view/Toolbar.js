@@ -1813,6 +1813,7 @@ define([
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office'
+            ,textTabTransitions: 'Transitions'
         }
     }()), PE.Views.Toolbar || {}));
 });
