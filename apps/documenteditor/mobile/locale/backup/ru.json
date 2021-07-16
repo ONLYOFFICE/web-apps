@@ -106,7 +106,7 @@
   "DE.Controllers.DocumentHolder.menuSplit": "Разделить ячейку",
   "DE.Controllers.DocumentHolder.sheetCancel": "Отмена",
   "DE.Controllers.DocumentHolder.textCancel": "Отмена",
-  "DE.Controllers.DocumentHolder.textColumns": "Колонки",
+  "DE.Controllers.DocumentHolder.textColumns": "Столбцы",
   "DE.Controllers.DocumentHolder.textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
   "DE.Controllers.DocumentHolder.textDoNotShowAgain": "Больше не показывать",
   "DE.Controllers.DocumentHolder.textGuest": "Гость",
