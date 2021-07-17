@@ -2855,6 +2855,20 @@ define([
             need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['DeleteRows'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
             toolbar.btnDeleteCell.menu.items[1].setDisabled(need_disable);
 
+            var items = toolbar.btnAddCell.menu.items,
+                enabled = false;
+            for (var i=0; i<4; i++) {
+                !items[i].isDisabled() && (enabled = true);
+            }
+            toolbar.lockToolbar(SSE.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnAddCell]});
+
+            items = me.toolbar.btnDeleteCell.menu.items;
+            enabled = false;
+            for (var i=0; i<4; i++) {
+                !items[i].isDisabled() && (enabled = true);
+            }
+            toolbar.lockToolbar(SSE.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
+
             toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                                           this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                 { array: this.btnsComment });

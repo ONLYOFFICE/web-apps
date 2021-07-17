@@ -100,7 +100,8 @@ define([
         tableHasSlicer: 'table-has-slicer',
         sheetView: 'sheet-view',
         wbLock: 'workbook-lock',
-        wsLock: 'worksheet-lock'
+        wsLock: 'worksheet-lock',
+        itemsDisabled: 'all-items-disabled'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1035,7 +1036,7 @@ define([
                     id          : 'id-toolbar-btn-addcell',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-addcell',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items : [
                             {
@@ -1064,7 +1065,7 @@ define([
                     id          : 'id-toolbar-btn-delcell',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-delcell',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items : [
                             {
