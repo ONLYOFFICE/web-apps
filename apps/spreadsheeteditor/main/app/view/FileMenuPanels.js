@@ -947,39 +947,12 @@ define([
                 dataHintOffset: 'big'
             });
 
-            var formula_arr = [
-                { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
-                { value: 'be', displayValue: this.txtBe, exampleValue: this.txtExampleBe },
-                { value: 'bg', displayValue: this.txtBg, exampleValue: this.txtExampleEn },
-                { value: 'ca', displayValue: this.txtCa, exampleValue: this.txtExampleCa },
-                { value: 'zh', displayValue: this.txtZh, exampleValue: this.txtExampleEn },
-                { value: 'cs', displayValue: this.txtCs, exampleValue: this.txtExampleCs },
-                { value: 'da', displayValue: this.txtDa, exampleValue: this.txtExampleDa },
-                { value: 'nl', displayValue: this.txtNl, exampleValue: this.txtExampleNl },
-                { value: 'fi', displayValue: this.txtFi, exampleValue: this.txtExampleFi },
-                { value: 'fr', displayValue: this.txtFr, exampleValue: this.txtExampleFr },
-                { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
-                { value: 'el', displayValue: this.txtEl, exampleValue: this.txtExampleEn },
-                { value: 'hu', displayValue: this.txtHu, exampleValue: this.txtExampleHu },
-                { value: 'id', displayValue: this.txtId, exampleValue: this.txtExampleEn },
-                { value: 'it', displayValue: this.txtIt, exampleValue: this.txtExampleIt },
-                { value: 'ja', displayValue: this.txtJa, exampleValue: this.txtExampleEn },
-                { value: 'ko', displayValue: this.txtKo, exampleValue: this.txtExampleEn },
-                { value: 'lv', displayValue: this.txtLv, exampleValue: this.txtExampleEn },
-                { value: 'lo', displayValue: this.txtLo, exampleValue: this.txtExampleEn },
-                { value: 'nb', displayValue: this.txtNb, exampleValue: this.txtExampleNb },
-                { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl },
-                { value: 'pt', displayValue: this.txtPtlang, exampleValue: this.txtExamplePt },
-                { value: 'ro', displayValue: this.txtRo, exampleValue: this.txtExampleEn },
-                { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
-                { value: 'sk', displayValue: this.txtSk, exampleValue: this.txtExampleEn },
-                { value: 'sl', displayValue: this.txtSl, exampleValue: this.txtExampleEn },
-                { value: 'sv', displayValue: this.txtSv, exampleValue: this.txtExampleSv },
-                { value: 'es', displayValue: this.txtEs, exampleValue: this.txtExampleEs },
-                { value: 'tr', displayValue: this.txtTr, exampleValue: this.txtExampleTr },
-                { value: 'uk', displayValue: this.txtUk, exampleValue: this.txtExampleEn },
-                { value: 'vi', displayValue: this.txtVi, exampleValue: this.txtExampleEn }
-            ];
+            var formula_arr = [];
+            SSE.Collections.formulasLangs.forEach(function(item){
+                var str = item.replace(/[\-_]/, '');
+                str = str.charAt(0).toUpperCase() + str.substring(1, str.length);
+                formula_arr.push({value: item, displayValue: me['txt' + str + 'lang'] || me['txt' + str], exampleValue: me['txtExample' + str] || me.txtExampleEn});
+            });
             formula_arr.sort(function(a, b){
                 if (a.displayValue < b.displayValue) return -1;
                 if (a.displayValue > b.displayValue) return 1;
@@ -1480,7 +1453,8 @@ define([
         txtLv: 'Latvian',
         txtLo: 'Lao',
         txtNb: 'Norwegian',
-        txtPtlang: 'Portuguese',
+        txtPtlang: 'Portuguese (Portugal)',
+        txtPtbr: 'Portuguese (Brazil)',
         txtRo: 'Romanian',
         txtSk: 'Slovak',
         txtSl: 'Slovenian',
@@ -1497,6 +1471,7 @@ define([
         txtExampleHu: 'SZUM; MIN; MAX; DARAB',
         txtExampleNb: 'SUMMER; MIN; STØRST; ANTALL',
         txtExamplePt: 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
+        txtExamplePtbr: 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
         txtExampleSv: 'SUMMA; MIN; MAX; ANTAL',
         txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
 

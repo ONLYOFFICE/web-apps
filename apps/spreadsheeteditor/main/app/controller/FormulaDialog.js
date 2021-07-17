@@ -151,6 +151,8 @@ define([
 
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
+            SSE.Collections.formulasLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja',
+                                            'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
 
             var descriptions = ['Financial', 'Logical', 'TextAndData', 'DateAndTime', 'LookupAndReference', 'Mathematic', 'Cube', 'Database', 'Engineering',  'Information',
                  'Statistical', 'Last10'];
@@ -164,9 +166,15 @@ define([
         },
 
         reloadTranslations: function (lang, suppressEvent) {
-            var me = this;
-            lang = (lang || 'en').split(/[\-_]/)[0].toLowerCase();
+            lang = (lang || 'en').toLowerCase();
+            var index = _.indexOf(SSE.Collections.formulasLangs, lang);
+            if (index<0) {
+                lang = lang.split(/[\-_]/)[0];
+                index = _.indexOf(SSE.Collections.formulasLangs, lang);
+            }
+            lang = (index>=0) ? SSE.Collections.formulasLangs[index] : 'en';
 
+            var me = this;
             Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
             if (me.langJson[lang]) {
                 me.api.asc_setLocalization(me.langJson[lang]);
