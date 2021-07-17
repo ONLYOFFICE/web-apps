@@ -74,6 +74,8 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
+                Common.NotificationCenter.on('document:ready',              _.bind(this.onDocumentReady, this));
             }
             return this;
         },
@@ -418,6 +420,18 @@ define([
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            props && props.wsProps && Common.Utils.lockControls(SSE.enumLock['Sort'], props.wsProps['Sort'], {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort)});
+        },
+
+        onDocumentReady: function() {
+            this.onChangeProtectSheet();
         },
 
         textWizard: 'Text to Columns Wizard',

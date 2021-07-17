@@ -800,7 +800,7 @@ define([
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-menu-table',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock],
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 494px; height: 300px; margin: 0px 4px;"></div>') }
@@ -813,7 +813,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-inserttable',
                     caption     : me.capInsertTable,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot, _set.wsLock, _set['FormatCells']]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot, _set.wsLock]
                 });
 
                 me.listStyles = new Common.UI.ComboDataView({

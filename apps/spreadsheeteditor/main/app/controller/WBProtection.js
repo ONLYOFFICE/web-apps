@@ -270,7 +270,6 @@ define([
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
                 me.view.btnProtectSheet.toggle(me.api.asc_isProtectedSheet(), true); //current sheet
-                me.onChangeProtectSheet(true);
             });
         },
 
@@ -278,11 +277,11 @@ define([
             this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
         },
 
-        onChangeProtectSheet: function(suppressEvent) {
+        onChangeProtectSheet: function() {
             var props = this.getWSProps();
 
             this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
-            !suppressEvent && Common.NotificationCenter.trigger('protect:wslock', props);
+            Common.NotificationCenter.trigger('protect:wslock', props);
         },
 
         onApiSheetChanged: function() {

@@ -215,15 +215,15 @@ define([
                     iconCls: 'toolbar__icon btn-custom-sort',
                     caption: this.capBtnTextCustomSort,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock, _set['Sort']]
                 });
                 this.lockedControls.push(this.btnCustomSort);
 
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort, _set['Sort']]);
 
                 this.btnsSortUp = Common.Utils.injectButtons($host.find('.slot-sortasc'), '', 'toolbar__icon btn-sort-up', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort, _set['Sort']]);
 
                 this.btnsSetAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-setfilter'), '', 'toolbar__icon btn-autofilter', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.tableHasSlicer, _set.wsLock],
