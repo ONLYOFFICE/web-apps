@@ -169,9 +169,9 @@ define([
                 'cells:range': function(status){
                     me.onCellsRange(status);
                 },
-                'tabs:dragend': _.bind(me.onDragEndMouseUp, me)
+                'tabs:dragend': _.bind(me.onDragEndMouseUp, me),
+                'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
-
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
         },
 
@@ -289,6 +289,7 @@ define([
             }
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                                     $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
+            this.onChangeProtectSheet();
         },
 
         loadConfig: function(data) {
@@ -1911,6 +1912,8 @@ define([
                     item.setDisabled(isObjLocked);
                 });
                 documentHolder.pmiTextCopy.setDisabled(false);
+                documentHolder.menuHyperlinkShape.setDisabled(isObjLocked || this._state.wsLock);
+                documentHolder.menuAddHyperlinkShape.setDisabled(isObjLocked || this._state.wsLock);
 
                 //equation menu
                 var eqlen = 0;
@@ -2018,28 +2021,35 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked);
-                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
-                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot);
-                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiSelectTable.setDisabled(this._state.wsLock);
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns']);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns']);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
                 documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort']);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
-                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
-                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells']);
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
+                documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
+                documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
+                documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
+                documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
+                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells']);
+                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
 
                 if (inPivot) {
                     var canGroup = this.api.asc_canGroupPivot();
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
@@ -3617,7 +3627,18 @@ define([
                 win.setActiveCategory(2);
             }
         },
-        
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
+            }
+        },
+
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
