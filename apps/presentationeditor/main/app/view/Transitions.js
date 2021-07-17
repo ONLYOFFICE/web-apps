@@ -50,11 +50,12 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/DataView',
     'common/main/lib/component/Layout',
+    "SlideSettings",
     'common/main/lib/component/Window'
 ], function () {
     'use strict';
 
-    Common.Views.Transitions = Common.UI.BaseView.extend(_.extend((function(){
+    PE.Views.Transitions = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
                 //'<div class="separator long sharing"></div>' +
@@ -193,81 +194,8 @@ define([
                 this.fireEvent('show', this);
             },
 
-            getButton: function(type, parent) {
-                if ( type == 'turn' && parent == 'statusbar' ) {
-                    var button = new Common.UI.Button({
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-ic-review',
-                        hintAnchor  : 'top',
-                        hint        : this.tipReview,
-                        split       : !this.appConfig.isReviewOnly,
-                        enableToggle: true/*,
-                        menu: this.appConfig.isReviewOnly ? false : new Common.UI.Menu({
-                            menuAlign: 'bl-tl',
-                            style: 'margin-top:-5px;',
-                            items: [
-                            {
-                                caption: this.txtOn,
-                                value: 0,
-                                checkable: true,
-                                toggleGroup: 'menuTurnReviewStb'
-                            },
-                            {
-                                caption: this.txtOff,
-                                value: 1,
-                                checkable: true,
-                                toggleGroup: 'menuTurnReviewStb'
-                            },
-                            {
-                                caption: this.txtOnGlobal,
-                                value: 2,
-                                checkable: true,
-                                toggleGroup: 'menuTurnReviewStb'
-                            },
-                            {
-                                caption: this.txtOffGlobal,
-                                value: 3,
-                                checkable: true,
-                                toggleGroup: 'menuTurnReviewStb'
-                            }
-                        ]})*/
-                    });
-
-                   // this.btnsTurnReview.push(button);
-
-                    return button;
-                } else
-                if ( type == 'spelling' ) {
-                    button = new Common.UI.Button({
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-ic-docspell',
-                        hintAnchor  : 'top',
-                        hint: this.tipSetSpelling,
-                        enableToggle: true
-                    });
-                    //this.btnsSpelling.push(button);
-
-                    return button;
-                } else if (type == 'doclang' && parent == 'statusbar' ) {
-                    button = new Common.UI.Button({
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-ic-doclang',
-                        hintAnchor  : 'top',
-                        hint: this.tipSetDocLang,
-                        disabled: true
-                    });
-                    //this.btnsDocLang.push(button);
-
-                    return button;
-                 }
-            },
-
             getUserName: function (username) {
                 return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
-            },
-
-            markChanges: function(status) {
-
             },
 
             turnSpelling: function (state) {
@@ -293,6 +221,6 @@ define([
             txtCommentResolveMy: 'Resolve My Comments',
             txtCommentResolveAll: 'Resolve All Comments'
         }
-    }()), Common.Views.Transitions || {}));
+    }()), PE.Views.Transitions || {}));
 
     });

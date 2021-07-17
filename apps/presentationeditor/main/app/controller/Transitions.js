@@ -38,22 +38,18 @@
  *
  */
 
-if (Common === undefined)
-    var Common = {};
-Common.Controllers = Common.Controllers || {};
-
 define([
     'core',
-    'common/main/lib/view/Transitions',
+    'presentationeditor/main/app/view/Transitions'
 ], function () {
     'use strict';
 
-    Common.Controllers.Transitions = Backbone.Controller.extend(_.extend({
+    PE.Controllers.Transitions = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
         ],
         views : [
-            'Common.Views.Transitions'
+            'PE.Views.Transitions'
         ],
         sdkViewName : '#id_main',
 
@@ -64,7 +60,7 @@ define([
                     'settings:apply': this.applySettings.bind(this)
                 },*/
 
-                'Common.Views.Transitions': {
+                'PE.Views.Transitions': {
                     //'transit:accept':      _.bind(this.onAcceptClick, this),
                     //'transit:reject':      _.bind(this.onRejectClick, this),
                     //'transit:delete':      _.bind(this.onDeleteClick, this),
@@ -89,7 +85,6 @@ define([
             });
         },
         onLaunch: function () {
-            //this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -125,7 +120,7 @@ define([
         setMode: function(mode) {
             this.appConfig = mode;
             this.popoverChanges = new Common.Collections.ReviewChanges();
-            this.view = this.createView('Common.Views.Transitions', { mode: mode });
+            this.view = this.createView('PE.Views.Transitions', { mode: mode });
 
              return this;
         },
@@ -207,7 +202,5 @@ define([
             }
         }
 
-
-
-    }, Common.Controllers.Transitions || {}));
+    }, PE.Controllers.Transitions || {}));
 });

@@ -97,7 +97,7 @@ define([
                     'Common.Views.ReviewChanges': {
                         'settings:apply': _.bind(this.applySettings, this)
                     }/*,
-                    'Common.Views.Transitions': {
+                    'Transitions': {
                         'settings:apply': _.bind(this.applySettings, this)
                     }*/
                 });
@@ -1019,7 +1019,7 @@ define([
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
                 if (options.transit) {
-                    app.getController('Common.Controllers.Transitions').SetDisabled(disable);
+                    app.getController('Transitions').SetDisabled(disable);
                 }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);
@@ -1234,7 +1234,7 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
-                var transitController    = application.getController('Common.Controllers.Transitions');
+                var transitController    = application.getController('Transitions');
                 transitController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode)

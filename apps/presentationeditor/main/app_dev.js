@@ -153,7 +153,7 @@ require([
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
-            ,'Common.Controllers.Transitions'
+            ,'Transitions'
         ]
     });
 
@@ -189,7 +189,7 @@ require([
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Themes'
             ,'common/main/lib/controller/Desktop'
-            ,'common/main/lib/controller/transitions'
+            ,'presentationeditor/main/app/controller/Transitions'
         ], function() {
             window.compareVersions = true;
             app.start();

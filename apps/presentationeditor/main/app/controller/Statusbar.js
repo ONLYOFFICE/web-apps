@@ -107,13 +107,6 @@ define([
                     me.btnDocLang = review.getButton('doclang', 'statusbar');
                     me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
 
-
-
-                        var transit = me.getApplication().getController('Common.Controllers.Transitions').getView();
-                        me.btnSpelling = transit.getButton('spelling', 'statusbar');
-                        me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
-                        me.btnDocLang = transit.getButton('doclang', 'statusbar');
-                        me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }

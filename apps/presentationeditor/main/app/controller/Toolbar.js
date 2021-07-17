@@ -2407,10 +2407,10 @@ define([
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }*/
             var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
-            var $panel = me.getApplication().getController('Common.Controllers.Transitions').createToolbarPanel();
+            var $panel = me.getApplication().getController('Transitions').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
-                me.toolbar.setVisible('transit', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                me.toolbar.setVisible('transit', true);
             }
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
