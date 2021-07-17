@@ -96,10 +96,10 @@ define([
                     },
                     'Common.Views.ReviewChanges': {
                         'settings:apply': _.bind(this.applySettings, this)
-                    },
+                    }/*,
                     'Common.Views.Transitions': {
                         'settings:apply': _.bind(this.applySettings, this)
-                    }
+                    }*/
                 });
 
                 var me = this,
