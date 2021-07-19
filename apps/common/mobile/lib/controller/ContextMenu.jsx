@@ -18,6 +18,7 @@ class ContextMenuController extends Component {
             extraItems: []
         };
 
+        this.fastCoAuthTips = [];
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onMenuClosed = this.onMenuClosed.bind(this);
         this.onActionClosed = this.onActionClosed.bind(this);
@@ -103,7 +104,7 @@ class ContextMenuController extends Component {
     }
 
     onApiOpenContextMenu(x, y) {
-        if ( !this.state.opened && $$('.dialog.modal-in').length < 1 && !$$('.popover.modal-in, .sheet-modal.modal-in').length) {
+        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup').length < 1) {
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()
@@ -161,9 +162,6 @@ class ContextMenuController extends Component {
         /** coauthoring begin **/
         const tipHeight = 20;
 
-        if (!this.fastCoAuthTips) {
-            this.fastCoAuthTips = [];
-        }
         let src;
         for (let i=0; i<this.fastCoAuthTips.length; i++) {
             if (this.fastCoAuthTips[i].attr('userid') === UserId) {

@@ -715,7 +715,7 @@
   "PE.Controllers.Main.unsupportedBrowserErrorText": "Browserul nu este compatibil.",
   "PE.Controllers.Main.uploadImageExtMessage": "Format de imagine nerecunoscut.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-  "PE.Controllers.Main.uploadImageSizeMessage": "Dimensiunea imaginii depășește limita maximă.",
+  "PE.Controllers.Main.uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
   "PE.Controllers.Main.uploadImageTextText": "Încărcarea imaginii...",
   "PE.Controllers.Main.uploadImageTitleText": "Încărcare imagine",
   "PE.Controllers.Main.waitText": "Vă rugăm să așteptați...",

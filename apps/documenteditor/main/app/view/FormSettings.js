@@ -98,6 +98,7 @@ define([
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
             this.ConnectedSettings = el.find('.form-connected');
+            this.NotImageSettings = el.find('.form-not-image');
         },
 
         createDelayedElements: function() {
@@ -209,6 +210,20 @@ define([
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-autofit'),
+                labelText: this.textAutofit
+            });
+            this.chAutofit.on('change', this.onChAutofit.bind(this));
+            this.lockedControls.push(this.chAutofit);
+
+            this.chMulti = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-multiline'),
+                labelText: this.textMulti
+            });
+            this.chMulti.on('change', this.onChMulti.bind(this));
+            this.lockedControls.push(this.chMulti);
 
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
@@ -382,6 +397,29 @@ define([
                 }
             }, this));
 
+            this.chAspect = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-aspect'),
+                labelText: this.textAspect
+            });
+            this.chAspect.on('change', this.onChAspect.bind(this));
+            this.lockedControls.push(this.chAspect);
+
+            this.cmbScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
+                    { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
+                    { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+            });
+            this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
+            this.lockedControls.push(this.cmbScale);
+            this.cmbScale.on('selected', this.onScaleChanged.bind(this));
+            this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
+            this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -513,13 +551,54 @@ define([
             }
         },
 
-        onChFixed: function(field, newValue, oldValue, eOpts){
+        onChAutofit: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_FixedSize(checked);
+                formTextPr.put_AutoFit(checked);
                 props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChMulti: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_MultiLine(checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFixed: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.asc_SetFixedForm(this.internalId, field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+             }
+        },
+
+        onChAspect: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ConstantProportions(field.getValue()=='checked');
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ScaleFlag(record.value);
+                props.put_PictureFormPr(pictPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -800,6 +879,30 @@ define([
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
                     }
+
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                        val = formPr.get_Fixed();
+                        if ( this._state.Fixed!==val ) {
+                            this.chFixed.setValue(!!val, true);
+                            this._state.Fixed=val;
+                        }
+                    }
+                }
+
+                var pictPr = props.get_PictureFormPr();
+                if (pictPr) {
+                    this._originalPictProps = pictPr;
+                    val = pictPr.get_ConstantProportions();
+                    if ( this._state.Aspect!==val ) {
+                        this.chAspect.setValue(!!val, true);
+                        this._state.Aspect=val;
+                    }
+
+                    val = pictPr.get_ScaleFlag();
+                    if (this._state.scaleFlag!==val) {
+                        this.cmbScale.setValue(val);
+                        this._state.scaleFlag=val;
+                    }
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -812,16 +915,24 @@ define([
                         this.chComb.setValue(!!val, true);
                         this._state.Comb=val;
                     }
-                    //
-                    // val = formTextPr.get_FixedSize();
-                    // if ( this._state.Fixed!==val ) {
-                    //     this.chFixed.setValue(!!val, true);
-                    //     this._state.Fixed=val;
-                    // }
 
-                    this.btnColor.setDisabled(!val);
+                    val = formTextPr.get_MultiLine();
+                    if ( this._state.Multi!==val ) {
+                        this.chMulti.setValue(!!val, true);
+                        this._state.Multi=val;
+                    }
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
 
-                    this.spnWidth.setDisabled(!val);
+                    val = formTextPr.get_AutoFit();
+                    if ( this._state.AutoFit!==val ) {
+                        this.chAutofit.setValue(!!val, true);
+                        this._state.AutoFit=val;
+                    }
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
+
+                    this.btnColor.setDisabled(!this._state.Comb);
+
+                    this.spnWidth.setDisabled(!this._state.Comb);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
@@ -974,6 +1085,7 @@ define([
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
+            this.NotImageSettings.toggleClass('hidden', imageOnly);
         },
 
         onSelectItem: function(listView, itemView, record) {
@@ -1025,7 +1137,15 @@ define([
         textDisconnect: 'Disconnect',
         textNoBorder: 'No border',
         textFixed: 'Fixed size field',
-        textRequired: 'Required'
+        textRequired: 'Required',
+        textAutofit: 'AutoFit',
+        textMulti: 'Multiline field',
+        textAspect: 'Lock aspect ratio',
+        textAlways: 'Always',
+        textNever: 'Never',
+        textTooBig: 'Image is Too Big',
+        textTooSmall: 'Image is Too Small',
+        textScale: 'When to scale'
 
     }, DE.Views.FormSettings || {}));
 });

@@ -893,16 +893,16 @@
 
         if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
-                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
+                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + encodeURIComponent(config.editorConfig.customization.loaderName);
             } else
                 params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
-                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
                 if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
                 else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
             }
         }
 

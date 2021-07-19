@@ -1105,7 +1105,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-
+                    this.toolbarControls.push(this.btnLineNumbers);
 
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',

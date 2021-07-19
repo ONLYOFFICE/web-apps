@@ -846,7 +846,7 @@
   "DE.Controllers.Main.uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
   "DE.Controllers.Main.uploadImageExtMessage": "Formato de imagem desconhecido.",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Sem imagens carregadas.",
-  "DE.Controllers.Main.uploadImageSizeMessage": "Limite máximo do tamanho da imagem excedido.",
+  "DE.Controllers.Main.uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
   "DE.Controllers.Main.uploadImageTextText": "Carregando imagem...",
   "DE.Controllers.Main.uploadImageTitleText": "Carregando imagem",
   "DE.Controllers.Main.waitText": "Aguarde...",

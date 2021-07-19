@@ -11,7 +11,9 @@ import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
+    canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected
@@ -34,7 +36,7 @@ class ContextMenu extends ContextMenuController {
 
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
+        return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {
@@ -111,8 +113,6 @@ class ContextMenu extends ContextMenuController {
                 }, 400);
                 break;
         }
-
-        console.log("click context menu item: " + action);
     }
 
     showCopyCutPasteModal() {
@@ -216,11 +216,34 @@ class ContextMenu extends ContextMenuController {
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments } = this.props;
+            const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
             const stack = api.getSelectedElements();
             const canCopy = api.can_CopyCut();
+
+            let isText = false,
+                isObject = false,
+                isLink = false,
+                locked = false;
+
+            stack.forEach(item => {
+                const objectType = item.get_ObjectType(),
+                    objectValue = item.get_ObjectValue();
+                if ( objectType == Asc.c_oAscTypeSelectElement.Header ) {
+                    locked = objectValue.get_Locked();
+                } else
+                if ( objectType == Asc.c_oAscTypeSelectElement.Paragraph ) {
+                    locked = objectValue.get_Locked();
+                    isText = true;
+                } else
+                if ( objectType == Asc.c_oAscTypeSelectElement.Image || objectType == Asc.c_oAscTypeSelectElement.Table) {
+                    locked = objectValue.get_Locked();
+                    isObject = true;
+                } else if ( objectType == Asc.c_oAscTypeSelectElement.Hyperlink ) {
+                    isLink = true;
+                }
+            });
 
             let itemsIcon = [],
                 itemsText = [];
@@ -239,13 +262,12 @@ class ContextMenu extends ContextMenuController {
                 });
             }
 
-            let isLink = false;
-            stack.forEach(item => {
-                const objectType = item.get_ObjectType();
-                if ( objectType === Asc.c_oAscTypeSelectElement.Hyperlink ) {
-                    isLink = true;
-                }
-            });
+            if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
+                itemsText.push({
+                    caption: _t.menuAddComment,
+                    event: 'addcomment'
+                });
+            }
 
             if ( isLink ) {
                 itemsText.push({

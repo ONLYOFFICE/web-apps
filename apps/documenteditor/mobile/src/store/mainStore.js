@@ -9,6 +9,7 @@ import {storeImageSettings} from "./imageSettings";
 import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
+import {storeLinkSettings} from './linkSettings';
 import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
@@ -21,6 +22,7 @@ export const stores = {
     storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
     storeTextSettings: new storeTextSettings(),
+    storeLinkSettings: new storeLinkSettings(),
     storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),

@@ -715,7 +715,7 @@
   "PE.Controllers.Main.unsupportedBrowserErrorText": "Il tuo browser non è supportato.",
   "PE.Controllers.Main.uploadImageExtMessage": "Formato immagine sconosciuto.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Nessuna immagine caricata.",
-  "PE.Controllers.Main.uploadImageSizeMessage": "È stata superata la dimensione massima dell'immagine.",
+  "PE.Controllers.Main.uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
   "PE.Controllers.Main.uploadImageTextText": "Caricamento immagine in corso...",
   "PE.Controllers.Main.uploadImageTitleText": "Caricamento dell'immagine",
   "PE.Controllers.Main.waitText": "Per favore, attendi...",

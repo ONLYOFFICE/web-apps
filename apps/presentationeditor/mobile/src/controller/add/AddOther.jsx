@@ -64,28 +64,30 @@ class AddOtherController extends Component {
                         api.put_Table(parseInt(size[0]), parseInt(size[1]), undefined, type.toString());
                     }
                 }
-            ]
+            ],
+            on: {
+                open: () => {
+                    picker = f7.picker.create({
+                        containerEl: document.getElementById('picker-table-size'),
+                        cols: [
+                            {
+                                textAlign: 'center',
+                                width: '100%',
+                                values: [1,2,3,4,5,6,7,8,9,10]
+                            },
+                            {
+                                textAlign: 'center',
+                                width: '100%',
+                                values: [1,2,3,4,5,6,7,8,9,10]
+                            }
+                        ],
+                        toolbar: false,
+                        rotateEffect: true,
+                        value: [3, 3]
+                    });
+                }
+            }
         }).open();
-        dialog.on('opened', () => {
-            picker = f7.picker.create({
-                containerEl: document.getElementById('picker-table-size'),
-                cols: [
-                    {
-                        textAlign: 'center',
-                        width: '100%',
-                        values: [1,2,3,4,5,6,7,8,9,10]
-                    },
-                    {
-                        textAlign: 'center',
-                        width: '100%',
-                        values: [1,2,3,4,5,6,7,8,9,10]
-                    }
-                ],
-                toolbar: false,
-                rotateEffect: true,
-                value: [3, 3]
-            });
-        });
     }
 
     hideAddComment () {

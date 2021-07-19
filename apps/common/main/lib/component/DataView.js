@@ -494,7 +494,10 @@ define([
             }, this);
             this.dataViewItems = [];
 
-            this.store.each(this.onAddItem, this);
+            var me = this;
+            this.store.each(function(item){
+                me.onAddItem(item, me.store);
+            }, this);
 
             if (this.allowScrollbar) {
                 this.scroller = new Common.UI.Scroller({

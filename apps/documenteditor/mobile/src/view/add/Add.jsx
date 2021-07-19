@@ -79,38 +79,97 @@ const AddLayoutContent = ({ tabs }) => {
 const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPanels, style, inPopover}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
+    const api = Common.EditorApi.get();
     const tabs = [];
     const options = storeFocusObjects.settings;
+    const paragraphObj = storeFocusObjects.paragraphObject;
+
+    let needDisable = false,
+        canAddTable = true,
+        canAddImage = true,
+        paragraphLocked = false,
+        inFootnote = false,
+        inControl = false,
+        controlProps = false,
+        lockType = false,
+        controlPlain = false,
+        contentLocked = false,
+        richDelLock = false,
+        richEditLock = false,
+        plainDelLock = false,
+        plainEditLock = false;
+
+    if(paragraphObj) {
+        canAddTable = paragraphObj.get_CanAddTable();
+        canAddImage = paragraphObj.get_CanAddImage();
+        paragraphLocked = paragraphObj.get_Locked();
+
+        inFootnote = api.asc_IsCursorInFootnote() || api.asc_IsCursorInEndnote();
+        inControl = api.asc_IsContentControl();
+
+        controlProps = inControl ? api.asc_GetContentControlProperties() : null;
+        lockType = (inControl && controlProps) ? controlProps.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+        controlPlain = (inControl && controlProps) ? (controlProps.get_ContentControlType() == Asc.c_oAscSdtLevelType.Inline) : false;
+        contentLocked = lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.ContentLocked;
+
+        richDelLock = paragraphObj ? !paragraphObj.can_DeleteBlockContentControl() : false;
+        richEditLock = paragraphObj ? !paragraphObj.can_EditBlockContentControl() : false;
+        plainDelLock = paragraphObj ? !paragraphObj.can_DeleteInlineContentControl() : false;
+        plainEditLock = paragraphObj ? !paragraphObj.can_EditInlineContentControl() : false;
+    }
+
     if (!showPanels && options.indexOf('text') > -1) {
-        tabs.push({
-            caption: _t.textTable,
-            id: 'add-table',
-            icon: 'icon-add-table',
-            component: <AddTableController/>
-        });
+        needDisable = !canAddTable || controlPlain || richEditLock || plainEditLock || richDelLock || plainDelLock;
+
+        if(!needDisable) {
+            tabs.push({
+                caption: _t.textTable,
+                id: 'add-table',
+                icon: 'icon-add-table',
+                component: <AddTableController/>
+            });
+        }
     }
     if(!showPanels) {
-        tabs.push({
-            caption: _t.textShape,
-            id: 'add-shape',
-            icon: 'icon-add-shape',
-            component: <AddShapeController/>
-        });
+        needDisable = paragraphLocked || controlPlain || contentLocked || inFootnote;
+
+        if(!needDisable) {
+            tabs.push({
+                caption: _t.textShape,
+                id: 'add-shape',
+                icon: 'icon-add-shape',
+                component: <AddShapeController/>
+            });
+        }
     }
     if(!showPanels) {
-        tabs.push({
-            caption: _t.textImage,
-            id: 'add-image',
-            icon: 'icon-add-image',
-            component: <AddImageController/>
-        });
+        needDisable = paragraphLocked || paragraphObj && !canAddImage || controlPlain || richDelLock || plainDelLock || contentLocked;
+
+        if(!needDisable) {
+            tabs.push({
+                caption: _t.textImage,
+                id: 'add-image',
+                icon: 'icon-add-image',
+                component: <AddImageController/>
+            });
+        }
     }
     if(!showPanels) {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController/>
+            component: 
+                <AddOtherController 
+                    inFootnote={inFootnote} 
+                    inControl={inControl} 
+                    paragraphLocked={paragraphLocked} 
+                    controlPlain={controlPlain}
+                    richDelLock={richDelLock}
+                    richEditLock={richEditLock}
+                    plainDelLock={plainDelLock}
+                    plainEditLock={plainEditLock}      
+                />
         });
     }
     if (showPanels && showPanels === 'link') {

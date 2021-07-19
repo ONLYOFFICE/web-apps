@@ -70,6 +70,8 @@ export class storeComments {
             comment.comment = changeComment.comment;
             comment.userId = changeComment.userId;
             comment.userName = changeComment.userName;
+            comment.parsedName = changeComment.parsedName;
+            comment.userInitials = changeComment.userInitials;
             comment.userColor = changeComment.userColor;
             comment.resolved = changeComment.resolved;
             comment.quote = changeComment.quote;
@@ -78,6 +80,7 @@ export class storeComments {
             comment.editable = changeComment.editable;
             comment.removable = changeComment.removable;
             comment.replies = changeComment.replies;
+            comment.hide =changeComment.hide;
         }
     }
 

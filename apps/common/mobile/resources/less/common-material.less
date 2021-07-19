@@ -29,7 +29,6 @@
     --f7-range-knob-size: 16px;
 
     --f7-link-highlight-color: transparent;
-    --f7-touch-ripple-color: @touchColor;
     --f7-link-touch-ripple-color: @touchColor;
 
     .button {
@@ -42,6 +41,7 @@
     --f7-dialog-button-text-color: @themeColor;
 
     .navbar {
+        --f7-touch-ripple-color: @touchColor;
         .sheet-close {
             width: 56px;
             height: 56px;
@@ -258,6 +258,9 @@
                             flex: 1;
                             font-size: 17px;
                             margin-left: 5px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                             &:first-child {
                                 margin-left: 0;
                             }

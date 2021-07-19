@@ -48,6 +48,8 @@
   "Common.define.chartData.textStock": "Voorraad",
   "Common.define.chartData.textSurface": "Oppervlak",
   "Common.Translation.warnFileLocked": "Het bestand wordt bewerkt in een andere app. U kunt doorgaan met bewerken en als kopie opslaan.",
+  "Common.Translation.warnFileLockedBtnEdit": "Maak een kopie",
+  "Common.Translation.warnFileLockedBtnView": "Open voor lezen",
   "Common.UI.ColorButton.textAutoColor": "Automatisch",
   "Common.UI.ColorButton.textNewColor": "Nieuwe aangepaste kleur toevoegen",
   "Common.Translation.warnFileLockedBtnEdit": "Maak een kopie",

@@ -114,7 +114,6 @@ class EditCellController extends Component {
 
     onWrapTextChange(checked) {
         const api = Common.EditorApi.get();
-        console.log(checked);
         api.asc_setCellTextWrap(checked);
     }
 

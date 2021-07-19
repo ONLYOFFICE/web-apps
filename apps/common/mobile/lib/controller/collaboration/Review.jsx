@@ -135,33 +135,8 @@ class ReviewChange extends Component {
         this.onDeleteChange = this.onDeleteChange.bind(this);
 
         this.appConfig = props.storeAppOptions;
-
-        if (this.appConfig && this.appConfig.canUseReviewPermissions) {
-            const permissions = this.appConfig.customization.reviewPermissions;
-            let arr = [];
-            const groups  =  Common.Utils.UserInfoParser.getParsedGroups(Common.Utils.UserInfoParser.getCurrentName());
-            groups && groups.forEach(function(group) {
-                const item = permissions[group.trim()];
-                item && (arr = arr.concat(item));
-            });
-            this.currentUserGroups = arr;
-        }
     }
-    intersection (arr1, arr2) { //Computes the list of values that are the intersection of all the arrays.
-        const arr = [];
-        arr1.forEach((item1) => {
-            arr2.forEach((item2) => {
-                if (item1 === item2) {
-                    arr.push(item2);
-                }
-            });
-        });
-        return arr;
-    }
-    checkUserGroups (username) {
-        const groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-        return this.currentUserGroups && groups && (this.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
-    }
+    
     dateToLocaleTimeString (date) {
         const format = (date) => {
             let strTime,
@@ -445,7 +420,7 @@ class ReviewChange extends Component {
             const userColor = item.get_UserColor();
             const goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
             date = this.dateToLocaleTimeString(date);
-            const editable = this.appConfig.isReviewOnly && (item.get_UserId() == this.appConfig.user.id) || !this.appConfig.isReviewOnly && (!this.appConfig.canUseReviewPermissions || this.checkUserGroups(item.get_UserName()));
+            const editable = this.appConfig.isReviewOnly && (item.get_UserId() == this.appConfig.user.id) || !this.appConfig.isReviewOnly && (!this.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
             arr.push({date: date, user: user, userColor: userColor, changeText: changeText, goto: goto, editable: editable});
         });
         return arr;
@@ -493,13 +468,14 @@ class ReviewChange extends Component {
         let change;
         let goto = false;
         if (arrChangeReview.length > 0) {
+            const name = AscCommon.UserInfoParser.getParsedName(arrChangeReview[0].user);
             change = {
                 date: arrChangeReview[0].date,
                 user: arrChangeReview[0].user,
-                userName: Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(arrChangeReview[0].user)),
+                userName: Common.Utils.String.htmlEncode(name),
                 color: arrChangeReview[0].userColor.get_hex(),
                 text: arrChangeReview[0].changeText,
-                initials: this.props.users.getInitials(arrChangeReview[0].user),
+                initials: this.props.users.getInitials(name),
                 editable: arrChangeReview[0].editable
             };
             goto = arrChangeReview[0].goto;

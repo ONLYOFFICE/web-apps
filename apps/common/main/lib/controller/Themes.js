@@ -281,7 +281,8 @@ define([
             },
 
             currentThemeId: function () {
-                return get_ui_theme_name(Common.localStorage.getItem('ui-theme')) || id_default_light_theme;
+                var t = Common.localStorage.getItem('ui-theme') || Common.localStorage.getItem('ui-theme-id');
+                return get_ui_theme_name(t) || id_default_light_theme;
             },
 
             defaultThemeId: function (type) {
