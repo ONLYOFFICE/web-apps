@@ -53,7 +53,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             const api = Common.EditorApi.get();
             api.asc_unregisterCallback('asc_onCanUndoChanged', onApiCanUndo);
             api.asc_unregisterCallback('asc_onCanRedoChanged', onApiCanRedo);
-            //api.asc_unregisterCallback('asc_onSelectionChanged', onApiSelectionChanged); TO DO
+            // api.asc_unregisterCallback('asc_onSelectionChanged', onApiSelectionChanged); TO DO
             api.asc_unregisterCallback('asc_onWorkbookLocked', onApiSelectionChanged);
             api.asc_unregisterCallback('asc_onWorksheetLocked', onApiSelectionChanged);
             api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
@@ -137,7 +137,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         if (isDisconnected) return;
 
         const api = Common.EditorApi.get();
-        const info = !!cellInfo ? cellInfo : api.asc_getCellInfo();
+        const info = cellInfo && typeof cellInfo === 'object' ? cellInfo : api.asc_getCellInfo();
         let islocked = false;
 
         switch (info.asc_getSelectionType()) {
