@@ -1199,6 +1199,10 @@ define([
         },
 
         onSortType: function(type, btn) {
+            Common.NotificationCenter.trigger('protect:check', this.onSortTypeCallback, this, [type, btn]);
+        },
+
+        onSortTypeCallback: function(type, btn) {
             if (this.api) {
                 if (this.api.asc_getCellInfo().asc_getSelectionType()==Asc.c_oAscSelectionType.RangeSlicer) {
                     var selectedObjects = this.api.asc_getGraphicObjectProps();
@@ -3234,6 +3238,10 @@ define([
         },
 
         onInsertSymbolClick: function() {
+            Common.NotificationCenter.trigger('protect:check', this.onInsertSymbolClickCallback, this, []);
+        },
+
+        onInsertSymbolClickCallback: function() {
             if (this.api) {
                 var me = this,
                     selected = me.api.asc_GetSelectedText(),

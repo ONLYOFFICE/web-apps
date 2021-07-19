@@ -416,6 +416,10 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            Common.NotificationCenter.trigger('protect:check', this.onSortCellsCallback, this, [menu, item]);
+        },
+
+        onSortCellsCallback: function(menu, item) {
             if (item.value=='advanced') {
                 Common.NotificationCenter.trigger('data:sortcustom', this);
                 return;
