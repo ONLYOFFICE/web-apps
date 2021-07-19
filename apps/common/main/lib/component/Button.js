@@ -211,7 +211,7 @@ define([
                 '</div>' +
                 '<div class="inner-box-caption">' +
                     '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret img-commonctrl"></i>' +
+                    '<i class="caret"></i>' +
                 '</div>' +
             '</button>' +
         '</div>';
@@ -226,7 +226,7 @@ define([
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
                 '<span class="btn-fixflex-vcenter">' +
                     '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret img-commonctrl"></i>' +
+                    '<i class="caret"></i>' +
                 '</span>' +
             '</button>' +
         '</div>';
@@ -271,7 +271,7 @@ define([
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                         '<span class="inner-box-caret">' +
-                            '<i class="caret img-commonctrl"></i>' +
+                            '<i class="caret"></i>' +
                         '</span>',
                     '</button>',
                 '</div>',
@@ -282,7 +282,7 @@ define([
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
                     '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown">',
-                        '<i class="caret img-commonctrl"></i>',
+                        '<i class="caret"></i>',
                         '<span class="sr-only"></span>',
                     '</button>',
                 '</div>',
@@ -659,7 +659,7 @@ define([
 
         changeIcon: function(opts) {
             var me = this;
-            if ( opts && (opts.curr || opts.next)) {
+            if ( opts && (opts.curr || opts.next) && me.$icon) {
                 !!opts.curr && (me.$icon.removeClass(opts.curr));
                 !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
 

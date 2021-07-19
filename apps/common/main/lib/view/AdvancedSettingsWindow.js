@@ -86,6 +86,8 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',         _.bind(this.onDlgBtnClick, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.btnsCategory = [];
             _.each($window.find('.btn-category'), function(item, index) {
                 var btnEl = $(item);
@@ -96,7 +98,7 @@ define([
                     allowDepress: false,
                     contentTarget: btnEl.attr('content-target')
                 });
-                btn.on('click', _.bind(me.onCategoryClick, me));
+                btn.on('click', _.bind(me.onCategoryClick, me, btn, index));
                 me.btnsCategory.push(btn);
             });
             var cnt_panel = $window.find('.content-panel'),
@@ -125,7 +127,7 @@ define([
             this.close();
         },
 
-        onCategoryClick: function(btn, event) {
+        onCategoryClick: function(btn, index) {
             this.content_panels.filter('.active').removeClass('active');
             $("#" + btn.options.contentTarget).addClass("active");
         },
@@ -144,19 +146,21 @@ define([
 
         setActiveCategory: function(index) {
             if (this.btnsCategory.length<1) return;
-            
-            var btnActive = this.btnsCategory[(index>=0 && index<this.btnsCategory.length) ? index : 0];
+
+            index = (index>=0 && index<this.btnsCategory.length) ? index : 0;
+            var btnActive = this.btnsCategory[index];
             if (!btnActive.isVisible() || btnActive.isDisabled()) {
                 for (var i = 0; i<this.btnsCategory.length; i++){
                     var btn = this.btnsCategory[i];
                     if (btn.isVisible() && !btn.isDisabled()) {
                         btnActive = btn;
+                        index = i;
                         break;
                     }
                 }
             }
             btnActive.toggle(true);
-            this.onCategoryClick(btnActive);
+            this.onCategoryClick(btnActive, index);
         },
 
         getActiveCategory: function() {
@@ -171,6 +175,10 @@ define([
             if (this.storageName)
                 Common.localStorage.setItem(this.storageName, this.getActiveCategory());
             Common.UI.Window.prototype.close.call(this, suppressevent);
+        },
+
+        onAnimateAfter: function() {
+
         }
     }, Common.Views.AdvancedSettingsWindow || {}));
 });

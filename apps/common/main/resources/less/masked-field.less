@@ -1,10 +1,12 @@
 .masked-field {
     text-align: right;
-    border: 1px solid @gray;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
     border-radius: 2px;
     padding: 0 3px;
 
     &:focus {
-        border-color: @gray-darker;
+        border-color: @border-preview-select-ie;
+        border-color: @border-preview-select;
     }
 }

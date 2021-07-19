@@ -87,7 +87,9 @@ define([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control">',
                     '<span class="icon input-icon spellcheck-lang toolbar__icon btn-ic-docspell"></span>',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                        '<span class="caret" />',
+                    '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -101,7 +103,9 @@ define([
                 '</span>'
             ].join('')),
             data: this.options.languages,
-            search: true
+            takeFocusOnClose: true,
+            search: true,
+            scrollAlwaysVisible: true
         });
 
         if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
@@ -109,6 +113,11 @@ define([
         var langname = Common.util.LanguageInfo.getLocalLanguageName(this.options.current);
         this.cmbLanguage.setValue(langname[0], langname[1]);
         this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());
+
+        var me = this;
+        setTimeout(function(){
+            me.cmbLanguage.focus();
+        }, 100);
     },
 
     close: function(suppressevent) {

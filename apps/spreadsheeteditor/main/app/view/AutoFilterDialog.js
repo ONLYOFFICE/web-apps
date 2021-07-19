@@ -123,7 +123,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
 
@@ -135,7 +136,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition2.setValue(0);
 
@@ -157,7 +159,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 225px;max-height: 135px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             this.cmbValue2 = new Common.UI.ComboBox({
@@ -165,7 +168,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 225px;max-height: 135px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             var comparator = function(item1, item2) {
@@ -184,15 +188,13 @@ define([
 
             this.loadDefaults();
         },
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
 
-            var me  = this;
-            _.defer(function () {
-                if (me.cmbValue1) {
-                    me.cmbValue1._input.focus();
-                }
-            }, 500);
+        getFocusedComponents: function() {
+            return [this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbValue1;
         },
 
         close: function () {
@@ -352,7 +354,8 @@ define([
                     { value: true, displayValue: this.txtTop },
                     { value: false, displayValue: this.txtBottom }
                 ],
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbType.setValue(true);
 
@@ -368,7 +371,8 @@ define([
                 menuStyle   : 'min-width: 85px;',
                 cls         : 'input-group-nr',
                 data        : data,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbItem.setValue(false);
             this.cmbItem.on('selected', _.bind(function(combo, record) {
@@ -392,7 +396,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [],
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbFields.setVisible(this.type=='value');
             (this.type!=='value') && this.$window.find('#id-top10-lblby').addClass('hidden');
@@ -401,15 +406,13 @@ define([
 
             this.loadDefaults();
         },
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
 
-            var me  = this;
-            _.defer(function () {
-                if (me.spnCount) {
-                    me.spnCount.$input.focus();
-                }
-            }, 500);
+        getFocusedComponents: function() {
+            return [this.cmbType, this.spnCount, this.cmbItem, this.cmbFields];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnCount;
         },
 
         close: function () {
@@ -582,7 +585,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
             this.cmbCondition1.on('selected', _.bind(function(combo, record) {
@@ -593,7 +597,7 @@ define([
                 var me = this;
                 _.defer(function () {
                     if (me.inputValue) {
-                        me.inputValue._input.focus();
+                        me.inputValue.focus();
                     }
                 }, 10);
             }, this));
@@ -605,14 +609,15 @@ define([
                 cls         : 'input-group-nr',
                 data        : [],
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbFields.setVisible(this.type=='value');
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
                 _.defer(function () {
                     if (me.inputValue) {
-                        me.inputValue._input.focus();
+                        me.inputValue.focus();
                     }
                 }, 10);
             }, this));
@@ -637,15 +642,13 @@ define([
 
             this.loadDefaults();
         },
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
 
-            var me  = this;
-            _.defer(function () {
-                if (me.inputValue) {
-                    me.inputValue._input.focus();
-                }
-            }, 500);
+        getFocusedComponents: function() {
+            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputValue;
         },
 
         close: function () {
@@ -790,7 +793,7 @@ define([
             this.type = options.type;
 
             _.extend(_options,  {
-                width           : 215,
+                width           : 250,
                 height          : 215,
                 contentWidth    : 180,
                 header          : true,
@@ -805,9 +808,9 @@ define([
                     '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="width:150px;margin-bottom: 10px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="margin-bottom: 10px;margin-left: 22px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="width:150px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="margin-left: 22px;"></div>',
                     '</div>',
                     '</div>',
                     '<div class="separator horizontal" style="width:100%"></div>'
@@ -1352,7 +1355,7 @@ define([
             var me = this;
             if (this.input) {
                 _.delay(function () {
-                    me.input.$el.find('input').focus();
+                    me.input.focus();
                 }, 500, this);
             }
         },
@@ -1612,7 +1615,7 @@ define([
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {
-                        listView.$el.find('.listview').focus();
+                        listView.focus();
                     }, 100, this);
                 }
             }
@@ -1694,12 +1697,6 @@ define([
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
             var menuPanel = this.$window.find('.menu-panel');
-            this.menuPanelWidth = menuPanel.innerWidth();
-            var width = this.getWidth();
-            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
-            }
-
             var pivotObj = this.configTo.asc_getPivotObj(),
                 isPivot = !!pivotObj,
                 isValueFilter = false;
@@ -1709,18 +1706,11 @@ define([
             this.miSortOptions.setVisible(isPivot);
 
             if (isPivot) {
-                if (pivotObj.asc_getIsPageFilter()) {
-                    this.setResizable(true, [this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight]);
-                    menuPanel.addClass('hidden');
-                    width -= this.menuPanelWidth;
-                    this.menuPanelWidth = 0;
-                }
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
 
                 isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==0);
             }
-            this.setSize(width, this.getHeight());
 
             var filterObj = this.configTo.asc_getFilterObj(),
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
@@ -1800,9 +1790,11 @@ define([
                         item.setChecked(checked, true);
                         if (checked) isCustomConditions = false;
                     });
-                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
-                                           cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
-                    items[6].setChecked(true, true); // between filter
+                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
+                    items[isPivot && !isValueFilter ? 13 : 6].setChecked(true, true); // between filter
+                    isCustomConditions = false;
+                } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
+                    items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
@@ -1831,6 +1823,23 @@ define([
             this.miClear.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
             this.miReapply.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
             this.btnOk.setDisabled(this.initialFilterType !== Asc.c_oAscAutoFilterTypes.Filters && this.initialFilterType !== Asc.c_oAscAutoFilterTypes.None);
+
+            this.menuPanelWidth = menuPanel.innerWidth();
+            var width = this.getWidth();
+            if (width-this.menuPanelWidth<260) {
+                width = Math.ceil(this.menuPanelWidth + 260);
+                this.setResizable(true, [width, this.initConfig.minheight]);
+            }
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
+            }
+            if (isPivot && pivotObj.asc_getIsPageFilter()) {
+                this.setResizable(true, [this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight]);
+                menuPanel.addClass('hidden');
+                width -= this.menuPanelWidth;
+                this.menuPanelWidth = 0;
+            }
+            this.setSize(width, this.getHeight());
         },
 
         setupDataCells: function() {
@@ -1949,7 +1958,7 @@ define([
                     callback: function() {
                         me._skipCheckDocumentClick = false;
                         _.delay(function () {
-                            me.input.$el.find('input').focus();
+                            me.input.focus();
                         }, 100, this);
                     }
                 });

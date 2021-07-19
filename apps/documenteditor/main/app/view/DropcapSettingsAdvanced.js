@@ -113,14 +113,14 @@ define([
             });
 
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large btn-adv-paragraph-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large btn-adv-paragraph-inner-hor', '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large btn-adv-paragraph-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large btn-adv-paragraph-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large btn-adv-paragraph-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large btn-adv-paragraph-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large btn-adv-paragraph-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large btn-adv-paragraph-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),
@@ -141,6 +141,7 @@ define([
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
                 store       : new Backbone.Collection(),
+                takeFocusOnClose: true,
                 data: [
                     {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
                     {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
@@ -162,9 +163,13 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-bordercolor'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
+                this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
+            }, this));
+            this.btnBorderColor.on('auto:select', _.bind(function(btn, color) {
                 this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
             }, this));
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -269,7 +274,7 @@ define([
             this.btnNone = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-none',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-none',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -285,7 +290,7 @@ define([
             this.btnInText = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-text',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -301,7 +306,7 @@ define([
             this.btnInMargin = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-inmargin'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-margin',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-margin',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -350,10 +355,11 @@ define([
                 cls         : 'input-group-nr',
                 style       : 'width: 290px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle   : 'min-width: 55px;',
+                menuStyle   : 'min-width: 55px;max-height: 236px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
-                hint: this.tipFontName
+                hint: this.tipFontName,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -363,8 +369,8 @@ define([
 
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-none',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -379,8 +385,8 @@ define([
 
             this.btnFrameInline = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-inline'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-inline',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge table-align-center',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -395,8 +401,8 @@ define([
 
             this.btnFrameFlow = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-flow'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-flow',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge table-flow',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -418,6 +424,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : this._arrWidth
             })
             .on('selected', _.bind(function(combo, record) {
@@ -457,6 +464,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : this._arrHeight
             })
             .on('selected', _.bind(function(combo, record) {
@@ -539,12 +547,20 @@ define([
                 el          : $('#frame-advanced-input-hposition'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
-                data        : this._arrHAlign
+                data        : this._arrHAlign,
+                takeFocusOnClose: true
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_XAlign(undefined);
-                    me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_XAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_XAlign(undefined);
+                            me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(number));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -564,7 +580,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 95px;',
                 data        : this._arrHRelative,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -582,12 +599,20 @@ define([
                 el          : $('#frame-advanced-input-vposition'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
-                data        : this._arrVAlign
+                data        : this._arrVAlign,
+                takeFocusOnClose: true
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_YAlign(undefined);
-                    me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_YAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_YAlign(undefined);
+                            me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -607,7 +632,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 95px;',
                 data        : this._arrVRelative,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -646,13 +672,16 @@ define([
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                this.tableStyler.setVirtualBorderColor((typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor);
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                this.tableStyler.setVirtualBorderColor((typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 this.BorderSize = {ptValue: this.borderProps.borderSize.ptValue, pxValue: this.borderProps.borderSize.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
-
-                this.colorsBorder.select(this.borderProps.borderColor);
             }
 
             this.setTitle((this.isFrame) ? this.textTitleFrame : this.textTitle);
@@ -685,6 +714,28 @@ define([
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, // 0 tab
+                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                if (index==0) {
+                    me.cmbWidth.focus();
+                } else if (index==1) {
+                    me.cmbFonts.focus();
+                } else if (index==3)
+                    me.spnMarginTop.focus();
+            }, 100);
         },
 
         getSettings: function() {
@@ -731,7 +782,7 @@ define([
                 paragraphProps  : this._changedProps,
                 borderProps     : {
                     borderSize      : this.BorderSize,
-                    borderColor     : this.btnBorderColor.color
+                    borderColor     : this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color
                 }
             };
         },
@@ -1042,7 +1093,13 @@ define([
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

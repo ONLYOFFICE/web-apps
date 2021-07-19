@@ -437,7 +437,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 50px'});
 
                     this._state.TemplateId = value;
                 }
@@ -538,6 +538,10 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
+                var val = this._state.Width;
+                this.numWidth && this.numWidth.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
+                val = this._state.Height;
+                this.numHeight && this.numHeight.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
             }
         },
 
@@ -607,7 +611,8 @@ define([
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#table-border-color-btn'),
-                    color: '000000'
+                    color: 'auto',
+                    auto: true
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.borderColor = this.btnBorderColor.getPicker();
@@ -622,7 +627,7 @@ define([
             }
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.btnBorderColor.setColor(this.borderColor.getColor());
+            !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
         _onInitTemplates: function(Templates){
@@ -658,9 +663,11 @@ define([
 
             var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.mnuTableTemplatePicker.store.models;
-                _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.asc_getImage());
+                var data = self.mnuTableTemplatePicker.dataViewItems;
+                data && _.each(Templates, function(template, index){
+                    var img = template.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    $(data[index].el).find('img').attr('src', img);
                 });
             } else {
                 var arr = [];

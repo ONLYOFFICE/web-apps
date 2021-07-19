@@ -1,8 +1,5 @@
 .statusbar {
     padding: 0 2px 0;
-    height: 25px;
-    background-color: @gray-light;
-    .box-inner-shadow(0 1px 0 @gray-dark);
     z-index: 500;
 
     #status-tabs-scroll {
@@ -26,7 +23,6 @@
             text-align: center;
 
             &.disabled {
-                color: @gray-darker;
                 cursor: default;
             }
         }
@@ -96,7 +92,8 @@
                     height: 12px;
                     display: inline-block;
                     vertical-align: middle;
-                    border: 1px solid @gray-dark;
+                    border: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border: @scaled-one-px-value solid @border-toolbar;
                 }
 
                 .name {
@@ -114,8 +111,10 @@
     #status-addtabs-box {
         float: left;
         padding: 3px 8px 0 8px;
-        border-left: 1px solid @gray-dark;
-        border-right: 1px solid @gray-dark;
+        border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-left: @scaled-one-px-value solid @border-toolbar;
+        border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-right: @scaled-one-px-value solid @border-toolbar;
         height: 25px;
     }
 
@@ -158,11 +157,25 @@
             display: flex;
 
             > li {
-                background-color: @gray-light;
+                background-color: @background-toolbar-ie;
+                background-color: @background-toolbar;
 
                 &:first-of-type {
                     span {
                         border-left: none;
+                    }
+                }
+
+                &:last-of-type {
+                    span {
+                        margin-right: 0;
+                    }
+                }
+
+                &:not(.active) {
+                    > span {
+                        color: @text-secondary-ie;
+                        color: @text-secondary;
                     }
                 }
 
@@ -172,24 +185,32 @@
                     padding: 0 10px 0;
                     line-height: 24px;
                     margin-right: -1px;
-                    background-color: @gray-light;
+                    background-color: @background-toolbar-additional-ie;
+                    background-color: @background-toolbar-additional;
                     outline: none;
-                    border-left: 1px solid @gray-dark;
-                    border-right: 1px solid @gray-dark;
-                    border-top: 1px solid @gray-dark;
-                    white-space: nowrap;
+                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-left: @scaled-one-px-value solid @border-toolbar;
+                    border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-right: @scaled-one-px-value solid @border-toolbar;
+                    border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-top: @scaled-one-px-value solid @border-toolbar;
 
                     &:hover {
-                        border-top-color: @gray-dark;
-                        border-bottom-color: @gray-dark;
-                        color: @black !important;
+                        border-top-color: @border-toolbar-ie;
+                        border-top-color: @border-toolbar;
+                        border-bottom-color: @border-toolbar-ie;
+                        border-bottom-color: @border-toolbar;
+                        color: @text-normal-ie;
+                        color: @text-normal;
                     }
                 }
 
                 &.active {
                     > span {
-                        border-bottom-color: @body-bg;
-                        background-color: @body-bg;
+                        border-bottom-color: @background-toolbar-ie;
+                        border-bottom-color: @background-toolbar;
+                        background-color: @background-toolbar-ie;
+                        background-color: @background-toolbar;
                         outline: none;
 
                         box-shadow: 0px 4px 0 #49795d inset;
@@ -201,9 +222,13 @@
 
                 &.selected {
                     > span {
-                        border-bottom-color: @body-bg;
-                        background-color: @body-bg;
+                        border-bottom-color: @highlight-header-button-hover-ie;
+                        border-bottom-color: @highlight-header-button-hover;
+                        background-color: @background-normal-ie;
+                        background-color: @background-normal;
                         box-shadow: 0px 4px 0 #49795d inset;
+                        color: @text-normal-ie;
+                        color: @text-normal;
                     }
                 }
 
@@ -230,17 +255,27 @@
                     }
                 }
 
-                &.disabled {
-                    opacity: 0.5;
-
+                &.icon-visible {
                     > span {
-                        cursor: default;
+                        padding-left: 25px;
+                        > .toolbar__icon {
+                            width: 20px;
+                            height: 20px;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            margin: 3px;
+                        }
                     }
                 }
 
-                &:not(.active) {
+                &.disabled {
+                    opacity: @component-disabled-opacity;
+
                     > span {
-                        color: @gray-darker;
+                        cursor: default;
+                        color: @text-secondary-ie;
+                        color: @text-secondary;
                     }
                 }
 
@@ -253,16 +288,43 @@
                     }
 
                     > span {
-                        border-left: 2px solid @gray-deep;
+                        border-left: 2px solid @text-normal-ie;
+                        border-left: 2px solid @text-normal;
                         padding-left: 9px;
                     }
                     
                     &.right {
                         > span {
-                            border-left: 1px solid @gray-dark;
-                            border-right: 2px solid @gray-deep;
+                            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                            border-left: @scaled-one-px-value solid @border-toolbar;
+                            border-right: 2px solid @text-normal-ie;
+                            border-right: 2px solid @text-normal;
                             padding-right: 9px;
                             padding-left: 10px;
+                        }
+                    }
+                    &.icon-visible {
+                        > span {
+                            padding-left: 24px;
+                        }
+                        &.right {
+                            > span {
+                                padding-left: 25px;
+                            }
+                        }
+                    }
+                }
+                &.separator-item {
+                    margin-left: 20px;
+                    width: @scaled-one-px-value-ie;
+                    width: @scaled-one-px-value;
+                    > span {
+                        padding: 0;
+                        margin: 0;
+                        width: @scaled-one-px-value-ie;
+                        width: @scaled-one-px-value;
+                        &::after {
+                            content: none;
                         }
                     }
                 }
@@ -273,12 +335,6 @@
             .border-radius(4px);
           margin-top: -25px;
         }
-    }
-
-    .status-label {
-        font-weight: bold;
-        color: @gray-deep;
-        white-space: nowrap;
     }
 
     .btn-tpl(@top-position) {
@@ -342,12 +398,6 @@
         }
     }
 
-    &.masked #status-addtabs-box{
-        button.disabled .btn-icon {
-            background-position-x: 0px !important;
-        }
-        opacity: 0.4;
-    }
 }
 
 .statusbar-mask {
@@ -357,7 +407,8 @@
     width: 36px;
     height: 100%;
     opacity: 0;
-    background-color: @gray-light;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     z-index: @zindex-modal - 1;
 }
 

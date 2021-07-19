@@ -34,55 +34,55 @@
     "headername": "Operaciones básicas"
   },
   {
-    "src": "InstruccionesdeUso/CopiePegueDatos.htm",
+    "src": "UsageInstructions/CopyPasteData.htm",
     "name": "Corte/copie/pegue datos"
   },
   {
-    "src": "InstruccionesdeUso/DeshacerRehacer.htm",
+    "src": "UsageInstructions/UndoRedo.htm",
     "name": "Deshaga/rehaga sus acciones"
   },
   {
-    "src": "InstruccionesdeUso/ManejeHojas.htm",
+    "src": "UsageInstructions/ManageSheets.htm",
     "name": "Maneje hojas",
     "headername": "Operaciones con hojas de cálculo"
   },
   {
-    "src": "InstruccionesdeUso/TipoLetraTamañoEstilo.htm",
+    "src": "UsageInstructions/FontTypeSizeStyle.htm",
     "name": "Establezca tipo, tamaño y color de letra",
     "headername": "Formato de texto en celdas"
   },
   {
-    "src": "InstruccionesdeUso/AñadirHiperenlace.htm",
+    "src": "UsageInstructions/AddHyperlinks.htm",
     "name": "Añadir hiperenlace"
   },
   {
-    "src": "InstruccionesdeUso/Eliminar Formato.htm",
+    "src": "UsageInstructions/ClearFormatting.htm",
     "name": "Limpie texto, formatee en una celda, copie formato de celda"
   },
   {
-    "src": "InstruccionesdeUso/AñadirBordes.htm",
+    "src": "UsageInstructions/AddBorders.htm",
     "name": "Añada bordes",
     "headername": "Editar las propiedades de la celda"
   },
   {
-    "src": "InstruccionesdeUso/AlinearTexto.htm",
+    "src": "UsageInstructions/AlignText.htm",
     "name": "Alinee datos en celdas"
   },
   {
-    "src": "InstruccionesdeUso/Unir Celdas.htm",
+    "src": "UsageInstructions/MergeCells.htm",
     "name": "Combine celdas"
   },
   {
-    "src": "InstruccionesdeUso/CambiarFormatodeNúmeros.htm",
+    "src": "UsageInstructions/ChangeNumberFormat.htm",
     "name": "Cambie formato de número"
   },
   {
-    "src": "InstruccionesdeUso/IntroducirEliminarCeldas.htm",
+    "src": "UsageInstructions/InsertDeleteCells.htm",
     "name": "Organizar celdas, filas y columnas",
     "headername": "Editar filas y columnas"
   },
   {
-    "src": "InstruccionesdeUso/OrdenarDatos.htm",
+    "src": "UsageInstructions/SortData.htm",
     "name": "Ordene y filtre sus datos"
   },
   {
@@ -90,37 +90,37 @@
     "name": "Editar tablas pivote"
   },
   {
-    "src": "InstruccionesdeUso/IntroducirFunción.htm",
+    "src": "UsageInstructions/InsertFunction.htm",
     "name": "Inserte una función",
     "headername": "Trabaje con funciones"
   },
   {
-    "src": "InstruccionesdeUso/UsarRangosconNombre.htm",
+    "src": "UsageInstructions/UseNamedRanges.htm",
     "name": "Usar rangos con nombre"
   },
   {
-    "src": "InstruccionesdeUso/IntroduzaImágenes.htm",
+    "src": "UsageInstructions/InsertImages.htm",
     "name": "Introduzca imágenes",
     "headername": "Operaciones en objetos"
   },
   {
-    "src": "InstruccionesdeUso/IntroducirGráfico.htm",
+    "src": "UsageInstructions/InsertChart.htm",
     "name": "Introducir gráfico"
   },
   {
-    "src": "InstruccionesdeUso/InsertarAutoformas.htm",
+    "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "Inserte y dé formato a autoformas"
   },
   {
-    "src": "InstruccionesdeUso/InsertarObjetosconTexto.htm",
+    "src": "UsageInstructions/InsertTextObjects.htm",
     "name": "Insertar objetos con texto"
   },
   {
-    "src": "InstruccionesdeUso/ManejarObjetos.htm",
+    "src": "UsageInstructions/ManipulateObjects.htm",
     "name": "Maneje objetos"
   },
   {
-    "src": "InstruccionesdeUso/InsertarEcuación.htm",
+    "src": "UsageInstructions/InsertEquation.htm",
     "name": "Inserte ecuación",
     "headername": "Ecuaciones matemáticas"
   },
@@ -130,7 +130,7 @@
     "headername": "Co-edición de hojas de cálculo"
   },
   {
-    "src": "InstruccionesdeUso/VerInformacióndeArchivo.htm",
+    "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Vea la información sobre un archivo",
     "headername": "Herramientas y ajustes"
   },

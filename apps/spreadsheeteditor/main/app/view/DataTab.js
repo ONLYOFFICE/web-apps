@@ -69,6 +69,9 @@ define([
             me.btnRemoveDuplicates.on('click', function (b, e) {
                 me.fireEvent('data:remduplicates');
             });
+            me.btnDataValidation.on('click', function (b, e) {
+                me.fireEvent('data:datavalidation');
+            });
             // isn't used for awhile
             // me.btnShow.on('click', function (b, e) {
             //     me.fireEvent('data:show');
@@ -179,6 +182,16 @@ define([
                 });
                 this.lockedControls.push(this.btnRemoveDuplicates);
 
+                this.btnDataValidation = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-data-validation'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-data-validation',
+                    caption: this.capBtnTextDataValidation,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
+                });
+                this.lockedControls.push(this.btnDataValidation);
+
                 this.btnCustomSort = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-custom-sort'),
                     cls: 'btn-toolbar x-huge icon-top',
@@ -190,13 +203,13 @@ define([
                 this.lockedControls.push(this.btnCustomSort);
 
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort]);
 
                 this.btnsSortUp = Common.Utils.injectButtons($host.find('.slot-sortasc'), '', 'toolbar__icon btn-sort-up', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort]);
 
                 this.btnsSetAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-setfilter'), '', 'toolbar__icon btn-autofilter', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.tableHasSlicer],
                     false, false, true);
 
                 this.btnsClearAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-clear-filter'), '', 'toolbar__icon btn-clear-filter', '',
@@ -240,6 +253,7 @@ define([
 
                     me.btnTextToColumns.updateHint(me.tipToColumns);
                     me.btnRemoveDuplicates.updateHint(me.tipRemDuplicates);
+                    me.btnDataValidation.updateHint(me.tipDataValidation);
 
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);
@@ -277,6 +291,8 @@ define([
                     return this.btnsClearAutofilter;
                 else if (type == 'rem-duplicates')
                     return this.btnRemoveDuplicates;
+                else if (type == 'data-validation')
+                    return this.btnDataValidation;
                 else if (type===undefined)
                     return this.lockedControls;
                 return [];
@@ -308,7 +324,9 @@ define([
             capBtnTextCustomSort: 'Custom Sort',
             tipCustomSort: 'Custom sort',
             capBtnTextRemDuplicates: 'Remove Duplicates',
-            tipRemDuplicates: 'Remove duplicate rows from a sheet'
+            tipRemDuplicates: 'Remove duplicate rows from a sheet',
+            capBtnTextDataValidation: 'Data Validation',
+            tipDataValidation: 'Data validation'
         }
     }()), SSE.Views.DataTab || {}));
 });

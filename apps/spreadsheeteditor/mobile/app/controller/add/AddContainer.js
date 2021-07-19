@@ -271,7 +271,9 @@ define([
                                 $layoutPages.prop('outerHTML') +
                             '</div>' +
                         '</div>'
-                    ))
+                    ));
+                    if (Common.Locale.getCurrentLanguage() !== 'en')
+                        me.picker.attr('applang', Common.Locale.getCurrentLanguage());
                 } else {
                     me.picker = uiApp.popover(
                         '<div class="popover settings container-add">' +
@@ -300,6 +302,8 @@ define([
                         $overlay.off('removeClass');
                         $overlay.removeClass('modal-overlay-visible')
                     });
+                    if (Common.Locale.getCurrentLanguage() !== 'en')
+                        $$(me.picker).attr('applang', Common.Locale.getCurrentLanguage());
                 }
 
                 if (isAndroid) {

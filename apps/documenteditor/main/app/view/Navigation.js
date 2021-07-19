@@ -70,7 +70,8 @@ define([
                 store: this.storeNavigation,
                 enableKeyEvents: false,
                 emptyText: this.txtEmpty,
-                emptyItemText: this.txtEmptyItem
+                emptyItemText: this.txtEmptyItem,
+                style: 'border: none;'
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({

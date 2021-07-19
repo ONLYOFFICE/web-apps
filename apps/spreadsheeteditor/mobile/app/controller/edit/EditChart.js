@@ -284,7 +284,9 @@ define([
                     chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
                     chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
                     chartType == Asc.c_oAscChartTypeSettings.stock ||
-                    chartType == Asc.c_oAscChartTypeSettings.scatter) {
+                    chartType == Asc.c_oAscChartTypeSettings.scatter ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || chartType == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine) {
                     dataLabelPos.push(
                         { value: Asc.c_oAscChartDataLabelsPos.l, displayValue: me.textLeft },
                         { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: me.textRight },
@@ -341,7 +343,7 @@ define([
             initVertAxisPage: function () {
                 var me = this,
                     $vertAxisPage = $('.page[data-page=edit-chart-vertical-axis]'),
-                    chartProperty = me.api.asc_getChartObject(),
+                    chartProperty = me.api.asc_getChartObject(true),
                     verAxisProps = chartProperty.getVertAxisProps(),
                     axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
 
@@ -440,7 +442,7 @@ define([
             initHorAxisPage: function () {
                 var me = this,
                     $horAxisPage = $('.page[data-page=edit-chart-horizontal-axis]'),
-                    chartProperty = me.api.asc_getChartObject(),
+                    chartProperty = me.api.asc_getChartObject(true),
                     horAxisProps = chartProperty.getHorAxisProps(),
                     axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
 
@@ -626,7 +628,7 @@ define([
 
             onBorderColor: function (palette, color) {
                 var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                    currentShape = _shapeObject ? _shapeObject.get_ShapeProperties() : null;
 
                 $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
                 _borderInfo.color = color;
@@ -897,7 +899,8 @@ define([
                 );
 
                 $('#chart-vaxis').data('page', needReverse ? '#edit-chart-horizontal-axis': '#edit-chart-vertical-axis');
-                $('#chart-haxis').data('page', (needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter) ? '#edit-chart-vertical-axis': '#edit-chart-horizontal-axis');
+                $('#chart-haxis').data('page', (needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter || chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || chartType == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine) ? '#edit-chart-vertical-axis': '#edit-chart-horizontal-axis');
             },
 
 
@@ -940,14 +943,14 @@ define([
             // Helpers
 
             _getVerticalAxisProp: function () {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getVertAxisProps();
 
                 return (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartObject.getHorAxisProps();
             },
 
             _setVerticalAxisProp: function (axisProps) {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getVertAxisProps();
 
                 if (!_.isUndefined(chartObject)) {
@@ -957,14 +960,14 @@ define([
             },
 
             _getHorizontalAxisProp: function () {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verHorProps = chartObject.getHorAxisProps();
 
                 return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartObject.getVertAxisProps() : verHorProps;
             },
 
             _setHorizontalAxisProp: function (axisProps) {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getHorAxisProps();
 
                 if (!_.isUndefined(chartObject)) {
@@ -975,7 +978,7 @@ define([
 
             _setLayoutProperty: function (propertyMethod, e) {
                 var value = $(e.currentTarget).val(),
-                    chartObject = this.api.asc_getChartObject();
+                    chartObject = this.api.asc_getChartObject(true);
 
                 if (!_.isUndefined(chartObject) && value && value.length > 0) {
                     var intValue = parseInt(value);

@@ -55,7 +55,7 @@
         .selected {
             .listitem-icon {
                 background-position-x: -20px;
-                --bgX: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
             }
         }
 
@@ -90,4 +90,21 @@
     }
 }
 
+#sort-dialog-btn-down {
+    margin-right: 5px;
+}
 
+.sort-dialog-btn-text {
+    min-width: 100px;
+    margin-right: 5px;
+}
+
+.input-row--tabs {
+    border-bottom: @scaled-one-px-value-ie solid @border-divider-ie;
+    border-bottom: @scaled-one-px-value solid @border-divider;
+}
+
+.preview-canvas-container {
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
+}

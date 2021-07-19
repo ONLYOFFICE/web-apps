@@ -63,8 +63,7 @@ define([
             canViewReview,
             arrChangeReview = [],
             dateChange = [],
-            _fileKey,
-            _currentUserGroups;
+            _fileKey;
 
 
         return {
@@ -88,6 +87,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                 this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                 this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
@@ -114,18 +114,6 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
-
-                if (mode && mode.canUseReviewPermissions) {
-                    var permissions = mode.customization.reviewPermissions,
-                        arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(mode.user.fullname);
-                    groups && groups.forEach(function(group) {
-                        var item = permissions[group.trim()];
-                        item && (arr = arr.concat(item));
-                    });
-                    _currentUserGroups = arr;
-                }
-
                 return this;
             },
 
@@ -229,6 +217,13 @@ define([
                     me.initComments();
                     Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
+                    var length = 0;
+                    _.each(editUsers, function (item) {
+                        if ((item.asc_getState()!==false) && !item.asc_getView())
+                            length++;
+                    });
+                    (length<1) && $('#item-edit-users').hide();
+
                     if(editor === 'DE' && !this.appConfig.canReview && !canViewReview) {
                         $('#reviewing-settings').hide();
                     }
@@ -241,16 +236,27 @@ define([
                 editUsers = users;
             },
 
+            onUserConnection: function(change){
+                var changed = false;
+                for (var uid in editUsers) {
+                    if (undefined !== uid) {
+                        var user = editUsers[uid];
+                        if (user && user.asc_getId() == change.asc_getId()) {
+                            editUsers[uid] = change;
+                            changed = true;
+                        }
+                    }
+                }
+                !changed && change && (editUsers[change.asc_getId()] = change);
+            },
+
             getUsersInfo: function() {
+                var me = this;
                 var usersArray = [];
                 _.each(editUsers, function(item){
                     var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
-                    var fio = name.split(' ');
-                    var initials = fio[0].substring(0, 1).toUpperCase();
-                    if (fio.length > 1) {
-                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
-                    }
-                    if(!item.asc_getView()) {
+                    var initials = me.getInitials(name);
+                    if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
                             color: item.asc_getColor(),
                             id: item.asc_getId(),
@@ -296,7 +302,9 @@ define([
 
             initReviewingSettingsView: function () {
                 var me = this;
-                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
+
+                var trackChanges = typeof (this.appConfig.customization) == 'object' ? this.appConfig.customization.trackChanges : undefined;
+                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
@@ -317,6 +325,9 @@ define([
                 if (this.appConfig.canUseReviewPermissions) {
                     $('#settings-accept-all').hide();
                     $('#settings-reject-all').hide();
+                }
+                if (this.appConfig.isRestrictedEdit) {
+                    $('#display-mode-settings').hide();
                 }
             },
 
@@ -384,6 +395,7 @@ define([
                 }
                 !suppressEvent && this.initReviewingSettingsView();
                 DE.getController('Toolbar').setDisplayMode(displayMode);
+                DE.getController('DocumentHolder').setDisplayMode(displayMode);
             },
 
 
@@ -700,7 +712,7 @@ define([
 
             checkUserGroups: function(username) {
                 var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, groups).length>0);
+                return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {
@@ -764,8 +776,11 @@ define([
             getInitials: function(name) {
                 var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
-                if (fio.length > 1) {
-                    initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                for (var i=fio.length-1; i>0; i--) {
+                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
+                        initials += fio[i].substring(0, 1).toUpperCase();
+                        break;
+                    }
                 }
                 return initials;
             },
@@ -805,18 +820,12 @@ define([
                     me.indexCurrentComment = 0;
                     me.updateViewComment();
                 }
-                if (window.SSE) {
-                    SSE.getController('AddOther').setHideAddComment(true);
-                }
             },
 
             apiHideComments: function() {
                 if ($('.container-view-comment').length > 0) {
                     uiApp.closeModal();
                     $('.container-view-comment').remove();
-                }
-                if (window.SSE) {
-                    SSE.getController('AddOther').setHideAddComment(false);
                 }
             },
 
@@ -832,7 +841,7 @@ define([
                         }
                     } else {
                         $('.comment-resolve, .comment-menu, .add-reply, .reply-menu').removeClass('disabled');
-                        if (this.showComments.length > 1) {
+                        if (this.showComments && this.showComments.length > 1) {
                             $('.prev-comment, .next-comment').removeClass('disabled');
                         }
                     }
@@ -844,7 +853,7 @@ define([
                 $('.comment-menu').single('click', _.buffered(this.initMenuComments, 100, this));
                 $('.reply-menu').single('click', _.buffered(this.initReplyMenu, 100, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
-                if (this.showComments.length === 1) {
+                if (this.showComments && this.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
             },
@@ -871,28 +880,31 @@ define([
                     });
                     mainView.hideNavbar();
                 } else {
-                    me.modalViewComment = uiApp.popover(
-                        '<div class="popover container-view-comment">' +
-                        '<div class="popover-inner">' +
-                        me.view.getTemplateContainerViewComments() +
-                        '</div>' +
-                        '</div>',
-                        $$('#toolbar-collaboration')
-                    );
-                    this.picker = $$(me.modalViewComment);
-                    var $overlay = $('.modal-overlay');
-
-                    $$(this.picker).on('opened', function () {
-                        $overlay.on('removeClass', function () {
-                            if (!$overlay.hasClass('modal-overlay-visible')) {
-                                $overlay.addClass('modal-overlay-visible')
-                            }
+                    if (!me.openModal) {
+                        me.modalViewComment = uiApp.popover(
+                            '<div class="popover container-view-comment">' +
+                            '<div class="popover-inner">' +
+                            me.view.getTemplateContainerViewComments() +
+                            '</div>' +
+                            '</div>',
+                            $$('#toolbar-collaboration')
+                        );
+                        this.picker = $$(me.modalViewComment);
+                        var $overlay = $('.modal-overlay');
+                        me.openModal = true;
+                        $$(this.picker).on('opened', function () {
+                            $overlay.on('removeClass', function () {
+                                if (!$overlay.hasClass('modal-overlay-visible')) {
+                                    $overlay.addClass('modal-overlay-visible')
+                                }
+                            });
+                        }).on('close', function () {
+                            $overlay.off('removeClass');
+                            $overlay.removeClass('modal-overlay-visible');
+                            $('.popover').remove();
+                            me.openModal = false;
                         });
-                    }).on('close', function () {
-                        $overlay.off('removeClass');
-                        $overlay.removeClass('modal-overlay-visible');
-                        $('.popover').remove();
-                    });
+                    }
                 }
                 me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
@@ -902,7 +914,7 @@ define([
                 $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                 $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
 
-                if (me.showComments.length === 1) {
+                if (me.showComments && me.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
 
@@ -979,7 +991,7 @@ define([
             },
 
             onViewPrevComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment - 1 < 0) {
                         this.indexCurrentComment = this.showComments.length - 1;
                     } else {
@@ -996,7 +1008,7 @@ define([
             },
 
             onViewNextComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment + 1 === this.showComments.length) {
                         this.indexCurrentComment = 0;
                     } else {
@@ -1119,7 +1131,7 @@ define([
                         var me = this;
                         _.delay(function () {
                             var _menuItems = [];
-                            _menuItems.push({
+                            comment.editable && _menuItems.push({
                                 caption: me.textEdit,
                                 event: 'edit'
                             });
@@ -1140,7 +1152,7 @@ define([
                                     event: 'addreply'
                                 });
                             }
-                            _menuItems.push({
+                            comment.removable && _menuItems.push({
                                 caption: me.textDeleteComment,
                                 event: 'delete',
                                 color: 'red'
@@ -1178,13 +1190,15 @@ define([
                     if (_.isNumber(idComment)) {
                         idComment = idComment.toString();
                     }
-                    _.delay(function () {
+                    var comment = this.findComment(idComment);
+                    var reply = comment && comment.replys ? comment.replys[ind] : null;
+                    reply && _.delay(function () {
                         var _menuItems = [];
-                        _menuItems.push({
+                        reply.editable && _menuItems.push({
                             caption: me.textEdit,
                             event: 'editreply'
                         });
-                        _menuItems.push({
+                        reply.removable && _menuItems.push({
                             caption: me.textDeleteReply,
                             event: 'deletereply',
                             color: 'red'
@@ -1336,8 +1350,11 @@ define([
             onEditComment: function(comment) {
                 var value = $('#comment-text')[0].value.trim();
                 if (value && value.length > 0) {
+                    this.getCurrentUser();
                     if (!_.isUndefined(this.onChangeComment)) {
                         comment.comment = value;
+                        comment.userid = this.currentUser.asc_getIdOriginal();
+                        comment.username = this.currentUser.asc_getUserName();
                         this.onChangeComment(comment);
                     }
                     if ($('.container-view-comment').length > 0) {
@@ -1416,9 +1433,12 @@ define([
             onEditReply: function(comment, indReply) {
                 var value = $('.edit-reply-textarea')[0].value.trim();
                 if (value && value.length > 0) {
+                    this.getCurrentUser();
                     if ($('.container-view-comment').length > 0) {
                         if (!_.isUndefined(this.onChangeComment)) {
                             comment.replys[indReply].reply = value;
+                            comment.replys[indReply].userid = this.currentUser.asc_getIdOriginal();
+                            comment.replys[indReply].username = this.currentUser.asc_getUserName();
                             this.onChangeComment(comment);
                         }
                         if (Common.SharedSettings.get('phone')) {
@@ -1435,6 +1455,8 @@ define([
                     } else {
                         if (!_.isUndefined(this.onChangeComment)) {
                             comment.replys[indReply].reply = value;
+                            comment.replys[indReply].userid = this.currentUser.asc_getIdOriginal();
+                            comment.replys[indReply].username = this.currentUser.asc_getUserName();
                             this.onChangeComment(comment);
                         }
                         rootView.router.back();
@@ -1509,7 +1531,9 @@ define([
                         date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-                        var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        var user = _.find(editUsers, function(item){
+                            return (item.asc_getIdOriginal()==data.asc_getReply(i).asc_getUserId());
+                        });
                         var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                  : i,
@@ -1520,7 +1544,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                 }
@@ -1530,8 +1555,10 @@ define([
             readSDKComment: function(id, data) {
                 var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                     ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
-                var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()}),
-                    groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
+                var user = _.find(editUsers, function(item){
+                    return (item.asc_getIdOriginal()==data.asc_getUserId());
+                });
+                var groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
                 var username = data.asc_getUserName();
                 var comment = {
                     uid                 : id,
@@ -1547,7 +1574,8 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId),
+                    removable           : this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1572,7 +1600,9 @@ define([
                     date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                         ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
-                    var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()});
+                    var user = _.find(editUsers, function(item){
+                        return (item.asc_getIdOriginal()==data.asc_getUserId());
+                    });
                     comment.comment = data.asc_getText();
                     comment.userid = data.asc_getUserId();
                     comment.username = data.asc_getUserName();
@@ -1581,6 +1611,8 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
+                    comment.editable = me.appConfig.canEditComments || (data.asc_getUserId() == _userId);
+                    comment.removable = me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId);
 
                     replies = _.clone(comment.replys);
 
@@ -1592,7 +1624,9 @@ define([
                         dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-                        user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        user = _.find(editUsers, function(item){
+                            return (item.asc_getIdOriginal()==data.asc_getReply(i).asc_getUserId());
+                        });
                         var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                 : i,
@@ -1603,7 +1637,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : me.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                            editable            : me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                     comment.replys = replies;

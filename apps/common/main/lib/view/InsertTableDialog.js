@@ -107,6 +107,14 @@ define([
 //            this.udRows.on('entervalue', _.bind(this.onPrimary, this));
         },
 
+        getFocusedComponents: function() {
+            return [this.udColumns, this.udRows];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.udColumns;
+        },
+
         onBtnClick: function(event) {
             if (this.options.handler) {
                 this.options.handler.call(this, event.currentTarget.attributes['result'].value, {

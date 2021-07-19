@@ -413,9 +413,11 @@ define([
 
         SetDisabled: function(disable) {
             var _btn_save = this.getButton('save'),
-                _btn_rename = this.getButton('rename');
+                _btn_rename = this.getButton('rename'),
+                _btn_protect = this.getButton('protect');
 
             _btn_save[(disable || !this.mode.isEdit)?'hide':'show']();
+            _btn_protect[(disable || !this.mode.isEdit)?'hide':'show']();
             _btn_rename[(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
         },
 
@@ -440,7 +442,7 @@ define([
                 } else
                 if (type == 'rename') {
                     return this.miRename;
-                 }else
+                }else
                 if (type == 'protect') {
                     return this.miProtect;
                 }

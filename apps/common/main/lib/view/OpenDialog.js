@@ -59,7 +59,7 @@ define([
                 width = 414;
                 height = 277;
             } else {
-                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 262);
+                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
                 height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
             }
 
@@ -68,6 +68,7 @@ define([
                 preview         : options.preview,
                 warning         : options.warning,
                 codepages       : options.codepages,
+                warningMsg      : options.warningMsg,
                 width           : width,
                 height          : height,
                 header          : true,
@@ -85,13 +86,13 @@ define([
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon img-commonctrl warn"></div>',
-                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + t.txtProtected+ '</div>',
+                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
                         '<% } else { %>',
                         '<div>',
-                            '<label class="header">' + t.txtPassword + '</label>',
+                            '<label class="">' + t.txtOpenFile + '</label>',
                             '<div id="id-password-txt"></div>',
                         '</div>',
                         '<% } %>',
@@ -506,7 +507,8 @@ define([
         txtColon: 'Colon',
         txtSemicolon: 'Semicolon',
         txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset.',
-        txtAdvanced: 'Advanced'
+        txtAdvanced: 'Advanced',
+        txtOpenFile: "Enter a password to open the file"
 
     }, Common.Views.OpenDialog || {}));
 });

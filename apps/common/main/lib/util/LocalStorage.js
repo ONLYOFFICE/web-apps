@@ -98,12 +98,19 @@ define(['gateway'], function () {
             var value = _getItem(name);
             defValue = defValue || false;
             return (value!==null) ? (parseInt(value) != 0) : defValue;
-        }
+        };
 
         var _getItemExists = function (name) {
             var value = _getItem(name);
             return value !== null;
-        }
+        };
+
+        var _removeItem = function(name) {
+            if (_lsAllowed)
+                localStorage.removeItem(name);
+            else
+                delete _store[name];
+        };
 
         try {
             var _lsAllowed = !!window.localStorage;
@@ -122,6 +129,7 @@ define(['gateway'], function () {
             getBool: _getItemAsBool,
             setBool: _setItemAsBool,
             setItem: _setItem,
+            removeItem: _removeItem,
             setKeysFilter: function(value) {
                 _filter = value;
             },

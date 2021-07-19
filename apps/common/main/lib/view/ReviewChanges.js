@@ -57,7 +57,7 @@ define([
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -70,7 +70,7 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask" style="padding-left: 0;">' +
+                '<div class="group no-group-mask review" style="padding-left: 0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="group move-changes" style="padding-left: 0;">' +
@@ -84,21 +84,14 @@ define([
                     '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review form-view">' +
                     '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long chat"></div>' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review form-view">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
             '</section>';
-
-        function _click_turnpreview(btn, e) {
-            if (this.appConfig.canReview) {
-                Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
-                Common.NotificationCenter.trigger('edit:complete');
-            }
-        };
 
         function setEvents() {
             var me = this;
@@ -131,7 +124,36 @@ define([
                 }
 
                 this.btnsTurnReview.forEach(function (button) {
-                    button.on('click', _click_turnpreview.bind(me));
+                    button.on('click', function (btn, e) {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed);
+                        Common.NotificationCenter.trigger('edit:complete');
+                    });
+                    !me.appConfig.isReviewOnly && button.menu.on('item:toggle', function (menu, item, state, e) {
+                        if (!!state) {
+                            if (item.value==2) // ON track changes for everyone
+                                Common.UI.warning({
+                                    title: me.textWarnTrackChangesTitle,
+                                    msg: me.textWarnTrackChanges,
+                                    maxwidth: 600,
+                                    buttons: [{
+                                        value: 'enable',
+                                        caption: me.textEnable
+                                    }, 'cancel'],
+                                    primary: 'enable',
+                                    callback: function(btn){
+                                        if (btn == 'enable') {
+                                            Common.NotificationCenter.trigger('reviewchanges:turn', item.value==0 || item.value==2, item.value>1);
+                                        } else {
+                                            var old = Common.Utils.InternalSettings.get(me.appPrefix + "track-changes");
+                                            me.turnChanges(old==0 || old==2, old>1);
+                                        }
+                                        Common.NotificationCenter.trigger('edit:complete');
+                                    }
+                                });
+                            else
+                                Common.NotificationCenter.trigger('reviewchanges:turn', item.value==0 || item.value==2, item.value>1);
+                        }
+                    });
                 });
             }
             if (this.appConfig.canViewReview) {
@@ -225,6 +247,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-review',
                         caption: this.txtTurnon,
+                        split: !this.appConfig.isReviewOnly,
                         enableToggle: true
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
@@ -356,6 +379,39 @@ define([
                         '<% } %></a>');
 
                     if ( config.canReview ) {
+                        var idx = Common.Utils.InternalSettings.get(me.appPrefix + "track-changes");
+                        !config.isReviewOnly && me.btnTurnOn.setMenu(
+                            new Common.UI.Menu({items: [
+                                {
+                                    caption: me.txtOn,
+                                    value: 0,
+                                    checkable: true,
+                                    checked: idx==0,
+                                    toggleGroup: 'menuTurnReviewTlb'
+                                },
+                                {
+                                    caption: me.txtOff,
+                                    value: 1,
+                                    checkable: true,
+                                    checked: idx==1,
+                                    toggleGroup: 'menuTurnReviewTlb'
+                                },
+                                {
+                                    caption: me.txtOnGlobal,
+                                    value: 2,
+                                    checkable: true,
+                                    checked: idx==2,
+                                    toggleGroup: 'menuTurnReviewTlb'
+                                },
+                                {
+                                    caption: me.txtOffGlobal,
+                                    value: 3,
+                                    checkable: true,
+                                    checked: idx==3,
+                                    toggleGroup: 'menuTurnReviewTlb'
+                                }
+                            ]})
+                        );
                         me.btnTurnOn.updateHint(me.tipReview);
 
                         if (!me.appConfig.canUseReviewPermissions) {
@@ -457,7 +513,7 @@ define([
                     if (me.btnCommentRemove) {
                         var items = [
                             {
-                                caption: config.canEditComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
+                                caption: config.canDeleteComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
                                 value: 'current'
                             },
                             {
@@ -465,7 +521,7 @@ define([
                                 value: 'my'
                             }
                         ];
-                        if (config.canEditComments)
+                        if (config.canDeleteComments)
                             items.push({
                                 caption: me.txtCommentRemAll,
                                 value: 'all'
@@ -551,7 +607,37 @@ define([
                         iconCls     : 'toolbar__icon btn-ic-review',
                         hintAnchor  : 'top',
                         hint        : this.tipReview,
-                        enableToggle: true
+                        split       : !this.appConfig.isReviewOnly,
+                        enableToggle: true,
+                        menu: this.appConfig.isReviewOnly ? false : new Common.UI.Menu({
+                            menuAlign: 'bl-tl',
+                            style: 'margin-top:-5px;',
+                            items: [
+                            {
+                                caption: this.txtOn,
+                                value: 0,
+                                checkable: true,
+                                toggleGroup: 'menuTurnReviewStb'
+                            },
+                            {
+                                caption: this.txtOff,
+                                value: 1,
+                                checkable: true,
+                                toggleGroup: 'menuTurnReviewStb'
+                            },
+                            {
+                                caption: this.txtOnGlobal,
+                                value: 2,
+                                checkable: true,
+                                toggleGroup: 'menuTurnReviewStb'
+                            },
+                            {
+                                caption: this.txtOffGlobal,
+                                value: 3,
+                                checkable: true,
+                                toggleGroup: 'menuTurnReviewStb'
+                            }
+                        ]})
                     });
 
                     this.btnsTurnReview.push(button);
@@ -587,10 +673,16 @@ define([
                 return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
             },
 
-            turnChanges: function(state) {
+            turnChanges: function(state, global) {
                 this.btnsTurnReview.forEach(function(button) {
                     if ( button && button.pressed != state ) {
                         button.toggle(state, true);
+                    }
+                    if (button.menu) {
+                        button.menu.items[0].setChecked(state && !global, true);
+                        button.menu.items[1].setChecked(!state && !global, true);
+                        button.menu.items[2].setChecked(state && !!global, true);
+                        button.menu.items[3].setChecked(!state && !!global, true);
                     }
                 }, this);
             },
@@ -647,7 +739,7 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
-                this.btnChat && this.btnChat.setDisabled(state);
+                // this.btnChat && this.btnChat.setDisabled(state);
 
                 this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },
@@ -711,7 +803,14 @@ define([
             txtCommentRemCurrent: 'Remove Current Comments',
             txtCommentRemMyCurrent: 'Remove My Current Comments',
             txtCommentRemMy: 'Remove My Comments',
-            txtCommentRemAll: 'Remove All Comments'
+            txtCommentRemAll: 'Remove All Comments',
+            txtOnGlobal: 'ON for me and everyone',
+            txtOffGlobal: 'OFF for me and everyone',
+            txtOn: 'ON for me',
+            txtOff: 'OFF for me',
+            textWarnTrackChangesTitle: 'Enable Track Changes for everyone?',
+            textWarnTrackChanges: 'Track Changes will be switched ON for all users with full access. The next time anyone opens the doc, Track Changes will remain enabled.',
+            textEnable: 'Enable'
         }
     }()), Common.Views.ReviewChanges || {}));
 

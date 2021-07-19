@@ -41,12 +41,15 @@ define([
 ], function () {
     'use strict';
 
-    var native = window.AscDesktopEditor;
-    !!native && native.execCommand('webapps:features', JSON.stringify({
+    var features = {
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
-        titlebuttons: true
-    }));
+        titlebuttons: true,
+        uithemes: true
+    };
+
+    var native = window.desktop || window.AscDesktopEditor;
+    !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
         var config = {version:'{{PRODUCT_VERSION}}'};
@@ -78,28 +81,14 @@ define([
                 } else
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
-
-                    if ( obj.canUndock == 'true' ) {
-                        if ( !config.canUndock ) {
-                            config.canUndock = true;
-
-                            if ( !_.isEmpty(config) )
-                                Common.NotificationCenter.trigger('app:config', {canUndock:true});
-                        }
-                    }
-
                     if (_.isNumber(obj.skiptoparea)) {
                         if ( $('.asc-window.modal').length && $('.asc-window.modal').position().top < obj.skiptoparea )
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
-                    }
-                } else
-                if (/window:status/.test(cmd)) {
-                    var obj = JSON.parse(param);
-
-                    if ( obj.action == 'undocking' ) {
-                        Common.NotificationCenter.trigger('undock:status', {status:obj.status=='undocked'?'undocked':'docked'});
+                    } else
+                    if ( obj.lockthemes != undefined ) {
+                        Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -128,9 +117,12 @@ define([
                 } else
                 if (/button:click/.test(cmd)) {
                     var obj = JSON.parse(param);
-                    if ( !!obj.action ) {
+                    if ( !!obj.action && !!titlebuttons[obj.action] ) {
                         titlebuttons[obj.action].btn.click();
                     }
+                } else
+                if (/theme:changed/.test(cmd)) {
+                    Common.UI.Themes.setTheme(param);
                 } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
@@ -148,7 +140,7 @@ define([
                 }
             }
 
-            native.execCommand('webapps:features', JSON.stringify({version: config.version, eventloading:true, titlebuttons:true}));
+            native.execCommand('webapps:features', JSON.stringify(features));
 
             // hide mask for modal window
             var style = document.createElement('style');
@@ -209,17 +201,10 @@ define([
                         }
                     });
 
-                    Common.NotificationCenter.on('action:undocking', function (opts) {
-                        native.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
-                    });
-
                     Common.NotificationCenter.on('app:face', function (mode) {
-                        if ( config.canUndock ) {
-                            Common.NotificationCenter.trigger('app:config', {canUndock: true});
-                        }
-
-                        native.execCommand('webapps:features', JSON.stringify(
-                            {version: config.version, eventloading:true, titlebuttons:true, viewmode:!mode.isEdit, crypted:mode.isCrypted} ));
+                        features.viewmode = !mode.isEdit;
+                        features.crypted = mode.isCrypted;
+                        native.execCommand('webapps:features', JSON.stringify(features));
 
                         titlebuttons = {};
                         if ( mode.isEdit ) {
@@ -260,6 +245,9 @@ define([
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close')
+                        , 'uitheme:changed' : function (name) {
+                            native.execCommand("uitheme:changed", name);
+                        }
                     });
                 }
             },

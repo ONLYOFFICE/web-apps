@@ -222,6 +222,12 @@ define([
                             this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
                         } else {
                             tab.changeState();
+                            if (this.bar.isEditFormula)
+                                setTimeout(function(){
+                                    $('#ce-cell-content').focus();
+                                    var $cellContent = $('#ce-cell-content')[0];
+                                    $cellContent.selectionStart = $cellContent.selectionEnd = $cellContent.value.length;
+                                }, 500);
                         }
                     }
                 }
@@ -250,31 +256,58 @@ define([
                 } else {
                     this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
-                this.bar.trigger('tab:drag', this.bar.selectTabs);
+                if ($('#ce-cell-content').is(':focus'))
+                    if (!this.bar.isEditFormula) {
+                        $('#ce-cell-content').blur();
+                    } else {
+                        setTimeout(function () {
+                            $('#ce-cell-content').focus();
+                        }, 500)
+                    }
             }, this)
         });
         tab.$el.children().on(
             {dragstart: $.proxy(function (e) {
-                var event = e.originalEvent,
-                    img = document.createElement('div');
-                event.dataTransfer.setDragImage(img, 0, 0);
+                var event = e.originalEvent;
+                if (!Common.Utils.isIE) {
+                    var img = document.createElement('div');
+                    event.dataTransfer.setDragImage(img, 0, 0);
+                } else {
+                    this.bar.selectTabs.forEach(function (tab) {
+                        tab.$el.find('span').prop('title', '');
+                    });
+                }
                 event.dataTransfer.effectAllowed = 'move';
                 this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
             }, this),
             dragenter: $.proxy(function (e) {
-                this.bar.$el.find('.mousemove').removeClass('mousemove right');
-                $(e.currentTarget).parent().addClass('mousemove');
                 var event = e.originalEvent;
-                var data = event.dataTransfer.getData("onlyoffice");
-                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                    var data;
+                    if (!Common.Utils.isIE) {
+                        data = event.dataTransfer.getData('onlyoffice');
+                        event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                    } else {
+                        data = event.dataTransfer.getData('text');
+                        event.dataTransfer.dropEffect = data === 'sheet' ? 'move' : 'none';
+                    }
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
             }, this),
             dragover: $.proxy(function (e) {
                 var event = e.originalEvent;
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                this.bar.$el.find('.mousemove').removeClass('mousemove right');
-                $(e.currentTarget).parent().addClass('mousemove');
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
                 return false;
             }, this),
             dragleave: $.proxy(function (e) {
@@ -335,15 +368,21 @@ define([
                 event.dataTransfer.effectAllowed = 'move';
             }, this));
             addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
-                var data = event.dataTransfer.getData("onlyoffice");
-                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                var data;
+                if (!Common.Utils.isIE) {
+                    data = event.dataTransfer.getData('onlyoffice');
+                    event.dataTransfer.dropEffect = (!this.isEditFormula && data) ? 'move' : 'none';
+                } else {
+                    data = event.dataTransfer.getData('text');
+                    event.dataTransfer.dropEffect = (data === 'sheet' && !this.isEditFormula) ? 'move' : 'none';
+                }
             }, this));
             addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                event.dataTransfer.dropEffect = 'move';
-                this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
+                event.dataTransfer.dropEffect = !this.isEditFormula ? 'move' : 'none';
+                !this.isEditFormula && this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
                 return false;
             }, this));
             addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {
@@ -351,10 +390,9 @@ define([
                 this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
             }, this));
             addEvent(this.$bar[0], 'drop', _.bind(function (event) {
-                var index = this.tabs.length;
                 this.$el.find('.mousemove').removeClass('mousemove right');
                 if (this.isDrop === undefined) {
-                    this.trigger('tab:drop', event.dataTransfer, index);
+                    this.trigger('tab:drop', event.dataTransfer, 'last');
                 } else {
                     this.isDrop = undefined;
                 }
@@ -374,7 +412,7 @@ define([
 
         _onMouseWheel: function(e) {
             var hidden  = this.checkInvisible(true),
-                forward = ((e.detail && -e.detail) || e.wheelDelta) > 0;
+                forward = ((e.detail && -e.detail) || e.wheelDelta) < 0;
 
             if (forward) {
                 if (hidden.last) {
@@ -543,12 +581,17 @@ define([
                 this.checkInvisible(suppress);
             } else if ( index >= (this.tabs.length - 1) || index == 'last') {
                 var tab = this.tabs[this.tabs.length-1].$el;
+                if (this.$bar.find('.separator-item').length === 0) {
+                    this.$bar.append('<li class="separator-item"><span></span></li>');
+                }
                 this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
                 this.checkInvisible(suppress);
             } else {
+                if (!this.isTabVisible(this.tabs.length - 1) && this.$bar.find('.separator-item').length === 0) {
+                    this.$bar.append('<li class="separator-item"><span></span></li>');
+                }
                 var rightbound = this.$bar.width(),
                     tab, right, left;
-
                 if (index == 'forward') {
                     for (var i = 0; i < this.tabs.length; i++) {
                         tab = this.tabs[i].$el;
@@ -624,7 +667,7 @@ define([
                 //left = tab.position().left;
                 //right = left + tab.width();
 
-                return !(left < leftbound) && !(right - rightbound > 0.1);
+                return !(left < leftbound) && !(right - rightbound > 0.5);
             }
 
             return false;

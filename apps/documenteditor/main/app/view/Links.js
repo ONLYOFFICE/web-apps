@@ -56,11 +56,17 @@ define([
                 button.on('click', function (b, e) {
                     me.fireEvent('links:contents', [0]);
                 });
+                button.menu.on('show:after', function (menu, e) {
+                    me.fireEvent('links:contents-open', [menu]);
+                });
             });
             this.contentsMenu.on('item:click', function (menu, item, e) {
                 setTimeout(function(){
                     me.fireEvent('links:contents', [item.value, true]);
                 }, 10);
+            });
+            this.contentsMenu.on('show:after', function (menu, e) {
+                me.fireEvent('links:contents-open', [menu]);
             });
 
             this.btnContentsUpdate.menu.on('item:click', function (menu, item, e) {
@@ -124,6 +130,18 @@ define([
             this.btnCaption.on('click', function (b, e) {
                 me.fireEvent('links:caption');
             });
+
+            this.btnCrossRef.on('click', function (b, e) {
+                me.fireEvent('links:crossref');
+            });
+
+            this.btnTableFigures.on('click', function (b, e) {
+                me.fireEvent('links:tof');
+            });
+
+            this.btnTableFiguresUpdate.on('click', function (b, e) {
+                me.fireEvent('links:tof-update');
+            });
         }
 
         return {
@@ -177,6 +195,33 @@ define([
                 });
                 this.paragraphControls.push(this.btnCaption);
 
+                this.btnCrossRef = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-crossref'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-cross-reference',
+                    caption: this.capBtnCrossRef,
+                    disabled: true
+                });
+                this.paragraphControls.push(this.btnCrossRef);
+
+                this.btnTableFigures = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-tof'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-contents',
+                    caption: this.capBtnTOF,
+                    disabled: true
+                });
+                this.paragraphControls.push(this.btnTableFigures);
+
+                this.btnTableFiguresUpdate = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-tof-update'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-update',
+                    caption: this.capBtnContentsUpdate,
+                    disabled: true
+                });
+                this.paragraphControls.push(this.btnTableFiguresUpdate);
+
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -190,15 +235,15 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div id="<%= options.previewId %>"></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
                             cls: 'toc-menu shifted-left',
                             items: [
-                                {template: contentsTemplate, offsety: 0, value: 0},
-                                {template: contentsTemplate, offsety: 72, value: 1},
+                                {template: contentsTemplate, offsety: 0, value: 0, previewId: 'id-toolbar-toc-0'},
+                                {template: contentsTemplate, offsety: 72, value: 1, previewId: 'id-toolbar-toc-1'},
                                 {caption: me.textContentsSettings, value: 'settings'},
                                 {caption: me.textContentsRemove, value: 'remove'}
                             ]
@@ -210,8 +255,8 @@ define([
                     me.contentsMenu = new Common.UI.Menu({
                         cls: 'toc-menu shifted-left',
                         items: [
-                            {template: contentsTemplate, offsety: 0, value: 0},
-                            {template: contentsTemplate, offsety: 72, value: 1},
+                            {template: contentsTemplate, offsety: 0, value: 0, previewId: 'id-toolbar-toc-menu-0'},
+                            {template: contentsTemplate, offsety: 72, value: 1, previewId: 'id-toolbar-toc-menu-1'},
                             {caption: me.textContentsSettings, value: 'settings'},
                             {caption: me.textContentsRemove, value: 'remove'}
                         ]
@@ -308,6 +353,10 @@ define([
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
                     me.btnCaption.updateHint(me.tipCaption);
+                    me.btnCrossRef.updateHint(me.tipCrossRef);
+
+                    me.btnTableFigures.updateHint(me.tipTableFigures);
+                    me.btnTableFiguresUpdate.updateHint(me.tipTableFiguresUpdate);
 
                     setEvents.call(me);
                 });
@@ -357,7 +406,14 @@ define([
             mniInsEndnote: 'Insert Endnote',
             textConvertToEndnotes: 'Convert All Footnotes to Endnotes',
             textConvertToFootnotes: 'Convert All Endnotes to Footnotes',
-            textSwapNotes: 'Swap Footnotes and Endnotes'
+            textSwapNotes: 'Swap Footnotes and Endnotes',
+            capBtnCrossRef: 'Cross-reference',
+            tipCrossRef: 'Insert cross-reference',
+            capBtnTOF: 'Table of Figures',
+            tipTableFiguresUpdate: 'Refresh table of figures',
+            tipTableFigures: 'Insert table of figures',
+            confirmReplaceTOF: 'Do you want to replace the selected table of figures?',
+            titleUpdateTOF: 'Refresh Table of Figures'
         }
     }()), DE.Views.Links || {}));
 });

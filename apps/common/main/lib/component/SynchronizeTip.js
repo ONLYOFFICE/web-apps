@@ -43,7 +43,7 @@ define([
             options : {
                 target  : $(document.body),
                 text    : '',
-                placement: 'right',
+                placement: 'right-bottom',
                 showLink: true
             },
 
@@ -53,7 +53,7 @@ define([
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
                             '<div class="tip-text"><%= scope.text %></div>',
-                            '<div class="close img-commonctrl"></div>',
+                            '<div class="close"></div>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
                         '<div class="show-link"><label><%= scope.textLink %></label></div>',
@@ -96,6 +96,7 @@ define([
 
             hide: function() {
                 if (this.cmpEl) this.cmpEl.hide();
+                this.trigger('hide');
             },
 
             close: function() {
@@ -103,23 +104,48 @@ define([
             },
 
             applyPlacement: function () {
-                var showxy = this.target.offset(),
-                    innerHeight = Common.Utils.innerHeight();
+                var showxy = this.target.offset();
+                if (this.placement=='target') {
+                    this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
+                    return;
+                }
 
-                if (this.placement == 'document') {
-                    // this.cmpEl.css('top', $('#editor_sdk').offset().top);
-                } else
-                if (this.placement == 'top')
-                    this.cmpEl.css({bottom : innerHeight - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
-                else {// left or right
-                    var top = showxy.top + this.target.height()/2,
-                        height = this.cmpEl.height();
-                    if (top+height>innerHeight)
-                        top = innerHeight - height;
-                    if (this.placement == 'left')
-                        this.cmpEl.css({top : top + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
-                    else
-                        this.cmpEl.css({top : top + 'px', left: showxy.left + this.target.width() + 'px'});
+                var placement = this.placement.split('-');
+                if (placement.length>0) {
+                    var top, left, bottom, right;
+                    var pos = placement[0];
+                    if (pos=='top') {
+                        bottom = Common.Utils.innerHeight() - showxy.top;
+                    } else if (pos == 'bottom') {
+                        top = showxy.top + this.target.height();
+                    } else if (pos == 'left') {
+                        right = Common.Utils.innerWidth() - showxy.left;
+                    } else if (pos == 'right') {
+                        left = showxy.left + this.target.width();
+                    }
+                    pos = placement[1];
+                    if (pos=='top') {
+                        bottom = Common.Utils.innerHeight() - showxy.top - this.target.height()/2;
+                    } else if (pos == 'bottom') {
+                        top = showxy.top + this.target.height()/2;
+                        var height = this.cmpEl.height();
+                        if (top+height>Common.Utils.innerHeight())
+                            top = Common.Utils.innerHeight() - height - 10;
+                    } else if (pos == 'left') {
+                        right = Common.Utils.innerWidth() - showxy.left - this.target.width()/2;
+                    } else if (pos == 'right') {
+                        left = showxy.left + this.target.width()/2;
+                    } else {
+                        if (bottom!==undefined || top!==undefined)
+                            left = showxy.left + (this.target.width() - this.cmpEl.width())/2;
+                        else
+                            top = showxy.top + (this.target.height() - this.cmpEl.height())/2;
+                    }
+                    top = (top!==undefined) ? (top + 'px') : 'auto';
+                    bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';
+                    left = (left!==undefined) ? (left + 'px') : 'auto';
+                    right = (right!==undefined) ? (right + 'px') : 'auto';
+                    this.cmpEl.css({top : top, left: left, right: right, bottom: bottom});
                 }
             },
 

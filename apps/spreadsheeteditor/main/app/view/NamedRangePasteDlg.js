@@ -95,7 +95,7 @@ define([
                     '<div style="pointer-events:none;">',
                         '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:inline-block;">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
-                            '<div style="width:186px;padding-right: 5px;"><%= name %></div>',
+                            '<div style="width:186px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '</div>',
                     '</div>'
                 ].join(''))
@@ -141,7 +141,7 @@ define([
                 this.rangeList.scroller.update({alwaysVisibleY: true});
 
                 _.delay(function () {
-                    me.rangeList.cmpEl.find('.listview').focus();
+                    me.rangeList.focus();
                 }, 100, this);
             }
         },

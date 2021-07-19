@@ -226,7 +226,7 @@ define([
                 if (!config.isEdit) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
+                        if ((action=='plugins' || action=='review') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));
@@ -244,7 +244,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("pe-hidden-rulers", true),
+                    checked: Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
@@ -349,7 +349,7 @@ define([
         },
 
         onPreviewStart: function(slidenum, presenter) {
-            this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
+            this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
             
@@ -430,6 +430,7 @@ define([
             case 'rulers':
                 me.api.asc_SetViewRulers(!item.isChecked());
                 Common.localStorage.setBool('pe-hidden-rulers', item.isChecked());
+                Common.Utils.InternalSettings.set("pe-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;

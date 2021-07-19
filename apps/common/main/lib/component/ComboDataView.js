@@ -459,14 +459,21 @@ define([
             this.menuPicker.selectByIndex(index);
         },
 
+        selectRecord: function(record) {
+            if (!record)
+                this.fieldPicker.deselectAll();
+
+            this.menuPicker.selectRecord(record);
+        },
+
         setItemWidth: function(width) {
             if (this.itemWidth != width)
-                this.itemWidth = window.devicePixelRatio > 1 ? width / 2 : width;
+                this.itemWidth = Common.Utils.applicationPixelRatio() > 1 ? width / 2 : width;
         },
 
         setItemHeight: function(height) {
             if (this.itemHeight != height)
-                this.itemHeight = window.devicePixelRatio > 1 ? height / 2 : height;
+                this.itemHeight = Common.Utils.applicationPixelRatio() > 1 ? height / 2 : height;
         },
 
         removeTips: function() {

@@ -308,6 +308,8 @@ define([
                     $target = $(e.currentTarget),
                     type = $target.data('type');
 
+                if (!me._chartObject) return;
+                
                 var image = new Asc.asc_CImgProperty(),
                     chart = me._chartObject.get_ChartProperties();
 
@@ -489,7 +491,7 @@ define([
 
             onBorderColor: function (palette, color) {
                 var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                    currentShape = _shapeObject ? _shapeObject.get_ShapeProperties() : null;
 
                 $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
                 _borderColor = color;

@@ -60,11 +60,11 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 12px;">' +
+                '<div style="padding: 8px 12px 12px;">' +
                 '<% var me = this; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
-                    '<% } else if (me.isSeparator(item)) { %> </div><div class="palette-color-separator" style="width:100%;height:1px;float:left;border-bottom: 1px solid #E0E0E0"></div><div style="padding: 12px;">' +
+                    '<% } else if (me.isSeparator(item)) { %> </div><div class="divider" style="width:100%;float:left;"></div><div style="padding: 12px;">' +
                     '<% } else if (me.isColor(item)) { %> ' +
                         '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" hidefocus="on">' +
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +

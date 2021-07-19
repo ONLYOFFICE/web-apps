@@ -51,27 +51,44 @@ define([
     Common.UI.ComboBoxFonts = Common.UI.ComboBox.extend((function() {
         var iconWidth       = 302,
             iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 26,
-            isRetina        = window.devicePixelRatio > 1,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
-            thumbPath       = '../../../../sdkjs/common/Images/fonts_thumbnail.png',
-            thumbPath2x     = '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png',
-            listItemHeight  = 26;
+            thumbs       = [
+                {ratio: 1,      path: '../../../../sdkjs/common/Images/fonts_thumbnail.png', width: iconWidth, height: iconHeight},
+                {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
+                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2}
+            ],
+            thumbIdx = 0,
+            listItemHeight  = 26,
+            spriteCols     = 1,
+            applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
         if (typeof window['AscDesktopEditor'] === 'object') {
-            thumbPath       = window['AscDesktopEditor'].getFontsSprite();
-            thumbPath2x     = window['AscDesktopEditor'].getFontsSprite(true);
+            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite('');
+            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
+            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
         }
 
-        thumbCanvas.height  = isRetina ? iconHeight * 2 : iconHeight;
-        thumbCanvas.width   = isRetina ? iconWidth  * 2 : iconWidth;
+        var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
+        var currentDistance = 0;
+        for (var i=1; i<thumbs.length; i++) {
+            currentDistance = Math.abs(applicationPixelRatio-thumbs[i].ratio);
+            if (currentDistance < (bestDistance - 0.0001))
+            {
+                bestDistance = currentDistance;
+                thumbIdx = i;
+            }
+        }
+
+        thumbCanvas.height  = thumbs[thumbIdx].height;
+        thumbCanvas.width   = thumbs[thumbIdx].width;
 
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" spellcheck="false"> ',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
@@ -104,14 +121,17 @@ define([
 
             render : function(parentEl) {
                 var oldRawValue = null;
+                var oldTabindex = '';
 
                 if (!_.isUndefined(this._input)) {
                     oldRawValue = this._input.val();
+                    oldTabindex = this._input.attr('tabindex');
                 }
 
                 Common.UI.ComboBox.prototype.render.call(this, parentEl);
 
                 this.setRawValue(oldRawValue);
+                this._input.attr('tabindex', oldTabindex);
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
@@ -127,6 +147,8 @@ define([
                      if ($(e.target).closest('input').length) { // enter in input field
                         if (this.lastValue !== this._input.val())
                             this._input.trigger('change');
+                        else
+                            return true;
                     } else { // enter in dropdown list
                         $(e.target).click();
                         if (this.rendered) {
@@ -135,7 +157,7 @@ define([
                             else
                                 this._input.blur();
                         }
-                     }
+                    }
                     return false;
                 } else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);
@@ -198,7 +220,7 @@ define([
                         me.closeMenu();
                         me.onAfterHideMenu(e);
                     }, 10);
-                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT){
+                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT && e.keyCode != Common.UI.Keys.TAB){
                     if (!this.isMenuOpen() && !e.ctrlKey)
                         this.openMenu();
 
@@ -273,13 +295,8 @@ define([
                     return img != null ? img[0].src : undefined;
                 }
 
-                if (isRetina) {
-                    thumbContext.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
-                } else {
-                    thumbContext.clearRect(0, 0, iconWidth, iconHeight);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * opts.imgidx);
-                }
+                thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+                thumbContext.drawImage(this.spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(opts.imgidx/spriteCols));
 
                 return thumbCanvas.toDataURL();
             },
@@ -300,7 +317,7 @@ define([
                 if (callback) {
                     this.spriteThumbs = new Image();
                     this.spriteThumbs.onload = callback;
-                    this.spriteThumbs.src = (window.devicePixelRatio > 1) ? thumbPath2x : thumbPath;
+                    this.spriteThumbs.src = thumbs[thumbIdx].path;
                 }
             },
 
@@ -308,6 +325,7 @@ define([
                 var me = this;
 
                 this.loadSprite(function() {
+                    spriteCols = Math.floor(me.spriteThumbs.width / (thumbs[thumbIdx].width)) || 1;
                     me.store.set(store.toJSON());
 
                     me.rendered = false;
@@ -336,15 +354,21 @@ define([
 
             onApiChangeFont: function(font) {
                 var me = this;
-                setTimeout(function () {
-                    me.onApiChangeFontInternal(font);
-                }, 100);
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
+                if (this.__name !== name) {
+                    this.__name = name;
+                    if (!this.__nameId) {
+                        this.__nameId = setTimeout(function () {
+                            me.onApiChangeFontInternal(me.__name);
+                            me.__nameId = null;
+                        }, 100);
+                    }
+
+                }
             },
 
-            onApiChangeFontInternal: function(font) {
+            onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
-
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
 
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
@@ -370,6 +394,12 @@ define([
             },
 
             itemClicked: function (e) {
+                this.__name = undefined;
+                if (this.__nameId) {
+                    clearTimeout(this.__nameId);
+                    this.__nameId = undefined;
+                }
+
                 Common.UI.ComboBox.prototype.itemClicked.apply(this, arguments);
 
                 var el = $(e.target).closest('li');
@@ -516,21 +546,16 @@ define([
                             var fontImage = document.createElement('canvas');
                             var context = fontImage.getContext('2d');
 
-                            fontImage.height = isRetina ? iconHeight * 2 : iconHeight;
-                            fontImage.width = isRetina ? iconWidth  * 2 : iconWidth;
+                            fontImage.height = thumbs[thumbIdx].height;
+                            fontImage.width = thumbs[thumbIdx].width;
 
                             fontImage.style.width = iconWidth + 'px';
                             fontImage.style.height = iconHeight + 'px';
 
-                            index = me.store.at(j).get('imgidx');
+                            index = Math.floor(me.store.at(j).get('imgidx')/spriteCols);
 
-                            if (isRetina) {
-                                context.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * index);
-                            } else {
-                                context.clearRect(0, 0, iconWidth, iconHeight);
-                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * index);
-                            }
+                            context.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+                            context.drawImage(me.spriteThumbs, 0, -thumbs[thumbIdx].height * index);
 
                             me.tiles[j] = fontImage;
                             $(listItems[j]).get(0).appendChild(fontImage);

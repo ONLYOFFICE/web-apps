@@ -127,7 +127,7 @@ define([
             me.inputRange1 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range1'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
@@ -142,7 +142,7 @@ define([
             me.inputRange2 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range2'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
@@ -157,7 +157,7 @@ define([
             me.inputRange3 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range3'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
@@ -170,10 +170,16 @@ define([
             this.lblRange3 = $window.find('#id-dlg-chart-range-lbl3');
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
+        },
 
-           _.defer(function(){
-               me.inputRange1.cmpEl.find('input').focus();
-           }, 10);
+        getFocusedComponents: function() {
+            return [this.inputRange1, this.inputRange2, this.inputRange3];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.inputRange1;
         },
 
         onPrimary: function() {
@@ -237,7 +243,7 @@ define([
                     me.show();
                     _.delay(function(){
                         me._noApply = true;
-                        input.cmpEl.find('input').focus();
+                        input.focus();
                         me._noApply = false;
                     },1);
                 });

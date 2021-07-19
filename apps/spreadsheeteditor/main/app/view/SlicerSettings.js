@@ -122,6 +122,14 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
+                this.spnWidth && this.spnWidth.setValue((this._state.Width!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Width) : '', true);
+                this.spnHeight && this.spnHeight.setValue((this._state.Height!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Height) : '', true);
+                this.spnColWidth && this.spnColWidth.setValue((this._state.ColWidth!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.ColWidth) : '', true);
+                this.spnColHeight && this.spnColHeight.setValue((this._state.ColHeight!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.ColHeight) : '', true);
+                var val = this._state.PosHor;
+                this.spnHor && this.spnHor.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
+                val = this._state.PosVert;
+                this.spnVert && this.spnVert.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
             }
         },
 
@@ -243,7 +251,7 @@ define([
             this.numCols = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-cols'),
                 step: 1,
-                width: 50,
+                width: 55,
                 defaultUnit : "",
                 defaultValue : 1,
                 value: '1',
@@ -264,7 +272,7 @@ define([
 
             this.radioAsc = new Common.UI.RadioBox({
                 el: $('#slicer-radio-asc'),
-                name: 'asc-radio-sliceradv-sort',
+                name: 'asc-radio-slicer-sort',
                 labelText: this.textAsc + ' (' + this.textAZ + ')',
                 checked: true
             });
@@ -281,7 +289,7 @@ define([
 
             this.radioDesc = new Common.UI.RadioBox({
                 el: $('#slicer-radio-desc'),
-                name: 'asc-radio-sliceradv-sort',
+                name: 'asc-radio-slicer-sort',
                 labelText: this.textDesc + ' (' + this.textZA + ')',
                 checked: false
             });
@@ -436,9 +444,12 @@ define([
                     var Position = {X: value.get_X(), Y: value.get_Y()};
                     this.spnHor.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
                     this.spnVert.setValue((Position.Y !== null && Position.Y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.Y) : '', true);
+                    this._state.PosHor = Position.X;
+                    this._state.PosVert = Position.Y;
                 } else {
                     this.spnHor.setValue('', true);
                     this.spnVert.setValue('', true);
+                    this._state.PosHor = this._state.PosVert = null;
                 }
 
                 var slicerprops = props.asc_getSlicerProperties();

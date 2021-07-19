@@ -150,7 +150,7 @@ define([
                     $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceBeforeFix + ' ' + metricText);
                     $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceAfterFix + ' ' + metricText);
 
-                    $('#paragraph-space input:checkbox').prop('checked', me._paragraphObject.get_ContextualSpacing());
+                    $('#paragraph-space input:checkbox').prop('checked', !me._paragraphObject.get_ContextualSpacing());
                     $('#paragraph-page-break input:checkbox').prop('checked', me._paragraphObject.get_PageBreakBefore());
                     $('#paragraph-page-orphan input:checkbox').prop('checked', me._paragraphObject.get_WidowControl());
                     $('#paragraph-page-keeptogether input:checkbox').prop('checked', me._paragraphObject.get_KeepLines());
@@ -244,7 +244,7 @@ define([
                 if ($button.hasClass('decrement')) {
                     distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(maxValue, distance + step);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
 
                 var distanceFix = parseFloat(distance.toFixed(2));
@@ -273,7 +273,7 @@ define([
                 if ($button.hasClass('decrement')) {
                     distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(maxValue, distance + step);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
 
                 var distanceFix = parseFloat(distance.toFixed(2));
@@ -325,7 +325,7 @@ define([
 
             onSpaceBetween: function (e) {
                 var $checkbox = $(e.currentTarget);
-                this.api.put_AddSpaceBetweenPrg($checkbox.is(':checked'));
+                this.api.put_AddSpaceBetweenPrg(!$checkbox.is(':checked'));
             },
 
             onBreakBefore: function (e) {

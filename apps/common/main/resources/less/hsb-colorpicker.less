@@ -8,7 +8,8 @@
         width: 22px;
         height: 22px;
         float: left;
-        border: 1px solid #C4C4C4;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
         background-image: none;
         background-position: 0 -206px;
         background-repeat: no-repeat;
@@ -22,7 +23,8 @@
     }
 
     .color-text {
-        color: #464646;
+        color: @text-normal-ie;
+        color: @text-normal;
         height: 22px;
         padding: 4px 32px;
         cursor: default;
@@ -34,7 +36,8 @@
         width: 195px;
         height: 196px;
         position: relative;
-        border: 1px solid #C4C4C4;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
         background-position: 0 0;
     }
 
@@ -49,7 +52,8 @@
         width: 10px;
         height: 100%;
         position: relative;
-        border: 1px solid #C4C4C4;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
         background-position: -195px 0;
     }
 
@@ -64,13 +68,16 @@
     .cnt-sat-arrow {
         width: 14px;
         height: 9px;
-        margin: -4px -3px;
+        margin-top: -4px;
+        margin-left: -3px;
+        margin-left: calc(-2px - @scaled-one-px-value);
         position: absolute;
         background-position: -11px -196px;
     }
 
     .empty-color {
-        color: #464646;
+        color: @text-normal-ie;
+        color: @text-normal;
         height: 16px;
         margin: 5px 0;
 
@@ -91,7 +98,8 @@
             height: 10px;
             margin-right: 5px;
             margin-top: 1px;
-            border: 1px solid #C4C4C4;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
         }
     }
 }

@@ -66,6 +66,9 @@ module.exports = function(grunt) {
                 }, {
                     from: /\{\{HELP_URL\}\}/g,
                     to: _encode(process.env.HELP_URL) || 'https://helpcenter.onlyoffice.com'
+                }, {
+                    from: /\{\{DEFAULT_LANG\}\}/g,
+                    to: _encode(process.env.DEFAULT_LANG) || 'en'
                 }];
 
     var helpreplacements = [
@@ -141,12 +144,22 @@ module.exports = function(grunt) {
 
             if (_.isObject(target) && _.isObject(source)) {
                 for (const key in source) {
-                    if (_.isObject(source[key])) {
-                        if (!target[key]) Object.assign(target, { [key]: {} });
-                        else if (_.isArray(source[key])) target[key].push(...source[key]);
-                        else _merge(target[key], source[key]);
+                    let targetkey = key;
+
+                    if ( key[0] == '!' ) {
+                        targetkey = key.substring(1);
+
+                        if ( _.isArray(target[targetkey]) || _.isObject(target[targetkey]) )
+                            target[targetkey] = undefined;
+                    }
+
+                    if (_.isObject(source[key]) && target[targetkey]) {
+                        // if (!target[targetkey]) Object.assign(target, { [targetkey]: {} });
+                        // else
+                        if (_.isArray(source[key])) target[targetkey].push(...source[key]);
+                        else _merge(target[targetkey], source[key]);
                     } else {
-                        Object.assign(target, { [key]: source[key] });
+                        Object.assign(target, { [targetkey]: source[key] });
                     }
                 }
             }
@@ -260,10 +273,10 @@ module.exports = function(grunt) {
                     force: true
                 },
                 prebuild: {
-                    src: packageFile['main']['clean']
+                    src: packageFile.main.clean.prebuild
                 },
                 postbuild: {
-                    src: packageFile.main.svgicons.clean
+                    src: [...packageFile.main.svgicons.clean, ...packageFile.main.clean.postbuild]
                 }
             },
 
@@ -340,19 +353,14 @@ module.exports = function(grunt) {
                 help: {
                     files: packageFile['main']['copy']['help']
                 },
-                'index-page': {
-                    files: packageFile['main']['copy']['index-page']
+                indexhtml: {
+                    files: packageFile['main']['copy']['indexhtml']
                 }
             },
 
             inline: {
-                'index-page': {
-                    src: packageFile.main.copy['index-page'][0].dest,
-                    dest: packageFile.main.copy['index-page'][0].dest
-                },
-                'old-loader-page': {
-                    src: packageFile.main.copy['index-page'][1].dest,
-                    dest: packageFile.main.copy['index-page'][1].dest
+                dist: {
+                    src: '<%= pkg.main.copy.indexhtml[0].dest %>/*.html'
                 }
             },
 
@@ -582,7 +590,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline:index-page', 'inline:old-loader-page', 'json-minify',
+                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',

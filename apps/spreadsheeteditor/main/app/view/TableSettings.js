@@ -452,7 +452,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '46px', 'width': '61px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._state.TemplateName=value;
                 }
@@ -462,10 +462,7 @@ define([
 
         onSendThemeColors: function() {
             // get new table templates
-            if (this.cmbTableTemplate) {
-                this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
-                this.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-            }
+            this.btnTableTemplate && this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
         },
 
         onApiInitTableTemplates: function(Templates){
@@ -503,9 +500,11 @@ define([
 
             var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.mnuTableTemplatePicker.store.models;
-                _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.asc_getImage());
+                var data = self.mnuTableTemplatePicker.dataViewItems;
+                data && _.each(Templates, function(template, index){
+                    var img = template.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    $(data[index].el).find('img').attr('src', img);
                 });
             } else {
                 var arr = [];

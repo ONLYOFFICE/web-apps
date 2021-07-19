@@ -90,12 +90,16 @@ SSE.ApplicationController = new(function(){
             permissions = $.extend(permissions, docConfig.permissions);
 
             var _permissions = $.extend({}, docConfig.permissions),
-                docInfo = new Asc.asc_CDocInfo();
+                docInfo = new Asc.asc_CDocInfo(),
+                _user = new Asc.asc_CUserInfo();
+            _user.put_Id(config.user && config.user.id ? config.user.id : ('uid-' + Date.now()));
+
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
             docInfo.put_Title(docConfig.title);
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
+            docInfo.put_UserInfo(_user);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
@@ -161,7 +165,7 @@ SSE.ApplicationController = new(function(){
 
     function onPrint() {
         if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
     }
 
     function onPrintUrl(url) {
@@ -174,6 +178,9 @@ SSE.ApplicationController = new(function(){
 
     function onDocumentContentReady() {
         hidePreloader();
+
+        if ( permissions.print === false)
+            $('#idt-print').hide();
 
         if ( !embedConfig.saveUrl && permissions.print === false)
             $('#idt-download').hide();
@@ -215,10 +222,16 @@ SSE.ApplicationController = new(function(){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
+            });
+
+        SSE.ApplicationView.tools.get('#idt-print')
+            .on('click', function(){
+                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
+                Common.Analytics.trackEvent('Print');
             });
 
         $('#id-btn-close').on('click', function(){

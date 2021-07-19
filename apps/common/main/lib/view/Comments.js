@@ -273,17 +273,18 @@ define([
                     me.fireEvent('comment:resolve', [commentId]);
 
                     readdresolves();
-                } else if (btn.hasClass('btn-resolve-check', false)) {
-                    var tip = btn.data('bs.tooltip');
-                    if (tip) tip.dontShow = true;
-
-                    me.fireEvent('comment:resolve', [commentId]);
-
-                    readdresolves();
                 } else if (!btn.hasClass('msg-reply') &&
-                    !btn.hasClass('btn-resolve-check') &&
                     !btn.hasClass('btn-resolve')) {
-                    me.fireEvent('comment:show', [commentId, false]);
+                    var isTextSelected = false;
+                    if (btn.hasClass('user-message')) {
+                        if (window.getSelection) {
+                            var selection = window.getSelection();
+                            isTextSelected = (selection.toString()!=='')
+                        } else if (document.selection) {
+                            isTextSelected = document.selection;
+                        }
+                    }
+                    me.fireEvent('comment:show', [commentId, false, isTextSelected]);
                 }
             }
         },
@@ -368,12 +369,12 @@ define([
                     }
 
                     var arr = [],
-                        btns = $(view.el).find('.btn-resolve');
+                        btns = $(view.el).find('.btn-resolve:not(.comment-resolved)');
                     btns.tooltip({title: me.textResolve, placement: 'cursor'});
                     btns.each(function(idx, item){
                         arr.push($(item).data('bs.tooltip').tip());
                     });
-                    btns = $(view.el).find('.btn-resolve-check');
+                    btns = $(view.el).find('.comment-resolved');
                     btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
                     btns.each(function(idx, item){
                         arr.push($(item).data('bs.tooltip').tip());

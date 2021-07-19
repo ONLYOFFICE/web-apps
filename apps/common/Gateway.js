@@ -122,6 +122,10 @@ if (Common === undefined) {
 
             'setRevisedFile': function(data) {
                 $me.trigger('setrevisedfile', data);
+            },
+
+            'setFavorite': function(data) {
+                $me.trigger('setfavorite', data);
             }
         };
 
@@ -135,7 +139,7 @@ if (Common === undefined) {
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg.origin !== window.parentOrigin) return;
+            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin) return;
 
             var data = msg.data;
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {

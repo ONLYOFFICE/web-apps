@@ -9,6 +9,9 @@
 
 // Bootstrap overwrite
 @import "../../../../common/main/resources/less/variables.less";
+@import "../../../../common/main/resources/less/colors-table.less";
+@import "../../../../common/main/resources/less/colors-table-classic.less";
+@import "../../../../common/main/resources/less/colors-table-dark.less";
 
 //
 // Bootstrap
@@ -132,8 +135,8 @@
 @import "sprites/iconsbig@1x";
 @import "sprites/iconssmall@2x";
 @import "sprites/iconsbig@2x";
-//@import "sprites/iconssmall@1.5x";
-//@import "sprites/iconsbig@1.5x";
+@import "sprites/iconssmall@1.5x";
+@import "sprites/iconsbig@1.5x";
 
 .font-size-small {
     .fontsize(@font-size-small);
@@ -148,8 +151,10 @@
 }
 
 .slidenum-div {
-    background-color: @body-bg;
-    color: @gray-deep;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    color: @text-normal-ie;
+    color: @text-normal;
     padding: 5px 12px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     .box-shadow(0 6px 12px rgba(0, 0, 0, 0.175));
@@ -176,6 +181,14 @@
     }
 }
 
+#slide-texture-img-box {
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: 2px;
+    float: right;
+    padding: 14px 20px;
+}
+
 // Skeleton of document
 
 .doc-placeholder {
@@ -188,7 +201,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgb(226, 226, 226);
+    background: @canvas-background;
 
     .slide-h {
         display: flex;

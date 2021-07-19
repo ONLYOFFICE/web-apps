@@ -100,7 +100,7 @@ define([
                     '</div>',
                     '<div style="float: right;">',
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
-                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
+                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -213,6 +213,7 @@ define([
                 menuStyle   : 'min-width: 86px;',
                 style       : 'width: 86px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textLeft },
@@ -232,6 +233,7 @@ define([
                 menuStyle   : 'min-width: 180px;',
                 style       : 'width: 180px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textPortrait },
@@ -275,6 +277,7 @@ define([
                 menuStyle   : 'min-width: 180px;',
                 style       : 'width: 180px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textNormal },
@@ -302,7 +305,23 @@ define([
             this.window = this.getChild();
             this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.updateMetricUnit();
+        },
+
+        getFocusedComponents: function() {
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnTop;
+        },
+
+        onAnimateAfter: function() {
+            if (this.api && this.properties) {
+                this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+            }
         },
 
         _handleInput: function(state) {
@@ -363,10 +382,6 @@ define([
                     this.cmbGutterPosition.setValue(0);
                 }
                 this.cmbGutterPosition.setDisabled(mirrorMargins);
-
-                if (this.api) {
-                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
-                }
             }
         },
 

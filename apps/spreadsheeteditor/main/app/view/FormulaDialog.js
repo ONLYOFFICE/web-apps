@@ -108,7 +108,7 @@ define([
             }).on ('changing', function (input, value) {
                 if (value.length) {
                     value = value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-                    me.filter = new RegExp(value, 'ig');
+                    me.filter = value.toLowerCase();
                 } else {
                     me.filter = undefined;
                 }
@@ -123,6 +123,15 @@ define([
             this.descLabel = $('#formula-dlg-desc');
             this.fillFormulasGroups();
         },
+
+        getFocusedComponents: function() {
+            return [this.inputSearch, this.cmbFuncGroup, {cmp: this.cmbListFunctions, selector: '.listview'}];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputSearch;
+        },
+
         show: function (group) {
             if (this.$window) {
                 var main_width, main_height, top, left, win_height = this.initConfig.height;
@@ -147,19 +156,14 @@ define([
             group && this.cmbFuncGroup.setValue(group);
             (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
-            if (this.cmbListFunctions) {
-                this.inputSearch.setValue('');
-                _.delay(function (me) {
-                    me.inputSearch.$el.find('input').focus();
-                }, 100, this);
-            }
+            this.inputSearch.setValue('');
             this._preventCloseCellEditor = false;
         },
 
         hide: function () {
             var val = this.cmbFuncGroup.getValue();
             (val=='Recommended') && (val = 'Last10');
-            if (this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            if (this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
@@ -211,7 +215,7 @@ define([
         onUpdateFocus: function () {
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
-                    me.cmbListFunctions.$el.find('.listview').focus();
+                    me.cmbListFunctions.focus();
                 }, 100, this);
             }
         },
@@ -242,9 +246,9 @@ define([
                         menuStyle   : 'min-width: 100%;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
-                        editable    : false
+                        editable    : false,
+                        takeFocusOnClose: true
                     });
-
                     this.cmbFuncGroup.on('selected', _.bind(this.onSelectGroup, this));
                 } else {
                     this.cmbFuncGroup.setData(groupsListItems);
@@ -266,14 +270,14 @@ define([
                     this.cmbListFunctions = new Common.UI.ListView({
                         el: $('#formula-dlg-combo-functions'),
                         store: this.functions,
+                        tabindex: 1,
                         itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
                     });
 
                     this.cmbListFunctions.on('item:select', _.bind(this.onSelectFunction, this));
                     this.cmbListFunctions.on('item:dblclick', _.bind(this.onDblClickFunction, this));
                     this.cmbListFunctions.on('entervalue', _.bind(this.onPrimary, this));
-                    this.cmbListFunctions.onKeyDown = _.bind(this.onKeyDown, this.cmbListFunctions);
-                    this.cmbListFunctions.scrollToRecord =  _.bind(this.onScrollToRecordCustom, this.cmbListFunctions);
+                    this.cmbListFunctions.onKeyDown = _.bind(this.onKeyDown, this);
                     this.onUpdateFocus();
                 }
 
@@ -321,13 +325,23 @@ define([
             }
 
             var me = this,
+                filter_reg = new RegExp(me.filter, 'ig'),
                 arr = this.allFunctions.filter(function(item) {
-                return !!item.get('name').match(me.filter);
+                return !!item.get('name').match(filter_reg);
             });
-            if (arr.length>0 && this.cmbFuncGroup.store.at(0).get('value')!='Recommended') {
-                this.cmbFuncGroup.store.unshift({value: 'Recommended', displayValue: this.txtRecommended});
-                this.cmbFuncGroup.onResetItems();
-            } else if (arr.length==0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            if (arr.length>0) {
+                if (this.cmbFuncGroup.store.at(0).get('value')!='Recommended') {
+                    this.cmbFuncGroup.store.unshift({value: 'Recommended', displayValue: this.txtRecommended});
+                    this.cmbFuncGroup.onResetItems();
+                }
+                var idx = _.findIndex(arr, function(item) {
+                    return (item.get('name').toLowerCase()===me.filter);
+                });
+                if (idx>0) {
+                    var removed = arr.splice(idx, 1);
+                    arr.unshift(removed[0]);
+                }
+            } else if (arr.length==0 && this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
@@ -338,7 +352,8 @@ define([
 
         onKeyDown: function (e, event) {
             var i = 0, record = null,
-                me = this,
+                parent = this,
+                me = this.cmbListFunctions,
                 charVal = '',
                 value = '',
                 firstRecord = null,
@@ -348,12 +363,12 @@ define([
                 selectRecord = null,
                 needNextRecord = false;
 
-            if (this.disabled) return;
+            if (me.disabled) return;
             if (_.isUndefined(undefined)) event = e;
 
             function selectItem (item) {
                 me.selectRecord(item);
-                me.scrollToRecord(item);
+                parent.onScrollToRecordCustom.call(me, item);
 
                 innerEl = $(me.el).find('.inner');
                 me.scroller.scrollTop(innerEl.scrollTop(), 0);
@@ -365,14 +380,14 @@ define([
             charVal = e.key;
             if (e.keyCode > 64 && e.keyCode < 91 && charVal && charVal.length) {
                 charVal = charVal.toLocaleLowerCase();
-                selectRecord = this.store.findWhere({selected: true});
+                selectRecord = me.store.findWhere({selected: true});
                 if (selectRecord) {
                     value = selectRecord.get('value');
                     isEqualSelectRecord = (value && value.length && value[0].toLocaleLowerCase() === charVal)
                 }
 
-                for (i = 0; i < this.store.length; ++i) {
-                    record = this.store.at(i);
+                for (i = 0; i < me.store.length; ++i) {
+                    record = me.store.at(i);
                     value = record.get('value');
 
                     if (value[0].toLocaleLowerCase() === charVal) {
@@ -401,7 +416,7 @@ define([
                 }
             }
 
-            Common.UI.DataView.prototype.onKeyDown.call(this, e, event);
+            Common.UI.DataView.prototype.onKeyDown.call(me, e, event);
         },
 
         onScrollToRecordCustom: function (record) {

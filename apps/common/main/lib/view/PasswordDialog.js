@@ -54,8 +54,8 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width           : 350,
-                height          : 238,
+                width           : 395,
+                height          : 270,
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
@@ -77,6 +77,7 @@ define([
                         '<label>' + t.txtRepeat + '</label>',
                     '</div>',
                     '<div id="id-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
+                    '<label>' + t.txtWarning + '</label>',
                 '</div>'
             ].join('');
 
@@ -98,6 +99,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false
                     });
                     this.repeatPwd = new Common.UI.InputField({
@@ -105,6 +107,7 @@ define([
                         type: 'password',
                         allowBlank  : false,
                         style       : 'width: 100%;',
+                        maxLength: 255,
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
@@ -113,13 +116,12 @@ define([
             }
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputPwd, this.repeatPwd];
+        },
 
-            var me = this;
-            setTimeout(function(){
-                me.inputPwd.cmpEl.find('input').focus();
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.inputPwd;
         },
 
         onPrimary: function(event) {
@@ -154,7 +156,8 @@ define([
         txtPassword        : "Password",
         txtDescription     : "A Password is required to open this document",
         txtRepeat: 'Repeat password',
-        txtIncorrectPwd: 'Confirmation password is not identical'
+        txtIncorrectPwd: 'Confirmation password is not identical',
+        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.'
 
     }, Common.Views.PasswordDialog || {}));
 });

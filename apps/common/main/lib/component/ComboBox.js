@@ -86,13 +86,16 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
-                scrollAlwaysVisible: false
+                scrollAlwaysVisible: false,
+                takeFocusOnClose: false
             },
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" spellcheck="false">',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                        '<span class="caret"></span>',
+                    '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
@@ -302,6 +305,9 @@ define([
                 if ($list.hasClass('menu-absolute')) {
                     var offset = this.cmpEl.offset();
                     $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
+                } else if ($list.hasClass('menu-aligned')) {
+                    var offset = this.cmpEl.offset();
+                    $list.toggleClass('show-top', offset.top + this.cmpEl.outerHeight() + $list.outerHeight() > Common.Utils.innerHeight());
                 }
             },
 
@@ -320,6 +326,9 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
+                } else {
+                    var me = this;
+                    setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
 
                 if (this.scroller)
@@ -340,19 +349,28 @@ define([
                 this.cmpEl.find('.dropdown-toggle').blur();
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
+                if (this.options.takeFocusOnClose) {
+                    var me = this;
+                    setTimeout(function(){me.focus();}, 1);
+                }
             },
 
             onAfterKeydownMenu: function(e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
+                if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
+                    this.openMenu();
+                    this.onAfterShowMenu();
+                    return false;
+                }
+                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                    var isopen = this.isMenuOpen();
                     $(e.target).click();
-                    var me = this;
                     if (this.rendered) {
                         if (Common.Utils.isIE)
                             this._input.trigger('change', { onkeydown: true });
                         else
                             this._input.blur();
                     }
-                    return false;
+                    return !isopen;
                 }
                 else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);
@@ -663,6 +681,10 @@ define([
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 }, this.options.scroller));
+            },
+
+            focus: function() {
+                this._input && this._input.focus();
             }
         }
     })());
@@ -684,6 +706,10 @@ define([
             Common.UI.ComboBox.prototype.selectRecord.call(this, record);
             if (this.options.updateFormControl)
                 this.options.updateFormControl.call(this, this._selectedItem);
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.form-control').focus();
         }
     }, Common.UI.ComboBoxCustom || {}));
 });

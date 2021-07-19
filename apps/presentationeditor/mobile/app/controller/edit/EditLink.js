@@ -203,6 +203,10 @@ define([
                     }
 
                     $('#edit-link-edit').toggleClass('disabled', (_linkType==c_oHyperlinkType.WebLink) && _.isEmpty($('#edit-link-url input').val()));
+                    $('#edit-link-url input[type=url]').single('input', _.bind(function (e) {
+                        $('#edit-link-edit').toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
+                    }, me));
+
                 }
             },
 
@@ -229,7 +233,7 @@ define([
                         urltype = me.api.asc_getUrlType($.trim(url)),
                         isEmail = (urltype == 2);
                     if (urltype < 1) {
-                        uiApp.alert(me.txtNotUrl);
+                        uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                         return;
                     }
 
@@ -352,7 +356,8 @@ define([
             textLast: 'Last Slide',
             textSlide: 'Slide',
             textExternalLink: 'External Link',
-            textInternalLink: 'Slide in this Presentation'
+            textInternalLink: 'Slide in this Presentation',
+            notcriticalErrorTitle: 'Warning'
         };
     })(), PE.Controllers.EditLink || {}))
 });

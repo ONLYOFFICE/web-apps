@@ -99,7 +99,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row" style="margin-bottom: 15px; border-bottom: 1px solid #cfcfcf;">',
+                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0; margin-left:-1px;">', this.textEven,'</button>',
@@ -115,17 +115,17 @@ define([
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -139,17 +139,17 @@ define([
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
+                            '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -273,7 +273,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -281,7 +281,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -298,9 +298,9 @@ define([
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -313,9 +313,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -376,9 +376,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-h-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -392,9 +392,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-f-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -536,10 +536,8 @@ define([
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
-                    btn.currentColor = '#000000';
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor);
+                    btn.currentColor = '000000';
+                    btn.setColor(btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el)
                     });
@@ -552,7 +550,7 @@ define([
                 return picker;
             };
             this.btnTextColor = [];
-            this.btnTextColor.push(new Common.UI.Button({
+            this.btnTextColor.push(new Common.UI.ButtonColored({
                 parentEl: $('#id-dlg-h-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
@@ -561,7 +559,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -571,7 +569,7 @@ define([
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0], "#id-dlg-h-menu-fontcolor"));
             this.headerControls.push(this.btnTextColor[0]);
 
-            this.btnTextColor.push(new Common.UI.Button({
+            this.btnTextColor.push(new Common.UI.ButtonColored({
                 parentEl: $('#id-dlg-f-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
@@ -580,7 +578,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -664,14 +662,14 @@ define([
             });
 
             this.btnPresetsH.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
             this.btnPresetsF.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets
@@ -901,9 +899,8 @@ define([
         },
 
         onColorSelect: function(btn, picker, color) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
             btn.currentColor = color;
-            $('.btn-color-value-line', btn.cmpEl).css('background-color', '#' + clr);
+            btn.setColor(btn.currentColor);
             picker.currentColor = color;
             if (this.HFObject)
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));

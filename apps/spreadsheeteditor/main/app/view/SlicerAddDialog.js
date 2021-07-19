@@ -99,6 +99,7 @@ define([
                 'item:select': this.onCellCheck.bind(this)
             });
             this.columnsList.onKeyDown = _.bind(this.onListKeyDown, this);
+            this.columnsList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
@@ -153,7 +154,7 @@ define([
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {
-                        listView.$el.find('.listview').focus();
+                        listView.focus();
                     }, 100, this);
                 }
             }
@@ -191,6 +192,11 @@ define([
             if (props) {
                 this.updateColumnsList(props);
             }
+
+            var me = this;
+            _.delay(function () {
+                me.columnsList.focus();
+            }, 100, this);
         },
 
         getSettings: function () {

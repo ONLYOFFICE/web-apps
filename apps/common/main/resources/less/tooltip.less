@@ -15,7 +15,8 @@
     &.top-right .tooltip-arrow {
         bottom: 1px;
         border-width: 5px 5px 0;
-        border-top-color: @body-bg;
+        border-top-color: @background-normal-ie;
+        border-top-color: @background-normal;
     }
 
     &.top-left .tooltip-arrow,
@@ -32,16 +33,20 @@
     &.bottom-right .tooltip-arrow {
         top: 1px;
         border-width: 0 5px 5px;
-        border-bottom-color: @body-bg;
+        border-bottom-color: @background-normal-ie;
+        border-bottom-color: @background-normal;
     }
 }
 
 .tooltip-inner {
     font-size: 11px;
-    background-color: @body-bg;
-    color: @gray-deep;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    color: @text-normal-ie;
+    color: @text-normal;
     padding: 5px 12px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
     .box-shadow(0 6px 12px rgba(0, 0, 0, 0.175));
     background-clip: padding-box;
 

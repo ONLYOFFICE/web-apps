@@ -26,11 +26,13 @@
 
             &:hover,
             &.over {
-                background-color: @secondary;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
             }
 
             &.selected {
-                background-color: @primary;
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
                 color: #fff;
             }
         }
@@ -82,7 +84,8 @@
         width: 100%;
         height: 38px;
         padding: 10px 12px;
-        border-bottom: 1px solid @gray-dark;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
         
         label {
             width: 100%;
@@ -118,25 +121,18 @@
     width: 100%;
     height: 100%;
     opacity: 0.4;
-    background-color: @gray-light;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     z-index: @zindex-tooltip + 1;
 }
 
 #plugins-panel {
     .x-huge.icon-top {
-        img {
-            height: 26px;
-        }
-
         .caption {
             text-overflow: ellipsis;
             max-width: 60px;
             overflow: hidden;
         }
-    }
-
-    .slot:not(:first-child) {
-        margin-left: 2px;
     }
 
     .dropdown-menu {

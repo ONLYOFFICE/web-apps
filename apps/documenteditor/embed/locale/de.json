@@ -14,7 +14,7 @@
   "DE.ApplicationController.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",
   "DE.ApplicationController.errorFileSizeExceed": "Die Dateigröße überschreitet die für Ihren Server festgelegte Einschränkung.<br>Weitere Informationen können Sie von Ihrem Document Server-Administrator erhalten.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
-  "DE.ApplicationController.errorUserDrop": "Kein Zugriff auf diese Datei ist möglich.",
+  "DE.ApplicationController.errorUserDrop": "Der Zugriff auf diese Datei ist nicht möglich.",
   "DE.ApplicationController.notcriticalErrorTitle": "Warnung",
   "DE.ApplicationController.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "DE.ApplicationController.textLoadingDocument": "Dokument wird geladen...",
@@ -26,5 +26,6 @@
   "DE.ApplicationView.txtDownload": "Herunterladen",
   "DE.ApplicationView.txtEmbed": "Einbetten",
   "DE.ApplicationView.txtFullScreen": "Vollbild-Modus",
+  "DE.ApplicationView.txtPrint": "Drucken",
   "DE.ApplicationView.txtShare": "Freigeben"
 }

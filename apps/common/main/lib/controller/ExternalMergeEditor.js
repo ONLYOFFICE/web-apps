@@ -48,7 +48,7 @@ define([
     'common/main/lib/view/ExternalMergeEditor'
 ], function () { 'use strict';
     Common.Controllers.ExternalMergeEditor = Backbone.Controller.extend(_.extend((function() {
-        var appLang         = 'en',
+        var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
             externalEditor  = null;
@@ -58,7 +58,7 @@ define([
             externalEditor = new DocsAPI.DocEditor('id-merge-editor-placeholder', {
                 width       : '100%',
                 height      : '100%',
-                documentType: 'spreadsheet',
+                documentType: 'cell',
                 document    : {
                     url         : '_chart_',
                     permissions : {

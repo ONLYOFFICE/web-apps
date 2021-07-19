@@ -130,7 +130,7 @@ define([
             },
 
             initSettings: function (pageId) {
-                if ($('#edit-shape').length < 1) {
+                if ($('#edit-shape').length < 1 || !_shapeObject) {
                     return;
                 }
 
@@ -188,7 +188,8 @@ define([
 
                 // Effect
                 // Init style opacity
-                $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
+                var transparent = shapeProperties.get_fill().asc_getTransparent();
+                $('#edit-shape-effect input').val([transparent!==null && transparent!==undefined ? transparent / 2.55 : 100]);
                 $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
                 $('#edit-shape-effect input').single('change touchend',     _.buffered(me.onOpacity, 100, me));
                 $('#edit-shape-effect input').single('input',               _.bind(me.onOpacityChanging, me));
@@ -300,8 +301,7 @@ define([
             },
 
             onFillColor: function(palette, color) {
-                var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                var me = this;
 
                 if (me.api) {
                     var image = new Asc.asc_CImgProperty(),
@@ -326,7 +326,7 @@ define([
 
             onBorderColor: function (palette, color) {
                 var me = this,
-                    currentShape = _shapeObject.get_ShapeProperties();
+                    currentShape = _shapeObject ? _shapeObject.get_ShapeProperties() : null;
 
                 $('#edit-shape-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
                 _borderInfo.color = color;

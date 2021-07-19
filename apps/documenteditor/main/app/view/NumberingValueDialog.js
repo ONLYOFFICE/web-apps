@@ -81,7 +81,7 @@ define([
                 defaultUnit : "",
                 value: 1,
                 maxValue: 16383,
-                minValue: 1,
+                minValue: 0,
                 allowDecimal: false,
                 maskExp: /[0-9]/
             });
@@ -248,6 +248,7 @@ define([
                 }
 
                 result += val;
+                prev = Math.abs(val);
             }
 
             return result;

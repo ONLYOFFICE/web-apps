@@ -89,7 +89,8 @@ define([
                 GradColor: '000000',
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 FormId: null,
-                DisabledControls: false
+                DisabledControls: false,
+                applicationPixelRatio: Common.Utils.applicationPixelRatio()
             };
             this.lockedControls = [];
             this._locked = false;
@@ -121,6 +122,8 @@ define([
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
+
+            $(window).on('resize', _.bind(this.onWindowResize, this));
         },
 
         setApi: function(api) {
@@ -275,6 +278,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
+                this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
@@ -284,6 +289,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(0, true);
+                this.numGradientAngle.setDisabled(true);
             }
 
             if (this.api && !this._noApply) {
@@ -325,6 +332,8 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.numGradientAngle.setValue(rawData.type, true);
+
                     var props = new Asc.asc_TextArtProperties();
                     var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
@@ -468,14 +477,16 @@ define([
                     expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
                 if (!(expr.exec(record.value)) || value<0 || value>1584) {
                     this._state.StrokeType = this._state.StrokeWidth = -1;
-                    Common.UI.error({
-                        msg: this.textBorderSizeErr,
-                        callback: function() {
-                            _.defer(function(btn) {
-                                me.fireEvent('editcomplete', me);
-                            })
-                        }
-                    });
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textBorderSizeErr,
+                            callback: function() {
+                                _.defer(function(btn) {
+                                    me.fireEvent('editcomplete', me);
+                                })
+                            }
+                        });
+                    }, 10);
                 }
             } else
                 this.applyBorderSize(record.value);
@@ -609,8 +620,10 @@ define([
                                 this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                             else
                                 this.btnDirection.setIconCls('');
+                            this.numGradientAngle.setValue(value, true);
                         }
-                    }
+                    } else
+                        this.numGradientAngle.setValue(0, true);
 
                     var me = this;
                     var colors = fill.get_colors(),
@@ -866,7 +879,7 @@ define([
             this.cmbGradType = new Common.UI.ComboBox({
                 el: $('#textart-combo-grad-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrGradType
             });
@@ -977,14 +990,14 @@ define([
             });
             this.lockedControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
-            this.spnGradPosition.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnGradPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnAddGradientStep = new Common.UI.Button({
                 parentEl: $('#textart-gradient-add-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
                 disabled: this._locked,
-                hint: this.tipAddGradientPoint,
+                hint: this.tipAddGradientPoint
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
             this.lockedControls.push(this.btnAddGradientStep);
@@ -998,6 +1011,21 @@ define([
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
             this.lockedControls.push(this.btnRemoveGradientStep);
+
+            this.numGradientAngle = new Common.UI.MetricSpinner({
+                el: $('#textart-spin-gradient-angle'),
+                step: 10,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: true,
+                maxValue: 359.9,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.numGradientAngle);
+            this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#textart-combo-border-size'),
@@ -1103,22 +1131,17 @@ define([
         },
 
         fillTransform: function(transforms) {
-            if (transforms && transforms.length>1 && transforms[1]){
-                var me = this,
-                    artStore = [],
-                    arrTransforms = transforms[1];
-                for (var i=0; i<arrTransforms.length; i++) {
-                    var arr = arrTransforms[i];
-                    if (arr && arr.length>0)
-                        _.each(arr, function(item){
-                            artStore.push({
-                                imageUrl: item.Image,
-                                type    : item.Type,
-                                selected: false
-                            });
-                        });
+            if (transforms){
+                var artStore = [];
+                for (var i=0; i<transforms.length; i++) {
+                    var item = transforms[i];
+                    artStore.push({
+                        imageUrl: item.Image,
+                        type    : item.Type,
+                        selected: false
+                    });
                 }
-                this.cmbTransform.menuPicker.store.add(artStore);
+                this.cmbTransform.menuPicker.store.reset(artStore);
                 if (this.cmbTransform.menuPicker.store.length > 0) {
                     this.cmbTransform.fillComboView(this.cmbTransform.menuPicker.store.at(0),true);
                 }
@@ -1194,6 +1217,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.numGradientAngle.setDisabled(disable || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
             }
         },
 
@@ -1255,6 +1279,28 @@ define([
             this.sldrGradient.trigger('changecomplete', this.sldrGradient);
         },
 
+        onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                var props = new Asc.asc_TextArtProperties();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_fill( new Asc.asc_CFillGrad());
+                fill.get_fill().put_grad_type(this.GradFillType);
+                fill.get_fill().put_linear_angle(field.getNumberValue() * 60000);
+                fill.get_fill().put_linear_scale(true);
+                props.asc_putFill(fill);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+        },
+
+        onWindowResize: function() {
+            if (!this._initSettings && this._state.applicationPixelRatio !== Common.Utils.applicationPixelRatio())
+                this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+
+            this._state.applicationPixelRatio = Common.Utils.applicationPixelRatio();
+        },
+
         txtNoBorders            : 'No Line',
         strStroke               : 'Stroke',
         strColor                : 'Color',
@@ -1269,13 +1315,14 @@ define([
         textRadial: 'Radial',
         textDirection: 'Direction',
         textStyle: 'Style',
-        textGradient: 'Gradient',
+        textGradient: 'Gradient Points',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
         textTransform: 'Transform',
         textTemplate: 'Template',
         strType: 'Type',
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point'
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textAngle: 'Angle'
     }, DE.Views.TextArtSettings || {}));
 });

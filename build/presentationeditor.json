@@ -1,13 +1,16 @@
 {
     "name": "presentationeditor",
     "version": "4.3.0",
-    "build": 782,
+    "build": 790,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
-        "clean": [
-            "../deploy/web-apps/apps/presentationeditor/main"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/presentationeditor/main"
+            ],
+            "postbuild": []
+        },
         "js": {
             "requirejs": {
                 "options": {
@@ -166,14 +169,16 @@
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],
-            "index-page": [
+            "indexhtml": [
                 {
-                    "src": "../apps/presentationeditor/main/index.html.deploy",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index.html"
-                },
-                {
-                    "src": "../apps/presentationeditor/main/index_loader.html.deploy",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index_loader.html"
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/main",
+                    "src": [
+                        "*.html.deploy",
+                        "!*.reporter.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/"
                 }
             ]
         },
@@ -193,7 +198,8 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*.svg"
+                "../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*.svg",
+                "!../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*_s.svg"
             ]
         },
         "reporter": {

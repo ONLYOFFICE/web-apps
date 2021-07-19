@@ -2,33 +2,51 @@
     position: relative;
     height: 18px;
 
+    &.single-slider {
+        padding-top: 7px;
+
+        .track {
+            @track-height: 4px;
+            height: @track-height;
+            border: @track-height / 2 solid @border-regular-control-ie;
+            border: @track-height / 2 solid @border-regular-control;
+            border-radius: @track-height / 2;
+            width: calc(100% + @track-height);
+            margin-left: -@track-height / 2;
+        }
+
+        .thumb {
+            @thumb-width: 12px;
+            width: @thumb-width;
+            height: @thumb-width;
+
+            border: @scaled-one-px-value-ie solid @icon-normal-ie;
+            border: @scaled-one-px-value solid @icon-normal;
+            background-color: @background-normal-ie;
+            background-color: @background-normal;
+            border-radius: @thumb-width / 2;
+
+            top: 3px;
+            margin-left: @thumb-width / -2;
+
+            &.active {
+            }
+        }
+    }
+
     .thumb {
         position: absolute;
         left: 0;
-        top: 0;
-        width: 13px;
-        height: 15px;
         margin-left: -7px;
         cursor: default;
-        background-position: @slide-thumb-offset-x @slide-thumb-offset-y;
 
         &.active {
-            background-position: @slide-thumb-offset-x @slide-thumb-offset-y - 30px;
         }
     }
 
     .track {
         height: 18px;
         background-color: transparent;
-        .track-left {
-            background-position: @slide-track-offset-x @slide-track-offset-y;
-        }
-        .track-right {
-            background-position: @slide-track-offset-x - 7px @slide-track-offset-y;
-        }
-        .track-center {
-            background-position: @slide-track-offset-x @slide-track-offset-y - 18px;
-        }
 
         div {
             width: 7px;
@@ -39,6 +57,6 @@
     }
 
     &.disabled {
-        opacity: 0.35;
+        opacity: @component-disabled-opacity;
     }
 }

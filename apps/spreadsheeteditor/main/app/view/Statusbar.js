@@ -178,7 +178,7 @@ define([
                     //'tab:manual'        : _.bind(this.onAddTabClick, this),
                     'tab:contextmenu'   : _.bind(this.onTabMenu, this),
                     'tab:dblclick'      : _.bind(function () {
-                        if (me.editMode && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                        if (me.editMode && !(me.mode && me.mode.isDisconnected) && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)&&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)) {
                             me.fireEvent('sheet:changename');
@@ -203,6 +203,8 @@ define([
 
                     }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        Common.Utils.isIE && (this.isDrop = false);
+                        Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         var arrTabs = [],
                             arrName = [],
@@ -233,17 +235,25 @@ define([
                         arr.push({type: 'names', value: arrName});
                         arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
                         var json = JSON.stringify(arr);
-                        dataTransfer.setData("onlyoffice", json);
+                        if (!Common.Utils.isIE) {
+                            dataTransfer.setData('onlyoffice', json);
+                        } else {
+                            dataTransfer.setData('text', 'sheet');
+                            this.dataTransfer = json;
+                        }
                         this.dropTabs = selectTabs;
                     }, this),
                     'tab:drop': _.bind(function (dataTransfer, index) {
-                         var data = dataTransfer.getData("onlyoffice");
+                         if (this.isEditFormula || (Common.Utils.isIE && this.dataTransfer === undefined)) return;
+                        Common.Utils.isIE && (this.isDrop = true);
+                         var data = !Common.Utils.isIE ? dataTransfer.getData('onlyoffice') : this.dataTransfer;
                          if (data) {
                              var arrData = JSON.parse(data);
                              if (arrData) {
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                                     this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_moveWorksheet(_.isNumber(index) ? index : this.api.asc_getWorksheetsCount(), _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_enableKeyEvents(true);
                                      Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
@@ -253,30 +263,28 @@ define([
                                      var newNames = [];
                                      var arrNames = _.findWhere(arrData, {type: 'names'}).value;
                                      arrNames.forEach(function (name) {
-                                         var ind = 0,
+                                         var ind = 1,
                                              name = name;
-                                         var first = name;
-                                         if (names.indexOf(name.toLowerCase()) !== -1) {
-                                             while (true) {
-                                                 if (names.indexOf(name.toLowerCase()) === -1) {
-                                                     newNames.push(name);
-                                                     break;
-                                                 } else {
-                                                     ind++;
-                                                     name = first + '(' + ind + ')';
-                                                 }
-                                             }
-                                         } else {
-                                             newNames.push(name);
+                                         var re = /^(.*)\((\d)\)$/.exec(name);
+                                         var first = re ? re[1] : name + ' ';
+                                         var arr = [];
+                                         newNames.length > 0 && newNames.forEach(function (item) {
+                                             arr.push(item.toLowerCase());
+                                         });
+                                         while (names.indexOf(name.toLowerCase()) !== -1 || arr.indexOf(name.toLowerCase()) !== -1) {
+                                             ind++;
+                                             name = first + '(' + ind + ')';
                                          }
+                                         newNames.push(name);
                                      });
+                                     var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
                                      this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
                                  }
                              }
                          }
                     }, this),
                     'tab:dragend':  _.bind(function (cut) {
-                        if (cut) {
+                        if (cut && !(Common.Utils.isIE && this.isDrop === false)) {
                             if (this.dropTabs.length > 0) {
                                 var arr = [];
                                 this.dropTabs.forEach(function (tab) {
@@ -286,6 +294,10 @@ define([
                             }
                         }
                         this.dropTabs = undefined;
+                        if (Common.Utils.isIE) {
+                            this.isDrop = undefined;
+                            this.dataTransfer = undefined;
+                        }
                         Common.NotificationCenter.trigger('tabs:dragend', this);
                     }, this)
                 });
@@ -304,7 +316,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -339,10 +351,6 @@ define([
                         {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
-                        var colorVal = $('<div class="btn-color-value-line"></div>');
-                        $('button:first-child', btn.cmpEl).append(colorVal);
-                        colorVal.css('background-color', btn.currentColor || 'transparent');
-
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
                             transparent: true
@@ -488,11 +496,12 @@ define([
 
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked;
+                    var hidentems = [], items = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
+                        name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
                         tab = {
                             sheetindex    : i,
                             index         : items.length,
@@ -500,7 +509,10 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked
+                            isLockTheDrag : locked || me.mode.isDisconnected,
+                            iconCls       : 'btn-sheet-view',
+                            iconTitle     : name,
+                            iconVisible   : name!==''
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
@@ -744,7 +756,9 @@ define([
                 this.$el.find('.over-box').removeClass('over-box');
                 while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
                     var items = this.boxMath.find('label:not(.hide, .over-box)');
-                    $(items[items.length - 1]).addClass('over-box');
+                    (items.length>0) && $(items[items.length - 1]).addClass('over-box');
+                    if (items.length<=1)
+                        break;
                 }
             },
 
@@ -762,7 +776,7 @@ define([
             showCustomizeStatusBar: function (e) {
                 var el = $(e.target);
                 if ($('#status-zoom-box').find(el).length > 0
-                    || $(e.target).parent().hasClass('list-item')
+                    || $(e.target).closest('.statusbar .list-item').length>0
                     || $('#status-tabs-scroll').find(el).length > 0
                     || $('#status-addtabs-box').find(el).length > 0) return;
                 this.customizeStatusBarMenu.hide();
@@ -1011,7 +1025,7 @@ define([
                 Common.UI.Window.prototype.show.apply(this, arguments);
 
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 
@@ -1042,7 +1056,7 @@ define([
 
             onUpdateFocus: function () {
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 

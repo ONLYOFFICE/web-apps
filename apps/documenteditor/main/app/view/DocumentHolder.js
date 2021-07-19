@@ -50,13 +50,13 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/OptionsDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsRemoveDialog',
     'documenteditor/main/app/view/CellsAddDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
@@ -491,18 +491,24 @@ define([
                     var showPoint, ToolTip,
                         type = moveData.get_Type();
 
-                    if (type==1 || type==3) { // 1 - hyperlink, 3 - footnote
+                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form) { // 1 - hyperlink, 3 - footnote
                         if (isTooltipHiding) {
                             mouseMoveData = moveData;
                             return;
                         }
 
-                        if (type==1) {
+                        if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
                             var hyperProps = moveData.get_Hyperlink();
                             if (!hyperProps) return;
                             ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                        } else {
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
+                        } else if (type == Asc.c_oAscMouseMoveDataTypes.Footnote) {
                             ToolTip = moveData.get_FootnoteText();
+                            if (ToolTip.length>1000)
+                                ToolTip = ToolTip.substr(0, 1000) + '...';
+                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Form) {
+                            ToolTip = moveData.get_FormHelpText();
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
                         }
@@ -513,7 +519,7 @@ define([
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                         if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle((type==1) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
+                            screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
                             screenTip.tipLength = ToolTip.length;
                             screenTip.strTip = ToolTip;
                             screenTip.tipType = type;
@@ -547,7 +553,7 @@ define([
                         screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                     }
                     /** coauthoring begin **/
-                    else if (moveData.get_Type()==2 && me.mode.isEdit) { // 2 - locked object
+                    else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit) { // 2 - locked object
                         var src;
                         if (me.usertipcount >= me.usertips.length) {
                             src = $(document.createElement("div"));
@@ -1657,43 +1663,8 @@ define([
             }
         },
 
-        advancedFrameClick: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        var elType, elValue;
-                        elType = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue(); // заменить на свойства рамки
-                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            win = new DE.Views.DropcapSettingsAdvanced({
-                                tableStylerRows     : 2,
-                                tableStylerColumns  : 1,
-                                paragraphProps      : elValue,
-                                borderProps         : me.borderAdvancedProps,
-                                api                 : me.api,
-                                isFrame             : true,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        me.borderAdvancedProps = value.borderProps;
-                                        if (value.paragraphProps && value.paragraphProps.get_Wrap() === c_oAscFrameWrap.None) {
-                                            me.api.removeDropcap(false);
-                                        } else
-                                            me.api.put_FramePr(value.paragraphProps);
-                                    }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (win) {
-                win.show();
-            }
+        advancedFrameClick: function(isFrame, item, e, eOpt){
+            Common.NotificationCenter.trigger('dropcap:settings', isFrame);
         },
 
         advancedTableClick: function(item, e, eOpt){
@@ -1748,7 +1719,7 @@ define([
             } else if (type == 'indents' || type == 'tabs') {
                 win = this.advancedParagraphClick({isChart: false});
                 if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 3);
+                    win.setActiveCategory(type == 'indents' ? 0 : 4);
             } else if (type == 'margins') {
                 if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({
@@ -1886,7 +1857,7 @@ define([
             if (this.api){
                 var printopt = new Asc.asc_CAdjustPrint();
                 printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.fireEvent('editcomplete', this);
@@ -1911,23 +1882,14 @@ define([
                         }
                     })).show();
                 } else if (item.value == 'remove') {
-                    this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
+                    props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
             }
             me.fireEvent('editcomplete', me);
         },
 
         onInsertCaption: function() {
-            var me = this;
-            (new DE.Views.CaptionDialog({
-                isObject: true,
-                handler: function (result, settings) {
-                    if (result == 'ok') {
-                        me.api.asc_AddObjectCaption(settings);
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+            this.fireEvent('links:caption');
         },
 
         onContinueNumbering: function(item, e) {
@@ -1955,9 +1917,16 @@ define([
 
         onCellsRemove: function() {
             var me = this;
-            (new DE.Views.CellsRemoveDialog({
-                handler: function (result, value) {
-                    if (result == 'ok') {
+            (new Common.Views.OptionsDialog({
+                title: me.textTitleCellsRemove,
+                items: [
+                    {caption: this.textLeft, value: 'left'},
+                    {caption: this.textRow, value: 'row'},
+                    {caption: this.textCol, value: 'col'}
+                ],
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        var value = dlg.getSettings();
                         if (value == 'row')
                             me.api.remRow();
                         else if (value == 'col')
@@ -2470,6 +2439,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuImgCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -2536,6 +2506,21 @@ define([
                         }).on('click', _.bind(me.onImgCrop, me))
                     ]
                 })
+            });
+
+            var menuImgRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
+                caption: me.textRemoveControl,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSettings = new Common.UI.MenuItem({
+                caption: me.textEditControls,
+                value: 'settings'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSeparator = new Common.UI.MenuItem({
+                caption     : '--'
             });
 
             this.pictureMenu = new Common.UI.Menu({
@@ -2612,9 +2597,19 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
-                    var control_props = me.api.asc_IsContentControl() ? me.api.asc_GetContentControlProperties() : null,
+                    var in_control = me.api.asc_IsContentControl(),
+                        control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
+                        is_form = control_props && control_props.get_FormPr();
+
+                    menuImgRemoveControl.setVisible(in_control);
+                    menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    menuImgControlSeparator.setVisible(in_control);
+                    if (in_control) {
+                        menuImgRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuImgRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                    }
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked) || content_locked;
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
@@ -2634,7 +2629,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[22].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2683,6 +2678,9 @@ define([
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
                     menuEditSignSeparator,
+                    menuImgRemoveControl,
+                    menuImgControlSettings,
+                    menuImgControlSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -2709,7 +2707,7 @@ define([
             }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-merge',
+                iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
                 if (me.api)
@@ -2807,6 +2805,7 @@ define([
             });
 
             var menuHyperlinkTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -2819,13 +2818,14 @@ define([
             });
 
             var menuTableRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
 
             var menuTableControlSettings = new Common.UI.MenuItem({
-                    caption: me.textSettings,
-                    value: 'settings'
+                caption: me.textSettings,
+                value: 'settings'
             }).on('click', _.bind(me.onControlsSelect, me));
 
             var menuTableControl = new Common.UI.MenuItem({
@@ -2873,6 +2873,7 @@ define([
             /** coauthoring end **/
 
             var menuAddHyperlinkTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
 
@@ -2981,6 +2982,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuTableCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -3134,7 +3136,7 @@ define([
                             cls = 'menu__icon text-orient-rdown';
                             break;
                         case Asc.c_oAscCellTextDirection.BTLR:
-                            cls = 'menu__icon btn-align-rup';
+                            cls = 'menu__icon text-orient-rup';
                             break;
                     }
                     menuTableDirection.setIconCls(cls);
@@ -3253,9 +3255,11 @@ define([
                     menuTableControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                            is_form = control_props && control_props.get_FormPr();
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                        menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+                        menuTableRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                        menuTableControlSettings.setVisible(me.mode.canEditContentControl && !is_form);
 
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
@@ -3328,7 +3332,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
                             menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
                             items   : [
                                 new Common.UI.MenuItem({
                                     caption: me.insertColumnLeftText
@@ -3547,7 +3550,12 @@ define([
 
             var menuFrameAdvanced = new Common.UI.MenuItem({
                 caption     : me.advancedFrameText
-            }).on('click', _.bind(me.advancedFrameClick, me));
+            }).on('click', _.bind(me.advancedFrameClick, me, true));
+
+            var menuDropCapAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon dropcap-intext',
+                caption     : me.advancedDropCapText
+            }).on('click', _.bind(me.advancedFrameClick, me, false));
 
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
@@ -3565,6 +3573,7 @@ define([
             });
 
             var menuAddHyperlinkPara = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
 
@@ -3580,6 +3589,7 @@ define([
             });
 
             var menuHyperlinkPara = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -3678,6 +3688,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuParaCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -3692,6 +3703,7 @@ define([
             });
 
             var menuParaRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
@@ -3811,7 +3823,7 @@ define([
                                 cls = 'menu__icon text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon btn-align-rup';
+                                cls = 'menu__icon text-orient-rup';
                                 break;
                         }
                         menuParagraphDirection.setIconCls(cls);
@@ -3864,6 +3876,7 @@ define([
                     menuParagraphKeepLines.setDisabled(disabled);
                     menuParagraphAdvanced.setDisabled(disabled);
                     menuFrameAdvanced.setDisabled(disabled);
+                    menuDropCapAdvanced.setDisabled(disabled);
                     menuParagraphVAlign.setDisabled(disabled);
                     menuParagraphDirection.setDisabled(disabled);
 
@@ -3907,7 +3920,11 @@ define([
                     menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
-                    menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
+                    var frame_pr = value.paraProps.value.get_FramePr();
+                    menuFrameAdvanced.setVisible(frame_pr !== undefined);
+                    menuDropCapAdvanced.setVisible(frame_pr !== undefined);
+                    if (frame_pr)
+                        menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
                     menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
                     menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
@@ -3919,14 +3936,16 @@ define([
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
 
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
-                        in_control = !in_toc && me.api.asc_IsContentControl() ;
+                        in_control = !in_toc && me.api.asc_IsContentControl(),
+                        control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
+                        is_form = control_props && control_props.get_FormPr();
                     menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
-                        var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuParaRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
 
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
@@ -4002,6 +4021,7 @@ define([
                     menuParagraphDirection,
                     menuParagraphAdvanced,
                     menuFrameAdvanced,
+                    menuDropCapAdvanced,
                 /** coauthoring begin **/
                     menuCommentSeparatorPara,
                     menuAddCommentPara,
@@ -4246,6 +4266,7 @@ define([
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                isForm = !!props.get_FormPr(),
                 menu = this.listControlMenu,
                 menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -4282,14 +4303,31 @@ define([
                 });
             }
             if (specProps) {
-                var count = specProps.get_ItemsCount();
-                for (var i=0; i<count; i++) {
+                if (isForm){ // for dropdown and combobox form control always add placeholder item
+                    var text = props.get_PlaceholderText();
                     menu.addItem(new Common.UI.MenuItem({
-                        caption     : specProps.get_ItemDisplayText(i),
-                        value       : specProps.get_ItemValue(i)
+                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
+                        value       : '',
+                        template    : _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }));
                 }
-                if (count<1) {
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                }
+                if (!isForm && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.txtEmpty,
                         value       : -1
@@ -4321,6 +4359,10 @@ define([
                             return;
                     }
                     this.api.asc_addImage(obj);
+                    var me = this;
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -4335,6 +4377,23 @@ define([
 
         onApiUnLockDocumentProps: function() {
             this._state.lock_doc = false;
+        },
+
+        getControlLabel: function(props) {
+            var type = props ? props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.CheckBox:
+                    var specProps = props.get_CheckBoxPr();
+                    return (typeof specProps.get_GroupKey() !== 'string') ? this.textRemCheckBox : this.textRemRadioBox;
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    return this.textRemComboBox;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                    return this.textRemDropdown;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    return this.textRemPicture;
+                default:
+                    return this.textRemField;
+            }
         },
 
         focus: function() {
@@ -4562,7 +4621,17 @@ define([
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
         txtEmpty: '(Empty)',
-        textFromStorage: 'From Storage'
-
-    }, DE.Views.DocumentHolder || {}));
+        textFromStorage: 'From Storage',
+        advancedDropCapText: 'Drop Cap Settings',
+        textTitleCellsRemove: 'Delete Cells',
+        textLeft: 'Shift cells left',
+        textRow: 'Delete entire row',
+        textCol: 'Delete entire column',
+        textRemCheckBox: 'Remove Checkbox',
+        textRemRadioBox: 'Remove Radio Button',
+        textRemComboBox: 'Remove Combo Box',
+        textRemDropdown: 'Remove Dropdown',
+        textRemPicture: 'Remove Image',
+        textRemField: 'Remove Text Field'
+}, DE.Views.DocumentHolder || {}));
 });

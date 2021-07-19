@@ -196,11 +196,12 @@ define([
                 if (me.api) {
                     var imgsize = me.api.get_OriginalSizeImage(),
                         properties = new Asc.asc_CImgProperty();
-
-                    properties.put_Width(imgsize.get_ImageWidth());
-                    properties.put_Height(imgsize.get_ImageHeight());
-                    properties.put_ResetCrop(true);
-                    me.api.ImgApply(properties);
+                    if (imgsize) {
+                        properties.put_Width(imgsize.get_ImageWidth());
+                        properties.put_Height(imgsize.get_ImageHeight());
+                        properties.put_ResetCrop(true);
+                        me.api.ImgApply(properties);
+                    }
                 }
             },
 
@@ -318,10 +319,10 @@ define([
                                 me.api.ImgApply(image);
                             });
                         } else {
-                            uiApp.alert(me.txtNotUrl);
+                            uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                         }
                     } else {
-                        uiApp.alert(me.textEmptyImgUrl);
+                        uiApp.alert(me.textEmptyImgUrl, me.notcriticalErrorTitle);
                     }
                 }
             },
@@ -400,7 +401,8 @@ define([
             },
 
             textEmptyImgUrl: 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), DE.Controllers.EditImage || {}))
 });

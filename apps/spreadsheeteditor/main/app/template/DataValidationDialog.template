@@ -1,0 +1,112 @@
+<div id="id-data-validation-settings" class="settings-panel active" style="height: 100%;">
+    <div class="inner-content" style="height: 100%;">
+        <table cols="2" style="width: 100%;height: 100%;">
+            <tr>
+                <td class="padding-small" style="padding-right: 5px;">
+                    <label class="input-label"><%= scope.textAllow %></label>
+                    <div id="data-validation-cmb-allow"></div>
+                </td>
+                <td class="padding-small" style="padding-left: 5px;">
+                    <label class="input-label"><%= scope.textData %></label>
+                    <div id="data-validation-cmb-data"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <div id="data-validation-ch-ignore"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" style="padding-right: 5px;">
+                    <label id="data-validation-label-min" class="input-label"><%= scope.textMin %></label>
+                    <div id="data-validation-txt-min"></div>
+                </td>
+                <td class="padding-small" style="padding-left: 5px;">
+                    <label id="data-validation-label-max" class="input-label"><%= scope.textMax %></label>
+                    <div id="data-validation-txt-max"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <div id="data-validation-ch-show-dropdown"></div>
+                </td>
+            </tr>
+            <tr class="data-source">
+                <td colspan=2 class="padding-small">
+                    <label id="data-validation-label-source" class="input-label"><%= scope.textSource %></label>
+                    <div id="data-validation-txt-source"></div>
+                </td>
+            </tr>
+            <tr style="height: 100%;vertical-align: bottom;">
+                <td colspan=2 style="padding-bottom: 20px;">
+                    <div id="data-validation-ch-apply"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-data-validation-input" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <div id="data-validation-ch-show-input"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label><%= scope.textCellSelected %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textTitle %></label>
+                    <div id="data-validation-input-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="input-label"><%= scope.textInput %></label>
+                    <div id="data-validation-input-msg"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-data-validation-error" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <div id="data-validation-ch-show-error"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label><%= scope.textUserEnters %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div style="display: inline-block; margin-right: 5px;vertical-align: bottom;">
+                        <div id="data-validation-img-style" class="icon img-commonctrl error" style="margin-bottom: -1px;"></div>
+                    </div>
+                    <div style="display: inline-block;">
+                        <label class="input-label"><%= scope.textStyle %></label>
+                        <div id="data-validation-cmb-style"></div>
+                    </div>
+                    <div style="float: right;">
+                        <label class="input-label"><%= scope.textTitle %></label>
+                        <div id="data-validation-error-title"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="input-label"><%= scope.textError %></label>
+                    <div id="data-validation-error-msg"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

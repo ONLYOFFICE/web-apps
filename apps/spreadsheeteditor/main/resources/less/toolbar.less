@@ -3,7 +3,7 @@
 .toolbar {
     &.masked {
         button.disabled .icon:not(.no-mask) {
-            background-position-x: 0px !important;
+            //background-position-x: 0px !important;
         }
         .group:not(.no-mask) {
             opacity: 0.4;
@@ -17,16 +17,16 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 6px;
+            margin-right: 2px;
         }
 
         > .btn-slot.split:not(:last-child) {
-            margin-right: 5px;
+            margin-right: 2px;
         }
     }
 
     .font-attr-top {
-        width: 243px;
+        width: 218px;
 
         > .btn-slot {
             float: left;
@@ -36,40 +36,6 @@
             }
         }
 
-    }
-}
-
-.color-schemas-menu {
-    span {
-        &.colors {
-            display: inline-block;
-            margin-right: 15px;
-        }
-
-        &.color {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin-right: 2px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            vertical-align: middle;
-        }
-
-        &.text {
-            vertical-align: middle;
-        }
-    }
-    &.checked {
-        &:before {
-            display: none !important;
-        }
-        &, &:hover, &:focus {
-            background-color: @primary;
-            color: @dropdown-link-active-color;
-            span.color {
-                border-color: rgba(255,255,255,0.7);
-            }
-        }
     }
 }
 
@@ -111,45 +77,47 @@
 #id-toolbar-mnu-item-border-width {
     .border-size-item {
         background: ~"url(@{app-image-const-path}/toolbar/BorderSize.png) no-repeat scroll 0 0";
+        background-size: 60px auto;
         width: 60px;
         height: 20px;
         margin: -3px 10px -2px;
+        filter: @img-border-type-filter;
 
-        @media only screen {
-            //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-            //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-            //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-            //{
-            //    background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-            //    background-size:  60px auto;
-            //}
+        .pixel-ratio__1_5 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+            //background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+        }
 
-            @media (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 2dppx),
-            (min-resolution: 192dpi)
-            {
-                background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
-                background-size: 60px auto;
-            }
+        .pixel-ratio__2 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
         }
     }
 }
 
-.item-equation {
-    border: 1px solid @gray;
-    .background-ximage-v2('toolbar/math.png', 1500px);
+#id-toolbar-menu-auto-bordercolor > a.selected,
+#id-toolbar-menu-auto-bordercolor > a:hover,
+#id-toolbar-menu-auto-fontcolor > a.selected,
+#id-toolbar-menu-auto-fontcolor > a:hover {
+    span {
+        outline: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        outline: @scaled-one-px-value solid @border-regular-control;
+        border: @scaled-one-px-value-ie solid @background-normal-ie;
+        border: @scaled-one-px-value solid @background-normal;
+    }
 }
 
 #special-paste-container,
 #autocorrect-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
-    background-color: @gray-light;
-    border: 1px solid @gray;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
 }
 
 #slot-field-fontname {
-    width: 148px;
+    width: 127px;
 }
 
 #slot-field-fontsize {
@@ -160,4 +128,15 @@
     .background-ximage-v2('toolbar/bullets-and-numbering.png', 38px);
     width: 38px;
     height: 38px;
+}
+
+#slot-field-zoom {
+    float: left;
+    min-width: 46px;
+}
+
+.combo-styles {
+    .view, .dropdown-menu {
+        //background-color: @canvas-content-background;
+    }
 }

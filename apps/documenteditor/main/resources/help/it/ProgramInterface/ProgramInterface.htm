@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Introducing the Document Editor user interface</title>
+		<title>Presentazione dell'interfaccia utente dell'Editor di Documenti</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Introducing the Document Editor user interface" />
+        <meta name="description" content="Presentazione dell'interfaccia utente dell'Editor di Documenti" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -13,46 +13,48 @@
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
-			<h1>Introducing the Document Editor user interface</h1>
-			<p><b>Document Editor</b> uses a tabbed interface where editing commands are grouped into tabs by functionality.</p>
+			<h1>Presentazione dell'interfaccia utente dell'Editor di Documenti</h1>
+			<p><b>L’editor di Documenti</b> utilizza un'interfaccia a schede in cui i comandi di modifica sono raggruppati in schede in base alla funzionalità.</p>
             <div class="onlineDocumentFeatures">
-                <p>Online Document Editor window:</p>
-                <p><img alt="Online Document Editor window" src="../images/interface/editorwindow.png" /></p>
+                <p>Finestra dell’Editor di Documenti Online:</p>
+                <p><img alt="Finestra dell’Editor di Documenti Online" src="../images/interface/editorwindow.png" /></p>
             </div>
             <div class="desktopDocumentFeatures">
-                <p>Desktop Document Editor window:</p>
-                <p><img alt="Desktop Document Editor window" src="../images/interface/desktop_editorwindow.png" /></p>
+                <p>Finestra dell’Editor di Documenti Desktop:</p>
+                <p><img alt="Finestra dell’Editor di Documenti Desktop" src="../images/interface/desktop_editorwindow.png" /></p>
             </div>
-            <p>The editor interface consists of the following main elements:</p>
+            <p>L'interfaccia dell'editor è composta dai seguenti elementi principali:</p>
             <ol>
-                <li><b>Editor header</b> displays the logo, <span class="desktopDocumentFeatures">opened documents tabs, </span>document name and menu tabs.
-                    <p>In the left part of the <b>Editor header</b> there are the <b>Save</b>, <b>Print file</b>, <b>Undo</b> and <b>Redo</b> buttons.</p>
+                <li>L’<b>intestazione dell’Editor</b> mostra il logo, <span class="desktopDocumentFeatures">le schede dei documenti aperti, </span>il nome del documento e le schede dei menu.
+                    <p>Nella parte sinistra dell’<b>intestazione dell’Editor</b> ci sono i pulsanti <b>Salva</b>, <b>Stampa file</b>, <b>Annulla</b> e <b>Ripristina</b>.</p>
                     <p><img alt="Icons in the editor header" src="../images/interface/leftpart.png" /></p>
-                    <p>In the right part of the <b>Editor header</b> the user name is displayed as well as the following icons:</p>
+                    <p>Nella parte destra dell'<b>intestazione dell'Editor</b> vengono visualizzati il nome utente e le seguenti icone:</p>
                     <ul>
-                        <li><img alt="Open file location" src="../images/gotodocuments.png" /> <b>Open file location</b> - <span class="desktopDocumentFeatures">in the <em>desktop version</em>, it allows to open the folder where the file is stored in the <b>File explorer</b> window.</span> <span class="onlineDocumentFeatures"> In the <em>online version</em>, it allows to open the folder of the <b>Documents</b> module where the file is stored in a new browser tab.</span></li>
-                        <li><img alt="View Settings icon" src="../images/viewsettingsicon.png" /> - allows to adjust <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">View Settings</a> and access the editor <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a>.</li>
-                        <li class="onlineDocumentFeatures"><img alt="Manage document access rights icon" src="../images/access_rights.png" /> <b>Manage document access rights</b> - (available in the <em>online version</em> only) allows to <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">set access rights</a> for the documents stored in the cloud.</li>
+                        <li><img alt="Apri percorso file" src="../images/gotodocuments.png" /> <b>Apri percorso file</b> - <span class="desktopDocumentFeatures">nella <em>versione desktop</em>, consente di aprire la cartella in cui è archiviato il file nella finestra <b>Espola file</b>.</span> <span class="onlineDocumentFeatures"> Nella <em>versione online</em>, consente di aprire la cartella del modulo <b>Documenti</b> in cui è archiviato il file in una nuova scheda del browser.</span></li>
+                        <li><img alt="Impostazioni di visualizzazione" src="../images/viewsettingsicon.png" /> - consente di regolare le <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">Impostazioni di visualizzazione</a> e accedere all'editor <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Impostazioni avanzate</a>.</li>
+                        <li class="onlineDocumentFeatures"><img alt="Gestisci i diritti di accesso al documento" src="../images/access_rights.png" /> <b>Gestisci i diritti di accesso al documento</b> - (disponibile solo nella <em>versione online</em>) consente <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">d’impostare i diritti di accesso</a> per i documenti archiviati nel cloud.</li>
                     </ul>                    
                 </li>
-                <li><b>Top toolbar</b> displays a set of editing commands depending on the selected menu tab. Currently, the following tabs are available: <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">File</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Home</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Insert</a>, <a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Layout</a>, <a href="../ProgramInterface/ReferencesTab.htm" onclick="onhyperlinkclick(this)">References</a>, <a href="../ProgramInterface/ReviewTab.htm" onclick="onhyperlinkclick(this)">Collaboration</a>, <span class="desktopDocumentFeatures">Protection,</span> <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Plugins</a>.
-                <p>The <img alt="Copy icon" src="../images/copy.png" /> <b>Copy</b> and <img alt="Paste icon" src="../images/paste.png" /> <b>Paste</b> options are always available at the left part of the <b>Top toolbar</b> regardless of the selected tab.</p>
+                <li><b>La barra degli strumenti superiore</b> visualizza una serie di comandi di modifica in base alla scheda del menu selezionata. Attualmente sono disponibili le seguenti schede: <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">File</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Home</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Inserisci</a>, <a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Layout di Pagina</a>, <a href="../ProgramInterface/ReferencesTab.htm" onclick="onhyperlinkclick(this)">Referimenti</a>, <a href="../ProgramInterface/ReviewTab.htm" onclick="onhyperlinkclick(this)">Collaborazione</a>, <span class="desktopDocumentFeatures">Protezione,</span> <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Plugins</a>.
+                <p>Le opzioni <img alt="Copia" src="../images/copy.png" /> <b>Copia</b> e <img alt="Incolla" src="../images/paste.png" /> <b>Incolla</b> sono sempre disponibili nella parte sinistra della <b>barra degli strumenti superiore</b>, indipendentemente dalla scheda selezionata.</p>
                 </li>
-                <li><b>Status bar</b> at the bottom of the editor window contains the page number indicator, displays some notifications (such as "All changes saved" etc.), allows to <a href="../HelpfulHints/SpellChecking.htm" onclick="onhyperlinkclick(this)">set text language, enable spell checking</a>, turn on the <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">track changes mode</a>, adjust <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">zoom</a>.</li>
-                <li><b>Left sidebar</b> contains the following icons: 
+                <li><b>La barra di stato</b> nella parte inferiore della finestra dell'editor contiene l'indicatore del numero di pagina, visualizza alcune notifiche (come "Tutte le modifiche salvate" ecc.), consente d’<a href="../HelpfulHints/SpellChecking.htm" onclick="onhyperlinkclick(this)">impostare la lingua del testo, abilitare il controllo ortografico</a>, attivare la modalità <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">traccia cambiamenti</a>, regolare lo <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">zoom</a>.</li>
+                <li><b>La barra laterale sinistra</b> contiene le seguenti icone: 
                     <ul>
-                        <li><img alt="Search icon" src="../images/searchicon.png" /> - allows to use the <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Search and Replace</a> tool,</li>
-                        <li><img alt="Comments icon" src="../images/commentsicon.png" /> - allows to open the <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Comments</a> panel,</li>
-                        <li><img alt="Navigation icon" src="../images/navigationicon.png" /> - allows to go to the <a href="../UsageInstructions/CreateTableOfContents.htm#navigation" onclick="onhyperlinkclick(this)">Navigation</a> panel and manage headings,</li>
-                        <li class="onlineDocumentFeatures"><img alt="Chat icon" src="../images/chaticon.png" /> - (available in the <em>online version</em> only) allows to open the <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a> panel, as well as the icons that allow to contact our support team and view the information about the program.</li>
+                        <li><img alt="Trova e sostituisci" src="../images/searchicon.png" /> - consente di usare lo strumento <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Trova e sostituisci</a>,</li>
+                        <li><img alt="Commenti" src="../images/commentsicon.png" /> - consente di aprire il pannello dei <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Commenti</a>,</li>
+                        <li><img alt="Navigazione" src="../images/navigationicon.png" /> - consente di accedere al pannello di <a href="../UsageInstructions/CreateTableOfContents.htm#navigation" onclick="onhyperlinkclick(this)">Navigazione</a> e gestire le intestazioni,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Chat" src="../images/chaticon.png" /> - (disponibile solo nella <em>versione online</em>) consente di aprire il pannello <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Feedback and Support" src="../images/feedbackicon.png" /> - (disponibile solo nella <em>versione online</em>) consente di contattare il nostro team di supporto,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Informazioni sul programma" src="../images/abouticon.png" /> - (disponibile solo nella <em>versione online</em>) consente di visualizzare le informazioni sul programma.</li>
                     </ul>
                 </li>
-                <li><b>Right sidebar</b> allows to adjust additional parameters of different objects. When you select a particular object in the text, the corresponding icon is activated at the right sidebar. Click this icon to expand the right sidebar.</li>
-                <li>Horizontal and vertical <b>Rulers</b> allow to align text and other elements in a document, set up margins, tab stops, and paragraph indents.</li>
-                <li><b>Working area</b> allows to view document content, enter and edit data.</li>
-                <li><b>Scroll bar</b> on the right allows to scroll up and down multi-page documents.</li>
+                <li><b>La barra laterale destra</b> consente di regolare parametri aggiuntivi di oggetti diversi. Quando selezioni un oggetto particolare nel testo, l'icona corrispondente viene attivata nella barra laterale destra. Fare clic su questa icona per espandere la barra laterale destra.</li>
+                <li><b>I righelli</b> orizzontali e verticali consentono di allineare testo e altri elementi in un documento, impostare margini, tabulazioni e rientri di paragrafo.</li>
+                <li><b>L'area di lavoro</b> consente di visualizzare il contenuto del documento, inserire e modificare i dati.</li>
+                <li><b>La barra di scorrimento</b> a destra consente di scorrere su e giù i documenti di più pagine.</li>
             </ol>
-            <p>For your convenience you can hide some components and display them again when it is necessary. To learn more on how to adjust view settings please refer to <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">this page</a>.</p>
+            <p>Per comodità, è possibile nascondere alcuni componenti e visualizzarli di nuovo quando è necessario. Per ulteriori informazioni su come regolare le impostazioni di visualizzazione, fare riferimento a <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">questa pagina</a>.</p>
            
 		</div>
 	</body>

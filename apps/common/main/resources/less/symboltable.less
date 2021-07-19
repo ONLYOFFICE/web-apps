@@ -7,9 +7,12 @@
   .cell{
     width: 31px;
     height: 33px;
-    border-right: 1px solid @gray-soft;
-    border-bottom: 1px solid @gray-soft;
-    background: #ffffff;
+    border-right: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border-right: @scaled-one-px-value solid @border-regular-control;
+    border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border-bottom: @scaled-one-px-value solid @border-regular-control;
+    background: @background-normal-ie;
+    background: @background-normal;
     align-content: center;
     vertical-align: middle;
     text-align: center;
@@ -24,7 +27,8 @@
   }
 
   .cell-selected{
-    background-color: @gray-darker;
+    background-color: @border-preview-select-ie;
+    background-color: @border-preview-select;
     color: white;
   }
 }
@@ -33,7 +37,8 @@
   width: 100%;
   height: 32px;
   overflow: hidden;
-  border: @gray-soft solid 1px;
+  border: @border-regular-control-ie solid @scaled-one-px-value-ie;
+  border: @border-regular-control solid @scaled-one-px-value;
 }
 
 #symbol-table-scrollable-div {
@@ -42,7 +47,8 @@
     height: 132px;
     position:relative;
     overflow:hidden;
-    border: @gray-soft solid 1px;
+    border: @border-regular-control-ie solid @scaled-one-px-value-ie;
+    border: @border-regular-control solid @scaled-one-px-value;
   }
 
   #id-preview-data {

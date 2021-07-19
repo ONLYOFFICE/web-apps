@@ -16,9 +16,9 @@
                 <div class="item-content buttons">
                     <div class="item-inner">
                         <div class="row">
-                            <a id="font-bold" class="button"><b><%= scope.textCharacterBold %></b></a>
-                            <a id="font-italic" class="button"><i><%= scope.textCharacterItalic %></i></a>
-                            <a id="font-underline" class="button" style="text-decoration: underline;"><%= scope.textCharacterUnderline %></a>
+                            <a id="font-bold" class="button no-fastclick"><b><%= scope.textCharacterBold %></b></a>
+                            <a id="font-italic" class="button no-fastclick"><i><%= scope.textCharacterItalic %></i></a>
+                            <a id="font-underline" class="button no-fastclick" style="text-decoration: underline;"><%= scope.textCharacterUnderline %></a>
                         </div>
                     </div>
                 </div>
@@ -916,7 +916,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="SEg6bW0=" class="item-link no-indicator">
+                            <a data-type="aCUzQW1tJTNCJTQw" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">10:56</div>
@@ -926,7 +926,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="SEg6TU06c3M=" class="item-link no-indicator">
+                            <a data-type="aCUzQW1tJTNBc3MlM0IlNDA=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">21:56:00</div>
@@ -936,7 +936,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="aGg6bW0gdHQ=" class="item-link no-indicator">
+                            <a data-type="aCUzQW1tJTIwQU0lMkZQTSUzQiU0MA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">05:56 AM</div>
@@ -946,7 +946,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="aGg6bW06c3MgdHQ=" class="item-link no-indicator">
+                            <a data-type="aCUzQW1tJTNBc3MlMjBBTSUyRlBNJTNCJTQw" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">05:56:00 AM</div>
@@ -956,7 +956,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="W2hdOm1tOnNz" class="item-link no-indicator">
+                            <a data-type="JTVCaCU1RCUzQW1tJTNBc3MlM0IlNDA=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">38:56:00</div>

@@ -42,7 +42,7 @@
             <div id="chart-button-type" style=""></div>
         </td>
     </tr>
-    <tr>
+    <tr class="not-combined">
         <td class="padding-small" colspan=2>
             <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
@@ -54,7 +54,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="chart-button-edit-data" style="width:115px;"><%= scope.textEditData %></button>
+            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;"><%= scope.textEditData %></button>
         </td>
     </tr>
     <tr>

@@ -106,7 +106,8 @@ Common.Utils = _.extend(new(function() {
             Signature  : 9,
             Pivot      : 10,
             Cell       : 11,
-            Slicer     : 12
+            Slicer     : 12,
+            Form       : 13
         },
         importTextType = {
             DRM: 0,
@@ -118,37 +119,51 @@ Common.Utils = _.extend(new(function() {
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
-            me.zoom = 1;
-            if (isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
-                // делаем простую проверку
-                // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
-                // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
-                if (window.devicePixelRatio > 0.1) {
-                    if (window.devicePixelRatio < 1.99)
-                    {
-                        var _devicePixelRatio = 1;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    }
-                    else
-                    {
-                        var _devicePixelRatio = 2;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    }
-                    // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-                    //document.firstElementChild.style.zoom = "reset";
-                    document.firstElementChild.style.zoom = 1.0 / me.zoom;                }
-                else
-                    document.firstElementChild.style.zoom = "normal";
+            var scale = {};
+            if ( !!window.AscCommon && !!window.AscCommon.checkDeviceScale ) {
+                scale = window.AscCommon.checkDeviceScale();
+                AscCommon.correctApplicationScale(scale);
+            } else {
+                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
+                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+                var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
+                        "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
+
+                if ( window.matchMedia(str_mq_150).matches ) {
+                    scale.devicePixelRatio = 1.5;
+                } else
+                if ( window.matchMedia(str_mq_200).matches )
+                    scale.devicePixelRatio = 2;
+                else scale.devicePixelRatio = 1;
             }
 
+            var $root = $(document.body);
+            if ( scale.devicePixelRatio < 1.5 ) {
+                $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
+            } else
+            if ( !(scale.devicePixelRatio < 1.5) && scale.devicePixelRatio < 2 ) {
+                $root.removeClass('pixel-ratio__2');
+                $root.addClass('pixel-ratio__1_5');
+            } else {
+                $root.addClass('pixel-ratio__2');
+                $root.removeClass('pixel-ratio__1_5');
+            }
+
+            me.zoom = scale.correct ? scale.zoom : 1;
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
+            me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
         };
         me.zoom = 1;
+        me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
-        checkSize();
-        $(window).on('resize', checkSize);
+        if ( isIE )
+            $(document.body).addClass('ie');
+        else {
+            checkSize();
+            $(window).on('resize', checkSize);
+        }
 
     return {
         checkSize: checkSize,
@@ -215,6 +230,7 @@ Common.Utils = _.extend(new(function() {
         documentSettingsType: documentSettingsType,
         importTextType: importTextType,
         zoom: function() {return me.zoom;},
+        applicationPixelRatio: function() {return me.applicationPixelRatio;},
         topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
         innerHeight: function() {return me.innerHeight;},
@@ -712,6 +728,8 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
+    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
+    _user.guest = _.isEmpty(_user.name);
     return _user;
 };
 
@@ -762,6 +780,8 @@ Common.Utils.loadConfig = function(url, callback) {
             else return 'error';
         }).then(function(json){
             callback(json);
+        }).catch(function(e) {
+            callback('error');
         });
 };
 
@@ -875,23 +895,24 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
         opts.disablefunc(true);
 
     var app = window.DE || window.PE || window.SSE;
-    var tip = new Common.UI.SynchronizeTip({
-        extCls      : 'simple',
-        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
-        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
-        placement   : 'document'
-    });
-    tip.on({
-        'dontshowclick': function() {
-            if ( opts.disablefunc ) opts.disablefunc(false);
-            app.getController('Main').api.asc_setIsReadOnly(false);
-            this.close();
-        },
-        'closeclick': function() {
-            this.close();
+
+    Common.UI.warning({
+        msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
+        buttons: [{
+            value: 'view',
+            caption: Common.Locale.get("warnFileLockedBtnView",{name:"Common.Translation", default: "Open for viewing"})
+        }, {
+            value: 'edit',
+            caption: Common.Locale.get("warnFileLockedBtnEdit",{name:"Common.Translation", default: "Create a copy"})
+        }],
+        primary: 'view',
+        callback: function(btn){
+            if (btn == 'edit') {
+                if ( opts.disablefunc ) opts.disablefunc(false);
+                app.getController('Main').api.asc_setIsReadOnly(false);
+            }
         }
     });
-    tip.show();
 };
 
 jQuery.fn.extend({
@@ -962,28 +983,67 @@ Common.Utils.ModalWindow = new(function() {
 })();
 
 Common.Utils.UserInfoParser = new(function() {
-    var parse = false;
+    var parse = false,
+        separator = String.fromCharCode(160),
+        username = '',
+        usergroups,
+        reviewPermissions,
+        reviewGroups;
     return {
         setParser: function(value) {
             parse = !!value;
         },
 
+        getSeparator: function() {
+            return separator;
+        },
+
         getParsedName: function(username) {
             if (parse && username) {
-                return username.substring(username.indexOf(':')+1);
+                return username.substring(username.indexOf(separator)+1);
             } else
                 return username;
         },
 
         getParsedGroups: function(username) {
             if (parse && username) {
-                var idx = username.indexOf(':'),
+                var idx = username.indexOf(separator),
                     groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
                 for (var i=0; i<groups.length; i++)
                     groups[i] = groups[i].trim();
                 return groups;
             } else
                 return undefined;
+        },
+
+        setCurrentName: function(name) {
+            username = name;
+            this.setReviewPermissions(reviewGroups, reviewPermissions);
+        },
+
+        getCurrentName: function() {
+            return username;
+        },
+
+        setReviewPermissions: function(groups, permissions) {
+            if (groups) {
+                if  (typeof groups == 'object' && groups.length>0)
+                    usergroups = groups;
+                reviewGroups = groups;
+            } else if (permissions) {
+                var arr = [],
+                    arrgroups  =  this.getParsedGroups(username);
+                arrgroups && arrgroups.forEach(function(group) {
+                    var item = permissions[group.trim()];
+                    item && (arr = arr.concat(item));
+                });
+                usergroups = arr;
+                reviewPermissions = permissions;
+            }
+        },
+
+        getCurrentGroups: function() {
+            return usergroups;
         }
     }
 })();

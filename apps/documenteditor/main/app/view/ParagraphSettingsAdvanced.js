@@ -207,7 +207,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.put_Before(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                var value = field.getNumberValue();
+                this.Spacing.put_Before(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM(value));
             }, this));
             this.spinners.push(this.numSpacingBefore);
 
@@ -227,7 +228,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.put_After(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                var value = field.getNumberValue();
+                this.Spacing.put_After(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM(value));
             }, this));
             this.spinners.push(this.numSpacingAfter);
 
@@ -237,7 +239,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrLineRule,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbLineRule.setValue(this.CurLineRuleIdx);
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
@@ -265,7 +268,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrSpecial,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbSpecial.setValue('');
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
@@ -289,7 +293,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrTextAlignment,
                 style: 'width: 173px;',
-                menuStyle   : 'min-width: 173px;'
+                menuStyle   : 'min-width: 173px;',
+                takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
 
@@ -299,7 +304,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrOutlinelevel,
                 style: 'width: 174px;',
-                menuStyle   : 'min-width: 174px;'
+                menuStyle   : 'min-width: 174px;',
+                takeFocusOnClose: true
             });
             this.cmbOutlinelevel.setValue(-1);
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
@@ -346,6 +352,16 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
             }, this));
 
+            this.chLineNumbers = new Common.UI.CheckBox({
+                el: $('#paragraphadv-checkbox-suppress-line-numbers'),
+                labelText: this.strSuppressLineNumbers
+            });
+            this.chLineNumbers.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_SuppressLineNumbers(field.getValue()=='checked');
+                }
+            }, this));
+
             // Borders
 
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
@@ -360,10 +376,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#paragraphadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
             this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
+            this.btnBorderColor.on('auto:select', _.bind(this.onColorsBorderSelect, this));
 
             this.BordersImage = new Common.UI.TableStyler({
                 el: $('#id-deparagraphstyler'),
@@ -375,14 +393,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
 
             var _arrBorderPresets = [
-                ['lrtb',    'btn-borders-large btn-adv-paragraph-outer',    'paragraphadv-button-border-outer', this.tipOuter],
-                ['lrtbm',   'btn-borders-large btn-adv-paragraph-all',      'paragraphadv-button-border-all',    this.tipAll],
-                ['',        'btn-borders-large btn-adv-paragraph-none',     'paragraphadv-button-border-none',       this.tipNone],
-                ['l',       'btn-borders-large btn-adv-paragraph-left',     'paragraphadv-button-border-left',      this.tipLeft],
-                ['r',       'btn-borders-large btn-adv-paragraph-right',    'paragraphadv-button-border-right',     this.tipRight],
-                ['t',       'btn-borders-large btn-adv-paragraph-top',      'paragraphadv-button-border-top',         this.tipTop],
-                ['m',       'btn-borders-large btn-adv-paragraph-inner-hor', 'paragraphadv-button-border-inner-hor', this.tipInner],
-                ['b',       'btn-borders-large btn-adv-paragraph-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
+                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
+                ['lrtbm',   'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
+                ['',        'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
+                ['l',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
+                ['r',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
+                ['t',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
+                ['m',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
+                ['b',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
             ];
 
             this._btnsBorderPosition = [];
@@ -528,7 +546,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     '<div style="width:121px;display: inline-block;"><%= displayTabAlign %></div>',
                     '<div style="width:96px;display: inline-block;"><%= displayTabLeader %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.tabList.store.comparator = function(rec) {
                 return rec.get("tabPos");
@@ -549,7 +568,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabAlign
+                data        : this._arrTabAlign,
+                takeFocusOnClose: true
             });
             this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
@@ -559,7 +579,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabLeader
+                data        : this._arrTabLeader,
+                takeFocusOnClose: true
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
 
@@ -656,6 +677,44 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacing, this.numPosition, // 3 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, {cmp: this.tabList, selector: '.listview'}, // 4 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index, cmp, e) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.cmbTextAlignment.focus();
+                        break;
+                    case 3:
+                        me.numSpacing.focus();
+                        if (e && (e instanceof jQuery.Event))
+                            me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
+                        break;
+                    case 4:
+                        me.numDefaultTab.focus();
+                        break;
+                    case 5:
+                        me.spnMarginTop.focus();
+                        break;
+                }
+            }, 10);
+        },
+
+        onAnimateAfter: function() {
+            (this.getActiveCategory()==3) && this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps || new Asc.asc_CParagraphProperty());
+        },
+
         getSettings: function() {
             if ( this.ChangedBorders === null ) {
                 this._changedProps.put_Borders(this.Borders);
@@ -730,7 +789,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             var horizontalAlign = this.cmbTextAlignment.getValue();
             this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
 
-            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -746,8 +805,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.numIndentsLeft.setValue(this.LeftIndent!==null ? Common.Utils.Metric.fnRecalcFromMM(this.LeftIndent) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
 
-                this.numSpacingBefore.setValue((props.get_Spacing() !== null && props.get_Spacing().get_Before() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Before()) : '', true);
-                this.numSpacingAfter.setValue((props.get_Spacing() !== null && props.get_Spacing().get_After() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_After()) : '', true);
+                var value = props.get_Spacing() ? props.get_Spacing().get_Before() : null;
+                this.numSpacingBefore.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
+                value = props.get_Spacing() ? props.get_Spacing().get_After() : null;
+                this.numSpacingAfter.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
 
                 var linerule = props.get_Spacing().get_LineRule();
                 this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
@@ -773,6 +834,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.chKeepNext.setValue((props.get_KeepNext() !== null && props.get_KeepNext() !== undefined) ? props.get_KeepNext() : 'indeterminate', true);
                 this.chOrphan.setValue((props.get_WidowControl() !== null && props.get_WidowControl() !== undefined) ? props.get_WidowControl() : 'indeterminate', true);
+
+                this.chLineNumbers.setValue((props.get_SuppressLineNumbers() !== null && props.get_SuppressLineNumbers() !== undefined) ? props.get_SuppressLineNumbers() : 'indeterminate', true);
 
                 this.Borders = new Asc.asc_CParagraphBorders(props.get_Borders());
 
@@ -834,8 +897,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.numSpacing.setValue((props.get_TextSpacing() !== null && props.get_TextSpacing() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_TextSpacing()) : '', true);
                 this.numPosition.setValue((props.get_Position() !== null && props.get_Position() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Position()) : '', true);
-
-                this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', this._originalProps);
 
                 // Tabs
                 this.numDefaultTab.setValue((props.get_DefaultTab() !== null && props.get_DefaultTab() !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(parseFloat(props.get_DefaultTab().toFixed(1))) : '', true);
@@ -907,14 +968,18 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                this.BordersImage.setVirtualBorderColor((typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor);
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                this.BordersImage.setVirtualBorderColor((typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color);
+
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 var rec = this.cmbBorderSize.getSelectedRecord();
                 if (rec)
                     this.onBorderSizeSelect(this.cmbBorderSize, rec);
-
-                this.colorsBorder.select(this.borderProps.borderColor,true);
             }
 
             for (var i=0; i<this.BordersImage.rows; i++) {
@@ -1112,7 +1177,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {
@@ -1471,7 +1542,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textLevel: 'Level',
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
-        strSpacing: 'Spacing'
+        strSpacing: 'Spacing',
+        strSuppressLineNumbers: 'Suppress line numbers'
 
     }, DE.Views.ParagraphSettingsAdvanced || {}));
 });

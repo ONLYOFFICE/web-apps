@@ -180,25 +180,25 @@ define([
             _initTransitionView: function () {
                 var me = this;
 
-                var timing = _slideObject.get_timing();
-                if (timing) {
-                    _effect = timing.get_TransitionType();
+                var transition = _slideObject.get_transition();
+                if (transition) {
+                    _effect = transition.get_TransitionType();
                     me.getView('EditSlide').fillEffectTypes(_effect);
                     $('#edit-slide-effect .item-after').text(me.getView('EditSlide').getEffectName(_effect));
                     $('#edit-slide-effect-type').toggleClass('disabled', _effect == Asc.c_oAscSlideTransitionTypes.None);
                     $('#edit-slide-duration').toggleClass('disabled', _effect == Asc.c_oAscSlideTransitionTypes.None);
 
-                    _effectType = timing.get_TransitionOption();
+                    _effectType = transition.get_TransitionOption();
                     $('#edit-slide-effect-type .item-after').text((_effect != Asc.c_oAscSlideTransitionTypes.None) ? me.getView('EditSlide').getEffectTypeName(_effectType) : '');
 
-                    _effectDuration = timing.get_TransitionDuration();
+                    _effectDuration = transition.get_TransitionDuration();
                     $('#edit-slide-duration .item-after label').text((_effectDuration!==null && _effectDuration!==undefined) ?  (parseInt(_effectDuration/1000.) + ' ' + me.textSec) : '');
 
-                    $('#edit-slide-start-click input:checkbox').prop('checked', !!timing.get_SlideAdvanceOnMouseClick());
-                    $('#edit-slide-delay input:checkbox').prop('checked', !!timing.get_SlideAdvanceAfter());
-                    $('#edit-slide-delay .item-content:nth-child(2)').toggleClass('disabled',!timing.get_SlideAdvanceAfter());
+                    $('#edit-slide-start-click input:checkbox').prop('checked', !!transition.get_SlideAdvanceOnMouseClick());
+                    $('#edit-slide-delay input:checkbox').prop('checked', !!transition.get_SlideAdvanceAfter());
+                    $('#edit-slide-delay .item-content:nth-child(2)').toggleClass('disabled',!transition.get_SlideAdvanceAfter());
 
-                    _effectDelay = timing.get_SlideAdvanceDuration();
+                    _effectDelay = transition.get_SlideAdvanceDuration();
                     $('#edit-slide-delay .item-content:nth-child(2) .item-after').text((_effectDelay!==null && _effectDelay!==undefined) ? (parseInt(_effectDelay/1000.) + ' ' + me.textSec) : '');
                     $('#edit-slide-delay .item-content:nth-child(2) input').val([(_effectDelay!==null && _effectDelay!==undefined) ? parseInt(_effectDelay/1000.) : 0]);
                 }
@@ -266,10 +266,10 @@ define([
                     _effectType = this.getView('EditSlide').fillEffectTypes(_effect);
 
                     var props = new Asc.CAscSlideProps(),
-                        timing = new Asc.CAscSlideTiming();
-                    timing.put_TransitionType(_effect);
-                    timing.put_TransitionOption(_effectType);
-                    props.put_timing(timing);
+                        transition = new Asc.CAscSlideTransition();
+                    transition.put_TransitionType(_effect);
+                    transition.put_TransitionOption(_effectType);
+                    props.put_transition(transition);
                     this.api.SetSlideProps(props);
                 }
             },
@@ -281,10 +281,10 @@ define([
                     _effectType = parseFloat($target.prop('value'));
 
                     var props = new Asc.CAscSlideProps(),
-                        timing = new Asc.CAscSlideTiming();
-                    timing.put_TransitionType(_effect);
-                    timing.put_TransitionOption(_effectType);
-                    props.put_timing(timing);
+                        transition = new Asc.CAscSlideTransition();
+                    transition.put_TransitionType(_effect);
+                    transition.put_TransitionOption(_effectType);
+                    props.put_transition(transition);
                     this.api.SetSlideProps(props);
                 }
             },
@@ -302,9 +302,9 @@ define([
                 $('#edit-slide-duration .item-after label').text(duration + ' ' + this.textSec);
 
                 var props = new Asc.CAscSlideProps(),
-                    timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionDuration(_effectDuration);
-                props.put_timing(timing);
+                    transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionDuration(_effectDuration);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             },
 
@@ -312,9 +312,9 @@ define([
                 var $checkbox = $(e.currentTarget);
 
                 var props = new Asc.CAscSlideProps(),
-                    timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceOnMouseClick($checkbox.is(':checked'));
-                props.put_timing(timing);
+                    transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceOnMouseClick($checkbox.is(':checked'));
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             },
 
@@ -324,10 +324,10 @@ define([
                 $('#edit-slide-delay .item-content:nth-child(2)').toggleClass('disabled',!$checkbox.is(':checked'));
 
                 var props = new Asc.CAscSlideProps(),
-                    timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceAfter($checkbox.is(':checked'));
-                timing.put_SlideAdvanceDuration(_effectDelay);
-                props.put_timing(timing);
+                    transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceAfter($checkbox.is(':checked'));
+                transition.put_SlideAdvanceDuration(_effectDelay);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             },
 
@@ -339,9 +339,9 @@ define([
                 $('#edit-slide-delay .item-content:nth-child(2) .item-after').text(delay + ' ' + this.textSec);
 
                 var props = new Asc.CAscSlideProps(),
-                    timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceDuration(_effectDelay);
-                props.put_timing(timing);
+                    transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceDuration(_effectDelay);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             },
 
@@ -351,7 +351,7 @@ define([
             },
 
             onApplyAll: function (e) {
-                this.api.SlideTimingApplyToAll();
+                this.api.SlideTransitionApplyToAll();
             },
 
             // API handlers

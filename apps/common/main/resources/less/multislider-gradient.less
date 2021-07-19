@@ -3,6 +3,8 @@
     background-color: transparent;
 
     .thumb {
+        width: 13px;
+        height: 15px;
         top: 18px;
         background: none;
 
@@ -12,19 +14,24 @@
             left: 2px;
             width: 9px;
             height: 9px;
-            background-color: #ffffff;
+            background-color: @background-normal-ie;
+            background-color: @background-normal;
             -moz-transform: rotate(45deg);
             -ms-transform: rotate(45deg);
             -webkit-transform: rotate(45deg);
             -o-transform: rotate(45deg);
             transform: rotate(45deg);
-            border-top: solid 1px @gray-darker;
-            border-left: solid 1px @gray-darker;
+            border-top: solid @scaled-one-px-value-ie @border-regular-control-ie;
+            border-top: solid @scaled-one-px-value @border-regular-control;
+            border-left: solid @scaled-one-px-value-ie @border-regular-control-ie;
+            border-left: solid @scaled-one-px-value @border-regular-control;
             border-radius: 0 3px;
             box-sizing: content-box;
             .thumb-top-inner {
-                border-top: solid 1px #fff;
-                border-left: solid 1px #fff;
+                border-top: solid @scaled-one-px-value-ie @background-normal-ie;
+                border-top: solid @scaled-one-px-value @background-normal;
+                border-left: solid @scaled-one-px-value-ie @background-normal-ie;
+                border-left: solid @scaled-one-px-value @background-normal;
                 height: 100%;
             }
         }
@@ -35,13 +42,16 @@
             left: 1px;
             width: 10px;
             height: 9px;
-            background-color: #ffffff;
-            border: solid 1px @gray-darker;
+            background-color: @background-normal-ie;
+            background-color: @background-normal;
+            border: solid @scaled-one-px-value-ie @border-regular-control-ie;
+            border: solid @scaled-one-px-value @border-regular-control;
             border-top: none;
             border-radius: 2px;
             box-sizing: content-box;
             .thumb-bottom-inner {
-                border: solid 1px #fff;
+                border: solid @scaled-one-px-value-ie @background-normal-ie;
+                border: solid @scaled-one-px-value @background-normal;
                 border-top: none;
                 height: 100%;
             }
@@ -49,11 +59,14 @@
 
         &.active {
             .thumb-top {
-                border-top: solid 1px #000;
-                border-left: solid 1px #000;
+                border-top: solid @scaled-one-px-value-ie @border-control-focus-ie;
+                border-top: solid @scaled-one-px-value @border-control-focus;
+                border-left: solid @scaled-one-px-value-ie @border-control-focus-ie;
+                border-left: solid @scaled-one-px-value @border-control-focus;
             }
             .thumb-bottom {
-                border: solid 1px #000;
+                border: solid @scaled-one-px-value-ie @border-control-focus-ie;
+                border: solid @scaled-one-px-value @border-control-focus;
                 border-top: none;
             }
         }
@@ -80,8 +93,10 @@
 //        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
 
         background-position: 0 0;
-        outline: 1px solid rgba(162, 162, 162, 1);
-        border: 1px solid #FFFFFF;
+        outline: @scaled-one-px-value-ie solid @border-control-focus-ie;
+        outline: @scaled-one-px-value solid @border-control-focus;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
         cursor: copy;
     }
 }

@@ -137,7 +137,8 @@
 
 define([
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/FocusManager'
 ], function () {
     'use strict';
 
@@ -165,7 +166,7 @@ define([
                                 '<div class="header">' +
                                     '<div class="tools">' +
                                     '<% if (closable!==false) %>' +
-                                        '<div class="tool close img-commonctrl"></div>' +
+                                        '<div class="tool close"></div>' +
                                     '<% %>' +
                                     '<% if (help===true) %>' +
                                         '<div class="tool help">?</div>' +
@@ -236,6 +237,14 @@ define([
             }
             height -= Common.Utils.InternalSettings.get('window-inactive-area-top');
             return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
+        }
+
+        function _autoSize() {
+            if (this.initConfig.height == 'auto') {
+                var height = parseInt(this.$window.find('> .body').css('height'));
+                this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
+                this.$window.height(height);
+            }
         }
 
         function _centre() {
@@ -446,7 +455,7 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>"></div><% } %>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl img-colored <%= iconCls %>"></div><% } %>' +
                                 '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
@@ -597,7 +606,7 @@ define([
                             if (b.value !== undefined)
                                 newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
                         } else {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
+                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
                             if (b=='custom')
                                 newBtns[b].cls += ' custom';
                         }
@@ -623,7 +632,7 @@ define([
 
                 this.$window = $('#' + this.initConfig.id);
 
-                if (Common.Locale.getCurrentLanguage() !== 'en')
+                if (Common.Locale.getCurrentLanguage() && Common.Locale.getCurrentLanguage() !== 'en')
                     this.$window.attr('applang', Common.Locale.getCurrentLanguage());
 
                 this.binding.keydown = _.bind(_keydown,this);
@@ -658,11 +667,7 @@ define([
                     });
                 }
 
-                if (this.initConfig.height == 'auto') {
-                    var height = parseInt(this.$window.find('> .body').css('height'));
-                    this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
-                    this.$window.height(height);
-                } else {
+                if (this.initConfig.height !== 'auto') {
                     this.$window.css('height',this.initConfig.height);
                 }
 
@@ -704,13 +709,14 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var opacity = mask.css('opacity');
+                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation(opacity));
+                            mask.css(_getTransformation(maskOpacity));
                         }, 1);
                     }
 
@@ -720,6 +726,7 @@ define([
 
                 if (!this.$window) {
                     this.render();
+                    _autoSize.call(this);
 
                     if (_.isNumber(x) && _.isNumber(y)) {
                         this.$window.css('left',Math.floor(x));
@@ -762,6 +769,9 @@ define([
                             '-o-transform': 'scale(1)',
                             'opacity': '1'
                         });
+                        setTimeout(function () {
+                            me.fireEvent('animate:after', me);
+                        }, 210);
                     }, 1);
 
                     setTimeout(function () {
@@ -772,9 +782,12 @@ define([
                     this.$window.css({opacity: 1});
                     this.$window.addClass('notransform');
                     this.fireEvent('show', this);
+                    setTimeout(function () {
+                        me.fireEvent('animate:after', me);
+                    }, 10);
                 }
 
-                Common.NotificationCenter.trigger('window:show');
+                Common.NotificationCenter.trigger('window:show', this);
             },
 
             close: function(suppressevent) {
@@ -796,12 +809,12 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var opacity = mask.css('opacity');
+                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
-                                mask.css('opacity', opacity);
                                 if (parseInt(mask.attr('counter'))<1) {
+                                    mask.css('opacity', maskOpacity);
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -814,7 +827,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this, hide_mask);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                 }
 
                 this.$window.remove();
@@ -837,12 +850,12 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var opacity = mask.css('opacity');
+                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
-                                    mask.css('opacity', opacity);
                                     if (parseInt(mask.attr('counter'))<1) {
+                                        mask.css('opacity', maskOpacity);
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }
@@ -854,7 +867,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');
@@ -981,6 +994,13 @@ define([
             },
 
             onPrimary: function() {},
+
+            getFocusedComponents: function() {
+                return [];
+            },
+
+            getDefaultFocusableComponent: function() {
+            },
 
             cancelButtonText: 'Cancel',
             okButtonText: 'OK',

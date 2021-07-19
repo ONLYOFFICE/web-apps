@@ -11,10 +11,11 @@
         # Full #
 
         config = {
-            type: 'desktop or mobile',
+            type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
+            token: <string> encrypted signature
             document: {
                 title: 'document title',
                 url: 'document url'
@@ -23,10 +24,8 @@
                 key: 'key',
                 vkey: 'vkey',
                 info: {
-                    author: 'author name', // must be deprecated, use owner instead
                     owner: 'owner name',
                     folder: 'path to document',
-                    created: '<creation date>', // must be deprecated, use uploaded instead
                     uploaded: '<uploaded date>',
                     sharingSettings: [
                         {
@@ -35,7 +34,8 @@
                             isLink: false
                         },
                         ...
-                    ]
+                    ],
+                    favorite: '<file is favorite>' // true/false/undefined (undefined - don't show fav. button)
                 },
                 permissions: {
                     edit: <can edit>, // default = true
@@ -43,16 +43,23 @@
                     reader: <can view in readable mode>,
                     review: <can review>, // default = edit
                     print: <can print>, // default = true
-                    rename: <can rename>, // default = false
-                    changeHistory: <can change history>, // default = false // must be deprecated, check onRequestRestore event instead
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
                     fillForms:  <can edit forms in view mode> // default = edit || review,
-                    copy: <can copy data> // default = true
+                    copy: <can copy data> // default = true,
+                    editCommentAuthorOnly: <can edit your own comments only> // default = false
+                    deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
+                    reviewGroups: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
                 }
             },
             editorConfig: {
+                actionLink: { // open file and scroll to data, used with onMakeActionLink or the onRequestSendNotify event
+                    action: {
+                        type: "bookmark", // or type="comment"
+                        data: <bookmark name> // or comment id
+                    }
+                },
                 mode: 'view or edit',
                 lang: <language code>,
                 location: <location>,
@@ -70,7 +77,8 @@
 
                 user: {
                     id: 'user id',
-                    name: 'user name'
+                    name: 'user name',
+                    group: 'group name' // for customization.reviewPermissions parameter
                 },
                 recent: [
                     {
@@ -113,6 +121,15 @@
                         blank: true,
                         requestClose: false // if true - goback send onRequestClose event instead opening url
                     },
+                    reviewPermissions: {
+                        "Group1": ["Group2"], // users from Group1 can accept/reject review changes made by users from Group2
+                        "Group2": ["Group1", "Group2"] // users from Group2 can accept/reject review changes made by users from Group1 and Group2
+                        "Group3": [""] // users from Group3 can accept/reject review changes made by users without a group
+                    },
+                    anonymous: { // set name for anonymous user
+                        request: bool (default: true), // enable set name
+                        label: string (default: "Guest") // postfix for user name
+                    }
                     chat: true,
                     comments: true,
                     zoom: 100,
@@ -124,7 +141,7 @@
                     statusBar: true,
                     autosave: true,
                     forcesave: false,
-                    commentAuthorOnly: false,
+                    commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
@@ -137,7 +154,9 @@
                     mentionShare : true // customize tooltip for mention,
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
-                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn'
+                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor)
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -151,9 +170,30 @@
             },
             events: {
                 'onAppReady': <application ready callback>,
-                'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
                 'onDocumentReady': <document ready callback>
+                'onRequestEditRights': <request rights for switching from view to edit>,
+                'onRequestHistory': <request version history>,// must call refreshHistory method
+                'onRequestHistoryData': <request version data>,// must call setHistoryData method
+                'onRequestRestore': <try to restore selected version>,
+                'onRequestHistoryClose': <request closing history>,
+                'onError': <error callback>,
+                'onWarning': <warning callback>,
+                'onInfo': <document open callback>,// send view or edit mode
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
+                'onRequestSaveAs': <try to save copy of the document>,
+                'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
+                'onRequestRename': <try to rename document>,
+                'onMetaChange': // send when meta information changed
+                'onRequestClose': <request close editor>,
+                'onMakeActionLink': <request link to document with bookmark, comment...>,// must call setActionLink method
+                'onRequestUsers': <request users list for mentions>,// must call setUsers method
+                'onRequestSendNotify': //send when user is mentioned in a comment,
+                'onRequestInsertImage': <try to insert image>,// must call insertImage method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
+                'onRequestCreateNew': <try to create document>,
             }
         }
 
@@ -163,7 +203,7 @@
             type: 'embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
             document: {
                 title: 'document title',
                 url: 'document url',
@@ -299,6 +339,8 @@
             if ( msg ) {
                 if ( msg.type === "onExternalPluginMessage" ) {
                     _sendCommand(msg);
+                } else if (msg.type === "onExternalPluginMessageCallback") {
+                    postMessage(window.parent, msg);
                 } else
                 if ( msg.frameEditorId == placeholderId ) {
                     var events = _config.events || {},
@@ -334,8 +376,14 @@
                         'text': 'docx',
                         'text-pdf': 'pdf',
                         'spreadsheet': 'xlsx',
-                        'presentation': 'pptx'
+                        'presentation': 'pptx',
+                        'word': 'docx',
+                        'cell': 'xlsx',
+                        'slide': 'pptx'
                     }, app;
+
+                if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -349,15 +397,15 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2|xml))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
                         return false;
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
-                        if (typeof type[1] === 'string') _config.documentType = 'spreadsheet'; else
-                        if (typeof type[2] === 'string') _config.documentType = 'presentation'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'text';
+                        if (typeof type[1] === 'string') _config.documentType = 'cell'; else
+                        if (typeof type[2] === 'string') _config.documentType = 'slide'; else
+                        if (typeof type[3] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -374,6 +422,11 @@
                 } else if (typeof _config.document.key !== 'string') {
                     window.alert("The \"document.key\" parameter for the config object must be string. Please correct it.");
                     return false;
+                }
+
+                if (_config.editorConfig.user && _config.editorConfig.user.id && (typeof _config.editorConfig.user.id == 'number')) {
+                    _config.editorConfig.user.id = _config.editorConfig.user.id.toString();
+                    console.warn("The \"id\" parameter for the editorConfig.user object must be a string.");
                 }
 
                 _config.document.token = _config.token;
@@ -597,6 +650,13 @@
             });
         };
 
+        var _setFavorite = function(data) {
+            _sendCommand({
+                command: 'setFavorite',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -642,7 +702,8 @@
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
             setMailMergeRecipients: _setMailMergeRecipients,
-            setRevisedFile      : _setRevisedFile
+            setRevisedFile      : _setRevisedFile,
+            setFavorite         : _setFavorite
         }
     };
 
@@ -737,9 +798,12 @@
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
                 'spreadsheet': 'spreadsheeteditor',
-                'presentation': 'presentationeditor'
+                'presentation': 'presentationeditor',
+                'word': 'documenteditor',
+                'cell': 'spreadsheeteditor',
+                'slide': 'presentationeditor'
             },
-            app = appMap['text'];
+            app = appMap['word'];
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
@@ -748,8 +812,8 @@
             var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
                             .exec(config.document.fileType);
             if (type) {
-                if (typeof type[1] === 'string') app = appMap['spreadsheet']; else
-                if (typeof type[2] === 'string') app = appMap['presentation'];
+                if (typeof type[1] === 'string') app = appMap['cell']; else
+                if (typeof type[2] === 'string') app = appMap['slide'];
             }
         }
 
@@ -816,9 +880,14 @@
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
+        else if (config.document && config.document.permissions && (config.document.permissions.edit === false && config.document.permissions.fillForms ))
+            params += "&toolbar=true";
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
+
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
+            params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
         return params;
     }
@@ -835,7 +904,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
         
 		if (config.type == "mobile")
 		{

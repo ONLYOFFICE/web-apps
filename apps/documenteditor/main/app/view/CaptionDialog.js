@@ -126,7 +126,7 @@ define([
                 ].join('')
             }, options);
 
-            this.isObject   = options.isObject;
+            this.objectType = options.objectType;
             this.handler    = options.handler;
             this.props      = options.props;
 
@@ -151,7 +151,8 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 75px;',
                 editable: false,
-                disabled: !this.isObject,
+                disabled: (this.objectType===undefined),
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBefore,   value: 1 },
                     { displayValue: this.textAfter,   value: 0 }
@@ -180,6 +181,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:155px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this.arrLabel,
                 alwaysVisibleY: true
             });
@@ -204,7 +206,13 @@ define([
             if (curLabel && findIndLabel !== -1) {
                 recLabel = this.cmbLabel.store.at(findIndLabel);
             } else {
-                recLabel = this.cmbLabel.store.at(this.arrLabel.length-1);
+                var index = this.arrLabel.length-1;
+                if (this.objectType === Asc.c_oAscTypeSelectElement.Math) {
+                    index = this.arrLabel.length-3;
+                } else if (this.objectType === Asc.c_oAscTypeSelectElement.Image) {
+                    index = this.arrLabel.length-2;
+                }
+                recLabel = this.cmbLabel.store.at(index);
             }
             this.cmbLabel.selectRecord(recLabel);
 
@@ -264,6 +272,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter, maskExp: /[a-z]/, defValue: 'a' },
@@ -305,6 +314,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:135px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: this._arrLevel
             });
@@ -320,6 +330,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: [
                     { displayValue: '-     (' + this.textHyphen + ')',      value: '-' },
@@ -341,12 +352,16 @@ define([
             this.afterRender();
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getFocusedComponents: function() {
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        getDefaultFocusableComponent: function () {
+            return this.txtCaption;
+        },
+
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         close: function() {
@@ -430,11 +445,11 @@ define([
                     }, 0);
                 }
             }  else if (key === 'Backspace') {
-                if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption - 1) {
+                if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption) {
                     event.preventDefault();
                 }
             } else if (key === 'Delete') {
-                if (event.target.selectionStart < me.positionCaption - 1) {
+                if (event.target.selectionStart < me.positionCaption) {
                     event.preventDefault();
                 }
             } else if (key !== 'End') {

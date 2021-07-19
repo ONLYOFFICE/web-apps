@@ -146,8 +146,8 @@ define([
                         _paragraphObject.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
                         _paragraphObject.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
 
-                        _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
-                        $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                        _fontInfo.letterSpacing = (_paragraphObject.get_TextSpacing()===null || _paragraphObject.get_TextSpacing()===undefined) ? _paragraphObject.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
+                        $('#letter-spacing .item-after label').text((_fontInfo.letterSpacing===null || _fontInfo.letterSpacing===undefined) ? '' : _fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
                     }
 
                     _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
@@ -289,12 +289,12 @@ define([
                     fontSize = _fontInfo.size;
 
                 if ($button.hasClass('decrement')) {
-                    _.isUndefined(fontSize) ? this.api.FontSizeOut() : fontSize = Math.max(1, --fontSize);
+                    _.isUndefined(fontSize) || fontSize=='' ? this.api.FontSizeOut() : fontSize = Math.max(1, --fontSize);
                 } else {
-                    _.isUndefined(fontSize) ? this.api.FontSizeIn() : fontSize = Math.min(100, ++fontSize);
+                    _.isUndefined(fontSize) || fontSize=='' ? this.api.FontSizeIn() : fontSize = Math.min(100, ++fontSize);
                 }
 
-                if (! _.isUndefined(fontSize)) {
+                if (!(_.isUndefined(fontSize) || fontSize=='')) {
                     this.api.put_TextPrFontSize(fontSize);
                 }
             },
@@ -304,9 +304,9 @@ define([
                     spacing = _fontInfo.letterSpacing;
 
                 if ($button.hasClass('decrement')) {
-                    spacing = Math.max(-100, --spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.max(-100, --spacing);
                 } else {
-                    spacing = Math.min(100, ++spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.min(100, ++spacing);
                 }
                 _fontInfo.letterSpacing = spacing;
 
@@ -415,35 +415,58 @@ define([
 
             onDistanceBefore: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceBefore;
+                    distance = _paragraphInfo.spaceBefore,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceBefore = distance;
 
-                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : (_paragraphInfo.spaceBefore) + ' ' + metricText);
+                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceFix + ' ' + metricText);
 
                 this.api.put_LineSpacingBeforeAfter(0, (_paragraphInfo.spaceBefore < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceBefore));
             },
 
             onDistanceAfter: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceAfter;
+                    distance = _paragraphInfo.spaceAfter,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceAfter = distance;
 
-                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
-
+                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceFix + ' ' + metricText);
                 this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
             },
 
@@ -480,7 +503,7 @@ define([
                 _fontInfo.size = size;
                 var displaySize = _fontInfo.size;
 
-                _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
+                _.isUndefined(displaySize) || displaySize=='' ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
 
                 $('#font-fonts .item-after span:first-child').html(displaySize);
                 $('#font-size .item-after label').html(displaySize);
@@ -544,7 +567,8 @@ define([
             onApiBullets: function(data) {
                 var type    = data.get_ListType(),
                     subtype = data.get_ListSubType();
-
+                $('.dataview.bullets li').removeClass('active');
+                $('.dataview.numbers li').removeClass('active');
                 switch (type) {
                     case 0:
                         $('.dataview.bullets li[data-type=' + subtype + ']').addClass('active');
@@ -552,6 +576,9 @@ define([
                     case 1:
                         $('.dataview.numbers li[data-type=' + subtype + ']').addClass('active');
                         break;
+                    default:
+                        $('.dataview.bullets li[data-type="-1"]').addClass('active');
+                        $('.dataview.numbers li[data-type="-1"]').addClass('active');
                 }
             },
 

@@ -131,7 +131,7 @@ define([
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview" style="margin-top: 2px; height:208px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -160,13 +160,15 @@ define([
                         id: 'id-dlg-bullet-text-color',
                         caption: this.txtLikeText,
                         checkable: true,
-                        toggleGroup: 'list-settings-color'
+                        toggleGroup: 'list-settings-color',
+                        style: 'padding-left: 20px;'
                     },
                     {
                         id: 'id-dlg-bullet-auto-color',
                         caption: this.textAuto,
                         checkable: true,
-                        toggleGroup: 'list-settings-color'
+                        toggleGroup: 'list-settings-color',
+                        style: 'padding-left: 20px;'
                     },
                     {caption: '--'}],
                 additionalAlign: this.menuAddAlign
@@ -193,7 +195,7 @@ define([
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
                 '<div style="display: table-cell;"></div>',
-                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
                     '</ul>',
                 '</div>'
@@ -205,6 +207,7 @@ define([
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
+                takeFocusOnClose: true,
                 data        : [
                     { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
@@ -274,7 +277,8 @@ define([
                     { value: AscCommon.align_Left, displayValue: this.textLeft },
                     { value: AscCommon.align_Center, displayValue: this.textCenter },
                     { value: AscCommon.align_Right, displayValue: this.textRight }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbAlign.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps)
@@ -308,7 +312,8 @@ define([
                     { value: 48, displayValue: "48" },
                     { value: 72, displayValue: "72" },
                     { value: 96, displayValue: "96" }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbSize.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
@@ -326,11 +331,28 @@ define([
             this.levelsList = new Common.UI.ListView({
                 el: $('#levels-list', this.$window),
                 store: new Common.UI.DataViewStore(levels),
+                tabindex: 1,
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;line-height: 15px;"><%= (value+1) %></div>')
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
+
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFormat, this.cmbAlign, this.cmbSize, {cmp: this.levelsList, selector: '.listview'}];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.type > 0 ? this.cmbFormat : this.cmbAlign;
+        },
+
+        onAnimateAfter: function() {
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
         },
 
         afterRender: function() {
@@ -537,9 +559,6 @@ define([
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                 } else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
-            }
-            if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
             }
         },
 

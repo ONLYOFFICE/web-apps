@@ -64,6 +64,7 @@ define([
             lock                : false,
             lockuserid          : '',
             unattached          : false,
+            userdata            : '',
 
             id                  : Common.UI.getId(),        //  internal
             time                : 0,
@@ -78,7 +79,8 @@ define([
             hide                : false,
             hint                : false,
             dummy               : undefined,
-            editable            : true
+            editable            : true,
+            removable           : true
         }
     });
     Common.Models.Reply = Backbone.Model.extend({
@@ -89,12 +91,14 @@ define([
             usercolor           : null,
             reply               : '',
             date                : undefined,
+            userdata            : '',
 
             id                  : Common.UI.getId(),    //  internal
             editText            : false,
             editTextInPopover   : false,
             scope               : null,
-            editable            : true
+            editable            : true,
+            removable           : true
         }
     });
 });

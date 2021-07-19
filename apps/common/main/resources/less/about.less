@@ -4,18 +4,15 @@
         margin-bottom: 5px;
 
         &:before {
-            content: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/about/logo.png')), ~"url('@{common-image-const-path}/about/logo.png')");
+            //content: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/about/logo.png')), ~"url('@{common-image-const-path}/about/logo.png')");
+            content: ~"url('@{common-image-const-path}/about/logo_s.svg')";
 
-            @media only screen {
-                @media (-webkit-min-device-pixel-ratio: 2),
-                            (min-resolution: 2dppx),
-                            (min-resolution: 192dpi)
-                {
-                    content: ~"url('@{common-image-const-path}/about/logo@2x.png')";
-                    display: block;
-                    transform: scale(.5);
-                }
+            .theme-dark & {
+                content: ~"url('@{common-image-const-path}/about/logo-white_s.svg')";
             }
+
+            height: 45px;
+            width: auto;
         }
     }
 
@@ -23,18 +20,22 @@
         margin: 0 30px;
         font: 12px Tahoma;
         letter-spacing: 1px;
-        color: #666666;
+        color: @text-normal-ie;
+        color: @text-normal;
+        font-weight: bold;
         white-space: nowrap;
     }
 
     .asc-about-version {
         font: 15px Tahoma;
-        color: #b6b6b6;
+        color: @text-tertiary-ie;
+        color: @text-tertiary;
     }
 
     .asc-about-companyname {
         font: bold 15px Tahoma;
-        color: #333;
+        color: @text-normal-ie;
+        color: @text-normal;
     }
 
     label {
@@ -42,11 +43,13 @@
         &.asc-about-desc-name,
         &.asc-about-lic {
             font: 12px Tahoma;
-            color: #333;
+            color: @text-normal-ie;
+            color: @text-normal;
         }
 
         &.asc-about-desc-name {
-            color: #666666;
+            color: @text-normal-ie;
+            color: @text-normal;
             white-space: pre;
         }
 
@@ -58,7 +61,8 @@
 
     a {
         font: 12px Tahoma;
-        color: #333;
+        color: @text-normal-ie;
+        color: @text-normal;
     }
 
     .separator.horizontal {

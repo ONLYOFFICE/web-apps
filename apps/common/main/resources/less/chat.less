@@ -11,7 +11,8 @@
 
     .area {
         position: absolute;
-        border-bottom: 1px solid @gray-dark;
+        border-bottom: 1px solid @border-toolbar-ie;
+        border-bottom: 1px solid @border-toolbar;
         overflow: hidden;
     }
 
@@ -57,7 +58,8 @@
             margin: 0 5px 3px 0;
             width: 12px;
             height: 12px;
-            border: 1px solid @gray-dark;
+            border: 1px solid @border-toolbar-ie;
+            border: 1px solid @border-toolbar;
         }
 
         .name {
@@ -101,7 +103,8 @@
                 }
 
                 .user-name {
-                    color: @gray-deep;
+                    color: @text-normal-ie;
+                    color: @text-normal;
                     font-size: 12px;
                     font-weight: bold;
                     overflow: hidden;
@@ -112,7 +115,8 @@
                 .color {
                     width: 12px;
                     height: 12px;
-                    border: 1px solid @gray-dark;
+                    border: 1px solid @border-toolbar-ie;
+                    border: 1px solid @border-toolbar;
                     margin: 0 5px 3px 0;
                     vertical-align: middle;
                 }
@@ -120,13 +124,15 @@
                 .message {
                     word-wrap: break-word;
                     width: 100%;
-
-                    &.service {
-                        text-align: center;
-                        color: #CECECE;
-                        text-shadow: 0 1px 0 #fff;
-                        padding-right: 20px;
+                    &.user-select {
+                        cursor: text;
                     }
+                    //&.service {
+                    //    text-align: center;
+                    //    color: #CECECE;
+                    //    text-shadow: 0 1px 0 #fff;
+                    //    padding-right: 20px;
+                    //}
                 }
             }
         }
@@ -143,11 +149,13 @@
             height: 100%;
             resize: none;
             margin-bottom: 5px;
-            border: 1px solid @gray-dark;
+            border: 1px solid @border-regular-control-ie;
+            border: 1px solid @border-regular-control;
             font-size: 12px;
 
             &:focus {
-                border-color: @gray-darker;
+                border-color: @border-control-focus-ie;
+                border-color: @border-control-focus;
             }
         }
     }

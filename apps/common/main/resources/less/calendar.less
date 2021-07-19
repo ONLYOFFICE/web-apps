@@ -1,64 +1,94 @@
-@calendar-bg-color: @tabs-bg-color;
+@calendar-bg-color: @header-background-color-ie;
+@calendar-bg-color: @header-background-color;
 
 .calendar-window {
   border-radius: 0;
   box-shadow: none;
 }
 .calendar-box {
-  width: 198px;
-  height: 220px;
-  border: 1px solid @calendar-bg-color;
+  width: 212px;
+  height: 244px;
+    box-shadow: 0px 2px 5px @background-scrim-ie;
+    box-shadow: 0px 2px 5px @background-scrim;
+    border-radius: 2px;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+
   .top-row {
     padding: 0 5px;
   }
   .btn {
     background-color: transparent;
     border: none;
-    height: 20px;
-    width: 20px;
-    margin-top: 4px;
+    height: 24px;
+    width: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
+
     .icon {
       width: 16px;
       height: 16px;
       display: block;
       position: relative;
       &.arrow-prev {
-        background-position: -55px -96px;
+        background-position: -38px -96px;
       }
       &.arrow-next {
-        background-position: -52px -112px;
+        background-position: -36px -112px;
       }
     }
     &:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: @highlight-button-hover-ie;
+      background-color: @highlight-button-hover;
       cursor: pointer;
     }
+
+      &:active {
+          background-color: @highlight-button-pressed-ie;
+          background-color: @highlight-button-pressed;
+      }
   }
   .calendar-header {
-    height: 50px;
-    background-color: @calendar-bg-color;
-    color: #FFFFFF;
+        height: 68px;
+        color: @text-normal-ie;
+        color: @text-normal;
+        padding: 8px;
+        padding-bottom: 0;
+
     .top-row {
       display: flex;
       justify-content: space-between;
+        margin-bottom: 8px;
     }
+
     .bottom-row {
       display: flex;
       justify-content: space-around;
       padding: 0;
+        height: 28px;
+        align-items: center;
     }
+
+      .view-years &,
+      .view-months & {
+          height: 40px;
+
+          .bottom-row {
+              display: none;
+          }
+      }
+
     .title {
       width: 100%;
       margin: 4px 6px 3px 6px;
       text-align: center;
-      font-size: 13px;
+      font-size: 11px;
+
       label {
         padding: 2px 10px 0;
         display: block;
-        font-weight: bold;
+        //font-weight: bold;
         &:not(:last-of-type) {
           margin-right: 6px;
         }
@@ -67,7 +97,8 @@
         height: 100%;
         width: 100%;
         &:hover {
-          background-color: rgba(255,255,255,0.2);
+          background-color: @highlight-button-hover-ie;
+          background-color: @highlight-button-hover;
           cursor: pointer;
           label {
             cursor: pointer;
@@ -78,34 +109,40 @@
     }
   }
   .calendar-content {
+      padding: 0 8px;
+
     .item {
       margin: 0;
       padding: 0;
       height: auto;
       width: auto;
       box-shadow: none;
-      border: 1px solid #fff;
+
       .name-month, .name-year {
-        height: 40px;
-        width: 47px;
-        background-color: #F1F1F1;
+        height: 49px;
+        width: 49px;
+        background-color: @background-normal;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 13px;
       }
+
       .number-day {
-        height: 26px;
-        width: 26px;
-        background-color: #F1F1F1;
+        height: 28px;
+        width: 28px;
         display: flex;
         justify-content: center;
         align-items: center;
       }
+
       &.selected {
         .number-day, .name-month, .name-year {
-          color: #fff;
-          background-color: #7D858C;
+            color: @text-normal-pressed-ie;
+            color: @text-normal-pressed;
+            background-color: @highlight-button-pressed-ie;
+            background-color: @highlight-button-pressed;
+            border-radius: 2px;
         }
       }
       .weekend {
@@ -117,7 +154,7 @@
       &:not(.disabled):not(.selected) {
         .number-day, .name-month, .name-year {
           &:hover {
-            background-color: #D9D9D9;
+            background-color: @highlight-button-hover;
           }
         }
       }

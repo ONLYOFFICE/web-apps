@@ -202,7 +202,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -220,7 +220,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -289,7 +289,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100px;',
                 editable: false,
-                data: this._arrCapType
+                data: this._arrCapType,
+                takeFocusOnClose: true
             });
             this.cmbCapType.setValue(Asc.c_oAscLineCapType.Flat);
             this.cmbCapType.on('selected', _.bind(function(combo, record){
@@ -311,7 +312,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100px;',
                 editable: false,
-                data: this._arrJoinType
+                data: this._arrJoinType,
+                takeFocusOnClose: true
             });
             this.cmbJoinType.setValue(Asc.c_oAscLineJoinType.Round);
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
@@ -355,7 +357,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -382,7 +384,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -415,7 +417,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -442,7 +444,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -515,6 +517,45 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             });
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.spnWidth, this.spnHeight, // 0 tab
+                this.spnAngle,  // 1 tab
+                this.cmbCapType, this.cmbJoinType, // 2 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
+                this.spnColumns, this.spnSpacing, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.spnWidth.focus();
+                        break;
+                    case 1:
+                        me.spnAngle.focus();
+                        break;
+                    case 2:
+                        me.cmbCapType.focus();
+                        break;
+                    case 3:
+                        me.spnMarginTop.focus();
+                        break;
+                    case 4:
+                        me.spnColumns.focus();
+                        break;
+                    case 5:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         afterRender: function() {

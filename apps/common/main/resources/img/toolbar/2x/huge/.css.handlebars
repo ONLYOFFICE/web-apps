@@ -1,0 +1,12 @@
+{{#spritesheet}}
+@media only screen {
+    @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx), (min-resolution: 192dpi)
+    {
+        .options__icon.options__icon-huge {
+            background-image: url(resources/{{{escaped_image}}});
+            background-size: var(--huge-icon-background-image-width) auto;
+        }
+    }
+}
+{{/spritesheet}}

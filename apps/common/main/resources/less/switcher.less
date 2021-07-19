@@ -8,7 +8,8 @@
     .sw-left {
         display: inline-block;
         height: 100%;
-        background-color: @primary;
+        background-color: @highlight-button-pressed-ie;
+        background-color: @highlight-button-pressed;
         border-top-left-radius: 2px;
         border-bottom-left-radius: 2px;
     }
@@ -16,7 +17,8 @@
     .sw-right {
         display: inline-block;
         height: 100%;
-        background-color: @gray;
+        background-color: @border-regular-control-ie;
+        background-color: @border-regular-control;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
     }
@@ -27,8 +29,10 @@
         right: auto;
         top: 0;
         height: 100%;
-        background-color: #ffffff;
-        border: 1px solid @primary;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
+        border: 1px solid @highlight-button-pressed-ie;
+        border: 1px solid @highlight-button-pressed;
         border-radius: 3px;
     }
 
@@ -43,11 +47,13 @@
         cursor: default;
 
         .sw-left {
-            background-color: @gray;
+            background-color: @border-regular-control-ie;
+            background-color: @border-regular-control;
         }
 
         .thumb {
-            border-color: @gray;
+            border-color: @border-regular-control-ie;
+            border-color: @border-regular-control;
         }
     }
 }

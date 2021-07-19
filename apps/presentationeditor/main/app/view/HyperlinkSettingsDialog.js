@@ -84,7 +84,7 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;border: 1px solid #cfcfcf;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
@@ -134,7 +134,10 @@ define([
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 validation  : function(value) {
-                    var urltype = me.api.asc_getUrlType($.trim(value));
+                    var trimmed = $.trim(value);
+                    if (trimmed.length>2083) return me.txtSizeLimit;
+
+                    var urltype = me.api.asc_getUrlType(trimmed);
                     me.isEmail = (urltype==2);
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
@@ -171,7 +174,8 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                tabindex: 1
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
@@ -184,6 +188,10 @@ define([
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputDisplay, this.inputTip];
         },
 
         setSettings: function (props) {
@@ -205,11 +213,6 @@ define([
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
-                if (type==c_oHyperlinkType.WebLink) {
-                    _.delay(function(){
-                        me.inputUrl.cmpEl.find('input').focus();
-                    },50);
-                }
                 me._originalProps = props;
             }
         },
@@ -269,11 +272,11 @@ define([
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.isInputFirstChange = true;
-                        this.inputUrl.cmpEl.find('input').focus();
+                        this.inputUrl.focus();
                         return;
                     }
                     if (checkdisp !== true) {
-                        this.inputDisplay.cmpEl.find('input').focus();
+                        this.inputDisplay.focus();
                         return;
                     }
                     !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pe-settings-link-type", this.btnInternal.isActive());
@@ -372,8 +375,17 @@ define([
                 var rec = this.internalList.getSelectedRec();
                 rec && this.internalList.scrollToRecord(rec);
                 this.btnOk.setDisabled(!rec || rec.get('index')==4);
-            } else
+                var me = this;
+                _.delay(function(){
+                    me.inputDisplay.focus();
+                },50);
+            } else {
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                var me = this;
+                _.delay(function(){
+                    me.inputUrl.focus();
+                },50);
+            }
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -428,6 +440,7 @@ define([
         txtFirst:           'First Slide',
         txtLast:            'Last Slide',
         textDefault:        'Selected text',
-        textSlides: 'Slides'
+        textSlides: 'Slides',
+        txtSizeLimit: 'This field is limited to 2083 characters'
     }, PE.Views.HyperlinkSettingsDialog || {}))
 });

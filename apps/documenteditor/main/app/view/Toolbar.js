@@ -232,7 +232,7 @@ define([
                     });
                     this.paragraphControls.push(this.btnSubscript);
 
-                    this.btnHighlightColor = new Common.UI.Button({
+                    this.btnHighlightColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
@@ -254,7 +254,7 @@ define([
                     this.paragraphControls.push(this.btnHighlightColor);
                     this.textOnlyControls.push(this.btnHighlightColor);
 
-                    this.btnFontColor = new Common.UI.Button({
+                    this.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
@@ -268,27 +268,43 @@ define([
                                     template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                                 },
                                 {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
                             ]
                         })
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
-                    this.btnParagraphColor = new Common.UI.Button({
+                    this.btnParagraphColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-paracolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
                         split: true,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
                             ]
                         })
                     });
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
+
+                    this.btnChangeCase = new Common.UI.Button({
+                        id: 'id-toolbar-btn-case',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-change-case',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                                {caption: this.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                                {caption: this.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                                {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                                {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnChangeCase);
 
                     this.btnAlignLeft = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-left',
@@ -437,7 +453,6 @@ define([
                         iconCls: 'toolbar__icon btn-inserttable',
                         caption: me.capBtnInsTable,
                         menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
@@ -621,7 +636,7 @@ define([
                                 },
                                 {
                                     caption: this.textPictureControl,
-                                    // iconCls: 'mnu-control-rich',
+                                    iconCls: 'menu__icon btn-menu-image',
                                     value: 'picture'
                                 },
                                 {
@@ -646,31 +661,6 @@ define([
                                 },
                                 {caption: '--'},
                                 {
-                                    caption: this.textNewFieldControl,
-                                    value: 'new-field'
-                                },
-                                {
-                                    caption: this.textNewPictureControl,
-                                    value: 'new-picture'
-                                },
-                                {
-                                    caption: this.textNewComboboxControl,
-                                    value: 'new-combobox'
-                                },
-                                {
-                                    caption: this.textNewDropdownControl,
-                                    value: 'new-dropdown'
-                                },
-                                {
-                                    caption: this.textNewCheckboxControl,
-                                    value: 'new-checkbox'
-                                },
-                                {
-                                    caption: this.textNewRadioboxControl,
-                                    value: 'new-radiobox'
-                                },
-                                {caption: '--'},
-                                {
                                     caption: this.textRemoveControl,
                                     iconCls: 'menu__icon cc-remove',
                                     value: 'remove'
@@ -692,7 +682,7 @@ define([
                                                 checkable: true
                                             }),
                                             {caption: '--'},
-                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
                                             {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
                                         ]
                                     })
@@ -974,6 +964,54 @@ define([
                     });
                     this.toolbarControls.push(this.btnPageSize);
 
+                    this.btnLineNumbers = new Common.UI.Button({
+                        id: 'tlbtn-line-numbers',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-line-numbering',
+                        caption: me.capBtnLineNumbers,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textNone,
+                                    checkable: true,
+                                    toggleGroup: 'menuLineNumbers',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.textContinuous,
+                                    checkable: true,
+                                    toggleGroup: 'menuLineNumbers',
+                                    value: 1
+                                },
+                                {
+                                    caption: this.textRestartEachPage,
+                                    checkable: true,
+                                    toggleGroup: 'menuLineNumbers',
+                                    value: 2
+                                },
+                                {
+                                    caption: this.textRestartEachSection,
+                                    checkable: true,
+                                    toggleGroup: 'menuLineNumbers',
+                                    value: 3
+                                },
+                                {
+                                    caption: this.textSuppressForCurrentParagraph,
+                                    checkable: true,
+                                    allowDepress: true,
+                                    value: 4
+                                },
+                                {caption: '--'},
+                                {
+                                    caption: this.textCustomLineNumbers,
+                                    value: 5
+                                }
+                            ]
+                        })
+                    });
+
+
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
@@ -1073,6 +1111,7 @@ define([
                     this.mnuInsertImage = this.btnInsertImage.menu;
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
+                    this.mnuChangeCase = this.btnChangeCase.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -1132,6 +1171,7 @@ define([
                             if (menu.cmpEl) {
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
                                 var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = itemMargin + 1/Common.Utils.applicationPixelRatio());
                                 var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
                                     (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
                                     parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
@@ -1242,7 +1282,7 @@ define([
                     me.$el.html(me.rendererComponents(me.$layout));
                 } else {
                     me.$layout.find('.canedit').hide();
-                    me.$layout.addClass('folded');
+                    me.isCompactView && me.$layout.addClass('folded');
                     me.$el.html(me.$layout);
                 }
 
@@ -1325,6 +1365,7 @@ define([
                 _injectComponent('#slot-btn-subscript', this.btnSubscript);
                 _injectComponent('#slot-btn-highlight', this.btnHighlightColor);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
+                _injectComponent('#slot-btn-changecase', this.btnChangeCase);
                 _injectComponent('#slot-btn-align-left', this.btnAlignLeft);
                 _injectComponent('#slot-btn-align-center', this.btnAlignCenter);
                 _injectComponent('#slot-btn-align-right', this.btnAlignRight);
@@ -1344,6 +1385,7 @@ define([
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-line-numbers', this.btnLineNumbers);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
@@ -1521,7 +1563,7 @@ define([
 
                     me.btnImgWrapping.updateHint(me.tipImgWrapping);
                     me.btnImgWrapping.setMenu(new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
                                 iconCls     : 'menu__icon wrap-inline',
@@ -1571,6 +1613,11 @@ define([
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
                                 checkable   : true
+                            },
+                            { caption: '--' },
+                            {
+                                caption     : _holder_view.textEditWrapBoundary,
+                                wrapType    : 'edit'
                             }
                         ]
                     }));
@@ -1610,6 +1657,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnParagraphColor.updateHint(this.tipPrColor);
+                this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
                 this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
@@ -1638,6 +1686,7 @@ define([
                 this.btnPageOrient.updateHint(this.tipPageOrient);
                 this.btnPageSize.updateHint(this.tipPageSize);
                 this.btnPageMargins.updateHint(this.tipPageMargins);
+                this.btnLineNumbers.updateHint(this.tipLineNumbers);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
@@ -1646,13 +1695,30 @@ define([
                 // set menus
 
                 var me = this;
-
+                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 200px; height: 30px;"></div></a>');
+                var items = [], ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-markers-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
+                }
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         style: 'min-width: 139px',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
+                            this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
@@ -1662,11 +1728,28 @@ define([
                     })
                 );
 
+                items = []; ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-numbering-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
+                }
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
+                            this.mnuNumberChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
@@ -1675,13 +1758,29 @@ define([
                         ]
                     })
                 );
-
+                items = []; ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-multilevels-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
+                }
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         style: 'min-width: 90px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {caption: '--'},
+                            this.mnuMultiChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
@@ -1725,9 +1824,9 @@ define([
                 this.paragraphControls.push(this.mnuInsertPageCount);
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
-                        {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
+                        {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart"></div>')}
                     ]
                 }));
 
@@ -1736,8 +1835,8 @@ define([
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
                         showLast: false,
-                        restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
+                        restoreHeight: 465,
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
@@ -1834,55 +1933,55 @@ define([
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
                         {
-                            offsety: 132,
                             allowSelected: false,
+                            iconname: 'page-number-top-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            offsety: 99,
                             allowSelected: false,
+                            iconname: 'page-number-top-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            offsety: 66,
                             allowSelected: false,
+                            iconname: 'page-number-top-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
                             }
                         },
                         {
-                            offsety: 33,
                             allowSelected: false,
+                            iconname: 'page-number-bottom-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            offsety: 0,
                             allowSelected: false,
+                            iconname: 'page-number-bottom-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            offsety: 165,
                             allowSelected: false,
+                            iconname: 'page-number-bottom-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
                             }
                         }
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber" style="background-position: 0 -<%= offsety %>px"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
                 });
                 _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
 
@@ -1900,10 +1999,8 @@ define([
                 //
                 var colorVal;
                 if (this.btnHighlightColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnHighlightColor.cmpEl).append(colorVal);
                     this.btnHighlightColor.currentColor = 'FFFF00';
-                    colorVal.css('background-color', '#' + this.btnHighlightColor.currentColor);
+                    this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
                     this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
@@ -1915,18 +2012,14 @@ define([
                 }
 
                 if (this.btnFontColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });
                 }
 
                 if (this.btnParagraphColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnParagraphColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnParagraphColor.currentColor || 'transparent');
+                    this.btnParagraphColor.setColor(this.btnParagraphColor.currentColor || 'transparent');
                     this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-paracolor'),
                         transparent: true
@@ -1935,7 +2028,12 @@ define([
 
                 if (this.btnContentControls.cmpEl) {
                     this.mnuControlsColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-controls-color')
+                        el: $('#id-toolbar-menu-controls-color'),
+                        colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                            '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                            '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                            '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
+                        ]
                     });
                 }
             },
@@ -1991,7 +2089,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[17].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
@@ -2076,6 +2174,7 @@ define([
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
+                    placement: 'right-bottom',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -2357,12 +2456,20 @@ define([
             textListSettings: 'List Settings',
             capBtnDateTime: 'Date & Time',
             tipDateTime: 'Insert current date and time',
-            textNewFieldControl: 'New text field',
-            textNewPictureControl: 'New picture',
-            textNewComboboxControl: 'New combo box',
-            textNewCheckboxControl: 'New check box',
-            textNewRadioboxControl: 'New radio box',
-            textNewDropdownControl: 'New drop-down list'
+            capBtnLineNumbers: 'Line Numbers',
+            textContinuous: 'Continuous',
+            textRestartEachPage: 'Restart Each Page',
+            textRestartEachSection: 'Restart Each Section',
+            textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
+            textCustomLineNumbers: 'Line Numbering Options',
+            tipLineNumbers: 'Show line numbers',
+            tipChangeCase: 'Change case',
+            mniSentenceCase: 'Sentence case.',
+            mniLowerCase: 'lowercase',
+            mniUpperCase: 'UPPERCASE',
+            mniCapitalizeWords: 'Capitalize Each Word',
+            mniToggleCase: 'tOGGLE cASE',
+            textChangeLevel: 'Change List Level'
         }
     })(), DE.Views.Toolbar || {}));
 });

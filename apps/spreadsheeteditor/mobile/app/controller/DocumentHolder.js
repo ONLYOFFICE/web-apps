@@ -54,7 +54,8 @@ define([
         var _actionSheets = [],
             _isEdit = false,
             _canViewComments = true,
-            _isComments = false;
+            _isComments = false,
+            _canDeleteComments = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -84,18 +85,9 @@ define([
 
                 this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                this.api.asc_registerCallback('asc_onHyperlinkClick',   _.bind(this.onApiHyperlinkClick, this));
                 Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect,this));
-                this.api.asc_registerCallback('asc_onShowComment',      _.bind(this.onApiShowComment, this));
-                this.api.asc_registerCallback('asc_onHideComment',        _.bind(this.onApiHideComment, this));
-            },
-
-            onApiShowComment: function(comments) {
-                _isComments = comments && comments.length>0;
-            },
-
-            onApiHideComment: function() {
-                _isComments = false;
             },
 
             setMode: function (mode) {
@@ -104,6 +96,7 @@ define([
                     this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiFilterOptions, this));
                 }
                 _canViewComments = mode.canViewComments;
+                _canDeleteComments = mode.canDeleteComments;
             },
 
             // When our application is ready, lets get started
@@ -196,7 +189,9 @@ define([
                         }
                     }
                     break;
-                case 'del': me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All); break;
+                case 'del':
+                    me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All, !_canDeleteComments);
+                    break;
                 case 'wrap': me.api.asc_setCellTextWrap(true); break;
                 case 'unwrap': me.api.asc_setCellTextWrap(false); break;
                 case 'edit':
@@ -207,7 +202,7 @@ define([
                 case 'merge':
                     if (me.api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
                         _.defer(function () {
-                            uiApp.confirm(me.warnMergeLostData, undefined, function(){
+                            uiApp.confirm(me.warnMergeLostData, me.notcriticalErrorTitle, function(){
                                 me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
                             });
                         });
@@ -247,7 +242,12 @@ define([
                     break;
                 case 'viewcomment':
                     me.view.hideMenu();
-                    SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    var cellinfo = this.api.asc_getCellInfo(),
+                        comments = cellinfo.asc_getComments();
+                    if (comments.length) {
+                        SSE.getController('Common.Controllers.Collaboration').apiShowComments(comments[0].asc_getId());
+                        SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    }
                     break;
                 case 'addcomment':
                     me.view.hideMenu();
@@ -258,7 +258,7 @@ define([
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
-                            action.text = action.caption
+                            action.text = action.caption;
                             action.onClick = function () {
                                 me.onContextMenuClick(null, action.event)
                             }
@@ -301,6 +301,19 @@ define([
                 this.view.hideMenu();
             },
 
+            onApiHyperlinkClick: function(url) {
+                if (!url) {
+                    var me = this;
+                    _.defer(function () {
+                        uiApp.modal({
+                            title: me.notcriticalErrorTitle,
+                            text : me.errorInvalidLink,
+                            buttons: [{text: 'OK'}]
+                        });
+                    });
+                }
+            },
+
             // Internal
 
             _initMenu: function (cellinfo) {
@@ -313,6 +326,7 @@ define([
                 var iscelllocked    = cellinfo.asc_getLocked(),
                     seltype         = cellinfo.asc_getSelectionType(),
                     xfs             = cellinfo.asc_getXfs();
+                _isComments      = cellinfo.asc_getComments().length>0; //prohibit adding multiple comments in one cell;
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -521,7 +535,9 @@ define([
             menuAddComment: 'Add Comment',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
-            textDoNotShowAgain: 'Don\'t show again'
+            textDoNotShowAgain: 'Don\'t show again',
+            notcriticalErrorTitle: 'Warning',
+            errorInvalidLink: 'The link reference does not exist. Please correct the link or delete it.'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });
