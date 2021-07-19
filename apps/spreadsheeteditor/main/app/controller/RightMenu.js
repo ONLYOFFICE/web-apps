@@ -139,7 +139,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props, this._state.wsLock, this._state.wsProps);
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
