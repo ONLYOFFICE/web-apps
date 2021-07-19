@@ -151,7 +151,7 @@ define([
 
                 this.chLockedText = new Common.UI.CheckBox({
                     labelText: this.txtLockedText,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects']]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.selSlicer, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects']]
                 });
                 this.lockedControls.push(this.chLockedText);
 
