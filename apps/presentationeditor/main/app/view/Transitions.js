@@ -50,7 +50,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/DataView',
     'common/main/lib/component/Layout',
-    "SlideSettings",
+    'presentationeditor/main/app/view/SlideSettings',
+    'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/Window'
 ], function () {
     'use strict';
@@ -59,6 +60,9 @@ define([
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
                 //'<div class="separator long sharing"></div>' +
+                '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
+                '</div>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-comment-remove"></span>' +
@@ -71,7 +75,18 @@ define([
 
         function setEvents() {
             var me = this;
-            if (this.btnCommentRemove) {
+            if(this.btnPreview)
+            {
+                this.btnPreview.on('click', _.bind(function(btn){
+                   /* alert("hf,jnftn");
+                    if (this.api) {
+                        alert("api");
+                        this.api.SlideTransitionPlay();
+                    }*/
+                    this.fireEvent('transit:preview', [me.btnPreview]);
+                }, this));
+            }
+            /*if (this.btnCommentRemove) {
                 this.btnCommentRemove.on('click', function (e) {
                     me.fireEvent('comment:removeComments', ['current']);
                 });
@@ -88,7 +103,7 @@ define([
                 this.btnCommentResolve.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('comment:resolveComments', [item.value]);
                 });
-            }
+            }*/
         }
 
         return {
@@ -102,7 +117,12 @@ define([
                 this.appConfig = options.mode;
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-
+                this.btnPreview = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    caption: this.txtPreview,
+                    split: false,
+                    iconCls: 'toolbar__icon btn-rem-comment'
+                });
                this.btnCommentRemove = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtCommentRemove,
@@ -183,6 +203,7 @@ define([
 
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
+                this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
                 this.btnCommentRemove && this.btnCommentRemove.render(this.$el.find('#slot-comment-remove'));
                 this.btnCommentResolve && this.btnCommentResolve.render(this.$el.find('#slot-comment-resolve'));
 
@@ -202,9 +223,13 @@ define([
 
             },
             SetDisabled: function (state, langs) {
+                //this.btnPreview && this.btnPreview.setDisabled(state|| !Common.Utils.InternalSettings.get())
                 this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
                 this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },
+
+            txtSec:'s',
+            txtPreview:'Preview',
 
             txtCommentRemove: 'Remove',
             tipCommentRemCurrent: 'Remove current comments',

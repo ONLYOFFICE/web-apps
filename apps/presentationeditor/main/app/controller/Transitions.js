@@ -57,37 +57,19 @@ define([
 
             this.addListeners({
                 /*'FileMenu': {
-                    'settings:apply': this.applySettings.bind(this)
+                    'settings:apply': this.applySettings.bind(this),
                 },*/
 
                 'PE.Views.Transitions': {
-                    //'transit:accept':      _.bind(this.onAcceptClick, this),
-                    //'transit:reject':      _.bind(this.onRejectClick, this),
-                    //'transit:delete':      _.bind(this.onDeleteClick, this),
-                    //'transit:preview':     _.bind(this.onBtnPreviewClick, this),
-                    //'transit:view':        _.bind(this.onReviewViewClick, this),
-                    //'transit:compare':     _.bind(this.onCompareClick, this),
-                    //'lang:document':            _.bind(this.onDocLanguage, this)
-                    /*,
-                    'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)*/
-                },
-                'Common.Views.ReviewChangesDialog': {
-                    //'transit:accept':      _.bind(this.onAcceptClick, this),
-                    //'transit:reject':      _.bind(this.onRejectClick, this),
-                    //'transit:preview':     _.bind(this.onBtnPreviewClick, this)
-                },
-                'Common.Views.ReviewPopover': {
-                    //'transit:accept':      _.bind(this.onAcceptClick, this),
-                    //'transit:reject':      _.bind(this.onRejectClick, this),
-                    //'transit:delete':      _.bind(this.onDeleteClick, this),
-                    //'transit:goto':        _.bind(this.onGotoClick, this)
+                    'transit:preview':      _.bind(this.onPreviewClick, this)
                 }
             });
         },
         onLaunch: function () {
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
+            this._state = {};
+            //this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
 
-            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            //Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
          },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -99,21 +81,13 @@ define([
             return this;
         },
         setApi: function (api) {
+            this.api = api;
             if (api) {
-                this.api = api;
-
-                /*if (this.appConfig.canReview || this.appConfig.canViewReview) {
-                    this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
-                    this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
-                    this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
-                    this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
+                if (this.api) {
+                    this.api.SetInterfaceDrawImagePlaceSlide('slide-texture-img');
+                    //this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
                 }
-                if (this.appConfig.canReview)
-                    this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));*/
-                //this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
-                //this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
 
-               // Common.Gateway.on('setrevisedfile', _.bind(this.setRevisedFile, this));
             }
         },
 
@@ -130,9 +104,9 @@ define([
         },
 
         SetDisabled: function(state) {
-            if (this.dlgChanges)
+            /*if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state, this.langs);
+            this.view && this.view.SetDisabled(state, this.langs);*/
             //this.setPreviewMode(state);
         },
 
@@ -200,7 +174,14 @@ define([
                 me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
                 me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
+        },
+        onPreviewClick: function()
+        {
+            alert("hf,jnftn");
+            if (this.api) {
+                alert("api");
+                this.api.SlideTransitionPlay();
+            }
         }
-
     }, PE.Controllers.Transitions || {}));
 });

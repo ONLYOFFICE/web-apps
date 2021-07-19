@@ -995,7 +995,8 @@ define([
                     review: true,
                     viewport: true,
                     documentHolder: true,
-                    toolbar: true
+                    toolbar: true,
+                    transit:true
                 }, temp ? 'reconnect' : 'disconnect');
             },
 
