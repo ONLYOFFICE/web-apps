@@ -269,7 +269,10 @@ define([
                 resolve();
             })).then(function () {
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
-                me.view.btnProtectSheet.toggle(me.api.asc_isProtectedSheet(), true); //current sheet
+
+                var props = me.getWSProps();
+                me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
+                Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
             });
         },
 
@@ -281,6 +284,7 @@ define([
             var props = this.getWSProps();
 
             this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
+            Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
             Common.NotificationCenter.trigger('protect:wslock', props);
         },
 

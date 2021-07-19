@@ -145,13 +145,13 @@ define([
 
                 this.chLockedShape = new Common.UI.CheckBox({
                     labelText: this.txtLockedShape,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects']]
                 });
                 this.lockedControls.push(this.chLockedShape);
 
                 this.chLockedText = new Common.UI.CheckBox({
                     labelText: this.txtLockedText,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects']]
                 });
                 this.lockedControls.push(this.chLockedText);
 
