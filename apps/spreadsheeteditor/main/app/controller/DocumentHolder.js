@@ -1451,6 +1451,8 @@ define([
             }
             if (me.permissions.isEdit) {
                 if (!me.dlgFilter) {
+                    if (me._state.wsProps['PivotTables'] && config.asc_getPivotObj() || me._state.wsProps['AutoFilter'] && !config.asc_getPivotObj()) return;
+
                     me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
                             if (me.api) {
@@ -1746,7 +1748,7 @@ define([
                 if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
                 if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
             } else if (isimagemenu || isshapemenu || ischartmenu) {
-                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
+                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible() || this._state.wsProps['Objects']) return;
 
                 isimagemenu = isshapemenu = ischartmenu = isslicermenu = false;
                 documentHolder.mnuImgAdvanced.imageInfo = undefined;
@@ -1835,7 +1837,7 @@ define([
                     documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                 }
             } else if (istextshapemenu || istextchartmenu) {
-                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
+                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible() || this._state.wsProps['Objects']) return;
                 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
 
@@ -1912,8 +1914,8 @@ define([
                     item.setDisabled(isObjLocked);
                 });
                 documentHolder.pmiTextCopy.setDisabled(false);
-                documentHolder.menuHyperlinkShape.setDisabled(isObjLocked || this._state.wsLock);
-                documentHolder.menuAddHyperlinkShape.setDisabled(isObjLocked || this._state.wsLock);
+                documentHolder.menuHyperlinkShape.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlinkShape.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
 
                 //equation menu
                 var eqlen = 0;
