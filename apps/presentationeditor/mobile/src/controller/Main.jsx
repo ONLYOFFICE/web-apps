@@ -75,8 +75,6 @@ class MainController extends Component {
 
                 EditorUIController.isSupportEditFeature();
 
-                console.log('load config');
-
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);

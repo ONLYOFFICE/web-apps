@@ -148,9 +148,9 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
             <ActionsGroup>
                 {comment && <Fragment>
                     {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
-                    {!comment.resolved ?
+                    {!comment.resolved && comment.editable ?
                         <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textResolve}</ActionsButton> :
-                        <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
+                       comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
                     }
                     <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
                     {comment.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteComment', comment);}}>{_t.textDeleteComment}</ActionsButton>}
@@ -635,7 +635,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
-    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? 1 : -1) : null;
+    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
@@ -659,6 +659,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                 <List className='comment-list'>
                     {sortComments.map((comment, indexComment) => {
                         return (
+                            !comment.hide &&
                             <ListItem key={`comment-${indexComment}`} onClick={e => {
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
@@ -671,7 +672,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                                            {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
                                             <div className='comment-menu'
                                                  onClick={() => {setComment(comment); openActionComment(true);}}
                                             ><Icon icon='icon-menu-comment'/></div>
@@ -699,7 +700,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {!viewMode &&
+                                                                    {!viewMode && reply.editable &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
@@ -800,7 +801,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                 </div>
                                 {!viewMode &&
                                 <div className='right'>
-                                    <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                                    {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
                                     <div className='comment-menu'
                                         onClick={() => {openActionComment(true);}}
                                     ><Icon icon='icon-menu-comment'/></div>
@@ -828,7 +829,7 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                                                         <div className='reply-date'>{reply.date}</div>
                                                                     </div>
                                                                 </div>
-                                                                {!viewMode &&
+                                                                {!viewMode && reply.editable &&
                                                                 <div className='right'>
                                                                     <div className='reply-menu'
                                                                         onClick={() => {setReply(reply); openActionReply(true);}}

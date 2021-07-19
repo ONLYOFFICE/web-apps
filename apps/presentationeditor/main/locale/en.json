@@ -715,7 +715,7 @@
   "PE.Controllers.Main.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.Controllers.Main.uploadImageExtMessage": "Unknown image format.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "No images uploaded.",
-  "PE.Controllers.Main.uploadImageSizeMessage": "Maximum image size limit exceeded.",
+  "PE.Controllers.Main.uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
   "PE.Controllers.Main.uploadImageTextText": "Uploading image...",
   "PE.Controllers.Main.uploadImageTitleText": "Uploading Image",
   "PE.Controllers.Main.waitText": "Please, wait...",

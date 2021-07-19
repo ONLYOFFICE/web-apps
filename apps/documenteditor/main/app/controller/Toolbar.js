@@ -895,6 +895,8 @@ define([
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
+            toolbar.btnLineNumbers.setDisabled(in_image && in_para || this._state.lock_doc);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
@@ -1761,6 +1763,7 @@ define([
 
             switch (item.value) {
                 case 0:
+                    this._state.linenum = undefined;
                     this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
                     break;
                 case 1:

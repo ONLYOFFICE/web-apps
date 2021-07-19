@@ -24,6 +24,7 @@
   "PE.ApplicationController.waitText": "Lütfen bekleyin...",
   "PE.ApplicationView.txtDownload": "İndir",
   "PE.ApplicationView.txtEmbed": "Gömülü",
+  "PE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "PE.ApplicationView.txtFullScreen": "Tam Ekran",
   "PE.ApplicationView.txtPrint": "Yazdır",
   "PE.ApplicationView.txtShare": "Paylaş"
