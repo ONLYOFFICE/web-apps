@@ -927,6 +927,10 @@ define([
         },
 
         onHyperlink: function(btn) {
+            Common.NotificationCenter.trigger('protect:check', this.onHyperlinkCallback, this, [btn]);
+        },
+
+        onHyperlinkCallback: function(btn) {
             var me = this;
             var win,
                 props;

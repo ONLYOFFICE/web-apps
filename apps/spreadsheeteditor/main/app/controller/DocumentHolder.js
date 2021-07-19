@@ -569,6 +569,10 @@ define([
         },
 
         onInsHyperlink: function(item) {
+            Common.NotificationCenter.trigger('protect:check', this.onInsHyperlinkCallback, this, [item]);
+        },
+
+        onInsHyperlinkCallback: function(item) {
             var me = this;
             var win,
                 props;

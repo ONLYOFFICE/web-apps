@@ -209,7 +209,8 @@ define([
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
-                Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('protect:check',                _.bind(this.checkProtectedRange, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -1701,7 +1702,6 @@ define([
                         break;
                 }
 
-
                 if (level == Asc.c_oAscError.Level.Critical) {
                     Common.Gateway.reportError(id, config.msg);
 
@@ -2061,6 +2061,51 @@ define([
                         }
                     });
                     win.show();
+                }
+            },
+
+            checkProtectedRange: function(callback, scope, args) {
+                var result = this.api.asc_checkActiveCellProtectedRange();
+                if (result===null) {
+                    this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
+                    return;
+                }
+
+                if (result) {
+                    var me = this;
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    if (me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword())) {
+                                        callback && setTimeout(function() {
+                                            callback.apply(scope, args);
+                                        }, 1);
+                                    } else {
+                                        Common.UI.warning({
+                                            msg: me.errorWrongPassword,
+                                            callback: function() {
+                                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
+                } else {
+                    callback && setTimeout(function() {
+                        callback.apply(scope, args);
+                    }, 1);
                 }
             },
 
@@ -2982,7 +3027,8 @@ define([
             txtUnlockRange: 'Unlock Range',
             txtUnlockRangeWarning: 'A range you are trying to change is password protected.',
             txtUnlockRangeDescription: 'Enter the password to change this range:',
-            txtUnlock: 'Unlock'
+            txtUnlock: 'Unlock',
+            errorWrongPassword: 'The password you supplied is not correct.'
         }
     })(), SSE.Controllers.Main || {}))
 });
