@@ -273,6 +273,7 @@ define([
                 var props = me.getWSProps();
                 me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
                 Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
+                Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
             });
         },
 
@@ -285,6 +286,7 @@ define([
 
             this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
             Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
+            Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});
             Common.NotificationCenter.trigger('protect:wslock', props);
         },
 

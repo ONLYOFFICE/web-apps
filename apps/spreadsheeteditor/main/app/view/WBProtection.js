@@ -133,7 +133,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon allow-edit-ranges',
                     caption: this.txtAllowRanges,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock]
                 });
                 this.lockedControls.push(this.btnAllowRanges);
 
