@@ -153,6 +153,8 @@ define([
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -248,6 +250,14 @@ define([
                 if (!config.isEdit)
                     mnuitemHideRulers.hide();
 
+                me.header.menuItemsDarkMode = new Common.UI.MenuItem({
+                    caption: 'Dark mode',
+                    checkable: true,
+                    checked: Common.UI.Themes.isContentThemeDark(),
+                    disabled: !Common.UI.Themes.isDarkTheme(),
+                    value: 'mode:dark'
+                });
+
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
                     checkable: true,
@@ -286,6 +296,8 @@ define([
                             mnuitemHideStatusBar,
                             mnuitemHideRulers,
                             {caption:'--'},
+                            me.header.menuItemsDarkMode,
+                            {caption:'--'},
                             me.header.mnuitemFitPage,
                             me.header.mnuitemFitWidth,
                             me.header.mnuZoom,
@@ -314,6 +326,7 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
+                me.header.btnContentMode.setDisabled(!Common.UI.Themes.isDarkTheme());
             }
         },
 
@@ -352,6 +365,25 @@ define([
                 break;
             }
             this.api.Resize();
+        },
+
+        onThemeChanged: function (id) {
+            var menuItem = this.header.menuItemsDarkMode;
+            if ( !Common.UI.Themes.isDarkTheme() ) {
+                Common.Utils.InternalSettings.set("de-mode-dark", menuItem.isChecked());
+
+                menuItem.setChecked(false);
+                menuItem.setDisabled(true);
+            } else {
+                menuItem.setChecked(Common.Utils.InternalSettings.get("de-mode-dark"));
+                menuItem.setDisabled(false);
+            }
+
+            this.header.btnContentMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            this.header.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         onWindowResize: function(e) {
@@ -400,6 +432,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            case 'mode:dark': Common.UI.Themes.toggleContentTheme(); break;
             }
         },
 

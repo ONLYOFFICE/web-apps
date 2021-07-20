@@ -297,6 +297,20 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
+            isContentThemeDark: function () {
+                return Common.localStorage.getItem("content-theme") == 'dark';
+            },
+
+            toggleContentTheme: function () {
+                var is_current_dark = this.isContentThemeDark();
+                is_current_dark ? Common.localStorage.setItem('content-theme', 'light') : Common.localStorage.setItem('content-theme', 'dark');
+
+                if ( this.api.asc_setContentDarkMode )
+                    this.api.asc_setContentDarkMode(!is_current_dark);
+
+                Common.NotificationCenter.trigger('contenttheme:dark', !is_current_dark);
+            },
+
             setTheme: function (obj, force) {
                 var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
