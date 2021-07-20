@@ -99,7 +99,8 @@ define([
                     stretch: true
                 }, {
                     el: items[3],
-                    height: 25
+                    alias: 'statusbar',
+                    height: Common.localStorage.getBool('sse-compact-statusbar') ? 25 : 50
                 }]
             });
 

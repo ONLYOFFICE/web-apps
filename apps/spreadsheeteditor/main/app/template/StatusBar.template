@@ -1,5 +1,6 @@
 
 <div class="statusbar">
+    <div class="statusbar-top">
     <div id="status-tabs-scroll" class="status-group">
         <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="F"><i class="icon toolbar__icon btn-firstitem">&nbsp;</i></button>
         <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="B"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
@@ -37,5 +38,8 @@
     <div id="status-sheets-bar-box">
         <div id="status-sheets-bar" class="status-group">
         </div>
+    </div>
+    </div>
+    <div class="statusbar-bottom">
     </div>
 </div>

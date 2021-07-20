@@ -67,6 +67,9 @@ define([
                     'sheet:setcolor':       _.bind(this.setWorksheetColor, this),
                     'sheet:updateColors':   _.bind(this.updateTabsColors, this),
                     'sheet:move':           _.bind(this.moveWorksheet, this)
+                },
+                'Common.Views.Header': {
+                    'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -785,6 +788,13 @@ define([
                     this._sheetViewTip.show();
             } else if (!active && this._sheetViewTip && this._sheetViewTip.isVisible())
                 this._sheetViewTip.hide();
+        },
+
+        onChangeViewMode: function(item, compact) {
+            this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
+            Common.localStorage.setBool('sse-compact-statusbar', compact);
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         zoomText        : 'Zoom {0}%',
