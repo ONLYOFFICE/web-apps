@@ -251,7 +251,7 @@ define([
         onLockOptionClick: function(type, value) {
             switch (type) {
                 case 0: // cell
-                    // this._originalProps.asc_getStyleInfo().asc_setShowRowHeaders(this.api, this._originalProps, value=='checked');
+                    this.api.asc_setCellLocked(value=='checked');
                     break;
                 case 1: // shape
                     break;
@@ -319,6 +319,10 @@ define([
             var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
                                 selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
             Common.Utils.lockControls(SSE.enumLock.selRange, need_disable, { array: [this.view.chLockedText, this.view.chLockedShape]});
+
+            var xfs = info.asc_getXfs();
+            this.view.chLockedCell.setValue(!!xfs.asc_getLocked(), true);
+            this.view.chHiddenFormula.setValue(!!xfs.asc_getHidden(), true);
         },
 
         onCoAuthoringDisconnect: function() {

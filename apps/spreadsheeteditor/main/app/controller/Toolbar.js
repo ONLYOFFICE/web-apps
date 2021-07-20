@@ -1478,6 +1478,10 @@ define([
         },
 
         onClearStyleMenu: function(menu, item, e) {
+            Common.NotificationCenter.trigger('protect:check', this.onClearStyleMenuCallback, this, [menu, item]);
+        },
+
+        onClearStyleMenuCallback: function(menu, item, e) {
             if (this.api) {
                 if (item.value == Asc.c_oAscCleanOptions.Comments) {
                     this.api.asc_RemoveAllComments(!this.mode.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments

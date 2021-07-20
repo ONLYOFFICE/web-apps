@@ -526,7 +526,11 @@ define([
             win.setSettings(rangePr, dateTypes, defRangePr);
         },
 
-        onClear: function(menu, item) {
+        onClear: function(menu, item, e) {
+            Common.NotificationCenter.trigger('protect:check', this.onClearCallback, this, [menu, item]);
+        },
+
+        onClearCallback: function(menu, item) {
             if (this.api) {
                 if (item.value == Asc.c_oAscCleanOptions.Comments) {
                     this.api.asc_RemoveAllComments(!this.permissions.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
