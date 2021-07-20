@@ -863,7 +863,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
                     me.setDefComboValue(combo.options.type, record.value, me.barControls[combo.options.type].range);
                 });
-                combo.setValue(arr[1].value);
+                var value = (i==0) ? Asc.c_oAscCfvoType.AutoMin : Asc.c_oAscCfvoType.AutoMax;
+                combo.setValue(value);
                 Common.UI.FocusManager.add(this, combo);
 
                 var range = new Common.UI.InputFieldBtn({
@@ -873,9 +874,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     allowBlank  : true,
                     btnHint     : this.textSelectData,
                     validateOnChange: false,
-                    type        : i
+                    type        : i,
+                    disabled    : (value==Asc.c_oAscCfvoType.AutoMin || value==Asc.c_oAscCfvoType.AutoMax || value==Asc.c_oAscCfvoType.Minimum || value==Asc.c_oAscCfvoType.Maximum)
                 });
-                range.setValue(0);
+                me.setDefComboValue(i, value, range);
                 range.on('button:click', _.bind(this.onSelectData, this));
                 this.barControls.push({combo: combo, range: range});
                 Common.UI.FocusManager.add(this, range);
