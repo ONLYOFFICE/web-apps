@@ -50,7 +50,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA},
-            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS}
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM}
         ]
 //        ,[
 //            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
@@ -63,9 +64,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
                             '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -76,10 +79,11 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -118,7 +122,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX,   ext: '.xltx'},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'},
-            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS,    ext: '.ots'}
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS,    ext: '.ots'},
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM,  ext: '.xlsm'}
         ]
 //        ,[
 //            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML,  ext: '.html'}
@@ -130,9 +135,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
                             '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -143,10 +150,11 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {

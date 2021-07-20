@@ -61,6 +61,8 @@ define([
             {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP}
+        ], [
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM}
         ]],
 
 
@@ -69,9 +71,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
                             '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -82,10 +86,11 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -124,6 +129,8 @@ define([
             {name: 'POTX',  imgCls: 'potx',  type: Asc.c_oAscFileType.POTX, ext: '.potx'},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP,  ext: '.otp'}
+        ], [
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'}
         ]],
 
         template: _.template([
@@ -131,9 +138,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
                             '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -144,10 +153,11 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {

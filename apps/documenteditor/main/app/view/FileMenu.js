@@ -403,12 +403,12 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {

@@ -377,11 +377,11 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render());
+                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render());
             }
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
+                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render());
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
