@@ -1692,6 +1692,14 @@ define([
                         config.msg = this.errorPivotWithoutUnderlying;
                         break;
 
+                    case Asc.c_oAscError.ID.SingleColumnOrRowError:
+                        config.msg = this.errorSingleColumnOrRowError;
+                        break;
+
+                    case Asc.c_oAscError.ID.LocationOrDataRangeError:
+                        config.msg = this.errorLocationOrDataRangeError;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2965,7 +2973,9 @@ define([
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
+            errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.'
         }
     })(), SSE.Controllers.Main || {}))
 });
