@@ -560,7 +560,7 @@ define([
 
                     $panelUsers.hide();
 
-                    if ( !!DE ) {
+                    if ( !!window.DE ) {
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-dark' : 'btn-mode-light';
                         me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
                     }
