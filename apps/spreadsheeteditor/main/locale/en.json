@@ -417,6 +417,7 @@
   "SSE.Controllers.DataTab.txtRemDuplicates": "Remove Duplicates",
   "SSE.Controllers.DataTab.txtRemoveDataValidation": "The selection contains more than one type of validation.<br>Erase current settings and continue?",
   "SSE.Controllers.DataTab.txtRemSelected": "Remove in selected",
+  "SSE.Controllers.DataTab.txtUrlTitle": "Paste a data URL",
   "SSE.Controllers.DocumentHolder.alignmentText": "Alignment",
   "SSE.Controllers.DocumentHolder.centerText": "Center",
   "SSE.Controllers.DocumentHolder.deleteColumnText": "Delete Column",
