@@ -49,8 +49,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Button',
     'common/main/lib/component/DataView',
-    'common/main/lib/component/Layout',
-    'presentationeditor/main/app/view/SlideSettings',
+    'common/main/lib/component/Layout',/*
+    'presentationeditor/main/app/view/SlideSettings',*/
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/Window'
 ], function () {
@@ -61,49 +61,62 @@ define([
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
                 //'<div class="separator long sharing"></div>' +
                 '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
+                    '<span class="btn-slot text x-huge" id="transit-button-parametrs"></span>' +
                 '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">'+
+                        '<span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: center; margin-top: 4px"" >Durations</span>'+
+                        '<span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; text-align: left;"></span>'+
+                    '</div>'+
+                    '<div class="elset">'+
+                        '<span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>' +
+                    '</div>'+
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">'+
+                        '<span className="btn-slot text" id="transit-checkbox-slidenum"></span>'+
+                    '</div>'+
+                    '<div class="elset">'+
+                        '<span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: center; margin-top: 4px" >Delay</span>'+
+                        '<span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; text-align: left;"></span>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-comment"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-comment-remove"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-comment-resolve"></span>' +
+                    '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
                 '</div>' +
-                '<div class="separator long comments"></div>' +
-
-
             '</section>';
 
         function setEvents() {
             var me = this;
-            if(this.btnPreview)
+            if(me.btnPreview)
             {
-                this.btnPreview.on('click', _.bind(function(btn){
-                   /* alert("hf,jnftn");
-                    if (this.api) {
-                        alert("api");
-                        this.api.SlideTransitionPlay();
-                    }*/
-                    this.fireEvent('transit:preview', [me.btnPreview]);
-                }, this));
+                me.btnPreview.on('click', _.bind(function(btn){
+                    me.fireEvent('transit:preview', [me.btnPreview]);
+                }, me));
             }
-            /*if (this.btnCommentRemove) {
-                this.btnCommentRemove.on('click', function (e) {
-                    me.fireEvent('comment:removeComments', ['current']);
+            if (me.btnParametrs) {
+                me.btnParametrs.on('click', function (e) {
+                    me.fireEvent('transit:parametrs', ['current']);
                 });
 
-                this.btnCommentRemove.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('comment:removeComments', [item.value]);
+                me.btnParametrs.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('transit:parametrs', [item]);
                 });
             }
-            if (this.btnCommentResolve) {
-                this.btnCommentResolve.on('click', function (e) {
-                    me.fireEvent('comment:resolveComments', ['current']);
-                });
-
-                this.btnCommentResolve.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('comment:resolveComments', [item.value]);
-                });
-            }*/
+            if(me.btnApplyToAll)
+            {
+                me.btnApplyToAll.on('click', _.bind(function(btn){
+                    me.fireEvent('transit:applytoall', [me.btnApplyToAll]);
+                }, me));
+            }
+            if(me.numDuration){
+                me.numDuration.on('change', function(bth) {
+                    me.fireEvent('transit:duration', [me.numDuration]);
+                },me);
+            }
         }
 
         return {
@@ -112,28 +125,79 @@ define([
             options: {},
 
             initialize: function (options) {
+                this.$el=$(_.template(template)( {} ));
                 Common.UI.BaseView.prototype.initialize.call(this, options);
-
                 this.appConfig = options.mode;
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+                this._arrEffectType = [
+                    {displayValue: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                    {displayValue: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                    {displayValue: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                    {displayValue: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                    {displayValue: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                    {displayValue: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                    {displayValue: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                    {displayValue: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {displayValue: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                    {displayValue: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                    {displayValue: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                    {displayValue: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                    {displayValue: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                    {displayValue: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
+                    {displayValue: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                    {displayValue: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                    {displayValue: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                    {displayValue: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                    {displayValue: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                    {displayValue: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                ];
+
+
                 this.btnPreview = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar text',// x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
                     iconCls: 'toolbar__icon btn-rem-comment'
                 });
-               this.btnCommentRemove = new Common.UI.Button({
+
+               this.btnParametrs = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtCommentRemove,
+                    caption: this.txtParametrs,
                     split: true,
-                    iconCls: 'toolbar__icon btn-rem-comment'
+                    iconCls: 'toolbar__icon btn-res-comment'
                 });
-                this.btnCommentResolve = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtCommentResolve,
+                this.btnApplyToAll = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon btn-resolve-all'
+                    iconCls: 'toolbar__icon btn-res-comment'
+                });
+
+                this.numDuration = new Common.UI.MetricSpinner({
+                    el: this.$el.find('#transit-spin-duration'),
+                    step: 1,
+                    width: 50,
+                    value: '',
+                    defaultUnit : this.txtSec,
+                    maxValue: 300,
+                    minValue: 0,
+                    disabled: false
+                });
+                this.numDelay = new Common.UI.MetricSpinner({
+                    el: this.$el.find('#transit-spin-delay'),
+                    step: 1,
+                    width: 60,
+                    value: '',
+                    defaultUnit : this.txtSec,
+                    maxValue: 300,
+                    minValue: 0,
+                    disabled: false
+                });
+                this.chSlideNum = new Common.UI.CheckBox({
+                    el: this.$el.findById('#transit-checkbox-slidenum'),
+                    labelText: this.strSlideNum
                 });
 
 
@@ -152,50 +216,28 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
+                    var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                        '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                        '<% } %></a>');
+                    me.btnParametrs.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: me.textSmoothly,
+                                    value: me.textSmoothly,
+                                    checkable: true,
+                                    toggleGroup: 'effects'
+                                },
+                                {
+                                    caption: me.textBlack,
+                                    value: me.textBlack,
+                                    checkable: true,
+                                    toggleGroup: 'effects'
+                                }
+                            ]
+                        })
+                    );
 
-                    if (me.btnCommentRemove) {
-                        var items = [
-                            {
-                                caption: config.canDeleteComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
-                                value: 'current'
-                            },
-                            {
-                                caption: me.txtCommentRemMy,
-                                value: 'my'
-                            }
-                        ];
-                        if (config.canDeleteComments)
-                            items.push({
-                                caption: me.txtCommentRemAll,
-                                value: 'all'
-                            });
-                        me.btnCommentRemove.setMenu(
-                            new Common.UI.Menu({items: items})
-                        );
-                        me.btnCommentRemove.updateHint([me.tipCommentRemCurrent, me.tipCommentRem]);
-                    }
-
-                     if (me.btnCommentResolve) {
-                        var items = [
-                            {
-                                caption: config.canEditComments ? me.txtCommentResolveCurrent : me.txtCommentResolveMyCurrent,
-                                value: 'current'
-                            },
-                            {
-                                caption: me.txtCommentResolveMy,
-                                value: 'my'
-                            }
-                        ];
-                        if (config.canEditComments)
-                            items.push({
-                                caption: me.txtCommentResolveAll,
-                                value: 'all'
-                            });
-                        me.btnCommentResolve.setMenu(
-                            new Common.UI.Menu({items: items})
-                        );
-                        me.btnCommentResolve.updateHint([me.tipCommentResolveCurrent, me.tipCommentResolve]);
-                    }
 
                    setEvents.call(me);
                 });
@@ -203,10 +245,13 @@ define([
 
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
-                this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
-                this.btnCommentRemove && this.btnCommentRemove.render(this.$el.find('#slot-comment-remove'));
-                this.btnCommentResolve && this.btnCommentResolve.render(this.$el.find('#slot-comment-resolve'));
 
+                this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
+                this.btnParametrs && this.btnParametrs.render(this.$el.find('#transit-button-parametrs'));
+                this.btnApplyToAll && this.btnApplyToAll.render(this.$el.find('#transit-button-apply'));
+                this.renderComponent('#transit-spin-duration', this.numDuration);
+                this.renderComponent('#transit-spin-delay', this.numDelay);
+                this.renderComponent('#transit-checkbox-slidenum', this.chSlideNum);
                 return this.$el;
             },
 
@@ -224,27 +269,40 @@ define([
             },
             SetDisabled: function (state, langs) {
                 //this.btnPreview && this.btnPreview.setDisabled(state|| !Common.Utils.InternalSettings.get())
-                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
-                this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
+                //this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },
-
+            renderComponent: function (compid, obj)
+            {
+                var element=this.$el.find(compid);
+                element.parent().append(obj.el);
+            },
             txtSec:'s',
             txtPreview:'Preview',
+            txtParametrs: 'Parametrs',
+            txtApplyToAll: 'Apply to All Slides',
+            strDuration: 'Duration',
+            strSlideNum: 'Start On Click',
 
-            txtCommentRemove: 'Remove',
-            tipCommentRemCurrent: 'Remove current comments',
-            tipCommentRem: 'Remove comments',
-            txtCommentRemCurrent: 'Remove Current Comments',
-            txtCommentRemMyCurrent: 'Remove My Current Comments',
-            txtCommentRemMy: 'Remove My Comments',
-            txtCommentRemAll: 'Remove All Comments',
-            txtCommentResolve: 'Resolve',
-            tipCommentResolveCurrent: 'Resolve current comments',
-            tipCommentResolve: 'Resolve comments',
-            txtCommentResolveCurrent: 'Resolve Current Comments',
-            txtCommentResolveMyCurrent: 'Resolve My Current Comments',
-            txtCommentResolveMy: 'Resolve My Comments',
-            txtCommentResolveAll: 'Resolve All Comments'
+            textSmoothly: 'Smoothly',
+            textBlack: 'Through Black',
+            textLeft: 'Left',
+            textTop: 'Top',
+            textRight: 'Right',
+            textBottom: 'Bottom',
+            textTopLeft: 'Top-Left',
+            textTopRight: 'Top-Right',
+            textBottomLeft: 'Bottom-Left',
+            textBottomRight: 'Bottom-Right',
+            textVerticalIn: 'Vertical In',
+            textVerticalOut: 'Vertical Out',
+            textHorizontalIn: 'Horizontal In',
+            textHorizontalOut: 'Horizontal Out',
+            textClockwise: 'Clockwise',
+            textCounterclockwise: 'Counterclockwise',
+            textWedge: 'Wedge',
+            textZoomIn: 'Zoom In',
+            textZoomOut: 'Zoom Out',
+            textZoomRotate: 'Zoom and Rotate'
         }
     }()), PE.Views.Transitions || {}));
 

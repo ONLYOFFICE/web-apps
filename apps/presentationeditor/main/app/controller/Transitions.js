@@ -61,9 +61,13 @@ define([
                 },*/
 
                 'PE.Views.Transitions': {
-                    'transit:preview':      _.bind(this.onPreviewClick, this)
+                    'transit:preview':      _.bind(this.onPreviewClick, this),
+                    'transit:parametrs':    _.bind(this.onParametrClick,this),
+                    'transit:duration':     _.bind(this.onDurationChange,this),
+                    'transit:applytoall':   _.bind(this.onApplyToAllClick,this)
                 }
             });
+
         },
         onLaunch: function () {
             this._state = {};
@@ -93,7 +97,6 @@ define([
 
         setMode: function(mode) {
             this.appConfig = mode;
-            this.popoverChanges = new Common.Collections.ReviewChanges();
             this.view = this.createView('PE.Views.Transitions', { mode: mode });
 
              return this;
@@ -175,13 +178,33 @@ define([
                 me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
         },
-        onPreviewClick: function()
-        {
-            alert("hf,jnftn");
+        onPreviewClick: function(){
             if (this.api) {
-                alert("api");
                 this.api.SlideTransitionPlay();
             }
+        },
+        onParametrClick: function (item){
+            this.EffectType = item.value;
+            if (this.api && !this._noApply) {
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(this.Effect);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
+            }
+        },
+        onDurationChange: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)   {
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
+            }
+        },
+        onApplyToAllClick: function (){
+            if (this.api) this.api.SlideTransitionApplyToAll();
         }
     }, PE.Controllers.Transitions || {}));
 });
