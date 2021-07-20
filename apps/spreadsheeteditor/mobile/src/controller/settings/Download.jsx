@@ -55,12 +55,14 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
 
         storeEncoding.initOptions({type, advOptions, formatOptions});
         storeEncoding.initPages();
-        storeEncoding.initNamesDelimeter([_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace]);
         storeEncoding.setMode(mode);
+        storeEncoding.initNamesDelimeter([_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace]);
         storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
         storeEncoding.changeDelimeter(recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4);
 
-        f7.views.current.router.navigate('/encoding/');
+        if(mode === 2) {
+            f7.views.current.router.navigate('/encoding/');
+        }   
     }
     //     let picker;
     //     const pages = [];

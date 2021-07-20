@@ -12,7 +12,7 @@ class EncodingController extends Component {
 
     closeModal() {
         if (Device.phone) {
-            f7.sheet.close('.settings-popup', true);
+            f7.sheet.close('.settings-popup', false);
         } else {
             f7.popover.close('#settings-popover');
         }
@@ -20,15 +20,16 @@ class EncodingController extends Component {
 
     onSaveFormat(mode, valueEncoding, valueDelimeter) {
         const api = Common.EditorApi.get();
-
-        this.closeModal();
+        const storeEncoding = this.props.storeEncoding;
 
         if(mode === 2) {
-            const formatOptions = this.props.storeEncoding.formatOptions;
+            this.closeModal();
+            const formatOptions = storeEncoding.formatOptions;
             formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
             api.asc_DownloadAs(formatOptions);
         } else {
-            const type = this.props.storeEncoding.type;
+            storeEncoding.setMode(1);
+            const type = storeEncoding.type;
             api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
         }
     }

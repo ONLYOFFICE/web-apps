@@ -74,6 +74,7 @@ class MainPage extends Component {
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+
       return (
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
@@ -105,7 +106,7 @@ class MainPage extends Component {
                         <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
                 }
                 {
-                    !this.state.settingsVisible ? null :
+                    !this.state.settingsVisible && this.props.storeEncoding.mode ? null :
                         <Settings openOptions={this.handleClickToOpenOptions} onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
                 }
                 {
@@ -124,4 +125,4 @@ class MainPage extends Component {
   }
 }
 
-export default inject("storeAppOptions")(observer(MainPage));
+export default inject("storeAppOptions", "storeEncoding")(observer(MainPage));

@@ -15,7 +15,7 @@ const PageEncoding = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textChooseCsvOptions} backLink={_t.textBack} />
+            <Navbar title={_t.textChooseCsvOptions} backLink={mode === 2 ? _t.textBack : ''} />
             <BlockTitle>{_t.textDelimeter}</BlockTitle>
             <List>
                 <ListItem title={nameDelimeter} href="/delimeter-list/"></ListItem>

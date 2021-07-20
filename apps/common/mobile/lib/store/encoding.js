@@ -25,7 +25,7 @@ export class storeEncoding {
     }
 
     type;
-    mode;
+    mode = 1;
     pages = [];
     pagesName = [];
     advOptions;
