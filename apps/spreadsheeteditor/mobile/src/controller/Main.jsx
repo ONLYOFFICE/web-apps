@@ -18,6 +18,7 @@ import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import { StatusbarController } from "./Statusbar";
 
 @inject(
     "storeAppOptions",
@@ -799,6 +800,7 @@ class MainController extends Component {
             <Fragment>
                 <LongActionsController />
                 <ErrorController LoadingDocument={this.LoadingDocument}/>
+                <StatusbarController />
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />

@@ -6,7 +6,7 @@ import { Device } from '../../../../common/mobile/utils/device';
 import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import CellEditor from '../controller/CellEditor';
-import Statusbar from '../controller/Statusbar';
+import { Statusbar } from '../controller/Statusbar';
 import FilterOptionsController from '../controller/FilterOptions.jsx'
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
