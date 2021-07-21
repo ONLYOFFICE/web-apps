@@ -64,18 +64,18 @@ const routes = [
         path: '/about/',
         component: About
     },
-    {
-        path: '/encoding/',
-        component: EncodingController
-    },
-    {
-        path: '/encoding-list/',
-        component: EncodingList
-    },
-    {
-        path: '/delimeter-list/',
-        component: DelimeterList
-    }
+    // {
+    //     path: '/encoding/',
+    //     component: EncodingController
+    // },
+    // {
+    //     path: '/encoding-list/',
+    //     component: EncodingList
+    // },
+    // {
+    //     path: '/delimeter-list/',
+    //     component: DelimeterList
+    // }
 ];
 
 
@@ -138,7 +138,8 @@ const SettingsList = inject("storeAppOptions", "storeEncoding")(observer(props =
     } 
     
     return (
-        <View style={props.style} stackPages={true} routes={routes} url={!props.storeEncoding.mode && '/encoding/'}>
+        // onClick={onoptionclick.bind(this, "/download/")}
+        <View style={props.style} stackPages={true} routes={routes}>
             <Page>
                 {navbar}
                 <List>
@@ -160,7 +161,7 @@ const SettingsList = inject("storeAppOptions", "storeEncoding")(observer(props =
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
+                    <ListItem title={_t.textDownload} link="/download/" routeProps={{openOptions: props.openOptions}}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint} onClick={onPrint}>

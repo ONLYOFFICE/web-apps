@@ -4,11 +4,20 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { withTranslation, useTranslation } from 'react-i18next';
 import { f7 } from 'framework7-react';
 import { observer, inject } from "mobx-react";
+// import MainPage from '../../page/main';
 
 class DownloadController extends Component {
     constructor(props) {
         super(props);
         this.onSaveFormat = this.onSaveFormat.bind(this);
+    }
+
+    closeModal() {
+        if (Device.phone) {
+            f7.sheet.close('.settings-popup', false);
+        } else {
+            f7.popover.close('#settings-popover');
+        }
     }
 
     onSaveFormat(format) {
@@ -24,12 +33,15 @@ class DownloadController extends Component {
                 f7.dialog.confirm(
                     _t.warnDownloadAs,
                     _t.notcriticalErrorTitle,
-                    () => {
+                    async () => {
                         const canRequestClose = this.props.storeAppOptions.canRequestClose;
+                        await this.closeModal();
                         onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, advOptions, 2, new Asc.asc_CDownloadOptions(format), _t, true, canRequestClose, false, storeEncoding);
+                        this.props.openOptions('encoding');
                     }
                 )
             } else {
+                this.closeModal();
                 api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
             }
         }
@@ -60,9 +72,9 @@ const onAdvancedOptions = (type, advOptions, mode, formatOptions, _t, isDocReady
         storeEncoding.changeEncoding(recommendedSettings.asc_getCodePage());
         storeEncoding.changeDelimeter(recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4);
 
-        if(mode === 2) {
-            f7.views.current.router.navigate('/encoding/');
-        }   
+        // if(mode === 2) {
+        // f7.views.current.router.navigate('/encoding/');
+        // }   
     }
     //     let picker;
     //     const pages = [];

@@ -16,6 +16,7 @@ import { f7 } from 'framework7-react';
 import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
+import EncodingController from "../controller/Encoding";
 
 class MainPage extends Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class MainPage extends Component {
             addShowOptions: null,
             settingsVisible: false,
             collaborationVisible: false,
+            encodingVisible: false
         };
     }
 
@@ -42,6 +44,8 @@ class MainPage extends Component {
                 };
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
+            else if ( opts == 'encoding' )
+                return {encodingVisible: true};
             else if ( opts == 'coauth' )
                 return {collaborationVisible: true};
         });
@@ -60,6 +64,8 @@ class MainPage extends Component {
                     return {addOptionsVisible: false};
                 else if ( opts == 'settings' )
                     return {settingsVisible: false};
+                else if ( opts == 'encoding' )
+                    return {encodingVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
             });
@@ -67,7 +73,7 @@ class MainPage extends Component {
                 f7.navbar.show('.main-navbar');
             }
         })();
-    };
+    }; 
 
   render() {
       const appOptions = this.props.storeAppOptions;
@@ -106,12 +112,16 @@ class MainPage extends Component {
                         <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
                 }
                 {
-                    !this.state.settingsVisible && this.props.storeEncoding.mode ? null :
+                    !this.state.settingsVisible ? null :
                         <Settings openOptions={this.handleClickToOpenOptions} onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
                 }
                 {
                     !this.state.collaborationVisible ? null :
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                }
+                {
+                    !this.state.encodingVisible && this.props.storeEncoding.mode ? null : 
+                        <EncodingController openOptions={this.handleClickToOpenOeptions} onclosed={this.handleOptionsViewClosed.bind(this, 'encoding')} />
                 }
 
                 <FilterOptionsController />
