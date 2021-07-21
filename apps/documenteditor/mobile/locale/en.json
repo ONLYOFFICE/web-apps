@@ -295,7 +295,9 @@
     "textTopAndBottom": "Top and Bottom",
     "textTotalRow": "Total Row",
     "textType": "Type",
-    "textWrap": "Wrap"
+    "textWrap": "Wrap",
+    "textBullets": "Bullets",
+    "textNumbers": "Numbers"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

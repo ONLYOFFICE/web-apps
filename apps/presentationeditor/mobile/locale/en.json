@@ -380,7 +380,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textBullets": "Bullets",
+      "textNumbers": "Numbers"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
