@@ -49,8 +49,9 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Button',
     'common/main/lib/component/DataView',
-    'common/main/lib/component/Layout',/*
-    'presentationeditor/main/app/view/SlideSettings',*/
+    'common/main/lib/component/ComboDataView',
+    'common/main/lib/component/Layout',
+    'presentationeditor/main/app/view/SlideSettings',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/Window'
 ], function () {
@@ -60,14 +61,16 @@ define([
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
                 //'<div class="separator long sharing"></div>' +
-                '<div class="group">' +
+                '<div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 168px; " ></div>'+
+
+                '<div class="group small">' +
                     '<span class="btn-slot text x-huge" id="transit-button-parametrs"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">'+
-                        '<span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: center; margin-top: 4px"" >Durations</span>'+
-                        '<span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; text-align: left;"></span>'+
+                        '<span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px"" >Durations</span>'+
+                        '<span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>'+
                     '</div>'+
                     '<div class="elset">'+
                         '<span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>' +
@@ -76,21 +79,27 @@ define([
                 '<div class="separator long"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">'+
-                        '<span className="btn-slot text" id="transit-checkbox-slidenum"></span>'+
+                        '<span class="btn-slot text" id="transit-checkbox-slidenum"></span>'+
                     '</div>'+
                     '<div class="elset">'+
-                        '<span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: center; margin-top: 4px" >Delay</span>'+
-                        '<span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; text-align: left;"></span>'+
+                        '<span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px" >Delay</span>'+
+                        '<span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>'+
                     '</div>'+
                 '</div>'+
                 '<div class="separator long"></div>' +
-                '<div class="group">' +
+                '<div class="group small">' +
                     '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
                 '</div>' +
             '</section>';
 
         function setEvents() {
             var me = this;
+            if(me.listEffects)
+            {
+                me.listEffects.on('click', _.bind(function (combo,record){
+                    me.fireEvent('transit:selecteffect',[combo,record]);
+                },me));
+            }
             if(me.btnPreview)
             {
                 me.btnPreview.on('click', _.bind(function(btn){
@@ -117,6 +126,17 @@ define([
                     me.fireEvent('transit:duration', [me.numDuration]);
                 },me);
             }
+            if(me.numDelay){
+                me.numDelay.on('change', function(bth) {
+                    me.fireEvent('transit:delay', [me.numDelay]);
+                },me);
+            }
+            if(me.chSlideNum)
+            {
+                me.chSlideNum.on('change',_.bind(function (e){
+                    me.fireEvent('transit:slidenum',['slidenum', me.chSlideNum,me.chSlideNum.value, me.chSlideNum.lastValue])
+                },me));
+            }
         }
 
         return {
@@ -126,34 +146,109 @@ define([
 
             initialize: function (options) {
                 this.$el=$(_.template(template)( {} ));
+                this.SladeSettings=PE.Views.ShapeSettings;
+
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.appConfig = options.mode;
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-                this._arrEffectType = [
-                    {displayValue: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
-                    {displayValue: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
-                    {displayValue: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
-                    {displayValue: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
-                    {displayValue: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
-                    {displayValue: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
-                    {displayValue: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
-                    {displayValue: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
-                    {displayValue: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
-                    {displayValue: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
-                    {displayValue: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
-                    {displayValue: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
-                    {displayValue: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
-                    {displayValue: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
-                    {displayValue: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
-                    {displayValue: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                    {displayValue: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
-                    {displayValue: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
-                    {displayValue: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
-                    {displayValue: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                this._arrEffectName = [
+                    {title: this.textNone, imageUrl:"btn-text", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textFade, imageUrl:"btn-insertimage", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
+                    {title: this.textPush, imageUrl:"btn-insertshape", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
+                    {title: this.textWipe, imageUrl:"btn-insertchart", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
+                    {title: this.textSplit, imageUrl:"btn-textart", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
+                    {title: this.textUnCover, imageUrl:"btn-menu-comments", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
+                    {title: this.textCover, imageUrl:"btn-editheader", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
+                    {title: this.textClock, imageUrl:"btn-datetime", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
+                    {title: this.textZoom,  imageUrl:"btn-insertequatio", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
                 ];
 
+                this._arrEffectType = [
+                    {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                    {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                    {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                    {caption: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                    {caption: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                    {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                    {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                    {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
+                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                    {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                    {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                    {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                ];
+
+                this.listEffects = new Common.UI.ComboDataView({
+                    cls: 'combo-styles',
+                    itemWidth: 90,
+                    itemHeight: 38,
+                    enableKeyEvents: true,
+                    beforeOpenHandler: function (e) {
+                        var cmp = this,
+                            menu = cmp.openButton.menu,
+                            minMenuColumn = 7;
+
+                        if (menu.cmpEl) {
+                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
+                            var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                            Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = itemMargin + 1/Common.Utils.applicationPixelRatio());
+                            var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
+                                (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
+                                    parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
+
+                            var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
+                                columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
+
+                            columnCount = columnCount < minCount ? minCount : columnCount;
+                            menu.menuAlignEl = cmp.cmpEl;
+
+                            menu.menuAlign = 'tl-tl';
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                            menu.setOffset(Math.min(offset, 0));
+
+                            menu.cmpEl.css({
+                                'width': columnCount * (itemWidth + itemMargin),
+                                'min-height': cmp.cmpEl.height()
+                            });
+                        }
+
+                        if (cmp.menuPicker.scroller) {
+                            cmp.menuPicker.scroller.update({
+                                includePadding: true,
+                                suppressScrollX: true
+                            });
+                        }
+
+                        cmp.removeTips();
+                    }
+                });
+                this.listEffects.menuPicker.store.add(this._arrEffectName);
+
+                this.listEffects.fieldPicker.itemTemplate = _.template([
+                    '<div class="style" id="<%= id %>">',
+                    '<div style="width: ' + this.listEffects.itemWidth + 'px; margin-top: -3px;">',
+                       '<div  class="btn btn-toolbar x-huge icon-top"data-toggle="tooltip" data-original-title="" title="">',
+                                '<div class="inner-box-icon" style="width: ' + this.listEffects.itemWidth + 'px; ">',
+                                    '<i class="icon toolbar__icon <%= imageUrl %>"></i>',
+                                '</div>',
+                                '<div class="inner-box-caption">',
+                                    '<span class="caption" style="font-size: 11px;"><%= title %></span>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
+                ].join(''));
+                this.listEffects.menuPicker.itemTemplate =this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar text',// x-huge icon-top',
@@ -219,24 +314,24 @@ define([
                     var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
                         '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                         '<% } %></a>');
+                    var itemsMenu=[];
+                    _.each(me._arrEffectType, function (item){
+                        itemsMenu.push(
+                            {
+                                caption: item.caption,
+                                value: item.value,
+                                checkable: true,
+                                toggleGroup: 'effects',
+                                disabled:false
+                            }
+                        );
+                    });
                     me.btnParametrs.setMenu(
                         new Common.UI.Menu({
-                            items: [
-                                {
-                                    caption: me.textSmoothly,
-                                    value: me.textSmoothly,
-                                    checkable: true,
-                                    toggleGroup: 'effects'
-                                },
-                                {
-                                    caption: me.textBlack,
-                                    value: me.textBlack,
-                                    checkable: true,
-                                    toggleGroup: 'effects'
-                                }
-                            ]
+                            items: itemsMenu
                         })
                     );
+
 
 
                    setEvents.call(me);
@@ -244,14 +339,15 @@ define([
             },
 
             getPanel: function () {
-                this.$el = $(_.template(template)( {} ));
-
+                //this.$el = $(_.template(template)( {} ));
+                this.listEffects&&this.listEffects.render(this.$el.find('#transit-field-effects'));
                 this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
                 this.btnParametrs && this.btnParametrs.render(this.$el.find('#transit-button-parametrs'));
                 this.btnApplyToAll && this.btnApplyToAll.render(this.$el.find('#transit-button-apply'));
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
                 this.renderComponent('#transit-checkbox-slidenum', this.chSlideNum);
+
                 return this.$el;
             },
 
@@ -276,6 +372,52 @@ define([
                 var element=this.$el.find(compid);
                 element.parent().append(obj.el);
             },
+            setMenuParametrs:function (effect)
+            {
+
+                var minMax=[0,0];
+                switch (effect) {
+                    case Asc.c_oAscSlideTransitionTypes.Fade:
+                        minMax=[0,1];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Push:
+                        minMax=[2, 6];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Wipe:
+                        minMax=[2, 10];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Split:
+                        minMax=[10, 14];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.UnCover:
+                        minMax=[2, 10];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Cover:
+                        minMax=[2, 10];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Clock:
+                        minMax=[14, 17];
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Zoom:
+                        minMax=[17,17];
+                        break;
+                }
+                var i
+                _.each(this.btnParametrs.menu.items,function (element,index){
+
+                    if((index<minMax[0])||(index>minMax[1]))
+                        element.$el.css('display','none');
+                    else
+                        element.$el.css('display','');
+
+
+
+                });
+
+
+            },
+
+
             txtSec:'s',
             txtPreview:'Preview',
             txtParametrs: 'Parametrs',
@@ -283,6 +425,15 @@ define([
             strDuration: 'Duration',
             strSlideNum: 'Start On Click',
 
+            textNone: 'None',
+            textFade: 'Fade',
+            textPush: 'Push',
+            textWipe: 'Wipe',
+            textSplit: 'Split',
+            textUnCover: 'UnCover',
+            textCover: 'Cover',
+            textClock: 'Clock',
+            textZoom: 'Zoom',
             textSmoothly: 'Smoothly',
             textBlack: 'Through Black',
             textLeft: 'Left',

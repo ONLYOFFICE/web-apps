@@ -64,7 +64,9 @@ define([
                     'transit:preview':      _.bind(this.onPreviewClick, this),
                     'transit:parametrs':    _.bind(this.onParametrClick,this),
                     'transit:duration':     _.bind(this.onDurationChange,this),
-                    'transit:applytoall':   _.bind(this.onApplyToAllClick,this)
+                    'transit:applytoall':   _.bind(this.onApplyToAllClick,this),
+                    'transit:selecteffect': _.bind(this.onEffectSelect, this),
+                    'transit:slidenum':     _.bind(this.onHeaderChange,this)
                 }
             });
 
@@ -127,52 +129,9 @@ define([
             if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
                 me.view.turnSpelling(true);
 
-            /*if ( config.canReview ) {
-                (new Promise(function (resolve) {
-                    resolve();
-                })).then(function () {
-                    // function _setReviewStatus(state, global) {
-                    //     me.view.turnChanges(state, global);
-                    //     !global && me.api.asc_SetLocalTrackRevisions(state);
-                    //     Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
-                    // };
 
-                    /*var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
-                    if (config.isReviewOnly || trackChanges!==undefined)
-                        me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
-                    else
-                        me.onApiTrackRevisionsChange(me.api.asc_GetLocalTrackRevisions(), me.api.asc_GetGlobalTrackRevisions());
-                    me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
 
-                    // _setReviewStatus(state, global);
 
-                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
-                        me.dlgChanges = (new Common.Views.ReviewChangesDialog({
-                            popoverChanges  : me.popoverChanges,
-                            mode            : me.appConfig
-                        }));
-                        var sdk = $('#editor_sdk'),
-                            offset = sdk.offset();
-                        me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
-                    }
-                });
-            }*/ /*else if (config.canViewReview) {
-                config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
-                if (config.canViewReview) {
-                    var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
-                    if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
-                    me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
-                    me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
-                }
-            }*/
-
-           /* if (me.view && me.view.btnChat) {
-                me.getApplication().getController('LeftMenu').leftMenu.btnChat.on('toggle', function(btn, state){
-                    if (state !== me.view.btnChat.pressed)
-                        me.view.turnChat(state);
-                });
-            }*/
             if (me.view) {
                 me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
                 me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
@@ -203,8 +162,33 @@ define([
                 this.api.SetSlideProps(props);
             }
         },
+        onHeaderChange: function(type, field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)   {
+                var props = this.api.asc_getHeaderFooterProperties();
+                props.get_Slide()[(type=='slidenum') ? 'put_ShowSlideNum' : 'put_ShowDateTime'](field.getValue()=='checked');
+                this.api.asc_setHeaderFooterProperties(props);
+            }
+            this.fireEvent('editcomplete', this);
+        },
         onApplyToAllClick: function (){
             if (this.api) this.api.SlideTransitionApplyToAll();
+        },
+        onEffectSelect:function (combo, record){
+            var type = record.get('value');
+            if (this.Effect !== type &&
+                !((this.Effect===Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect===Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect===Asc.c_oAscSlideTransitionTypes.Cover)&&
+                    (type===Asc.c_oAscSlideTransitionTypes.Wipe || type===Asc.c_oAscSlideTransitionTypes.UnCover || type===Asc.c_oAscSlideTransitionTypes.Cover))  )
+                this.view.setMenuParametrs(type);
+            this.Effect = type;
+            if (this.api && !this._noApply) {
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(type);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
+            }
+
         }
     }, PE.Controllers.Transitions || {}));
 });
