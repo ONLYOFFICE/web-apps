@@ -6,16 +6,19 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const StatusbarController = inject('sheets')(observer(props => {
+const StatusbarController = inject('sheets', 'storeFocusObjects')(observer(props => {
     const sheets = props.sheets;
+    const storeFocusObjects = props.storeFocusObjects;
 
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onWorkbookLocked', (locked) => {
                 sheets.setWorkbookLocked(locked);
+                storeFocusObjects.setIsLocked(api.asc_getCellInfo());
             });
             api.asc_registerCallback('asc_onWorksheetLocked', (index, locked) => {
                 sheets.setWorksheetLocked(index, locked);
+                storeFocusObjects.setIsLocked(api.asc_getCellInfo());
             });
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);

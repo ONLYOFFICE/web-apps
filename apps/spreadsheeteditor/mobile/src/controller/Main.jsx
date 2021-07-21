@@ -21,6 +21,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import { StatusbarController } from "./Statusbar";
 
 @inject(
+    "users",
     "storeAppOptions",
     "storeFocusObjects",
     "storeCellSettings",
@@ -28,7 +29,8 @@ import { StatusbarController } from "./Statusbar";
     "storeChartSettings",
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -358,6 +360,18 @@ class MainController extends Component {
             const _t = t("View.Settings", { returnObjects: true });
             onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose,this.isDRM);
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
+        });
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
         });
 
     }
