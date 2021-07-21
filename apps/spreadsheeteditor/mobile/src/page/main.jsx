@@ -17,6 +17,19 @@ import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import EncodingController from "../controller/Encoding";
+import {PageEncodingList, PageDelimeterList} from '../view/Encoding';
+
+
+const routes = [
+    {
+        path: '/encoding-list/',
+        component: PageEncodingList
+    },
+    {
+        path: '/delimeter-list/',
+        component: PageDelimeterList
+    }
+];
 
 class MainPage extends Component {
     constructor(props) {
@@ -121,7 +134,8 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.encodingVisible && this.props.storeEncoding.mode ? null : 
-                        <EncodingController openOptions={this.handleClickToOpenOeptions} onclosed={this.handleOptionsViewClosed.bind(this, 'encoding')} />
+                        <EncodingController routes={routes} openOptions={this.handleClickToOpenOeptions} 
+                            onclosed={this.handleOptionsViewClosed.bind(this, 'encoding')} />
                 }
 
                 <FilterOptionsController />

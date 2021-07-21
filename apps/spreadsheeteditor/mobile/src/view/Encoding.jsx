@@ -4,21 +4,6 @@ import { f7, Page, Navbar, List, ListItem, BlockTitle, ListButton, Popover, Popu
 import { useTranslation } from "react-i18next";
 import { Device } from '../../../../common/mobile/utils/device';
 
-const routes = [
-    {
-        path: '/encoding/',
-        component: PageEncoding
-    },
-    {
-        path: '/encoding-list/',
-        component: PageEncodingList
-    },
-    {
-        path: '/delimeter-list/',
-        component: PageDelimeterList
-    }
-];
-
 const PageEncoding = inject("storeEncoding")(observer(props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
@@ -28,9 +13,10 @@ const PageEncoding = inject("storeEncoding")(observer(props => {
     const valueDelimeter = storeEncoding.valueDelimeter;
     const nameEncoding = storeEncoding.nameEncoding;
     const mode = storeEncoding.mode;
+    const routes = props.routes;
 
     return (
-        <View routes={routes} url="/encoding/">
+        <View routes={routes}>
             <Page>
                 <Navbar title={_t.textChooseCsvOptions} />
                 <BlockTitle>{_t.textDelimeter}</BlockTitle>
@@ -42,6 +28,9 @@ const PageEncoding = inject("storeEncoding")(observer(props => {
                     <ListItem title={nameEncoding} link="/encoding-list/"></ListItem>
                 </List>
                 <List className="buttons-list">
+                    {mode === 2 ? 
+                        <ListButton className='button-fill button-raised' title={_t.textCancel}></ListButton>
+                    : null}
                     <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(mode, valueEncoding, valueDelimeter)}></ListButton>
                 </List>
             </Page>
@@ -102,10 +91,6 @@ const PageDelimeterList = inject("storeEncoding")(observer(props => {
     )
 }));
 
-// const Encoding = inject("storeEncoding")(observer(PageEncoding));
-// const EncodingList = inject("storeEncoding")(observer(PageEncodingList));
-// const DelimeterList = inject("storeEncoding")(observer(PageDelimeterList));
-
 class EncodingView extends Component {
     constructor(props) {
         super(props);
@@ -121,10 +106,12 @@ class EncodingView extends Component {
         return (
             show_popover ?
                 <Popover id="encoding-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <PageEncoding inPopover={true} openOptions={this.props.openOptions} onOptionClick={this.onoptionclick} onSaveFormat={this.props.onSaveFormat} />
+                    <PageEncoding inPopover={true} openOptions={this.props.openOptions} onOptionClick={this.onoptionclick} routes={this.props.routes} 
+                        onSaveFormat={this.props.onSaveFormat} />
                 </Popover> :
                 <Popup className="encoding-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <PageEncoding onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} />
+                    <PageEncoding onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} routes={this.props.routes} 
+                        onSaveFormat={this.props.onSaveFormat} />
                 </Popup>
         )
     }
@@ -146,8 +133,7 @@ const Encoding = props => {
             props.onclosed();
     };
 
-    return <EncodingView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} onSaveFormat={props.onSaveFormat} />
+    return <EncodingView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} onSaveFormat={props.onSaveFormat} routes={props.routes} />
 };
 
-// export {EncodingList, Encoding, DelimeterList}
 export {Encoding, PageEncodingList, PageDelimeterList}

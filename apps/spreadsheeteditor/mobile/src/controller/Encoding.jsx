@@ -18,12 +18,13 @@ class EncodingController extends Component {
         }
     }
 
-    onSaveFormat(mode, valueEncoding, valueDelimeter) {
+    async onSaveFormat(mode, valueEncoding, valueDelimeter) {
         const api = Common.EditorApi.get();
         const storeEncoding = this.props.storeEncoding;
 
+        await this.closeModal();
+
         if(mode === 2) {
-            this.closeModal();
             const formatOptions = storeEncoding.formatOptions;
             formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
             api.asc_DownloadAs(formatOptions);
@@ -36,7 +37,7 @@ class EncodingController extends Component {
 
     render() {
         return (
-            <Encoding onSaveFormat={this.onSaveFormat} />
+            <Encoding routes={this.props.routes} onSaveFormat={this.onSaveFormat} />
         );
     }
 }
