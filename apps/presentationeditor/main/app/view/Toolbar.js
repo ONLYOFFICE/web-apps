@@ -1304,15 +1304,15 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1325,14 +1325,14 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
