@@ -261,6 +261,10 @@ define([
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
 
+                if ( this.isDarkTheme() ) {
+                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                }
+
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
