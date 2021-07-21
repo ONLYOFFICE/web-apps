@@ -2400,12 +2400,12 @@ define([
 
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            /*var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
-            }*/
+            }
             var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
             var $panel = me.getApplication().getController('Transitions').createToolbarPanel();
             if ( $panel ) {

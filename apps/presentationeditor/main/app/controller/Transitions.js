@@ -189,6 +189,68 @@ define([
                 this.api.SetSlideProps(props);
             }
 
+        },
+        applySettings:functions(props){
+            var transition = props.get_transition();
+            /*if (transition) {
+                var value = transition.get_TransitionType();
+                var found = false;
+                if (this._state.Effect !== value) {
+                    var item = this.cmbEffectName.store.findWhere({value: value});
+                    if (item) {
+                        found = true;
+                        this.cmbEffectName.setValue(item.get('value'));
+                    } else
+                        this.cmbEffectName.setValue('');
+
+                    this.fillEffectTypeCombo((found) ? value : undefined);
+                    this.Effect = value;
+                    this._state.Effect = value;
+                }
+
+                value = transition.get_TransitionOption();
+                if (this._state.EffectType !== value || found) {
+                    found = false;
+                    item = this.cmbEffectType.store.findWhere({value: value});
+                    if (item) {
+                        found = true;
+                        this.cmbEffectType.setValue(item.get('value'));
+                    } else
+                        this.cmbEffectType.setValue('');
+
+                    this._state.EffectType = value;
+                }
+
+                value = transition.get_TransitionDuration();
+                if ( Math.abs(this._state.Duration-value)>0.001 ||
+                    (this._state.Duration===null || value===null)&&(this._state.Duration!==value) ||
+                    (this._state.Duration===undefined || value===undefined)&&(this._state.Duration!==value) ) {
+                    this.numDuration.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
+                    this._state.Duration=value;
+                }
+
+                value = transition.get_SlideAdvanceDuration();
+                if ( Math.abs(this._state.Delay-value)>0.001 ||
+                    (this._state.Delay===null || value===null)&&(this._state.Delay!==value) ||
+                    (this._state.Delay===undefined || value===undefined)&&(this._state.Delay!==value) ) {
+                    this.numDelay.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
+                    this._state.Delay=value;
+                }
+
+                value = transition.get_SlideAdvanceOnMouseClick();
+                if ( this._state.OnMouseClick!==value ) {
+                    this.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this._state.OnMouseClick=value;
+                }
+                value = transition.get_SlideAdvanceAfter();
+                if ( this._state.AdvanceAfter!==value ) {
+                    this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
+                    this._state.AdvanceAfter=value;
+                }
+            }*/
         }
+
+
     }, PE.Controllers.Transitions || {}));
 });

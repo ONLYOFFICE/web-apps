@@ -114,6 +114,7 @@ define([
                 me.btnParametrs.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('transit:parametrs', [item]);
                 });
+
             }
             if(me.btnApplyToAll)
             {
@@ -374,7 +375,6 @@ define([
             },
             setMenuParametrs:function (effect)
             {
-
                 var minMax=[0,0];
                 switch (effect) {
                     case Asc.c_oAscSlideTransitionTypes.Fade:
@@ -402,19 +402,17 @@ define([
                         minMax=[17,17];
                         break;
                 }
-                var i
+                //this.btnParametrs.menu.clearAll();
+
                 _.each(this.btnParametrs.menu.items,function (element,index){
 
-                    if((index<minMax[0])||(index>minMax[1]))
-                        element.$el.css('display','none');
-                    else
-                        element.$el.css('display','');
-
-
+                    element.$el.css('display',((index<minMax[0])||(index>minMax[1]))?'none':'');
 
                 });
-
-
+                if(effect!=Asc.c_oAscSlideTransitionTypes.None)
+                {
+                    this.btnParametrs.menu.items[minMax[0]].$el.click();
+                }
             },
 
 
