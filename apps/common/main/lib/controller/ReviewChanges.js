@@ -798,7 +798,9 @@ define([
                     //     Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
                     // };
 
-                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
+                    var trackChanges = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.trackChanges : undefined;
+                    (trackChanges===undefined) && (trackChanges = me.appConfig.customization ? me.appConfig.customization.trackChanges : undefined);
+
                     if (config.isReviewOnly || trackChanges!==undefined)
                         me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
                     else
@@ -807,7 +809,8 @@ define([
 
                     // _setReviewStatus(state, global);
 
-                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
+                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
+                        (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
                             popoverChanges  : me.popoverChanges,
                             mode            : me.appConfig
@@ -821,8 +824,11 @@ define([
                 config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
                 if (config.canViewReview) {
                     var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
-                    if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                    if (val===null) {
+                        val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
+                        !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
+                        val = /^(original|final|markup)$/i.test(val) ? val.toLocaleLowerCase() : 'original';
+                    }
                     me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
                     me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
                 }

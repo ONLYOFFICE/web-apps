@@ -17,15 +17,24 @@ class InitReview extends Component {
         Common.Notifications.on('document:ready', () => {
             const api = Common.EditorApi.get();
             const appOptions = props.storeAppOptions;
-            api.asc_SetTrackRevisions(appOptions.isReviewOnly || LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || '')));
+
+            let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
+            (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
+            trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
+                && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
+
+            api.asc_SetTrackRevisions(trackChanges);
             // Init display mode
             if (!appOptions.canReview) {
                 const canViewReview = appOptions.isEdit || api.asc_HaveRevisionsChanges(true);
                 appOptions.setCanViewReview(canViewReview);
                 if (canViewReview) {
                     let viewReviewMode = LocalStorage.getItem("de-view-review-mode");
-                    if (viewReviewMode === null)
-                        viewReviewMode = appOptions.customization && /^(original|final|markup)$/i.test(appOptions.customization.reviewDisplay) ? appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                    if (viewReviewMode === null) {
+                        viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
+                        !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
+                        viewReviewMode = /^(original|final|markup)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : 'original';
+                    }
                     viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? 'markup' : viewReviewMode;
                     const displayMode = viewReviewMode.toLocaleLowerCase();
                     if (displayMode === 'final') {
@@ -60,7 +69,8 @@ class Review extends Component {
         this.appConfig = props.storeAppOptions;
         this.editorPrefix = window.editorType || '';
 
-        let trackChanges = typeof this.appConfig.customization == 'object' ? this.appConfig.customization.trackChanges : undefined;
+        let trackChanges = this.appConfig.customization && this.appConfig.customization.review ? this.appConfig.customization.review.trackChanges : undefined;
+        (trackChanges===undefined) && (trackChanges = this.appConfig.customization ? this.appConfig.customization.trackChanges : undefined);
         trackChanges = this.appConfig.isReviewOnly || trackChanges === true || trackChanges !== false
             && LocalStorage.getBool(`${this.editorPrefix}-mobile-track-changes-${this.appConfig.fileKey || ''}`);
 
