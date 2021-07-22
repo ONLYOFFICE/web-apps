@@ -119,13 +119,13 @@ const PageAdditionalFormatting = props => {
             </List>
             <List>
                 <ListItem title={t('Edit.textLetterSpacing')}>
-                    {!isAndroid && <div slot='after-start'>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
+                    {!isAndroid && <div slot='after-start'>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
