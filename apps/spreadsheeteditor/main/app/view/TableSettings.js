@@ -472,7 +472,7 @@ define([
                 if (this.chFilter.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
                     this.chFilter.setDisabled(!this._state.CheckHeader || this._locked || value===null);
 
-                if (needTablePictures)
+                if (needTablePictures || !this.mnuTableTemplatePicker)
                     this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
 
                 //for table-template

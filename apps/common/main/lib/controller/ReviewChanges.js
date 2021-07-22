@@ -131,6 +131,8 @@ define([
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                     this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
+                    this.api.asc_registerCallback('asc_onBeginViewModeInReview',   _.bind(this.onBeginViewModeInReview, this));
+                    this.api.asc_registerCallback('asc_onEndViewModeInReview',     _.bind(this.onEndViewModeInReview, this));
                 }
                 if (this.appConfig.canReview)
                     this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));
@@ -692,6 +694,18 @@ define([
             }
             this.disableEditing(mode == 'final' || mode == 'original');
             this._state.previewMode = (mode == 'final' || mode == 'original');
+        },
+
+        onBeginViewModeInReview: function(mode) {
+            this.disableEditing(true);
+            this.view && this.view.turnDisplayMode(mode ? 'final' : 'original');
+            this._state.previewMode = true;
+        },
+
+        onEndViewModeInReview: function() {
+            this.disableEditing(false);
+            this.view && this.view.turnDisplayMode('markup');
+            this._state.previewMode = false;
         },
 
         isPreviewChangesMode: function() {

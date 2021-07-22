@@ -1776,6 +1776,14 @@ define([
                         config.msg = this.errorPivotWithoutUnderlying;
                         break;
 
+                    case Asc.c_oAscError.ID.SingleColumnOrRowError:
+                        config.msg = this.errorSingleColumnOrRowError;
+                        break;
+
+                    case Asc.c_oAscError.ID.LocationOrDataRangeError:
+                        config.msg = this.errorLocationOrDataRangeError;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3064,7 +3072,9 @@ define([
             textDisconnect: 'Connection is lost',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
-            textLearnMore: 'Learn More'
+            textLearnMore: 'Learn More',
+            errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
+            errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.'
         }
     })(), SSE.Controllers.Main || {}))
 });

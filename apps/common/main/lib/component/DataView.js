@@ -129,7 +129,7 @@ define([
             me.dataHintDirection = me.options.dataHintDirection || '';
             me.dataHintOffset = me.options.dataHintOffset || '';
 
-            me.listenTo(me.model, 'change',             me.render);
+            me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
@@ -197,6 +197,18 @@ define([
 
         onSelectChange: function(model, selected) {
             this.trigger('select', this, model, selected);
+        },
+
+        onChange: function () {
+            if (_.isUndefined(this.model.id))
+                return this;
+            var el = this.$el || $(this.el);
+            el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.toggleClass('disabled', !!this.model.get('disabled'));
+
+            this.trigger('change', this, this.model);
+
+            return this;
         }
     });
 
@@ -321,7 +333,8 @@ define([
                 if (this.enableKeyEvents && this.parentMenu && this.handleSelect) {
                     if (!me.showLast)
                         this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
-                    this.parentMenu.on('show:after', function(menu) {
+                    this.parentMenu.on('show:after', function(menu, e) {
+                        if (e && (menu.el !== e.target)) return;
                         if (me.showLast) me.showLastSelected(); 
                         Common.NotificationCenter.trigger('dataview:focus');
                         _.delay(function() {

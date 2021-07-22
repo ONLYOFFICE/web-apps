@@ -295,7 +295,7 @@ define([
                         dataHintOffset: 'small'
                     });
 
-                    if (!this.appConfig.isRestrictedEdit) {// hide Display mode option for fillForms and commenting mode
+                    if (!this.appConfig.isRestrictedEdit && !(this.appConfig.customization && this.appConfig.customization.review && this.appConfig.customization.review.hideReviewDisplay)) {// hide Display mode option for fillForms and commenting mode
                         var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
                             '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                             '<% } %></a>');

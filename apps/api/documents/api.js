@@ -135,6 +135,9 @@
                         request: bool (default: true), // enable set name
                         label: string (default: "Guest") // postfix for user name
                     },
+                    review: {
+                        hideReviewDisplay: false // hide button Review mode
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,
