@@ -161,6 +161,7 @@
   "Common.Views.AutoCorrectDialog.textRecognized": "Recognized Functions",
   "Common.Views.AutoCorrectDialog.textRecognizedDesc": "The following expressions are recognized math expressions. They will not be automatically italicized.",
   "Common.Views.AutoCorrectDialog.textReplace": "Replace",
+  "Common.Views.AutoCorrectDialog.textReplaceText": "Replace As You Type",
   "Common.Views.AutoCorrectDialog.textReplaceType": "Replace text as you type",
   "Common.Views.AutoCorrectDialog.textReset": "Reset",
   "Common.Views.AutoCorrectDialog.textResetAll": "Reset to default",
