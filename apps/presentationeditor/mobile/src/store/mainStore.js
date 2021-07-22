@@ -17,6 +17,7 @@ import { storeLinkSettings } from "./linkSettings";
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
+import {storeToolbarSettings} from "./toolbar";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -37,6 +38,7 @@ export const stores = {
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
-    storeComments: new storeComments()
+    storeComments: new storeComments(),
+    storeToolbarSettings: new storeToolbarSettings()
 };
 
