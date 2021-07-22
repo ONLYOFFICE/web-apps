@@ -14,7 +14,8 @@ export class storeFocusObjects {
             tableObject: computed,
             isTableInStack: computed,
             chartObject: computed,
-            linkObject: computed
+            linkObject: computed,
+            isEditLocked: computed
         });
     }
 
@@ -73,5 +74,27 @@ export class storeFocusObjects {
 
     get linkObject() {
         return !!this.intf ? this.intf.getLinkObject() : null;
+    }
+
+    get isEditLocked() {
+        if (this._focusObjects.length > 0) {
+            let slide_deleted = false,
+                slide_lock = false,
+                no_object = true,
+                objectLocked = false;
+            this._focusObjects.forEach((object) => {
+                const type = object.get_ObjectType();
+                const objectValue = object.get_ObjectValue();
+                if (type === Asc.c_oAscTypeSelectElement.Slide) {
+                    slide_deleted = objectValue.get_LockDelete();
+                    slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming();
+                } else if (objectValue && typeof objectValue.get_Locked === 'function') {
+                    no_object = false;
+                    objectLocked = objectLocked || objectValue.get_Locked();
+                }
+            });
+
+            return (slide_deleted || (objectLocked || no_object) && slide_lock);
+        }
     }
 }

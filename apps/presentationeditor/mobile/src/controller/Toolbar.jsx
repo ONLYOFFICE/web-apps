@@ -4,7 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -14,24 +14,19 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
 
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
+    const isEditLocked = props.storeFocusObjects.isEditLocked;
+
+    const storeToolbarSettings = props.storeToolbarSettings;
+    const isCanUndo = storeToolbarSettings.isCanUndo;
+    const isCanRedo = storeToolbarSettings.isCanRedo;
+    const disabledPreview = storeToolbarSettings.countPages <= 0;
+
     useEffect(() => {
-        const onDocumentReady = () => {
-            const api = Common.EditorApi.get();
-            api.asc_registerCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_registerCallback('asc_onCountPages', onApiCountPages);
-            Common.Notifications.on('toolbar:activatecontrols', activateControls);
-            Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
-            Common.Notifications.on('goback', goBack);
-        };
-        if ( !Common.EditorApi ) {
-            Common.Notifications.on('document:ready', onDocumentReady);
-            Common.Notifications.on('setdoctitle', setDocTitle);
-            Common.Gateway.on('init', loadConfig);
-        } else {
-            onDocumentReady();
-        }
+        Common.Notifications.on('setdoctitle', setDocTitle);
+        Common.Gateway.on('init', loadConfig);
+        Common.Notifications.on('toolbar:activatecontrols', activateControls);
+        Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
+        Common.Notifications.on('goback', goBack);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -40,17 +35,10 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
         }
 
         return () => {
-            Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
-
-            const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
-            api.asc_unregisterCallback('asc_onCountPages', onApiCountPages);
         }
     });
 
@@ -107,17 +95,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
         //}
     }
 
-    // Undo and Redo
-    const [isCanUndo, setCanUndo] = useState(true);
-    const [isCanRedo, setCanRedo] = useState(true);
-    const onApiCanUndo = (can) => {
-        if (isDisconnected) return;
-        setCanUndo(can);
-    };
-    const onApiCanRedo = (can) => {
-        if (isDisconnected) return;
-        setCanRedo(can);
-    };
     const onUndo = () => {
         const api = Common.EditorApi.get();
         if (api) {
@@ -130,36 +107,6 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
             api.Redo();
         }
     }
-
-    const [disabledEdit, setDisabledEdit] = useState(false);
-    const onApiFocusObject = (objects) => {
-        if (isDisconnected) return;
-
-        if (objects.length > 0) {
-            let slide_deleted = false,
-                slide_lock = false,
-                no_object = true,
-                objectLocked = false;
-            objects.forEach((object) => {
-                const type = object.get_ObjectType();
-                const objectValue = object.get_ObjectValue();
-                if (type === Asc.c_oAscTypeSelectElement.Slide) {
-                    slide_deleted = objectValue.get_LockDelete();
-                    slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming();
-                } else if (objectValue && typeof objectValue.get_Locked === 'function') {
-                    no_object = false;
-                    objectLocked = objectLocked || objectValue.get_Locked();
-                }
-            });
-
-            setDisabledEdit(slide_deleted || (objectLocked || no_object) && slide_lock);
-        }
-    };
-
-    const [disabledPreview, setDisabledPreview] = useState(false);
-    const onApiCountPages = (count) => {
-        setDisabledPreview(count <= 0);
-    };
 
     const [disabledEditControls, setDisabledEditControls] = useState(false);
     const [disabledSettings, setDisabledSettings] = useState(false);
@@ -192,7 +139,7 @@ const ToolbarController = inject('storeAppOptions', 'users')(observer(props => {
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}
                      onRedo={onRedo}
-                     disabledEdit={disabledEdit}
+                     disabledEdit={isEditLocked}
                      disabledPreview={disabledPreview}
                      disabledControls={disabledControls}
                      disabledEditControls={disabledEditControls}

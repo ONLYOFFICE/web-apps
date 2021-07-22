@@ -4,7 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -15,25 +15,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(obse
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
     const readerMode = appOptions.readerMode;
 
+    const objectLocked = props.storeFocusObjects.objectLocked;
+
+    const storeToolbarSettings = props.storeToolbarSettings;
+    const isCanUndo = storeToolbarSettings.isCanUndo;
+    const isCanRedo = storeToolbarSettings.isCanRedo;
+
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
     useEffect(() => {
-        const onDocumentReady = () => {
-            const api = Common.EditorApi.get();
-            api.asc_registerCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_registerCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
-            Common.Notifications.on('toolbar:activatecontrols', activateControls);
-            Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
-            Common.Notifications.on('goback', goBack);
-        };
-        if ( !Common.EditorApi ) {
-            Common.Notifications.on('document:ready', onDocumentReady);
-            Common.Notifications.on('setdoctitle', setDocTitle);
-            Common.Gateway.on('init', loadConfig);
-        } else {
-            onDocumentReady();
-        }
+        Common.Notifications.on('setdoctitle', setDocTitle);
+        Common.Gateway.on('init', loadConfig);
+        Common.Notifications.on('toolbar:activatecontrols', activateControls);
+        Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
+        Common.Notifications.on('goback', goBack);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -42,16 +37,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(obse
         }
 
         return () => {
-            Common.Notifications.off('document:ready', onDocumentReady);
             Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
-
-            const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onCanUndo', onApiCanUndo);
-            api.asc_unregisterCallback('asc_onCanRedo', onApiCanRedo);
-            api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
         }
     });
 
@@ -106,17 +95,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(obse
         }
     }
 
-    // Undo and Redo
-    const [isCanUndo, setCanUndo] = useState(true);
-    const [isCanRedo, setCanRedo] = useState(true);
-    const onApiCanUndo = (can) => {
-        if (isDisconnected) return;
-        setCanUndo(can);
-    };
-    const onApiCanRedo = (can) => {
-        if (isDisconnected) return;
-        setCanRedo(can);
-    };
     const onUndo = () => {
         const api = Common.EditorApi.get();
         if (api) {
@@ -129,30 +107,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(obse
             api.Redo();
         }
     }
-
-    const [isObjectLocked, setObjectLocked] = useState(false);
-    const onApiFocusObject = (objects) => {
-        if (isDisconnected) return;
-
-        if (objects.length > 0) {
-            const getTopObject = (objects) => {
-                const arrObj = objects.reverse();
-                let obj;
-                for (let i=0; i<arrObj.length; i++) {
-                    if (arrObj[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck) {
-                        obj = arrObj[i];
-                        break;
-                    }
-                }
-                return obj;
-            };
-            const topObject = getTopObject(objects);
-            const topObjectValue = topObject.get_ObjectValue();
-            const objectLocked = (typeof topObjectValue.get_Locked === 'function') ? topObjectValue.get_Locked() : false;
-
-            setObjectLocked(objectLocked);
-        }
-    };
 
     const [disabledEditControls, setDisabledEditControls] = useState(false);
     const [disabledSettings, setDisabledSettings] = useState(false);
@@ -184,7 +138,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview')(obse
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}
                      onRedo={onRedo}
-                     isObjectLocked={isObjectLocked}
+                     isObjectLocked={objectLocked}
                      stateDisplayMode={stateDisplayMode}
                      disabledControls={disabledControls}
                      disabledEditControls={disabledEditControls}
