@@ -21,7 +21,7 @@ class InitReview extends Component {
             let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
             (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
             trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
-                && LocalStorage.getBool(`${this.editorPrefix}-mobile-track-changes-${appOptions.fileKey || ''}`);
+                && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
 
             api.asc_SetTrackRevisions(trackChanges);
             // Init display mode
