@@ -31,5 +31,8 @@ rm('./www/', (removeErr) => {
     }
 
     console.log(chalk.cyan('Build complete.\n'));
+
+    if (env == 'development')
+      process.exit(0);
   });
 });
