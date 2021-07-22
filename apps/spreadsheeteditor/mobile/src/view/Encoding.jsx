@@ -1,51 +1,69 @@
-import React, {Component, useEffect} from 'react';
-import { observer, inject } from "mobx-react";
+import React, {Component, useEffect, useState} from 'react';
 import { f7, Page, Navbar, List, ListItem, BlockTitle, ListButton, Popover, Popup, View, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { Device } from '../../../../common/mobile/utils/device';
 
-const PageEncoding = inject("storeEncoding")(observer(props => {
+const PageEncoding = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const storeEncoding = props.storeEncoding;
-    const valueEncoding = storeEncoding.valueEncoding;
-    const nameDelimeter = storeEncoding.nameDelimeter;
-    const valueDelimeter = storeEncoding.valueDelimeter;
-    const nameEncoding = storeEncoding.nameEncoding;
-    const mode = storeEncoding.mode;
-    const routes = props.routes;
+    const pagesName = props.pagesName;
+    const pages = props.pages;
+    const valuesDelimeter = props.valuesDelimeter;
+    const namesDelimeter = props.namesDelimeter;
+    const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
+    const [stateDelimeter, setStateDelimeter] = useState(props.valueDelimeter);
+    const nameEncoding = pagesName[pages.indexOf(stateEncoding)];
+    const nameDelimeter = namesDelimeter[valuesDelimeter.indexOf(stateDelimeter)];
+    const mode = props.mode;
+
+    const changeStateEncoding = value => {
+        setStateEncoding(value);
+    }
+
+    const changeStateDelimeter = value => {
+        setStateDelimeter(value);
+    }
 
     return (
-        <View routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page>
                 <Navbar title={_t.textChooseCsvOptions} />
                 <BlockTitle>{_t.textDelimeter}</BlockTitle>
                 <List>
-                    <ListItem title={nameDelimeter} link="/delimeter-list/"></ListItem>
+                    <ListItem title={nameDelimeter} link="/delimeter-list/" routeProps={{
+                        stateDelimeter,
+                        namesDelimeter: props.namesDelimeter,
+                        valuesDelimeter: props.valuesDelimeter,
+                        changeStateDelimeter
+                    }}></ListItem>
                 </List>
                 <BlockTitle>{_t.textEncoding}</BlockTitle>
                 <List>
-                    <ListItem title={nameEncoding} link="/encoding-list/"></ListItem>
+                    <ListItem title={nameEncoding} link="/encoding-list/" routeProps={{
+                        stateEncoding,
+                        pages: props.pages,
+                        pagesName: props.pagesName,
+                        changeStateEncoding
+                    }}></ListItem>
                 </List>
                 <List className="buttons-list">
                     {mode === 2 ? 
-                        <ListButton className='button-fill button-raised' title={_t.textCancel}></ListButton>
+                        <ListButton className='button-fill button-raised' title={_t.textCancel} onClick={() => props.closeModal()}></ListButton>
                     : null}
-                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(mode, valueEncoding, valueDelimeter)}></ListButton>
+                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding, stateDelimeter)}></ListButton>
                 </List>
             </Page>
         </View>
         
     )
-}));
+};
 
-const PageEncodingList = inject("storeEncoding")(observer(props => {
+const PageEncodingList = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const storeEncoding = props.storeEncoding;
-    const valueEncoding = storeEncoding.valueEncoding;
-    const pages = storeEncoding.pages;
-    const pagesName = storeEncoding.pagesName;
+    const [currentEncoding, changeCurrentEncoding] = useState(props.stateEncoding);
+    const pages = props.pages;
+    const pagesName = props.pagesName;
     
     return (
         <Page>
@@ -54,8 +72,9 @@ const PageEncodingList = inject("storeEncoding")(observer(props => {
             <List>
                 {pagesName.map((name, index) => {
                     return (
-                        <ListItem radio checked={valueEncoding === pages[index]} title={name} key={index} value={pages[index]} onChange={() => {
-                            storeEncoding.changeEncoding(pages[index]);
+                        <ListItem radio checked={currentEncoding === pages[index]} title={name} key={index} value={pages[index]} onChange={() => {
+                            changeCurrentEncoding(pages[index]);
+                            props.changeStateEncoding(pages[index]);
                             f7.views.current.router.back();
                         }}></ListItem>
                     )
@@ -63,15 +82,14 @@ const PageEncodingList = inject("storeEncoding")(observer(props => {
             </List>
         </Page>
     )
-}));
+};
 
-const PageDelimeterList = inject("storeEncoding")(observer(props => {
+const PageDelimeterList = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const storeEncoding = props.storeEncoding;
-    const valueDelimeter = storeEncoding.valueDelimeter;
-    const namesDelimeter = storeEncoding.namesDelimeter;
-    const valuesDelimeter = storeEncoding.valuesDelimeter;
+    const [currentDelimeter, changeCurrentDelimeter] = useState(props.stateDelimeter);
+    const namesDelimeter = props.namesDelimeter;
+    const valuesDelimeter = props.valuesDelimeter;
     
     return (
         <Page>
@@ -80,8 +98,9 @@ const PageDelimeterList = inject("storeEncoding")(observer(props => {
             <List>
                 {namesDelimeter.map((name, index) => {
                     return (
-                        <ListItem radio checked={valueDelimeter === valuesDelimeter[index]} title={name} key={index} value={valuesDelimeter[index]} onChange={() => {
-                            storeEncoding.changeDelimeter(valuesDelimeter[index]);
+                        <ListItem radio checked={currentDelimeter === valuesDelimeter[index]} title={name} key={index} value={valuesDelimeter[index]} onChange={() => {
+                            changeCurrentDelimeter(valuesDelimeter[index]);
+                            props.changeStateDelimeter(valuesDelimeter[index]);
                             f7.views.current.router.back();
                         }}></ListItem>
                     )
@@ -89,51 +108,88 @@ const PageDelimeterList = inject("storeEncoding")(observer(props => {
             </List>
         </Page>
     )
-}));
+};
 
 class EncodingView extends Component {
     constructor(props) {
         super(props);
-        this.onoptionclick = this.onoptionclick.bind(this);
-    }
-
-    onoptionclick(page){
-        f7.views.current.router.navigate(page);
     }
 
     render() {
         const show_popover = this.props.usePopover;
+
         return (
             show_popover ?
-                <Popover id="encoding-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <PageEncoding inPopover={true} openOptions={this.props.openOptions} onOptionClick={this.onoptionclick} routes={this.props.routes} 
-                        onSaveFormat={this.props.onSaveFormat} />
+                <Popover id="encoding-popover" className="popover__titled" closeByBackdropClick={false} closeByOutsideClick={false}>
+                    <PageEncoding 
+                        inPopover={true} 
+                        onSaveFormat={this.props.onSaveFormat}
+                        closeModal={this.props.closeModal}
+                        mode={this.props.mode}  
+                        formatOptions={this.props.formatOptions} 
+                        pages={this.props.pages}
+                        pagesName={this.props.pagesName}
+                        namesDelimeter={this.props.namesDelimeter}
+                        valueEncoding={this.props.valueEncoding}
+                        valueDelimeter={this.props.valueDelimeter}
+                        valuesDelimeter={this.props.valuesDelimeter}
+                        style={{height: '410px'}}
+                    />
                 </Popover> :
-                <Popup className="encoding-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <PageEncoding onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} routes={this.props.routes} 
-                        onSaveFormat={this.props.onSaveFormat} />
+                <Popup className="encoding-popup">
+                    <PageEncoding 
+                        onSaveFormat={this.props.onSaveFormat} 
+                        closeModal={this.props.closeModal}
+                        mode={this.props.mode}  
+                        formatOptions={this.props.formatOptions} 
+                        pages={this.props.pages}
+                        pagesName={this.props.pagesName}
+                        namesDelimeter={this.props.namesDelimeter}
+                        valueEncoding={this.props.valueEncoding}
+                        valueDelimeter={this.props.valueDelimeter}
+                        valuesDelimeter={this.props.valuesDelimeter}
+                    />
                 </Popup>
         )
     }
 }
 
+const routes = [
+    {
+        path: '/encoding-list/',
+        component: PageEncodingList
+    },
+    {
+        path: '/delimeter-list/',
+        component: PageDelimeterList
+    }
+];
+
 const Encoding = props => {
     useEffect(() => {
         if ( Device.phone )
             f7.popup.open('.encoding-popup');
-        else f7.popover.open('#encoding-popover');
+        else f7.popover.open('#encoding-popover', "#btn-settings");
 
         return () => {
         }
     });
 
-
-    const onviewclosed = () => {
-        if ( props.onclosed )
-            props.onclosed();
-    };
-
-    return <EncodingView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} onSaveFormat={props.onSaveFormat} routes={props.routes} />
+    return (
+        <EncodingView 
+            usePopover={!Device.phone} 
+            closeModal={props.closeModal}
+            onSaveFormat={props.onSaveFormat} 
+            mode={props.mode}  
+            formatOptions={props.formatOptions} 
+            pages={props.pages}
+            pagesName={props.pagesName}
+            namesDelimeter={props.namesDelimeter}
+            valueEncoding={props.valueEncoding}
+            valueDelimeter={props.valueDelimeter}
+            valuesDelimeter={props.valuesDelimeter}
+        />
+    )
 };
 
 export {Encoding, PageEncodingList, PageDelimeterList}

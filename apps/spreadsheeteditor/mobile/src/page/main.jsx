@@ -16,20 +16,6 @@ import { f7 } from 'framework7-react';
 import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
-import EncodingController from "../controller/Encoding";
-import {PageEncodingList, PageDelimeterList} from '../view/Encoding';
-
-
-const routes = [
-    {
-        path: '/encoding-list/',
-        component: PageEncodingList
-    },
-    {
-        path: '/delimeter-list/',
-        component: PageDelimeterList
-    }
-];
 
 class MainPage extends Component {
     constructor(props) {
@@ -39,8 +25,7 @@ class MainPage extends Component {
             addOptionsVisible: false,
             addShowOptions: null,
             settingsVisible: false,
-            collaborationVisible: false,
-            encodingVisible: false
+            collaborationVisible: false
         };
     }
 
@@ -57,8 +42,6 @@ class MainPage extends Component {
                 };
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
-            else if ( opts == 'encoding' )
-                return {encodingVisible: true};
             else if ( opts == 'coauth' )
                 return {collaborationVisible: true};
         });
@@ -77,8 +60,6 @@ class MainPage extends Component {
                     return {addOptionsVisible: false};
                 else if ( opts == 'settings' )
                     return {settingsVisible: false};
-                else if ( opts == 'encoding' )
-                    return {encodingVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
             });
@@ -132,11 +113,6 @@ class MainPage extends Component {
                     !this.state.collaborationVisible ? null :
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
-                {
-                    !this.state.encodingVisible && this.props.storeEncoding.mode ? null : 
-                        <EncodingController routes={routes} openOptions={this.handleClickToOpenOeptions} 
-                            onclosed={this.handleOptionsViewClosed.bind(this, 'encoding')} />
-                }
 
                 <FilterOptionsController />
                 
@@ -149,4 +125,4 @@ class MainPage extends Component {
   }
 }
 
-export default inject("storeAppOptions", "storeEncoding")(observer(MainPage));
+export default inject("storeAppOptions")(observer(MainPage));

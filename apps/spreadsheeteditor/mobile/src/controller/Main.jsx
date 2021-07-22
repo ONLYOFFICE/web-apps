@@ -18,6 +18,7 @@ import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import EncodingController from "./Encoding";
 
 @inject(
     "storeAppOptions",
@@ -27,9 +28,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeChartSettings",
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
-    "storeApplicationSettings",
-    "storeEncoding"
-    )
+    "storeApplicationSettings"
+)
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -319,15 +319,15 @@ class MainController extends Component {
             this.props.storeSpreadsheetSettings.addSchemes(schemes);
         });
 
-        const storeEncoding = this.props.storeEncoding;
-
         // Downloaded Advanced Options
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("View.Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM, storeEncoding);
-            if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
         });
 
     }
@@ -776,6 +776,7 @@ class MainController extends Component {
                 <EditCommentController />
                 <ViewCommentsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
         )
     }

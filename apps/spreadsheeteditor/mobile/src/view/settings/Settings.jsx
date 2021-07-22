@@ -12,8 +12,6 @@ import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from '.
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
-import EncodingController from '../../controller/settings/Encoding';
-import { EncodingList, DelimeterList } from '../../view/settings/Encoding';
 
 const routes = [
     {
@@ -63,19 +61,7 @@ const routes = [
     {
         path: '/about/',
         component: About
-    },
-    // {
-    //     path: '/encoding/',
-    //     component: EncodingController
-    // },
-    // {
-    //     path: '/encoding-list/',
-    //     component: EncodingList
-    // },
-    // {
-    //     path: '/delimeter-list/',
-    //     component: DelimeterList
-    // }
+    }
 ];
 
 
@@ -138,7 +124,6 @@ const SettingsList = inject("storeAppOptions", "storeEncoding")(observer(props =
     } 
     
     return (
-        // onClick={onoptionclick.bind(this, "/download/")}
         <View style={props.style} stackPages={true} routes={routes}>
             <Page>
                 {navbar}
@@ -161,7 +146,7 @@ const SettingsList = inject("storeAppOptions", "storeEncoding")(observer(props =
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="/download/" routeProps={{openOptions: props.openOptions}}>
+                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint} onClick={onPrint}>
