@@ -137,6 +137,9 @@ define([
             this.lockedControls.push(this.txtPlaceholder);
             this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
             this.txtPlaceholder.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
+            });
 
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
