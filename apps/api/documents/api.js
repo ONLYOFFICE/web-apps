@@ -136,7 +136,10 @@
                         label: string (default: "Guest") // postfix for user name
                     },
                     review: {
-                        hideReviewDisplay: false // hide button Review mode
+                        hideReviewDisplay: false // hide button Review mode,
+                        showReviewChanges: false,
+                        reviewDisplay: 'original',
+                        trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
                     chat: true,
                     comments: true,
@@ -150,12 +153,12 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
-                    showReviewChanges: false,
+                    showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original',
+                    reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
@@ -163,7 +166,7 @@
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light

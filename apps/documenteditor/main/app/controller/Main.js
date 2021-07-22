@@ -1395,6 +1395,15 @@ define([
                     if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
                         this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
                 }
+                if (typeof (this.editorConfig.customization) == 'object') {
+                    if (this.editorConfig.customization.showReviewChanges!==undefined)
+                        console.log("Obsolete: The 'showReviewChanges' parameter of the 'customization' section is deprecated. Please use 'showReviewChanges' parameter in the 'customization.review' section instead.");
+                    if (this.editorConfig.customization.reviewDisplay!==undefined)
+                        console.log("Obsolete: The 'reviewDisplay' parameter of the 'customization' section is deprecated. Please use 'reviewDisplay' parameter in the 'customization.review' section instead.");
+                    if (this.editorConfig.customization.trackChanges!==undefined)
+                        console.log("Obsolete: The 'trackChanges' parameter of the 'customization' section is deprecated. Please use 'trackChanges' parameter in the 'customization.review' section instead.");
+                }
+
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
