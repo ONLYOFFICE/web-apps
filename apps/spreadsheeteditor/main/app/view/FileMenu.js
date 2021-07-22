@@ -288,7 +288,7 @@ define([
             return this;
         },
 
-        show: function(panel) {
+        show: function(panel, opts) {
             if (this.isVisible() && panel===undefined || !this.mode) return;
 
             if ( !this.rendered )
@@ -299,7 +299,7 @@ define([
                 panel = this.active || defPanel;
             this.$el.show();
             this.scroller.update();
-            this.selectMenu(panel, defPanel);
+            this.selectMenu(panel, opts, defPanel);
 
             this.api.asc_enableKeyEvents(false);
 
@@ -426,7 +426,7 @@ define([
             this.document = data.doc;
         },
 
-        selectMenu: function(menu, defMenu) {
+        selectMenu: function(menu, opts, defMenu) {
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
@@ -439,7 +439,7 @@ define([
                     item.$el.addClass('active');
 
                     this.$el.find('.content-box:visible').hide();
-                    panel.show();
+                    panel.show(opts);
 
                     if (this.scroller) {
                         var itemTop = item.$el.position().top,
