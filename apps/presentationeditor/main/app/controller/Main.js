@@ -803,7 +803,7 @@ define([
                     pluginsController           = application.getController('Common.Controllers.Plugins');
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
-                leftmenuController.setMode(me.appOptions).setApi(me.api).createDelayedElements();
+                leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
