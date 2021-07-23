@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "该文件现在无法访问。",
   "SSE.ApplicationController.notcriticalErrorTitle": "警告",
   "SSE.ApplicationController.scriptLoadError": "连接速度过慢，部分组件无法被加载。请重新加载页面。",
+  "SSE.ApplicationController.textAnonymous": "访客",
+  "SSE.ApplicationController.textGuest": "访客",
   "SSE.ApplicationController.textLoadingDocument": "正在加载电子表格…",
   "SSE.ApplicationController.textOf": "的",
   "SSE.ApplicationController.txtClose": "关闭",

@@ -1,36 +1,99 @@
 {
   "About": {
     "textAbout": "Hakkında",
-    "textAddress": "adres"
+    "textAddress": "adres",
+    "textBack": "Geri"
   },
   "Add": {
-    "textAddLink": "Bağlantı Ekle"
+    "textAddLink": "Bağlantı Ekle",
+    "textAddress": "adres",
+    "textBack": "Geri",
+    "textBelowText": "Alt Metin",
+    "textBottomOfPage": "Sayfanın alt kısmı",
+    "textBreak": "Yeni Sayfa",
+    "textCancel": "İptal Et",
+    "textCenterBottom": "Orta Alt",
+    "textColumnBreak": "Sütun Sonu"
   },
   "Common": {
     "Collaboration": {
       "textAccept": "Onayla",
       "textAcceptAllChanges": "Tüm Değişikliği Onayla",
       "textAddReply": "Cevap ekle",
+      "textAllChangesAcceptedPreview": "Tüm değişiklikler onaylandı (Önizleme)",
+      "textAllChangesEditing": "Tüm değişiklikler (Düzenleme)",
+      "textAtLeast": "En az",
+      "textAuto": "Otomatik",
+      "textBack": "Geri",
+      "textBaseline": "Kenar çizgisi",
+      "textBold": "Kalın",
+      "textCancel": "İptal Et",
+      "textCaps": "Tümü büyük harf",
       "textCenter": "Ortaya Hizala",
+      "textChart": "Grafik",
+      "textCollaboration": "Ortak çalışma",
       "textJustify": "İki yana hizala",
       "textLeft": "Sola Hizala",
       "textNoContextual": "Aynı stildeki paragraflar arasına aralık ekle",
-      "textRight": "Sağa Hizala"
+      "textRight": "Sağa Hizala",
+      "textShd": "Arka plan rengi"
     }
   },
   "ContextMenu": {
-    "menuAddLink": "Bağlantı Ekle"
+    "menuAddLink": "Bağlantı Ekle",
+    "menuCancel": "İptal Et"
   },
   "Edit": {
     "textActualSize": "Gerçek Boyut",
     "textAddCustomColor": "Özel Renk Ekle",
     "textAdditional": "Ek",
+    "textAdditionalFormatting": "Ek biçimlendirme",
+    "textAddress": "adres",
     "textAdvanced": "Gelişmiş",
     "textAdvancedSettings": "Gelişmiş Ayarlar",
     "textAfter": "sonra",
-    "textAlign": "Hizala"
+    "textAlign": "Hizala",
+    "textAllCaps": "Tümü büyük harf",
+    "textAuto": "Otomatik",
+    "textAutomatic": "Otomatik",
+    "textBack": "Geri",
+    "textBackground": "Arka Plan",
+    "textBandedColumn": "Çizgili Sütun",
+    "textBandedRow": "Çizgili Satır",
+    "textBefore": "Önce",
+    "textBehind": "Arkada",
+    "textBorder": "Sınır",
+    "textBringToForeground": "Önplana Getir",
+    "textBulletsAndNumbers": "madde imleri ve numaralandırma",
+    "textCellMargins": "Hücre Kenar Boşluğu",
+    "textChart": "Grafik",
+    "textClose": "Kapat",
+    "textColor": "Renk"
+  },
+  "Error": {
+    "openErrorText": "Dosya açılırken bir hata oluştu.",
+    "saveErrorText": "Dosya kaydedilirken bir hata oluştu"
+  },
+  "Main": {
+    "SDK": {
+      "Diagram Title": "Grafik başlığı"
+    },
+    "textAnonymous": "Anonim",
+    "textClose": "Kapat"
   },
   "Settings": {
-    "textAbout": "Hakkında"
+    "advTxtOptions": "TXT Seçeneklerini Belirle",
+    "closeButtonText": "Dosyayı Kapat",
+    "textAbout": "Hakkında",
+    "textApplication": "Uygulama",
+    "textApplicationSettings": "Uygulama Ayarları",
+    "textAuthor": "Sahibi",
+    "textBack": "Geri",
+    "textBottom": "Alt",
+    "textCancel": "İptal Et",
+    "textCaseSensitive": "Büyük küçük harfe duyarlı",
+    "textCentimeter": "Santimetre",
+    "textCollaboration": "Ortak çalışma",
+    "textColorSchemes": "Renk Şeması"
   }
 }

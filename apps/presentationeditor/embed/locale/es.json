@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "No se puede acceder al archivo ahora mismo.",
   "PE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "PE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
+  "PE.ApplicationController.textAnonymous": "Anónimo",
+  "PE.ApplicationController.textGuest": "Invitado",
   "PE.ApplicationController.textLoadingDocument": "Cargando presentación",
   "PE.ApplicationController.textOf": "de",
   "PE.ApplicationController.txtClose": "Cerrar",

@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Ara no es pot accedir al fitxer.",
   "PE.ApplicationController.notcriticalErrorTitle": "Advertiment",
   "PE.ApplicationController.scriptLoadError": "La connexió és massa lenta, alguns dels components no s’han pogut carregar. Torneu a carregar la pàgina.",
+  "PE.ApplicationController.textAnonymous": "Anònim",
+  "PE.ApplicationController.textGuest": "Convidat",
   "PE.ApplicationController.textLoadingDocument": "Carregant presentació",
   "PE.ApplicationController.textOf": "de",
   "PE.ApplicationController.txtClose": "Tancar",
