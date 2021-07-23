@@ -183,8 +183,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getLetters = function(countButtons) {
-        var arr = [..._arrAlphabet];
-        arr[0] = _arrAlphabet[0].repeat(2);
+        var arr = _arrAlphabet.slice();
+        arr[0] = _arrAlphabet[0] + _arrAlphabet[0];
         for (var i = 1; arr.length < countButtons; i++) {
             arr.push(_arrAlphabet[0] + _arrAlphabet[i]);
         }
@@ -215,7 +215,7 @@ Common.UI.HintManager = new(function() {
         if (visibleItems.length > _arrAlphabet.length) {
             _arrLetters = _getLetters(visibleItems.length);
         } else {
-            _arrLetters = [..._arrAlphabet];
+            _arrLetters = _arrAlphabet.slice();
         }
         var usedLetters = [];
         if ($(_currentSection).find('[data-hint-title]').length > 0) {
@@ -295,7 +295,7 @@ Common.UI.HintManager = new(function() {
                             break;
                     }
                 } else {
-                    offsets = offsets ? item.attr('data-hint-offset').split(',').map((item) => (parseInt(item))) : [0, 0];
+                    offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
                 }
                 var offset = item.offset();
                 if (direction === 'left-top')
