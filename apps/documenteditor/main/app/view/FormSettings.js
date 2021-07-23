@@ -1035,6 +1035,7 @@ define([
         },
 
         onSelectItem: function(listView, itemView, record) {
+            if (!record) return;
             this.txtNewValue.setValue(record.get('name'));
             this._state.listValue = record.get('name');
             this._state.listIndex = undefined;
