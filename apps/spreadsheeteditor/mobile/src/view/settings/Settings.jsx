@@ -65,7 +65,7 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions", "storeEncoding")(observer(props => {
+const SettingsList = inject("storeAppOptions")(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const navbar = <Navbar title={_t.textSettings}>

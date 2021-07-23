@@ -10,7 +10,6 @@ import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
 import {storeApplicationSettings} from './applicationSettings';
-import {storeEncoding} from "../../../../common/mobile/lib/store/encoding";
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
 import {storeReview} from "./review";
@@ -21,7 +20,6 @@ export const stores = {
     storeFocusObjects: new storeFocusObjects(),
     storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
-    storeEncoding: new storeEncoding(),
     storeTextSettings: new storeTextSettings(),
     storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),

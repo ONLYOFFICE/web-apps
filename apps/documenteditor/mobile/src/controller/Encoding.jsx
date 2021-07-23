@@ -2,17 +2,11 @@ import React, { Component } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { f7 } from "framework7-react";
 import { Encoding } from "../view/Encoding";
-import { withTranslation } from 'react-i18next';
 
 class EncodingController extends Component {
     constructor(props) {
         super(props);
 
-        const { t } = this.props;
-        const _t = t("View.Settings", { returnObjects: true });
-
-        this.valuesDelimeter = [4, 2, 3, 1, 5];
-        this.namesDelimeter = [_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace];
         this.onSaveFormat = this.onSaveFormat.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.state = {
@@ -45,7 +39,6 @@ class EncodingController extends Component {
 
             this.initPages();
             this.valueEncoding = recommendedSettings.asc_getCodePage();
-            this.valueDelimeter = recommendedSettings && recommendedSettings.asc_getDelimiter() ? recommendedSettings.asc_getDelimiter() : 4;
         
             this.setState({
                 isOpen: true
@@ -70,16 +63,16 @@ class EncodingController extends Component {
         this.setState({isOpen: false});
     }
 
-    onSaveFormat(valueEncoding, valueDelimeter) {
+    onSaveFormat(valueEncoding) {
         const api = Common.EditorApi.get();
 
         this.closeModal();
 
         if(this.mode === 2) {
-            this.formatOptions && this.formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
+            this.formatOptions && this.formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding));
             api.asc_DownloadAs(this.formatOptions);
         } else {
-            api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
+            api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, new Asc.asc_CTextOptions(valueEncoding));
         }
     }
 
@@ -92,13 +85,10 @@ class EncodingController extends Component {
                     onSaveFormat={this.onSaveFormat} 
                     pages={this.pages}
                     pagesName={this.pagesName}
-                    namesDelimeter={this.namesDelimeter}
                     valueEncoding={this.valueEncoding}
-                    valueDelimeter={this.valueDelimeter}
-                    valuesDelimeter={this.valuesDelimeter}
                 /> 
         );
     }
 }
 
-export default withTranslation()(EncodingController);
+export default EncodingController;

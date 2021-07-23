@@ -8,35 +8,18 @@ const PageEncoding = props => {
     const _t = t("View.Settings", { returnObjects: true });
     const pagesName = props.pagesName;
     const pages = props.pages;
-    const valuesDelimeter = props.valuesDelimeter;
-    const namesDelimeter = props.namesDelimeter;
     const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
-    const [stateDelimeter, setStateDelimeter] = useState(props.valueDelimeter);
     const nameEncoding = pagesName[pages.indexOf(stateEncoding)];
-    const nameDelimeter = namesDelimeter[valuesDelimeter.indexOf(stateDelimeter)];
     const mode = props.mode;
 
     const changeStateEncoding = value => {
         setStateEncoding(value);
     }
 
-    const changeStateDelimeter = value => {
-        setStateDelimeter(value);
-    }
-
     return (
         <View style={props.style} routes={routes}>
             <Page>
                 <Navbar title={_t.textChooseCsvOptions} />
-                <BlockTitle>{_t.textDelimeter}</BlockTitle>
-                <List>
-                    <ListItem title={nameDelimeter} link="/delimeter-list/" routeProps={{
-                        stateDelimeter,
-                        namesDelimeter: props.namesDelimeter,
-                        valuesDelimeter: props.valuesDelimeter,
-                        changeStateDelimeter
-                    }}></ListItem>
-                </List>
                 <BlockTitle>{_t.textEncoding}</BlockTitle>
                 <List>
                     <ListItem title={nameEncoding} link="/encoding-list/" routeProps={{
@@ -50,7 +33,7 @@ const PageEncoding = props => {
                     {mode === 2 ? 
                         <ListButton className='button-fill button-raised' title={_t.textCancel} onClick={() => props.closeModal()}></ListButton>
                     : null}
-                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding, stateDelimeter)}></ListButton>
+                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding)}></ListButton>
                 </List>
             </Page>
         </View>
@@ -84,32 +67,6 @@ const PageEncodingList = props => {
     )
 };
 
-const PageDelimeterList = props => {
-    const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
-    const [currentDelimeter, changeCurrentDelimeter] = useState(props.stateDelimeter);
-    const namesDelimeter = props.namesDelimeter;
-    const valuesDelimeter = props.valuesDelimeter;
-    
-    return (
-        <Page>
-            <Navbar title={_t.txtDownloadCsv} backLink={_t.textBack} />
-            <BlockTitle>{_t.textChooseDelimeter}</BlockTitle>
-            <List>
-                {namesDelimeter.map((name, index) => {
-                    return (
-                        <ListItem radio checked={currentDelimeter === valuesDelimeter[index]} title={name} key={index} value={valuesDelimeter[index]} onChange={() => {
-                            changeCurrentDelimeter(valuesDelimeter[index]);
-                            props.changeStateDelimeter(valuesDelimeter[index]);
-                            f7.views.current.router.back();
-                        }}></ListItem>
-                    )
-                })}
-            </List>
-        </Page>
-    )
-};
-
 class EncodingView extends Component {
     constructor(props) {
         super(props);
@@ -128,10 +85,7 @@ class EncodingView extends Component {
                         mode={this.props.mode}  
                         pages={this.props.pages}
                         pagesName={this.props.pagesName}
-                        namesDelimeter={this.props.namesDelimeter}
                         valueEncoding={this.props.valueEncoding}
-                        valueDelimeter={this.props.valueDelimeter}
-                        valuesDelimeter={this.props.valuesDelimeter}
                         style={{height: '410px'}}
                     />
                 </Popover> :
@@ -142,10 +96,7 @@ class EncodingView extends Component {
                         mode={this.props.mode}  
                         pages={this.props.pages}
                         pagesName={this.props.pagesName}
-                        namesDelimeter={this.props.namesDelimeter}
                         valueEncoding={this.props.valueEncoding}
-                        valueDelimeter={this.props.valueDelimeter}
-                        valuesDelimeter={this.props.valuesDelimeter}
                     />
                 </Popup>
         )
@@ -156,10 +107,6 @@ const routes = [
     {
         path: '/encoding-list/',
         component: PageEncodingList
-    },
-    {
-        path: '/delimeter-list/',
-        component: PageDelimeterList
     }
 ];
 
@@ -181,12 +128,9 @@ const Encoding = props => {
             mode={props.mode}  
             pages={props.pages}
             pagesName={props.pagesName}
-            namesDelimeter={props.namesDelimeter}
             valueEncoding={props.valueEncoding}
-            valueDelimeter={props.valueDelimeter}
-            valuesDelimeter={props.valuesDelimeter}
         />
     )
 };
 
-export {Encoding, PageEncodingList, PageDelimeterList}
+export {Encoding, PageEncodingList}
