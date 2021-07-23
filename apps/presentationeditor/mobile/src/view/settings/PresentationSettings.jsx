@@ -35,20 +35,20 @@ const PagePresentationColorSchemes = props => {
     const { t } = useTranslation();
     const curScheme = props.initPageColorSchemes();
     const [stateScheme, setScheme] = useState(curScheme);
-    const _t = t('View.Settings', {returnObjects: true});
     const storePresentationSettings = props.storePresentationSettings;
     const allSchemes = storePresentationSettings.allSchemes;
-    const SchemeNames = [
-        _t.txtScheme1, _t.txtScheme2, _t.txtScheme3, _t.txtScheme4, _t.txtScheme5,
-        _t.txtScheme6, _t.txtScheme7, _t.txtScheme8, _t.txtScheme9, _t.txtScheme10,
-        _t.txtScheme11, _t.txtScheme12, _t.txtScheme13, _t.txtScheme14, _t.txtScheme15,
-        _t.txtScheme16, _t.txtScheme17, _t.txtScheme18, _t.txtScheme19, _t.txtScheme20,
-        _t.txtScheme21, _t.txtScheme22
+    const SchemeNames = [ t('View.Settings.txtScheme22'),
+        t('View.Settings.txtScheme1'), t('View.Settings.txtScheme2'), t('View.Settings.txtScheme3'), t('View.Settings.txtScheme4'), 
+        t('View.Settings.txtScheme5'), t('View.Settings.txtScheme6'), t('View.Settings.txtScheme7'), t('View.Settings.txtScheme8'),
+        t('View.Settings.txtScheme9'), t('View.Settings.txtScheme10'), t('View.Settings.txtScheme11'), t('View.Settings.txtScheme12'),
+        t('View.Settings.txtScheme13'), t('View.Settings.txtScheme14'), t('View.Settings.txtScheme15'), t('View.Settings.txtScheme16'),
+        t('View.Settings.txtScheme17'), t('View.Settings.txtScheme18'), t('View.Settings.txtScheme19'), t('View.Settings.txtScheme20'),
+        t('View.Settings.txtScheme21')
     ];
 
     return (
         <Page>
-            <Navbar title={_t.textColorSchemes} backLink={_t.textBack} />
+            <Navbar title={t('View.Settings.textColorSchemes')} backLink={t('View.Settings.textBack')} />
             <List>
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
