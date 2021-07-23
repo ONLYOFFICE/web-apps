@@ -159,20 +159,20 @@ const PageDocumentColorSchemes = props => {
     const { t } = useTranslation();
     const curScheme = props.initPageColorSchemes();
     const [stateScheme, setScheme] = useState(curScheme);
-    const _t = t('Settings', {returnObjects: true});
     const storeSettings = props.storeDocumentSettings;
     const allSchemes = storeSettings.allSchemes;
-    const SchemeNames = [
-        _t.txtScheme1, _t.txtScheme2, _t.txtScheme3, _t.txtScheme4, _t.txtScheme5,
-        _t.txtScheme6, _t.txtScheme7, _t.txtScheme8, _t.txtScheme9, _t.txtScheme10,
-        _t.txtScheme11, _t.txtScheme12, _t.txtScheme13, _t.txtScheme14, _t.txtScheme15,
-        _t.txtScheme16, _t.txtScheme17, _t.txtScheme18, _t.txtScheme19, _t.txtScheme20,
-        _t.txtScheme21, _t.txtScheme22
+    const SchemeNames = [ t('Settings.txtScheme22'),
+        t('Settings.txtScheme1'), t('Settings.txtScheme2'), t('Settings.txtScheme3'), t('Settings.txtScheme4'), 
+        t('Settings.txtScheme5'), t('Settings.txtScheme6'), t('Settings.txtScheme7'), t('Settings.txtScheme8'),
+        t('Settings.txtScheme9'), t('Settings.txtScheme10'), t('Settings.txtScheme11'), t('Settings.txtScheme12'),
+        t('Settings.txtScheme13'), t('Settings.txtScheme14'), t('Settings.txtScheme15'), t('Settings.txtScheme16'),
+        t('Settings.txtScheme17'), t('Settings.txtScheme18'), t('Settings.txtScheme19'), t('Settings.txtScheme20'),
+        t('Settings.txtScheme21')
     ];
 
     return (
         <Page>
-            <Navbar title={_t.textColorSchemes} backLink={_t.textBack} />
+            <Navbar title={t('Settings.textColorSchemes')} backLink={t('Settings.textBack')} />
             <List>
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
