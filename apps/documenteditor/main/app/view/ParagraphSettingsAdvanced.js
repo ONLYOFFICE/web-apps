@@ -1375,6 +1375,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         onSelectTab: function(lisvView, itemView, record) {
+            if (!record) return;
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);
 

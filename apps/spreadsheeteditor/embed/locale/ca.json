@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "Ara no es pot accedir al fitxer.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Advertiment",
   "SSE.ApplicationController.scriptLoadError": "La connexió és massa lenta, alguns dels components no s’han pogut carregar. Torneu a carregar la pàgina.",
+  "SSE.ApplicationController.textAnonymous": "Anònim",
+  "SSE.ApplicationController.textGuest": "Convidat",
   "SSE.ApplicationController.textLoadingDocument": "Carregant full de càlcul",
   "SSE.ApplicationController.textOf": "de",
   "SSE.ApplicationController.txtClose": "Tancar",

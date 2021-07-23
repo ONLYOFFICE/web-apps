@@ -1,5 +1,122 @@
 {
+  "About": {
+    "textAbout": "Sobre",
+    "textAddress": "Endereço",
+    "textBack": "Voltar"
+  },
+  "Add": {
+    "textAddLink": "Adicionar Link",
+    "textAddress": "Endereço",
+    "textBack": "Voltar",
+    "textBelowText": "Abaixo do texto",
+    "textBottomOfPage": "Fim da página",
+    "textBreak": "Pausa",
+    "textCancel": "Cancelar",
+    "textColumnBreak": "Quebra de Coluna",
+    "textColumns": "Colunas",
+    "textComment": "Comente"
+  },
+  "Common": {
+    "Collaboration": {
+      "textAccept": "Aceitar",
+      "textAcceptAllChanges": "Aceitar todas as alterações",
+      "textAddComment": "Adicionar comentário",
+      "textAddReply": "Adicionar resposta",
+      "textAllChangesAcceptedPreview": "Todas as alterações aceitas (Visualizar)",
+      "textAllChangesEditing": "Todas as alterações (Edição)",
+      "textAllChangesRejectedPreview": "Todas as alterações rejeitadas (Visualizar)",
+      "textAtLeast": "Pelo menos",
+      "textAuto": "Automático",
+      "textBack": "Voltar",
+      "textBaseline": "Baseline",
+      "textBold": "Negrito",
+      "textCancel": "Cancelar",
+      "textCaps": "Todas maiúsculas",
+      "textCenter": "Alinhar ao centro",
+      "textChart": "Gráfico",
+      "textCollaboration": "Colaboração",
+      "textComments": "Comentários",
+      "textJustify": "Alinhamento justificado",
+      "textLeft": "Alinhar à esquerda",
+      "textNoContextual": "Adicionar intervalo entre parágrafos do mesmo estilo",
+      "textNum": "Alterar numeração",
+      "textRight": "Alinhar à direita",
+      "textShd": "Cor do plano de fundo",
+      "textTabs": "Alterar guias"
+    }
+  },
+  "ContextMenu": {
+    "menuAddComment": "Adicionar comentário",
+    "menuAddLink": "Adicionar Link",
+    "menuCancel": "Cancelar",
+    "textColumns": "Colunas"
+  },
+  "Edit": {
+    "textActualSize": "Tamanho atual",
+    "textAddCustomColor": "Adicionar Cor Personalizada",
+    "textAdditional": "Adicional",
+    "textAdditionalFormatting": "Formatação adicional",
+    "textAddress": "Endereço",
+    "textAdvanced": "Avançado",
+    "textAdvancedSettings": "Configurações avançadas",
+    "textAfter": "Depois",
+    "textAlign": "Alinhar",
+    "textAllCaps": "Todas maiúsculas",
+    "textAllowOverlap": "Permitir sobreposição",
+    "textAuto": "Automático",
+    "textAutomatic": "Automático",
+    "textBack": "Voltar",
+    "textBackground": "Plano de fundo",
+    "textBandedColumn": "Coluna em faixa",
+    "textBandedRow": "Linha de Faixa",
+    "textBefore": "Antes",
+    "textBehind": "Atrás",
+    "textBorder": "Borda",
+    "textBringToForeground": "Trazer para primeiro plano",
+    "textBullets": "Marcadores",
+    "textBulletsAndNumbers": "Marcadores e Numerações",
+    "textCellMargins": "Margens da célula",
+    "textChart": "Gráfico",
+    "textClose": "Fechar",
+    "textColor": "Cor"
+  },
+  "Error": {
+    "errorConnectToServer": "Não é possível salvar este documento. Verifique suas configurações de conexão ou entre em contato com o administrador. <br> Ao clicar em OK, você será solicitado a baixar o documento.",
+    "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Baixe o documento para salvar a cópia de backup do arquivo localmente.",
+    "openErrorText": "Ocorreu um erro ao abrir o arquivo",
+    "saveErrorText": "Ocorreu um erro ao salvar o arquivo"
+  },
+  "Main": {
+    "SDK": {
+      " -Section ": "-Seção",
+      "above": "Acima",
+      "below": "Abaixo",
+      "Caption": "Legenda",
+      "Choose an item": "Escolha um item",
+      "Diagram Title": "Título do Gráfico"
+    },
+    "textAnonymous": "Anônimo",
+    "textClose": "Fechar"
+  },
   "Settings": {
-    "textAbout": "Sobre"
+    "closeButtonText": "Fechar Arquivo",
+    "textAbout": "Sobre",
+    "textApplication": "Aplicativo",
+    "textApplicationSettings": "Configurações de Aplicativo",
+    "textAuthor": "Autor",
+    "textBack": "Voltar",
+    "textBottom": "Inferior",
+    "textCancel": "Cancelar",
+    "textCaseSensitive": "Maiúsculas e Minúsculas",
+    "textCentimeter": "Centímetro",
+    "textCollaboration": "Colaboração",
+    "textColorSchemes": "Esquemas de cor",
+    "textComment": "Comente",
+    "textComments": "Comentários",
+    "textCommentsDisplay": "Tela de comentários",
+    "textCreated": "Criado",
+    "txtScheme3": "Ápice",
+    "txtScheme4": "Aspecto",
+    "txtScheme6": "Concurso"
   }
 }

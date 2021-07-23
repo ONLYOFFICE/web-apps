@@ -348,6 +348,7 @@ define([
         },
         
         onSelectStyles: function(dataView, itemView, record) {
+            if (!record) return;
             this.chartSettings.putStyle(record.get('data'));
         },
 
