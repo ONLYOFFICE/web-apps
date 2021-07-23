@@ -40,6 +40,9 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'presentationeditor/main/app/view/Transitions'
 ], function () {
     'use strict';
@@ -51,14 +54,14 @@ define([
         views : [
             'PE.Views.Transitions'
         ],
+        options: {
+            alias: 'Transitions'
+        },
         sdkViewName : '#id_main',
 
         initialize: function () {
 
             this.addListeners({
-                /*'FileMenu': {
-                    'settings:apply': this.applySettings.bind(this),
-                },*/
 
                 'PE.Views.Transitions': {
                     'transit:preview':      _.bind(this.onPreviewClick, this),
@@ -79,8 +82,9 @@ define([
          },
         setConfig: function (data, api) {
             this.setApi(api);
-
+            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
             if (data) {
+
                 this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
@@ -88,13 +92,7 @@ define([
         },
         setApi: function (api) {
             this.api = api;
-            if (api) {
-                if (this.api) {
-                    this.api.SetInterfaceDrawImagePlaceSlide('slide-texture-img');
-                    //this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
-                }
 
-            }
         },
 
         setMode: function(mode) {
@@ -126,16 +124,10 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
-                me.view.turnSpelling(true);
 
-
-
-
-            if (me.view) {
-                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
-                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
-            }
+            /*if (me.view) {
+                me.applySettings();
+                           }*/
         },
         onPreviewClick: function(){
             if (this.api) {
@@ -190,8 +182,72 @@ define([
             }
 
         },
-        applySettings:functions(props){
+        onFocusObject:function(selectedObjects){
+            this.changeSettings(selectedObjects[0].get_ObjectValue());
+        },
+
+        changeSettings:function (props){
+            var me=this.view;
             var transition = props.get_transition();
+            if (transition) {
+                var value = transition.get_TransitionType();
+                var found = false;
+                if (this._state.Effect !== value) {
+                    var item = me.listEffects.store.findWhere({value: value});
+                    if (item) {
+                        found = true;
+                        me.listEffects.onMenuPickerSelect(me.listEffects.menuPicker, item, item);
+                        me.listEffects.menuPicker.selectRecord(item);
+                    } else
+                        me.listEffects.menuPicker.selectRecord(me.listEffects.menuPicker.items[0]);
+                }
+
+                value = transition.get_TransitionOption();
+                if (this._state.EffectType !== value || found) {
+                    found = false;
+                    var item=0;
+                    /*_.each(me.btnParametrs.menu.items,function (element,index){
+                        if(element.value==value)
+                            item= index;
+                    });*/
+
+                    //var item = me.btnParametrs.menu.items.findWhere({value: value});
+                    if (item) {
+                        found = true;
+                        me.btnParametrs.menu.setChecked(0,true);
+                    }/* else
+                        me.cmbEffectType.menu.setValue('');*/
+
+                    this._state.EffectType = value;
+                }
+
+                value = transition.get_TransitionDuration();
+                if (Math.abs(this._state.Duration - value) > 0.001 ||
+                    (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
+                    (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
+                    me.numDuration.setValue((value !== null && value !== undefined) ? value / 1000. : '', true);
+                    this._state.Duration = value;
+                }
+                value = transition.get_SlideAdvanceDuration();
+                if (Math.abs(this._state.Delay - value) > 0.001 ||
+                    (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
+                    (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
+                    me.numDelay.setValue((value !== null && value !== undefined) ? value / 1000. : '', true);
+                    this._state.Delay = value;
+                }
+                /*value = transition.get_SlideAdvanceOnMouseClick();
+                if ( this._state.OnMouseClick!==value ) {
+                    me.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this._state.OnMouseClick=value;
+                }*/
+                /*value = transition.get_SlideAdvanceAfter();
+                if ( this._state.AdvanceAfter!==value ) {
+                    this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
+                    this._state.AdvanceAfter=value;
+                }*/
+            }
+
             /*if (transition) {
                 var value = transition.get_TransitionType();
                 var found = false;

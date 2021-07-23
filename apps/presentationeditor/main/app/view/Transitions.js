@@ -58,6 +58,8 @@ define([
     'use strict';
 
     PE.Views.Transitions = Common.UI.BaseView.extend(_.extend((function(){
+
+
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
                 //'<div class="separator long sharing"></div>' +
@@ -104,15 +106,18 @@ define([
             {
                 me.btnPreview.on('click', _.bind(function(btn){
                     me.fireEvent('transit:preview', [me.btnPreview]);
+                    me.fireEvent('editcomplete', this);
                 }, me));
             }
             if (me.btnParametrs) {
                 me.btnParametrs.on('click', function (e) {
                     me.fireEvent('transit:parametrs', ['current']);
+
                 });
 
                 me.btnParametrs.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('transit:parametrs', [item]);
+                    me.fireEvent('editcomplete', this);
                 });
 
             }
@@ -120,22 +125,26 @@ define([
             {
                 me.btnApplyToAll.on('click', _.bind(function(btn){
                     me.fireEvent('transit:applytoall', [me.btnApplyToAll]);
+                    me.fireEvent('editcomplete', this);
                 }, me));
             }
             if(me.numDuration){
                 me.numDuration.on('change', function(bth) {
                     me.fireEvent('transit:duration', [me.numDuration]);
+                    me.fireEvent('editcomplete', this);
                 },me);
             }
             if(me.numDelay){
                 me.numDelay.on('change', function(bth) {
                     me.fireEvent('transit:delay', [me.numDelay]);
+                    me.fireEvent('editcomplete', this);
                 },me);
             }
-            if(me.chSlideNum)
+            if(me.chStartOnClick)
             {
-                me.chSlideNum.on('change',_.bind(function (e){
-                    me.fireEvent('transit:slidenum',['slidenum', me.chSlideNum,me.chSlideNum.value, me.chSlideNum.lastValue])
+                me.chStartOnClick.on('change',_.bind(function (e){
+                    me.fireEvent('transit:slidenum',['slidenum', me.chStartOnClick,me.chStartOnClick.value, me.chStartOnClick.lastValue])
+                    me.fireEvent('editcomplete', this);
                 },me));
             }
         }
@@ -291,7 +300,7 @@ define([
                     minValue: 0,
                     disabled: false
                 });
-                this.chSlideNum = new Common.UI.CheckBox({
+                this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.findById('#transit-checkbox-slidenum'),
                     labelText: this.strSlideNum
                 });
@@ -347,7 +356,7 @@ define([
                 this.btnApplyToAll && this.btnApplyToAll.render(this.$el.find('#transit-button-apply'));
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
-                this.renderComponent('#transit-checkbox-slidenum', this.chSlideNum);
+                this.renderComponent('#transit-checkbox-slidenum', this.chStartOnClick);
 
                 return this.$el;
             },
