@@ -62,7 +62,6 @@ define([
 
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
-                //'<div class="separator long sharing"></div>' +
                 '<div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 168px; " ></div>'+
 
                 '<div class="group small">' +
@@ -90,7 +89,12 @@ define([
                 '</div>'+
                 '<div class="separator long"></div>' +
                 '<div class="group small">' +
-                    '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
+                     '<div class="elset">'+
+                        '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
+                    '</div>' +
+                    '<div class="elset">'+
+                        '<span class="btn-slot text x-huge" ></span>' +
+                    '</div>' +
                 '</div>' +
             '</section>';
 
