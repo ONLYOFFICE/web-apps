@@ -106,7 +106,6 @@ define([
             {
                 me.btnPreview.on('click', _.bind(function(btn){
                     me.fireEvent('transit:preview', [me.btnPreview]);
-                    me.fireEvent('editcomplete', this);
                 }, me));
             }
             if (me.btnParametrs) {
@@ -117,7 +116,6 @@ define([
 
                 me.btnParametrs.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('transit:parametrs', [item]);
-                    me.fireEvent('editcomplete', this);
                 });
 
             }
@@ -125,26 +123,22 @@ define([
             {
                 me.btnApplyToAll.on('click', _.bind(function(btn){
                     me.fireEvent('transit:applytoall', [me.btnApplyToAll]);
-                    me.fireEvent('editcomplete', this);
                 }, me));
             }
             if(me.numDuration){
                 me.numDuration.on('change', function(bth) {
                     me.fireEvent('transit:duration', [me.numDuration]);
-                    me.fireEvent('editcomplete', this);
                 },me);
             }
             if(me.numDelay){
                 me.numDelay.on('change', function(bth) {
                     me.fireEvent('transit:delay', [me.numDelay]);
-                    me.fireEvent('editcomplete', this);
                 },me);
             }
             if(me.chStartOnClick)
             {
                 me.chStartOnClick.on('change',_.bind(function (e){
-                    me.fireEvent('transit:slidenum',['slidenum', me.chStartOnClick,me.chStartOnClick.value, me.chStartOnClick.lastValue])
-                    me.fireEvent('editcomplete', this);
+                    me.fireEvent('transit:startonclick',[ me.chStartOnClick,me.chStartOnClick.value, me.chStartOnClick.lastValue]);
                 },me));
             }
         }
@@ -302,7 +296,7 @@ define([
                 });
                 this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.findById('#transit-checkbox-slidenum'),
-                    labelText: this.strSlideNum
+                    labelText: this.strStartOnClick
                 });
 
 
@@ -357,7 +351,8 @@ define([
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
                 this.renderComponent('#transit-checkbox-slidenum', this.chStartOnClick);
-
+                this.$el.find("#label-duration").innerText=this.strDuration;
+                this.$el.find("#label-delay").innerText=this.strDelay;
                 return this.$el;
             },
 
@@ -382,9 +377,9 @@ define([
                 var element=this.$el.find(compid);
                 element.parent().append(obj.el);
             },
-            setMenuParametrs:function (effect)
+            setMenuParametrs:function (effect,value)
             {
-                var minMax=[0,0];
+                var minMax=[-1,-1];
                 switch (effect) {
                     case Asc.c_oAscSlideTransitionTypes.Fade:
                         minMax=[0,1];
@@ -412,16 +407,27 @@ define([
                         break;
                 }
                 //this.btnParametrs.menu.clearAll();
-
+                var selectedElement;
                 _.each(this.btnParametrs.menu.items,function (element,index){
-
-                    element.$el.css('display',((index<minMax[0])||(index>minMax[1]))?'none':'');
-
+                    if(((index<minMax[0])||(index>minMax[1])))
+                        element.$el.css('display','none');
+                    else {
+                        element.$el.css('display','');
+                        if (value != undefined) {
+                            if (value == element.value)
+                                selectedElement = element;
+                        }
+                    }
                 });
+                if(selectedElement==undefined)
+                    selectedElement=this.btnParametrs.menu.items[minMax[0]];
                 if(effect!=Asc.c_oAscSlideTransitionTypes.None)
-                {
-                    this.btnParametrs.menu.items[minMax[0]].$el.click();
-                }
+                    selectedElement.setChecked(true);
+
+                this.btnParametrs.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
+                this.btnPreview.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
+                this.numDuration.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
+                return selectedElement;
             },
 
 
@@ -430,7 +436,7 @@ define([
             txtParametrs: 'Parametrs',
             txtApplyToAll: 'Apply to All Slides',
             strDuration: 'Duration',
-            strSlideNum: 'Start On Click',
+            strStartOnClick: 'Start On Click',
 
             textNone: 'None',
             textFade: 'Fade',
@@ -441,6 +447,7 @@ define([
             textCover: 'Cover',
             textClock: 'Clock',
             textZoom: 'Zoom',
+
             textSmoothly: 'Smoothly',
             textBlack: 'Through Black',
             textLeft: 'Left',

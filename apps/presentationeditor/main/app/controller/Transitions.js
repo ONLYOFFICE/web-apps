@@ -69,15 +69,14 @@ define([
                     'transit:duration':     _.bind(this.onDurationChange,this),
                     'transit:applytoall':   _.bind(this.onApplyToAllClick,this),
                     'transit:selecteffect': _.bind(this.onEffectSelect, this),
-                    'transit:slidenum':     _.bind(this.onHeaderChange,this)
+                    'transit:startonclick': _.bind(this.onStartOnClickChange,this),
+                    'transit:delay':        _.bind(this.onDelayChange,this)
                 }
             });
 
         },
         onLaunch: function () {
             this._state = {};
-            //this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
-
             //Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
          },
         setConfig: function (data, api) {
@@ -92,14 +91,12 @@ define([
         },
         setApi: function (api) {
             this.api = api;
-
         },
 
         setMode: function(mode) {
             this.appConfig = mode;
             this.view = this.createView('PE.Views.Transitions', { mode: mode });
-
-             return this;
+            return this;
         },
 
         loadDocument: function(data) {
@@ -154,13 +151,35 @@ define([
                 this.api.SetSlideProps(props);
             }
         },
-        onHeaderChange: function(type, field, newValue, oldValue, eOpts){
+        onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
-                var props = this.api.asc_getHeaderFooterProperties();
-                props.get_Slide()[(type=='slidenum') ? 'put_ShowSlideNum' : 'put_ShowDateTime'](field.getValue()=='checked');
-                this.api.asc_setHeaderFooterProperties(props);
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
             }
-            this.fireEvent('editcomplete', this);
+        },
+        onDelayChange: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)   {
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
+                this.onCheckDelayChange(field);
+            }
+        },
+        onCheckDelayChange: function(field, newValue, oldValue, eOpts){
+            //this.numDelay.setDisabled(field.getValue()!=='checked');
+            if (this.api && !this._noApply)   {
+                var props = new Asc.CAscSlideProps();
+                var transition = new Asc.CAscSlideTransition();
+                //transition.put_SlideAdvanceAfter(field.getValue()=='checked');
+                transition.put_SlideAdvanceAfter(field.getNumberValue()!=0);
+                props.put_transition(transition);
+                this.api.SetSlideProps(props);
+            }
         },
         onApplyToAllClick: function (){
             if (this.api) this.api.SlideTransitionApplyToAll();
@@ -170,7 +189,11 @@ define([
             if (this.Effect !== type &&
                 !((this.Effect===Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect===Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect===Asc.c_oAscSlideTransitionTypes.Cover)&&
                     (type===Asc.c_oAscSlideTransitionTypes.Wipe || type===Asc.c_oAscSlideTransitionTypes.UnCover || type===Asc.c_oAscSlideTransitionTypes.Cover))  )
-                this.view.setMenuParametrs(type);
+            {
+                var  parametr=this.view.setMenuParametrs(type);
+                if(parametr)
+                this.onParametrClick(parametr);
+            }
             this.Effect = type;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
@@ -188,6 +211,7 @@ define([
 
         changeSettings:function (props){
             var me=this.view;
+
             var transition = props.get_transition();
             if (transition) {
                 var value = transition.get_TransitionType();
@@ -196,29 +220,18 @@ define([
                     var item = me.listEffects.store.findWhere({value: value});
                     if (item) {
                         found = true;
-                        me.listEffects.onMenuPickerSelect(me.listEffects.menuPicker, item, item);
                         me.listEffects.menuPicker.selectRecord(item);
+                        this._state.Effect = value;
                     } else
                         me.listEffects.menuPicker.selectRecord(me.listEffects.menuPicker.items[0]);
                 }
 
-                value = transition.get_TransitionOption();
-                if (this._state.EffectType !== value || found) {
-                    found = false;
-                    var item=0;
-                    /*_.each(me.btnParametrs.menu.items,function (element,index){
-                        if(element.value==value)
-                            item= index;
-                    });*/
-
-                    //var item = me.btnParametrs.menu.items.findWhere({value: value});
-                    if (item) {
-                        found = true;
-                        me.btnParametrs.menu.setChecked(0,true);
-                    }/* else
-                        me.cmbEffectType.menu.setValue('');*/
-
-                    this._state.EffectType = value;
+                if (me.btnParametrs.menu) {
+                    value = transition.get_TransitionOption();
+                    if (this._state.EffectType !== value) {
+                        me.setMenuParametrs(this._state.Effect, value);
+                        this._state.EffectType = value;
+                    }
                 }
 
                 value = transition.get_TransitionDuration();
@@ -228,6 +241,7 @@ define([
                     me.numDuration.setValue((value !== null && value !== undefined) ? value / 1000. : '', true);
                     this._state.Duration = value;
                 }
+
                 value = transition.get_SlideAdvanceDuration();
                 if (Math.abs(this._state.Delay - value) > 0.001 ||
                     (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
@@ -235,78 +249,19 @@ define([
                     me.numDelay.setValue((value !== null && value !== undefined) ? value / 1000. : '', true);
                     this._state.Delay = value;
                 }
-                /*value = transition.get_SlideAdvanceOnMouseClick();
-                if ( this._state.OnMouseClick!==value ) {
-                    me.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                    this._state.OnMouseClick=value;
-                }*/
-                /*value = transition.get_SlideAdvanceAfter();
-                if ( this._state.AdvanceAfter!==value ) {
-                    this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                    this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
-                    this._state.AdvanceAfter=value;
-                }*/
-            }
-
-            /*if (transition) {
-                var value = transition.get_TransitionType();
-                var found = false;
-                if (this._state.Effect !== value) {
-                    var item = this.cmbEffectName.store.findWhere({value: value});
-                    if (item) {
-                        found = true;
-                        this.cmbEffectName.setValue(item.get('value'));
-                    } else
-                        this.cmbEffectName.setValue('');
-
-                    this.fillEffectTypeCombo((found) ? value : undefined);
-                    this.Effect = value;
-                    this._state.Effect = value;
-                }
-
-                value = transition.get_TransitionOption();
-                if (this._state.EffectType !== value || found) {
-                    found = false;
-                    item = this.cmbEffectType.store.findWhere({value: value});
-                    if (item) {
-                        found = true;
-                        this.cmbEffectType.setValue(item.get('value'));
-                    } else
-                        this.cmbEffectType.setValue('');
-
-                    this._state.EffectType = value;
-                }
-
-                value = transition.get_TransitionDuration();
-                if ( Math.abs(this._state.Duration-value)>0.001 ||
-                    (this._state.Duration===null || value===null)&&(this._state.Duration!==value) ||
-                    (this._state.Duration===undefined || value===undefined)&&(this._state.Duration!==value) ) {
-                    this.numDuration.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
-                    this._state.Duration=value;
-                }
-
-                value = transition.get_SlideAdvanceDuration();
-                if ( Math.abs(this._state.Delay-value)>0.001 ||
-                    (this._state.Delay===null || value===null)&&(this._state.Delay!==value) ||
-                    (this._state.Delay===undefined || value===undefined)&&(this._state.Delay!==value) ) {
-                    this.numDelay.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
-                    this._state.Delay=value;
-                }
 
                 value = transition.get_SlideAdvanceOnMouseClick();
-                if ( this._state.OnMouseClick!==value ) {
-                    this.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                    this._state.OnMouseClick=value;
+                if (this._state.OnMouseClick !== value) {
+                    me.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this._state.OnMouseClick = value;
                 }
                 value = transition.get_SlideAdvanceAfter();
-                if ( this._state.AdvanceAfter!==value ) {
-                    this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                    this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
-                    this._state.AdvanceAfter=value;
+                if (this._state.AdvanceAfter !== value) {
+                    //me.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    //me.numDelay.setDisabled(this.chDelay.getValue() !== 'checked');
+                    this._state.AdvanceAfter = value;
                 }
-            }*/
+            }
         }
-
-
     }, PE.Controllers.Transitions || {}));
 });
