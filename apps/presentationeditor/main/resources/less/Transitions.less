@@ -1,0 +1,34 @@
+#transitions-panel {
+  input {
+    text-align: left;
+  }
+
+  .item {
+
+    border-color: transparent;
+    border-width: calc(2*@scaled-one-px-value-ie) ;
+    border-width: calc(@scaled-two-px-value);
+    &:hover{
+      border-color: @border-preview-hover-ie;
+      border-color: @border-preview-hover;
+    }
+    &.selected
+    {
+      border-color: @border-preview-select-ie;
+      border-color: @border-preview-select;
+    }
+    .btn {
+      &:hover {
+        background-color: transparent;
+      }
+      .inner-box-icon
+      {
+        margin-top: -2px;
+      }
+      .inner-box-caption
+      {
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

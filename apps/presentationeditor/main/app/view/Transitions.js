@@ -62,7 +62,7 @@ define([
 
         var template =
             '<section id="transitions-panel" class="panel" data-tab="transit">' +
-                '<div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 168px; " ></div>'+
+                '<div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 178px; " ></div>'+
 
                 '<div class="group small">' +
                     '<span class="btn-slot text x-huge" id="transit-button-parametrs"></span>' +
@@ -148,7 +148,7 @@ define([
         }
 
         return {
-            // el: '#review-changes-panel',
+            // el: '#transitions-panel',
 
             options: {},
 
@@ -198,8 +198,8 @@ define([
 
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-styles',
-                    itemWidth: 90,
-                    itemHeight: 38,
+                    itemWidth: 85,
+                    itemHeight: 54,
                     enableKeyEvents: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
@@ -244,12 +244,12 @@ define([
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div class="style" id="<%= id %>">',
-                    '<div style="width: ' + this.listEffects.itemWidth + 'px; margin-top: -3px;">',
+                    '<div style="width: ' + this.listEffects.itemWidth + 'px;  height: '+(this.listEffects.itemHeight-16)+'px;  ">',
                        '<div  class="btn btn-toolbar x-huge icon-top"data-toggle="tooltip" data-original-title="" title="">',
-                                '<div class="inner-box-icon" style="width: ' + this.listEffects.itemWidth + 'px; ">',
+                                '<div class="inner-box-icon" style="width: ' + (this.listEffects.itemWidth) +'px;">',
                                     '<i class="icon toolbar__icon <%= imageUrl %>"></i>',
                                 '</div>',
-                                '<div class="inner-box-caption">',
+                                '<div class="inner-box-caption" style=" ">',
                                     '<span class="caption" style="font-size: 11px;"><%= title %></span>',
                                 '</div>',
                             '</div>',
@@ -302,15 +302,12 @@ define([
                     el: this.$el.findById('#transit-checkbox-slidenum'),
                     labelText: this.strStartOnClick
                 });
-
-
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
                 this.boxSdk = $('#editor_sdk');
                 if ( el ) el.html( this.getPanel() );
-
                 return this;
             },
 
@@ -410,7 +407,6 @@ define([
                         minMax=[17,17];
                         break;
                 }
-                //this.btnParametrs.menu.clearAll();
                 var selectedElement;
                 _.each(this.btnParametrs.menu.items,function (element,index){
                     if(((index<minMax[0])||(index>minMax[1])))
