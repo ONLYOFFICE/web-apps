@@ -343,25 +343,25 @@ define([
                         minMax=[0,1];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Push:
-                        minMax=[2, 6];
+                        minMax=[2, 5];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Wipe:
-                        minMax=[2, 10];
+                        minMax=[2, 9];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Split:
-                        minMax=[10, 14];
+                        minMax=[10, 13];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.UnCover:
-                        minMax=[2, 10];
+                        minMax=[2, 9];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Cover:
-                        minMax=[2, 10];
+                        minMax=[2, 9];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Clock:
-                        minMax=[14, 17];
+                        minMax=[14, 16];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Zoom:
-                        minMax=[17,17];
+                        minMax=[17,19];
                         break;
                 }
                 var selectedElement;

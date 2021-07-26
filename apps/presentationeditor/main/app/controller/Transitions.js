@@ -220,10 +220,10 @@ define([
 
                 if (me.btnParametrs.menu) {
                     value = transition.get_TransitionOption();
-                    if (this._state.EffectType !== value) {
+                    //if (this._state.EffectType !== value) {*/
                         me.setMenuParametrs(this._state.Effect, value);
                         this._state.EffectType = value;
-                    }
+                    //}
                 }
 
                 value = transition.get_TransitionDuration();
