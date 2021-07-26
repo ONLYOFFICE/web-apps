@@ -79,6 +79,12 @@ define([
                     scope: this
                 }));
 
+                this.cntStatusbar = $('.statusbar', this.el);
+                this.isCompact = Common.localStorage.getBool('sse-compact-statusbar', false);
+                if (!this.isCompact) {
+                    this.cntStatusbar.addClass('no-compact');
+                }
+
                 this.editMode = false;
                 this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
 
@@ -472,6 +478,12 @@ define([
                 this.boxZoom = $('#status-zoom-box', this.el);
                 this.boxZoom.find('.separator').css('border-left-color','transparent');
 
+                this.boxNumberSheets = $('#status-number-of-sheet', this.el);
+                this.isCompact && this.boxNumberSheets.hide();
+
+                this.boxAction = $('#status-action', this.el);
+                this.isCompact && this.boxAction.hide();
+
                 this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
                 this.$customizeStatusBarMenu = this.$el.find('#statusbar-menu');
                 this.$customizeStatusBarMenu.on({
@@ -789,19 +801,32 @@ define([
             },
 
             updateTabbarBorders: function() {
-                var right = parseInt(this.boxZoom.css('width')), visible = false;
+                var visible = false;
+                var right = parseInt(this.boxZoom.css('width'));
                 if (this.boxMath.is(':visible')) {
-                    right   += parseInt(this.boxMath.css('width'));
+                    this.boxMath.css({'right': right + 'px'});
+                    right += parseInt(this.boxMath.css('width'));
                     visible = true;
                 }
-
                 if (this.boxFiltered.is(':visible')) {
-                    right   += parseInt(this.boxFiltered.css('width'));
+                    this.boxFiltered.css({'right': right + 'px'});
+                    right += parseInt(this.boxFiltered.css('width'));
                     visible = true;
                 }
+                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
 
-                this.boxZoom.find('.separator').css('border-left-color',visible?'':'transparent');
-                this.tabBarBox.css('right',  right + 'px');
+                if (this.isCompact) {
+                    this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
+                    this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
+                    this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
+                    this.tabBarBox.css('right', right + 'px');
+                } else {
+                    this.boxAction.css({'right': right + 'px'})
+                    this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
+                    this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
+                    this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
+                    this.tabBarBox.css('right', '0px');
+                }
             },
 
             updateVisibleItemsBoxMath: function () {
@@ -877,6 +902,21 @@ define([
                 this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
                 event.stopPropagation();
                 item.$el.find('a').blur();
+            },
+
+            onChangeCompact: function (compact) {
+                this.isCompact = compact;
+                if (compact) {
+                    this.cntStatusbar.removeClass('no-compact');
+                    this.boxNumberSheets.hide();
+                    this.boxAction.hide();
+                } else {
+                    this.cntStatusbar.addClass('no-compact');
+                    this.boxNumberSheets.show();
+                    this.boxAction.show();
+                }
+                this.updateTabbarBorders();
+                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 
             tipZoomIn           : 'Zoom In',

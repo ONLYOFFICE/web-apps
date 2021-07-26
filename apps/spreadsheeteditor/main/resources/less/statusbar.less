@@ -6,16 +6,24 @@
         width: 112px;
         float: left;
         padding: 3px 12px 0 10px;
+        height: 25px;
     }
 
     #status-zoom-box {
         width: 160px;
-        float: right;
+        //float: right;
         padding-top: 3px;
 
+        position: absolute;
+        right: 0;
+        height: 25px;
+
         .separator {
-            margin-right: 10px;
             margin-top: -3px;
+        }
+
+        #status-btn-zoomdown {
+            margin-left: 10px;
         }
 
         #status-label-zoom {
@@ -120,11 +128,17 @@
 
     #status-math-box,
     #status-filtered-box {
-        float: right;
+        //float: right;
         padding-top: 6px;
         padding-right: 14px;
 
+        position: absolute;
+        height: 25px;
+
         label {
+            &:first-of-type {
+                padding-left: 14px;
+            }
             &:not(:last-child) {
                 padding-right: 10px;
             }
@@ -138,10 +152,10 @@
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
-        height: 32px;
+        height: 25px;
         left: 112px;
         right: 160px;
-        margin-right: 3px;
+        //margin-right: 3px;
     }
 
     #status-sheets-bar {
@@ -337,6 +351,36 @@
         }
     }
 
+    #status-number-of-sheet , #status-action {
+        position: absolute;
+        height: 25px;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        .status-label {
+            font-weight: bold;
+            color: @text-normal;
+            margin-top: 5px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    #status-number-of-sheet {
+        width: 135px;
+    }
+
+    #status-action {
+        left: 135px;
+    }
+
+    &.no-compact {
+        #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
+        }
+    }
+
     .btn-tpl(@top-position) {
         .btn-icon {
             background-position: 0 @top-position;
@@ -425,10 +469,6 @@
         &.short {
             height: 25px;
         }
-    }
-
-    .statusbar-top, .statusbar-bottom {
-        height: 25px;
     }
 }
 

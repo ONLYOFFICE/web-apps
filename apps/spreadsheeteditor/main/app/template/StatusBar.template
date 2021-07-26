@@ -1,6 +1,5 @@
 
 <div class="statusbar">
-    <div class="statusbar-top">
     <div id="status-tabs-scroll" class="status-group">
         <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="F"><i class="icon toolbar__icon btn-firstitem">&nbsp;</i></button>
         <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="B"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
@@ -24,7 +23,7 @@
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
     </div>
     <div id="status-math-box" class="status-group">
-        <div class="separator short" style="margin-right: 12px;"></div>
+        <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>
         <label id="status-math-min">MIN: 1</label>
@@ -32,14 +31,17 @@
         <label id="status-math-sum">SUM: 5</label>
     </div>
     <div id="status-filtered-box" class="status-group">
-        <div class="separator short" style="margin-right: 12px;"></div>
+        <div class="separator short"></div>
         <label id="status-filtered-records"></label>
     </div>
     <div id="status-sheets-bar-box">
         <div id="status-sheets-bar" class="status-group">
         </div>
     </div>
+    <div id="status-number-of-sheet">
+        <label id="label-sheets" class="status-label">Sheet 1 of 9</label>
     </div>
-    <div class="statusbar-bottom">
+    <div id="status-action">
+        <label id="label-action" class="status-label">All changes saved</label>
     </div>
 </div>

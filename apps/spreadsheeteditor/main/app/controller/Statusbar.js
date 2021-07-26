@@ -759,6 +759,8 @@ define([
             this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
             Common.localStorage.setBool('sse-compact-statusbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'status');
+            this.statusbar.onChangeCompact(compact);
+
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
