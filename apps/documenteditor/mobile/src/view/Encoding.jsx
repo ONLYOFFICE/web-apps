@@ -5,7 +5,7 @@ import { Device } from '../../../../common/mobile/utils/device';
 
 const PageEncoding = props => {
     const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
+    const _t = t("Settings", { returnObjects: true });
     const pagesName = props.pagesName;
     const pages = props.pages;
     const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
@@ -19,7 +19,7 @@ const PageEncoding = props => {
     return (
         <View style={props.style} routes={routes}>
             <Page>
-                <Navbar title={_t.textChooseCsvOptions} />
+                <Navbar title={_t.textChooseTxtOptions} />
                 <BlockTitle>{_t.textEncoding}</BlockTitle>
                 <List>
                     <ListItem title={nameEncoding} link="/encoding-list/" routeProps={{
@@ -43,14 +43,14 @@ const PageEncoding = props => {
 
 const PageEncodingList = props => {
     const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
+    const _t = t("Settings", { returnObjects: true });
     const [currentEncoding, changeCurrentEncoding] = useState(props.stateEncoding);
     const pages = props.pages;
     const pagesName = props.pagesName;
     
     return (
         <Page>
-            <Navbar title={_t.txtDownloadCsv} backLink={_t.textBack} />
+            <Navbar title={_t.txtDownloadTxt} backLink={_t.textBack} />
             <BlockTitle>{_t.textChooseEncoding}</BlockTitle>
             <List>
                 {pagesName.map((name, index) => {
@@ -73,32 +73,17 @@ class EncodingView extends Component {
     }
 
     render() {
-        const show_popover = this.props.usePopover;
-
         return (
-            show_popover ?
-                <Popover id="encoding-popover" className="popover__titled" closeByBackdropClick={false} closeByOutsideClick={false}>
-                    <PageEncoding 
-                        inPopover={true} 
-                        onSaveFormat={this.props.onSaveFormat}
-                        closeModal={this.props.closeModal}
-                        mode={this.props.mode}  
-                        pages={this.props.pages}
-                        pagesName={this.props.pagesName}
-                        valueEncoding={this.props.valueEncoding}
-                        style={{height: '410px'}}
-                    />
-                </Popover> :
-                <Popup className="encoding-popup">
-                    <PageEncoding 
-                        onSaveFormat={this.props.onSaveFormat} 
-                        closeModal={this.props.closeModal}
-                        mode={this.props.mode}  
-                        pages={this.props.pages}
-                        pagesName={this.props.pagesName}
-                        valueEncoding={this.props.valueEncoding}
-                    />
-                </Popup>
+            <Popup className="encoding-popup" closeByBackdropClick={false}>
+                <PageEncoding 
+                    onSaveFormat={this.props.onSaveFormat} 
+                    closeModal={this.props.closeModal}
+                    mode={this.props.mode}  
+                    pages={this.props.pages}
+                    pagesName={this.props.pagesName}
+                    valueEncoding={this.props.valueEncoding}
+                />
+            </Popup>
         )
     }
 }
@@ -112,17 +97,14 @@ const routes = [
 
 const Encoding = props => {
     useEffect(() => {
-        if ( Device.phone )
-            f7.popup.open('.encoding-popup');
-        else f7.popover.open('#encoding-popover', "#btn-settings");
-
+        f7.popup.open('.encoding-popup');
+    
         return () => {
         }
     });
 
     return (
         <EncodingView 
-            usePopover={!Device.phone} 
             closeModal={props.closeModal}
             onSaveFormat={props.onSaveFormat} 
             mode={props.mode}  

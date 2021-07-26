@@ -61,12 +61,7 @@ class EncodingController extends Component {
     }
 
     closeModal() {
-        if (Device.phone) {
-            f7.sheet.close('.encoding-popup', true);
-        } else {
-            f7.popover.close('#encoding-popover');
-        }
-
+        f7.sheet.close('.encoding-popup', true);
         this.setState({isOpen: false});
     }
 

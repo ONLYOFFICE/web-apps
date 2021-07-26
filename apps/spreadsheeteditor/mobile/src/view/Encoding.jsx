@@ -116,38 +116,20 @@ class EncodingView extends Component {
     }
 
     render() {
-        const show_popover = this.props.usePopover;
-
         return (
-            show_popover ?
-                <Popover id="encoding-popover" className="popover__titled" closeByBackdropClick={false} closeByOutsideClick={false}>
-                    <PageEncoding 
-                        inPopover={true} 
-                        onSaveFormat={this.props.onSaveFormat}
-                        closeModal={this.props.closeModal}
-                        mode={this.props.mode}  
-                        pages={this.props.pages}
-                        pagesName={this.props.pagesName}
-                        namesDelimeter={this.props.namesDelimeter}
-                        valueEncoding={this.props.valueEncoding}
-                        valueDelimeter={this.props.valueDelimeter}
-                        valuesDelimeter={this.props.valuesDelimeter}
-                        style={{height: '410px'}}
-                    />
-                </Popover> :
-                <Popup className="encoding-popup">
-                    <PageEncoding 
-                        onSaveFormat={this.props.onSaveFormat} 
-                        closeModal={this.props.closeModal}
-                        mode={this.props.mode}  
-                        pages={this.props.pages}
-                        pagesName={this.props.pagesName}
-                        namesDelimeter={this.props.namesDelimeter}
-                        valueEncoding={this.props.valueEncoding}
-                        valueDelimeter={this.props.valueDelimeter}
-                        valuesDelimeter={this.props.valuesDelimeter}
-                    />
-                </Popup>
+            <Popup className="encoding-popup" closeByBackdropClick={false}>
+                <PageEncoding 
+                    onSaveFormat={this.props.onSaveFormat} 
+                    closeModal={this.props.closeModal}
+                    mode={this.props.mode}  
+                    pages={this.props.pages}
+                    pagesName={this.props.pagesName}
+                    namesDelimeter={this.props.namesDelimeter}
+                    valueEncoding={this.props.valueEncoding}
+                    valueDelimeter={this.props.valueDelimeter}
+                    valuesDelimeter={this.props.valuesDelimeter}
+                />
+            </Popup>
         )
     }
 }
@@ -165,17 +147,14 @@ const routes = [
 
 const Encoding = props => {
     useEffect(() => {
-        if ( Device.phone )
-            f7.popup.open('.encoding-popup');
-        else f7.popover.open('#encoding-popover', "#btn-settings");
-
+        f7.popup.open('.encoding-popup');
+       
         return () => {
         }
     });
 
     return (
-        <EncodingView 
-            usePopover={!Device.phone} 
+        <EncodingView  
             closeModal={props.closeModal}
             onSaveFormat={props.onSaveFormat} 
             mode={props.mode}  

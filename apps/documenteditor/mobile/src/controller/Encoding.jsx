@@ -6,7 +6,7 @@ import { Encoding } from "../view/Encoding";
 class EncodingController extends Component {
     constructor(props) {
         super(props);
-
+        
         this.onSaveFormat = this.onSaveFormat.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.state = {
@@ -25,7 +25,7 @@ class EncodingController extends Component {
     }
 
     initEncoding(type, advOptions, mode, formatOptions) {
-        if(type === Asc.c_oAscAdvancedOptionsID.CSV) {
+        if(type === Asc.c_oAscAdvancedOptionsID.TXT) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
 
@@ -54,12 +54,7 @@ class EncodingController extends Component {
     }
 
     closeModal() {
-        if (Device.phone) {
-            f7.sheet.close('.encoding-popup', true);
-        } else {
-            f7.popover.close('#encoding-popover');
-        }
-
+        f7.sheet.close('.encoding-popup', true);
         this.setState({isOpen: false});
     }
 

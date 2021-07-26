@@ -30,11 +30,10 @@ class DownloadController extends Component {
                     (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
                     _t.notcriticalErrorTitle,
                     () => {
-                        if (format == Asc.c_oAscFileType.TXT) {
+                        if (format === Asc.c_oAscFileType.TXT) {
                             const advOptions = api.asc_getAdvancedOptions();
                             this.closeModal();
-                            Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));
-
+                            Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));   
                         }
                         else {
                             this.closeModal();

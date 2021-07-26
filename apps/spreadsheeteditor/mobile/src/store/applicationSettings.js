@@ -28,7 +28,7 @@ export class storeApplicationSettings {
 
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     macrosMode = 0;
-    formulaLang = LocalStorage.getItem('sse-settings-func-lang') || dataLang[0].value;
+    formulaLang = LocalStorage.getItem('sse-settings-func-lang') || this.getFormulaLanguages()[0].value;
     regCode = undefined;
     regExample = '';
     regData = [];
