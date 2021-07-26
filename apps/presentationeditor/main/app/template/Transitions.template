@@ -15,13 +15,13 @@
         </div>
     </div>
     <div class="separator long"></div>
-    <div class="group small">
+    <div class="group small" >
         <div class="elset">
             <span class="btn-slot text" id="transit-checkbox-slidenum"></span>
         </div>
-        <div class="elset">
-            <span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px" >Delay</span>
-            <span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>
+        <div class="elset" style="width:110px;">
+            <span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; font-size: 11px;text-align: left; margin-top: 4px" >Delay</span>
+            <span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block;  float: right; width: 90px; "></span>
         </div>
     </div>
     <div class="separator long"></div>

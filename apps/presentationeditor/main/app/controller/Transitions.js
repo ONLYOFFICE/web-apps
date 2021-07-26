@@ -82,11 +82,6 @@ define([
         setConfig: function (data, api) {
             this.setApi(api);
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
-            if (data) {
-
-                this.currentUserId      =   data.config.user.id;
-                this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
-            }
             return this;
         },
         setApi: function (api) {
@@ -122,9 +117,6 @@ define([
         onAppReady: function (config) {
             var me = this;
 
-            /*if (me.view) {
-                me.applySettings();
-                           }*/
         },
         onPreviewClick: function(){
             if (this.api) {

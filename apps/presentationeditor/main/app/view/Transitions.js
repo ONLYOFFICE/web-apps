@@ -63,6 +63,7 @@ define([
                 me.listEffects.on('click', _.bind(function (combo,record){
                     me.fireEvent('transit:selecteffect',[combo,record]);
                 },me));
+
             }
             if(me.btnPreview)
             {
@@ -223,12 +224,13 @@ define([
                     iconCls: 'toolbar__icon btn-rem-comment'
                 });
 
-               this.btnParametrs = new Common.UI.Button({
+                this.btnParametrs = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtParametrs,
                     split: true,
                     iconCls: 'toolbar__icon btn-res-comment'
                 });
+
                 this.btnApplyToAll = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
@@ -246,6 +248,7 @@ define([
                     minValue: 0,
                     disabled: false
                 });
+
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
                     step: 1,
@@ -256,10 +259,12 @@ define([
                     minValue: 0,
                     disabled: false
                 });
+
                 this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.findById('#transit-checkbox-slidenum'),
                     labelText: this.strStartOnClick
                 });
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -274,9 +279,6 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                        '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
-                        '<% } %></a>');
                     var itemsMenu=[];
                     _.each(me._arrEffectType, function (item){
                         itemsMenu.push(
@@ -294,10 +296,7 @@ define([
                             items: itemsMenu
                         })
                     );
-
-
-
-                   setEvents.call(me);
+                    setEvents.call(me);
                 });
             },
 
@@ -382,9 +381,9 @@ define([
                 if(effect!=Asc.c_oAscSlideTransitionTypes.None)
                     selectedElement.setChecked(true);
 
-                this.btnParametrs.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
-                this.btnPreview.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
-                this.numDuration.setDisabled(effect==Asc.c_oAscSlideTransitionTypes.None);
+                this.btnParametrs.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
+                this.btnPreview.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
+                this.numDuration.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
                 return selectedElement;
             },
 
