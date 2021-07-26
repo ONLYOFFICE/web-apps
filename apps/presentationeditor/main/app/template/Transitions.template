@@ -6,13 +6,13 @@
     </div>
     <div class="separator long"></div>
     <div class="group small">
-        <div class="elset">
-            <span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px"" >Durations</span>
+        <div class="elset" style="width:110px;  margin-left:6px;">
+            <span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px;" >Durations</span>
             <span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>
         </div>
         <div class="elset">
-            <span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>
-        </div>
+         <span class="btn-slot text x-huge" id="transit-button-preview" ></span>
+                    </div>
     </div>
     <div class="separator long"></div>
     <div class="group small" >
@@ -27,7 +27,7 @@
     <div class="separator long"></div>
     <div class="group small">
          <div class="elset">
-            <span class="btn-slot text x-huge" id="transit-button-preview"></span>
+            <span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>
         </div>
         <div class="elset">
             <span class="btn-slot text x-huge" ></span>

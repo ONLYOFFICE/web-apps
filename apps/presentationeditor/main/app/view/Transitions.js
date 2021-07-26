@@ -157,8 +157,8 @@ define([
 
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-styles',
-                    itemWidth: 85,
-                    itemHeight: 54,
+                    itemWidth: 91,
+                    itemHeight: 44,
                     enableKeyEvents: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
