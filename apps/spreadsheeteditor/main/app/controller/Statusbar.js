@@ -528,41 +528,6 @@ define([
             }
         },
 
-        moveCurrentTab: function (direction) {
-            if (this.api) {
-                var indTab = 0,
-                    tabBar = this.statusbar.tabbar,
-                    index = this.api.asc_getActiveWorksheetIndex(),
-                    length = tabBar.tabs.length;
-
-                this.statusbar.tabMenu.hide();
-                this.api.asc_closeCellEditor();
-
-                for (var i = 0; i < length; ++i) {
-                    if (tabBar.tabs[i].sheetindex === index) {
-                        indTab = i;
-
-                        if (direction > 0) {
-                            indTab++;
-                            if (indTab >= length) {
-                                indTab = 0;
-                            }
-                        } else {
-                            indTab--;
-                            if (indTab < 0) {
-                                indTab = length - 1;
-                            }
-                        }
-
-                        tabBar.setActive(indTab);
-                        this.api.asc_showWorksheet(tabBar.getAt(indTab).sheetindex);
-
-                        break;
-                    }
-                }
-            }
-        },
-
         // colors
 
         onApiUpdateTabColor: function (index) {
