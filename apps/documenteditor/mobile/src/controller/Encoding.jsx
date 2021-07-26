@@ -67,7 +67,7 @@ class EncodingController extends Component {
             this.formatOptions && this.formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding));
             api.asc_DownloadAs(this.formatOptions);
         } else {
-            api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, new Asc.asc_CTextOptions(valueEncoding));
+            api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, new Asc.asc_CTextOptions(valueEncoding));
         }
     }
 
