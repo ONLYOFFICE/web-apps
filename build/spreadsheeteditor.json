@@ -167,12 +167,6 @@
                 },
                 {
                     "expand": true,
-                    "cwd": "../apps/common/main/resources/alphabetletters",
-                    "src": "*.json",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/alphabetletters"
-                },
-                {
-                    "expand": true,
                     "cwd": "../apps/common/main/resources/symboltable",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/symboltable"
