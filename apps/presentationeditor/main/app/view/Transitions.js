@@ -40,12 +40,10 @@
  *
  */
 
-if (Common === undefined)
-    var Common = {};
 
-Common.Views = Common.Views || {};
 
 define([
+    'text!presentationeditor/main/app/template/Transitions.template',
     'common/main/lib/util/utils',
     'common/main/lib/component/Button',
     'common/main/lib/component/DataView',
@@ -54,50 +52,10 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/Window'
-], function () {
+], function (template) {
     'use strict';
 
     PE.Views.Transitions = Common.UI.BaseView.extend(_.extend((function(){
-
-
-        var template =
-            '<section id="transitions-panel" class="panel" data-tab="transit">' +
-                '<div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 178px; " ></div>'+
-
-                '<div class="group small">' +
-                    '<span class="btn-slot text x-huge" id="transit-button-parametrs"></span>' +
-                '</div>' +
-                '<div class="separator long"></div>' +
-                '<div class="group small">' +
-                    '<div class="elset">'+
-                        '<span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px"" >Durations</span>'+
-                        '<span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>'+
-                    '</div>'+
-                    '<div class="elset">'+
-                        '<span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>' +
-                    '</div>'+
-                '</div>' +
-                '<div class="separator long"></div>' +
-                '<div class="group small">' +
-                    '<div class="elset">'+
-                        '<span class="btn-slot text" id="transit-checkbox-slidenum"></span>'+
-                    '</div>'+
-                    '<div class="elset">'+
-                        '<span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px" >Delay</span>'+
-                        '<span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="separator long"></div>' +
-                '<div class="group small">' +
-                     '<div class="elset">'+
-                        '<span class="btn-slot text x-huge" id="transit-button-preview"></span>' +
-                    '</div>' +
-                    '<div class="elset">'+
-                        '<span class="btn-slot text x-huge" ></span>' +
-                    '</div>' +
-                '</div>' +
-            '</section>';
-
         function setEvents() {
             var me = this;
             if(me.listEffects)
