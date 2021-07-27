@@ -568,6 +568,11 @@ PE.ApplicationController = new(function(){
                 message = me.errorAccessDeny;
                 break;
 
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                message = me.errorForceSave;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -712,6 +717,7 @@ PE.ApplicationController = new(function(){
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textGuest: 'Guest',
-        textAnonymous: 'Anonymous'
+        textAnonymous: 'Anonymous',
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
     }
 })();
