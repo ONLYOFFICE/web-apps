@@ -2386,12 +2386,10 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
         },
-        setTrantitTab:function (){
-            var tab = {action: 'transit', caption: this.toolbar.textTabTransitions};
-            var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
+        setTrantitTab:function (el){
+           var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
             if ( $panel ) {
-                this.toolbar.addTab(tab, $panel, 3);
-                this.toolbar.setVisible('transit', true);
+                el.find('#transitions-panel').replaceWith($panel);
             }
         },
         onAppShowed: function (config) {

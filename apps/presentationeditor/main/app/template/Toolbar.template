@@ -142,7 +142,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
                 </div>
             </section>
-           <!-- <section id="transitions-panel" class="panel" data-tab="transit"> </section>-->
+            <section id="transitions-panel" class="panel" data-tab="transit"> </section>
         </section>
     </section>
 </div>

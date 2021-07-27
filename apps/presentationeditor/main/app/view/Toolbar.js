@@ -129,7 +129,8 @@ define([
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
+                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'}
                             ]
                         }
                     );
@@ -1002,11 +1003,12 @@ define([
                         Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
                     }
                 });
-
+                //_.bind(function (element){
+                //},me);
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
-                    this.fireEvent('transit:settab',[this]);
+
                 }
 
                 if ( me.isCompactView )
@@ -1036,7 +1038,7 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-
+                this.fireEvent('transit:settab',[$host]);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-changeslide', this.btnChangeSlide);
