@@ -629,7 +629,8 @@ define([
                                     selected: (opts.data.currentVersion == version.version),
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
-                                    serverVersion: version.serverVersion
+                                    serverVersion: version.serverVersion,
+                                    fileType: 'docx'
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -679,7 +680,8 @@ define([
                                                 canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
                                                 isRevision: false,
                                                 isVisible: true,
-                                                serverVersion: version.serverVersion
+                                                serverVersion: version.serverVersion,
+                                                fileType: 'docx'
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }

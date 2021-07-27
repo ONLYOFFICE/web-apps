@@ -239,6 +239,7 @@ const EditImage = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const imageObject = storeFocusObjects.imageObject;
     const pluginGuid = imageObject.asc_getPluginGuid();
+    const wrapType = props.storeImageSettings.getWrapType(imageObject);
 
     return (
         <Fragment>
@@ -254,9 +255,9 @@ const EditImage = props => {
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
-                <ListItem title={_t.textReorder} link='/edit-image-reorder/' routeProps={{
+                { wrapType !== 'inline' && <ListItem title={_t.textReorder} link='/edit-image-reorder/' routeProps={{
                     onReorder: props.onReorder
-                }}></ListItem>
+                }}></ListItem> }
             </List>
             <List className="buttons-list">
                 <ListButton className='button-fill button-raised' title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
@@ -266,7 +267,7 @@ const EditImage = props => {
     )
 };
 
-const EditImageContainer = inject("storeFocusObjects")(observer(EditImage));
+const EditImageContainer = inject("storeFocusObjects", "storeImageSettings")(observer(EditImage));
 const PageWrapContainer = inject("storeFocusObjects", "storeImageSettings")(observer(PageWrap));
 const PageReplaceContainer = inject("storeFocusObjects")(observer(PageReplace));
 const PageReorderContainer = inject("storeFocusObjects")(observer(PageReorder));

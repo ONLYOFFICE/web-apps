@@ -682,7 +682,7 @@ define([
                     var comments = cellinfo.asc_getComments();
                     if (comments.length) {
                         controller.onEditComments(comments);
-                    } else if (this.permissions.canCoAuthoring || this.commentsCollection.getCommentsReplysCount()<3) {
+                    } else if (this.permissions.canCoAuthoring) {
                         controller.addDummyComment();
                     }
                 }

@@ -166,7 +166,8 @@ define([
                         var collection = comments[name],
                             resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
                         for (var i = 0; i < collection.length; ++i) {
-                            if (collection.at(i).get('userid') !== this.mode.user.id && (resolved || !collection.at(i).get('resolved'))) {
+                            var comment = collection.at(i);
+                            if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
                                 this.leftMenu.markCoauthOptions('comments', true);
                                 break;
                             }
@@ -771,14 +772,14 @@ define([
 
         onApiAddComment: function(id, data) {
             var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
-            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()))
+            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
             var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved())) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

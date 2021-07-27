@@ -19,8 +19,10 @@ import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import { StatusbarController } from "./Statusbar";
 
 @inject(
+    "users",
     "storeAppOptions",
     "storeFocusObjects",
     "storeCellSettings",
@@ -28,8 +30,9 @@ import EncodingController from "./Encoding";
     "storeChartSettings",
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
-    "storeApplicationSettings"
-)
+    "storeApplicationSettings",
+    "storeToolbarSettings"
+    )
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -360,6 +363,18 @@ class MainController extends Component {
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }
+        });
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
         });
 
     }
@@ -802,6 +817,7 @@ class MainController extends Component {
             <Fragment>
                 <LongActionsController />
                 <ErrorController LoadingDocument={this.LoadingDocument}/>
+                <StatusbarController />
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />

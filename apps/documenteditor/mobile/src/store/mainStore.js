@@ -15,6 +15,7 @@ import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
 import {storeReview} from "./review";
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
+import {storeToolbarSettings} from "./toolbar";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -32,6 +33,7 @@ export const stores = {
     storeApplicationSettings: new storeApplicationSettings(),
     storePalette: new storePalette(),
     storeReview: new storeReview(),
-    storeComments: new storeComments()
+    storeComments: new storeComments(),
+    storeToolbarSettings: new storeToolbarSettings()
 };
 

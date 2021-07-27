@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, Toolbar, Link, Icon, Popover, List, ListButton, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
-import { observer, inject } from "mobx-react";
+import { View, Link, Icon, Popover, List, ListButton, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
@@ -8,16 +7,12 @@ const viewStyle = {
     height: 30
 };
 
-const StatusbarView = inject('sheets', "storeAppOptions")(observer(props => {
+const StatusbarView = props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const { sheets, storeAppOptions } = props;
-    const isEdit = storeAppOptions.isEdit;
-    const hiddenSheets = sheets.hiddenWorksheets();
-    const allSheets = sheets.sheets;
-    const getTabClassList = model => `tab ${model.active ? 'active' : ''} ${model.locked ? 'locked' : ''}`;
+    const { isEdit, allSheets, hiddenSheets, isWorkbookLocked } = props;
 
     const getTabColor = model => {
         let color = model.color;
@@ -119,7 +114,7 @@ const StatusbarView = inject('sheets', "storeAppOptions")(observer(props => {
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 <div id="idx-box-add-tab">
-                    <Link href="false" id="idx-btn-addtab" className="tab" onClick={e => props.onAddTabClicked()}>
+                    <Link href={false} id="idx-btn-addtab" className={`tab${isWorkbookLocked ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                         <Icon className="icon icon-plus" />
                     </Link>
                 </div>
@@ -127,7 +122,7 @@ const StatusbarView = inject('sheets', "storeAppOptions")(observer(props => {
                     <ul className="sheet-tabs bottom">
                         {allSheets.map((model,i) => 
                             model.hidden ? null : 
-                                <li className={getTabClassList(model)} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
+                                <li className={`tab${model.active ? ' active' : ''} ${model.locked ? ' locked' : ''}`} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
                                     <a style={{boxShadow: getTabColor(model)}}>{model.name}</a>
                                 </li>
                             
@@ -194,6 +189,6 @@ const StatusbarView = inject('sheets', "storeAppOptions")(observer(props => {
             ) : null}
         </Fragment>
     )
-}));
+};
 
 export {StatusbarView};

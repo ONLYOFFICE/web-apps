@@ -1,3 +1,128 @@
 {
-
+  "About": {
+    "textAbout": "Sobre",
+    "textAddress": "Endereço",
+    "textBack": "Voltar"
+  },
+  "Common": {
+    "Collaboration": {
+      "textAddComment": "Adicionar comentário",
+      "textAddReply": "Adicionar resposta",
+      "textBack": "Voltar",
+      "textCancel": "Cancelar",
+      "textCollaboration": "Colaboração",
+      "textComments": "Comentários",
+      "textDeleteComment": "Excluir comentários",
+      "textDeleteReply": "Excluir resposta"
+    },
+    "ThemeColorPalette": {
+      "textCustomColors": "Cores personalizadas"
+    }
+  },
+  "ContextMenu": {
+    "errorCopyCutPaste": "Copiar, cortar e colar usando o menu de contexto serão aplicadas apenas a este arquivo.",
+    "menuAddComment": "Adicionar comentário",
+    "menuAddLink": "Adicionar Link",
+    "menuCancel": "Cancelar",
+    "menuDelete": "Excluir",
+    "menuDeleteTable": "Excluir tabela",
+    "textColumns": "Colunas",
+    "textCopyCutPasteActions": "Copiar, Cortar e Colar"
+  },
+  "Controller": {
+    "Main": {
+      "closeButtonText": "Fechar Arquivo",
+      "SDK": {
+        "Chart": "Gráfico",
+        "Click to add first slide": "Clique para adicionar o primeiro slide",
+        "Click to add notes": "Clique para adicionar notas",
+        "ClipArt": "Clip Art",
+        "Date and time": "Data e Hora",
+        "Diagram Title": "Título do Gráfico"
+      },
+      "textAnonymous": "Anônimo",
+      "textClose": "Fechar",
+      "textContactUs": "Entre em contato com o departamento de vendas"
+    }
+  },
+  "Error": {
+    "convertationTimeoutText": "Tempo limite de conversão excedido.",
+    "errorConnectToServer": "Não é possível salvar este documento. Verifique as configurações de conexão ou entre em contato com o administrador. <br> Ao clicar no botão 'OK', você será solicitado a baixar o documento.",
+    "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Use a opção 'Download' para salvar a cópia de backup do arquivo localmente.",
+    "errorViewerDisconnect": "A conexão foi perdida. Você ainda pode ver o documento, <br> mas não poderá baixá-lo até que a conexão seja restaurada e a página recarregada.",
+    "openErrorText": "Ocorreu um erro ao abrir o arquivo",
+    "saveErrorText": "Ocorreu um erro ao gravar o arquivo"
+  },
+  "View": {
+    "Add": {
+      "textAddLink": "Adicionar Link",
+      "textAddress": "Endereço",
+      "textBack": "Voltar",
+      "textCancel": "Cancelar",
+      "textColumns": "Colunas",
+      "textComment": "Comente"
+    },
+    "Edit": {
+      "textActualSize": "Tamanho atual",
+      "textAddCustomColor": "Adicionar Cor Personalizada",
+      "textAdditional": "Adicional",
+      "textAdditionalFormatting": "Formatação adicional",
+      "textAddress": "Endereço",
+      "textAfter": "Depois",
+      "textAlign": "Alinhar",
+      "textAlignBottom": "Alinhar à parte inferior",
+      "textAlignCenter": "Alinhar ao centro",
+      "textAlignLeft": "Alinhar à esquerda",
+      "textAlignMiddle": "Alinhar ao centro",
+      "textAlignRight": "Alinhar à direita",
+      "textAlignTop": "Alinhar em cima",
+      "textAllCaps": "Todas maiúsculas",
+      "textApplyAll": "Aplicar a todos os slides",
+      "textAuto": "Automático",
+      "textBack": "Voltar",
+      "textBandedColumn": "Coluna em faixa",
+      "textBandedRow": "Linha de Faixa",
+      "textBefore": "Antes",
+      "textBorder": "Borda",
+      "textBottom": "Inferior",
+      "textBottomLeft": "Inferior esquerdo",
+      "textBottomRight": "Inferior direito",
+      "textBringToForeground": "Trazer para primeiro plano",
+      "textBullets": "Marcadores",
+      "textBulletsAndNumbers": "Marcadores e Numerações",
+      "textCaseSensitive": "Maiúsculas e Minúsculas",
+      "textCellMargins": "Margens da célula",
+      "textChart": "Gráfico",
+      "textClock": "Relógio",
+      "textClockwise": "Sentido horário",
+      "textColor": "Cor",
+      "textCounterclockwise": "Sentido anti-horário",
+      "textCover": "Folha de rosto",
+      "textCustomColor": "Personalizar cor",
+      "textDelay": "Atraso",
+      "textDeleteSlide": "Excluir slide",
+      "textZoom": "Zoom",
+      "textZoomIn": "Ampliar",
+      "textZoomOut": "Reduzir",
+      "textZoomRotate": "Zoom e Rotação"
+    },
+    "Settings": {
+      "textAbout": "Sobre",
+      "textAddress": "Endereço:",
+      "textApplication": "Aplicativo",
+      "textApplicationSettings": "Configurações de Aplicativo",
+      "textAuthor": "Autor",
+      "textBack": "Voltar",
+      "textCaseSensitive": "Maiúsculas e Minúsculas",
+      "textCentimeter": "Centímetro",
+      "textCollaboration": "Colaboração",
+      "textColorSchemes": "Esquemas de cor",
+      "textComment": "Comente",
+      "textCreated": "Criado",
+      "txtScheme3": "Ápice",
+      "txtScheme4": "Aspecto",
+      "txtScheme5": "Cívico",
+      "txtScheme6": "Concurso"
+    }
+  }
 }

@@ -156,7 +156,8 @@ define([
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                     var collection = this.getApplication().getCollection('Common.Collections.Comments');
                     for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
+                        var comment = collection.at(i);
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -169,6 +170,7 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
+            this.leftMenu.btnThumbs.toggle(true);
             return this;
         },
 
@@ -208,7 +210,6 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
-            this.leftMenu.btnThumbs.toggle(true);
             return this;
         },
 
@@ -578,13 +579,13 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            if (data && data.asc_getUserId() !== this.mode.user.id && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

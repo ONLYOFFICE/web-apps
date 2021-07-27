@@ -18,6 +18,7 @@ import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
 @inject(
+    "users",
     "storeAppOptions",
     "storeDocumentSettings",
     "storeFocusObjects",
@@ -27,7 +28,8 @@ import EncodingController from "./Encoding";
     "storeDocumentInfo",
     "storeChartSettings",
     "storeApplicationSettings",
-    "storeLinkSettings"
+    "storeLinkSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -622,6 +624,18 @@ class MainController extends Component {
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }
+        });
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
         });
     }
 
