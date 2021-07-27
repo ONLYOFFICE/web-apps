@@ -104,6 +104,12 @@ define([
                     me.fireEvent('transit:startonclick',[ me.chStartOnClick,me.chStartOnClick.value, me.chStartOnClick.lastValue]);
                 },me));
             }
+            if(me.chDelay)
+            {
+                me.chDelay.on('change',_.bind(function (e){
+                    me.fireEvent('transit:checkdelay',[ me.chDelay,me.chDelay.value, me.chDelay.lastValue]);
+                },me));
+            }
         }
 
         return {
@@ -129,7 +135,7 @@ define([
                     {title: this.textUnCover, imageUrl:"btn-menu-comments", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
                     {title: this.textCover, imageUrl:"btn-editheader", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl:"btn-datetime", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom,  imageUrl:"btn-insertequatio", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
+                    {title: this.textZoom,  imageUrl:"btn-addslide", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
                 ];
 
                 this._arrEffectType = [
@@ -163,7 +169,7 @@ define([
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            minMenuColumn = 7;
+                            minMenuColumn = 4;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
@@ -182,7 +188,7 @@ define([
                             menu.menuAlign = 'tl-tl';
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
                             menu.setOffset(Math.min(offset, 0));
-
+                            //columnCount * (itemWidth + itemMargin)
                             menu.cmpEl.css({
                                 'width': columnCount * (itemWidth + itemMargin),
                                 'min-height': cmp.cmpEl.height()
@@ -228,14 +234,14 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtParametrs,
                     split: true,
-                    iconCls: 'toolbar__icon btn-res-comment'
+                    iconCls: 'toolbar__icon icon btn-insertshape'
                 });
 
                 this.btnApplyToAll = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon btn-res-comment'
+                    iconCls: 'toolbar__icon btn-changeslide'
                 });
 
                 this.numDuration = new Common.UI.MetricSpinner({
@@ -261,10 +267,13 @@ define([
                 });
 
                 this.chStartOnClick = new Common.UI.CheckBox({
-                    el: this.$el.find('#transit-checkbox-slidenum'),
+                    el: this.$el.find('#transit-checkbox-startonclick'),
                     labelText: this.strStartOnClick
                 });
-
+                this.chDelay = new Common.UI.CheckBox({
+                    el: this.$el.find('#transit-checkbox-delay'),
+                    labelText: this.strDelay
+                });
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -308,7 +317,7 @@ define([
                 this.btnApplyToAll && this.btnApplyToAll.render(this.$el.find('#transit-button-apply'));
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
-                this.renderComponent('#transit-checkbox-slidenum', this.chStartOnClick);
+                this.renderComponent('#transit-checkbox-startonclick', this.chStartOnClick);
                 this.$el.find("#label-duration").innerText=this.strDuration;
                 this.$el.find("#label-delay").innerText=this.strDelay;
                 return this.$el;
@@ -393,6 +402,7 @@ define([
             txtParametrs: 'Parametrs',
             txtApplyToAll: 'Apply to All Slides',
             strDuration: 'Duration',
+            strDelay: 'Delay',
             strStartOnClick: 'Start On Click',
 
             textNone: 'None',

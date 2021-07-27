@@ -70,7 +70,8 @@ define([
                     'transit:applytoall':   _.bind(this.onApplyToAllClick,this),
                     'transit:selecteffect': _.bind(this.onEffectSelect, this),
                     'transit:startonclick': _.bind(this.onStartOnClickChange,this),
-                    'transit:delay':        _.bind(this.onDelayChange,this)
+                    'transit:delay':        _.bind(this.onDelayChange,this),
+                    'transit:checkdelay':   _.bind(this.onCheckDelayChange,this)
                 }
             });
 
@@ -159,16 +160,14 @@ define([
                 transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
                 props.put_transition(transition);
                 this.api.SetSlideProps(props);
-                this.onCheckDelayChange(field);
             }
         },
         onCheckDelayChange: function(field, newValue, oldValue, eOpts){
-            //this.numDelay.setDisabled(field.getValue()!=='checked');
+            this.view.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
-                //transition.put_SlideAdvanceAfter(field.getValue()=='checked');
-                transition.put_SlideAdvanceAfter(field.getNumberValue()!=0);
+                transition.put_SlideAdvanceAfter(field.getValue()=='checked');
                 props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
@@ -220,10 +219,8 @@ define([
 
                 if (me.btnParametrs.menu) {
                     value = transition.get_TransitionOption();
-                    //if (this._state.EffectType !== value) {*/
                         me.setMenuParametrs(this._state.Effect, value);
                         this._state.EffectType = value;
-                    //}
                 }
 
                 value = transition.get_TransitionDuration();
@@ -249,8 +246,8 @@ define([
                 }
                 value = transition.get_SlideAdvanceAfter();
                 if (this._state.AdvanceAfter !== value) {
-                    //me.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                    //me.numDelay.setDisabled(this.chDelay.getValue() !== 'checked');
+                    me.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    me.numDelay.setDisabled(me.chDelay.getValue() !== 'checked');
                     this._state.AdvanceAfter = value;
                 }
             }
