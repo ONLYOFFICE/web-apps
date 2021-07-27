@@ -625,6 +625,11 @@ DE.ApplicationController = new(function(){
                 message = me.errorEditingDownloadas;
                 break;
 
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                message = me.errorForceSave;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -806,6 +811,7 @@ DE.ApplicationController = new(function(){
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
         textRequired: 'Fill all required fields to send form.',
-        textGotIt: 'Got it'
+        textGotIt: 'Got it',
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
     }
 })();
