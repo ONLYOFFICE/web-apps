@@ -61,9 +61,14 @@ export class storeAppOptions {
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
+
+        AscCommon.UserInfoParser.setParser(true);
+        AscCommon.UserInfoParser.setCurrentName(this.user.fullname);
     }
 
     setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
+        if (params.asc_getRights() !== Asc.c_oRights.Edit)
+            permissions.edit = false;
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -86,6 +91,7 @@ export class storeAppOptions {
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
         this.canChat = this.canLicense && !this.isOffline && !((typeof (this.customization) == 'object') && this.customization.chat === false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
@@ -99,6 +105,10 @@ export class storeAppOptions {
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
 
-        this.canUseReviewPermissions = this.canLicense && this.customization && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object');
+        this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
+            && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
+        this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
+        this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);
     }
 }

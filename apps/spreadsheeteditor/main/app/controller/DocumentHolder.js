@@ -1582,6 +1582,8 @@ define([
         },
 
         onApiContextMenu: function(event) {
+            if (Common.UI.HintManager.isHintVisible())
+                Common.UI.HintManager.clearHints();
             var me = this;
             _.delay(function(){
                 me.showObjectMenu.call(me, event);

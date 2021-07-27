@@ -87,6 +87,9 @@ define([
                         'class="form-control <%= cls %>" ',
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
+                        'data-hint="<%= dataHint %>"',
+                        'data-hint-direction="<%= dataHintDirection %>"',
+                        'data-hint-offset="<%= dataHintOffset %>"',
                     '>',
                     '<span class="input-error"></span>',
                 '</div>'
@@ -135,6 +138,9 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
+                        dataHint    : this.options.dataHint,
+                        dataHintDirection: this.options.dataHintDirection,
+                        dataHintOffset: this.options.dataHintOffset,
                         scope       : me
                     }));
 

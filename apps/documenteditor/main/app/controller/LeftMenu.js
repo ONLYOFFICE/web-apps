@@ -666,21 +666,29 @@ define([
             this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
         },
 
-        SetDisabled: function(disable, disableFileMenu) {
-            this.mode.isEdit = !disable;
+        SetDisabled: function(disable, options) {
+            if (this.leftMenu._state.disabled !== disable) {
+                this.leftMenu._state.disabled = disable;
+                if (disable) {
+                    this.previsEdit = this.mode.isEdit;
+                    this.prevcanEdit = this.mode.canEdit;
+                    this.mode.isEdit = this.mode.canEdit = !disable;
+                } else {
+                    this.mode.isEdit = this.previsEdit;
+                    this.mode.canEdit = this.prevcanEdit;
+                }
+            }
+
             if (disable) this.leftMenu.close();
 
-            /** coauthoring begin **/
-            this.leftMenu.btnComments.setDisabled(disable);
-            var comments = this.getApplication().getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
-            this.setPreviewMode(disable);
-            this.leftMenu.btnChat.setDisabled(disable);
-            /** coauthoring end **/
+            if (!options || options.comments && options.comments.disable)
+                this.leftMenu.btnComments.setDisabled(disable);
+            if (!options || options.chat)
+                this.leftMenu.btnChat.setDisabled(disable);
+            if (!options || options.navigation && options.navigation.disable)
+                this.leftMenu.btnNavigation.setDisabled(disable);
+
             this.leftMenu.btnPlugins.setDisabled(disable);
-            this.leftMenu.btnNavigation.setDisabled(disable);
-            if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
         },
 
         /** coauthoring begin **/
@@ -808,7 +816,8 @@ define([
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
                     if ( this.leftMenu.menuFile.isVisible() ) {
-                        this.leftMenu.menuFile.hide();
+                        if (Common.UI.HintManager.needCloseFileMenu())
+                            this.leftMenu.menuFile.hide();
                         return false;
                     }
 
@@ -827,8 +836,10 @@ define([
                     }
                     if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                                 $(e.target).parents('#left-menu').length ) {
-                        this.leftMenu.close();
-                        Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        if (!Common.UI.HintManager.isHintVisible()) {
+                            this.leftMenu.close();
+                            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+                        }
                         return false;
                     }
                     break;

@@ -11,7 +11,9 @@ import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
+    canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected
 }))
@@ -31,7 +33,7 @@ class ContextMenu extends ContextMenuController {
 
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
+        return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {
@@ -198,7 +200,7 @@ class ContextMenu extends ContextMenuController {
             const { t } = this.props;
             const _t = t("ContextMenu", { returnObjects: true });
 
-            const { canViewComments, isDisconnected } = this.props;
+            const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
             const stack = api.getSelectedElements();
@@ -214,11 +216,13 @@ class ContextMenu extends ContextMenuController {
                 isShape = false,
                 isLink = false,
                 isSlide = false,
-                isObject = false;
+                isObject,
+                locked = false;
 
             stack.forEach(item => {
                 const objectType = item.get_ObjectType(),
                     objectValue = item.get_ObjectValue();
+                locked = typeof objectValue.get_Locked === 'function' ? objectValue.get_Locked() : false;
 
                 if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
                     isText = true;
@@ -249,6 +253,13 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuViewComment,
                     event: 'viewcomment'
+                });
+            }
+
+            if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
+                itemsText.push({
+                    caption: _t.menuAddComment,
+                    event: 'addcomment'
                 });
             }
 

@@ -75,8 +75,6 @@ class MainController extends Component {
 
                 EditorUIController.isSupportEditFeature();
 
-                console.log('load config');
-
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
@@ -300,6 +298,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocumentContentReady', this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
+        this.api.asc_registerCallback('asc_onAdvancedOptions', this.onAdvancedOptions.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl', this.onPrintUrl.bind(this));
         this.api.asc_registerCallback('asc_onPrint', this.onPrint.bind(this));
@@ -308,10 +307,6 @@ class MainController extends Component {
         EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
         const storePresentationSettings = this.props.storePresentationSettings;
-
-        this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions) => {
-            this.onAdvancedOptions(type, advOptions);
-        });
 
         this.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
             storePresentationSettings.changeSizeIndex(width, height);

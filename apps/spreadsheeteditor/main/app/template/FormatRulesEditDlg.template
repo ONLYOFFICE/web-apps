@@ -42,7 +42,7 @@
             <td class="padding-small">
                 <label class="header"><%= scope.textPreview %></label>
                 <div style="border: 1px solid #cbcbcb;width: 150px; height: 40px; padding: 3px;">
-                    <div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>
+                    <div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;background-color: #ffffff;"></div>
                     </div>
                 </td>
             </tr>
@@ -161,46 +161,46 @@
                         </tr>
                     <tr class="icons-5">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-txt-icon-5" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div><!--
-                            --><div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div><!--
+                            <div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-5" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
                             --><div id="format-rules-edit-combo-type-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
                             </td>
                         </tr>
                     <tr class="icons-4">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-txt-icon-4" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div><!--
-                            --><div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div><!--
+                            <div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-4" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
                             --><div id="format-rules-edit-combo-type-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
                             </td>
                         </tr>
                     <tr class="icons-3">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-txt-icon-3" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div><!--
-                            --><div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div><!--
+                            <div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-3" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
                             --><div id="format-rules-edit-combo-type-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
                             </td>
                         </tr>
                     <tr class="icons-2">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-txt-icon-2" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div><!--
-                            --><div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div><!--
+                            <div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-2" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
                             --><div id="format-rules-edit-combo-type-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
                             </td>
                         </tr>
                     <tr class="icons-1">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-txt-icon-1" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div><!--
-                            --><div id="format-rules-edit-combo-op-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div><!--
-                            --><div id="format-rules-edit-txt-value-1" class=" hidden" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div><!--
+                            <div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-1" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-1" class=" hidden" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
                             --><div id="format-rules-edit-combo-type-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;"></div>
                             </td>
                         </tr>

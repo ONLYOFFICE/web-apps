@@ -53,7 +53,8 @@ define([
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
-    'presentationeditor/main/app/collection/EquationGroups'
+    'presentationeditor/main/app/collection/EquationGroups',
+    'common/main/lib/component/HintManager'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -145,7 +146,10 @@ define([
                     strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
-
+                this.stackDisableActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
+                });
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -159,6 +163,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 
                 if (this.api){
@@ -190,6 +195,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
+                    Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
 
                     this.isShowOpenDialog = false;
 
@@ -567,6 +573,8 @@ define([
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
+
+                Common.UI.HintManager.clearHints(true);
             },
 
             onLongActionBegin: function(type, id) {
@@ -604,7 +612,11 @@ define([
                 if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
+                if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
+                    this.disableEditing(false, true);
+                }
+
+                if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -694,6 +706,12 @@ define([
                         title   = this.loadingDocumentTitleText + '           ';
                         text    = this.loadingDocumentTextText;
                         break;
+
+                    case Asc.c_oAscAsyncAction['Disconnect']:
+                        text    = this.textDisconnect;
+                        this.disableEditing(true, true);
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -965,17 +983,71 @@ define([
                 }
             },
 
-            disableEditing: function(disable) {
+            disableEditing: function(disable, temp) {
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: true, previewMode: true},
+                    fileMenu: {protect: true, history: temp},
+                    comments: {disable: !temp, previewMode: true},
+                    chat: true,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true
+                }, temp ? 'reconnect' : 'disconnect');
+            },
+
+            onEditingDisable: function(disable, options, type) {
                 var app = this.getApplication();
-                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('RightMenu').SetDisabled(disable, false);
+
+                var action = {type: type, disable: disable, options: options};
+                if (disable && !this.stackDisableActions.get({type: type}))
+                    this.stackDisableActions.push(action);
+                !disable && this.stackDisableActions.pop({type: type});
+                var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
+
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+                if (options.statusBar) {
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
-                app.getController('LeftMenu').SetDisabled(disable, true);
-                app.getController('Toolbar').DisableToolbar(disable);
-                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                app.getController('Viewport').SetDisabled(disable);
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                }
+                if (options.viewport) {
+                    app.getController('Viewport').SetDisabled(disable);
+                }
+                if (options.toolbar) {
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
+                }
+                if (options.documentHolder) {
+                    app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+                }
+                if (options.leftMenu) {
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').SetDisabled(disable, options);
+                    if (options.leftMenu.previewMode)
+                        app.getController('LeftMenu').setPreviewMode(disable);
+                }
+                if (options.fileMenu) {
+                    app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                }
+                if (options.comments) {
+                    var comments = this.getApplication().getController('Common.Controllers.Comments');
+                    if (comments && options.comments.previewMode)
+                        comments.setPreviewMode(disable);
+                }
+
+                if (prev_options) {
+                    this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
+                }
             },
 
             onOpenDocument: function(progress) {
@@ -999,7 +1071,7 @@ define([
                 if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                     this._state.licenseType = licType;
 
-                if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = false;
@@ -1060,7 +1132,7 @@ define([
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                          this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
-                AscCommon.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
+                AscCommon.UserInfoParser.setParser(true);
                 AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
                 this.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
                 this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
@@ -1217,6 +1289,7 @@ define([
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
+                    me.api.asc_registerCallback('asc_onConvertEquationToMath',  _.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -2072,16 +2145,7 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
-                        var app = me.getApplication();
-                        me.disableEditing(disable);
-                        app.getController('RightMenu').SetDisabled(disable, true);
-                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
-                        var leftMenu = app.getController('LeftMenu');
-                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
-                        leftMenu.setPreviewMode(disable);
-                        var comments = app.getController('Common.Controllers.Comments');
-                        if (comments) comments.setPreviewMode(disable);
+                        me.disableEditing(disable, true);
                     }});
             },
 
@@ -2189,6 +2253,18 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    Common.UI.warning({
+                        msg: this.errorLang,
+                        buttons: [],
+                        closable: false
+                    });
+                    return false;
+                }
+                return true;
             },
 
             onRefreshHistory: function(opts) {
@@ -2344,6 +2420,30 @@ define([
 
             onGrabFocus: function() {
                 this.getApplication().getController('DocumentHolder').getView().focus();
+            },
+
+            onConvertEquationToMath: function(equation) {
+                var me = this,
+                    win;
+                var msg = this.textConvertEquation + '<br><br><a id="id-equation-convert-help" style="cursor: pointer;">' + this.textLearnMore + '</a>';
+                win = Common.UI.warning({
+                    width: 500,
+                    msg: msg,
+                    buttons: ['yes', 'cancel'],
+                    primary: 'yes',
+                    dontshow: true,
+                    textDontShow: this.textApplyAll,
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            this.api.asc_ConvertEquationToMath(equation, dontshow);
+                        }
+                        this.onEditComplete();
+                    }, this)
+                });
+                win.$window.find('#id-equation-convert-help').on('click', function (e) {
+                    win && win.close();
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                })
             },
 
             // Translation
@@ -2709,10 +2809,15 @@ define([
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
             textGuest: 'Guest',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             txtErrorLoadHistory: 'Loading history failed',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            txtNone: 'None'
+            txtNone: 'None',
+            textDisconnect: 'Connection is lost',
+            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
+            textApplyAll: 'Apply to all equations',
+            textLearnMore: 'Learn More'
         }
     })(), PE.Controllers.Main || {}))
 });

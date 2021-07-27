@@ -98,6 +98,7 @@ define([
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
             this.ConnectedSettings = el.find('.form-connected');
+            this.NotImageSettings = el.find('.form-not-image');
         },
 
         createDelayedElements: function() {
@@ -117,7 +118,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: []
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbKey.setValue('');
             this.lockedControls.push(this.cmbKey);
@@ -131,7 +135,10 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.txtPlaceholder);
             this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
@@ -140,7 +147,10 @@ define([
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
                 style       : 'width: 100%; height: 60px;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.textareaHelp);
             this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
@@ -149,7 +159,10 @@ define([
             // Text props
             this.chMaxChars = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-max-chars'),
-                labelText: this.textMaxChars
+                labelText: this.textMaxChars,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chMaxChars.on('change', this.onChMaxCharsChanged.bind(this));
             this.lockedControls.push(this.chMaxChars);
@@ -161,7 +174,10 @@ define([
                 defaultUnit : "",
                 value: '10',
                 maxValue: 1000000,
-                minValue: 1
+                minValue: 1,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.spnMaxChars);
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
@@ -169,7 +185,10 @@ define([
 
             this.chComb = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-comb'),
-                labelText: this.textComb
+                labelText: this.textComb,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chComb.on('change', this.onChCombChanged.bind(this));
             this.lockedControls.push(this.chComb);
@@ -182,23 +201,46 @@ define([
                 value: 'Auto',
                 allowAuto: true,
                 maxValue: 55.88,
-                minValue: 0.1
+                minValue: 0.1,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.spnWidth);
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-autofit'),
+                labelText: this.textAutofit
+            });
+            this.chAutofit.on('change', this.onChAutofit.bind(this));
+            this.lockedControls.push(this.chAutofit);
+
+            this.chMulti = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-multiline'),
+                labelText: this.textMulti
+            });
+            this.chMulti.on('change', this.onChMulti.bind(this));
+            this.lockedControls.push(this.chMulti);
+
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
-                labelText: this.textRequired
+                labelText: this.textRequired,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
 
             this.chFixed = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-fixed'),
-                labelText: this.textFixed
+                labelText: this.textFixed,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chFixed.on('change', this.onChFixed.bind(this));
             this.lockedControls.push(this.chFixed);
@@ -209,7 +251,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: []
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbGroupKey.setValue('');
             this.lockedControls.push(this.cmbGroupKey);
@@ -224,7 +269,10 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
-                value       : ''
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.txtNewValue);
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -249,7 +297,10 @@ define([
                 parentEl: $markup.findById('#form-list-add'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-zoomup',
-                hint: this.textTipAdd
+                hint: this.textTipAdd,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
             this.lockedControls.push(this.btnListAdd);
@@ -258,7 +309,10 @@ define([
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon cc-remove',
-                hint: this.textTipDelete
+                hint: this.textTipDelete,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListDelete.on('click', _.bind(this.onDeleteItem, this));
             this.lockedControls.push(this.btnListDelete);
@@ -267,7 +321,10 @@ define([
                 parentEl: $markup.findById('#form-list-up'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-up',
-                hint: this.textTipUp
+                hint: this.textTipUp,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
             this.lockedControls.push(this.btnListUp);
@@ -276,7 +333,10 @@ define([
                 parentEl: $markup.findById('#form-list-down'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-down',
-                hint: this.textTipDown
+                hint: this.textTipDown,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
             this.lockedControls.push(this.btnListDown);
@@ -295,7 +355,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -306,7 +369,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;'
+                style       : 'text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnRemForm.on('click', _.bind(function(btn){
                 this.api.asc_RemoveContentControl(this._state.id);
@@ -318,7 +384,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;'
+                style       : 'text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnLockForm.on('click', _.bind(function(btn){
                 if (this.api  && !this._noApply) {
@@ -327,6 +396,29 @@ define([
                     this.api.asc_SetContentControlProperties(props, this.internalId);
                 }
             }, this));
+
+            this.chAspect = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-aspect'),
+                labelText: this.textAspect
+            });
+            this.chAspect.on('change', this.onChAspect.bind(this));
+            this.lockedControls.push(this.chAspect);
+
+            this.cmbScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
+                    { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
+                    { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+            });
+            this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
+            this.lockedControls.push(this.cmbScale);
+            this.cmbScale.on('selected', this.onScaleChanged.bind(this));
+            this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
+            this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
 
             this.updateMetricUnit();
             this.UpdateThemeColors();
@@ -459,13 +551,54 @@ define([
             }
         },
 
-        onChFixed: function(field, newValue, oldValue, eOpts){
+        onChAutofit: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_FixedSize(checked);
+                formTextPr.put_AutoFit(checked);
                 props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChMulti: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_MultiLine(checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFixed: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.asc_SetFixedForm(this.internalId, field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+             }
+        },
+
+        onChAspect: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ConstantProportions(field.getValue()=='checked');
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ScaleFlag(record.value);
+                props.put_PictureFormPr(pictPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -746,6 +879,30 @@ define([
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
                     }
+
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                        val = formPr.get_Fixed();
+                        if ( this._state.Fixed!==val ) {
+                            this.chFixed.setValue(!!val, true);
+                            this._state.Fixed=val;
+                        }
+                    }
+                }
+
+                var pictPr = props.get_PictureFormPr();
+                if (pictPr) {
+                    this._originalPictProps = pictPr;
+                    val = pictPr.get_ConstantProportions();
+                    if ( this._state.Aspect!==val ) {
+                        this.chAspect.setValue(!!val, true);
+                        this._state.Aspect=val;
+                    }
+
+                    val = pictPr.get_ScaleFlag();
+                    if (this._state.scaleFlag!==val) {
+                        this.cmbScale.setValue(val);
+                        this._state.scaleFlag=val;
+                    }
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -758,16 +915,24 @@ define([
                         this.chComb.setValue(!!val, true);
                         this._state.Comb=val;
                     }
-                    //
-                    // val = formTextPr.get_FixedSize();
-                    // if ( this._state.Fixed!==val ) {
-                    //     this.chFixed.setValue(!!val, true);
-                    //     this._state.Fixed=val;
-                    // }
 
-                    this.btnColor.setDisabled(!val);
+                    val = formTextPr.get_MultiLine();
+                    if ( this._state.Multi!==val ) {
+                        this.chMulti.setValue(!!val, true);
+                        this._state.Multi=val;
+                    }
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
 
-                    this.spnWidth.setDisabled(!val);
+                    val = formTextPr.get_AutoFit();
+                    if ( this._state.AutoFit!==val ) {
+                        this.chAutofit.setValue(!!val, true);
+                        this._state.AutoFit=val;
+                    }
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
+
+                    this.btnColor.setDisabled(!this._state.Comb);
+
+                    this.spnWidth.setDisabled(!this._state.Comb);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
@@ -860,7 +1025,10 @@ define([
                         '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                         '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                     ],
-                    paletteHeight: 94
+                    paletteHeight: 94,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnColor);
                 this.mnuNoBorder.on('click', _.bind(this.onNoBorderClick, this));
@@ -917,6 +1085,7 @@ define([
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
+            this.NotImageSettings.toggleClass('hidden', imageOnly);
         },
 
         onSelectItem: function(listView, itemView, record) {
@@ -968,7 +1137,15 @@ define([
         textDisconnect: 'Disconnect',
         textNoBorder: 'No border',
         textFixed: 'Fixed size field',
-        textRequired: 'Required'
+        textRequired: 'Required',
+        textAutofit: 'AutoFit',
+        textMulti: 'Multiline field',
+        textAspect: 'Lock aspect ratio',
+        textAlways: 'Always',
+        textNever: 'Never',
+        textTooBig: 'Image is Too Big',
+        textTooSmall: 'Image is Too Small',
+        textScale: 'When to scale'
 
     }, DE.Views.FormSettings || {}));
 });

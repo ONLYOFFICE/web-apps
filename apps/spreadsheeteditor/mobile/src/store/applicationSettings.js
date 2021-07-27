@@ -34,7 +34,7 @@ export class storeApplicationSettings {
     regData = [];
     isRefStyle = false;
     isComments = true;
-    isResolvedComments = true;
+    isResolvedComments = true; 
 
     getFormulaLanguages() {
         const dataLang = [

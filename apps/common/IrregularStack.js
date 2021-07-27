@@ -69,7 +69,7 @@ Common.IrregularStack = function(config) {
     }
 
     var _get = function(obj) {
-        var index = _indexOf(obj, _weakCompare);
+        var index = (typeof obj === 'object')? _indexOf(obj, _weakCompare) : obj;
         if (index != -1) 
             return _stack[index];
         return undefined;
@@ -79,10 +79,15 @@ Common.IrregularStack = function(config) {
         return !(_indexOf(obj, _strongCompare) < 0);
     }
 
+    var _length = function() {
+        return _stack.length;
+    }
+
     return {
         push: _push,
         pop: _pop,
         get: _get,
-        exist: _exist
+        exist: _exist,
+        length: _length
     }
 };

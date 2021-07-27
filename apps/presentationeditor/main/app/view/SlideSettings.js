@@ -130,7 +130,10 @@ define([
                 menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_SOLID);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -140,7 +143,10 @@ define([
                 disabled: true,
                 transparent: true,
                 menu: true,
-                color: 'ffffff'
+                color: 'ffffff',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.btnBackColor);
 
@@ -152,7 +158,10 @@ define([
                 defaultUnit : "%",
                 maxValue: 100,
                 minValue: 0,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -198,7 +207,10 @@ define([
                 menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrEffectName,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbEffectName.setValue('');
             this.cmbEffectName.on('selected', _.bind(this.onEffectNameSelect, this));
@@ -233,7 +245,10 @@ define([
                 menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrEffectType,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbEffectType.setValue('');
             this.cmbEffectType.on('selected', _.bind(this.onEffectTypeSelect, this));
@@ -246,7 +261,10 @@ define([
                 defaultUnit : this.textSec,
                 maxValue: 300,
                 minValue: 0,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numDuration.on('change', _.bind(this.onDurationChange, this));
             this.numDuration.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -259,7 +277,10 @@ define([
                 defaultUnit : this.textSec,
                 maxValue: 300,
                 minValue: 0,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numDelay.on('change', _.bind(this.onDelayChange, this));
             this.numDelay.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -267,14 +288,20 @@ define([
             this.chStartOnClick = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-start-click'),
                 labelText: this.strStartOnClick,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chStartOnClick.on('change', _.bind(this.onStartOnClickChange, this));
 
             this.chDelay = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-delay'),
                 labelText: this.strDelay,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chDelay.on('change', _.bind(this.onCheckDelayChange, this));
 
@@ -299,14 +326,20 @@ define([
             this.chSlideNum = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-slidenum'),
                 labelText: this.strSlideNum,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chSlideNum.on('change', _.bind(this.onHeaderChange, this, 'slidenum'));
 
             this.chDateTime = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-datetime'),
                 labelText: this.strDateTime,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chDateTime.on('change', _.bind(this.onHeaderChange, this, 'datetime'));
         },
@@ -780,7 +813,10 @@ define([
                 itemHeight: 28,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
-                cls: 'combo-pattern'
+                cls: 'combo-pattern',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
                 '<div class="style" id="<%= id %>">',
@@ -810,7 +846,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -826,7 +865,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrFillType
+                data: this._arrFillType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillType.setValue(this._arrFillType[0].value);
             this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
@@ -842,7 +884,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrGradType
+                data: this._arrGradType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -872,7 +917,10 @@ define([
                     items: [
                         { template: _.template('<div id="id-slide-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
                     ]
-                })
+                }),
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -947,7 +995,10 @@ define([
                 allowDecimal: false,
                 maxValue: 100,
                 minValue: 0,
-                disabled: this._locked.background
+                disabled: this._locked.background,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -958,7 +1009,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
                 disabled: this._locked.background,
-                hint: this.tipAddGradientPoint
+                hint: this.tipAddGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
             this.FillItems.push(this.btnAddGradientStep);
@@ -968,7 +1021,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-remove-breakpoint',
                 disabled: this._locked.background,
-                hint: this.tipRemoveGradientPoint
+                hint: this.tipRemoveGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
             this.FillItems.push(this.btnRemoveGradientStep);
@@ -982,7 +1037,10 @@ define([
                 allowDecimal: true,
                 maxValue: 359.9,
                 minValue: 0,
-                disabled: this._locked.background
+                disabled: this._locked.background,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1049,7 +1107,7 @@ define([
                     el: $('#slide-combo-fill-texture'),
                     template: _.template([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                        '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                        '<div class="form-control text" style="width: 90px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSelectTexture + '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -1234,7 +1292,10 @@ define([
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-foreground-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -1242,7 +1303,10 @@ define([
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-background-color-btn'),
-                    color: 'ffffff'
+                    color: 'ffffff',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -1250,7 +1314,10 @@ define([
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-gradient-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();

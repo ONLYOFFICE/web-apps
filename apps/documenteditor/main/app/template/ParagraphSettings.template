@@ -83,7 +83,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="paragraph-advanced-link"><%= scope.textAdvanced %></label>
+            <label class="link" id="paragraph-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

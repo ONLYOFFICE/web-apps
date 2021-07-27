@@ -323,16 +323,16 @@ define([
             this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
-        disableEditing: function(disabled) {
-            this.editor.$btnfunc[!disabled?'removeClass':'addClass']('disabled');
-            this.editor.btnNamedRanges.setVisible(!disabled);
+        SetDisabled: function(disabled) {
+            this.editor.$btnfunc[!disabled && this.mode.isEdit ?'removeClass':'addClass']('disabled');
+            this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode?'removeClass':'addClass']('disabled');
-            this.editor.cellNameDisabled(mode);
+            this.editor.$btnfunc[!mode && this.mode.isEdit?'removeClass':'addClass']('disabled');
+            this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge));
         }
     });
 });

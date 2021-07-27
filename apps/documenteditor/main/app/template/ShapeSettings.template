@@ -220,7 +220,7 @@
     </tr>
     <tr class="shape-only">
         <td align="center">
-            <label class="link" id="shape-advanced-link"><%= scope.textAdvanced %></label>
+            <label class="link" id="shape-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

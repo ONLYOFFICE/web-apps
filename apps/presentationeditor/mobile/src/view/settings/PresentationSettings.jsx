@@ -38,6 +38,13 @@ const PagePresentationColorSchemes = props => {
     const _t = t('View.Settings', {returnObjects: true});
     const storePresentationSettings = props.storePresentationSettings;
     const allSchemes = storePresentationSettings.allSchemes;
+    const SchemeNames = [
+        _t.txtScheme1, _t.txtScheme2, _t.txtScheme3, _t.txtScheme4, _t.txtScheme5,
+        _t.txtScheme6, _t.txtScheme7, _t.txtScheme8, _t.txtScheme9, _t.txtScheme10,
+        _t.txtScheme11, _t.txtScheme12, _t.txtScheme13, _t.txtScheme14, _t.txtScheme15,
+        _t.txtScheme16, _t.txtScheme17, _t.txtScheme18, _t.txtScheme19, _t.txtScheme20,
+        _t.txtScheme21, _t.txtScheme22
+    ];
 
     return (
         <Page>
@@ -45,8 +52,9 @@ const PagePresentationColorSchemes = props => {
             <List>
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
+                        const name = scheme.get_name();
                         return (
-                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={scheme.get_name()} checked={stateScheme === index} 
+                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={(index < 22) ? (SchemeNames[index] || name) : name} checked={stateScheme === index}
                                 onChange={() => {
                                     if(index !== curScheme) {
                                         setScheme(index);

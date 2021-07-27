@@ -144,7 +144,9 @@ define([
                     }
 
                     var trackRevisions = me.api.asc_IsTrackRevisions(),
-                        trackChanges = typeof (config.customization) == 'object' ? config.customization.trackChanges : undefined;
+                        trackChanges = config.customization && config.customization.review ? config.customization.review.trackChanges : undefined;
+                    (trackChanges===undefined) && (trackChanges = config.customization ? config.customization.trackChanges : undefined);
+
                     if ( config.isReviewOnly || trackChanges===true || (trackChanges!==false) && trackRevisions) {
                         _process_changestip();
                     } else if ( trackRevisions ) {

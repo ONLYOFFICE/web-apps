@@ -56,7 +56,8 @@ define([
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
-    'spreadsheeteditor/main/app/controller/FormulaDialog'
+    'spreadsheeteditor/main/app/controller/FormulaDialog',
+    'common/main/lib/component/HintManager'
 ], function () {
     'use strict';
 
@@ -181,6 +182,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
 
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
@@ -209,7 +211,8 @@ define([
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
-                Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('editing:disable',              _.bind(this.onEditingDisable, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -217,6 +220,11 @@ define([
                 });
 
                 this.stackLongActions.push({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
+
+                this.stackDisableActions = new Common.IrregularStack({
+                    strongCompare   : this._compareActionWeak,
+                    weakCompare     : this._compareActionWeak
+                });
 
                 this.isShowOpenDialog = false;
 
@@ -623,6 +631,8 @@ define([
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
                 }
+
+                Common.UI.HintManager.clearHints(true);
             },
 
             onSelectionChanged: function(info){
@@ -669,6 +679,9 @@ define([
 
                     if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
+                }
+                if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
+                    this.disableEditing(false, true);
                 }
             },
 
@@ -741,6 +754,12 @@ define([
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText + '           ';
                         break;
+
+                    case Asc.c_oAscAsyncAction['Disconnect']:
+                        title    = this.textDisconnect;
+                        this.disableEditing(true, true);
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -1032,11 +1051,75 @@ define([
                 }
             },
 
-            disableEditing: function(disable) {
+            disableEditing: function(disable, temp) {
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: false,
+                    allowProtect: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: true, previewMode: true},
+                    fileMenu: {protect: true, history: temp},
+                    comments: {disable: !temp, previewMode: true},
+                    chat: true,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true,
+                    celleditor: {previewMode: true}
+                }, temp ? 'reconnect' : 'disconnect');
+            },
+
+            onEditingDisable: function(disable, options, type) {
                 var app = this.getApplication();
-                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('Toolbar').DisableToolbar(disable);
+
+                var action = {type: type, disable: disable, options: options};
+                if (disable && !this.stackDisableActions.get({type: type}))
+                    this.stackDisableActions.push(action);
+                !disable && this.stackDisableActions.pop({type: type});
+                var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
+
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+                if (options.statusBar) {
+                    app.getController('Statusbar').SetDisabled(disable);
+                }
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                }
+                if (options.viewport) {
+                    app.getController('Viewport').SetDisabled(disable);
+                }
+                if (options.toolbar) {
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
+                }
+                if (options.documentHolder) {
+                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect);
+                }
+                if (options.leftMenu) {
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').SetDisabled(disable, options);
+                    if (options.leftMenu.previewMode)
+                        app.getController('LeftMenu').setPreviewMode(disable);
+                }
+                if (options.fileMenu) {
+                    app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                }
+                if (options.comments) {
+                    var comments = this.getApplication().getController('Common.Controllers.Comments');
+                    if (comments && options.comments.previewMode)
+                        comments.setPreviewMode(disable);
+                }
+                if (options.celleditor && options.celleditor.previewMode) {
+                    app.getController('CellEditor').setPreviewMode(disable);
+                }
+
+                if (prev_options) {
+                    this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
             },
 
@@ -1062,7 +1145,7 @@ define([
                     if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                         this._state.licenseType = licType;
 
-                    if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
                     if (params.asc_getRights() !== Asc.c_oRights.Edit)
                         this.permissions.edit = false;
@@ -1098,7 +1181,7 @@ define([
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroups ||
                                                             this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                     this.appOptions.canUseCommentPermissions = this.appOptions.canLicense && !!this.permissions.commentGroups;
-                    AscCommon.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions || this.appOptions.canUseCommentPermissions);
+                    AscCommon.UserInfoParser.setParser(true);
                     AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
                     this.appOptions.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(this.permissions.reviewGroups, this.editorConfig.customization.reviewPermissions);
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
@@ -1303,6 +1386,7 @@ define([
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
+                    me.api.asc_registerCallback('asc_onConvertEquationToMath',   _.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
@@ -1690,6 +1774,14 @@ define([
 
                     case Asc.c_oAscError.ID.PivotWithoutUnderlyingData:
                         config.msg = this.errorPivotWithoutUnderlying;
+                        break;
+
+                    case Asc.c_oAscError.ID.SingleColumnOrRowError:
+                        config.msg = this.errorSingleColumnOrRowError;
+                        break;
+
+                    case Asc.c_oAscError.ID.LocationOrDataRangeError:
+                        config.msg = this.errorLocationOrDataRangeError;
                         break;
 
                     default:
@@ -2437,20 +2529,7 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
-                        me.disableEditing(disable);
-                        var app = me.getApplication();
-                        app.getController('Toolbar').DisableToolbar(disable,disable);
-                        app.getController('RightMenu').SetDisabled(disable, true);
-                        app.getController('Statusbar').SetDisabled(disable);
-                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        app.getController('DocumentHolder').SetDisabled(disable);
-                        var leftMenu = app.getController('LeftMenu');
-                        leftMenu.setPreviewMode(disable);
-                        leftMenu.disableEditing(disable);
-                        app.getController('CellEditor').disableEditing(disable);
-                        app.getController('Viewport').disableEditing(disable);
-                        var comments = app.getController('Common.Controllers.Comments');
-                        if (comments) comments.setPreviewMode(disable);
+                        me.disableEditing(disable, true);
                 }});
             },
 
@@ -2550,6 +2629,42 @@ define([
 
             onGrabFocus: function() {
                 this.getApplication().getController('DocumentHolder').getView().focus();
+            },
+
+            onLanguageLoaded: function() {
+                if (!Common.Locale.getCurrentLanguage()) {
+                    Common.UI.warning({
+                        msg: this.errorLang,
+                        buttons: [],
+                        closable: false
+                    });
+                    return false;
+                }
+                return true;
+            },
+
+            onConvertEquationToMath: function(equation) {
+                var me = this,
+                    win;
+                var msg = this.textConvertEquation + '<br><br><a id="id-equation-convert-help" style="cursor: pointer;">' + this.textLearnMore + '</a>';
+                win = Common.UI.warning({
+                    width: 500,
+                    msg: msg,
+                    buttons: ['yes', 'cancel'],
+                    primary: 'yes',
+                    dontshow: true,
+                    textDontShow: this.textApplyAll,
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            this.api.asc_ConvertEquationToMath(equation, dontshow);
+                        }
+                        this.onEditComplete();
+                    }, this)
+                });
+                win.$window.find('#id-equation-convert-help').on('click', function (e) {
+                    win && win.close();
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                })
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2952,7 +3067,14 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
-            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?'
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
+            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            textDisconnect: 'Connection is lost',
+            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
+            textApplyAll: 'Apply to all equations',
+            textLearnMore: 'Learn More',
+            errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
+            errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.'
         }
     })(), SSE.Controllers.Main || {}))
 });

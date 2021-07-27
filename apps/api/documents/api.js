@@ -135,6 +135,12 @@
                         request: bool (default: true), // enable set name
                         label: string (default: "Guest") // postfix for user name
                     },
+                    review: {
+                        hideReviewDisplay: false // hide button Review mode,
+                        showReviewChanges: false,
+                        reviewDisplay: 'original',
+                        trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,
@@ -147,12 +153,12 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
-                    showReviewChanges: false,
+                    showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original',
+                    reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
@@ -160,7 +166,7 @@
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
@@ -893,16 +899,16 @@
 
         if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
-                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
+                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + encodeURIComponent(config.editorConfig.customization.loaderName);
             } else
                 params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
-                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
                 if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
                 else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
             }
         }
 

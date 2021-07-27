@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { f7 } from 'framework7-react';
+import { withTranslation } from 'react-i18next';
 
 import AddSortAndFilter from '../../view/add/AddFilter';
 
@@ -7,6 +9,7 @@ class AddFilterController extends Component {
         super(props);
         this.onInsertFilter = this.onInsertFilter.bind(this);
         this.uncheckedFilter = this.uncheckedFilter.bind(this);
+        this.onInsertSort = this.onInsertSort.bind(this);
 
         const api = Common.EditorApi.get();
 
@@ -38,7 +41,40 @@ class AddFilterController extends Component {
 
     onInsertSort (type) {
         const api = Common.EditorApi.get();
-        api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '', undefined, undefined, true);
+        const { t } = this.props;
+        const _t = t('View.Add', {returnObjects: true});
+
+        f7.popup.close('.add-popup');
+        f7.popover.close('#add-popover');
+        
+        let typeCheck = type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending;
+            if( api.asc_sortCellsRangeExpand()) {
+                f7.dialog.create({
+                    title: _t.txtSorting,
+                    text: _t.txtExpandSort,
+                    buttons: [
+                        {
+                            text: _t.txtExpand,
+                            bold: true,
+                            onClick: () => {
+                                api.asc_sortColFilter(typeCheck, '', undefined, undefined, true);
+                            }
+                        },
+                        {
+                            text: _t.txtSortSelected,
+                            bold: true,
+                                onClick: () => {
+                                    api.asc_sortColFilter(typeCheck, '', undefined, undefined);
+                            }
+                        },
+                        {
+                            text: _t.textCancel
+                        }
+                    ],
+                    verticalButtons: true,
+                }).open();
+            } else 
+                api.asc_sortColFilter(typeCheck, '', undefined, undefined, api.asc_sortCellsRangeExpand() !== null);
     }
 
     onInsertFilter (checked) {
@@ -64,4 +100,4 @@ class AddFilterController extends Component {
     }
 }
 
-export default AddFilterController;
+export default  withTranslation()(AddFilterController);

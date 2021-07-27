@@ -156,7 +156,7 @@ define([
                     this._onBtnAddMessage(event);
                 }
             } else
-            if (event.keyCode == Common.UI.Keys.ESC) {
+            if (event.keyCode == Common.UI.Keys.ESC && !Common.UI.HintManager.isHintVisible()) {
                 this.hide();
             }
         },

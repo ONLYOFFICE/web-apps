@@ -153,40 +153,63 @@ const PageFootnote = props => {
 const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
-
     const storeFocusObjects = props.storeFocusObjects;
+    const storeLinkSettings = props.storeLinkSettings;
+    const canAddLink = storeLinkSettings.canAddLink;
+
     let isShape = storeFocusObjects.settings.indexOf('shape') > -1,
         isText = storeFocusObjects.settings.indexOf('text') > -1,
         isChart = storeFocusObjects.settings.indexOf('chart') > -1;
 
+    let disabledAddLink = false,
+        disabledAddBreak = false,
+        disabledAddFootnote = false,
+        disabledAddPageNumber = false,
+        inFootnote = props.inFootnote,
+        inControl = props.inControl, 
+        paragraphLocked = props.paragraphLocked, 
+        controlPlain = props.controlPlain,
+        richDelLock = props.richDelLock,
+        richEditLock = props.richEditLock,
+        plainDelLock = props.plainDelLock,
+        plainEditLock = props.plainEditLock;
+
+    disabledAddBreak = paragraphLocked || inFootnote || inControl || richEditLock || plainEditLock || richDelLock || plainDelLock;
+    disabledAddFootnote = paragraphLocked || controlPlain || richEditLock || plainEditLock;
+    disabledAddLink = paragraphLocked || !canAddLink;
+    disabledAddPageNumber = controlPlain;
+
     return (
         <List>
-            {isText &&<ListItem title={_t.textComment} onClick={() => {
+            {isText && <ListItem title={_t.textComment} onClick={() => {
                 props.closeModal();
                 Common.Notifications.trigger('addcomment');
             }}>
                 <Icon slot="media" icon="icon-insert-comment"></Icon>
             </ListItem>}
-            {isText && <ListItem title={_t.textLink} link={'/add-link/'} routeProps={{
+            {(isText && !disabledAddLink) && <ListItem title={_t.textLink} link={'/add-link/'} routeProps={{
                 onInsertLink: props.onInsertLink,
                 getDisplayLinkText: props.getDisplayLinkText
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>}
-            <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
-                onInsertPageNumber: props.onInsertPageNumber
-            }}>
-                <Icon slot="media" icon="icon-pagenumber"></Icon>
-            </ListItem>
-            {(isShape || isChart) ? null :
-                [ <ListItem key='break' title={_t.textBreak} link={'/add-break/'} routeProps={{
+            {!disabledAddPageNumber &&
+                <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
+                    onInsertPageNumber: props.onInsertPageNumber
+                }}>
+                    <Icon slot="media" icon="icon-pagenumber"></Icon>
+                </ListItem>
+            }
+            {(isShape || isChart) || (isText && disabledAddBreak) ? null :
+                <ListItem key='break' title={_t.textBreak} link={'/add-break/'} routeProps={{
                     onPageBreak: props.onPageBreak,
                     onColumnBreak: props.onColumnBreak,
                     onInsertSectionBreak: props.onInsertSectionBreak
                 }}>
                     <Icon slot="media" icon="icon-sectionbreak"></Icon>
-                </ListItem>,
-                
+                </ListItem>
+            }
+            {(isShape || isChart) || (isText && disabledAddFootnote) ? null :
                 <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,
                     getFootnoteStartAt: props.getFootnoteStartAt,
@@ -195,13 +218,13 @@ const AddOther = props => {
                     initFootnoteStartAt: props.initFootnoteStartAt
                 }}>
                     <Icon slot="media" icon="icon-footnote"></Icon>
-                </ListItem> ]
+                </ListItem>
             }
         </List>
     )
 };
 
-const AddOtherContainer = inject("storeComments","storeFocusObjects")(observer(AddOther));
+const AddOtherContainer = inject("storeComments","storeFocusObjects", "storeLinkSettings")(observer(AddOther));
 
 export {AddOtherContainer as AddOther,
         PageNumber as PageAddNumber,

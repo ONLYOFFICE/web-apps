@@ -1086,7 +1086,10 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
-                data: this._arrFillSrc
+                data: this._arrFillSrc,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -1097,7 +1100,10 @@ define([
                 itemHeight: 28,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
-                cls: 'combo-pattern'
+                cls: 'combo-pattern',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
                     '<div class="style" id="<%= id %>">',
@@ -1144,7 +1150,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrFillType
+                data: this._arrFillType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillType.setValue(this._arrFillType[0].value);
             this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
@@ -1157,7 +1166,10 @@ define([
                 value: '100 %',
                 defaultUnit : "%",
                 maxValue: 100,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -1187,7 +1199,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrGradType
+                data: this._arrGradType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -1217,7 +1232,10 @@ define([
                     items: [
                         { template: _.template('<div id="id-textart-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -1292,7 +1310,10 @@ define([
                 allowDecimal: false,
                 maxValue: 100,
                 minValue: 0,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -1303,7 +1324,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
                 disabled: this._locked,
-                hint: this.tipAddGradientPoint
+                hint: this.tipAddGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
             this.lockedControls.push(this.btnAddGradientStep);
@@ -1313,7 +1336,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-remove-breakpoint',
                 disabled: this._locked,
-                hint: this.tipRemoveGradientPoint
+                hint: this.tipRemoveGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
             this.lockedControls.push(this.btnRemoveGradientStep);
@@ -1327,7 +1352,10 @@ define([
                 allowDecimal: true,
                 maxValue: 359.9,
                 minValue: 0,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1336,7 +1364,10 @@ define([
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#textart-combo-border-size'),
                 style: "width: 93px;",
-                txtNoBorders: this.txtNoBorders
+                txtNoBorders: this.txtNoBorders,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             })
             .on('selected', _.bind(this.onBorderSizeSelect, this))
             .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
@@ -1349,7 +1380,10 @@ define([
             this.cmbBorderType = new Common.UI.ComboBorderType({
                 el: $('#textart-combo-border-type'),
                 style: "width: 93px;",
-                menuStyle: 'min-width: 93px;'
+                menuStyle: 'min-width: 93px;',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', _.bind(this.onBorderTypeSelect, this))
             .on('combo:blur',    _.bind(this.onComboBlur, this, false));
             this.BorderType = Asc.c_oDashType.solid;
@@ -1361,7 +1395,10 @@ define([
                 itemHeight: 50,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
-                cls: 'combo-textart'
+                cls: 'combo-textart',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbTransform.render($('#textart-combo-transform'));
             this.cmbTransform.openButton.menu.cmpEl.css({
@@ -1437,7 +1474,7 @@ define([
                     el: $('#textart-combo-fill-texture'),
                     template: _.template([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div class="form-control text" style="width: 90px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSelectTexture + '</div>',
                             '<div style="display: table-cell;"></div>',
                             '<button type="button" class="btn btn-default">',
                                 '<span class="caret"></span>',
@@ -1499,7 +1536,10 @@ define([
                     menuMaxHeight: 300,
                     enableKeyEvents: true,
                     showLast: false,
-                    cls: 'combo-textart'
+                    cls: 'combo-textart',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
                 this.cmbTextArt.openButton.menu.cmpEl.css({
@@ -1575,7 +1615,10 @@ define([
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
                     transparent: true,
-                    color: 'transparent'
+                    color: 'transparent',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
@@ -1583,7 +1626,10 @@ define([
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-foreground-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -1591,7 +1637,10 @@ define([
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-background-color-btn'),
-                    color: 'ffffff'
+                    color: 'ffffff',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -1599,7 +1648,10 @@ define([
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-gradient-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
@@ -1607,7 +1659,10 @@ define([
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-border-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();

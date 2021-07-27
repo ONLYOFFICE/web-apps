@@ -75,7 +75,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
-            this._state = {};
+            this._state = {disabled: false};
         },
 
         render: function () {
@@ -307,10 +307,10 @@ define([
             this.btnSpellcheck.setDisabled(false);
         },
 
-        showMenu: function(menu) {
+        showMenu: function(menu, opts) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
-                this.menuFile.show(re[2].length ? re[2] : undefined);
+                this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {

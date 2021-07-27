@@ -161,9 +161,9 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true );
-                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true);
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true, undefined, '1', 'bottom', 'small');
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true, undefined, '1', 'bottom', 'small');
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink, undefined, undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
@@ -173,7 +173,10 @@ define([
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnContentsUpdate);
 
@@ -182,7 +185,10 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-bookmarks',
                     caption: this.capBtnBookmarks,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnBookmarks);
 
@@ -191,7 +197,10 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-caption',
                     caption: this.capBtnCaption,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnCaption);
 
@@ -200,7 +209,10 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-cross-reference',
                     caption: this.capBtnCrossRef,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnCrossRef);
 
@@ -209,7 +221,10 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-contents',
                     caption: this.capBtnTOF,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFigures);
 
@@ -218,7 +233,10 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-update',
                     caption: this.capBtnContentsUpdate,
-                    disabled: true
+                    disabled: true,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
 

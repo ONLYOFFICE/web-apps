@@ -229,7 +229,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : cmbData,
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                scrollAlwaysVisible: false
             }).on('selected', function(combo, record) {
                 me.refreshRules(record.value);
             });
@@ -377,19 +378,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
 
-            var initNewColor = function(btn, picker_el, transparent) {
-                if (btn && btn.cmpEl) {
-                    btn.currentColor = '#000000';
-                    btn.setColor(btn.currentColor);
-                    var picker = new Common.UI.ThemeColorPalette({
-                        el: $(picker_el),
-                        transparent: transparent
-                    });
-                    picker.currentColor = btn.currentColor;
-                }
-                btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
-                    picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-                }, me));
+            var initNewColor = function(btn) {
+                btn.setMenu();
+                btn.currentColor = '000000';
+                var picker = btn.getPicker();
+                picker.currentColor = btn.currentColor;
                 return picker;
             };
 
@@ -398,36 +391,25 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
-                split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="format-rules-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="format-rules-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                color: '000000',
+                menu        : true
             });
-            this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#format-rules-menu-fontcolor");
-            this.mnuTextColorPicker.on('select', _.bind(me.onFormatTextColorSelect, me));
-            this.btnTextColor.on('click', _.bind(me.onFormatTextColor, me));
+            this.mnuTextColorPicker = initNewColor(this.btnTextColor);
+            this.btnTextColor.on('color:select', _.bind(this.onFormatTextColorSelect, this));
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
-                split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="format-rules-menu-fillcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="format-rules-menu-fillcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                color: '000000',
+                transparent: true,
+                menu        : true
             });
-            this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor", true);
-            this.mnuFillColorPicker.on('select', _.bind(me.onFormatFillColorSelect, me));
-            this.btnFillColor.on('click', _.bind(me.onFormatFillColor, me));
+            this.mnuFillColorPicker = initNewColor(this.btnFillColor);
+            this.btnFillColor.on('color:select', _.bind(this.onFormatFillColorSelect, this));
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -661,7 +643,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 type        : i,
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 55px;background-repeat: no-repeat; background-position: 16px center;"></div>',
+                    '<div class="form-control image" style="display: block;width: 85px;">',
+                        '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;padding-top: 2px;background-repeat: no-repeat; background-position: 27px center;white-space:nowrap;"></div>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -672,6 +656,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: 'min-width: 105px;',
                 additionalAlign: this.menuAddAlign,
                 items: [
+                    { caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) },
                     { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
                 ]
             })).render($('#format-rules-combo-icon-' + (i+1)));
@@ -683,10 +668,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
                 type        : i
             });
-            picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
+            picker.on('item:click', _.bind(this.onSelectIcon, this, combo, menu.items[0]));
+            menu.items[0].on('toggle', _.bind(this.onSelectNoIcon, this, combo, picker));
 
             this.iconsControls[i].cmbIcons = combo;
             this.iconsControls[i].pickerIcons = picker;
+            this.iconsControls[i].itemNoIcons = menu.items[0];
 
             combo = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-op-' + (i+1)),
@@ -857,7 +844,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
                     me.setDefComboValue(combo.options.type, record.value, me.barControls[combo.options.type].range);
                 });
-                combo.setValue(arr[1].value);
+                var value = (i==0) ? Asc.c_oAscCfvoType.AutoMin : Asc.c_oAscCfvoType.AutoMax;
+                combo.setValue(value);
                 Common.UI.FocusManager.add(this, combo);
 
                 var range = new Common.UI.InputFieldBtn({
@@ -867,9 +855,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     allowBlank  : true,
                     btnHint     : this.textSelectData,
                     validateOnChange: false,
-                    type        : i
+                    type        : i,
+                    disabled    : (value==Asc.c_oAscCfvoType.AutoMin || value==Asc.c_oAscCfvoType.AutoMax || value==Asc.c_oAscCfvoType.Minimum || value==Asc.c_oAscCfvoType.Maximum)
                 });
-                range.setValue(0);
+                me.setDefComboValue(i, value, range);
                 range.on('button:click', _.bind(this.onSelectData, this));
                 this.barControls.push({combo: combo, range: range});
                 Common.UI.FocusManager.add(this, range);
@@ -900,15 +889,21 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-pos-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '638EC6'
+                color       : '638EC6',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnPosFill);
 
             this.btnNegFill = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-neg-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : 'FF0000'
+                color       : 'FF0000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnNegFill);
 
             this.chFill = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-fill'),
@@ -951,15 +946,21 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-pos-border'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnPosBorder);
 
             this.btnNegBorder = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-neg-border'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnNegBorder);
 
             this.chBorder = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-border'),
@@ -1020,8 +1021,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 parentEl: $('#format-rules-edit-color-axis-color'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '000000',
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
+            Common.UI.FocusManager.add(this, this.btnAxisColor);
 
             this.panels.databar.rendered = true;
             this.updateThemeColors();
@@ -1075,8 +1079,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
                     menu        : true,
                     type        : i,
-                    color       : '000000'
+                    color       : '000000',
+                    cls: 'move-focus',
+                    takeFocusOnClose: true
                 });
+                Common.UI.FocusManager.add(this, color);
                 this.scaleControls.push({combo: combo, range: range, color: color});
             }
             this.panels.scale.rendered = true;
@@ -1293,17 +1300,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
                 this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
 
-                var color = this.setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
-                this.btnTextColor.currentColor = color;
-                this.mnuTextColorPicker.currentColor = color;
-                color = (typeof(color) == 'object') ? color.color : color;
-                $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
-
-                color = this.setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
-                this.btnFillColor.currentColor = color;
-                this.mnuFillColorPicker.currentColor = color;
-                color = (typeof(color) == 'object') ? color.color : color;
-                $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', color=='transparent' ? 'transparent' : '#' + color);
+                var color = this.setColor(xfs.asc_getFontColor(), this.btnTextColor, this.mnuTextColorPicker);
+                color = this.setColor(xfs.asc_getFillColor(), this.btnFillColor, this.mnuFillColorPicker);
 
                 var val = xfs.asc_getNumFormatInfo();
                 val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
@@ -1316,7 +1314,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             if (rec) {
                 props = this._originalProps || new Asc.asc_CConditionalFormattingRule();
-                var type = rec.get('type');
+                var type = rec.get('type'),
+                    type_changed = (type!==props.asc_getType());
                 props.asc_setType(type);
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
@@ -1358,7 +1357,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setValue1(this.txtRange1.getValue());
                         break;
                     case Asc.c_oAscCFType.colorScale:
-                        var scaleProps = new Asc.asc_CColorScale();
+                        var scaleProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CColorScale();
                         var scalesCount = rec.get('num');
                         var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
                         var colors = [], scales = [];
@@ -1375,7 +1374,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(scaleProps);
                         break;
                     case Asc.c_oAscCFType.dataBar:
-                        var barProps = new Asc.asc_CDataBar();
+                        var barProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CDataBar();
+                        type_changed && barProps.asc_setInterfaceDefault();
                         var arr = this.barControls;
                         var bars = [];
                         for (var i=0; i<arr.length; i++) {
@@ -1411,7 +1411,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         props.asc_setColorScaleOrDataBarOrIconSetRule(barProps);
                         break;
                     case Asc.c_oAscCFType.iconSet:
-                        var iconsProps = new Asc.asc_CIconSet();
+                        var iconsProps = !type_changed ? props.asc_getColorScaleOrDataBarOrIconSetRule() : new Asc.asc_CIconSet();
                         iconsProps.asc_setShowValue(this.chIconShow.getValue()!=='checked');
                         iconsProps.asc_setReverse(!!this.iconsProps.isReverse);
                         iconsProps.asc_setIconSet(this.iconsProps.iconsSet);
@@ -1428,19 +1428,26 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             value.asc_setGte(controls.cmbOperator.getValue());
                             values.push(value);
                             if (icons) {
-                                var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
-                                for (var k=0; k<this.collectionPresets.length; k++) {
-                                    var items = this.collectionPresets.at(k).get('icons');
-                                    for (var j=0; j<items.length; j++) {
-                                        if (icon==items[j]) {
-                                            icon = new Asc.asc_CConditionalFormatIconSet();
-                                            icon.asc_setIconSet(k);
-                                            icon.asc_setIconId(j);
-                                            this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
-                                            break;
+                                if (controls.itemNoIcons.isChecked()) {
+                                    var icon = new Asc.asc_CConditionalFormatIconSet();
+                                    icon.asc_setIconSet(Asc.EIconSetType.NoIcons);
+                                    icon.asc_setIconId(0);
+                                    this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
+                                } else {
+                                    var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
+                                    for (var k=0; k<this.collectionPresets.length; k++) {
+                                        var items = this.collectionPresets.at(k).get('icons');
+                                        for (var j=0; j<items.length; j++) {
+                                            if (icon==items[j]) {
+                                                icon = new Asc.asc_CConditionalFormatIconSet();
+                                                icon.asc_setIconSet(k);
+                                                icon.asc_setIconId(j);
+                                                this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
+                                                break;
+                                            }
                                         }
+                                        if (typeof icon=='object') break;
                                     }
-                                    if (typeof icon=='object') break;
                                 }
                             }
                         }
@@ -1493,6 +1500,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     this._changedProps.asc_setColorScaleOrDataBarOrIconSetRule(this.scaleProps);
                 } else if (type == Asc.c_oAscCFType.dataBar) {
                     this.barProps = new Asc.asc_CDataBar();
+                    this.barProps.asc_setInterfaceDefault();
                     this.barProps.asc_setGradient(this.cmbFill.getValue());
                     this.barProps.asc_setColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosFill.colorPicker.currentColor));
                     var hasBorder = !this.cmbBorder.getValue();
@@ -1697,34 +1705,22 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }
         },
 
-        onFormatTextColorSelect: function(picker, color, fromBtn) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
+        onFormatTextColorSelect: function(btn, color, fromBtn) {
             this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
-            picker.currentColor = color;
+            this.mnuTextColorPicker.currentColor = color;
 
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
             this.previewFormat();
         },
 
-        onFormatTextColor: function(btn, e) {
-            this.mnuTextColorPicker.trigger('select', this.mnuTextColorPicker, this.mnuTextColorPicker.currentColor, true);
-        },
-
-        onFormatFillColorSelect: function(picker, color, fromBtn) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
+        onFormatFillColorSelect: function(btn, color, fromBtn) {
             this.btnFillColor.currentColor = color;
-            $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
-            picker.currentColor = color;
+            this.mnuFillColorPicker.currentColor = color;
 
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
             this.previewFormat();
-        },
-
-        onFormatFillColor: function(picker, btn, e) {
-            this.mnuFillColorPicker.trigger('select', this.mnuFillColorPicker, this.mnuFillColorPicker.currentColor, true);
         },
 
         onNumberFormatSelect: function(combo, record) {
@@ -1859,7 +1855,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             if (icons && icons.length>0) {
                 this.cmbIconsPresets.setValue(this.textCustom);
                 _.each(icons, function(item) {
-                    iconsIndexes.push(me.collectionPresets.at(item.asc_getIconSet()).get('icons')[item.asc_getIconId()]);
+                    if (item.asc_getIconSet()==Asc.EIconSetType.NoIcons) {
+                        iconsIndexes.push(-1);
+                    } else
+                        iconsIndexes.push(me.collectionPresets.at(item.asc_getIconSet()).get('icons')[item.asc_getIconId()]);
                 });
             } else {
                 this.cmbIconsPresets.setValue(iconSet);
@@ -1869,8 +1868,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var len = iconsIndexes.length;
             for (var i=0; i<iconsIndexes.length; i++) {
                 var controls = arr[isReverse ? len-i-1 : i];
-                var rec = controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
-                rec && controls.pickerIcons.selectRecord(rec, true);
+                var rec = (iconsIndexes[i]==-1) ? null : controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
+                rec ? controls.pickerIcons.selectRecord(rec, true) : controls.pickerIcons.deselectAll(true);
+                controls.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls.cmbIcons, rec);
             }
             this.fillIconsLabels();
@@ -1895,25 +1895,36 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             for (var i=0; i<len/2; i++) {
                 var controls1 = arr[i],
                     controls2 = arr[len-i-1];
-                var icon1 = controls1.pickerIcons.getSelectedRec().get('value'),
-                    icon2 = controls2.pickerIcons.getSelectedRec().get('value');
+                var icon1 = controls1.itemNoIcons.isChecked() ? -1 : controls1.pickerIcons.getSelectedRec().get('value'),
+                    icon2 = controls2.itemNoIcons.isChecked() ? -1 : controls2.pickerIcons.getSelectedRec().get('value');
                 var rec = controls1.pickerIcons.store.findWhere({value: icon2});
-                rec && controls1.pickerIcons.selectRecord(rec, true);
+                rec ? controls1.pickerIcons.selectRecord(rec, true) : controls1.pickerIcons.deselectAll(true);
+                controls1.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls1.cmbIcons, rec);
                 rec = controls2.pickerIcons.store.findWhere({value: icon1});
-                rec && controls2.pickerIcons.selectRecord(rec, true);
+                rec ? controls2.pickerIcons.selectRecord(rec, true) : controls2.pickerIcons.deselectAll(true);
+                controls2.itemNoIcons.setChecked(!rec, true);
                 this.selectIconItem(controls2.cmbIcons, rec);
             }
         },
 
-        onSelectIcon: function(combo, picker, view, record) {
+        onSelectIcon: function(combo, noIconItem, picker, view, record) {
             this.selectIconItem(combo, record);
+            noIconItem.setChecked(false, true);
+            this.cmbIconsPresets.setValue(this.textCustom);
+        },
+
+        onSelectNoIcon: function(combo, picker, item, state) {
+            if (!state) return;
+            this.selectIconItem(combo);
+            picker.deselectAll(true);
             this.cmbIconsPresets.setValue(this.textCustom);
         },
 
         selectIconItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control');
+            var formcontrol = $(combo.el).find('.form-control > div');
             formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
+            formcontrol.text(record ? '' : this.txtNoCellIcon);
         },
 
         isRangeValid: function() {
@@ -2190,7 +2201,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         textInvalid: 'Invalid data range.',
         textClear: 'Clear',
         textItem: 'Item',
-        textPresets: 'Presets'
+        textPresets: 'Presets',
+        txtNoCellIcon: 'No Icon'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });

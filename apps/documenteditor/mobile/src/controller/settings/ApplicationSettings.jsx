@@ -51,7 +51,7 @@ class ApplicationSettingsController extends Component {
     }
 
     switchDisplayResolved(value) {
-        const displayComments = LocalStorage.getBool("de-mobile-settings-livecomment");
+        const displayComments = LocalStorage.getBool("de-mobile-settings-livecomment",true);
         if (displayComments) {
             Common.EditorApi.get().asc_showComments(value);
             LocalStorage.setBool("de-settings-resolvedcomment", value);
