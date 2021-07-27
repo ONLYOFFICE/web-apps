@@ -629,7 +629,17 @@
       "txtScheme9": "Foundry",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "txtDownloadCsv": "Download CSV",
+      "textDelimeter": "Delimeter",
+      "textEncoding": "Encoding",
+      "textChooseEncoding": "Choose Encoding",
+      "textChooseDelimeter": "Choose Delimeter",
+      "txtComma": "Comma",
+      "txtSemicolon": "Semicolon",
+      "txtColon": "Colon",
+      "txtOk": "Ok"
     }
   }
 }

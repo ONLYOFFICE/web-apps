@@ -146,7 +146,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
+                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint} onClick={onPrint}>

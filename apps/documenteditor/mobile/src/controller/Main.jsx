@@ -16,7 +16,7 @@ import EditorUIController from '../lib/patch';
 import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
-
+import EncodingController from "./Encoding";
 @inject(
     "storeAppOptions",
     "storeDocumentSettings",
@@ -614,11 +614,14 @@ class MainController extends Component {
         });
 
         // Downloaded Advanced Options
+        
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
-            if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
         });
     }
 
@@ -824,6 +827,7 @@ class MainController extends Component {
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
             )
     }

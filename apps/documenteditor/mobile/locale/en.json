@@ -295,9 +295,7 @@
     "textTopAndBottom": "Top and Bottom",
     "textTotalRow": "Total Row",
     "textType": "Type",
-    "textWrap": "Wrap",
-    "textBullets": "Bullets",
-    "textNumbers": "Numbers"
+    "textWrap": "Wrap"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -566,7 +564,11 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "textChooseEncoding": "Choose Encoding",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
