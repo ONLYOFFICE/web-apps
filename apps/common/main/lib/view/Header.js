@@ -393,7 +393,7 @@ define([
 
         function onContentThemeChangedToDark(isdark) {
             if ( this.btnContentMode ) {
-                this.btnContentMode.changeIcon(!isdark ? {curr: 'btn-mode-dark', next: 'btn-mode-light'} : {curr: 'btn-mode-light', next: 'btn-mode-dark'});
+                this.btnContentMode.changeIcon(!isdark ? {curr: 'btn-mode-light', next: 'btn-mode-dark'} : {curr: 'btn-mode-dark', next: 'btn-mode-light'});
             }
         }
 
@@ -561,7 +561,7 @@ define([
                     $panelUsers.hide();
 
                     if ( !!window.DE ) {
-                        var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-dark' : 'btn-mode-light';
+                        var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
                         me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
                     }
 
