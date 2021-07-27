@@ -261,7 +261,7 @@ define([
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
 
-                if ( this.isDarkTheme() ) {
+                if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
                     this.api.asc_setContentDarkMode(this.isContentThemeDark());
                 }
 
@@ -321,12 +321,13 @@ define([
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
-                    if ( themes_map[id].type == 'light' ) {
-                        this.api.asc_setContentDarkMode(false);
-                    } else {
-                        this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                        Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
-                    }
+                    if ( this.api.asc_setContentDarkMode )
+                        if ( themes_map[id].type == 'light' ) {
+                            this.api.asc_setContentDarkMode(false);
+                        } else {
+                            this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                            Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
+                        }
 
                     if ( this.api ) {
                         var obj = get_current_theme_colors(name_colors);
