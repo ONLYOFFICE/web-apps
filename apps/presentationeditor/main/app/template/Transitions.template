@@ -1,4 +1,4 @@
-<section id="transitions-panel" class="panel" data-tab="transit"> 
+<section id="transitions-panel" class="panel" data-tab="transit">
     <div class="group flex small" id="transit-field-effects" style=" width: 63%; min-width: 300px; " ></div>
 
     <div class="group small">

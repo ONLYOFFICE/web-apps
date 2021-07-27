@@ -261,7 +261,7 @@ define([
                 });
 
                 this.chStartOnClick = new Common.UI.CheckBox({
-                    el: this.$el.findById('#transit-checkbox-slidenum'),
+                    el: this.$el.find('#transit-checkbox-slidenum'),
                     labelText: this.strStartOnClick
                 });
 

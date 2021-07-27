@@ -130,7 +130,8 @@ define([
                     'add:slide'         : this.onAddSlide.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
-                    'add:chart'         : this.onSelectChart
+                    'add:chart'         : this.onSelectChart,
+                    'transit:settab'    : this.setTrantitTab
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -2385,7 +2386,14 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
         },
-
+        setTrantitTab:function (){
+            var tab = {action: 'transit', caption: this.toolbar.textTabTransitions};
+            var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
+            if ( $panel ) {
+                this.toolbar.addTab(tab, $panel, 3);
+                this.toolbar.setVisible('transit', true);
+            }
+        },
         onAppShowed: function (config) {
             var me = this;
 
@@ -2403,15 +2411,15 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.addTab(tab, $panel, 4);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }
-            var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
+            /*var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
             var $panel = me.getApplication().getController('Transitions').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
                 me.toolbar.setVisible('transit', true);
-            }
+            }*/
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 

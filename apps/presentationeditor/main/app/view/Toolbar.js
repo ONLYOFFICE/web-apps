@@ -987,6 +987,7 @@ define([
                 me.isCompactView = mode.compactview;
                 if ( mode.isEdit ) {
                     me.$el.html(me.rendererComponents(me.$layout));
+
                 } else {
                     me.$layout.find('.canedit').hide();
                     me.$layout.addClass('folded');
@@ -1005,6 +1006,7 @@ define([
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
+                    this.fireEvent('transit:settab',[this]);
                 }
 
                 if ( me.isCompactView )
