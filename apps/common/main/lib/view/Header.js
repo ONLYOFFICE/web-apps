@@ -563,6 +563,7 @@ define([
                     if ( !!window.DE ) {
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
                         me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
+                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
                     }
 
                     return $html;

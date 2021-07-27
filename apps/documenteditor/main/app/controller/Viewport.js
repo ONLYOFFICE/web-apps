@@ -254,7 +254,6 @@ define([
                     caption: 'Dark mode',
                     checkable: true,
                     checked: Common.UI.Themes.isContentThemeDark(),
-                    disabled: !Common.UI.Themes.isDarkTheme(),
                     value: 'mode:dark'
                 });
 
@@ -326,7 +325,10 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
-                me.header.btnContentMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+                if ( !Common.UI.Themes.isDarkTheme() ) {
+                    me.header.menuItemsDarkMode.hide();
+                    me.header.menuItemsDarkMode.$el.prev('.divider').hide();
+                }
             }
         },
 
@@ -368,18 +370,13 @@ define([
         },
 
         onThemeChanged: function (id) {
+            var current_dark = Common.UI.Themes.isDarkTheme();
             var menuItem = this.header.menuItemsDarkMode;
-            if ( !Common.UI.Themes.isDarkTheme() ) {
-                Common.Utils.InternalSettings.set("de-mode-dark", menuItem.isChecked());
+            menuItem.setVisible(current_dark);
+            menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
 
-                menuItem.setChecked(false);
-                menuItem.setDisabled(true);
-            } else {
-                menuItem.setChecked(Common.Utils.InternalSettings.get("de-mode-dark"));
-                menuItem.setDisabled(false);
-            }
-
-            this.header.btnContentMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+            menuItem.setChecked(current_dark);
+            this.header.btnContentMode.setVisible(current_dark);
         },
 
         onContentThemeChangedToDark: function (isdark) {
