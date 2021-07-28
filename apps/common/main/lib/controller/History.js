@@ -177,6 +177,9 @@ define([
                 };
                 Common.UI.alert(config);
             } else {
+                if (this.currentRev !== opts.data.version) {
+                    return;
+                }
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                 if (commentsController) {
                     commentsController.onApiHideComment();
