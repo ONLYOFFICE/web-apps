@@ -39,9 +39,9 @@
         </div>
     </div>
     <div id="status-number-of-sheet">
-        <label id="label-sheets" class="status-label">Sheet 1 of 9</label>
+        <label id="label-sheets" class="status-label"></label>
     </div>
     <div id="status-action">
-        <label id="label-action" class="status-label">All changes saved</label>
+        <label id="label-action" class="status-label"></label>
     </div>
 </div>

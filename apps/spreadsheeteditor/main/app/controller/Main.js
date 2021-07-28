@@ -661,10 +661,23 @@ define([
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
-                action && this.setLongActionView(action);
+                if (action) {
+                    this.setLongActionView(action);
+                } else {
+                    var me = this;
+                    if ((id == Asc.c_oAscAsyncAction['Save'] || id == Asc.c_oAscAsyncAction['ForceSaveButton']) && !this.appOptions.isOffline) {
+                        if (this._state.fastCoauth && this._state.usersCount > 1) {
+                            me._state.timerSave = setTimeout(function () {
+                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                            }, 500);
+                        } else
+                            me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                    } else
+                        this.getApplication().getController('Statusbar').setStatusCaption('');
+                }
 
                 if (id == Asc.c_oAscAsyncAction.Save) {
-                    this.toolbarView && this.toolbarView.synchronizeChanges();
+                    this.synchronizeChanges();
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -686,83 +699,97 @@ define([
             },
 
             setLongActionView: function(action) {
-                var title = '';
+                var title = '', text = '', force = false;
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction.Open:
                         title   = this.openTitleText;
+                        text    = this.openTextText;
                         break;
 
-                    case Asc.c_oAscAsyncAction.Save:
-                        title   = this.saveTitleText;
-                        break;
-
+                    case Asc.c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['ForceSaveButton']:
                     case Asc.c_oAscAsyncAction.ForceSaveTimeout:
-                        break;
-
-                    case Asc.c_oAscAsyncAction.ForceSaveButton:
+                        clearTimeout(this._state.timerSave);
+                        force   = true;
+                        text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadDocumentFonts:
                         title   = this.loadFontsTitleText;
+                        text    = this.loadFontsTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadDocumentImages:
                         title   = this.loadImagesTitleText;
+                        text    = this.loadImagesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadFont:
                         title   = this.loadFontTitleText;
+                        text    = this.loadFontTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadImage:
                         title   = this.loadImageTitleText;
+                        text    = this.loadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.DownloadAs:
                         title   = this.downloadTitleText;
+                        text    = this.downloadTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.Print:
                         title   = this.printTitleText;
+                        text    = this.printTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.UploadImage:
                         title   = this.uploadImageTitleText;
+                        text    = this.uploadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.Recalc:
                         title   = this.titleRecalcFormulas;
+                        text    = this.textRecalcFormulas;
                         break;
 
                     case Asc.c_oAscAsyncAction.SlowOperation:
                         title   = this.textPleaseWait;
+                        text    = this.textPleaseWait;
                         break;
 
                     case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
+                        text    = this.savePreparingTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['Waiting']:
                         title   = this.waitText;
+                        text    = this.waitText;
                         break;
 
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
+                        text    = this.waitText;
                         break;
 
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText + '           ';
+                        text    = this.loadingDocumentTitleText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         title    = this.textDisconnect;
+                        text     = this.textDisconnect;
                         this.disableEditing(true, true);
                         break;
 
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
+                            text    = action.id;
                         }
                         break;
                 }
@@ -775,10 +802,14 @@ define([
                         this.api.asc_enableKeyEvents(false);
                         this.loadMask.show();
                     }
+                } else {
+                    this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
             },
 
             onApplyEditRights: function(data) {
+                this.getApplication().getController('Statusbar').setStatusCaption('');
+
                 if (data && !data.allowed) {
                     Common.UI.info({
                         title: this.requestEditFailedTitleText,
@@ -1383,6 +1414,7 @@ define([
                         rightmenuController.getView('RightMenu').hide();
 
                     /** coauthoring begin **/
+                    me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
@@ -1894,6 +1926,8 @@ define([
                     }
 
                     this._isDocReady && (this._state.isDocModified !== change) && Common.Gateway.setDocumentModified(change);
+                    if (change && (!this._state.fastCoauth || this._state.usersCount<2))
+                        this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
                     this._state.isDocModified = change;
                 }
@@ -2449,7 +2483,7 @@ define([
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
-                        this.toolbarView.synchronizeChanges();
+                        this.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
@@ -2632,6 +2666,18 @@ define([
                     return false;
                 }
                 return true;
+            },
+
+            onCollaborativeChanges: function() {
+                if (this._state.hasCollaborativeChanges) return;
+                this._state.hasCollaborativeChanges = true;
+                if (this.appOptions.isEdit)
+                    this.getApplication().getController('Statusbar').setStatusCaption(this.textNeedSynchronize, true);
+            },
+
+            synchronizeChanges: function() {
+                this.toolbarView && this.toolbarView.synchronizeChanges();
+                this._state.hasCollaborativeChanges = false;
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -3036,7 +3082,9 @@ define([
             txtOr: '%1 or %2',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
-            textDisconnect: 'Connection is lost'
+            textDisconnect: 'Connection is lost',
+            textNeedSynchronize: 'You have an updates',
+            textChangesSaved: 'All changes saved'
         }
     })(), SSE.Controllers.Main || {}))
 });

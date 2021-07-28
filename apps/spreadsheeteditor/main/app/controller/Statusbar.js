@@ -764,6 +764,19 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
+        setStatusCaption: function(text, force, delay) {
+            if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
+                return;
+
+            this.timerCaption = undefined;
+            if (text.length) {
+                this.statusbar.showStatusMessage(text);
+                if (delay>0)
+                    this.timerCaption = (new Date()).getTime() + delay;
+            } else
+                this.statusbar.clearStatusMessage();
+        },
+
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',

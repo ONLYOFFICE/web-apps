@@ -480,9 +480,11 @@ define([
 
                 this.boxNumberSheets = $('#status-number-of-sheet', this.el);
                 this.isCompact && this.boxNumberSheets.hide();
+                this.labelNumberSheets = $('#label-sheets', this.boxNumberSheets);
 
                 this.boxAction = $('#status-action', this.el);
                 this.isCompact && this.boxAction.hide();
+                this.labelAction = $('#label-action', this.boxAction);
 
                 this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
                 this.$customizeStatusBarMenu = this.$el.find('#statusbar-menu');
@@ -608,6 +610,8 @@ define([
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
+                    this.updateNumberOfSheet(sindex, wc);
+
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
                     Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
@@ -678,6 +682,8 @@ define([
 
             onSheetChanged: function(o, index, tab) {
                 this.api.asc_showWorksheet(tab.sheetindex);
+
+                this.updateNumberOfSheet(tab.sheetindex, this.api.asc_getWorksheetsCount());
 
                 if (this.hasTabInvisible && !this.tabbar.isTabVisible(index)) {
                     this.tabbar.setTabVisible(index);
@@ -919,6 +925,21 @@ define([
                 this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 
+            updateNumberOfSheet: function (active, count) {
+                this.labelNumberSheets.text(
+                    Common.Utils.String.format(this.sheetIndexText, active + 1, count)
+                );
+            },
+
+            showStatusMessage: function(message) {
+                this.labelAction.text(message);
+            },
+
+            clearStatusMessage: function() {
+                this.labelAction.text('');
+            },
+
+            sheetIndexText      : 'Sheet {0} of {1}',
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
