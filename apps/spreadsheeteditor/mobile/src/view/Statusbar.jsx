@@ -2,118 +2,27 @@ import React, { Fragment } from 'react';
 import { View, Link, Icon, Popover, List, ListButton, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
+import { inject, observer } from 'mobx-react';
 
 const viewStyle = {
     height: 30
 };
 
-const StatusbarView = props => {
+const StatusbarView = inject('storeAppOptions', 'sheets')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const { isEdit, allSheets, hiddenSheets, isWorkbookLocked } = props;
+    const {sheets, storeAppOptions} = props;
+    const allSheets = sheets.sheets;
+    const hiddenSheets = sheets.hiddenWorksheets();
+    const isWorkbookLocked = sheets.isWorkbookLocked;
+    const isEdit = storeAppOptions.isEdit;
 
-    const getTabColor = model => {
-        let color = model.color;
-
-        if (color) {
-            color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-        } else {
-            color = '';
-        }
-
-        if (color.length) {
-            if (!model.active) {
-                color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
-            } else {
-                color = '0px 4px 0 ' + color + ' inset';
-            }
-        } 
-
-        return color;
-    }
-
-    // const $boxTabs = $$('.sheet-tabs');
-    // const $statusBar = $$('.statusbar');
-
-    // $boxTabs.on('touchstart', onTouchStart);
-    // $boxTabs.on('touchmove', onTouchMove);
-    // $boxTabs.on('touchend', onTouchEnd);
-
-    // let touch = {};
-
-    // function hasInvisible() {
-    //     let _left_bound_ = $boxTabs.offset().left,
-    //         _right_bound_ = $boxTabs.width() + _left_bound_ - $statusBar.width();
-    //         // _right_bound_ = _left_bound_ + $boxTabs.width();
-        
-    //     // console.log(_left_bound_);
-    //     console.log(_right_bound_);
-
-    //     let tab = $$('.sheet-tabs li')[0];
-    //     let rect = tab.getBoundingClientRect();
-
-    //     if (!(rect.left < _left_bound_)) {
-    //         // tab = $$('.sheet-tabs li')[$$('.sheet-tabs li').length - 1];
-    //         // rect = tab.getBoundingClientRect();
-       
-    //         // if (!((rect.right).toFixed(2) > _right_bound_))
-    //         //     return false;
-    //         if(_right_bound_ <= 0) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
-    // function onTouchStart(e) {
-    //     if (hasInvisible()) {
-    //         console.log(e);
-    //         let touches = e.changedTouches;
-    //         touch.startx = touches[0].clientX;
-    //         touch.scrollx = $boxTabs.scrollLeft();
-    //         // console.log(touch.scrollx);
-            
-    //         touch.timer = setTimeout(function () {
-    //             // touch.longtouch = true;
-    //         }, 500);
-    //         // e.preventDefault();
-    //     }
-    // }
-
-    // function onTouchMove(e) {
-    //     if (touch.startx !== undefined) {
-    //         // console.log(e);
-    //         let touches = e.changedTouches;
-
-    //         if (touch.longtouch) {}
-    //         else {
-    //             if (touch.timer) clearTimeout(touch.timer), delete touch.timer;
-    //             let valueLeft = touch.scrollx + (touch.startx - touches[0].clientX);
-    //             console.log(valueLeft);
-    //             // $boxTabs.scrollLeft(valueLeft);
-    //             
-    //         }
-
-    //         // e.preventDefault();
-    //     }
-    // }
-
-    // function onTouchEnd(e) {
-    //     if (touch.startx !== undefined) {
-    //         // console.log(e);
-    //         touch.longtouch = false;
-    //         delete touch.startx;
-    //         // e.preventDefault();
-    //     }
-    // }
-
-    return  (
+    return (
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
-                <div id="idx-box-add-tab">
+                <div id="idx-box-add-tab" className={`${isWorkbookLocked ? 'disabled' : ''}`}>
                     <Link href={false} id="idx-btn-addtab" className={`tab${isWorkbookLocked ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                         <Icon className="icon icon-plus" />
                     </Link>
@@ -122,8 +31,8 @@ const StatusbarView = props => {
                     <ul className="sheet-tabs bottom">
                         {allSheets.map((model,i) => 
                             model.hidden ? null : 
-                                <li className={`tab${model.active ? ' active' : ''} ${model.locked ? ' locked' : ''}`} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
-                                    <a style={{boxShadow: getTabColor(model)}}>{model.name}</a>
+                                <li className={`tab${model.active ? ' active' : ''} ${model.locked ? 'locked' : ''}`} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
+                                    <a>{model.name}</a>
                                 </li>
                             
                         )}
@@ -189,6 +98,6 @@ const StatusbarView = props => {
             ) : null}
         </Fragment>
     )
-};
+}));
 
 export {StatusbarView};
