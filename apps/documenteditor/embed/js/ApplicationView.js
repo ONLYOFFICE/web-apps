@@ -36,6 +36,7 @@ if (DE === undefined) {
 
 DE.ApplicationView = new(function(){
     var $btnTools;
+    var $menuForm;
 
     // Initialize view
 
@@ -63,11 +64,23 @@ DE.ApplicationView = new(function(){
         return $btnTools.parent().find(name);
     }
 
+    function getMenuForm() {
+        if (!$menuForm) {
+            $menuForm = $('<div id="menu-container-form" style="position: absolute; z-index: 10000;" data-value="prevent-canvas-click">' +
+                                                    '<div class="dropdown-toggle" data-toggle="dropdown"></div>' +
+                                                    '<ul class="dropdown-menu" oo_editor_input="true" role="menu" style="right: 0; left: auto;max-height: 200px; overflow-y: auto;"></ul>' +
+                                                '</div>');
+            $('#editor_sdk').append($menuForm);
+        }
+        return $menuForm;
+    }
+
     return {
         create: createView
         , tools: {
             get: getTools
         },
+        getMenuForm: getMenuForm,
 
         txtDownload: 'Download',
         txtPrint: 'Print',
