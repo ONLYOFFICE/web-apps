@@ -104,7 +104,10 @@ define([
                 },
                 filter: {ttHeight: 40},
                 func_arg: {},
-                input_msg: {}
+                input_msg: {},
+                foreignSelect: {
+                    ttHeight: 20
+                }
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -162,10 +165,12 @@ define([
                 },
                 'modal:show': function(e){
                     me.hideCoAuthTips();
+                    me.hideForeignSelectTips();
                 },
                 'layout:changed': function(e){
                     me.hideHyperlinkTip();
                     me.hideCoAuthTips();
+                    me.hideForeignSelectTips();
                     me.onDocumentResize();
                 },
                 'cells:range': function(status){
@@ -1022,6 +1027,15 @@ define([
             }
         },
 
+        hideForeignSelectTips: function() {
+            if (this.tooltips.foreignSelect.ref) {
+                $(this.tooltips.foreignSelect.ref).remove();
+                this.tooltips.foreignSelect.ref = undefined;
+                this.tooltips.foreignSelect.x_point = undefined;
+                this.tooltips.foreignSelect.y_point = undefined;
+            }
+        },
+
         hideHyperlinkTip: function() {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
                 this.tooltips.hyperlink.ref.hide();
@@ -1040,7 +1054,8 @@ define([
                         index_locked,
                         index_column, index_row,
                         index_filter,
-                        index_slicer;
+                        index_slicer,
+                        index_foreign;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1066,6 +1081,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Tooltip:
                             index_slicer = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.ForeignSelect:
+                            index_foreign = i;
+                            break;
                     }
                 }
 
@@ -1079,6 +1097,7 @@ define([
                     row_columnTip   = me.tooltips.row_column,
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
+                    foreignSelect   = me.tooltips.foreignSelect,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1115,6 +1134,9 @@ define([
                 if (me.permissions.isEdit) {
                     if (!index_locked) {
                         me.hideCoAuthTips();
+                    }
+                    if (!index_foreign) {
+                        me.hideForeignSelectTips();
                     }
                     if (index_slicer===undefined) {
                         if (!slicerTip.isHidden && slicerTip.ref) {
@@ -1313,6 +1335,45 @@ define([
                                         top         : showPoint[1] + 'px'
                                     });
                             }
+                        }
+                    }
+                    if (index_foreign) {
+                        data = dataarray[index_foreign-1];
+
+                        if (!coAuthTip.XY)
+                            me.onDocumentResize();
+
+                        if (foreignSelect.x_point != data.asc_getX() || foreignSelect.y_point != data.asc_getY()) {
+                            me.hideForeignSelectTips();
+
+                            foreignSelect.x_point = data.asc_getX();
+                            foreignSelect.y_point = data.asc_getY();
+
+                            var src = $(document.createElement("div")),
+                                color = new AscCommon.CColor(255, 0,255);//data.asc_getColor();
+                            foreignSelect.ref = src;
+
+                            src.addClass('username-tip');
+                            src.css({
+                                height      : foreignSelect.ttHeight + 'px',
+                                position    : 'absolute',
+                                zIndex      : '900',
+                                visibility  : 'visible',
+                                'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())
+                            });
+                            $(document.body).append(src);
+
+                            showPoint = [
+                                foreignSelect.x_point + coAuthTip.XY[0],
+                                foreignSelect.y_point + coAuthTip.XY[1] - foreignSelect.ttHeight
+                            ];
+
+                            src.text(me.getUserName(data.asc_getUserId()));
+                            src.css({
+                                visibility  : 'visible',
+                                left       : ((showPoint[0]+foreignSelect.ref.width()>coAuthTip.bodyWidth) ? coAuthTip.bodyWidth-foreignSelect.ref.width() : showPoint[0]) + 'px',
+                                top         : showPoint[1] + 'px'
+                            });
                         }
                     }
                 }
