@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </section>
-    <section class="box-controls">
+    <section class="box-controls">%
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">

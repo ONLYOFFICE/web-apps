@@ -118,7 +118,7 @@ define([
             options: {},
 
             initialize: function (options) {
-                this.$el=$(_.template(template)( {} ));
+                this.$el=$(_.template(template)( {Duration:this.strDuration} ));
                 this.SladeSettings=PE.Views.ShapeSettings;
 
                 Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -139,58 +139,44 @@ define([
                 ];
 
                 this._arrEffectType = [
-                    {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
-                    {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
-                    {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
-                    {caption: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
-                    {caption: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
-                    {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
-                    {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
-                    {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
-                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
-                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
-                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
-                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
-                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
-                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
-                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
-                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                    {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
-                    {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
-                    {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
-                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                    {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out, checkable: true, toggleGroup: 'effects'},
+                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate, checkable: true, toggleGroup: 'effects'}
                 ];
 
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-styles',
-                    itemWidth: 91,
-                    itemHeight: 44,
+                    itemWidth: 87,
+                    itemHeight: 40,
                     enableKeyEvents: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
-                            menu = cmp.openButton.menu,
-                            minMenuColumn = 4;
+                            menu = cmp.openButton.menu//,
+                            //minMenuColumn = 3;
 
                         if (menu.cmpEl) {
-                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                            var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
-                            Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = itemMargin + 1/Common.Utils.applicationPixelRatio());
-                            var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
-                                (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
-                                    parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
 
-                            var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
-
-                            columnCount = columnCount < minCount ? minCount : columnCount;
                             menu.menuAlignEl = cmp.cmpEl;
-
                             menu.menuAlign = 'tl-tl';
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
-                            menu.setOffset(Math.min(offset, 0));
-                            //columnCount * (itemWidth + itemMargin)
                             menu.cmpEl.css({
-                                'width': columnCount * (itemWidth + itemMargin),
+                                'width': cmp.cmpEl.width()- cmp.openButton.$el.width(),
                                 'min-height': cmp.cmpEl.height()
                             });
                         }
@@ -224,17 +210,17 @@ define([
                 this.listEffects.menuPicker.itemTemplate =this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
-                    cls: 'btn-toolbar text',// x-huge icon-top',
+                    cls: 'btn-toolbar ',// x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon btn-rem-comment'
+                    iconCls: 'toolbar__icon btn-preview'
                 });
 
                 this.btnParametrs = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParametrs,
-                    split: true,
-                    iconCls: 'toolbar__icon icon btn-insertshape'
+                    iconCls: 'toolbar__icon icon btn-insertshape',
+                    menu: new Common.UI.Menu({items:this._arrEffectType})
                 });
 
                 this.btnApplyToAll = new Common.UI.Button({
@@ -288,29 +274,12 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var itemsMenu=[];
-                    _.each(me._arrEffectType, function (item){
-                        itemsMenu.push(
-                            {
-                                caption: item.caption,
-                                value: item.value,
-                                checkable: true,
-                                toggleGroup: 'effects',
-                                disabled:false
-                            }
-                        );
-                    });
-                    me.btnParametrs.setMenu(
-                        new Common.UI.Menu({
-                            items: itemsMenu
-                        })
-                    );
+
                     setEvents.call(me);
                 });
             },
 
             getPanel: function () {
-                //this.$el = $(_.template(template)( {} ));
                 this.listEffects&&this.listEffects.render(this.$el.find('#transit-field-effects'));
                 this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
                 this.btnParametrs && this.btnParametrs.render(this.$el.find('#transit-button-parametrs'));
@@ -328,16 +297,9 @@ define([
                 this.fireEvent('show', this);
             },
 
-            getUserName: function (username) {
-                return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
-            },
 
-            turnSpelling: function (state) {
-
-            },
             SetDisabled: function (state, langs) {
-                //this.btnPreview && this.btnPreview.setDisabled(state|| !Common.Utils.InternalSettings.get())
-                //this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
+
             },
             renderComponent: function (compid, obj)
             {
@@ -402,7 +364,7 @@ define([
             txtParametrs: 'Parametrs',
             txtApplyToAll: 'Apply to All Slides',
             strDuration: 'Duration',
-            strDelay: 'Delay',
+            strDelay: 'DelayDelayDelayDelay',
             strStartOnClick: 'Start On Click',
 
             textNone: 'None',

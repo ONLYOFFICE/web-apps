@@ -1,19 +1,37 @@
 #transitions-panel {
   input {
     text-align: left;
+    padding-left: 3px;
   }
-
+  .spinner-up i
+  {
+    margin-top: 3px;
+    margin-top: calc(3px/@pixel-ratio-factor);
+  }
+  .spinner-down i
+  {
+    margin-top: 4px;
+    margin-top: calc(4px/@pixel-ratio-factor);
+  }
+  .spinner
+  {
+    margin-left:10px;
+  }
   .item {
     background: transparent;
     border-color: transparent;
+    border-radius: @scaled-one-px-value-ie;
+    border-radius: @scaled-one-px-value;
     border-width: calc(2*@scaled-one-px-value-ie) ;
     border-width: calc(@scaled-two-px-value);
     &:hover{
       border-color: @border-preview-hover-ie;
       border-color: @border-preview-hover;
+      box-shadow: none;
     }
     &.selected
     {
+      box-shadow: none;
       border-color: @border-preview-select-ie;
       border-color: @border-preview-select;
     }

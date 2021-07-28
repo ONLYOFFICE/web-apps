@@ -1,34 +1,33 @@
 <section id="transitions-panel" class="panel" data-tab="transit">
-    <div class="group flex small" id="transit-field-effects" style=" width: 60%; min-width: 300px; " ></div>
+    <div class="group flex small" id="transit-field-effects" style=" width: 56%; min-width: 300px; " ></div>
 
     <div class="group small">
         <span class="btn-slot text x-huge" id="transit-button-parametrs"></span>
     </div>
     <div class="separator long"></div>
     <div class="group small">
-        <div class="elset" style="width:110px;  margin-left:6px;">
-            <span class="btn-slot text" id="label-duration" style="display: inline-block; float: left; width: 8px;font-size: 11px;text-align: left; margin-top: 4px;" >Durations</span>
-            <span id="transit-spin-duration" class="btn-slot text spinner" style="display: inline-block; float: right; width: 30px; "></span>
+        <div class="elset"  ">
+            <div class="btn-slot text" id="label-duration" style="font-size: 11px; text-align: left;  "><%=Duration%></div>
+            <span id="transit-spin-duration" class="btn-slot text spinner" "></span>
         </div>
         <div class="elset">
-         <span class="btn-slot text x-huge" id="transit-button-preview" ></span>
-                    </div>
+            <span class="btn-slot text" id="transit-button-preview" ></span>
+        </div>
     </div>
     <div class="separator long"></div>
     <div class="group small" >
         <div class="elset">
             <span class="btn-slot text" id="transit-checkbox-startonclick"></span>
         </div>
-        <div class="elset" style="width:120px;">
-             <!-- <span class="btn-slot text" id="label-delay" style="display: inline-block; float: left; font-size: 11px;text-align: left; margin-top: 4px" >Delay</span> -->
-            <span id="transit-spin-delay" class="btn-slot text spinner" style="display: inline-block; float: right;  "></span>
-            <span class="btn-slot text"  id="transit-checkbox-delay" style="display: inline-block; float: left;"></span>
-        </div>
+        <div class="elset">
+            <span class="btn-slot text"  id="transit-checkbox-delay" ></span>
+            <div id="transit-spin-delay" class="btn-slot text spinner"></div>
+       </div>
     </div>
     <div class="separator long"></div>
     <div class="group small">
          <div class="elset">
-            <span class="btn-slot text " id="transit-button-apply" style="display: inline-block; float:right;"></span>
+            <span class="btn-slot text " id="transit-button-apply" "></span>
         </div>
         <div class="elset">
             <span class="btn-slot text x-huge" ></span>
