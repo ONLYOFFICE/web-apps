@@ -709,7 +709,7 @@ define([
                     this.loadMask.setTitle(title);
 
                     if (!this.isShowOpenDialog)
-                        this.loadMask.show();
+                        this.loadMask.show(action.id===Asc.c_oAscAsyncAction['Open']);
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
