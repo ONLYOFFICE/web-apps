@@ -196,7 +196,8 @@
             h3 {
                 margin: 0;
                 font-size: 10pt;
-                color: #665;
+                color: @text-normal-ie;
+                color: @text-normal;
                 font-weight: bold;
                 padding: 0 0 10px 10px;
                 white-space: nowrap;
@@ -230,7 +231,8 @@
             hr {
                 margin: 0;
                 border-bottom: none;
-                border-color: #e1e1e1;
+                border-top: @scaled-one-px-value-ie solid @border-divider-ie;
+                border-top: @scaled-one-px-value solid @border-divider;
             }
 
             .thumb-list {
