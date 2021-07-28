@@ -136,9 +136,15 @@ define([
             this.currentServerVersion = record.get('serverVersion');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
-                 _.delay(function() {
-                    Common.Gateway.requestHistoryData(rev); // получаем url-ы для ревизий
-                 }, 10);
+                var me = this;
+                if (!me.timerId) {
+                    me.timerId = setTimeout(function () {
+                        me.timerId = 0;
+                    },30000);
+                    _.delay(function() {
+                        Common.Gateway.requestHistoryData(rev); // получаем url-ы для ревизий
+                    }, 10);
+                }
             } else {
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                 if (commentsController) {
@@ -168,6 +174,11 @@ define([
         onSetHistoryData: function(opts) {
             if (!this.mode.canUseHistory) return;
 
+            if (this.timerId) {
+                clearTimeout(this.timerId);
+                this.timerId = 0;
+            }
+
             if (opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
@@ -177,9 +188,6 @@ define([
                 };
                 Common.UI.alert(config);
             } else {
-                if (this.currentRev !== opts.data.version) {
-                    return;
-                }
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                 if (commentsController) {
                     commentsController.onApiHideComment();
@@ -220,6 +228,7 @@ define([
                     hist.asc_setIsRequested(true);
                     hist.asc_setServerVersion(this.currentServerVersion);
                     this.api.asc_showRevision(hist);
+                    this.currentRev = data.version;
 
                     var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
                     if (reviewController)
