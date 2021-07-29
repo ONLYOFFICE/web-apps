@@ -77,6 +77,7 @@ class ApplicationSettingsController extends Component {
     onFormulaLangChange(value) {
         LocalStorage.setItem("sse-settings-func-lang", value);
         this.initRegSettings();
+        Common.Notifications.trigger('changeFuncLang');
     }
 
     onRegSettings(regCode) {

@@ -117,7 +117,7 @@ const PageLink = props => {
                                value={link}
                                onChange={(event) => {
                                 setLink(event.target.value);
-                                if(stateAutoUpdate) setDisplay(event.target.value);
+                                if((!stateDisplay || stateDisplay === link) && stateAutoUpdate) setDisplay(event.target.value);
                             }}
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
@@ -130,8 +130,10 @@ const PageLink = props => {
                            placeholder={_t.textDisplay}
                            value={stateDisplay}
                            disabled={displayDisabled}
-                           onChange={(event) => {setDisplay(event.target.value);
-                            setAutoUpdate(event.target.value == ''); }}
+                           onChange={(event) => {
+                                setDisplay(event.target.value);
+                                setAutoUpdate(event.target.value == ''); 
+                            }}
                 />
                 <ListInput label={_t.textScreenTip}
                            type="text"
