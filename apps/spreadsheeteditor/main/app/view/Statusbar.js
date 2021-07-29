@@ -403,8 +403,9 @@ define([
                     '</div></a>');
 
                 this.customizeStatusBarMenu = new Common.UI.Menu({
-                    style: 'margin-top: -14px; margin-left: -7px;',
+                    style: 'margin-top: 0px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
+                    menuAlignEl: $(this.el),
                     items: [
                         //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
                         //{caption: '--'},

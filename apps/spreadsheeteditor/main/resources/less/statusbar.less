@@ -136,15 +136,14 @@
         height: 25px;
 
         label {
-            &:first-of-type {
-                padding-left: 14px;
-            }
             &:not(:last-child) {
                 padding-right: 10px;
             }
         }
 
         .separator {
+            position: relative;
+            padding-right: 11px;
             margin-top: -6px;
         }
     }
@@ -376,6 +375,7 @@
 
     &.no-compact {
         #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
+            height: 26px;
             border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
         }
