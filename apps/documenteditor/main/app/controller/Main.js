@@ -1381,6 +1381,7 @@ define([
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
                 this.api.asc_LoadDocument();
             },
 
