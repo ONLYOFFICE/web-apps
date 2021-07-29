@@ -172,26 +172,31 @@
 
     .icon {
         &.warn {
-            width: 35px;
-            height: 32px;
-            background-position: @alerts-offset-x @alerts-offset-y - 105px;
+
+            background: url('../../../../common/main/resources/img/controls/attention.svg') no-repeat center;
+
+            //background-position: @alerts-offset-x @alerts-offset-y - 105px;
         }
 
-        &.error, &.info, &.confirm {
+        &.error, &.info, &.confirm, &.warn {
             width: 35px;
             height: 35px;
         }
 
         &.error {
-            background-position: @alerts-offset-x @alerts-offset-y - 0;
+            background: url('../../../../common/main/resources/img/controls/warning.svg') no-repeat center;
+            //background-position: @alerts-offset-x @alerts-offset-y - 0;
         }
 
         &.info {
-            background-position: @alerts-offset-x @alerts-offset-y - 35px;
+            background: url('../../../../common/main/resources/img/controls/info.svg') no-repeat center;
+            //background-position: @alerts-offset-x @alerts-offset-y - 35px;
         }
 
         &.confirm {
-            background-position: @alerts-offset-x @alerts-offset-y - 70px;
+            background: url('../../../../common/main/resources/img/controls/done.svg') no-repeat center;
+
+            //background-position: @alerts-offset-x @alerts-offset-y - 70px;
         }
     }
 
