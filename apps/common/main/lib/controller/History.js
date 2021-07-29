@@ -100,9 +100,11 @@ define([
             this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
         },
 
-        onDownloadUrl: function(url) {
-            if (this.isFromSelectRevision !== undefined)
-                Common.Gateway.requestRestore(this.isFromSelectRevision, url);
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromSelectRevision !== undefined) {
+                fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
+                Common.Gateway.requestRestore(this.isFromSelectRevision, url, fileType);
+            }
             this.isFromSelectRevision = undefined;
         },
 
@@ -111,7 +113,7 @@ define([
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
                     if (record.get('isRevision'))
-                        Common.Gateway.requestRestore(record.get('revision'));
+                        Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
                         var fileType = Asc.c_oAscFileType[(record.get('fileType') || '').toUpperCase()] || Asc.c_oAscFileType.DOCX;
@@ -205,6 +207,7 @@ define([
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
                             rev.set('token', token, {silent: true});
+                            opts.data.fileType && rev.set('fileType', opts.data.fileType, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();

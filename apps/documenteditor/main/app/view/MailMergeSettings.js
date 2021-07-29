@@ -570,7 +570,7 @@ define([
             }
         },
 
-        onSaveMailMerge: function(url) {
+        onSaveMailMerge: function(url, fileType) {
             var loadMask = DE.getController('Main').loadMask;
             loadMask && loadMask.hide();
 
@@ -579,7 +579,8 @@ define([
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
                 var defFileName = me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx');
                 if (me.mode.canRequestSaveAs) {
-                    Common.Gateway.requestSaveAs(url, defFileName);
+                    fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._mailMergeDlg = new Common.Views.SaveAsDlg({
                         saveFolderUrl: me.mode.mergeFolderUrl,

@@ -296,7 +296,7 @@ define([
             menu.hide();
         },
 
-        onDownloadUrl: function(url) {
+        onDownloadUrl: function(url, fileType) {
             if (this.isFromFileDownloadAs) {
                 var me = this,
                     defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
@@ -309,7 +309,8 @@ define([
                 }
 
                 if (me.mode.canRequestSaveAs) {
-                    Common.Gateway.requestSaveAs(url, defFileName);
+                    fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._saveCopyDlg = new Common.Views.SaveAsDlg({
                         saveFolderUrl: me.mode.saveAsUrl,

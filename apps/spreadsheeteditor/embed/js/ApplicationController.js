@@ -179,8 +179,9 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
-    function onDownloadUrl(url) {
-        Common.Gateway.downloadAs(url);
+    function onDownloadUrl(url, fileType) {
+        fileType = (common.utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
+        Common.Gateway.downloadAs(url, fileType);
     }
 
     function onPrint() {
