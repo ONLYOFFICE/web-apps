@@ -638,141 +638,138 @@ define([
         },
 
         onColumnsSelect: function(type, picker, item, record, e){
-            var btn = $(e.target);
-            if (btn && btn.hasClass('listitem-icon')) {
-                this._state.field = {record: record, type: type, length: picker.store.length};
-                if (this.fieldsMenu) {
-                    if (this.fieldsMenu.isVisible()) {
-                        this.fieldsMenu.hide();
-                        return;
-                    }
-                } else {
-                    this.miMoveUp = new Common.UI.MenuItem({
-                        caption     : this.txtMoveUp,
-                        checkable   : false
-                    });
-                    this.miMoveUp.on('click', _.bind(this.onMoveUp, this));
-                    this.miMoveDown = new Common.UI.MenuItem({
-                        caption     : this.txtMoveDown,
-                        checkable   : false
-                    });
-                    this.miMoveDown.on('click', _.bind(this.onMoveDown, this));
-                    this.miMoveBegin = new Common.UI.MenuItem({
-                        caption     : this.txtMoveBegin,
-                        checkable   : false
-                    });
-                    this.miMoveBegin.on('click', _.bind(this.onMoveBegin, this));
-                    this.miMoveEnd = new Common.UI.MenuItem({
-                        caption     : this.txtMoveEnd,
-                        checkable   : false
-                    });
-                    this.miMoveEnd.on('click', _.bind(this.onMoveEnd, this));
-
-                    this.miMoveFilter = new Common.UI.MenuItem({
-                        caption     : this.txtMoveFilter,
-                        checkable   : false
-                    });
-                    this.miMoveFilter.on('click', _.bind(this.onMoveTo, this, 3));
-                    this.miMoveRow = new Common.UI.MenuItem({
-                        caption     : this.txtMoveRow,
-                        checkable   : false
-                    });
-                    this.miMoveRow.on('click', _.bind(this.onMoveTo, this, 1));
-                    this.miMoveColumn = new Common.UI.MenuItem({
-                        caption     : this.txtMoveColumn,
-                        checkable   : false
-                    });
-                    this.miMoveColumn.on('click', _.bind(this.onMoveTo, this, 0));
-                    this.miMoveValues = new Common.UI.MenuItem({
-                        caption     : this.txtMoveValues,
-                        checkable   : false
-                    });
-                    this.miMoveValues.on('click', _.bind(this.onMoveTo, this, 2));
-
-                    this.miRemove = new Common.UI.MenuItem({
-                        caption     : this.txtRemove,
-                        checkable   : false
-                    });
-                    this.miRemove.on('click', _.bind(this.onRemove, this));
-
-                    this.miFieldSettings = new Common.UI.MenuItem({
-                        caption     : this.txtFieldSettings,
-                        checkable   : false
-                    });
-                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this));
-
-                    this.fieldsMenu = new Common.UI.Menu({
-                        menuAlign: 'tr-br',
-                        items: [
-                            this.miMoveUp,
-                            this.miMoveDown,
-                            this.miMoveBegin,
-                            this.miMoveEnd,
-                            {caption     : '--'},
-                            this.miMoveFilter,
-                            this.miMoveRow,
-                            this.miMoveColumn,
-                            this.miMoveValues,
-                            {caption     : '--'},
-                            this.miRemove,
-                            {caption     : '--'},
-                            this.miFieldSettings
-                        ]
-                    });
+            this._state.field = {record: record, type: type, length: picker.store.length};
+            if (this.fieldsMenu) {
+                if (this.fieldsMenu.isVisible()) {
+                    this.fieldsMenu.hide();
+                    return;
                 }
+            } else {
+                this.miMoveUp = new Common.UI.MenuItem({
+                    caption     : this.txtMoveUp,
+                    checkable   : false
+                });
+                this.miMoveUp.on('click', _.bind(this.onMoveUp, this));
+                this.miMoveDown = new Common.UI.MenuItem({
+                    caption     : this.txtMoveDown,
+                    checkable   : false
+                });
+                this.miMoveDown.on('click', _.bind(this.onMoveDown, this));
+                this.miMoveBegin = new Common.UI.MenuItem({
+                    caption     : this.txtMoveBegin,
+                    checkable   : false
+                });
+                this.miMoveBegin.on('click', _.bind(this.onMoveBegin, this));
+                this.miMoveEnd = new Common.UI.MenuItem({
+                    caption     : this.txtMoveEnd,
+                    checkable   : false
+                });
+                this.miMoveEnd.on('click', _.bind(this.onMoveEnd, this));
 
+                this.miMoveFilter = new Common.UI.MenuItem({
+                    caption     : this.txtMoveFilter,
+                    checkable   : false
+                });
+                this.miMoveFilter.on('click', _.bind(this.onMoveTo, this, 3));
+                this.miMoveRow = new Common.UI.MenuItem({
+                    caption     : this.txtMoveRow,
+                    checkable   : false
+                });
+                this.miMoveRow.on('click', _.bind(this.onMoveTo, this, 1));
+                this.miMoveColumn = new Common.UI.MenuItem({
+                    caption     : this.txtMoveColumn,
+                    checkable   : false
+                });
+                this.miMoveColumn.on('click', _.bind(this.onMoveTo, this, 0));
+                this.miMoveValues = new Common.UI.MenuItem({
+                    caption     : this.txtMoveValues,
+                    checkable   : false
+                });
+                this.miMoveValues.on('click', _.bind(this.onMoveTo, this, 2));
 
-                var recIndex = (record != undefined) ? record.get('index') : -1,
-                    len = picker.store.length,
-                    pivotIndex = record.get('pivotIndex');
-                this.miMoveUp.setDisabled(recIndex<1);
-                this.miMoveDown.setDisabled(recIndex>len-2 || recIndex<0);
-                this.miMoveBegin.setDisabled(recIndex<1);
-                this.miMoveEnd.setDisabled(recIndex>len-2 || recIndex<0);
+                this.miRemove = new Common.UI.MenuItem({
+                    caption     : this.txtRemove,
+                    checkable   : false
+                });
+                this.miRemove.on('click', _.bind(this.onRemove, this));
 
-                this.miMoveFilter.setDisabled(type == 3 || pivotIndex==-2); // menu for filter
-                this.miMoveRow.setDisabled(type == 1); // menu for row
-                this.miMoveColumn.setDisabled(type == 0); // menu for column
-                this.miMoveValues.setDisabled(type == 2 || pivotIndex==-2); // menu for value
+                this.miFieldSettings = new Common.UI.MenuItem({
+                    caption     : this.txtFieldSettings,
+                    checkable   : false
+                });
+                this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this));
 
-                this.miFieldSettings.setDisabled(pivotIndex==-2);
-
-                var menu = this.fieldsMenu,
-                    showPoint, me = this,
-                    currentTarget = $(e.currentTarget),
-                    parent = $(this.el),
-                    offset = currentTarget.offset(),
-                    offsetParent = parent.offset();
-
-                showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
-
-                var menuContainer = parent.find('#menu-pivot-container');
-                if (!menu.rendered) {
-                    if (menuContainer.length < 1) {
-                        menuContainer = $('<div id="menu-pivot-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
-                        parent.append(menuContainer);
-                    }
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
-
-                    menu.on('show:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', true);
-                    }).on('hide:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', false);
-                    });
-                }
-
-                menu.menuAlignEl = currentTarget;
-                menu.setOffset(-20, -currentTarget.height()/2 - 3);
-                menu.show();
-                _.delay(function() {
-                    menu.cmpEl.focus();
-                }, 10);
-                e.stopPropagation();
-                e.preventDefault();
+                this.fieldsMenu = new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    items: [
+                        this.miMoveUp,
+                        this.miMoveDown,
+                        this.miMoveBegin,
+                        this.miMoveEnd,
+                        {caption     : '--'},
+                        this.miMoveFilter,
+                        this.miMoveRow,
+                        this.miMoveColumn,
+                        this.miMoveValues,
+                        {caption     : '--'},
+                        this.miRemove,
+                        {caption     : '--'},
+                        this.miFieldSettings
+                    ]
+                });
             }
+
+
+            var recIndex = (record != undefined) ? record.get('index') : -1,
+                len = picker.store.length,
+                pivotIndex = record.get('pivotIndex');
+            this.miMoveUp.setDisabled(recIndex<1);
+            this.miMoveDown.setDisabled(recIndex>len-2 || recIndex<0);
+            this.miMoveBegin.setDisabled(recIndex<1);
+            this.miMoveEnd.setDisabled(recIndex>len-2 || recIndex<0);
+
+            this.miMoveFilter.setDisabled(type == 3 || pivotIndex==-2); // menu for filter
+            this.miMoveRow.setDisabled(type == 1); // menu for row
+            this.miMoveColumn.setDisabled(type == 0); // menu for column
+            this.miMoveValues.setDisabled(type == 2 || pivotIndex==-2); // menu for value
+
+            this.miFieldSettings.setDisabled(pivotIndex==-2);
+
+            var menu = this.fieldsMenu,
+                showPoint, me = this,
+                currentTarget = $(e.currentTarget),
+                parent = $(this.el),
+                offset = currentTarget.offset(),
+                offsetParent = parent.offset();
+
+            showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+
+            var menuContainer = parent.find('#menu-pivot-container');
+            if (!menu.rendered) {
+                if (menuContainer.length < 1) {
+                    menuContainer = $('<div id="menu-pivot-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
+                    parent.append(menuContainer);
+                }
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+
+                menu.on('show:after', function(cmp) {
+                    if (cmp && cmp.menuAlignEl)
+                        cmp.menuAlignEl.toggleClass('over', true);
+                }).on('hide:after', function(cmp) {
+                    if (cmp && cmp.menuAlignEl)
+                        cmp.menuAlignEl.toggleClass('over', false);
+                });
+            }
+
+            menu.menuAlignEl = currentTarget;
+            menu.setOffset(-20, -currentTarget.height()/2 - 3);
+            menu.show();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            e.stopPropagation();
+            e.preventDefault();
         },
 
         setLocked: function (locked) {
