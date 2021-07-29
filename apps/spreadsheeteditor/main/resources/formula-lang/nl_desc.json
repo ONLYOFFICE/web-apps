@@ -4,8 +4,8 @@
 		"d": "Geeft het getal als resultaat dat de datum aangeeft in code voor de datum/tijd"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(begindatum; einddatum; eenheid)",
+		"d": "Berekent het aantal dagen, maanden of jaren tussen twee datums"
 	},
 	"DATEVALUE": {
 		"a": "(datum_tekst)",
@@ -396,8 +396,8 @@
 		"d": "Geeft als resultaat de beginpositie van een tekenreeks binnen een andere tekenreeks (er wordt onderscheid gemaakt tussen hoofdletters en kleine letters)"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
+		"d": "Wordt naar een tekenreeks binnen een andere tekenreeks gezocht en wordt als resultaat het nummer van de beginpositie van de eerste tekenreeks gegeven, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans."
 	},
 	"FIXED": {
 		"a": "(getal; [decimalen]; [geen-punten])",
@@ -408,16 +408,16 @@
 		"d": "Geeft als resultaat het aantal tekens vanaf het begin van een tekenreeks"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; [aantal-tekens])",
+		"d": "Geeft het eerste teken of de eerste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"LEN": {
 		"a": "(tekst)",
 		"d": "Geeft als resultaat het aantal tekens in een tekenreeks"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst)",
+		"d": "Geeft als resultaat het aantal bytes dat is gebruikt voor de tekens in een tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"LOWER": {
 		"a": "(tekst)",
@@ -428,8 +428,8 @@
 		"d": "Geeft als resultaat het aantal tekens in het midden van een tekenreeks, beginnend op een opgegeven positie en met een opgegeven lengte"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; begin_getal; aantal-tekens)",
+		"d": "Geeft als resultaat een bepaald aantal tekens uit een tekenreeks, gerekend vanaf de opgegeven positie en op basis van het aantal opgegeven bytes, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"NUMBERVALUE": {
 		"a": "(tekst; [decimaal_scheidingsteken]; [groep_scheidingsteken])",
@@ -444,8 +444,8 @@
 		"d": "Vervangt een deel van een tekenreeks door een andere tekenreeks"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(oud_tekst; begin_getal; aantal-tekens; nieuw_tekst)",
+		"d": "Wordt een deel van een tekenreeks vervangen door een andere tekenreeks, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"REPT": {
 		"a": "(tekst; aantal-malen)",
@@ -456,16 +456,16 @@
 		"d": "Geeft als resultaat het opgegeven aantal tekens vanaf het einde van een tekenreeks"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; [aantal-tekens])",
+		"d": "Geeft het laatste teken of de laatste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"SEARCH": {
 		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
 		"d": "Geeft als resultaat de positie van het teken, lezend van links naar rechts, waar een bepaald teken of een bepaalde tekenreeks de eerste keer wordt gevonden (zonder onderscheid tussen hoofdletters en kleine letters)"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
+		"d": "Wordt naar een tekenreeks gezocht binnen een andere tekenreeks en wordt het nummer van de beginpositie van de eerste tekenreeks als resultaat gegeven, berekend vanaf het eerste teken van de tweede tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
 	},
 	"SUBSTITUTE": {
 		"a": "(tekst; oud_tekst; nieuw_tekst; [rang_getal])",
@@ -1348,8 +1348,8 @@
 		"d": "Converteert een Romeins cijfer naar een Arabisch cijfer"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(tekst)",
+		"d": "Voor talen met DBCS-tekensets (Double Byte Character Set). Wijzigt de functie tekens met volledige breedte (dubbel-byte) in tekens met halve breedte (enkel-byte)"
 	},
 	"ASIN": {
 		"a": "(getal)",
@@ -1384,8 +1384,8 @@
 		"d": "Rondt een getal naar boven af tot op het dichtstbijzijnde gehele getal of op het dichtstbijzijnde veelvoud van significantie"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(getal; [significantie])",
+		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie"
 	},
 	"COMBIN": {
 		"a": "(getal; aantal-gekozen)",
@@ -1428,8 +1428,8 @@
 		"d": "Converteert radialen naar graden"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(getal; significantie)",
+		"d": "Rondt een getal naar boven af op het dichtstbijzijnde significante veelvoud"
 	},
 	"EVEN": {
 		"a": "(getal)",
@@ -1452,8 +1452,8 @@
 		"d": "Rondt een getal naar beneden af op het dichtstbijzijnde significante veelvoud"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(getal; [significantie])",
+		"d": "Geeft als resultaat een getal dat naar beneden is afgerond op het dichtstbijzijnde gehele getal of het dichtstbijzijnde significante veelvoud"
 	},
 	"FLOOR.MATH": {
 		"a": "(getal; [significantie]; [modus])",
@@ -1468,8 +1468,8 @@
 		"d": "Rondt een getal naar beneden af op het dichtstbijzijnde gehele getal"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(getal; significantie)",
+		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie. Het getal wordt afgerond ongeacht het teken van het getal. Als het getal of de significantie echter nul is, is nul het resultaat."
 	},
 	"LCM": {
 		"a": "(complex_getal1; [complex_getal2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Zoekt in een bereik of matrix naar een overeenkomst en retourneert het bijbehorende item uit een tweede bereik of matrix. Standaard wordt een exacte overeenkomst gebruikt"
 	},
 	"CELL": {
-		"a": "(info_type; [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"a": "(infotype; [verwijzing])",
+		"d": "Geeft als resultaat informatie over de opmaak, locatie of inhoud van een cel"
 	},
 	"ERROR.TYPE": {
 		"a": "(foutwaarde)",

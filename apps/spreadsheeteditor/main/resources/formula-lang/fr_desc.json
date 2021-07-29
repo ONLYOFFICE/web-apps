@@ -5,7 +5,7 @@
 	},
 	"DATEDIF": {
 		"a": "(date_début; date_fin; unité)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
+		"d": "Renvoie la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
 	},
 	"DATEVALUE": {
 		"a": "(date_texte)",
@@ -397,7 +397,7 @@
 	},
 	"FINDB": {
 		"a": "(texte_cherché; texte; [no_départ])",
-		"d": "Fonction de texte et de données utilisée pour trouver la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Recherche la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"FIXED": {
 		"a": "(nombre; [décimales]; [no_séparateur])",
@@ -409,7 +409,7 @@
 	},
 	"LEFTB": {
 		"a": "(texte; [no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LEN": {
 		"a": "(texte)",
@@ -417,7 +417,7 @@
 	},
 	"LENB": {
 		"a": "(texte)",
-		"d": "Fonction de texte et de données utilisée pour analyser la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Analyse la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LOWER": {
 		"a": "(texte)",
@@ -429,7 +429,7 @@
 	},
 	"MIDB": {
 		"a": "(texte; no_départ; no_car)",
-		"d": "Fonction de texte et de données utilisée pour extraire les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(texte; [séparateur_décimal]; [séparateur_groupe])",
@@ -445,7 +445,7 @@
 	},
 	"REPLACEB": {
 		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
-		"d": "Fonction de texte et de données utilisée pour remplacer un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Remplace un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"REPT": {
 		"a": "(texte; no_fois)",
@@ -457,7 +457,7 @@
 	},
 	"RIGHTB": {
 		"a": "(texte; [no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SEARCH": {
 		"a": "(texte_cherché; texte; [no_départ])",
@@ -465,7 +465,7 @@
 	},
 	"SEARCHB": {
 		"a": "(texte_cherché; texte; [no_départ])",
-		"d": "Fonction de texte et de données utilisée pour renvoyer l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Renvoie l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(texte; ancien_texte; nouveau_texte; [no_position])",
@@ -1348,8 +1348,8 @@
 		"d": "Convertit un chiffre romain en un chiffre arabe"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(texte)",
+		"d": "En ce qui concerne les langues à jeu de caractères codés sur deux octets (DBCS, Double-byte Character Set), la fonction remplace les caractères à pleine chasse (codés sur deux octets) en caractères à demi-chasse (codés sur un octet)"
 	},
 	"ASIN": {
 		"a": "(nombre)",
@@ -1385,7 +1385,7 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(x; [précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
+		"d": "Arrondit le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
 	},
 	"COMBIN": {
 		"a": "(nombre_éléments; nb_éléments_choisis)",
@@ -1429,7 +1429,7 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(x; précision)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de l'argument de précision."
+		"d": "Arrondit le nombre au multiple le plus proche de l'argument de précision."
 	},
 	"EVEN": {
 		"a": "(nombre)",
@@ -1453,7 +1453,7 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(x; [précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre par défaut à l'entier ou au multiple significatif le plus proche."
+		"d": "Arrondit le nombre par défaut à l'entier ou au multiple significatif le plus proche."
 	},
 	"FLOOR.MATH": {
 		"a": "(nombre; [précision]; [mode])",
@@ -1469,7 +1469,7 @@
 	},
 	"ISO.CEILING": {
 		"a": "(nombre; [précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche sans tenir compte du signe de ce nombre. Cependant, si le nombre ou la valeur significative est zéro, zéro est renvoyé."
+		"d": "Renvoie un nombre arrondi au nombre entier le plus proche ou au multiple le plus proche de l’argument précision en s’éloignant de zéro. Quel que soit son signe, ce nombre est arrondi à l’entier supérieur. Toutefois, si le nombre ou l’argument précision est égal à zéro, zéro est retourné."
 	},
 	"LCM": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -1721,7 +1721,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Fonction d’information utilisée pour renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
+		"d": "Renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
 	},
 	"ERROR.TYPE": {
 		"a": "(valeur)",

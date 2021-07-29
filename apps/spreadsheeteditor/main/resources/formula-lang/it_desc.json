@@ -453,7 +453,7 @@
 	},
 	"RIGHTB": {
 		"a": "(testo; [num_caratt])",
-		"d": " set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce l'ultimo o gli ultimi caratteri di una stringa di testo, in base al numero di byte specificati set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
 		"a": "(testo; stringa; [inizio])",
@@ -1316,8 +1316,8 @@
 		"d": "Converte un numero romano in arabo"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(testo)",
+		"d": "Nelle lingue che utilizzano set di caratteri a byte doppio (DBCS, Double-Byte Character Set), la funzione converte i caratteri latini a byte doppio (DB, Double-Byte) in caratteri a byte singolo (SB, Single-Byte)"
 	},
 	"ASIN": {
 		"a": "(num)",
@@ -1436,8 +1436,8 @@
 		"d": "Arrotonda un numero per difetto all'intero più vicino."
 	},
 	"ISO.CEILING": {
-		"a": "( num; [peso] )",
-		"d": "Funzione matematica e trigonometrica utilizzata per restituire un numero arrotondato al numero intero più vicino o al multiplo più vicino di significato indipendentemente dal segno del numero. Tuttavia, se il numero o il significato è zero, viene restituito zero."
+		"a": "(num; [peso])",
+		"d": "Restituisce un numero arrotondato per eccesso all'intero più vicino o al multiplo più vicino a peso. Indipendentemente dal segno di num, il numero viene arrotondato per eccesso. Se tuttavia num o peso è zero, verrà restituito il valore zero."
 	},
 	"LCM": {
 		"a": "(num1; [num2]; ...)",
