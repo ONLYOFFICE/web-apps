@@ -5,7 +5,7 @@
 	},
 	"DATEDIF": {
 		"a": "( fecha-inicio; fecha-final; unidad )",
-		"d": "Función de fecha y hora es utilizada para devolver la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
+		"d": "Devuelve la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
 	},
 	"DATEVALUE": {
 		"a": "(texto_de_fecha)",
@@ -397,7 +397,7 @@
 	},
 	"FINDB": {
 		"a": "(cadena-1; cadena-2; [posición-inicio])",
-		"d": "Función de texto y datos utilizada para encontrar la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Encuentra la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"FIXED": {
 		"a": "(número; [decimales]; [no_separar_millares])",
@@ -409,7 +409,7 @@
 	},
 	"LEFTB": {
 		"a": "(cadena; [número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LEN": {
 		"a": "(texto)",
@@ -417,7 +417,7 @@
 	},
 	"LENB": {
 		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para analizar la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Analiza la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LOWER": {
 		"a": "(texto)",
@@ -429,7 +429,7 @@
 	},
 	"MIDB": {
 		"a": "(cadena; posición-empiece; número-caracteres)",
-		"d": "Función de texto y datos utilizada para extraer los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(texto; [separador_decimal]; [separador_grupo])",
@@ -445,7 +445,7 @@
 	},
 	"REPLACEB": {
 		"a": "(cadena-1; pos-inicio; número-caracteres; cadena-2)",
-		"d": "Función de texto y datos utilizada para reemplazar un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Reemplaza un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"REPT": {
 		"a": "(texto; núm_de_veces)",
@@ -457,7 +457,7 @@
 	},
 	"RIGHTB": {
 		"a": "(cadena; [número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SEARCH": {
 		"a": "(texto_buscado; dentro_del_texto; [núm_inicial])",
@@ -465,7 +465,7 @@
 	},
 	"SEARCHB": {
 		"a": "(cadena-1; cadena-2; [posición-inicio])",
-		"d": "Función de texto y datos utilizada para devolver la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Devuelve la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(texto; texto_original; texto_nuevo; [núm_de_repeticiones])",
@@ -1348,8 +1348,8 @@
 		"d": "Convierte un número romano en arábigo"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(texto)",
+		"d": "Para los idiomas que empleen juegos de caracteres de dos bytes (DBCS), convierte los caracteres de ancho completo (de dos bytes) en caracteres de ancho medio (de un byte)"
 	},
 	"ASIN": {
 		"a": "(número)",
@@ -1385,7 +1385,7 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "( x; [significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"COMBIN": {
 		"a": "(número; tamaño)",
@@ -1429,7 +1429,7 @@
 	},
 	"ECMA.CEILING": {
 		"a": "( x; significado)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hasta el múltiplo de significación más cercano"
+		"d": "Redondea el número hasta el múltiplo de significación más cercano"
 	},
 	"EVEN": {
 		"a": "(número)",
@@ -1453,7 +1453,7 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x; [significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
+		"d": "Devuelve un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"FLOOR.MATH": {
 		"a": "(número; [cifra_significativa]; [moda])",
@@ -1468,8 +1468,8 @@
 		"d": "Redondea un número hasta el entero inferior más próximo"
 	},
 	"ISO.CEILING": {
-		"a": "( número; [significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
+		"a": "(número; [significado])",
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
 	},
 	"LCM": {
 		"a": "(número1; [número2]; ...)",
@@ -1721,7 +1721,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
+		"d": "Devuelve información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {
 		"a": "(valor_de_error)",
