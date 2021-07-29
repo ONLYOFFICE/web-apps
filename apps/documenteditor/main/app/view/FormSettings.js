@@ -665,18 +665,18 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 if (color == 'transparent') {
-                    formTextPr.put_CombBorder();
+                    formPr.put_Border();
                 } else {
-                    var brd = formTextPr.get_CombBorder();
+                    var brd = formPr.get_Border();
                     if (!brd)
                         brd = new Asc.asc_CTextBorder();
                     brd.put_Value(1);
                     brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
-                    formTextPr.put_CombBorder(brd);
+                    formPr.put_Border(brd);
                 }
-                props.put_TextFormPr(formTextPr);
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -688,9 +688,9 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_CombBorder();
-                props.put_TextFormPr(formTextPr);
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Border();
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -836,6 +836,33 @@ define([
                             this._state.Fixed=val;
                         }
                     }
+
+                    var brd = formPr.get_Border();
+                    if (brd) {
+                        var color = brd.get_Color();
+                        if (color) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                            } else {
+                                this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                            }
+                        } else
+                            this.BorderColor = 'transparent';
+                    } else
+                        this.BorderColor = 'transparent';
+
+                    var type1 = typeof(this.BorderColor),
+                        type2 = typeof(this._state.BorderColor);
+                    if ( (type1 !== type2) || (type1=='object' &&
+                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
+                        (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
+
+                        this.btnColor.setColor(this.BorderColor);
+                        this.mnuColorPicker.clearSelection();
+                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
+                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                        this._state.BorderColor = this.BorderColor;
+                    }
                 }
 
                 var pictPr = props.get_PictureFormPr();
@@ -879,8 +906,6 @@ define([
                     }
                     this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
 
-                    this.btnColor.setDisabled(!this._state.Comb);
-
                     this.spnWidth.setDisabled(!this._state.Comb);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
@@ -900,33 +925,6 @@ define([
                     if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
-                    }
-
-                    var brd = formTextPr.get_CombBorder();
-                    if (brd) {
-                        var color = brd.get_Color();
-                        if (color) {
-                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                            } else {
-                                this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                            }
-                        } else
-                            this.BorderColor = 'transparent';
-                    } else
-                        this.BorderColor = 'transparent';
-
-                    var type1 = typeof(this.BorderColor),
-                        type2 = typeof(this._state.BorderColor);
-                    if ( (type1 !== type2) || (type1=='object' &&
-                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
-                        (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
-
-                        this.btnColor.setColor(this.BorderColor);
-                        this.mnuColorPicker.clearSelection();
-                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
-                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
-                        this._state.BorderColor = this.BorderColor;
                     }
                 }
 

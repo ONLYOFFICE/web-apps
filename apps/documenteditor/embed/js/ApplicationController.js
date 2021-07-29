@@ -445,6 +445,7 @@ DE.ApplicationController = new(function(){
         if (appOptions.canFillForms) {
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
+            api.asc_SetHighlightRequiredFields(true);
         }
 
         Common.Gateway.on('processmouse',       onProcessMouse);
