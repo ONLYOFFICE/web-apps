@@ -187,7 +187,7 @@ class ContextMenu extends ContextMenuController {
 
             let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const seltype = cellinfo.asc_getSelectionType();
-            const isComments = cellinfo.asc_getComments().length > 0; //prohibit adding multiple comments in one cell;
+            const hasComments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -212,14 +212,14 @@ class ContextMenu extends ContextMenuController {
                     event: 'openlink'
                 });
             }
-            if (canViewComments && isComments) {
+            if (canViewComments && hasComments && hasComments.length>0) {
                 itemsText.push({
                     caption: _t.menuViewComment,
                     event: 'viewcomment'
                 });
             }
 
-            if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && !isComments) {
+            if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
                 itemsText.push({
                     caption: _t.menuAddComment,
                     event: 'addcomment'

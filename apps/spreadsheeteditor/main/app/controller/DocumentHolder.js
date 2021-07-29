@@ -680,10 +680,12 @@ define([
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments.length) {
-                        controller.onEditComments(comments);
-                    } else if (this.permissions.canCoAuthoring) {
-                        controller.addDummyComment();
+                    if (comments) {
+                        if (comments.length) {
+                            controller.onEditComments(comments);
+                        } else if (this.permissions.canCoAuthoring) {
+                            controller.addDummyComment();
+                        }
                     }
                 }
             }
@@ -1981,9 +1983,9 @@ define([
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
                 /** coauthoring begin **/
-                var count = cellinfo.asc_getComments().length;
-                documentHolder.ssMenu.items[19].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
-                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
+                var celcomments = cellinfo.asc_getComments(); // celcomments===null - has comment, but no permissions to view it
+                documentHolder.ssMenu.items[19].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
+                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
@@ -2091,7 +2093,7 @@ define([
 
             var signProps = (signGuid) ? this.api.asc_getSignatureSetup(signGuid) : null,
                 isInSign = !!signProps && this._canProtect,
-                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments().length < 1;
+                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
             documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
