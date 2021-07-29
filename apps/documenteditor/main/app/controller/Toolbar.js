@@ -158,7 +158,8 @@ define([
                             Asc.c_oAscFileType.DOTX,
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
-                            Asc.c_oAscFileType.EPUB
+                            Asc.c_oAscFileType.EPUB,
+                            Asc.c_oAscFileType.DOCM
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )

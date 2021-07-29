@@ -535,6 +535,7 @@ define([
                     var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                         _supported = [
                             Asc.c_oAscFileType.TXT,
+                            Asc.c_oAscFileType.RTF,
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
@@ -543,7 +544,8 @@ define([
                             Asc.c_oAscFileType.DOTX,
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
-                            Asc.c_oAscFileType.EPUB
+                            Asc.c_oAscFileType.EPUB,
+                            Asc.c_oAscFileType.DOCM
                         ];
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
