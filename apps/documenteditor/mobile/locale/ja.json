@@ -7,7 +7,8 @@
   "Add": {
     "textAddLink": "リンクを追加",
     "textAddress": "アドレス",
-    "textBack": "戻る"
+    "textBack": "戻る",
+    "textCancel": "キャンセル"
   },
   "Common": {
     "Collaboration": {
@@ -20,12 +21,20 @@
       "textAllChangesRejectedPreview": "すべての変更が拒否されました（プレビュー）",
       "textAuto": "自動",
       "textBack": "戻る",
+      "textCancel": "キャンセル",
+      "textCenter": "中央揃え",
+      "textDelete": "削除",
+      "textDone": "完了",
+      "textLeft": "左揃え",
+      "textRight": "右揃え",
       "textShd": "背景色"
     }
   },
   "ContextMenu": {
     "menuAddComment": "コメントを追加",
-    "menuAddLink": "リンクを追加"
+    "menuAddLink": "リンクを追加",
+    "menuCancel": "キャンセル",
+    "menuDelete": "削除"
   },
   "Edit": {
     "textActualSize": "実際のサイズ",
@@ -37,9 +46,26 @@
     "textAuto": "自動",
     "textAutomatic": "自動",
     "textBack": "戻る",
-    "textBackground": "背景"
+    "textBackground": "背景",
+    "textNone": "なし"
+  },
+  "LongActions": {
+    "downloadMergeText": "ダウンロード中...",
+    "downloadMergeTitle": "ダウンロード中"
   },
   "Main": {
+    "SDK": {
+      "Heading 1": "見出し1",
+      "Heading 2": "見出し2",
+      "Heading 3": "見出し3",
+      "Heading 4": "見出し4",
+      "Heading 5": "見出し5",
+      "Heading 6": "見出し6",
+      "Heading 7": "見出し7",
+      "Heading 8": "見出し8",
+      "Heading 9": "見出し9",
+      "None": "なし"
+    },
     "textAnonymous": "匿名"
   },
   "Settings": {
@@ -47,6 +73,9 @@
     "textApplication": "アプリ",
     "textApplicationSettings": "アプリ設定",
     "textAuthor": "作成者",
-    "textBack": "戻る"
+    "textBack": "戻る",
+    "textCancel": "キャンセル",
+    "textDone": "完了",
+    "textDownload": "ダウンロード"
   }
 }
