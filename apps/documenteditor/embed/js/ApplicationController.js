@@ -44,7 +44,8 @@ DE.ApplicationController = new(function(){
         appOptions = {},
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip,
-        $listControlMenu, listControlItems = [], listObj;
+        $listControlMenu, listControlItems = [], listObj,
+        bodyWidth = 0;
 
     var LoadingDocument = -256;
 
@@ -84,6 +85,7 @@ DE.ApplicationController = new(function(){
         } else {
             $('#toolbar').addClass('top');
             $('#editor_sdk').addClass('top');
+            ttOffset[1] = 40;
         }
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
@@ -219,33 +221,47 @@ DE.ApplicationController = new(function(){
     var $ttEl, $tooltip;
     function onDocMouseMove(data) {
         if (data) {
-            if (data.get_Type() == 1) { // hyperlink
+            var type = data.get_Type();
+            if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
+
+                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? me.txtPressLink : data.get_FormHelpText();
+                if (str.length>500)
+                    str = str.substr(0, 500) + '...';
+                str = common.utils.htmlEncode(str);
 
                 if ( !$ttEl ) {
                     $ttEl = $('.hyperlink-tooltip');
                     $ttEl.tooltip({'container':'body', 'trigger':'manual'});
-                    $ttEl.on('shown.bs.tooltip', function(e) {
-                        $tooltip = $ttEl.data('bs.tooltip').tip();
-
-                        $tooltip.css({
-                            left: $ttEl.ttpos[0] + ttOffset[0],
-                            top: $ttEl.ttpos[1] + ttOffset[1]
-                        });
-
-                        $tooltip.find('.tooltip-arrow').css({left: 10});
-                    });
                 }
+                $ttEl.ttpos = [data.get_X(), data.get_Y()];
+                if ( !$tooltip)
+                    $tooltip = $ttEl.data('bs.tooltip').tip();
 
-                if ( !$tooltip ) {
-                    $ttEl.ttpos = [data.get_X(), data.get_Y()];
-                    $ttEl.tooltip('show');
-                } else {
-                    $tooltip.css({
-                        left:data.get_X() + ttOffset[0],
-                        top:data.get_Y() + ttOffset[1]
-                    });
+                if (!$tooltip.is(':visible')) {
+                    var tip = $ttEl.data('bs.tooltip');
+                    tip.options.title = str;
+                    tip.show([-1000, -1000]);
+                } else
+                    $tooltip.find('.tooltip-inner')['text'](str);
+
+                var ttHeight = $tooltip.height(),
+                    ttWidth = $tooltip.width();
+                !bodyWidth && (bodyWidth = $('body').width());
+
+                $ttEl.ttpos[1] -= (ttHeight - ttOffset[1] + 20);
+                if ($ttEl.ttpos[0] + ttWidth + 10 >bodyWidth) {
+                    $ttEl.ttpos[0] = bodyWidth - ttWidth - 5;
+                    if ($ttEl.ttpos[1] < 0)
+                        $ttEl.ttpos[1] += ttHeight + ttOffset[1] + 20;
+                } else if ($ttEl.ttpos[1] < 0) {
+                    $ttEl.ttpos[1] = 0;
+                    $ttEl.ttpos[0] += 20;
                 }
+                $tooltip.css({
+                    left: $ttEl.ttpos[0],
+                    top: $ttEl.ttpos[1]
+                });
             }
         }
     }
@@ -807,6 +823,7 @@ DE.ApplicationController = new(function(){
 
     function onDocumentResize() {
         api && api.Resize();
+        bodyWidth = $('body').width();
     }
 
     function createController(){
@@ -910,6 +927,7 @@ DE.ApplicationController = new(function(){
         textRequired: 'Fill all required fields to send form.',
         textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-        txtEmpty: '(Empty)'
+        txtEmpty: '(Empty)',
+        txtPressLink: 'Press Ctrl and click link'
     }
 })();

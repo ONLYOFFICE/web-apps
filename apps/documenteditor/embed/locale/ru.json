@@ -33,6 +33,7 @@
   "DE.ApplicationController.unknownErrorText": "Неизвестная ошибка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браузер не поддерживается.",
   "DE.ApplicationController.waitText": "Пожалуйста, подождите...",
+  "DE.ApplicationController.txtPressLink": "Нажмите Ctrl и щелкните по ссылке",
   "DE.ApplicationView.txtDownload": "Скачать файл",
   "DE.ApplicationView.txtDownloadDocx": "Скачать как docx",
   "DE.ApplicationView.txtDownloadPdf": "Скачать как pdf",
