@@ -6,10 +6,9 @@ lost_key_count, sum_key_count = 0, 0
 
 merge_dicts = False
 verbose_out = False
-path_to_compare = "../apps/documenteditor/mobile/locale"
-json_pattern = f'{path_to_compare}/en.json'
-
-print('compare path', path_to_compare)
+#path_to_compare = "../apps/documenteditor/mobile/locale"
+path_to_compare = "../apps"
+#json_pattern = f'{path_to_compare}/en.json'
 
 cmd_args = sys.argv[1:]
 for i in cmd_args:
@@ -19,11 +18,11 @@ for i in cmd_args:
         verbose_out = True
     elif i[:2] != '--' and os.path.isdir(i):
         path_to_compare = i
-        json_pattern = f'{path_to_compare}/en.json'
+        #json_pattern = f'{path_to_compare}/en.json'
 
 def compareDicts(keypath, dict1, dict2):
     global lost_key_count, sum_key_count
-    
+
     for k, v in dict1.items():
         k_path = f'{keypath}{"." if len(keypath) else ""}{k}'
         if isinstance(v, dict):
@@ -45,20 +44,34 @@ def compareFile(mjson, path):
         
         if merge_dicts and lost_key_count:
             cf.seek(0)
-            cf.write(json.dumps(res_dict, indent = 4))
+            cf.write(json.dumps(res_dict, indent = 2))
             cf.truncate()
 
-if os.path.exists(json_pattern):
-    with open(json_pattern, 'r') as pf:
+def compareJsonInFolder(path):
+    global lost_key_count, sum_key_count
+
+    cwd = os.path.dirname(path)
+    print('compare path', cwd, '\n')
+    with open(path, 'r') as pf:
         master_dict = json.load(pf)
 
-        for root, dirs, files in os.walk(path_to_compare):
-            for f in files:
-                if f != 'en.json':
-                    if verbose_out: print(f'{f} is processing...')
+        #for root, dirs, files in os.walk(os.path.dirname(path)):
+            #for f in files:
+        files = [f for f in os.listdir(cwd) if os.path.isfile(os.path.join(cwd, f))]
+        for f in files:
+            if f != 'en.json' and f[-5:] == '.json':
+                if verbose_out: print(f'{f} is processing...')
 
-                    lost_key_count, sum_key_count = 0, 0
-                    compareFile(master_dict, f'{root}/{f}')
-                    print(f'{f} done, lost {lost_key_count} from {sum_key_count}\n')
+                lost_key_count, sum_key_count = 0, 0
+                compareFile(master_dict, f'{cwd}/{f}')
+                print(f'{f} done, lost {lost_key_count} from {sum_key_count}')
+                print('')
 
-else: print('wrong path')
+if os.path.exists(f'{path_to_compare}/en.json'):
+    compareJsonInFolder(f'{path_to_compare}/en.json')
+else:
+    for editor in ['documenteditor','spreadsheeteditor','presentationeditor']:
+        path = f'{path_to_compare}/{editor}/mobile/locale/en.json'
+        if os.path.exists(path):
+            compareJsonInFolder(path)
+        else: print(f'wrong path: {path}')
