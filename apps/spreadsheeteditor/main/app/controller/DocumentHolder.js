@@ -1322,7 +1322,7 @@ define([
                             if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
                                 src.text(me.getUserName(data.asc_getUserId()));
-                                if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
+                                if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.outerWidth() ) {
                                     src.css({
                                         visibility  : 'visible',
                                         left        : '0px',
@@ -1371,7 +1371,7 @@ define([
                             src.text(me.getUserName(data.asc_getUserId()));
                             src.css({
                                 visibility  : 'visible',
-                                left       : ((showPoint[0]+foreignSelect.ref.width()>coAuthTip.bodyWidth) ? coAuthTip.bodyWidth-foreignSelect.ref.width() : showPoint[0]) + 'px',
+                                left       : ((showPoint[0]+foreignSelect.ref.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-foreignSelect.ref.outerWidth() : showPoint[0]) + 'px',
                                 top         : showPoint[1] + 'px'
                             });
                         }
@@ -3683,6 +3683,11 @@ define([
                     break;
                 }
             }
+            var coAuthTip = this.tooltips.coauth;
+            if (X<0 || X+coAuthTip.XY[0]>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth || Y<0 || Y>coAuthTip.apiHeight) {
+                src && this.onHideForeignCursorLabel(UserId);
+                return;
+            }
 
             if (!src) {
                 src = $(document.createElement("div"));
@@ -3696,7 +3701,10 @@ define([
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
             }
-            src.css({top: (Y-me._TtHeight) + 'px', left: X + 'px'});
+            src.css({
+                left       : ((X+coAuthTip.XY[0]+src.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-src.outerWidth()-coAuthTip.XY[0] : X) + 'px',
+                top         : (Y-me._TtHeight) + 'px'
+            });
             /** coauthoring end **/
         },
 
