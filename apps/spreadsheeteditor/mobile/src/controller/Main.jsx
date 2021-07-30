@@ -374,6 +374,13 @@ class MainController extends Component {
             storeToolbarSettings.setCanRedo(can);
         });
 
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onEditCell', (state) => {
+            const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+            if (storeFocusObjects.editFormulaMode !== isFormula) {
+                storeFocusObjects.setEditFormulaMode(isFormula);
+            }
+        });
     }
 
     _onLongActionEnd(type, id) {
