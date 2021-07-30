@@ -1350,7 +1350,7 @@ define([
                             foreignSelect.y_point = data.asc_getY();
 
                             var src = $(document.createElement("div")),
-                                color = new AscCommon.CColor(255, 0,255);//data.asc_getColor();
+                                color = data.asc_getColor();
                             foreignSelect.ref = src;
 
                             src.addClass('username-tip');
