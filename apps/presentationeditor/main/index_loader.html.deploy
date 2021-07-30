@@ -310,6 +310,8 @@
     <inline src="resources/img/doc-formats/odp.svg" />
     <inline src="resources/img/doc-formats/otp.svg" />
     <inline src="resources/img/doc-formats/pptm.svg" />
+    <inline src="resources/img/doc-formats/png.svg" />
+    <inline src="resources/img/doc-formats/jpg.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />

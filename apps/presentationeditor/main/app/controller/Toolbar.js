@@ -161,7 +161,9 @@ define([
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.POTX,
                             Asc.c_oAscFileType.OTP,
-                            Asc.c_oAscFileType.PPTM
+                            Asc.c_oAscFileType.PPTM,
+                            Asc.c_oAscFileType.PNG,
+                            Asc.c_oAscFileType.JPG
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
