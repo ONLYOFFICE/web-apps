@@ -195,15 +195,9 @@ define([
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div class="style" id="<%= id %>">',
-                    '<div style="width: ' + this.listEffects.itemWidth + 'px;  height: '+(this.listEffects.itemHeight-16)+'px;  ">',
-                       '<div  class="btn btn-toolbar x-huge icon-top"data-toggle="tooltip" data-original-title="" title="">',
-                                '<div class="inner-box-icon" style="width: ' + (this.listEffects.itemWidth) +'px;">',
-                                    '<i class="icon toolbar__icon <%= imageUrl %>"></i>',
-                                '</div>',
-                                '<div class="inner-box-caption" style=" ">',
-                                    '<span class="caption" style="font-size: 11px;"><%= title %></span>',
-                                '</div>',
-                            '</div>',
+                        '<div  class="btn btn-toolbar x-huge icon-top" style="width: ' + (this.listEffects.itemWidth) +'px;height: '+(this.listEffects.itemHeight)+'px;">',
+                           '<div class=" icon toolbar__icon <%= imageUrl %>"></div>',
+                            '<div class="caption"><%= title %></div>',
                         '</div>',
                     '</div>'
                 ].join(''));

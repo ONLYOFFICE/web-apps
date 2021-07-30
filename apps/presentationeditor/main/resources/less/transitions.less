@@ -2,6 +2,7 @@
   .item {
     background: transparent;
     border-color: transparent;
+    .box-shadow(none);
     border-radius: @scaled-one-px-value-ie;
     border-radius: @scaled-one-px-value;
     border-width: calc(2*@scaled-one-px-value-ie) ;
@@ -9,11 +10,9 @@
     &:hover{
       border-color: @border-preview-hover-ie;
       border-color: @border-preview-hover;
-      box-shadow: none;
     }
     &.selected
     {
-      box-shadow: none;
       border-color: @border-preview-select-ie;
       border-color: @border-preview-select;
     }
@@ -23,18 +22,15 @@
     }
 
     .btn {
-
+      border: none;
       &:hover {
         background-color: transparent;
       }
-      .inner-box-icon
+      .icon
       {
         margin-top: -2px;
       }
-      .inner-box-caption
-      {
-        padding-bottom: 10px;
-      }
+
     }
   }
 }

@@ -80,7 +80,7 @@ define([
             this._state = {};
             //Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
          },
-        setConfig: function (data, api) {
+        setConfig: function ( api) {
             this.setApi(api);
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
             return this;

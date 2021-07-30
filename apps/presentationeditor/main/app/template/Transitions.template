@@ -1,5 +1,5 @@
 <section id="transitions-panel" class="panel" data-tab="transit">
-    <div class="group flex small" id="transit-field-effects" style=" width: 56%; min-width: 300px; " ></div>
+    <div class="group flex small" id="transit-field-effects" style=" width: 700px; min-width: 300px;"></div>
 
     <div class="group small">
         <span class="btn-slot text x-huge" id="transit-button-parametrs"></span>
@@ -7,30 +7,30 @@
     <div class="separator long"></div>
     <div class="group small">
         <div class="elset font-normal">
-            <div class="btn-slot text" id="label-duration" style="font-size: 11px; text-align: left;  "><%=Duration%></div>
-            <span id="transit-spin-duration" class="btn-slot text spinner" "></span>
+            <label><%=Duration%></label>
+            <span id="transit-spin-duration" class="btn-slot text spinner"></span>
         </div>
         <div class="elset">
-            <span class="btn-slot text" id="transit-button-preview" ></span>
+            <span class="btn-slot text" id="transit-button-preview"></span>
         </div>
     </div>
     <div class="separator long"></div>
-    <div class="group small" >
+    <div class="group small">
         <div class="elset">
             <span class="btn-slot text" id="transit-checkbox-startonclick"></span>
         </div>
         <div class="elset font-normal">
-            <span class="btn-slot text"  id="transit-checkbox-delay" ></span>
+            <span class="btn-slot text"  id="transit-checkbox-delay"></span>
             <div id="transit-spin-delay" class="btn-slot text spinner"></div>
        </div>
     </div>
     <div class="separator long"></div>
     <div class="group small">
          <div class="elset">
-            <span class="btn-slot text " id="transit-button-apply" "></span>
+            <span class="btn-slot text " id="transit-button-apply"></span>
         </div>
         <div class="elset">
-            <span class="btn-slot text x-huge" ></span>
+            <span class="btn-slot text x-huge"></span>
         </div>
     </div>
 </section>

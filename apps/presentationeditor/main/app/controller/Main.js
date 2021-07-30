@@ -1233,7 +1233,7 @@ define([
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
                 var transitController    = application.getController('Transitions');
-                transitController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+                transitController.setMode(me.appOptions).setConfig(me.api);
 
                 if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode)
                     var toolbarController   = application.getController('Toolbar');
