@@ -104,7 +104,10 @@ define([
                 },
                 filter: {ttHeight: 40},
                 func_arg: {},
-                input_msg: {}
+                input_msg: {},
+                foreignSelect: {
+                    ttHeight: 20
+                }
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -114,6 +117,8 @@ define([
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
             me._state = {};
+            me.fastcoauthtips = [];
+            me._TtHeight = 20;
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -160,10 +165,12 @@ define([
                 },
                 'modal:show': function(e){
                     me.hideCoAuthTips();
+                    me.hideForeignSelectTips();
                 },
                 'layout:changed': function(e){
                     me.hideHyperlinkTip();
                     me.hideCoAuthTips();
+                    me.hideForeignSelectTips();
                     me.onDocumentResize();
                 },
                 'cells:range': function(status){
@@ -332,6 +339,9 @@ define([
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
             }
+            this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
+            this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
+
             return this;
         },
 
@@ -1017,6 +1027,15 @@ define([
             }
         },
 
+        hideForeignSelectTips: function() {
+            if (this.tooltips.foreignSelect.ref) {
+                $(this.tooltips.foreignSelect.ref).remove();
+                this.tooltips.foreignSelect.ref = undefined;
+                this.tooltips.foreignSelect.x_point = undefined;
+                this.tooltips.foreignSelect.y_point = undefined;
+            }
+        },
+
         hideHyperlinkTip: function() {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
                 this.tooltips.hyperlink.ref.hide();
@@ -1035,7 +1054,8 @@ define([
                         index_locked,
                         index_column, index_row,
                         index_filter,
-                        index_slicer;
+                        index_slicer,
+                        index_foreign;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1061,6 +1081,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Tooltip:
                             index_slicer = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.ForeignSelect:
+                            index_foreign = i;
+                            break;
                     }
                 }
 
@@ -1074,6 +1097,7 @@ define([
                     row_columnTip   = me.tooltips.row_column,
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
+                    foreignSelect   = me.tooltips.foreignSelect,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1111,6 +1135,9 @@ define([
                     if (!index_locked) {
                         me.hideCoAuthTips();
                     }
+                    if (!index_foreign) {
+                        me.hideForeignSelectTips();
+                    }
                     if (index_slicer===undefined) {
                         if (!slicerTip.isHidden && slicerTip.ref) {
                             slicerTip.ref.hide();
@@ -1129,17 +1156,6 @@ define([
                     }
                 }
                 // show tooltips
-                /** coauthoring begin **/
-                var getUserName = function(id){
-                    var usersStore = SSE.getCollection('Common.Collections.Users');
-                    if (usersStore){
-                        var rec = usersStore.findUser(id);
-                        if (rec)
-                            return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
-                    }
-                    return me.guestText;
-                };
-                /** coauthoring end **/
 
                 if (index_hyperlink) {
                     if (!hyperlinkTip.parentEl) {
@@ -1305,8 +1321,8 @@ define([
 
                             if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
-                                src.text(getUserName(data.asc_getUserId()));
-                                if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
+                                src.text(me.getUserName(data.asc_getUserId()));
+                                if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.outerWidth() ) {
                                     src.css({
                                         visibility  : 'visible',
                                         left        : '0px',
@@ -1319,6 +1335,45 @@ define([
                                         top         : showPoint[1] + 'px'
                                     });
                             }
+                        }
+                    }
+                    if (index_foreign) {
+                        data = dataarray[index_foreign-1];
+
+                        if (!coAuthTip.XY)
+                            me.onDocumentResize();
+
+                        if (foreignSelect.x_point != data.asc_getX() || foreignSelect.y_point != data.asc_getY()) {
+                            me.hideForeignSelectTips();
+
+                            foreignSelect.x_point = data.asc_getX();
+                            foreignSelect.y_point = data.asc_getY();
+
+                            var src = $(document.createElement("div")),
+                                color = data.asc_getColor();
+                            foreignSelect.ref = src;
+
+                            src.addClass('username-tip');
+                            src.css({
+                                height      : foreignSelect.ttHeight + 'px',
+                                position    : 'absolute',
+                                zIndex      : '900',
+                                visibility  : 'visible',
+                                'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())
+                            });
+                            $(document.body).append(src);
+
+                            showPoint = [
+                                foreignSelect.x_point + coAuthTip.XY[0],
+                                foreignSelect.y_point + coAuthTip.XY[1] - foreignSelect.ttHeight
+                            ];
+
+                            src.text(me.getUserName(data.asc_getUserId()));
+                            src.css({
+                                visibility  : 'visible',
+                                left       : ((showPoint[0]+foreignSelect.ref.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-foreignSelect.ref.outerWidth() : showPoint[0]) + 'px',
+                                top         : showPoint[1] + 'px'
+                            });
                         }
                     }
                 }
@@ -3620,7 +3675,64 @@ define([
                 win.setActiveCategory(2);
             }
         },
-        
+
+        onShowForeignCursorLabel: function(UserId, X, Y, color) {
+            /** coauthoring begin **/
+            var src;
+            var me = this;
+            for (var i=0; i<me.fastcoauthtips.length; i++) {
+                if (me.fastcoauthtips[i].attr('userid') == UserId) {
+                    src = me.fastcoauthtips[i];
+                    break;
+                }
+            }
+            var coAuthTip = this.tooltips.coauth;
+            if (X<0 || X+coAuthTip.XY[0]>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth || Y<0 || Y>coAuthTip.apiHeight) {
+                src && this.onHideForeignCursorLabel(UserId);
+                return;
+            }
+
+            if (!src) {
+                src = $(document.createElement("div"));
+                src.addClass('username-tip');
+                src.attr('userid', UserId);
+                src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
+                    'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
+                src.text(me.getUserName(UserId));
+
+                $('#editor_sdk').append(src);
+                me.fastcoauthtips.push(src);
+                src.fadeIn(150);
+            }
+            src.css({
+                left       : ((X+coAuthTip.XY[0]+src.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-src.outerWidth()-coAuthTip.XY[0] : X) + 'px',
+                top         : (Y-me._TtHeight) + 'px'
+            });
+            /** coauthoring end **/
+        },
+
+        onHideForeignCursorLabel: function(UserId) {
+            var me = this;
+            for (var i=0; i<me.fastcoauthtips.length; i++) {
+                if (me.fastcoauthtips[i].attr('userid') == UserId) {
+                    var src = me.fastcoauthtips[i];
+                    me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
+                    me.fastcoauthtips.splice(i, 1);
+                    break;
+                }
+            }
+        },
+
+        getUserName: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
+            }
+            return this.guestText;
+        },
+
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
