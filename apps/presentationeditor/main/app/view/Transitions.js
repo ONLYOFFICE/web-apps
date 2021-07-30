@@ -58,15 +58,13 @@ define([
     PE.Views.Transitions = Common.UI.BaseView.extend(_.extend((function(){
         function setEvents() {
             var me = this;
-            if(me.listEffects)
-            {
+            if(me.listEffects){
                 me.listEffects.on('click', _.bind(function (combo,record){
                     me.fireEvent('transit:selecteffect',[combo,record]);
                 },me));
 
             }
-            if(me.btnPreview)
-            {
+            if(me.btnPreview){
                 me.btnPreview.on('click', _.bind(function(btn){
                     me.fireEvent('transit:preview', [me.btnPreview]);
                 }, me));
@@ -82,8 +80,7 @@ define([
                 });
 
             }
-            if(me.btnApplyToAll)
-            {
+            if(me.btnApplyToAll){
                 me.btnApplyToAll.on('click', _.bind(function(btn){
                     me.fireEvent('transit:applytoall', [me.btnApplyToAll]);
                 }, me));
@@ -98,14 +95,12 @@ define([
                     me.fireEvent('transit:delay', [me.numDelay]);
                 },me);
             }
-            if(me.chStartOnClick)
-            {
+            if(me.chStartOnClick){
                 me.chStartOnClick.on('change',_.bind(function (e){
                     me.fireEvent('transit:startonclick',[ me.chStartOnClick,me.chStartOnClick.value, me.chStartOnClick.lastValue]);
                 },me));
             }
-            if(me.chDelay)
-            {
+            if(me.chDelay){
                 me.chDelay.on('change',_.bind(function (e){
                     me.fireEvent('transit:checkdelay',[ me.chDelay,me.chDelay.value, me.chDelay.lastValue]);
                 },me));
@@ -118,13 +113,12 @@ define([
             options: {},
 
             initialize: function (options) {
-                this.$el=$(_.template(template)( {Duration:this.strDuration} ));
-                this.SladeSettings=PE.Views.ShapeSettings;
+                this.toolbar = options.toolbar;
+                this.appConfig = options.mode;
+                this.$el=options.toolbar.$el.find('#transitions-panel');
 
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.appConfig = options.mode;
-                var filter = Common.localStorage.getKeysFilter();
-                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 this._arrEffectName = [
                     {title: this.textNone, imageUrl:"btn-text", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
@@ -136,29 +130,6 @@ define([
                     {title: this.textCover, imageUrl:"btn-editheader", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl:"btn-datetime", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
                     {title: this.textZoom,  imageUrl:"btn-addslide", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
-                ];
-
-                this._arrEffectType = [
-                    {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out, checkable: true, toggleGroup: 'effects'},
-                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate, checkable: true, toggleGroup: 'effects'}
                 ];
 
                 this.listEffects = new Common.UI.ComboDataView({
@@ -214,7 +185,7 @@ define([
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParametrs,
                     iconCls: 'toolbar__icon icon btn-insertshape',
-                    menu: new Common.UI.Menu({items:this._arrEffectType})
+                    menu: new Common.UI.Menu({items: this.createParametrsMenuItems()})
                 });
 
                 this.btnApplyToAll = new Common.UI.Button({
@@ -263,6 +234,39 @@ define([
                 return this;
             },
 
+            createParametrsMenuItems: function()
+            {
+                var arrEffectType = [
+                    {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                    {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                    {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                    {caption: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                    {caption: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                    {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                    {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                    {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                    {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                    {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                    {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                ];
+
+                var itemsMenu=[];
+                _.each(arrEffectType, function (item){
+                    itemsMenu.push(
+                        {
+                            caption: item.caption,
+                            value: item.value,
+                            checkable: true,
+                            toggleGroup: 'effects',
+                            disabled:false
+                        }
+                    );
+                });
+                return itemsMenu;
+            },
             onAppReady: function (config) {
                 var me = this;
                 (new Promise(function (accept, reject) {

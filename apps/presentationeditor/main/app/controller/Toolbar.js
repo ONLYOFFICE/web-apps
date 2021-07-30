@@ -52,6 +52,7 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
+    'presentationeditor/main/app/controller/Transitions',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HeaderFooterDialog',
@@ -2387,10 +2388,11 @@ define([
             this.attachUIEvents(this.toolbar);
         },
         setTrantitTab:function (el){
-           var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
+          /* var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
             if ( $panel ) {
                 el.find('#transitions-panel').replaceWith($panel);
-            }
+            }*/
+           // var $panel = this.getApplication().getController('Transitions').createToolbarPanel()
         },
         onAppShowed: function (config) {
             var me = this;
@@ -2402,8 +2404,8 @@ define([
                 } else
                 if ( config.customization && config.customization.compactToolbar )
                     compactview = true;
-            }
 
+            }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
@@ -2412,14 +2414,12 @@ define([
                 me.toolbar.addTab(tab, $panel, 4);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }
-            /*var tab = {action: 'transit', caption: me.toolbar.textTabTransitions};
-            var $panel = me.getApplication().getController('Transitions').createToolbarPanel();
-            if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 3);
-                me.toolbar.setVisible('transit', true);
-            }*/
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
+
+                var transitController    = me.getApplication().getController('Transitions');
+                transitController.setApi(me.api).setConfig({toolbar: me.toolbar,mode:config}).createToolbarPanel();
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 

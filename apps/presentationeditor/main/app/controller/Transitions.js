@@ -80,18 +80,26 @@ define([
             this._state = {};
             //Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
          },
-        setConfig: function ( api) {
-            this.setApi(api);
-            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
+        setConfig: function (config) {
+            this.appConfig = config.mode;
+            //this.setApi(config.api);
+
+            this.view = this.createView('PE.Views.Transitions', {
+                toolbar: config.toolbar,
+                mode: config.mode
+            });
+
             return this;
         },
         setApi: function (api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
+            return this;
         },
 
         setMode: function(mode) {
             this.appConfig = mode;
-            this.view = this.createView('PE.Views.Transitions', { mode: mode });
+            //this.view = this.createView('PE.Views.Transitions', { mode: mode });
             return this;
         },
 
@@ -217,7 +225,7 @@ define([
                         me.listEffects.menuPicker.selectRecord(me.listEffects.menuPicker.items[0]);
                 }
 
-                if (me.btnParametrs.menu) {
+                if (me.btnParametrs.menu.items.length>0) {
                     value = transition.get_TransitionOption();
                         me.setMenuParametrs(this._state.Effect, value);
                         this._state.EffectType = value;
