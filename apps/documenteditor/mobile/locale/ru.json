@@ -252,7 +252,7 @@
     "textNoStyles": "Для этого типа диаграмм нет стилей.",
     "textNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
     "textNumbers": "Нумерация",
-    "textOpacity": "Прозрачность",
+    "textOpacity": "Непрозрачность",
     "textOptions": "Параметры",
     "textOrphanControl": "Запрет висячих строк",
     "textPageBreakBefore": "С новой страницы",

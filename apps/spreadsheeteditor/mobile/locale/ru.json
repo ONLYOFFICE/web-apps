@@ -453,7 +453,7 @@
       "textNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "textNumber": "Числовой",
       "textOnTickMarks": "Деления",
-      "textOpacity": "Прозрачность",
+      "textOpacity": "Непрозрачность",
       "textOut": "Снаружи",
       "textOuterTop": "Снаружи сверху",
       "textOutsideBorders": "Внешние границы",
