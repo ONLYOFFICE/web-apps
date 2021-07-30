@@ -15,7 +15,9 @@ export class storeFocusObjects {
             imageObject: computed,
             chartObject: computed,
             isLocked: observable,
-            setIsLocked: action
+            setIsLocked: action,
+            editFormulaMode: observable,
+            setEditFormulaMode: action
         });
     }
 
@@ -104,6 +106,12 @@ export class storeFocusObjects {
                 islocked = info.asc_getLocked();
         }
         this.isLocked = islocked;
+    }
+
+    editFormulaMode = false;
+
+    setEditFormulaMode(value) {
+        this.editFormulaMode = value;
     }
 
 }

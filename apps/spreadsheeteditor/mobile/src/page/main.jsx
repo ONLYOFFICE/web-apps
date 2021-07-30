@@ -74,7 +74,7 @@ class MainPage extends Component {
                 if ( opts == 'edit' )
                     return {editOptionsVisible: false};
                 else if ( opts == 'add' )
-                    return {addOptionsVisible: false};
+                    return {addOptionsVisible: false, addShowOptions: null};
                 else if ( opts == 'settings' )
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
