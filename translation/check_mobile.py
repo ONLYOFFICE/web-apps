@@ -4,7 +4,7 @@ import os.path
 
 lost_key_count, sum_key_count = 0, 0
 
-merge_dicts = False
+merge_dicts = True
 verbose_out = False
 #path_to_compare = "../apps/documenteditor/mobile/locale"
 path_to_compare = "../apps"
