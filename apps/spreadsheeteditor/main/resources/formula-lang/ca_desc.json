@@ -4,8 +4,8 @@
 		"d": "Retorna la xifra que representa la data en codi de data i hora"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Returns the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(data_inicial; data_final; unitat)",
+		"d": "Retorna la diferència entre dos valors de data (data inicial i data final), basada en l'interval (unitat) especificat"
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
@@ -396,8 +396,8 @@
 		"d": "Retorna la posició inicial d'una cadena de text a dins d'una altra cadena de text. BUSCA fa distinció entre majúscules i minúscules"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Finds the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text_cercat; dins_text; [núm_inicial])",
+		"d": "Cerca la subcadena especificada (cadena-1) dins d'una cadena (cadena-2) i està destinada a llenguatges amb el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"FIXED": {
 		"a": "(número; [decimals]; [sense_comes])",
@@ -408,16 +408,16 @@
 		"d": "Retorna el número especificat de caràcters des del començament d'una cadena de text"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Extracts the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [nombre_caràcters])",
+		"d": "Extreu la subcadena de la cadena especificada començant pel caràcter de l'esquerra i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"LEN": {
 		"a": "(text)",
 		"d": "Retorna el número de caràcters d'una cadena de text"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Analyses the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text)",
+		"d": "Analitza la cadena especificada i retorna el nombre de caràcters que conté i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -428,8 +428,8 @@
 		"d": "Retorna els caràcters del centre d'una cadena de text, donada una posició inicial i la longitud"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Extracts the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; posició_inicial; nombre_caràcters)",
+		"d": "Extreu els caràcters de la cadena especificada començant des de qualsevol posició i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [separador_decimal]; [separador_grup])",
@@ -444,8 +444,8 @@
 		"d": "Substitueix una part d'una cadena de text per una cadena de text diferent"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Replaces a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text_original; núm_inicial; nombre_caràcters; text_nou)",
+		"d": "Situa un conjunt de caràcters, basat en el nombre de caràcters i la posició inicial que especifiqueu, amb un nou conjunt de caràcters i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"REPT": {
 		"a": "(text; número_de_vegades)",
@@ -456,16 +456,16 @@
 		"d": "Retorna el número especificat de caràcters des de la fi d'una cadena de text"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Extracts a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [nombre_caràcters])",
+		"d": "Extreu una subcadena d'una cadena que comença des del caràcter de més a la dreta, basant-se en el nombre especificat de caràcters i està destinat a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"SEARCH": {
 		"a": "(text_cercat; dins_text; [núm_inicial])",
 		"d": "Retorna el número del caràcter on es troba un caràcter concret o una cadena de text, llegint d'esquerra a dreta (no fa distinció entre majúscules i minúscules)"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Returns the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text_cercat; dins_text; [núm_inicial])",
+		"d": "Retorna la ubicació de la subcadena especificada en una cadena i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(text; text_original; text_nou; [núm_ocurrència])",
@@ -1348,8 +1348,8 @@
 		"d": "Converteix un numeral llatí en àrab"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "For Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(text)",
+		"d": "Per a llenguatges de doble byte (DBCS), la funció canvia caràcters d'amplada completa (doble byte) a caràcters de mitja amplada (un byte)"
 	},
 	"ASIN": {
 		"a": "(número)",
@@ -1384,8 +1384,8 @@
 		"d": "Arrodoneix un número cap amunt, cap a l'enter més proper o el múltiple significatiu més proper"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(nombre; [significat])",
+		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper de significat"
 	},
 	"COMBIN": {
 		"a": "(nombre; nombre_triat)",
@@ -1428,8 +1428,8 @@
 		"d": "Converteix els radians en graus"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Rounds the number up to the nearest multiple of significance"
+		"a": "(número; significat)",
+		"d": "Arrodoneix el nombre fins al múltiple més proper d'importància"
 	},
 	"EVEN": {
 		"a": "(número)",
@@ -1452,8 +1452,8 @@
 		"d": "Arrodoneix un número cap avall en el múltiple significatiu més proper"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(nombre; [significat] )",
+		"d": "Retorna un nombre que s'arrodoneix cap avall a l'enter més proper o al múltiple més proper de significat"
 	},
 	"FLOOR.MATH": {
 		"a": "(nombre; [xifra_significativa]; [moda])",
@@ -1468,8 +1468,8 @@
 		"d": "Arrodoneix un número fins a l'enter inferior més proper"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(nombre; [significat])",
+		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper d'importància independentment del signe del nombre. No obstant això, si el nombre o el significat és zero, es retorna zero."
 	},
 	"LCM": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Cerca una coincidència en un interval o una matriu i retorna l'element corresponent d'un segon interval o d'una segona matriu. Per defecte, s'utilitzarà una coincidència exacta"
 	},
 	"CELL": {
-		"a": "(info_type; [reference])",
-		"d": "Returns information about the formatting, location, or contents of a cell"
+		"a": "(info_tipus; [referència])",
+		"d": "Retorna la informació sobre el format, la ubicació o el contingut d'una cel·la"
 	},
 	"ERROR.TYPE": {
 		"a": "(val_error)",
