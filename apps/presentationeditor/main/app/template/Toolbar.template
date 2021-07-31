@@ -151,7 +151,7 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label>Duration</label>
+                        <label id="transit-duration"></label>
                         <span id="transit-spin-duration" class="btn-slot text spinner"></span>
                     </div>
                     <div class="elset">

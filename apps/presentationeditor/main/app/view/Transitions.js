@@ -69,7 +69,7 @@ define([
                     me.fireEvent('transit:preview', [me.btnPreview]);
                 }, me));
             }
-            if (me.btnParametrs) {
+            if(me.btnParametrs) {
                 me.btnParametrs.on('click', function (e) {
                     me.fireEvent('transit:parametrs', ['current']);
 
@@ -137,6 +137,7 @@ define([
                     itemWidth: 87,
                     itemHeight: 40,
                     enableKeyEvents: true,
+                    //lock:[_set.slideDeleted],
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu//,
@@ -225,6 +226,7 @@ define([
                     el: this.$el.find('#transit-checkbox-delay'),
                     labelText: this.strDelay
                 });
+                this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -236,7 +238,7 @@ define([
 
             createParametrsMenuItems: function()
             {
-                var arrEffectType = [
+                var arrEffectType =[
                     {caption: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
                     {caption: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
                     {caption: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
@@ -245,13 +247,19 @@ define([
                     {caption: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
                     {caption: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
                     {caption: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
                     {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
                     {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
                     {caption: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
                     {caption: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
                     {caption: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
                     {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
-                ];
+            ];
 
                 var itemsMenu=[];
                 _.each(arrEffectType, function (item){
@@ -260,8 +268,7 @@ define([
                             caption: item.caption,
                             value: item.value,
                             checkable: true,
-                            toggleGroup: 'effects',
-                            disabled:false
+                            toggleGroup: 'effects'
                         }
                     );
                 });
@@ -289,6 +296,11 @@ define([
                 this.$el.find("#label-delay").innerText=this.strDelay;
                 return this.$el;
             },
+            renderComponent: function (compid, obj)
+            {
+                var element=this.$el.find(compid);
+                element.parent().append(obj.el);
+            },
 
             show: function () {
                 Common.UI.BaseView.prototype.show.call(this);
@@ -299,11 +311,7 @@ define([
             SetDisabled: function (state, langs) {
 
             },
-            renderComponent: function (compid, obj)
-            {
-                var element=this.$el.find(compid);
-                element.parent().append(obj.el);
-            },
+
             setMenuParametrs:function (effect,value)
             {
                 var minMax=[-1,-1];
@@ -362,7 +370,7 @@ define([
             txtParametrs: 'Parametrs',
             txtApplyToAll: 'Apply to All Slides',
             strDuration: 'Duration',
-            strDelay: 'DelayDelayDelayDelay',
+            strDelay: 'Delay',
             strStartOnClick: 'Start On Click',
 
             textNone: 'None',

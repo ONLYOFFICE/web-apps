@@ -205,7 +205,16 @@ define([
 
         },
         onFocusObject:function(selectedObjects){
-            this.changeSettings(selectedObjects[0].get_ObjectValue());
+            for (var i=0; i<selectedObjects.length; i++) {
+                var eltype = selectedObjects[i].get_ObjectType();
+
+                if (eltype === undefined)
+                    continue;
+
+                if (eltype == Asc.c_oAscTypeSelectElement.Slide) {
+                    this.changeSettings(selectedObjects[i].get_ObjectValue());
+                }
+            }
         },
 
         changeSettings:function (props){
