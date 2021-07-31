@@ -44,7 +44,7 @@ def compareFile(mjson, path):
         
         if merge_dicts and lost_key_count:
             cf.seek(0)
-            cf.write(json.dumps(res_dict, indent = 2))
+            cf.write(json.dumps(res_dict, indent = 2, ensure_ascii=False))
             cf.truncate()
 
 def compareJsonInFolder(path):
