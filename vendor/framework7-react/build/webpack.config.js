@@ -78,10 +78,10 @@ module.exports = {
           resolvePath('node_modules/dom7'),
           resolvePath('node_modules/ssr-window'),
 
-          resolvePath(`${addonPath}`),
-          //resolvePath('../../../web-apps-mobile/word'),
-          //resolvePath('../../../web-apps-mobile/slide'),
-          //resolvePath('../../../web-apps-mobile/cell')
+          //resolvePath(`${addonPath}`),
+          resolvePath('../../../web-apps-mobile/word'),
+          resolvePath('../../../web-apps-mobile/slide'),
+          resolvePath('../../../web-apps-mobile/cell')
         ],
       },
 
@@ -220,10 +220,10 @@ module.exports = {
     }),
     new webpack.NormalModuleReplacementPlugin(
         /\.{2}\/lib\/patch/,
-        //resource => fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
-//                        resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
-        resource => fs.existsSync(`${addonPath}/patch.jsx`) ?
-                        resource.request = `../../../${addonPath}/patch.jsx` : resource
+        resource => fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
+                        resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
+        //resource => fs.existsSync(`${addonPath}/patch.jsx`) ?
+                        //resource.request = `../../../${addonPath}/patch.jsx` : resource
     ),
   ],
 };
