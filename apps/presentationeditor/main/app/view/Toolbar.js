@@ -82,7 +82,8 @@ define([
         noTextSelected:  'no-text',
         inEquation: 'in-equation',
         commentLock: 'can-comment',
-        noColumns: 'no-columns'
+        noColumns: 'no-columns',
+        transitLock: 'transit-lock'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){

@@ -62,7 +62,6 @@ define([
                 me.listEffects.on('click', _.bind(function (combo,record){
                     me.fireEvent('transit:selecteffect',[combo,record]);
                 },me));
-
             }
             if(me.btnPreview){
                 me.btnPreview.on('click', _.bind(function(btn){
@@ -72,13 +71,11 @@ define([
             if(me.btnParametrs) {
                 me.btnParametrs.on('click', function (e) {
                     me.fireEvent('transit:parametrs', ['current']);
-
                 });
 
                 me.btnParametrs.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('transit:parametrs', [item]);
                 });
-
             }
             if(me.btnApplyToAll){
                 me.btnApplyToAll.on('click', _.bind(function(btn){
@@ -139,7 +136,7 @@ define([
                     itemHeight: 40,
                     enableKeyEvents: true,
                     disabled:true,
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart],
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock],
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu//,
@@ -184,7 +181,7 @@ define([
                     split: false,
                     disabled:true,
                     iconCls: 'toolbar__icon btn-preview',
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.btnPreview);
 
@@ -194,7 +191,7 @@ define([
                     iconCls: 'toolbar__icon icon btn-insertshape',
                     disabled:true,
                     menu: new Common.UI.Menu({items: this.createParametrsMenuItems()}),
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.btnParametrs);
 
@@ -204,7 +201,7 @@ define([
                     split: true,
                     disabled:true,
                     iconCls: 'toolbar__icon btn-changeslide',
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.btnApplyToAll);
 
@@ -217,7 +214,7 @@ define([
                     maxValue: 300,
                     minValue: 0,
                     disabled: true,
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.numDuration);
 
@@ -230,7 +227,7 @@ define([
                     maxValue: 300,
                     minValue: 0,
                     disabled: true,
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.numDelay);
 
@@ -238,7 +235,7 @@ define([
                     el: this.$el.find('#transit-checkbox-startonclick'),
                     labelText: this.strStartOnClick,
                     disabled:true,
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 })
                 this.lockedControls.push(this.chStartOnClick);
 
@@ -246,7 +243,7 @@ define([
                     el: this.$el.find('#transit-checkbox-delay'),
                     labelText: this.strDelay,
                     disabled:true,
-                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                    lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.chDelay);
 
@@ -383,10 +380,15 @@ define([
                         }
                     }
                 });
+
+
                 if(selectedElement==undefined)
                     selectedElement=this.btnParametrs.menu.items[minMax[0]];
                 if(effect!=Asc.c_oAscSlideTransitionTypes.None)
                     selectedElement.setChecked(true);
+
+                var n=Math.floor((minMax[1]-minMax[0])/4) + 1;
+                selectedElement.$el.parent().css('column-count',n);
 
                 if(!this.listEffects.isDisabled()) {
                     this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');

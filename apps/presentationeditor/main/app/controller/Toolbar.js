@@ -2414,7 +2414,7 @@ define([
 
                 var transitController    = me.getApplication().getController('Transitions');
                 transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
-
+                Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 if (!(config.customization && config.customization.compactHeader)) {

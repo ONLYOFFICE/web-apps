@@ -82,35 +82,26 @@ define([
          },
         setConfig: function (config) {
             this.appConfig = config.mode;
-            //this.setApi(config.api);
 
             this.view = this.createView('PE.Views.Transitions', {
                 toolbar: config.toolbar,
                 mode: config.mode
             });
-            this.applyLayout();
             return this;
-        },
-        applyLayout: function () {
-            this.lockToolbar(PE.enumLock.disableOnStart, true);
         },
 
         setApi: function (api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
-            this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
+            this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             return this;
         },
-        onDocumentContentReady: function ()
-        {
-            this.lockToolbar(PE.enumLock.disableOnStart, false);
-            this._state.activated = true;
+        onApiCountPagesRestricted: function (count){
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                this.lockToolbar(PE.enumLock.noSlides, this._state.no_slides);
+            }
         },
-        /*setMode: function(mode) {
-            this.appConfig = mode;
-            //this.view = this.createView('PE.Views.Transitions', { mode: mode });
-            return this;
-        },*/
 
         loadDocument: function(data) {
             this.document = data.doc;
@@ -211,16 +202,9 @@ define([
                 props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
-
         },
         onFocusObject:function(selectedObjects){
-            var me = this,
-            slides_none=me.view.toolbar._state.no_slides;
-            if(slides_none!=undefined && me._state.no_slides!== slides_none) {
-                me.lockToolbar(PE.enumLock.noSlides, slides_none);
-                me._state.no_slides!== slides_none;
-               //me.view.setDisabled(slides_note);
-            }
+            var me = this;
             for (var i=0; i<selectedObjects.length; i++) {
 
 
@@ -232,27 +216,21 @@ define([
                 if (eltype == Asc.c_oAscTypeSelectElement.Slide) {
 
                     var slide_deleted = undefined,
-                        slide_layout_lock = undefined,
-                        locked_transition = undefined,
+                        locked_transition=undefined,
                         pr;
                     me._state.activated=me.view.toolbar.activated;
                     pr=selectedObjects[i].get_ObjectValue();
                     slide_deleted = pr.get_LockDelete();
-                    slide_layout_lock = pr.get_LockLayout();
-                    //locked_transition = pr.get_LockTransition();
+                    locked_transition = pr.get_LockTransition();
 
                    if (slide_deleted !== undefined && me._state.slidecontrolsdisable !== slide_deleted) {
                         if (me._state.activated) me._state.slidecontrolsdisable = slide_deleted;
                         me.lockToolbar(PE.enumLock.slideDeleted, slide_deleted);
-                    }
-                     if (slide_layout_lock !== undefined && me._state.slidelayoutdisable !== slide_layout_lock ) {
-                        if (me._state.activated) me._state.slidelayoutdisable = slide_layout_lock;
-                        me.lockToolbar(PE.enumLock.slideLock, slide_layout_lock);
-                    }
-                    /*if (locked_transition !== undefined && me._state.lockedtransition !== locked_transition ) {
+                   }
+                   if (locked_transition !== undefined && me._state.lockedtransition !== locked_transition ) {
                         if (me._state.activated) me._state.lockedtransition = locked_transition;
-                        me.lockToolbar(PE.enumLock.slideLock, locked_transition);
-                    }*/
+                        me.lockToolbar(PE.enumLock.transitLock, locked_transition);
+                   }
 
                 }
                 this.changeSettings(pr);
