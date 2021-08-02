@@ -1361,7 +1361,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     case Asc.c_oAscCFType.cellIs:
                         props.asc_setOperator(this.cmbRule.getValue());
                         props.asc_setValue1(this.txtRange1.getValue());
-                        props.asc_setValue2(this.txtRange2.getValue());
+                        this.txtRange2.isVisible() && props.asc_setValue2(this.txtRange2.getValue());
                         break;
                     case Asc.c_oAscCFType.expression:
                         props.asc_setValue1(this.txtRange1.getValue());
