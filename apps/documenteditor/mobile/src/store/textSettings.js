@@ -1,10 +1,13 @@
 import {action, observable, computed, makeObservable} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+
 
 export class storeTextSettings {
     constructor() {
         makeObservable(this, {
             fontsArray: observable,
             fontName: observable,
+            arrayRecentFonts:observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -39,11 +42,13 @@ export class storeTextSettings {
             changeCustomTextColors: action,
             resetLineSpacing: action,
             resetBackgroundColor: action,
-            changeFontFamily: action
+            changeFontFamily: action,
+            addFontToRecent:action
         });
     }
 
     fontsArray = [];
+    arrayRecentFonts = [];
     fontName = '';
     fontSize = undefined;
     isBold = false;
@@ -80,6 +85,9 @@ export class storeTextSettings {
         });
 
         this.fontsArray = array;
+
+        this.arrayRecentFonts = LocalStorage.getItem('dde-settings-recent-fonts');
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
     resetFontName (font) {
         let name = (typeof font.get_Name) === "function" ? font.get_Name() : font.asc_getName();
@@ -171,6 +179,20 @@ export class storeTextSettings {
 
     changeFontFamily(name) {
         this.fontName = name;
+    }
+
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
+        
+        let arr = [];
+        this.arrayRecentFonts.forEach(item => arr.push(item));
+        arr = arr.join(';');
+        LocalStorage.setItem('dde-settings-recent-fonts', arr);
     }
 
     resetLineSpacing (vc) {
