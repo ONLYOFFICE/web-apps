@@ -251,7 +251,6 @@
     "textNone": "None",
     "textNoStyles": "No styles for this type of charts.",
     "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
-    "textNumbers": "Numbers",
     "textOpacity": "Opacity",
     "textOptions": "Options",
     "textOrphanControl": "Orphan Control",
@@ -296,7 +295,6 @@
     "textTotalRow": "Total Row",
     "textType": "Type",
     "textWrap": "Wrap",
-    "textBullets": "Bullets",
     "textNumbers": "Numbers"
   },
   "Error": {
