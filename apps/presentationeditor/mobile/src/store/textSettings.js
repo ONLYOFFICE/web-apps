@@ -1,10 +1,12 @@
 import {action, observable, computed, makeObservable} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeTextSettings {
     constructor() {
         makeObservable(this, {
             fontsArray: observable,
             fontName: observable,
+            arrayRecentFonts:observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -40,11 +42,13 @@ export class storeTextSettings {
             resetParagraphValign: action,
             resetTextColor: action,
             changeCustomTextColors: action,
-            resetLineSpacing: action
+            resetLineSpacing: action,
+            addFontToRecent:action
         });
     }
 
     fontsArray = [];
+    arrayRecentFonts = [];
     fontName = '';
     fontSize = undefined;
     isBold = false;
@@ -81,6 +85,9 @@ export class storeTextSettings {
         });
 
         this.fontsArray = array;
+
+        this.arrayRecentFonts = LocalStorage.getItem('ppe-settings-recent-fonts');
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     resetFontName (font) {
@@ -202,6 +209,20 @@ export class storeTextSettings {
 
     changeCustomTextColors (colors) {
         this.customTextColors = colors;
+    }
+
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
+        
+        let arr = [];
+        this.arrayRecentFonts.forEach(item => arr.push(item));
+        arr = arr.join(';');
+        LocalStorage.setItem('ppe-settings-recent-fonts', arr);
     }
 
     resetLineSpacing (vc) {

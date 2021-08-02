@@ -1,7 +1,6 @@
 import {action, observable, computed, makeObservable} from 'mobx';
 import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
-
 export class storeTextSettings {
     constructor() {
         makeObservable(this, {

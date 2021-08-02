@@ -1,4 +1,5 @@
 import {action, observable, makeObservable, computed} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeTextSettings {
     constructor() {
@@ -6,6 +7,7 @@ export class storeTextSettings {
             fontsArray: observable,
             fontInfo: observable,
             fontName: observable,
+            arrayRecentFonts:observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -20,11 +22,13 @@ export class storeTextSettings {
             initEditorFonts: action,
             initFontInfo: action,
             changeTextColor: action,
-            changeCustomTextColors: action
+            changeCustomTextColors: action,
+            addFontToRecent:action
         });
     }
     
     fontsArray = [];
+    arrayRecentFonts = [];
     fontInfo = {};
     fontName = '';
     fontSize = undefined;
@@ -84,10 +88,27 @@ export class storeTextSettings {
         });
 
         this.fontsArray = array;
+
+        this.arrayRecentFonts = LocalStorage.getItem('sse-settings-recent-fonts');
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     initFontInfo(fontObj) {
         this.fontInfo = fontObj;
+    }
+
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
+        
+        let arr = [];
+        this.arrayRecentFonts.forEach(item => arr.push(item));
+        arr = arr.join(';');
+        LocalStorage.setItem('sse-settings-recent-fonts', arr);
     }
 
     changeTextColor(value) {

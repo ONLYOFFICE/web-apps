@@ -15,6 +15,7 @@ const PageFonts = props => {
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
     const arrayFonts = storeTextSettings.arrayRecentFonts;
+    
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
@@ -57,18 +58,19 @@ const PageFonts = props => {
                     </div>
                 </ListItem>
             </List>
+            <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
             <List>
                 {arrayFonts.map((item,index) => (
                     <ListItem
                         key={index}
-                        link="#"
+                        radio
+                        checked={curFontName === item}
                         title={item}
                         style={{fontFamily: `${item}`}}
                         onClick={() => {storeTextSettings.changeFontFamily(item); props.changeFontFamily(item);}}
                     /> 
                 ))}
             </List>
-            <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal
