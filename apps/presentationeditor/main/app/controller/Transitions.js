@@ -88,20 +88,29 @@ define([
                 toolbar: config.toolbar,
                 mode: config.mode
             });
-
+            this.applyLayout();
             return this;
         },
+        applyLayout: function () {
+            this.lockToolbar(PE.enumLock.disableOnStart, true);
+        },
+
         setApi: function (api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
+            this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
             return this;
         },
-
-        setMode: function(mode) {
+        onDocumentContentReady: function ()
+        {
+            this.lockToolbar(PE.enumLock.disableOnStart, false);
+            this._state.activated = true;
+        },
+        /*setMode: function(mode) {
             this.appConfig = mode;
             //this.view = this.createView('PE.Views.Transitions', { mode: mode });
             return this;
-        },
+        },*/
 
         loadDocument: function(data) {
             this.document = data.doc;
@@ -205,18 +214,54 @@ define([
 
         },
         onFocusObject:function(selectedObjects){
+            var me = this,
+            slides_none=me.view.toolbar._state.no_slides;
+            if(slides_note!=undefined && me._state.no_slides!== slides_none) {
+                me.lockToolbar(PE.enumLock.noSlides, slides_none);
+                me._state.no_slides!== slides_none;
+               //me.view.setDisabled(slides_note);
+            }
             for (var i=0; i<selectedObjects.length; i++) {
+
+
                 var eltype = selectedObjects[i].get_ObjectType();
 
                 if (eltype === undefined)
                     continue;
 
                 if (eltype == Asc.c_oAscTypeSelectElement.Slide) {
-                    this.changeSettings(selectedObjects[i].get_ObjectValue());
-                }
-            }
-        },
 
+                    var slide_deleted = undefined,
+                        slide_layout_lock = undefined,
+                        locked_transition = undefined,
+                        pr;
+                    me._state.activated=me.view.toolbar.activated;
+                    pr=selectedObjects[i].get_ObjectValue();
+                    slide_deleted = pr.get_LockDelete();
+                    slide_layout_lock = pr.get_LockLayout();
+                    //locked_transition = pr.get_LockTransition();
+
+                   if (slide_deleted !== undefined && me._state.slidecontrolsdisable !== slide_deleted) {
+                        if (me._state.activated) me._state.slidecontrolsdisable = slide_deleted;
+                        me.lockToolbar(PE.enumLock.slideDeleted, slide_deleted);
+                    }
+                     if (slide_layout_lock !== undefined && me._state.slidelayoutdisable !== slide_layout_lock ) {
+                        if (me._state.activated) me._state.slidelayoutdisable = slide_layout_lock;
+                        me.lockToolbar(PE.enumLock.slideLock, slide_layout_lock);
+                    }
+                    /*if (locked_transition !== undefined && me._state.lockedtransition !== locked_transition ) {
+                        if (me._state.activated) me._state.lockedtransition = locked_transition;
+                        me.lockToolbar(PE.enumLock.slideLock, locked_transition);
+                    }*/
+
+                }
+                this.changeSettings(pr);
+            }
+
+        },
+        lockToolbar: function (causes, lock, opts) {
+            Common.Utils.lockControls(causes, lock, opts, this.view.lockedControls);
+        },
         changeSettings:function (props){
             var me=this.view;
 

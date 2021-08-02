@@ -2387,13 +2387,7 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
         },
-        setTrantitTab:function (el){
-          /* var $panel = this.getApplication().getController('Transitions').createToolbarPanel();
-            if ( $panel ) {
-                el.find('#transitions-panel').replaceWith($panel);
-            }*/
-           // var $panel = this.getApplication().getController('Transitions').createToolbarPanel()
-        },
+
         onAppShowed: function (config) {
             var me = this;
 
@@ -2419,7 +2413,7 @@ define([
                 me.toolbar.setMode(config);
 
                 var transitController    = me.getApplication().getController('Transitions');
-                transitController.setApi(me.api).setConfig({toolbar: me.toolbar,mode:config}).createToolbarPanel();
+                transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 

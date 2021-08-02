@@ -113,12 +113,13 @@ define([
             options: {},
 
             initialize: function (options) {
-                this.toolbar = options.toolbar;
-                this.appConfig = options.mode;
-                this.$el=options.toolbar.$el.find('#transitions-panel');
 
                 Common.UI.BaseView.prototype.initialize.call(this, options);
+                this.toolbar=options.toolbar;
                 this.appConfig = options.mode;
+                this.$el=this.toolbar.toolbar.$el.find('#transitions-panel');
+                var _set=PE.enumLock;
+                this.lockedControls=[];
 
                 this._arrEffectName = [
                     {title: this.textNone, imageUrl:"btn-text", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
@@ -137,7 +138,8 @@ define([
                     itemWidth: 87,
                     itemHeight: 40,
                     enableKeyEvents: true,
-                    //lock:[_set.slideDeleted],
+                    disabled:true,
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart],
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu//,
@@ -163,6 +165,7 @@ define([
                         cmp.removeTips();
                     }
                 });
+                this.lockedControls.push(this.listEffects);
                 this.listEffects.menuPicker.store.add(this._arrEffectName);
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
@@ -179,22 +182,31 @@ define([
                     cls: 'btn-toolbar ',// x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon btn-preview'
+                    disabled:true,
+                    iconCls: 'toolbar__icon btn-preview',
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.btnPreview);
 
                 this.btnParametrs = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParametrs,
                     iconCls: 'toolbar__icon icon btn-insertshape',
-                    menu: new Common.UI.Menu({items: this.createParametrsMenuItems()})
+                    disabled:true,
+                    menu: new Common.UI.Menu({items: this.createParametrsMenuItems()}),
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.btnParametrs);
 
                 this.btnApplyToAll = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon btn-changeslide'
+                    disabled:true,
+                    iconCls: 'toolbar__icon btn-changeslide',
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.btnApplyToAll);
 
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-duration'),
@@ -204,8 +216,10 @@ define([
                     defaultUnit : this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    disabled: false
+                    disabled: true,
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.numDuration);
 
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
@@ -215,17 +229,27 @@ define([
                     defaultUnit : this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    disabled: false
+                    disabled: true,
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.numDelay);
 
                 this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-startonclick'),
-                    labelText: this.strStartOnClick
-                });
+                    labelText: this.strStartOnClick,
+                    disabled:true,
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
+                })
+                this.lockedControls.push(this.chStartOnClick);
+
                 this.chDelay = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-delay'),
-                    labelText: this.strDelay
+                    labelText: this.strDelay,
+                    disabled:true,
+                    lock:[_set.slideDeleted,_set.slideLock,_set.disableOnStart]
                 });
+                this.lockedControls.push(this.chDelay);
+
                 this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -307,9 +331,15 @@ define([
                 this.fireEvent('show', this);
             },
 
-
-            SetDisabled: function (state, langs) {
-
+            getButtons: function (type){
+                if (type===undefined)
+                    return this.lockedControls;
+                return [];
+            },
+            setDisabled: function (state) {
+                this.lockedControls && this.lockedControls.forEach(function (button){
+                        button.setDisabled(state);
+                },this);
             },
 
             setMenuParametrs:function (effect,value)
@@ -358,9 +388,12 @@ define([
                 if(effect!=Asc.c_oAscSlideTransitionTypes.None)
                     selectedElement.setChecked(true);
 
-                this.btnParametrs.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
-                this.btnPreview.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
-                this.numDuration.setDisabled(effect===Asc.c_oAscSlideTransitionTypes.None);
+                if(!this.listEffects.isDisabled()) {
+                    this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
+                    this.btnParametrs.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                }
                 return selectedElement;
             },
 
