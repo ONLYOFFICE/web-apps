@@ -20,7 +20,7 @@ const target = process.env.TARGET || 'web';
 const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
                     process.env.TARGET_EDITOR == 'slide' ? 'presentationeditor' : 'documenteditor';
 const targetPatch = process.env.TARGET_EDITOR || 'word';
-const addonPath = process.env.ADDON_ENV || '';
+const addonPath = process.env.ADDON_ENV || 'path';
 
 module.exports = {
   mode: env,
