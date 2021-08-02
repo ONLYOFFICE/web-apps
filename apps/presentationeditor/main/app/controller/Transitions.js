@@ -216,7 +216,7 @@ define([
         onFocusObject:function(selectedObjects){
             var me = this,
             slides_none=me.view.toolbar._state.no_slides;
-            if(slides_note!=undefined && me._state.no_slides!== slides_none) {
+            if(slides_none!=undefined && me._state.no_slides!== slides_none) {
                 me.lockToolbar(PE.enumLock.noSlides, slides_none);
                 me._state.no_slides!== slides_none;
                //me.view.setDisabled(slides_note);
