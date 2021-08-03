@@ -82,13 +82,14 @@ define([
             maxValue: 100,
             step: 1,
             value: 100,
-            enableKeyEvents: false
+            enableKeyEvents: false,
+            direction: 'horizontal' // 'vertical'
         },
 
         disabled: false,
 
         template    : _.template([
-            '<div class="slider single-slider" style="">',
+            '<div class="slider single-slider <% if (this.options.direction === \'vertical\') { %>vertical<% } %>" style="">',
                 '<div class="track"></div>',
                 '<div class="thumb" style=""></div>',
                 '<% if (this.options.enableKeyEvents) { %>',
@@ -107,6 +108,7 @@ define([
             me.maxValue = me.options.maxValue;
             me.delta = 100/(me.maxValue - me.minValue);
             me.step = me.options.step;
+            me.direction = me.options.direction;
 
             if (me.options.el) {
                 me.render();
@@ -133,7 +135,7 @@ define([
             }
 
             this.cmpEl.find('.track-center').width(me.options.width - 14);
-            this.cmpEl.width(me.options.width);
+            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width);
 
             this.thumb = this.cmpEl.find('.thumb');
 
@@ -141,11 +143,17 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) - me._dragstart
+                ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                me.value = pos/me.delta + me.minValue;
+                if (me.direction === 'vertical') {
+                    me.value = (100 - pos)/me.delta + me.minValue;
+                } else {
+                    me.value = pos/me.delta + me.minValue;
+                }
 
                 me.thumb.removeClass('active');
                 $(document).off('mouseup',   onMouseUp);
@@ -162,11 +170,17 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) - me._dragstart
+                ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                me.value = pos/me.delta + me.minValue;
+                if (me.direction === 'vertical') {
+                    me.value = (100 - pos)/me.delta + me.minValue;
+                } else {
+                    me.value = pos/me.delta + me.minValue;
+                }
 
                 if (Math.abs(me.value-me.lastValue)>0.001)
                     me.trigger('change', me, me.value, me.lastValue);
@@ -174,7 +188,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = e.pageX*Common.Utils.zoom() - me.thumb.offset().left - 7;
+                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.thumb.offset().top) : (e.pageX*Common.Utils.zoom() - me.thumb.offset().left) - 7;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -187,11 +201,17 @@ define([
             var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left)
+                ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                me.value = pos/me.delta + me.minValue;
+                if (me.direction === 'vertical') {
+                    me.value = (100 - pos)/me.delta + me.minValue;
+                } else {
+                    me.value = pos/me.delta + me.minValue;
+                }
 
                 me.trigger('change', me, me.value, me.lastValue);
                 me.trigger('changecomplete', me, me.value, me.lastValue);
@@ -245,14 +265,22 @@ define([
             return this;
         },
 
-        setThumbPosition: function(x) {
-            this.thumb.css({left: x + '%'});
+        setThumbPosition: function(pos) {
+            if (this.direction === 'vertical') {
+                this.thumb.css({top: pos + '%'});
+            } else {
+                this.thumb.css({left: pos + '%'});
+            }
         },
 
         setValue: function(value) {
             this.lastValue = this.value;
             this.value = Math.max(this.minValue, Math.min(this.maxValue, value));
-            this.setThumbPosition(Math.round((value-this.minValue)*this.delta));
+            if (this.direction === 'vertical') {
+                this.setThumbPosition(100 - Math.round((value-this.minValue)*this.delta));
+            } else {
+                this.setThumbPosition(Math.round((value-this.minValue)*this.delta));
+            }
         },
 
         getValue: function() {
