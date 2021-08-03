@@ -1351,7 +1351,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         var above = !(val%2);
                         props.asc_setAboveAverage(above);
                         props.asc_setEqualAverage(val==2 || val==3);
-                        props.asc_setStdDev(val>3 ? (val/2 - 1) : 0);
+                        props.asc_setStdDev(val>3 ? (Math.floor(val/2) - 1) : 0);
                         break;
                     case Asc.c_oAscCFType.top10:
                         props.asc_setBottom(!!this.cmbRule.getValue());
