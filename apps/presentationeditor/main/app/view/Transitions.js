@@ -190,7 +190,9 @@ define([
                     caption: this.txtParametrs,
                     iconCls: 'toolbar__icon icon btn-insertshape',
                     disabled:true,
-                    menu: new Common.UI.Menu({items: this.createParametrsMenuItems()}),
+                    menu: new Common.UI.Menu({
+                        maxHeight:115,
+                        items: this.createParametrsMenuItems()}),
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.btnParametrs);
@@ -386,9 +388,6 @@ define([
                     selectedElement=this.btnParametrs.menu.items[minMax[0]];
                 if(effect!=Asc.c_oAscSlideTransitionTypes.None)
                     selectedElement.setChecked(true);
-
-                var n=Math.floor((minMax[1]-minMax[0])/4) + 1;
-                selectedElement.$el.parent().css('column-count',n);
 
                 if(!this.listEffects.isDisabled()) {
                     this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
