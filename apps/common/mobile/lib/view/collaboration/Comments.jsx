@@ -628,10 +628,11 @@ const pickLink = (message) => {
 }
 
 // View comments
-const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment}) => {
+const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
+    const displayMode = storeReview.displayMode;
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
@@ -672,10 +673,13 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            <div className='comment-menu'
-                                                 onClick={() => {setComment(comment); openActionComment(true);}}
-                                            ><Icon icon='icon-menu-comment'/></div>
+                                            {(comment.editable && displayMode === 'markup') && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
+                                            {displayMode === 'markup' && 
+                                                <div className='comment-menu'
+                                                    onClick={() => {setComment(comment); openActionComment(true);}}>
+                                                    <Icon icon='icon-menu-comment'/>
+                                                </div>
+                                            }
                                         </div>
                                     }
                                 </div>
@@ -734,13 +738,14 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
     )
 };
 
-const _ViewComments = inject('storeComments', 'storeAppOptions')(observer(ViewComments));
+const _ViewComments = inject('storeComments', 'storeAppOptions', "storeReview")(observer(ViewComments));
 
 
-const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
+const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
+    const displayMode = storeReview.displayMode;
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.showComments;
@@ -801,10 +806,13 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                                 </div>
                                 {!viewMode &&
                                 <div className='right'>
-                                    {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
-                                    <div className='comment-menu'
-                                        onClick={() => {openActionComment(true);}}
-                                    ><Icon icon='icon-menu-comment'/></div>
+                                    {(comment.editable && displayMode === 'markup') && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                    {displayMode === 'markup' &&
+                                        <div className='comment-menu'
+                                            onClick={() => {openActionComment(true);}}>
+                                            <Icon icon='icon-menu-comment'/>
+                                        </div>
+                                    }
                                 </div>
                                 }
                             </div>
