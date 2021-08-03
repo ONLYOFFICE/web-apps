@@ -423,6 +423,23 @@ define([
             this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
             this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
 
+            this.sldrPreviewPositionX = new Common.UI.SingleSlider({
+                el: $('#form-img-slider-position-x'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50
+            });
+
+            this.sldrPreviewPositionY = new Common.UI.SingleSlider({
+                el: $('#form-img-slider-position-y'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50,
+                direction: 'vertical'
+            });
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -1149,7 +1166,8 @@ define([
         textNever: 'Never',
         textTooBig: 'Image is Too Big',
         textTooSmall: 'Image is Too Small',
-        textScale: 'When to scale'
+        textScale: 'When to scale',
+        textButton: 'Button'
 
     }, DE.Views.FormSettings || {}));
 });

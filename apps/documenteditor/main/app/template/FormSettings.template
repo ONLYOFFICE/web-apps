@@ -85,6 +85,22 @@
     </tr>
     <tr class="form-image">
         <td class="padding-large">
+            <label class="input-label"><%= scope.textButton %></label>
+            <div id="form-cnt-position" style="width: 100%;">
+                <div class="row">
+                    <div id="form-img-position-preview">
+                        <div id="form-img-example"><%= scope.textImage %></div>
+                    </div>
+                    <div id="form-img-slider-position-y"></div>
+                </div>
+                <div class="row">
+                    <div id="form-img-slider-position-x"></div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
             <div id="form-button-replace" style="width:100%;"></div>
         </td>
     </tr>
