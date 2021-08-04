@@ -423,6 +423,9 @@ define([
             this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
             this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
 
+            this.imagePositionPreview = $markup.findById('#form-img-example');
+            this.imagePositionLabel = $markup.findById('#form-img-slider-value');
+
             this.sldrPreviewPositionX = new Common.UI.SingleSlider({
                 el: $('#form-img-slider-position-x'),
                 width: 116,
@@ -430,6 +433,9 @@ define([
                 maxValue: 100,
                 value: 50
             });
+            this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
+            this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $('#form-img-slider-position-y'),
@@ -439,6 +445,13 @@ define([
                 value: 50,
                 direction: 'vertical'
             });
+            this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
+            this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+            this.lockedControls.push(this.sldrPreviewPositionY);
+
+            var xValue = this.sldrPreviewPositionX.getValue(),
+                yValue = this.sldrPreviewPositionY.getValue();
+            this.imagePositionLabel.text(xValue + ',' + yValue);
 
             this.updateMetricUnit();
             this.UpdateThemeColors();
@@ -923,6 +936,22 @@ define([
                         this.cmbScale.setValue(val);
                         this._state.scaleFlag=val;
                     }
+
+                    val = pictPr.get_ShiftX() * 100;
+                    if (this._state.imgPositionX !== val) {
+                        this.sldrPreviewPositionX.setValue(val);
+                        this._state.imgPositionX = val;
+                    }
+                    val = pictPr.get_ShiftY() * 100;
+                    if (this._state.imgPositionY !== val) {
+                        this.sldrPreviewPositionY.setValue(val);
+                        this._state.imgPositionY = val;
+                    }
+                    this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+                    val = ((130 - 80) * this._state.imgPositionX) / 100 - 1;
+                    this.imagePositionPreview.css({'left': val + 'px'});
+                    val = (130 - 80) * (100 - this._state.imgPositionY) / 100 - 1;
+                    this.imagePositionPreview.css({'top': val + 'px'});
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1126,6 +1155,63 @@ define([
             this.btnListDelete.setDisabled(disabled || this._state.DisabledControls);
             this.btnListUp.setDisabled(disabled || this._state.DisabledControls);
             this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
+        },
+
+        onImagePositionChange: function (type, field, newValue, oldValue) {
+            var value;
+            if (type === 'x') {
+                value = ((130 - 80) * newValue) / 100 - 1;
+                this.imagePositionPreview.css({'left': value + 'px'});
+                this._state.imgPositionX = newValue;
+            } else {
+                value = (130 - 80) * (100 - newValue) / 100 - 1;
+                this.imagePositionPreview.css({'top': value + 'px'});
+                this._state.imgPositionY = newValue;
+            }
+            if (_.isUndefined(this._state.imgPositionX)) {
+                this._state.imgPositionX = 50;
+            } else if (_.isUndefined(this._state.imgPositionY)) {
+                this._state.imgPositionY = 50;
+            }
+            this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this.imgPositionApplyFunc, this, type), 100);
+            }
+        },
+
+        onImagePositionChangeComplete: function (type, field, newValue, oldValue) {
+            clearInterval(this.updateslider);
+            if (type === 'x') {
+                this._state.imgPositionX = newValue;
+            } else {
+                this._state.imgPositionY = newValue;
+            }
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this.imgPositionApplyFunc(type);
+            }
+            this._sendUndoPoint = true;
+        },
+
+        imgPositionApplyFunc: function (type) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                var val;
+                if (type === 'x') {
+                    val = this._state.imgPositionX / 100;
+                    pictPr.put_ShiftX(val);
+                } else {
+                    val = this._state.imgPositionY / 100;
+                    pictPr.put_ShiftY(val);
+                }
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         textField: 'Text Field',

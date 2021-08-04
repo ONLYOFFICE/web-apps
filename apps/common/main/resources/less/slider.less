@@ -39,10 +39,12 @@
             padding-top: 0;
             padding-left: 7px;
             .track {
+                position: absolute;
                 @track-height: 4px;
-                height: 100%;
+                height: calc(100% + @track-height);
                 width: @track-height;
                 margin-left: 0;
+                margin-top: -@track-height / 2;
             }
             .thumb {
                 @thumb-width: 12px;

@@ -95,6 +95,7 @@
                 </div>
                 <div class="row">
                     <div id="form-img-slider-position-x"></div>
+                    <label id="form-img-slider-value"></label>
                 </div>
             </div>
         </td>
