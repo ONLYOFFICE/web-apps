@@ -595,7 +595,10 @@ define([
 
         onReviewViewClick: function(menu, item, e) {
             this.turnDisplayMode(item.value);
-            !this.appConfig.canReview && Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value);
+            if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit)
+                Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value); // for viewer
+            else if (item.value=='markup' || item.value=='simple')
+                Common.localStorage.setItem(this.view.appPrefix + "review-mode-editor", item.value); // for editor save only markup modes
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -690,7 +693,7 @@ define([
                 else if (mode === 'original')
                     this.api.asc_BeginViewModeInReview(false);
                 else
-                    this.api.asc_EndViewModeInReview();
+                    this.api.asc_EndViewModeInReview(mode=='simple');
             }
             this.disableEditing(mode == 'final' || mode == 'original');
             this._state.previewMode = (mode == 'final' || mode == 'original');
@@ -702,9 +705,9 @@ define([
             this._state.previewMode = true;
         },
 
-        onEndViewModeInReview: function() {
+        onEndViewModeInReview: function(mode) {
             this.disableEditing(false);
-            this.view && this.view.turnDisplayMode('markup');
+            this.view && this.view.turnDisplayMode(mode ? 'simple' : 'markup');
             this._state.previewMode = false;
         },
 
@@ -804,7 +807,11 @@ define([
                         me.onApiTrackRevisionsChange(me.api.asc_GetLocalTrackRevisions(), me.api.asc_GetGlobalTrackRevisions());
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
 
-                    // _setReviewStatus(state, global);
+                    var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode-editor");
+                    if (val===null)
+                        val = me.appConfig.customization && /^(original|final|markup|simple)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'markup';
+                    me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
+                    me.view.turnDisplayMode(val);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
@@ -819,11 +826,11 @@ define([
             } else if (config.canViewReview) {
                 config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
                 if (config.canViewReview) {
-                    var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
+                    var val = Common.localStorage.getItem(me.view.appPrefix + (config.isEdit || config.isRestrictedEdit ? "review-mode-editor" : "review-mode"));
                     if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
-                    me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
-                    me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
+                        val = me.appConfig.customization && /^(original|final|markup|simple)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
+                    me.turnDisplayMode(val);
+                    me.view.turnDisplayMode(val);
                 }
             }
 

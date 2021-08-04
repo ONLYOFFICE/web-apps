@@ -155,7 +155,7 @@
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original',
+                    reviewDisplay: 'original', // original for viewer, markup for editor
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
