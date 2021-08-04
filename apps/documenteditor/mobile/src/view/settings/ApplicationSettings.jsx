@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
+    const displayMode = props.storeReview.displayMode;
     const store = props.storeApplicationSettings;
     const unitMeasurement = store.unitMeasurement;
     const isSpellChecking = store.isSpellChecking;
@@ -49,7 +50,7 @@ const PageApplicationSettings = props => {
                         </ListItem>
                     </List>
                     <List>
-                        <ListItem title={_t.textNoCharacters}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                        <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
                                     onChange={() => {
                                         store.changeNoCharacters(!isNonprintingCharacters);
@@ -57,7 +58,7 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
-                        <ListItem title={_t.textHiddenTableBorders}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                        <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isHiddenTableBorders}
                                     onChange={() => {
                                         store.changeShowTableEmptyLine(!isHiddenTableBorders);
@@ -124,7 +125,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
 export {ApplicationSettings, MacrosSettings};
