@@ -208,6 +208,9 @@ define([
 
                 me.trigger('render:after', me);
             }
+            if (this.disabled) {
+                this.setDisabled(!!this.disabled);
+            }
 
             return this;
         },

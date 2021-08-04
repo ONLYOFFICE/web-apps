@@ -135,12 +135,10 @@ define([
                     itemWidth: 87,
                     itemHeight: 40,
                     enableKeyEvents: true,
-                    disabled:true,
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock],
                     beforeOpenHandler: function (e) {
                         var cmp = this,
-                            menu = cmp.openButton.menu//,
-                            //minMenuColumn = 3;
+                            menu = cmp.openButton.menu;
 
                         if (menu.cmpEl) {
 
@@ -179,7 +177,6 @@ define([
                     cls: 'btn-toolbar ',// x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    disabled:true,
                     iconCls: 'toolbar__icon btn-preview',
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
@@ -189,7 +186,6 @@ define([
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParametrs,
                     iconCls: 'toolbar__icon icon btn-insertshape',
-                    disabled:true,
                     menu: new Common.UI.Menu({
                         maxHeight:115,
                         items: this.createParametrsMenuItems()}),
@@ -201,7 +197,6 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    disabled:true,
                     iconCls: 'toolbar__icon btn-changeslide',
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
@@ -215,7 +210,6 @@ define([
                     defaultUnit : this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    disabled: true,
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.numDuration);
@@ -228,7 +222,6 @@ define([
                     defaultUnit : this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    disabled: true,
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.numDelay);
@@ -236,18 +229,18 @@ define([
                 this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-startonclick'),
                     labelText: this.strStartOnClick,
-                    disabled:true,
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
-                })
+                });
                 this.lockedControls.push(this.chStartOnClick);
 
                 this.chDelay = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-delay'),
                     labelText: this.strDelay,
-                    disabled:true,
                     lock:[_set.slideDeleted,_set.noSlides,_set.disableOnStart,_set.transitLock]
                 });
                 this.lockedControls.push(this.chDelay);
+
+                Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
