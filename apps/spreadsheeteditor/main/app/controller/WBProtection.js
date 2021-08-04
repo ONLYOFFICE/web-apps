@@ -264,6 +264,7 @@ define([
                     this.api.asc_setGraphicObjectProps(props);
                     break;
                 case 3: // formula
+                    this.api.asc_setCellHiddenFormulas(value=='checked');
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this);
