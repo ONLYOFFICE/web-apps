@@ -181,7 +181,7 @@ define([
 
         onApiShowChange: function (sdkchange) {
             if (this.getPopover()) {
-                if (sdkchange && sdkchange.length>0) {
+                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0) {
                     var i = 0,
                         changes = this.readSDKChange(sdkchange),
                         posX = sdkchange[0].get_X(),
@@ -844,6 +844,14 @@ define([
                 me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
                 me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
+
+            var val = Common.localStorage.getItem(me.view.appPrefix + "settings-review-hover-mode");
+            if (val === null) {
+                val = me.appConfig.customization && me.appConfig.customization.review ? !!me.appConfig.customization.review.hoverMode : false;
+            } else
+                val = !!parseInt(val);
+            Common.Utils.InternalSettings.set(me.view.appPrefix + "settings-review-hover-mode", val);
+            me.appConfig.reviewHoverMode = val;
         },
 
         showTips: function(strings) {

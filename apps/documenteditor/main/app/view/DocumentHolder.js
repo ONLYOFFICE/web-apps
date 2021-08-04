@@ -491,7 +491,8 @@ define([
                     var showPoint, ToolTip,
                         type = moveData.get_Type();
 
-                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form) { // 1 - hyperlink, 3 - footnote
+                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
+                        type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode) {
                         if (isTooltipHiding) {
                             mouseMoveData = moveData;
                             return;
@@ -511,12 +512,22 @@ define([
                             ToolTip = moveData.get_FormHelpText();
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
+                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review) {
+                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange(moveData.asc_getChanges());
+                            if (changes && changes.length>0)
+                                changes = changes[0];
+                            if (changes) {
+                                ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
+                                ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                                ToolTip += changes.get('changetext');
+                            }
                         }
 
                         var recalc = false;
                         screenTip.isHidden = false;
 
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                        if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                         if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                             screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);

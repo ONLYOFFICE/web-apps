@@ -136,7 +136,8 @@
                         label: string (default: "Guest") // postfix for user name
                     },
                     review: {
-                        hideReviewDisplay: false // hide button Review mode
+                        hideReviewDisplay: false, // hide button Review mode
+                        hoverMode: false // true - show review balloons on mouse move, not on click on text
                     },
                     chat: true,
                     comments: true,
