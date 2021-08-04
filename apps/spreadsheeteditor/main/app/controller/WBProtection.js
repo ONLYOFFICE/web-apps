@@ -254,8 +254,14 @@ define([
                     this.api.asc_setCellLocked(value=='checked');
                     break;
                 case 1: // shape
+                    var props = new Asc.asc_CImgProperty();
+                    props.asc_putProtectionLocked(value=='checked');
+                    this.api.asc_setGraphicObjectProps(props);
                     break;
                 case 2: // text
+                    var props = new Asc.asc_CImgProperty();
+                    props.asc_putProtectionLockText(value=='checked');
+                    this.api.asc_setGraphicObjectProps(props);
                     break;
                 case 3: // formula
                     break;
@@ -323,6 +329,24 @@ define([
             var xfs = info.asc_getXfs();
             this.view.chLockedCell.setValue(!!xfs.asc_getLocked(), true);
             this.view.chHiddenFormula.setValue(!!xfs.asc_getHidden(), true);
+
+            if (selectionType === Asc.c_oAscSelectionType.RangeSlicer || selectionType === Asc.c_oAscSelectionType.RangeImage ||
+                selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText ||
+                selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText) {
+                var selectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                        var elValue = selectedObjects[i].asc_getObjectValue();
+                        var locktext = elValue.asc_getProtectionLockText(),
+                            lock = elValue.asc_getProtectionLocked();
+                        this.view.chLockedText.setValue(locktext!==undefined ? !!locktext : 'indeterminate', true);
+                        this.view.chLockedShape.setValue(lock!==undefined ? !!lock : 'indeterminate', true);
+                        Common.Utils.lockControls(SSE.enumLock.wsLockText, locktext===null, { array: [this.view.chLockedText]});
+                        Common.Utils.lockControls(SSE.enumLock.wsLockShape, lock===null, { array: [this.view.chLockedShape]});
+                        break;
+                    }
+                }
+            }
         },
 
         onCoAuthoringDisconnect: function() {

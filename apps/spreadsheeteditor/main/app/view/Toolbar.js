@@ -101,7 +101,9 @@ define([
         sheetView: 'sheet-view',
         wbLock: 'workbook-lock',
         wsLock: 'worksheet-lock',
-        itemsDisabled: 'all-items-disabled'
+        itemsDisabled: 'all-items-disabled',
+        wsLockText: 'worksheet-lock-text',
+        wsLockShape: 'worksheet-lock-shape'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
