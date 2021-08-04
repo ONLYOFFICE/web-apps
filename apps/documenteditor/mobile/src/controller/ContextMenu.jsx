@@ -16,7 +16,8 @@ import EditorUIController from '../lib/patch';
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
     users: stores.users,
-    isDisconnected: stores.users.isDisconnected
+    isDisconnected: stores.users.isDisconnected,
+    displayMode: stores.storeReview.displayMode
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
