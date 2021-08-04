@@ -77,6 +77,7 @@ define([
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+            Common.NotificationCenter.on('protect:sheet', _.bind(this.onSheetClick, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);

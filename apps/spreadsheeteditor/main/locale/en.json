@@ -2978,6 +2978,8 @@
   "SSE.Views.Statusbar.itemRename": "Rename",
   "SSE.Views.Statusbar.itemSum": "Sum",
   "SSE.Views.Statusbar.itemTabColor": "Tab Color",
+  "SSE.Views.Statusbar.itemProtect": "Protect",
+  "SSE.Views.Statusbar.itemUnProtect": "Unprotect",
   "SSE.Views.Statusbar.RenameDialog.errNameExists": "Worksheet with such a name already exists.",
   "SSE.Views.Statusbar.RenameDialog.errNameWrongChar": "A sheet name cannot contain the following characters: \\/*?[]:",
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Sheet Name",

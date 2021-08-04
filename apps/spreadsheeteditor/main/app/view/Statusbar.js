@@ -342,6 +342,7 @@ define([
                             caption: this.itemHidden,
                             menu: menuHiddenItems
                         },
+                        {caption: this.itemProtect, value: 'protect'},
                         {
                             caption: this.itemTabColor,
                             menu: menuColorItems
@@ -657,16 +658,19 @@ define([
                         this.tabMenu.items[4].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[5].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[6].setDisabled(isdoclocked || isdocprotected);
-                        this.tabMenu.items[7].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[7].setDisabled(select.length>1);
+                        this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
+
+                        this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
-                            this.tabMenu.items[10].hide();
+                            this.tabMenu.items[11].hide();
                         } else {
-                            this.tabMenu.items[10].show();
+                            this.tabMenu.items[11].show();
                         }
 
-                        this.tabMenu.items[9].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[10].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[11].setDisabled(issheetlocked || isdocprotected);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -857,7 +861,9 @@ define([
             itemCount           : 'Count',
             itemMinimum         : 'Minimum',
             itemMaximum         : 'Maximum',
-            itemSum             : 'Sum'
+            itemSum             : 'Sum',
+            itemProtect         : 'Protect',
+            itemUnProtect       : 'Unprotect'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({

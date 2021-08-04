@@ -308,6 +308,9 @@ define([
                         me.hideWorksheet(true, arrIndex);
                     }, 1);
                     break;
+                case 'protect':
+                    this.protectWorksheet();
+                    break;
             }
         },
 
@@ -777,6 +780,10 @@ define([
                     this._sheetViewTip.show();
             } else if (!active && this._sheetViewTip && this._sheetViewTip.isVisible())
                 this._sheetViewTip.hide();
+        },
+
+        protectWorksheet: function() {
+            Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
         },
 
         zoomText        : 'Zoom {0}%',
