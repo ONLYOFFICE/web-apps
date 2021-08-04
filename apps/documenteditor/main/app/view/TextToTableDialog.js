@@ -247,7 +247,7 @@ define([
                 maxLength: 1,
                 validateOnChange: true,
                 validateOnBlur: false,
-                value: '-'
+                value: Common.Utils.InternalSettings.get("de-text-to-table-separator") || '-'
             }).on ('changing', function(input, newValue) {
                 if (me.props && newValue) {
                     me.props.put_SeparatorType(3, true);
@@ -315,6 +315,7 @@ define([
             if (this.props) {
                 this.props.put_AutoFitType(this.rbFixed.getValue() ? 1 : (this.rbContents.getValue() ? 2 : 3));
                 this.rbFixed.getValue() && this.props.put_Fit(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+                this.rbOther.getValue() && Common.Utils.InternalSettings.set("de-text-to-table-separator", String.fromCharCode(this.props.get_Separator()));
             }
 
             return this.props;
