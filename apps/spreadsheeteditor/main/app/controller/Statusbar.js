@@ -56,6 +56,7 @@ define([
         initialize: function() {
             this.addListeners({
                 'Statusbar': {
+                    'show:tab': _.bind(this.showTab, this),
                     'show:hidden': _.bind(function (obj, index) {
                         this.hideWorksheet(false, index);
                     }, this),
@@ -182,6 +183,10 @@ define([
                     break;
                 }
             }
+            var listItem =this.statusbar.sheetListMenu.items[index];
+            if (listItem.$el.children().first().data('hidden')) {
+                listItem.setDisabled(locked);
+            }
         },
 
         onChangeProtectWorkbook: function() {
@@ -261,6 +266,7 @@ define([
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
             this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || this.api.asc_isProtectedWorkbook() || mode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnSheetList[mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles ? 'addClass' : 'removeClass']('disabled');
 
             var item, i = this.statusbar.tabbar.getCount();
             var wbprotected = this.api.asc_isProtectedWorkbook();
@@ -516,6 +522,17 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
+        showTab: function (sheetIndex) {
+            if (this.api && this.api.asc_getActiveWorksheetIndex() !== sheetIndex) {
+                this.api.asc_showWorksheet(sheetIndex);
+                this.loadTabColor(sheetIndex);
+            }
+            var me = this;
+            setTimeout(function(){
+                me.statusbar.sheetListMenu.hide();
+            }, 1);
+        },
+
         selectTab: function (sheetindex) {
             if (this.api) {
                 var hidden = this.api.asc_isWorksheetHidden(sheetindex);
@@ -706,6 +723,8 @@ define([
                 }
 
                 if (color.length) {
+                    this.statusbar.sheetListMenu.items[tab.sheetindex].$el.find('.color').css('background-color', color);
+
                     if (!tab.isActive()) {
                         color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(1) + ' inset';
                     } else {
@@ -715,6 +734,7 @@ define([
                     tab.$el.find('span').css('box-shadow', color);
                 } else {
                     tab.$el.find('span').css('box-shadow', '');
+                    this.statusbar.sheetListMenu.items[tab.sheetindex].$el.find('.color').css('background-color', '');
                 }
             }
         },
@@ -732,6 +752,11 @@ define([
 
         onApiActiveSheetChanged: function (index) {
             this.statusbar.tabMenu.hide();
+            this.statusbar.sheetListMenu.hide();
+            if (this.statusbar.sheetListMenu.items[index]) {
+                this.statusbar.sheetListMenu.clearAll();
+                this.statusbar.sheetListMenu.items[index].setChecked(true);
+            }
             if (this._sheetViewTip && this._sheetViewTip.isVisible() && this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(index)) { // hide tip when sheet in the default mode
                 this._sheetViewTip.hide();
             }

@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "No se puede acceder al archivo ahora mismo.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "SSE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
+  "SSE.ApplicationController.textAnonymous": "Anónimo",
+  "SSE.ApplicationController.textGuest": "Invitado",
   "SSE.ApplicationController.textLoadingDocument": "Cargando hoja de cálculo",
   "SSE.ApplicationController.textOf": "de",
   "SSE.ApplicationController.txtClose": "Cerrar",

@@ -237,14 +237,20 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
                         split: !this.appConfig.canUseReviewPermissions,
-                        iconCls: 'toolbar__icon btn-review-save'
+                        iconCls: 'toolbar__icon btn-review-save',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     this.btnReject = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtReject,
                         split: !this.appConfig.canUseReviewPermissions,
-                        iconCls: 'toolbar__icon btn-review-deny'
+                        iconCls: 'toolbar__icon btn-review-deny',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     if (this.appConfig.canFeatureComparison)
@@ -252,7 +258,10 @@ define([
                             cls         : 'btn-toolbar  x-huge icon-top',
                             caption     : this.txtCompare,
                             split       : true,
-                            iconCls: 'toolbar__icon btn-compare'
+                            iconCls: 'toolbar__icon btn-compare',
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
                         });
 
                     this.btnTurnOn = new Common.UI.Button({
@@ -260,7 +269,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-review',
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
                 }
@@ -268,16 +280,22 @@ define([
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-prev',
-                        caption: this.txtPrev
+                        caption: this.txtPrev,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-next',
-                        caption: this.txtNext
+                        caption: this.txtNext,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
-                    if (!this.appConfig.isRestrictedEdit) {// hide Display mode option for fillForms and commenting mode
+                    if (!this.appConfig.isRestrictedEdit && !(this.appConfig.customization && this.appConfig.customization.review && this.appConfig.customization.review.hideReviewDisplay)) {// hide Display mode option for fillForms and commenting mode
                         var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
                             '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                             '<% } %></a>');
@@ -317,7 +335,10 @@ define([
                                         value: 'original'
                                     }
                                 ]
-                            })
+                            }),
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
                         });
                     }
                 }
@@ -326,7 +347,10 @@ define([
                     this.btnSharing = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-sharing',
-                        caption: this.txtSharing
+                        caption: this.txtSharing,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
 
@@ -335,7 +359,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
                         caption: this.txtCoAuthMode,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
 
@@ -346,7 +373,10 @@ define([
                     this.btnHistory = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-history',
-                        caption: this.txtHistory
+                        caption: this.txtHistory,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
 
@@ -355,7 +385,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-chat',
                         caption: this.txtChat,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
 
@@ -364,13 +397,19 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentRemove,
                         split: true,
-                        iconCls: 'toolbar__icon btn-rem-comment'
+                        iconCls: 'toolbar__icon btn-rem-comment',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.btnCommentResolve = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentResolve,
                         split: true,
-                        iconCls: 'toolbar__icon btn-resolve-all'
+                        iconCls: 'toolbar__icon btn-resolve-all',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
 
@@ -669,7 +708,10 @@ define([
                                 checkable: true,
                                 toggleGroup: 'menuTurnReviewStb'
                             }
-                        ]})
+                        ]}),
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '2, -16'
                     });
 
                     this.btnsTurnReview.push(button);
@@ -682,7 +724,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-docspell',
                         hintAnchor  : 'top',
                         hint: this.tipSetSpelling,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
                     });
                     this.btnsSpelling.push(button);
 
@@ -693,7 +738,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-doclang',
                         hintAnchor  : 'top',
                         hint: this.tipSetDocLang,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '0',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
                     });
                     this.btnsDocLang.push(button);
 

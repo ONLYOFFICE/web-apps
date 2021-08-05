@@ -4,13 +4,14 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
+    const isDisconnected = props.isDisconnected;
     return (
         <Fragment>
             <NavLeft>
                 {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
                 {Device.ios && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
-                    disabledUndo: !props.isCanUndo,
-                    disabledRedo: !props.isCanRedo,
+                    disabledUndo: !props.isCanUndo || isDisconnected,
+                    disabledRedo: !props.isCanRedo || isDisconnected,
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
@@ -18,15 +19,18 @@ const ToolbarView = props => {
             {!Device.phone && <NavTitle>{props.docTitle}</NavTitle>}
             <NavRight>
                 {Device.android && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
-                    disabledUndo: !props.isCanUndo,
-                    disabledRedo: !props.isCanRedo,
+                    disabledUndo: !props.isCanUndo || isDisconnected,
+                    disabledRedo: !props.isCanRedo || isDisconnected,
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
                 <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
+                {props.showEditDocument &&
+                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                }
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                    disabledAdd: props.disabledAdd || props.disabledControls,
-                    disabledEdit: props.disabledEdit || props.disabledControls,
+                    disabledEdit: props.disabledEdit || props.disabledControls || isDisconnected || props.disabledPreview,
+                    disabledAdd: props.disabledControls || isDisconnected,
                     onEditClick: () => props.openOptions('edit'),
                     onAddClick: () => props.openOptions('add')
                 })}

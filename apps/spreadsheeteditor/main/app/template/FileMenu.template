@@ -16,6 +16,7 @@
     <li class="devider"></li>
     <li id="fm-btn-info" class="fm-btn"></li>
     <li id="fm-btn-rights" class="fm-btn"></li>
+    <li id="fm-btn-history" class="fm-btn"></li>
     <li class="devider" class="fm-btn"></li>
     <li id="fm-btn-settings" class="fm-btn"></li>
     <li class="devider"></li>

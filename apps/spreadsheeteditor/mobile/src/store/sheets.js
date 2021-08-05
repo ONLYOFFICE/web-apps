@@ -1,5 +1,5 @@
 
-import {observable, action, makeObservable} from 'mobx';
+import {observable, action, makeObservable, computed} from 'mobx';
 
 class Worksheet {
     sheet = {
@@ -26,7 +26,14 @@ export class storeWorksheets {
         makeObservable(this, {
             sheets: observable,
             resetSheets: action,
-            setActiveWorksheet: action
+            setActiveWorksheet: action,
+            activeWorksheet: computed,
+
+            isWorkbookLocked: observable,
+            setWorkbookLocked: action,
+
+            isWorksheetLocked: observable,
+            setWorksheetLocked: action
         });
         this.sheets = [];
     }
@@ -46,6 +53,14 @@ export class storeWorksheets {
         }
     }
 
+    get activeWorksheet() {
+        for (let i = 0; i < this.sheets.length; i++) {
+            if (this.sheets[i].active)
+                return i;
+        }
+        return -1;
+    }
+
     at(i) {
         return this.sheets[i]
     }
@@ -60,5 +75,18 @@ export class storeWorksheets {
 
     visibleWorksheets() {
         return this.sheets.filter(model => !model.hidden);
+    }
+
+    isWorkbookLocked = false;
+    setWorkbookLocked(locked) {
+        this.isWorkbookLocked = locked;
+    }
+
+    isWorksheetLocked = false;
+    setWorksheetLocked(index, locked) {
+        let model = this.sheets[index];
+        if(model && model.locked !== locked)
+            model.locked = locked;
+        this.isWorkbookLocked = locked;
     }
 }

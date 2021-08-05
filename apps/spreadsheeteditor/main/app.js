@@ -161,6 +161,7 @@ require([
             'ViewTab',
             'WBProtection',
             'Common.Controllers.Fonts',
+            'Common.Controllers.History',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
@@ -198,6 +199,7 @@ require([
             'common/main/lib/util/utils',
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Fonts',
+            'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             'common/main/lib/controller/Plugins'

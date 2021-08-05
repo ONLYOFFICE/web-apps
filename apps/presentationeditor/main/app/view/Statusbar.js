@@ -244,7 +244,10 @@ define([
                             {caption: this.textShowCurrent, value: 1},
                             {caption: this.textShowPresenterView, value: 2}
                         ]
-                    })
+                    }),
+                    dataHint: '0',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
                 });
 
                 var panelLang = $('.cnt-lang',this.el);
@@ -301,6 +304,7 @@ define([
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
                     this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+                    this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',     _.bind(this.onApiCoAuthoringDisconnect, this));
                 }
 
@@ -364,7 +368,6 @@ define([
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
-                this.mode.isEdit = !disable;
             },
 
             onApiFocusObject: function(selectedObjects) {

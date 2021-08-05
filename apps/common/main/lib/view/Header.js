@@ -85,7 +85,7 @@ define([
                                 '<div class="hedset">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users">' +
+                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption">&plus;</label>' +
                                         '</div>' +
@@ -97,13 +97,14 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-user-name"></div>' +
-                                    '<div class="btn-current-user hidden">' +
+                                    '<div class="btn-current-user btn-header hidden">' +
                                         '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
                                     '</div>' +
                                 '</div>' +
@@ -350,6 +351,10 @@ define([
 
             if ( me.btnOptions )
                 me.btnOptions.updateHint(me.tipViewSettings);
+
+            if ( me.btnContentMode ) {
+                me.btnContentMode.on('click', function (e) { Common.UI.Themes.toggleContentTheme(); });
+            }
         }
 
         function onDocNameKeyDown(e) {
@@ -386,6 +391,12 @@ define([
             }
         }
 
+        function onContentThemeChangedToDark(isdark) {
+            if ( this.btnContentMode ) {
+                this.btnContentMode.changeIcon(!isdark ? {curr: 'btn-mode-light', next: 'btn-mode-dark'} : {curr: 'btn-mode-dark', next: 'btn-mode-light'});
+            }
+        }
+
         return {
             options: {
                 branding: {},
@@ -415,7 +426,10 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true
+                    split: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -428,7 +442,10 @@ define([
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true
+                    menu: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.mnuZoom = {options: {value: 100}};
@@ -436,7 +453,10 @@ define([
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
-                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite',
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 Common.NotificationCenter.on({
@@ -444,6 +464,7 @@ define([
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
+                Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
             },
 
             render: function (el, role) {
@@ -459,7 +480,10 @@ define([
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
-                        disabled: disabled === true
+                        disabled: disabled === true,
+                        dataHint:'0',
+                        dataHintDirection: 'left',
+                        dataHintOffset: '10, 10'
                     })).render(slot);
                 }
 
@@ -535,6 +559,12 @@ define([
                     $btnUsers = $html.find('.btn-users');
 
                     $panelUsers.hide();
+
+                    if ( !!window.DE ) {
+                        var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
+                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
+                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
+                    }
 
                     return $html;
                 } else

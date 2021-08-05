@@ -74,7 +74,8 @@ define([
                 isVisible: true,
                 allowSelected: true,
                 selected: false,
-                serverVersion: 0
+                serverVersion: 0,
+                fileType: 'docx'
             }
         }
     });

@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "SSE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
+  "SSE.ApplicationController.textAnonymous": "Анонимный пользователь",
+  "SSE.ApplicationController.textGuest": "Гость",
   "SSE.ApplicationController.textLoadingDocument": "Загрузка таблицы",
   "SSE.ApplicationController.textOf": "из",
   "SSE.ApplicationController.txtClose": "Закрыть",

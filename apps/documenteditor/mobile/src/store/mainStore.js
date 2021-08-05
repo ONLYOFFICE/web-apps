@@ -9,11 +9,13 @@ import {storeImageSettings} from "./imageSettings";
 import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
+import {storeLinkSettings} from './linkSettings';
 import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
 import {storeReview} from "./review";
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
+import {storeToolbarSettings} from "./toolbar";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -21,6 +23,7 @@ export const stores = {
     storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
     storeTextSettings: new storeTextSettings(),
+    storeLinkSettings: new storeLinkSettings(),
     storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),
@@ -30,6 +33,7 @@ export const stores = {
     storeApplicationSettings: new storeApplicationSettings(),
     storePalette: new storePalette(),
     storeReview: new storeReview(),
-    storeComments: new storeComments()
+    storeComments: new storeComments(),
+    storeToolbarSettings: new storeToolbarSettings()
 };
 

@@ -273,7 +273,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -281,7 +281,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: true
             });
 
@@ -298,9 +298,9 @@ define([
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -313,9 +313,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 110px;',
+                style: 'width: 115px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 110px;',
+                    style: 'min-width: 115px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -376,9 +376,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-h-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -392,9 +392,9 @@ define([
             this.cmbFontSize.push(new Common.UI.ComboBox({
                 el: $('#id-dlg-f-font-size'),
                 cls: 'input-group-nr',
-                style: 'width: 55px;',
+                style: 'width: 45px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle: 'min-width: 55px;max-height: 270px;',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
                 hint: this.tipFontSize,
                 data: data
             }));
@@ -534,19 +534,13 @@ define([
             this.btnSubscript[1].on('click', _.bind(this.onSubscriptClick, this));
             this.footerControls.push(this.btnSubscript[1]);
 
-            var initNewColor = function(btn, picker_el) {
-                if (btn && btn.cmpEl) {
-                    btn.currentColor = '000000';
-                    btn.setColor(btn.currentColor);
-                    var picker = new Common.UI.ThemeColorPalette({
-                        el: $(picker_el)
-                    });
-                    picker.currentColor = btn.currentColor;
-                }
-                btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
-                    picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-                }, me));
-                picker.on('select', _.bind(me.onColorSelect, me, btn));
+            var initNewColor = function(btn) {
+                btn.setMenu();
+                btn.currentColor = '000000';
+                btn.setColor(btn.currentColor);
+                var picker = btn.getPicker();
+                picker.currentColor = btn.currentColor;
+                btn.on('color:select', _.bind(me.onColorSelect, me));
                 return picker;
             };
             this.btnTextColor = [];
@@ -556,17 +550,13 @@ define([
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                menu        : true
             }));
             this.btnTextColor[0].on('click', _.bind(this.onTextColor, this));
+
             this.mnuTextColorPicker = [];
-            this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0], "#id-dlg-h-menu-fontcolor"));
+            this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0]));
             this.headerControls.push(this.btnTextColor[0]);
 
             this.btnTextColor.push(new Common.UI.ButtonColored({
@@ -575,16 +565,11 @@ define([
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                menu        : true
             }));
             this.btnTextColor[1].on('click', _.bind(this.onTextColor, this));
-            this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1], "#id-dlg-f-menu-fontcolor"));
+            this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1]));
             this.footerControls.push(this.btnTextColor[1]);
 
             this.btnOk = new Common.UI.Button({
@@ -662,14 +647,14 @@ define([
             });
 
             this.btnPresetsH.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
             this.btnPresetsF.setMenu(new Common.UI.Menu({
-                style: 'min-width: 110px;',
+                style: 'min-width: 115px;',
                 maxHeight: 200,
                 additionalAlign: this.menuAddAlign,
                 items: presets
@@ -898,10 +883,9 @@ define([
             mnuTextColorPicker.trigger('select', mnuTextColorPicker, mnuTextColorPicker.currentColor, true);
         },
 
-        onColorSelect: function(btn, picker, color) {
+        onColorSelect: function(btn, color) {
             btn.currentColor = color;
-            btn.setColor(btn.currentColor);
-            picker.currentColor = color;
+            btn.colorPicker.currentColor = color;
             if (this.HFObject)
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
             this.onCanvasClick(this.currentCanvas);

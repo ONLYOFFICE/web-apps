@@ -124,12 +124,12 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;"><%= scope.textDistributeRows %></button>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textDistributeRows %></button>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;"><%= scope.textDistributeCols %></button>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textDistributeCols %></button>
         </td>
     </tr>
     <tr>
@@ -139,7 +139,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="table-advanced-link"><%= scope.textAdvanced %></label>
+            <label class="link" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

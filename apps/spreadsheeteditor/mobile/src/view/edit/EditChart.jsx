@@ -147,6 +147,7 @@ const PageBorderColor = props => {
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const isAndroid = Device.android;
     const storeChartSettings = props.storeChartSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
@@ -195,6 +196,7 @@ const PageStyle = props => {
                     {chartStyles ? <Link key={"sse-link-chart-style"} tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
                     <Link key={"sse-link-chart-fill"} tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"sse-link-chart-border"} tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>

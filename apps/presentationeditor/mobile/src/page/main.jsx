@@ -30,34 +30,52 @@ class MainPage extends Component {
     handleClickToOpenOptions = (opts, showOpts) => {
         ContextMenu.closeContextMenu();
 
-        this.setState(state => {
-            if ( opts == 'edit' )
-                return {editOptionsVisible: true};
-            else if ( opts == 'add' )
-                return {
-                    addOptionsVisible: true,
-                    addShowOptions: showOpts
-                };
-            else if ( opts == 'settings' )
-                return {settingsVisible: true};
-            else if ( opts == 'coauth' )
-                return {collaborationVisible: true};
-            else if ( opts == 'preview' )
-                return {previewVisible: true};
-        });
+        setTimeout(() => {
+            let opened = false;
+            const newState = {};
+            if ( opts === 'edit' ) {
+                this.state.editOptionsVisible && (opened = true);
+                newState.editOptionsVisible = true;
+            } else if ( opts === 'add' ) {
+                this.state.addOptionsVisible && (opened = true);
+                newState.addOptionsVisible = true;
+                newState.addShowOptions = showOpts;
+            } else if ( opts === 'settings' ) {
+                this.state.settingsVisible && (opened = true);
+                newState.settingsVisible = true;
+            } else if ( opts === 'coauth' ) {
+                this.state.collaborationVisible && (opened = true);
+                newState.collaborationVisible = true;
+            } else if ( opts === 'preview' ) {
+                this.state.previewVisible && (opened = true);
+                newState.previewVisible = true;
+            }
 
-        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-            f7.navbar.hide('.main-navbar');
-        }
+            for (let key in this.state) {
+                if (this.state[key] && !opened) {
+                    setTimeout(() => {
+                        this.handleClickToOpenOptions(opts, showOpts);
+                    }, 10);
+                    return;
+                }
+            }
+
+            if (!opened) {
+                this.setState(newState);
+                if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+                    f7.navbar.hide('.main-navbar');
+                }
+            }
+        }, 10);
     };
 
     handleOptionsViewClosed = opts => {
-        (async () => {
-            await 1 && this.setState(state => {
+        setTimeout(() => {
+            this.setState(state => {
                 if ( opts == 'edit' )
                     return {editOptionsVisible: false};
                 else if ( opts == 'add' )
-                    return {addOptionsVisible: false};
+                    return {addOptionsVisible: false, addShowOptions: null};
                 else if ( opts == 'settings' )
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
@@ -68,7 +86,7 @@ class MainPage extends Component {
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
             }
-        })();
+        });
     };
 
     render() {

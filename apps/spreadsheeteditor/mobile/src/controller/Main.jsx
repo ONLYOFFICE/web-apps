@@ -18,8 +18,11 @@ import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import EncodingController from "./Encoding";
+import { StatusbarController } from "./Statusbar";
 
 @inject(
+    "users",
     "storeAppOptions",
     "storeFocusObjects",
     "storeCellSettings",
@@ -27,7 +30,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeChartSettings",
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -186,7 +190,7 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;
-                appOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(appOptions);
 
@@ -221,7 +225,39 @@ class MainController extends Component {
                         'Diagram Title': _t.txtDiagramTitle,
                         'X Axis': _t.txtXAxis,
                         'Y Axis': _t.txtYAxis,
-                        'Your text here': _t.txtArt
+                        'Your text here': _t.txtArt,
+                        'Table': _t.txtTable,
+                        'Print_Area': _t.txtPrintArea,
+                        'Confidential': _t.txtConfidential,
+                        'Prepared by ': _t.txtPreparedBy + ' ',
+                        'Page': _t.txtPage,
+                        'Page %1 of %2': _t.txtPageOf,
+                        'Pages': _t.txtPages,
+                        'Date': _t.txtDate,
+                        'Time': _t.txtTime,
+                        'Tab': _t.txtTab,
+                        'File': _t.txtFile,
+                        'Column': _t.txtColumn,
+                        'Row': _t.txtRow,
+                        '%1 of %2': _t.txtByField,
+                        '(All)': _t.txtAll,
+                        'Values': _t.txtValues,
+                        'Grand Total': _t.txtGrandTotal,
+                        'Row Labels': _t.txtRowLbls,
+                        'Column Labels': _t.txtColLbls,
+                        'Multi-Select (Alt+S)': _t.txtMultiSelect,
+                        'Clear Filter (Alt+C)':  _t.txtClearFilter,
+                        '(blank)': _t.txtBlank,
+                        'Group': _t.txtGroup,
+                        'Seconds': _t.txtSeconds,
+                        'Minutes': _t.txtMinutes,
+                        'Hours': _t.txtHours,
+                        'Days': _t.txtDays,
+                        'Months': _t.txtMonths,
+                        'Quarters': _t.txtQuarters,
+                        'Years': _t.txtYears,
+                        '%1 or %2': _t.txtOr,
+                        'Qtr': _t.txtQuarter
                     };
                     styleNames.forEach(function(item){
                         translate[item] = _t['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -292,6 +328,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        $$(window).on('resize', () => {
+            this.api.asc_Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
@@ -318,8 +358,23 @@ class MainController extends Component {
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
-            const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
+            const _t = t("View.Settings", { returnObjects: true });
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
+        });
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
         });
 
     }
@@ -762,12 +817,14 @@ class MainController extends Component {
             <Fragment>
                 <LongActionsController />
                 <ErrorController LoadingDocument={this.LoadingDocument}/>
+                <StatusbarController />
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />
                 <EditCommentController />
                 <ViewCommentsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
         )
     }

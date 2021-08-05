@@ -39,7 +39,191 @@ define([
 ], function () {
     'use strict';
 
-    Common.UI.ColorButton = Common.UI.Button.extend(_.extend({
+  Common.UI.ButtonColored = Common.UI.Button.extend(_.extend({
+        render: function(parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
+            this.colorEl = this.cmpEl.find('.btn-color-value-line');
+
+            if (this.options.auto)
+                this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
+
+            if (this.options.color!==undefined)
+                this.setColor(this.options.color);
+        },
+
+        getPicker: function(color, colors) {
+            if (!this.colorPicker) {
+                this.colorPicker = new Common.UI.ThemeColorPalette({
+                    el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
+                    transparent: this.options.transparent,
+                    value: color,
+                    colors: colors,
+                    parentButton: this
+                });
+                this.colorPicker.on('select', _.bind(this.onColorSelect, this));
+                this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
+                if (this.options.auto) {
+                    this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
+                    this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
+                    (color == 'auto') && this.setAutoColor(true);
+                }
+            }
+            return this.colorPicker;
+        },
+
+        setPicker: function(picker) {
+            this.colorPicker = picker;
+        },
+
+        getMenu: function(options) {
+            if (typeof this.menu !== 'object') {
+                options = options || this.options;
+                var height = options.paletteHeight || 240,
+                    id = Common.UI.getId(),
+                    auto = [];
+                if (options.auto) {
+                    this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
+                    auto.push({
+                        id: id + '-color-auto',
+                        caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
+                    });
+                    auto.push({caption: '--'});
+                }
+
+                var menu = new Common.UI.Menu({
+                    id: id,
+                    cls: 'shifted-left',
+                    additionalAlign: options.additionalAlign,
+                    items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
+                        {
+                            id: id + '-color-new',
+                            template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
+                        }
+                    ])
+                });
+                this.colorPicker && (this.colorPicker.parentButton = menu);
+                var me = this;
+                menu.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
+                menu.on('show:after', function(menu) {
+                    me.colorPicker && _.delay(function() {
+                        me.colorPicker.showLastSelected();
+                        !(options.additionalItems || options.auto) && me.colorPicker.focus();
+                    }, 10);
+                }).on('hide:after', function() {
+                    if (me.options.takeFocusOnClose) {
+                        setTimeout(function(){me.focus();}, 1);
+                    }
+                });
+                return menu;
+            }
+            return this.menu;
+        },
+
+        setMenu: function (m) {
+            m = m || this.getMenu();
+            Common.UI.Button.prototype.setMenu.call(this, m);
+            this.getPicker(this.options.color, this.options.colors);
+        },
+
+        onColorSelect: function(picker, color) {
+            this.setColor(color);
+            this.setAutoColor(false);
+            this.trigger('color:select', this, color);
+        },
+
+        setColor: function(color) {
+            if (color == 'auto' && this.options.auto)
+                color = this.autocolor;
+            this.color = color;
+
+            if (this.colorEl) {
+                this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
+                this.colorEl.toggleClass('bordered', color=='transparent');
+            }
+        },
+
+        setAutoColor: function(selected) {
+            if (!this.colorAuto) return;
+            if (selected && !this.colorAuto.hasClass('selected'))
+                this.colorAuto.addClass('selected');
+            else if (!selected && this.colorAuto.hasClass('selected'))
+                this.colorAuto.removeClass('selected');
+        },
+
+        isAutoColor: function() {
+            return this.colorAuto && this.colorAuto.hasClass('selected');
+        },
+
+        onAutoColorSelect: function() {
+            this.setColor('auto');
+            this.setAutoColor(true);
+            this.colorPicker && this.colorPicker.clearSelection();
+            this.trigger('auto:select', this, this.autocolor);
+        },
+
+        addNewColor: function() {
+            this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
+        },
+
+        onBeforeKeyDown: function(menu, e) {
+            if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
+                $('button', this.cmpEl).click();
+                return false;
+            }
+            if (e.keyCode == Common.UI.Keys.RETURN) {
+                var li = $(e.target).closest('li');
+                if (li.length>0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    li.click();
+                }
+                Common.UI.Menu.Manager.hideAll();
+            } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
+                if (!$items.length) return;
+                var index = $items.index($items.filter(':focus')),
+                    me = this,
+                    pickerIndex = $items.length-1 ;
+                if (e.keyCode == Common.UI.Keys.DOWN && (index==pickerIndex-1 || pickerIndex==0) || e.keyCode == Common.UI.Keys.UP && index==pickerIndex) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    _.delay(function() {
+                        me.focusInner(e);
+                    }, 10);
+                }
+            }
+        },
+
+        isMenuOpen: function() {
+            return this.cmpEl.hasClass('open');
+        },
+
+        focusInner: function(e) {
+            if (!this.colorPicker) return;
+
+            this.colorPicker.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
+        },
+
+        focusOuter: function(e) {
+            if (!this.menu) return;
+
+            var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', this.menu.$el).find('> a');
+            if (!$items.length) return;
+
+            $items.eq(e.keyCode == Common.UI.Keys.UP ? $items.length-2 : $items.length-1).focus();
+        },
+
+        textNewColor: 'Add New Custom Color',
+        textAutoColor: 'Automatic'
+
+    }, Common.UI.ButtonColored || {}));
+
+
+    Common.UI.ColorButton = Common.UI.ButtonColored.extend(_.extend({
         options : {
             id              : null,
             hint            : false,
@@ -58,7 +242,7 @@ define([
 
         template: _.template([
             '<div class="btn-group" id="<%= id %>">',
-                '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>">',
+                '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<span>&nbsp;</span>',
                     '<span class="inner-box-caret">',
                         '<i class="caret"></i>',
@@ -90,12 +274,6 @@ define([
                 this.setColor(this.options.color);
         },
 
-        onColorSelect: function(picker, color) {
-            this.setColor(color);
-            this.setAutoColor(false);
-            this.trigger('color:select', this, color);
-        },
-
         setColor: function(color) {
             if (color == 'auto' && this.options.auto)
                 color = this.autocolor;
@@ -106,105 +284,9 @@ define([
             span.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
         },
 
-        getPicker: function(color, colors) {
-            if (!this.colorPicker) {
-                this.colorPicker = new Common.UI.ThemeColorPalette({
-                    el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
-                    transparent: this.options.transparent,
-                    value: color,
-                    colors: colors
-                });
-                this.colorPicker.on('select', _.bind(this.onColorSelect, this));
-                this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
-                if (this.options.auto) {
-                    this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
-                    this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
-                    (color == 'auto') && this.setAutoColor(true);
-                }
-            }
-            return this.colorPicker;
-        },
-
-        getMenu: function(options) {
-            if (typeof this.menu !== 'object') {
-                options = options || this.options;
-                var height = options.paletteHeight || 216,
-                    id = Common.UI.getId(),
-                    auto = [];
-                if (options.auto) {
-                    this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
-                    auto.push({
-                        id: id + '-color-auto',
-                        caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
-                    });
-                    auto.push({caption: '--'});
-                }
-
-                var menu = new Common.UI.Menu({
-                    id: id,
-                    cls: 'shifted-left',
-                    additionalAlign: options.additionalAlign,
-                    items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
-                    ])
-                });
-                return menu;
-            }
-            return this.menu;
-        },
-
-        setMenu: function (m) {
-            m = m || this.getMenu();
-            Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker(this.options.color, this.options.colors);
-        },
-
-        addNewColor: function() {
-            this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
-        },
-
-        onAutoColorSelect: function() {
-            this.setColor('auto');
-            this.setAutoColor(true);
-            this.colorPicker && this.colorPicker.clearSelection();
-            this.trigger('auto:select', this, this.autocolor);
-        },
-
-        setAutoColor: function(selected) {
-            if (!this.colorAuto) return;
-            if (selected && !this.colorAuto.hasClass('selected'))
-                this.colorAuto.addClass('selected');
-            else if (!selected && this.colorAuto.hasClass('selected'))
-                this.colorAuto.removeClass('selected');
-        },
-
-        isAutoColor: function() {
-            return this.colorAuto && this.colorAuto.hasClass('selected');
-        },
-
-        textNewColor: 'Add New Custom Color',
-        textAutoColor: 'Automatic'
-
-    }, Common.UI.ColorButton || {}));
-
-
-    Common.UI.ButtonColored = Common.UI.Button.extend(_.extend({
-        render: function(parentEl) {
-            Common.UI.Button.prototype.render.call(this, parentEl);
-
-            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
-            this.colorEl = this.cmpEl.find('.btn-color-value-line');
-        },
-
-        setColor: function(color) {
-            if (this.colorEl) {
-                this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
-                this.colorEl.toggleClass('bordered', color=='transparent');
-            }
+        focus: function() {
+            $('button', this.cmpEl).focus();
         }
 
-    }, Common.UI.ButtonColored || {}));
-
+    }, Common.UI.ColorButton || {}));
 });

@@ -129,6 +129,35 @@ define([
                     hintAnchor: 'top'
                 });
 
+                this.cntSheetList = new Common.UI.Button({
+                    el: $('.cnt-tabslist', this.el),
+                    hint: this.tipListOfSheets,
+                    hintAnchor: 'top'
+                });
+                this.btnSheetList = $('#status-btn-tabslist',this.$el);
+                this.sheetListMenu = new Common.UI.Menu({
+                    style: 'margin-top:-3px;',
+                    menuAlign: 'bl-tl',
+                    maxHeight: 300
+                });
+                this.sheetListMenu.on('item:click', function(obj,item) {
+                    me.fireEvent('show:tab', [item.value]);
+                });
+                this.cntSheetList.cmpEl.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.cntSheetList.cmpEl.find('ul').focus();
+                        }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    }
+                });
+                this.sheetListMenu.render($('.cnt-tabslist',this.el));
+                this.sheetListMenu.cmpEl.attr({tabindex: -1});
+
                 this.cntZoom = new Common.UI.Button({
                     el: $('.cnt-zoom',this.el),
                     hint: this.tipZoomFactor,
@@ -316,7 +345,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 240px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -479,7 +508,7 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected);
+                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
 
@@ -494,10 +523,11 @@ define([
                 this.tabMenu.items[6].menu.removeAll();
                 this.tabMenu.items[6].hide();
                 this.btnAddWorksheet.setDisabled(true);
+                this.sheetListMenu.removeAll();
 
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked, name;
+                    var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
 
@@ -518,6 +548,8 @@ define([
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
+
+                        allItems.push(tab);
                     }
 
                     if (hidentems.length) {
@@ -533,6 +565,27 @@ define([
 
                     this.tabbar.add(items);
 
+                    allItems.forEach(function(item){
+                        me.sheetListMenu.addItem(new Common.UI.MenuItem({
+                            style: 'white-space: pre',
+                            caption: Common.Utils.String.htmlEncode(item.label),
+                            value: item.sheetindex,
+                            checkable: true,
+                            checked: item.active,
+                            hidden: me.api.asc_isWorksheetHidden(item.sheetindex),
+                            textHidden: me.itemHidden,
+                            template: _.template([
+                                '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
+                                    '<div class="color"></div>',
+                                    '<span class="name"><%= caption %></span>',
+                                    '<% if (options.hidden) { %>',
+                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
+                                    '<% } %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    });
+
                     if (!_.isUndefined(this.tabBarScroll)) {
                         this.tabbar.$bar.scrollLeft(this.tabBarScroll.scrollLeft);
                         this.tabBarScroll = undefined;
@@ -541,6 +594,8 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.asc_isProtectedWorkbook() || me.api.isCellEdited);
+                    this.tabbar.addDataHint(_.findIndex(items, function (item) { return item.sheetindex === sindex; }));
+
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);
@@ -617,6 +672,8 @@ define([
                 if (this.hasTabInvisible && !this.tabbar.isTabVisible(index)) {
                     this.tabbar.setTabVisible(index);
                 }
+
+                this.tabbar.addDataHint(index);
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);
@@ -770,7 +827,7 @@ define([
 
             changeViewMode: function (edit) {
                 if (edit) {
-                    this.tabBarBox.css('left',  '152px');
+                    this.tabBarBox.css('left',  '175px');
                 } else {
                     this.tabBarBox.css('left',  '');
                 }
@@ -836,6 +893,7 @@ define([
             tipPrev             : 'Previous Sheet',
             tipNext             : 'Next Sheet',
             tipAddTab           : 'Add Worksheet',
+            tipListOfSheets     : 'List of Sheets',
             itemInsert          : 'Insert',
             itemDelete          : 'Delete',
             itemRename          : 'Rename',

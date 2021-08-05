@@ -10,7 +10,8 @@ const FilterOptionsController = () => {
 
     const [configFilter, setConfig] = useState(null);
     const [listVal, setListValue] = useState([]);
-    const [isValid, setIsValid] = useState(null)
+    const [isValid, setIsValid] = useState(null);
+    const [checkSort, setCheckSort] = useState(null);
     
     useEffect(() => {
         function onDocumentReady()  {
@@ -36,6 +37,9 @@ const FilterOptionsController = () => {
         setConfig(config);
         setClearDisable(config);
 
+        setCheckSort((config.asc_getSortState() === Asc.c_oAscSortOptions.Ascending ? 'down' : '') || 
+        (config.asc_getSortState() === Asc.c_oAscSortOptions.Descending ? 'up' : ''));
+        
         if (Device.phone) { 
             f7.sheet.open('.picker__sheet');
         } else {
@@ -51,12 +55,15 @@ const FilterOptionsController = () => {
 
     const onSort = (type) => {
         const api = Common.EditorApi.get();
-        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configFilter.asc_getCellId(), configFilter.asc_getDisplayName(), undefined, true);
+        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configFilter.asc_getCellId(), configFilter.asc_getDisplayName());
+        f7.sheet.close('.picker__sheet');
+        f7.popover.close('#picker-popover');
     };
     
     const onClearFilter = () => {
         const api = Common.EditorApi.get();
         if(api) api.asc_clearFilter();
+        setCheckSort('');
     };
 
     const onDeleteFilter = () => {
@@ -73,21 +80,17 @@ const FilterOptionsController = () => {
     const setClearDisable = (config) => {
         let arr = config.asc_getValues();
         let lenCheck = arr.filter((item) => item.visible == true).length;
-        lenCheck == arr.length ? setIsValid(true) : setIsValid(false)
+        lenCheck == arr.length ? setIsValid(true) : setIsValid(false);
     };
 
     const setDataFilterCells = (config) => {
-        function isNumeric(value) {
-            return !isNaN(parseFloat(value)) && isFinite(value);
-        }
-
         let value = null,
             isnumber = null,
             arrCells = [];
 
         config.asc_getValues().forEach((item, index) => {
             value = item.asc_getText();
-            isnumber = isNumeric(value);
+            isnumber = !isNaN(parseFloat(value)) && isFinite(value);
 
             arrCells.push({
                 id              : index,
@@ -105,12 +108,7 @@ const FilterOptionsController = () => {
     const onUpdateCell = (id, state) => {
         const api = Common.EditorApi.get();
 
-        if ( id == 'all' ) {
-            listVal.forEach(item => item.check = state);
-        } else {
-            listVal[id].check = state;
-        }
-
+        id == 'all' ? listVal.forEach(item => item.check = state) : listVal[id].check = state;
         setListValue([...listVal]);
 
         if ( listVal.some(item => item.check) ) {
@@ -126,7 +124,7 @@ const FilterOptionsController = () => {
     };
 
     return (
-        <FilterView onSort={onSort} listVal={listVal} isValid={isValid} onUpdateCell={onUpdateCell} 
+        <FilterView onSort={onSort} listVal={listVal} checkSort={checkSort} isValid={isValid} onUpdateCell={onUpdateCell} 
         onDeleteFilter={onDeleteFilter} onClearFilter={onClearFilter}/>
     )
 };

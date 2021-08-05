@@ -35,8 +35,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
             api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
             api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
-
-            Common.Gateway.off('init', loadConfig);
         };
     });
 
@@ -45,7 +43,6 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         let index = $$(e.currentTarget).index();
         api.asc_pluginButtonClick(index);
     };
-
 
     const showPluginModal = (plugin, variationIndex, frameId, urlAddition) => {
         let isAndroid = Device.android;
@@ -68,7 +65,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                     if ((storeAppOptions.isEdit || b.isViewer !== false)) {
                         newBtns[index] = {
                             text: b.text,
-                            attributes: {result: index}
+                            attributes: {result: index},
+                            close: false
                         };
                     }
                 });
@@ -123,8 +121,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const pluginClose = plugin => {
-        if (iframe) {
-            iframe = null;
+        if (plugin) {
+            modal.close();
         }
     };
 
@@ -184,7 +182,31 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
     const onPluginsInit = pluginsdata => {
         !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-        registerPlugins(pluginsdata)
+        parsePlugins(pluginsdata)
+    };
+
+    const parsePlugins = pluginsdata => {
+        let isEdit = storeAppOptions.isEdit;
+        
+        if ( pluginsdata instanceof Array ) { 
+            let lang = storeAppOptions.lang.split(/[\-_]/)[0];
+            pluginsdata.forEach((item) => {
+                item.variations.forEach( (itemVar) => { 
+                    let description = itemVar.description;
+                    if (typeof itemVar.descriptionLocale == 'object')
+                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                    if(itemVar.buttons !== undefined) {
+                        itemVar.buttons.forEach( (button) => {
+                            if (typeof button.textLocale == 'object')
+                                    button.text = button.textLocale[lang] || button.textLocale['en'] || button.text || '';
+                            button.visible = (isEdit || button.isViewer !== false);
+                        })
+                    }
+                })
+            });
+        } 
+        registerPlugins(pluginsdata);
     };
 
     const registerPlugins = plugins => {
@@ -196,6 +218,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
             plugin.set_Name(item['name']);
             plugin.set_Guid(item['guid']);
             plugin.set_BaseUrl(item['baseUrl']);
+            plugin.set_MinVersion && plugin.set_MinVersion(item['minVersion']);
 
             let variations = item['variations'],
                 variationsArr = [];
@@ -247,7 +270,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                 arr = arr.concat(plugins.plugins);
             }
 
-            registerPlugins(arr);
+            parsePlugins(arr);
         }
     };
 

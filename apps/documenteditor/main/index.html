@@ -14,7 +14,7 @@
             --toolbar-header-document: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
-            --highlight-button-hover: #e0e0e0;
+            --highlight-button-hover: #555;
             --highlight-header-button-hover: rgba(255,255,255,.05);
             --canvas-background: #666666;
             /*--canvas-content-background: #fff;*/
@@ -225,8 +225,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');
@@ -242,6 +241,7 @@
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
+    <script src="../../common/main/lib/util/themeinit.js"></script>
 
     <!-- debug begin -->
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
@@ -314,6 +314,7 @@
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/html.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/fb2.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/epub.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docm.svg">
     <img class="inline-svg" src="resources/img/blank.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">

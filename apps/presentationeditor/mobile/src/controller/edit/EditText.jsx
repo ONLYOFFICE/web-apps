@@ -134,11 +134,11 @@ class EditTextController extends Component {
         let size = curSize;
 
         if (isDecrement) {
-            typeof size === 'undefined' ? api.FontSizeOut() : size = Math.max(1, --size);
+            typeof size === 'undefined' || size == '' ? api.FontSizeOut() : size = Math.max(1, --size);
         } else {
-            typeof size === 'undefined' ? api.FontSizeIn : size = Math.min(300, ++size);
+            typeof size === 'undefined' || size == '' ? api.FontSizeIn() : size = Math.min(300, ++size);
         }
-        if (typeof size !== 'undefined') {
+        if (typeof size !== 'undefined' || size == '') {
             api.put_TextPrFontSize(size);
         }
     };

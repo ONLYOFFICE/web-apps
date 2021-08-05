@@ -45,7 +45,7 @@ const StandartColors = ({ options, standartColors, onColorClick, curColor }) => 
     )
 };
 
-const CustomColors = ({ options, customColors, onColorClick, curColor }) => {
+const CustomColors = ({ options, customColors, isTypeColors, onColorClick, curColor }) => {
     const colors = customColors.length > 0 ? customColors : [];
     const emptyItems = [];
     if (colors.length < options.customcolors) {
@@ -56,12 +56,15 @@ const CustomColors = ({ options, customColors, onColorClick, curColor }) => {
             ></a>)
         }
     }
+
+    let indexCurColor = colors.indexOf(curColor);
+    
     return (
         <div className='palette'>
             {colors && colors.length > 0 && colors.map((color, index) => {
                 return(
                     <a key={`dc-${index}`}
-                       className={curColor && curColor === color ? 'active' : ''}
+                       className={curColor && curColor === color && index === indexCurColor && !isTypeColors ? 'active' : ''}
                        style={{background: `#${color}`}}
                        onClick={() => {onColorClick(color)}}
                     ></a>
@@ -97,6 +100,7 @@ const ThemeColorPalette = props => {
         themeColors[row].push(effect);
     });
     const standartColors = Common.Utils.ThemeColor.getStandartColors();
+    let isTypeColors = standartColors.some( value => value === curColor );
     // custom color
     let customColors = props.customColors;
     if (customColors.length < 1) {
@@ -117,7 +121,7 @@ const ThemeColorPalette = props => {
                 </ListItem>
                 <ListItem className='dynamic-colors'>
                     <div>{ _t.textCustomColors }</div>
-                    <CustomColors options={options} customColors={customColors} onColorClick={props.changeColor} curColor={curColor}/>
+                    <CustomColors options={options} isTypeColors={isTypeColors} customColors={customColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
             </List>
         </div>

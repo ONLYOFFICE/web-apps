@@ -79,6 +79,19 @@
             }
         }
     },
+    "apps-common": {
+        "clean": [
+            "../deploy/web-apps/apps/common"
+        ],
+        "copy": {
+            "alphabetletters": {
+                "expand": true,
+                "cwd": "../apps/common/main/resources/alphabetletters",
+                "src": "*.json",
+                "dest": "../deploy/web-apps/apps/common/main/resources/alphabetletters"
+            }
+        }
+    },
     "bootstrap": {
         "clean": [
             "../deploy/web-apps/vendor/bootstrap"
@@ -231,6 +244,7 @@
         "deploy": [
             "increment-build",
             "deploy-api",
+            "deploy-apps-common",
             "deploy-sdk",
             "deploy-sockjs",
             "deploy-xregexp",

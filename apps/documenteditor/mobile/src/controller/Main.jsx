@@ -16,8 +16,9 @@ import EditorUIController from '../lib/patch';
 import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
-
+import EncodingController from "./Encoding";
 @inject(
+    "users",
     "storeAppOptions",
     "storeDocumentSettings",
     "storeFocusObjects",
@@ -26,7 +27,9 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeTableSettings",
     "storeDocumentInfo",
     "storeChartSettings",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeLinkSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -77,7 +80,6 @@ class MainController extends Component {
                 const _t = this._t;
 
                 EditorUIController.isSupportEditFeature();
-                console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
@@ -184,7 +186,7 @@ class MainController extends Component {
 
                 const storeAppOptions = this.props.storeAppOptions;
 
-                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
@@ -510,6 +512,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        $$(window).on('resize', () => {
+            this.api.Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName', this.onDocumentName.bind(this));
@@ -568,6 +574,12 @@ class MainController extends Component {
             storeTextSettings.resetBackgroundColor(color);
         });
 
+        // link settings
+        const storeLinkSettings = this.props.storeLinkSettings;
+        this.api.asc_registerCallback('asc_onCanAddHyperlink', (value) => {
+            storeLinkSettings.canAddHyperlink(value);
+        });
+
         //paragraph settings
         EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeParagraphSettings);
 
@@ -604,10 +616,26 @@ class MainController extends Component {
         });
 
         // Downloaded Advanced Options
+        
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose);
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
+        });
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
         });
     }
 
@@ -813,6 +841,7 @@ class MainController extends Component {
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
             )
     }

@@ -32,18 +32,20 @@ const FilterOptions = (props) => {
                 </NavRight>
             }
            </Navbar>
+
            <List>
                 <ListItem className='buttons'>
                     <Row>
-                        <a className='button' onClick={() => props.onSort('sortdown')}>
-                            <Icon slot="media" icon="sortdown" />
+                        <a className={'button' + (props.checkSort === 'down' ? ' active' : '')} onClick={() => props.onSort('sortdown')}>
+                            <Icon slot="media" icon="sortdown"/>
                         </a>
-                        <a className='button' onClick={() => props.onSort('sortup')}>
-                            <Icon slot="media" icon="sortup" />
+                        <a className={'button' + (props.checkSort === 'up' ? ' active' : '')} onClick={() => props.onSort('sortup')}>
+                            <Icon slot="media" icon="sortup"/>
                         </a>
                     </Row>
                 </ListItem>
            </List>
+
            <List >
                <ListButton color="black" className={props.isValid ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>

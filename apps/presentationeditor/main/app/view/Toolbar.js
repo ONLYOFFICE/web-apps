@@ -104,7 +104,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.SchemeNames = [
+                me.SchemeNames = [me.txtScheme22,
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -147,7 +147,10 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-changeslide',
                         lock: [_set.menuFileOpen, _set.slideDeleted, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnChangeSlide);
 
@@ -169,7 +172,10 @@ define([
                                     lock: [_set.lostConnect]
                                 })
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     me.slideOnlyControls.push(me.btnPreview);
 
@@ -213,7 +219,10 @@ define([
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'C'
                     });
                     me.slideOnlyControls.push(me.btnCopy);
 
@@ -221,7 +230,10 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides]
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'P'
                     });
                     me.paragraphControls.push(me.btnPaste);
 
@@ -231,7 +243,9 @@ define([
                         menuStyle: 'min-width: 325px;',
                         hint: me.tipFontName,
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                        store: new Common.Collections.Fonts()
+                        store: new Common.Collections.Fonts(),
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.cmbFontName);
 
@@ -258,7 +272,9 @@ define([
                             {value: 48, displayValue: "48"},
                             {value: 72, displayValue: "72"},
                             {value: 96, displayValue: "96"}
-                        ]
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.cmbFontSize);
 
@@ -266,7 +282,9 @@ define([
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incfont',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock]
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnIncFontSize);
 
@@ -274,7 +292,9 @@ define([
                         id: 'id-toolbar-btn-decfont',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decfont',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock]
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnDecFontSize);
 
@@ -283,7 +303,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-bold',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnBold);
 
@@ -292,7 +314,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-italic',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnItalic);
 
@@ -301,7 +325,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnUnderline);
 
@@ -310,7 +336,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnStrikeout);
 
@@ -320,7 +348,9 @@ define([
                         iconCls: 'toolbar__icon btn-superscript',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inEquation],
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnSuperscript);
 
@@ -330,7 +360,9 @@ define([
                         iconCls: 'toolbar__icon btn-subscript',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inEquation],
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnSubscript);
 
@@ -352,7 +384,10 @@ define([
                                     checkable: true
                                 })
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnHighlightColor);
 
@@ -362,13 +397,10 @@ define([
                         iconCls: 'toolbar__icon btn-fontcolor',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         split: true,
-                        menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
-                            ]
-                        })
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnFontColor);
 
@@ -385,7 +417,10 @@ define([
                                 {caption: me.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
                                 {caption: me.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnChangeCase);
                     me.mnuChangeCase = me.btnChangeCase.menu;
@@ -394,7 +429,9 @@ define([
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-clearstyle',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnClearStyle);
 
@@ -403,7 +440,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copystyle',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.disableOnStart],
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     me.slideOnlyControls.push(me.btnCopyStyle);
 
@@ -415,7 +454,10 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnMarkers);
 
@@ -427,7 +469,10 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnNumbers);
 
@@ -492,7 +537,10 @@ define([
                                     value: 3
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnHorizontalAlign);
 
@@ -533,7 +581,10 @@ define([
                                     value: Asc.c_oAscVAlign.Bottom
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnVerticalAlign);
 
@@ -541,7 +592,9 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnDecLeftOffset);
 
@@ -549,7 +602,9 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnIncLeftOffset);
 
@@ -568,7 +623,10 @@ define([
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnLineSpace);
 
@@ -607,7 +665,10 @@ define([
                                 {caption: '--'},
                                 {caption: this.textColumnsCustom, value: 'advanced'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnColumns);
 
@@ -623,7 +684,10 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: me.mniCustomTable, value: 'custom'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertTable);
 
@@ -633,7 +697,10 @@ define([
                         iconCls: 'toolbar__icon btn-insertchart',
                         caption: me.capInsertChart,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertChart);
 
@@ -644,7 +711,10 @@ define([
                         caption: me.capInsertEquation,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'})
+                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(this.btnInsertEquation);
 
@@ -653,7 +723,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-symbol',
                         caption: me.capBtnInsSymbol,
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.paragraphControls.push(me.btnInsertSymbol);
 
@@ -662,7 +735,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-inserthyperlink',
                         caption: me.capInsertHyperlink,
-                        lock: [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                        lock: [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.paragraphControls.push(me.btnInsertHyperlink);
 
@@ -677,7 +753,10 @@ define([
                             items: [
                                 {template: _.template('<div id="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertTextArt);
 
@@ -686,7 +765,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-editheader',
                         caption: me.capBtnInsHeader,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnEditHeader);
 
@@ -695,7 +777,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-datetime',
                         caption: me.capBtnDateTime,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsDateTime);
 
@@ -704,7 +789,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-pagenum',
                         caption: me.capBtnSlideNum,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
 
@@ -737,7 +825,10 @@ define([
                             cls: 'shifted-left',
                             items: [],
                             restoreHeight: true
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
 
@@ -814,7 +905,10 @@ define([
                                 me.mniAlignToSlide,
                                 me.mniAlignObjects
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.shapeControls.push(me.btnShapeAlign);
                     me.slideOnlyControls.push(me.btnShapeAlign);
@@ -858,7 +952,10 @@ define([
                                     value: 6
                                 })
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnShapeArrange);
 
@@ -887,7 +984,10 @@ define([
                                     value: 'advanced'
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnSlideSize);
 
@@ -897,6 +997,9 @@ define([
                         enableKeyEvents: true,
                         itemHeight: 40,
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0',
                         beforeOpenHandler: function (e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
@@ -1094,13 +1197,13 @@ define([
                 }
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true);
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true);
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
-                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true);
+                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
@@ -1304,15 +1407,15 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1325,14 +1428,14 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -1361,10 +1464,9 @@ define([
                 // DataView and pickers
                 //
                 if (this.btnFontColor.cmpEl) {
+                    this.btnFontColor.setMenu();
+                    this.mnuFontColorPicker = this.btnFontColor.getPicker();
                     this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
-                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 }
                 if (this.btnHighlightColor.cmpEl) {
                     this.btnHighlightColor.currentColor = 'FFFF00';
@@ -1377,6 +1479,7 @@ define([
                         ]
                     });
                     this.mnuHighlightColorPicker.select('FFFF00');
+                    this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
                 }
             },
 
@@ -1398,6 +1501,9 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
+                    this.lockToolbar( PE.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else
@@ -1444,7 +1550,7 @@ define([
                             schemecolors.push(clr);
                         }
 
-                        if (index == 21) {
+                        if (index == 22) {
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
@@ -1454,7 +1560,7 @@ define([
                             template: itemTemplate,
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
-                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                             value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
@@ -1730,7 +1836,6 @@ define([
             txtDistribVert: 'Distribute Vertically',
             tipChangeSlide: 'Change Slide Layout',
             tipColorSchemas: 'Change Color Scheme',
-            textNewColor: 'Add New Custom Color',
             mniSlideStandard: 'Standard (4:3)',
             mniSlideWide: 'Widescreen (16:9)',
             mniSlideAdvanced: 'Advanced Settings',
@@ -1815,7 +1920,8 @@ define([
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
-            tipHighlightColor: 'Highlight color'
+            tipHighlightColor: 'Highlight color',
+            txtScheme22: 'New Office'
         }
     }()), PE.Views.Toolbar || {}));
 });

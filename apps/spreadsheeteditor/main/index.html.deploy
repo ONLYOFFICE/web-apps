@@ -239,8 +239,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');
@@ -369,6 +368,7 @@
     <inline src="resources/img/doc-formats/ods.svg" />
     <inline src="resources/img/doc-formats/ots.svg" />
     <inline src="resources/img/doc-formats/csv.svg" />
+    <inline src="resources/img/doc-formats/xlsm.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />

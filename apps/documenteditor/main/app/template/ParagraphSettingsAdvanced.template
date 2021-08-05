@@ -174,7 +174,7 @@
 
             </div>
             <div>
-                <div class="padding-large" style="display: inline-block; margin-right: 9px;">
+                <div class="padding-large" style="display: inline-block; margin-right: 8px;">
                     <label class="input-label"><%= scope.textTabPosition %></label>
                     <div id="paraadv-spin-tab"></div>
                 </div>

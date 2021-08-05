@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import {observer, inject} from "mobx-react";
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import {FunctionGroups} from '../../controller/add/AddFunction';
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.onFormulaLangChange = this.onFormulaLangChange.bind(this);
+        this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
+        this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
 
     initRegSettings() {
-        this.props.storeApplicationSettings.getRegCode();
-
         const info = new Asc.asc_CFormatCellsInfo();
         const api = Common.EditorApi.get();
-        const regCode = this.props.storeApplicationSettings.regCode;
+        const regCode = this.props.storeApplicationSettings.getRegCode();
 
         info.asc_setType(Asc.c_oAscNumFormatType.None);
         info.asc_setSymbol(regCode);
@@ -32,54 +34,54 @@ class ApplicationSettingsController extends Component {
 
     onChangeDisplayComments(displayComments) {
         const api = Common.EditorApi.get();
+        this.props.storeAppOptions.changeCanViewComments(displayComments);
 
         if (!displayComments) {
             api.asc_hideComments();
-            Common.localStorage.setBool("sse-settings-resolvedcomment", false);
+            LocalStorage.setBool("sse-settings-resolvedcomment", false);
         } else {
-            let resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
+            let resolved = LocalStorage.getBool("sse-settings-resolvedcomment");
             api.asc_showComments(resolved);
         }
 
-        Common.localStorage.setBool("sse-mobile-settings-livecomment", displayComments);
+        LocalStorage.setBool("sse-mobile-settings-livecomment", displayComments);
     }
 
     onChangeDisplayResolved(value) {
         const api = Common.EditorApi.get();
-        let displayComments = Common.localStorage.getBool("sse-mobile-settings-livecomment");
+        let displayComments = LocalStorage.getBool("sse-mobile-settings-livecomment",true);
 
         if (displayComments) {
             api.asc_showComments(value);
-            Common.localStorage.setBool("sse-settings-resolvedcomment", value);
+            LocalStorage.setBool("sse-settings-resolvedcomment", value);
         }
     }
 
     clickR1C1Style(checked) {
         const api = Common.EditorApi.get();
-        Common.localStorage.setBool('sse-settings-r1c1', checked);
+        LocalStorage.setBool('sse-settings-r1c1', checked);
         api.asc_setR1C1Mode(checked);
     }
 
     unitMeasurementChange(value) {
         value = value ? +value : Common.Utils.Metric.getDefaultMetric();
         Common.Utils.Metric.setCurrentMetric(value);
-        Common.localStorage.setItem("se-mobile-settings-unit", value);
+        LocalStorage.setItem("sse-mobile-settings-unit", value);
     }
 
     onChangeMacrosSettings(value) {
         Common.Utils.InternalSettings.set("sse-mobile-macros-mode", +value);
-        Common.localStorage.setItem("sse-mobile-macros-mode", +value);
+        LocalStorage.setItem("sse-mobile-macros-mode", +value);
     }
 
     onFormulaLangChange(value) {
-        Common.localStorage.setItem("sse-settings-func-lang", value);
+        LocalStorage.setItem("sse-settings-func-lang", value);
         this.initRegSettings();
-        // SSE.getController('AddFunction').onDocumentReady();
     }
 
     onRegSettings(regCode) {
         const api = Common.EditorApi.get();
-        Common.localStorage.setItem("sse-settings-regional", regCode);
+        LocalStorage.setItem("sse-settings-regional", regCode);
         this.initRegSettings();
         if (regCode!==null) api.asc_setLocale(+regCode);
     }
@@ -102,4 +104,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default inject("storeApplicationSettings")(observer(ApplicationSettingsController));
+export default inject("storeApplicationSettings", "storeAppOptions")(observer(ApplicationSettingsController));

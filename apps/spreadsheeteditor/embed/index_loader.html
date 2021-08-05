@@ -225,8 +225,7 @@
           }
 
           function encodeUrlParam(str) {
-              return str.replace(/&/g, '&amp;')
-                      .replace(/"/g, '&quot;')
+              return str.replace(/"/g, '&quot;')
                       .replace(/'/g, '&#39;')
                       .replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;');
@@ -321,11 +320,6 @@
           </div>
       </div>
 
-      <div id="id-loadmask" class="hide modal cmd-loader-body">
-          <div class="cmd-loader-image"></div>
-          <div class="cmd-loader-title">Please wait...</div>
-      </div>
-
       <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
 
       <!--vendor-->
@@ -351,6 +345,7 @@
       <script type="text/javascript" src="../../common/Analytics.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/LocalStorage.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/view/LoadMask.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>

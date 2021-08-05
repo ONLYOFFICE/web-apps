@@ -27,7 +27,7 @@ const PageLinkSettings = props => {
         <Page>
             <Navbar title={_t.textLinkSettings} backLink={_t.textBack}></Navbar>
             <BlockTitle>{_t.textAddress}</BlockTitle>
-            <List>
+            <List className='inputs-list'>
                 <ListInput
                     type='text'
                     placeholder={_t.textImageURL}

@@ -148,9 +148,9 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
             <ActionsGroup>
                 {comment && <Fragment>
                     {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
-                    {!comment.resolved ?
+                    {!comment.resolved && comment.editable ?
                         <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textResolve}</ActionsButton> :
-                        <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
+                       comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
                     }
                     <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
                     {comment.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteComment', comment);}}>{_t.textDeleteComment}</ActionsButton>}
@@ -223,7 +223,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                     <div className='initials' style={{backgroundColor: `${comment.userColor}`}}>{comment.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{comment.userName}</div>
+                        <div className='name'>{comment.parsedName}</div>
                         <div className='comment-date'>{comment.date}</div>
                     </div>
                 </div>
@@ -260,7 +260,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${comment.userName}</div>
+                            <div class='name'>${comment.parsedName}</div>
                             <div class='comment-date'>${comment.date}</div>
                         </div>
                     </div>
@@ -479,7 +479,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                     <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
                     }
                     <div>
-                        <div className='name'>{reply.userName}</div>
+                        <div className='name'>{reply.parsedName}</div>
                         <div className='reply-date'>{reply.date}</div>
                     </div>
                 </div>
@@ -516,7 +516,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                     <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
-                            <div class='name'>${reply.userName}</div>
+                            <div class='name'>${reply.parsedName}</div>
                             <div class='reply-date'>${reply.date}</div>
                         </div>
                     </div>
@@ -583,46 +583,48 @@ const pickLink = (message) => {
     });
 
     if (message.length<1000 || message.search(/\S{255,}/)<0)
-            message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
-                let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
-                if (result)
-                    subStr = subStr.substring(0, result.index);
-                let ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
-                offset = arguments[arguments.length-2];
-                len = subStr.length;
-                let elem = arrayComment.find(function(item){
-                    return ( (offset>=item.start) && (offset<item.end) ||
-                        (offset<=item.start) && (offset+len>item.start));
-                });
-                if (!elem)
+        message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+            let result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+            if (result)
+                subStr = subStr.substring(0, result.index);
+            let ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
+            offset = arguments[arguments.length-2];
+            len = subStr.length;
+            let elem = arrayComment.find(function(item){
+                return ( (offset>=item.start) && (offset<item.end) ||
+                    (offset<=item.start) && (offset+len>item.start));
+            });
+            if (!elem)
                 arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref} target="_blank" data-can-copy="true">{subStr}</a>});
-                return '';
-            });
+            return '';
+        });
 
-            message.replace(Common.Utils.emailStrongRe, function(subStr) {
-                let ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
-                offset = arguments[arguments.length-2];
-                len = subStr.length;
-                let elem = arrayComment.find(function(item){
-                    return ( (offset>=item.start) && (offset<item.end) ||
-                             (offset<=item.start) && (offset+len>item.start));
-                });
-                if (!elem)
-                arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
-                return '';
-            });
+    message.replace(Common.Utils.emailStrongRe, function(subStr) {
+        let ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
+        offset = arguments[arguments.length-2];
+        len = subStr.length;
+        let elem = arrayComment.find(function(item){
+            return ( (offset>=item.start) && (offset<item.end) ||
+                        (offset<=item.start) && (offset+len>item.start));
+        });
+        if (!elem)
+            arrayComment.push({start: offset, end: len+offset, str: <a onClick={() => window.open(ref)} href={ref}>{subStr}</a>});
+        return '';
+    });
 
-            arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
-            
-            let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{Common.Utils.String.htmlEncode(message)}</label>;
-            for (var i=1; i<arrayComment.length; i++) {
-                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
-            }
-            if (arrayComment.length>0) {
-                str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
-            }
-            return str_res;
-            
+    arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
+    
+    let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{message}</label>;
+
+    for (var i=1; i<arrayComment.length; i++) {
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
+    }
+
+    if (arrayComment.length>0) {
+        str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, message.length))}</label>;
+    }
+
+    return str_res;         
 }
 
 // View comments
@@ -633,7 +635,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
-    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? 1 : -1) : null;
+    const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
@@ -657,19 +659,20 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                 <List className='comment-list'>
                     {sortComments.map((comment, indexComment) => {
                         return (
+                            !comment.hide &&
                             <ListItem key={`comment-${indexComment}`} onClick={e => {
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
                                     <div className='left'>
                                         {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
                                         <div>
-                                            <div className='user-name'>{comment.userName}</div>
+                                            <div className='user-name'>{comment.parsedName}</div>
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
+                                            {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
                                             <div className='comment-menu'
                                                  onClick={() => {setComment(comment); openActionComment(true);}}
                                             ><Icon icon='icon-menu-comment'/></div>
@@ -693,11 +696,11 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                     <div className='left'>
                                                                         {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
                                                                         <div>
-                                                                            <div className='user-name'>{reply.userName}</div>
+                                                                            <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {!viewMode &&
+                                                                    {!viewMode && reply.editable &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
@@ -740,7 +743,6 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     const isAndroid = Device.android;
 
     const viewMode = !storeAppOptions.canComments;
-
     const comments = storeComments.showComments;
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -760,12 +762,19 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     };
 
     const onViewNextComment = () => {
-        if (currentIndex + 1 === comments.length) {
+        if (currentIndex + 1 >= comments.length) {
             setCurrentIndex(0);
         } else {
             setCurrentIndex(currentIndex + 1);
         }
     };
+
+    if(!comment) {
+        if (comments.length > 0) {
+            onViewNextComment();
+        }
+        return null;
+    }
 
     return (
         <Fragment>
@@ -779,77 +788,78 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
                 </div>
             </Toolbar>
             <div className='pages'>
-            <Page className='page-current-comment'>
-            <List className='comment-list'>
-            <ListItem>
-                <div slot='header' className='comment-header'>
-                    <div className='left'>
-                        {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
-                        <div>
-                            <div className='user-name'>{comment.userName}</div>
-                            <div className='comment-date'>{comment.date}</div>
-                        </div>
-                    </div>
-                    {!viewMode &&
-                    <div className='right'>
-                        <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
-                        <div className='comment-menu'
-                             onClick={() => {openActionComment(true);}}
-                        ><Icon icon='icon-menu-comment'/></div>
-                    </div>
-                    }
-                </div>
-                <div slot='footer'>
-                    {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
-                    <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
-                    {comment.replies.length > 0 &&
-                    <ul className='reply-list'>
-                        {comment.replies.map((reply, indexReply) => {
-                            return (
-                                <li key={`reply-${indexReply}`}
-                                    className='reply-item'
-                                >
-                                    <div className='item-content'>
-                                        <div className='item-inner'>
-                                            <div className='item-title'>
-                                                <div slot='header' className='reply-header'>
-                                                    <div className='left'>
-                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
-                                                        <div>
-                                                            <div className='user-name'>{reply.userName}</div>
-                                                            <div className='reply-date'>{reply.date}</div>
-                                                        </div>
-                                                    </div>
-                                                    {!viewMode &&
-                                                    <div className='right'>
-                                                        <div className='reply-menu'
-                                                             onClick={() => {setReply(reply); openActionReply(true);}}
-                                                        >
-                                                            <Icon icon='icon-menu-comment'/>
-                                                        </div>
-                                                    </div>
-                                                    }
-                                                </div>
-                                                <div slot='footer'>
-                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                <Page className='page-current-comment'>
+                    <List className='comment-list'>
+                        <ListItem>
+                            <div slot='header' className='comment-header'>
+                                <div className='left'>
+                                    {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                    <div>
+                                        <div className='user-name'>{comment.parsedName}</div>
+                                        <div className='comment-date'>{comment.date}</div>
                                     </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                    }
-                </div>
-            </ListItem>
-            </List>
-            <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
-            <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
-            </Page>
+                                </div>
+                                {!viewMode &&
+                                <div className='right'>
+                                    {comment.editable && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                    <div className='comment-menu'
+                                        onClick={() => {openActionComment(true);}}
+                                    ><Icon icon='icon-menu-comment'/></div>
+                                </div>
+                                }
+                            </div>
+                            <div slot='footer'>
+                                {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
+                                <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
+                                {comment.replies.length > 0 &&
+                                <ul className='reply-list'>
+                                    {comment.replies.map((reply, indexReply) => {
+                                        return (
+                                            <li key={`reply-${indexReply}`}
+                                                className='reply-item'
+                                            >
+                                                <div className='item-content'>
+                                                    <div className='item-inner'>
+                                                        <div className='item-title'>
+                                                            <div slot='header' className='reply-header'>
+                                                                <div className='left'>
+                                                                    {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                    <div>
+                                                                        <div className='user-name'>{reply.parsedName}</div>
+                                                                        <div className='reply-date'>{reply.date}</div>
+                                                                    </div>
+                                                                </div>
+                                                                {!viewMode && reply.editable &&
+                                                                <div className='right'>
+                                                                    <div className='reply-menu'
+                                                                        onClick={() => {setReply(reply); openActionReply(true);}}
+                                                                    >
+                                                                        <Icon icon='icon-menu-comment'/>
+                                                                    </div>
+                                                                </div>
+                                                                }
+                                                            </div>
+                                                            <div slot='footer'>
+                                                                <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                                }
+                            </div>
+                        </ListItem>
+                    </List>
+                    <CommentActions comment={comment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
+                    <ReplyActions comment={comment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
+                </Page>
             </div>
         </Fragment>
     )
+
 }));
 
 const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment}) => {

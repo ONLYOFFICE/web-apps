@@ -114,7 +114,8 @@ define([
                         Common.Gateway.requestRestore(record.get('revision'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
-                        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+                        var fileType = Asc.c_oAscFileType[(record.get('fileType') || '').toUpperCase()] || Asc.c_oAscFileType.DOCX;
+                        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(fileType, true));
                     }
                     return;
                 }

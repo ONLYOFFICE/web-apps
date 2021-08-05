@@ -19,7 +19,11 @@ export class storeAppOptions {
 
     isEdit = false;
     config = {};
+    
     canViewComments = false;
+    changeCanViewComments(value) {
+        this.canViewComments = value;
+    }
 
     lostEditingRights = false;
     changeEditingRights (value) {
@@ -64,10 +68,14 @@ export class storeAppOptions {
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
+
+        AscCommon.UserInfoParser.setParser(true);
+        AscCommon.UserInfoParser.setCurrentName(this.user.fullname);
     }
 
-    setPermissionOptions (document, licType, params, permissions) {
-        permissions.edit = params.asc_getRights() !== Asc.c_oRights.Edit ? false : true;
+    setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
+        if (params.asc_getRights() !== Asc.c_oRights.Edit)
+            permissions.edit = false;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -76,14 +84,14 @@ export class storeAppOptions {
         this.isOffline = Common.EditorApi.get().asc_isOffline();
         this.canRequestEditRights = this.config.canRequestEditRights;
         this.canEdit = permissions.edit !== false  && // can edit or review
-            (this.config.canRequestEditRights || this.config.mode !== 'view') && true; // if mode=="view" -> canRequestEditRights must be defined
+            (this.config.canRequestEditRights || this.config.mode !== 'view') && isSupportEditFeature; // if mode=="view" -> canRequestEditRights must be defined
             // (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-            // true /*isSupportEditFeature*/;
         this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && true;
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
         this.canChat = this.canLicense && !this.isOffline && !((typeof (this.customization) == 'object') && this.customization.chat === false);
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments;
@@ -92,6 +100,10 @@ export class storeAppOptions {
         this.canDownload = permissions.download !== false;
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
-        this.canUseReviewPermissions = this.canLicense && this.customization && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object');
+        this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
+            && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
+        this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
+        this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
     }
 }

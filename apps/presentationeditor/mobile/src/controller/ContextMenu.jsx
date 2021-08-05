@@ -11,7 +11,9 @@ import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
+    canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected
 }))
@@ -31,7 +33,7 @@ class ContextMenu extends ContextMenuController {
 
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
+        return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {
@@ -111,10 +113,60 @@ class ContextMenu extends ContextMenuController {
                 text: 'OK',
                 onClick: () => {
                     const dontShow = $$('input[name="checkbox-show"]').prop('checked');
-                    if (dontShow) LocalStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                    if (dontShow) LocalStorage.setItem("pe-hide-copy-cut-paste-warning", 1);
                 }
             }]
         }).open();
+    }
+
+    showSplitModal() {
+        const { t } = this.props;
+        const _t = t("ContextMenu", { returnObjects: true });
+        let picker;
+        const dialog = f7.dialog.create({
+            title: _t.menuSplit,
+            text: '',
+            content: `<div class="content-block">
+                        <div class="row">
+                            <div class="col-50">${_t.textColumns}</div>
+                            <div class="col-50">${_t.textRows}</div>
+                        </div>
+                        <div id="picker-split-size"></div>
+                    </div>`,
+            buttons: [
+                {
+                    text: _t.menuCancel
+                },
+                {
+                    text: 'OK',
+                    bold: true,
+                    onClick: function () {
+                        const size = picker.value;
+                        Common.EditorApi.get().SplitCell(parseInt(size[0]), parseInt(size[1]));
+                    }
+                }
+            ]
+        }).open();
+        dialog.on('opened', () => {
+            picker = f7.picker.create({
+                containerEl: document.getElementById('picker-split-size'),
+                cols: [
+                    {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    },
+                    {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }
+                ],
+                toolbar: false,
+                rotateEffect: true,
+                value: [3, 3]
+            });
+        });
     }
 
     openLink(url) {
@@ -148,7 +200,7 @@ class ContextMenu extends ContextMenuController {
             const { t } = this.props;
             const _t = t("ContextMenu", { returnObjects: true });
 
-            const { canViewComments, isDisconnected } = this.props;
+            const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
             const stack = api.getSelectedElements();
@@ -164,11 +216,13 @@ class ContextMenu extends ContextMenuController {
                 isShape = false,
                 isLink = false,
                 isSlide = false,
-                isObject = false;
+                isObject,
+                locked = false;
 
             stack.forEach(item => {
                 const objectType = item.get_ObjectType(),
                     objectValue = item.get_ObjectValue();
+                locked = typeof objectValue.get_Locked === 'function' ? objectValue.get_Locked() : false;
 
                 if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
                     isText = true;
@@ -199,6 +253,13 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuViewComment,
                     event: 'viewcomment'
+                });
+            }
+
+            if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
+                itemsText.push({
+                    caption: _t.menuAddComment,
+                    event: 'addcomment'
                 });
             }
 

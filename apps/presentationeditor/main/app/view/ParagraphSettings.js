@@ -270,7 +270,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 85px;',
                 editable: false,
-                data: this._arrLineRule
+                data: this._arrLineRule,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbLineRule.setValue(c_paragraphLinerule.LINERULE_AUTO);
             this.lockedControls.push(this.cmbLineRule);
@@ -282,7 +285,10 @@ define([
                 value: '1.5',
                 defaultUnit : "",
                 maxValue: 132,
-                minValue: 0.5
+                minValue: 0.5,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -295,7 +301,10 @@ define([
                 maxValue: 55.88,
                 minValue: 0,
                 allowAuto   : true,
-                autoText    : this.txtAutoText
+                autoText    : this.txtAutoText,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -309,7 +318,10 @@ define([
                 maxValue: 55.88,
                 minValue: 0,
                 allowAuto   : true,
-                autoText    : this.txtAutoText
+                autoText    : this.txtAutoText,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);

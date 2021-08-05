@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Input, View, Button, Link } from 'framework7-react';
+import {observer, inject} from "mobx-react";
 
 const viewStyle = {
     height: 30
@@ -12,6 +13,8 @@ const contentStyle = {
 
 const CellEditorView = props => {
     const [expanded, setExpanded] = useState(false);
+    const storeAppOptions = props.storeAppOptions;
+    const isEdit = storeAppOptions.isEdit;
 
     const expandClick = e => {
         setExpanded(!expanded);
@@ -20,7 +23,7 @@ const CellEditorView = props => {
     return <View id="idx-celleditor" style={viewStyle} className={expanded?'expanded':'collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
-                    <a href="#" id="idx-btn-function" className="link icon-only" onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
+                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={!isEdit && true} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
                         <i className="icon icon-function" />
                     </a>
                 </div>
@@ -33,4 +36,4 @@ const CellEditorView = props => {
             </View>;
 };
 
-export default CellEditorView;
+export default inject("storeAppOptions")(observer(CellEditorView));

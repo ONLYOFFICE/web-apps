@@ -1,4 +1,5 @@
 import {makeObservable, action, observable} from 'mobx';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeApplicationSettings {
     constructor() {
@@ -27,13 +28,13 @@ export class storeApplicationSettings {
 
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     macrosMode = 0;
-    formulaLang = Common.Locale.currentLang || dataLang[0].value;
+    formulaLang = LocalStorage.getItem('sse-settings-func-lang') || this.getFormulaLanguages()[0].value;
     regCode = undefined;
     regExample = '';
     regData = [];
     isRefStyle = false;
     isComments = true;
-    isResolvedComments = true;
+    isResolvedComments = true; 
 
     getFormulaLanguages() {
         const dataLang = [
@@ -70,7 +71,7 @@ export class storeApplicationSettings {
 
     getRegCode() {
         const regData = this.regData;
-        let value = Number(Common.localStorage.getItem('sse-settings-regional'));
+        let value = Number(LocalStorage.getItem('sse-settings-regional'));
         
         regData.forEach(obj => {
             if(obj.code === value) {
@@ -81,6 +82,8 @@ export class storeApplicationSettings {
         if(!this.regCode) {
             this.regCode = 0x0409;
         }
+
+        return this.regCode;
     }
 
     changeRegCode(value) {

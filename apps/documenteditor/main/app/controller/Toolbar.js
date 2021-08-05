@@ -158,7 +158,8 @@ define([
                             Asc.c_oAscFileType.DOTX,
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
-                            Asc.c_oAscFileType.EPUB
+                            Asc.c_oAscFileType.EPUB,
+                            Asc.c_oAscFileType.DOCM
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -310,14 +311,12 @@ define([
             toolbar.mnuMultiChangeLevel.menu.on('item:click',           _.bind(this.onChangeLevelClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
+            toolbar.btnFontColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
+            toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
-            toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
-            toolbar.mnuParagraphColorPicker.on('select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
-            $('#id-toolbar-menu-auto-fontcolor').on('click',            _.bind(this.onAutoFontColor, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
-            $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewParagraphColor, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
@@ -895,6 +894,8 @@ define([
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
+            toolbar.btnLineNumbers.setDisabled(in_image && in_para || this._state.lock_doc);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
@@ -1227,8 +1228,12 @@ define([
 
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
-            if (this.api)
+            if (this.api) {
+                if (!btn.pressed) {
+                    type = (type==1) ? 3 : 1;
+                }
                 this.api.put_PrAlign(type);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Align');
@@ -1757,6 +1762,7 @@ define([
 
             switch (item.value) {
                 case 0:
+                    this._state.linenum = undefined;
                     this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
                     break;
                 case 1:
@@ -2433,10 +2439,6 @@ define([
             return out_value;
         },
 
-        onNewFontColor: function(picker, color) {
-            this.toolbar.mnuFontColorPicker.addNewColor();
-        },
-
         onAutoFontColor: function(e) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
@@ -2445,21 +2447,14 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            this.toolbar.btnFontColor.setColor('000');
-
-            this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
-        },
-
-        onNewParagraphColor: function(picker, color) {
-            this.toolbar.mnuParagraphColorPicker.addNewColor();
         },
 
         onSelectHighlightColor: function(picker, color) {
             this._setMarkerColor(color, 'menu');
         },
 
-        onSelectFontColor: function(picker, color) {
+        onSelectFontColor: function(btn, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
             this.toolbar.btnFontColor.currentColor = color;
@@ -2472,7 +2467,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
-        onParagraphColorPickerSelect: function(picker, color) {
+        onParagraphColorPickerSelect: function(btn, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
             this.toolbar.btnParagraphColor.currentColor = color;
@@ -2510,9 +2505,6 @@ define([
 
         onHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
-            item.setChecked(true, true);
-            this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2558,9 +2550,8 @@ define([
         onApiTextColor: function(color) {
             if (color.get_auto()) {
                 if (this._state.clrtext !== 'auto') {
+                    this.toolbar.btnFontColor.setAutoColor(true);
                     this.toolbar.mnuFontColorPicker.clearSelection();
-                    var clr_item = this.toolbar.btnFontColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
-                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
                     this._state.clrtext = 'auto';
                 }
             } else {
@@ -2579,8 +2570,7 @@ define([
                     (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrtext.indexOf(clr)<0 )) {
 
-                    var clr_item = this.toolbar.btnFontColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
-                    clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                    this.toolbar.btnFontColor.setAutoColor(false);
                     if ( typeof(clr) == 'object' ) {
                         var isselected = false;
                         for (var i=0; i<10; i++) {
@@ -2979,7 +2969,8 @@ define([
             var me = this;
 
             if (h === 'menu') {
-                me.toolbar.mnuHighlightTransparent.setChecked(false);
+                me._state.clrhighlight = undefined;
+                me.onApiHighlightColor();
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
                 me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
@@ -3047,9 +3038,11 @@ define([
             var toolbar = this.toolbar;
             if(disable) {
                 if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review):not(.no-group-mask.inner-elset)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset'));
                 } else if (fillformmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view):not(.no-group-mask.inner-elset)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset:not(.no-group-mask.form-view)'));
                 } else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
@@ -3057,10 +3050,19 @@ define([
             }
             $('.no-group-mask').each(function(index, item){
                 var $el = $(item);
-                if ($el.find('.toolbar-group-mask').length>0)
+                if ($el.find('> .toolbar-group-mask').length>0)
                     $el.css('opacity', 0.4);
                 else {
                     $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                    $el.find('.elset').each(function(index, elitem){
+                        var $elset = $(elitem);
+                        if ($elset.find('> .toolbar-group-mask').length>0) {
+                            $elset.css('opacity', 0.4);
+                        } else {
+                            $elset.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                        }
+                        $el.css('opacity', 1);
+                    });
                 }
             });
 
@@ -3189,7 +3191,7 @@ define([
             me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment, undefined, undefined, undefined, undefined, '1', 'bottom');
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {

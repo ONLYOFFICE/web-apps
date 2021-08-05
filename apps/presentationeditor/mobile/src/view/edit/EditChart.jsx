@@ -159,6 +159,7 @@ const PageStyle = props => {
     const styles = storeChartSettings.styles;
     const shapeObject = props.storeFocusObjects.shapeObject;
     const chartStyles = storeChartSettings.chartStyles;
+    const isAndroid = Device.android;
 
     let borderSize, borderType, borderColor;
 
@@ -194,6 +195,7 @@ const PageStyle = props => {
                     {chartStyles ? <Link key={"pe-link-chart-style"} tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
                     <Link key={"pe-link-chart-fill"} tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
                     <Link key={"pe-link-chart-border"} tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
+                    {isAndroid && <span className='tab-link-highlight'></span>}
                 </div>
                 {Device.phone &&
                     <NavRight>

@@ -14,8 +14,10 @@ import LongActionsController from "./LongActions";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(
+    "users",
     "storeFocusObjects",
     "storeAppOptions",
     "storePresentationInfo",
@@ -25,7 +27,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeTableSettings",
     "storeChartSettings",
     "storeLinkSettings",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor (props) {
@@ -73,8 +76,6 @@ class MainController extends Component {
                 const _t = this._t;
 
                 EditorUIController.isSupportEditFeature();
-
-                console.log('load config');
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
@@ -152,7 +153,7 @@ class MainController extends Component {
                 this.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const storeAppOptions = this.props.storeAppOptions;
-                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
                 this.applyMode(storeAppOptions);
 
                 this.api.asc_LoadDocument();
@@ -292,6 +293,10 @@ class MainController extends Component {
     }
 
     bindEvents () {
+        $$(window).on('resize', () => {
+            this.api.Resize();
+        });
+
         this.api.asc_registerCallback('asc_onDocumentContentReady', this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
@@ -385,6 +390,21 @@ class MainController extends Component {
         // Chart settings
 
         EditorUIController.updateChartStyles && EditorUIController.updateChartStyles(this.props.storeChartSettings, this.props.storeFocusObjects);
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
+        });
+        this.api.asc_registerCallback('asc_onCountPages', (count) => {
+            storeToolbarSettings.setCountPages(count);
+        });
     }
 
     onDocumentContentReady () {
@@ -585,12 +605,11 @@ class MainController extends Component {
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
-            Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+            Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument, true);
 
             const buttons = [{
                 text: 'OK',
                 bold: true,
-                close: false,
                 onClick: () => {
                     const password = document.getElementById('modal-password').value;
                     this.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
@@ -600,6 +619,17 @@ class MainController extends Component {
                     }
                 }
             }];
+
+            if(this.isDRM) {
+                f7.dialog.create({
+                    text: _t.txtIncorrectPwd,
+                    buttons : [{
+                        text: 'OK',
+                        bold: true,
+                    }]
+                }).open();
+            }
+
             if (this.props.storeAppOptions.canRequestClose)
                 buttons.push({
                     text: _t.closeButtonText,
@@ -610,14 +640,13 @@ class MainController extends Component {
 
             f7.dialog.create({
                 title: _t.advDRMOptions,
-                text: (typeof advOptions === 'string' ? advOptions : _t.txtProtected),
-                content:
-                    `<div class="input-field">
-                        <input type="password" name="modal-password" placeholder="${ _t.advDRMPassword }" class="modal-text-input">
-                    </div>`,
+                text: _t.textOpenFile,
+                content: Device.ios ?
+                '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
                 buttons: buttons,
                 cssClass: 'dlg-adv-options'
             }).open();
+            this.isDRM = true;
         }
     }
 

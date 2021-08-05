@@ -671,6 +671,21 @@ define([
             }
 
             return false;
+        },
+
+        addDataHint: function (index) { //Hint Manager
+            var oldHintTab = this.$bar.find('[data-hint]');
+            if (oldHintTab.length > 0) {
+                oldHintTab.removeAttr('data-hint');
+                oldHintTab.removeAttr('data-hint-direction');
+                oldHintTab.removeAttr('data-hint-offset');
+                oldHintTab.removeAttr('data-hint-title');
+            }
+            var newHintTab = this.tabs[index].$el;
+            newHintTab.attr('data-hint', '0');
+            newHintTab.attr('data-hint-direction', 'top');
+            newHintTab.attr('data-hint-offset', 'medium');
+            newHintTab.attr('data-hint-title', 'M');
         }
     });
 });

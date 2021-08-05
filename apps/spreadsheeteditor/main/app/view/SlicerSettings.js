@@ -142,7 +142,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnWidth);
             this.sizeControls.push(this.spnWidth);
@@ -154,7 +157,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnHeight);
             this.sizeControls.push(this.spnHeight);
@@ -165,7 +171,10 @@ define([
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
-                hint: this.textKeepRatio
+                hint: this.textKeepRatio,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.sizeControls.push(this.btnRatio);
 
@@ -194,7 +203,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnHor);
             this.sizeControls.push(this.spnHor);
@@ -206,7 +218,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnVert);
             this.sizeControls.push(this.spnVert);
@@ -219,7 +234,10 @@ define([
             this.chLock = new Common.UI.CheckBox({
                 el: $('#slicer-checkbox-disable-resize'),
                 labelText: this.textLock,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chLock);
             this.chLock.on('change', this.onLockSlicerChange.bind(this));
@@ -231,7 +249,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnColWidth);
             this.sizeControls.push(this.spnColWidth);
@@ -243,7 +264,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 5963.9,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnColHeight);
             this.sizeControls.push(this.spnColHeight);
@@ -257,7 +281,10 @@ define([
                 value: '1',
                 allowDecimal: false,
                 maxValue: 20000,
-                minValue: 1
+                minValue: 1,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.sizeControls.push(this.numCols);
 
@@ -274,7 +301,10 @@ define([
                 el: $('#slicer-radio-asc'),
                 name: 'asc-radio-slicer-sort',
                 labelText: this.textAsc + ' (' + this.textAZ + ')',
-                checked: true
+                checked: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.radioAsc.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue && this.api) {
@@ -291,7 +321,10 @@ define([
                 el: $('#slicer-radio-desc'),
                 name: 'asc-radio-slicer-sort',
                 labelText: this.textDesc + ' (' + this.textZA + ')',
-                checked: false
+                checked: false,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.radioDesc.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue && this.api) {
@@ -306,7 +339,10 @@ define([
 
             this.chHideNoData = new Common.UI.CheckBox({
                 el: $('#slicer-check-hide-nodata'),
-                labelText: this.strHideNoData
+                labelText: this.strHideNoData,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chHideNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
@@ -320,7 +356,10 @@ define([
 
             this.chIndNoData = new Common.UI.CheckBox({
                 el: $('#slicer-check-indicate-nodata'),
-                labelText: this.strIndNoData
+                labelText: this.strIndNoData,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chIndNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
@@ -335,7 +374,10 @@ define([
             this.chShowNoData = new Common.UI.CheckBox({
                 el: $('#slicer-check-show-nodata-last'),
                 disabled: true,
-                labelText: this.strShowNoData
+                labelText: this.strShowNoData,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chShowNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._originalProps && this.api) {
@@ -348,7 +390,10 @@ define([
 
             this.chShowDel = new Common.UI.CheckBox({
                 el: $('#slicer-check-show-deleted'),
-                labelText: this.strShowDel
+                labelText: this.strShowDel,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chShowDel.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 // if (this._originalProps && this.api) {
@@ -650,7 +695,10 @@ define([
                     itemHeight: 49,
                     menuMaxHeight: 235,
                     enableKeyEvents: true,
-                    cls: 'combo-slicer-style'
+                    cls: 'combo-slicer-style',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
                 this.btnSlicerStyle.openButton.menu.cmpEl.css({

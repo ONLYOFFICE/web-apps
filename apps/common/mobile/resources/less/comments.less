@@ -56,8 +56,11 @@
       padding-right: 16px;
       .right {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         width: 70px;
+        .comment-resolve {
+          margin-right: 10px;
+        }
       }
     }
     .reply-header {
@@ -212,6 +215,8 @@
 
 .dialog.modal-in {
   z-index: 14000;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .dialog-backdrop.backdrop-in {

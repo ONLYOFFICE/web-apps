@@ -160,7 +160,10 @@ define([
                             Asc.c_oAscFileType.ODP,
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.POTX,
-                            Asc.c_oAscFileType.OTP
+                            Asc.c_oAscFileType.OTP,
+                            Asc.c_oAscFileType.PPTM,
+                            Asc.c_oAscFileType.PNG,
+                            Asc.c_oAscFileType.JPG
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -301,8 +304,7 @@ define([
             toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
             toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
-            toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -1871,11 +1873,7 @@ define([
             return out_value;
         },
 
-        onNewFontColor: function(picker, color) {
-            this.toolbar.mnuFontColorPicker.addNewColor();
-        },
-
-        onSelectFontColor: function(picker, color) {
+        onSelectFontColor: function(btn, color) {
             this._state.clrtext = this._state.clrtext_asccolor  = undefined;
 
             this.toolbar.btnFontColor.currentColor = color;
@@ -1965,7 +1963,8 @@ define([
             var me = this;
 
             if (h === 'menu') {
-                me.toolbar.mnuHighlightTransparent.setChecked(false);
+                me._state.clrhighlight = undefined;
+                me.onApiHighlightColor();
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
                 me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
@@ -2003,9 +2002,6 @@ define([
 
         onHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
-            item.setChecked(true, true);
-            this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onResetAutoshapes: function () {
@@ -2449,7 +2445,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = PE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();

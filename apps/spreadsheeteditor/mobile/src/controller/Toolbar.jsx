@@ -1,58 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo')(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
+    const isObjectLocked = props.storeFocusObjects.isLocked;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
     const docTitle = props.storeSpreadsheetInfo.dataDoc ? props.storeSpreadsheetInfo.dataDoc.title : '';
 
-    useEffect(() => {
-        const onDocumentReady = () => {
-            const api = Common.EditorApi.get();
-            api.asc_registerCallback('asc_onCanUndoChanged', onApiCanUndo);
-            api.asc_registerCallback('asc_onCanRedoChanged', onApiCanRedo);
-            api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged);
-            api.asc_registerCallback('asc_onWorkbookLocked', onApiSelectionChanged);
-            api.asc_registerCallback('asc_onWorksheetLocked', onApiSelectionChanged);
-            api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
-            Common.Notifications.on('api:disconnect', onCoAuthoringDisconnect);
-            Common.Notifications.on('toolbar:activatecontrols', activateControls);
-            Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
-            Common.Notifications.on('goback', goBack);
-            Common.Notifications.on('sheet:active', onApiActiveSheetChanged);
-        };
-        if ( !Common.EditorApi ) {
-            Common.Notifications.on('document:ready', onDocumentReady);
-            Common.Gateway.on('init', loadConfig);
-        } else {
-            onDocumentReady();
+    const storeToolbarSettings = props.storeToolbarSettings;
+    const isCanUndo = storeToolbarSettings.isCanUndo;
+    const isCanRedo = storeToolbarSettings.isCanRedo;
+
+    useEffect(() => {
+        Common.Gateway.on('init', loadConfig);
+
+        Common.Notifications.on('toolbar:activatecontrols', activateControls);
+        Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
+        Common.Notifications.on('goback', goBack);
+        Common.Notifications.on('sheet:active', onApiActiveSheetChanged);
+
+        if (isDisconnected) {
+            f7.popover.close();
+            f7.sheet.close();
+            f7.popup.close();
         }
 
         return () => {
-            Common.Notifications.off('document:ready', onDocumentReady);
-            Common.Notifications.off('api:disconnect', onCoAuthoringDisconnect);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
             Common.Notifications.off('sheet:active', onApiActiveSheetChanged);
-
-            const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onCanUndoChanged', onApiCanUndo);
-            api.asc_unregisterCallback('asc_onCanRedoChanged', onApiCanRedo);
-            //api.asc_unregisterCallback('asc_onSelectionChanged', onApiSelectionChanged); TO DO
-            api.asc_unregisterCallback('asc_onWorkbookLocked', onApiSelectionChanged);
-            api.asc_unregisterCallback('asc_onWorksheetLocked', onApiSelectionChanged);
-            api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-            api.asc_unregisterCallback('asc_onCoAuthoringDisconnect', onCoAuthoringDisconnect);
         }
     });
 
@@ -76,7 +62,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack();
+                            goBack(true);
                         }
                     },
                     {
@@ -86,7 +72,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                 ]
             }).open();
         } else {
-            goBack();
+            goBack(true);
         }
     };
     const goBack = (current) => {
@@ -104,17 +90,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         //}
     }
 
-    // Undo and Redo
-    const [isCanUndo, setCanUndo] = useState(false);
-    const [isCanRedo, setCanRedo] = useState(false);
-    const onApiCanUndo = (can) => {
-        if (isDisconnected) return;
-        setCanUndo(can);
-    };
-    const onApiCanRedo = (can) => {
-        if (isDisconnected) return;
-        setCanRedo(can);
-    };
     const onUndo = () => {
         const api = Common.EditorApi.get();
         if (api) {
@@ -129,33 +104,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     }
 
     const [disabledEditControls, setDisabledEditControls] = useState(false);
-    const onApiSelectionChanged = (cellInfo) => {
-        if (isDisconnected) return;
-
-        const api = Common.EditorApi.get();
-        const info = !!cellInfo ? cellInfo : api.asc_getCellInfo();
-        let islocked = false;
-
-        switch (info.asc_getSelectionType()) {
-            case Asc.c_oAscSelectionType.RangeChart:
-            case Asc.c_oAscSelectionType.RangeImage:
-            case Asc.c_oAscSelectionType.RangeShape:
-            case Asc.c_oAscSelectionType.RangeChartText:
-            case Asc.c_oAscSelectionType.RangeShapeText:
-                const objects = api.asc_getGraphicObjectProps();
-                for ( let i in objects ) {
-                    if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
-                        if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
-                            break;
-                    }
-                }
-                break;
-            default:
-                islocked = info.asc_getLocked();
-        }
-
-        setDisabledEditControls(islocked);
-    };
 
     const onApiActiveSheetChanged = (index) => {
         Common.Notifications.trigger('comments:filterchange', ['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)], false );
@@ -177,13 +125,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         setDisabledControls(false);
     };
 
-    const onCoAuthoringDisconnect = (enableDownload) => {
-        deactivateEditControls(enableDownload);
-        setCanUndo(false);
-        setCanRedo(false);
-        f7.popover.close();
-        f7.sheet.close();
-        f7.popup.close();
+    const onEditDocument = () => {
+        Common.Gateway.requestEditRights();
     };
 
     return (
@@ -197,11 +140,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      onUndo={onUndo}
                      onRedo={onRedo}
                      disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls}
+                     disabledEditControls={disabledEditControls || isObjectLocked}
                      disabledSettings={disabledSettings}
                      displayCollaboration={displayCollaboration}
+                     showEditDocument={showEditDocument}
+                     onEditDocument={onEditDocument}
+                     isDisconnected={isDisconnected}
         />
     )
-});
+}));
 
 export {ToolbarController as Toolbar};

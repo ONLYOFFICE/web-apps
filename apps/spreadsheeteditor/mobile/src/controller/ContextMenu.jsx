@@ -11,7 +11,9 @@ import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
+    canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     storeSheets: stores.sheets
@@ -32,7 +34,7 @@ class ContextMenu extends ContextMenuController {
 
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return Common.Utils.UserInfoParser.getParsedName(user.asc_getUserName());
+        return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
     }
 
     componentWillUnmount() {
@@ -142,7 +144,7 @@ class ContextMenu extends ContextMenuController {
                 text: 'OK',
                 onClick: () => {
                     const dontShow = $$('input[name="checkbox-show"]').prop('checked');
-                    if (dontShow) LocalStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                    if (dontShow) LocalStorage.setItem("sse-hide-copy-cut-paste-warning", 1);
                 }
             }]
         }).open();
@@ -175,7 +177,7 @@ class ContextMenu extends ContextMenuController {
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
-            const {canViewComments } = this.props;
+            const {canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
@@ -199,12 +201,11 @@ class ContextMenu extends ContextMenuController {
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
             }
 
-            if (iscellmenu || istextchartmenu || istextshapemenu) {
-                itemsIcon.push({
-                    event: 'copy',
-                    icon: 'icon-copy'
-                });
-            }
+            itemsIcon.push({
+                event: 'copy',
+                icon: 'icon-copy'
+            });
+
             if (iscellmenu && cellinfo.asc_getHyperlink()) {
                 itemsText.push({
                     caption: _t.menuOpenLink,
@@ -215,6 +216,13 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuViewComment,
                     event: 'viewcomment'
+                });
+            }
+
+            if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && !isComments) {
+                itemsText.push({
+                    caption: _t.menuAddComment,
+                    event: 'addcomment'
                 });
             }
 

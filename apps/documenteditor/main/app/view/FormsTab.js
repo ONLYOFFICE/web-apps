@@ -58,8 +58,8 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
-            '<div class="group no-group-mask form-view small" style="display: none;">' +
-                '<div class="elset">' +
+            '<div class="group no-group-mask inner-elset small" style="display: none;">' +
+                '<div class="elset no-group-mask form-view">' +
                     '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
                 '</div>' +
                 '<div class="elset">' +
@@ -108,17 +108,11 @@ define([
                 me.fireEvent('forms:clear');
             });
             if (this.mnuFormsColorPicker) {
-                $('#id-toolbar-menu-new-form-color').on('click', function (b, e) {
-                    me.fireEvent('forms:new-color');
+                this.btnHighlight.on('color:select', function(btn, color) {
+                    me.fireEvent('forms:select-color', [color]);
                 });
                 this.mnuNoFormsColor.on('click', function (item) {
                     me.fireEvent('forms:no-color', [item]);
-                });
-                this.mnuFormsColorPicker.on('select', function(picker, color) {
-                    me.fireEvent('forms:select-color', [color]);
-                });
-                this.btnHighlight.menu.on('show:after', function(picker, color) {
-                    me.fireEvent('forms:open-color', [color]);
                 });
             }
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
@@ -156,7 +150,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-field',
                         caption: this.capBtnText,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnTextField);
 
@@ -164,7 +161,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
                         caption: this.capBtnComboBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnComboBox);
 
@@ -172,7 +172,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
                         caption: this.capBtnDropDown,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnDropDown);
 
@@ -180,7 +183,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
                         caption: this.capBtnCheckBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnCheckBox);
 
@@ -188,7 +194,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
                         caption: this.capBtnRadioBox,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnRadioBox);
 
@@ -196,7 +205,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
                         caption: this.capBtnImage,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnImageField);
 
@@ -205,7 +217,10 @@ define([
                         iconCls: 'toolbar__icon btn-sheet-view',
                         caption: this.capBtnView,
                         enableToggle: true,
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnViewForm);
 
@@ -213,7 +228,10 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-clearstyle',
                         caption     : this.textClearFields,
-                        disabled: true
+                        disabled: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnClearFields);
 
@@ -222,7 +240,23 @@ define([
                         iconCls     : 'toolbar__icon btn-highlight',
                         caption     : this.textHighlight,
                         menu        : true,
-                        disabled: true
+                        disabled: true,
+                        additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
+                                              id: 'id-toolbar-menu-no-highlight-form',
+                                              caption: this.textNoHighlight,
+                                              checkable: true,
+                                              style: 'padding-left: 20px;'
+                                          }),
+                                          {caption: '--'}],
+                        colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
+                                ],
+                        paletteHeight: 94,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnHighlight);
                 }
@@ -230,14 +264,20 @@ define([
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
-                    caption: this.capBtnPrev
+                    caption: this.capBtnPrev,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
-                    caption: this.capBtnNext
+                    caption: this.capBtnNext,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnNextForm);
 
@@ -245,7 +285,10 @@ define([
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon submit-form',
-                        caption: this.capBtnSubmit
+                        caption: this.capBtnSubmit,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnSubmit);
                 }
@@ -267,28 +310,9 @@ define([
                 })).then(function(){
                     if (config.isEdit && config.canFeatureContentControl) {
                         if (config.canEditContentControl) {
-                            me.btnHighlight.setMenu(new Common.UI.Menu({
-                                items: [
-                                    me.mnuNoFormsColor = new Common.UI.MenuItem({
-                                        id: 'id-toolbar-menu-no-highlight-form',
-                                        caption: me.textNoHighlight,
-                                        checkable: true,
-                                        checked: me.btnHighlight.currentColor === null
-                                    }),
-                                    {caption: '--'},
-                                    {template: _.template('<div id="id-toolbar-menu-form-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
-                                    {template: _.template('<a id="id-toolbar-menu-new-form-color" style="padding-left:12px;">' + me.textNewColor + '</a>')}
-                                ]
-                            }));
-                            me.mnuFormsColorPicker = new Common.UI.ThemeColorPalette({
-                                el: $('#id-toolbar-menu-form-color'),
-                                colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
-                                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
-                                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
-                                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
-                                ],
-                                value: me.btnHighlight.currentColor
-                            });
+                            me.btnHighlight.setMenu();
+                            me.mnuFormsColorPicker = me.btnHighlight.getPicker();
+                            me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
                             me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
                         } else {
                             me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
@@ -380,7 +404,6 @@ define([
             tipImageField: 'Insert image',
             tipViewForm: 'View form',
             textNoHighlight: 'No highlighting',
-            textNewColor: 'Add New Custom Color',
             textClear: 'Clear Fields',
             capBtnPrev: 'Previous Field',
             capBtnNext: 'Next Field',
@@ -388,7 +411,8 @@ define([
             tipPrevForm: 'Go to the previous field',
             tipNextForm: 'Go to the next field',
             tipSubmit: 'Submit form',
-            textSubmited: 'Form submitted successfully'
+            textSubmited: 'Form submitted successfully',
+            textRequired: 'Fill all required fields to send form.'
         }
     }()), DE.Views.FormsTab || {}));
 });

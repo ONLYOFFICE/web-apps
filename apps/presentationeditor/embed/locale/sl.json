@@ -25,6 +25,7 @@
   "PE.ApplicationController.waitText": "Prosimo počakajte ...",
   "PE.ApplicationView.txtDownload": "Prenesi",
   "PE.ApplicationView.txtEmbed": "Vdelano",
+  "PE.ApplicationView.txtFileLocation": "Odpri lokacijo dokumenta",
   "PE.ApplicationView.txtFullScreen": "Celozaslonski",
   "PE.ApplicationView.txtPrint": "Natisni",
   "PE.ApplicationView.txtShare": "Deli"

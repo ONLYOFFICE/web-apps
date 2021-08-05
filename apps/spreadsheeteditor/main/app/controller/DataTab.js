@@ -229,6 +229,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
+                    title: me.txtUrlTitle,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -445,7 +446,8 @@ define([
         txtExtendDataValidation: 'The selection contains some cells without Data Validation settings.<br>Do you want to extend Data Validation to these cells?',
         txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?',
         textEmptyUrl: 'You need to specify URL.',
-        txtImportWizard: 'Text Import Wizard'
+        txtImportWizard: 'Text Import Wizard',
+        txtUrlTitle: 'Paste a data URL'
 
     }, SSE.Controllers.DataTab || {}));
 });

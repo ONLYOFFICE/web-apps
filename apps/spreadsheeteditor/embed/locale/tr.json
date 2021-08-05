@@ -12,6 +12,7 @@
   "SSE.ApplicationController.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "SSE.ApplicationController.errorDefaultMessage": "Hata kodu: %1",
   "SSE.ApplicationController.errorFilePassProtect": "Döküman şifre korumalı ve açılamadı",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "İnternet bağlantısı tekrar sağlandı, ve dosya versiyon değişti.<br>Çalışmanıza devam etmeden önce, veri kaybını önlemeniz için dosyasının bir kopyasını indirmeniz ya da dosya içeriğini kopyalamanız ve sonrasında sayfayı yenilemeniz gerekmektedir.",
   "SSE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Uyarı",
   "SSE.ApplicationController.scriptLoadError": "Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.",
@@ -23,6 +24,8 @@
   "SSE.ApplicationController.waitText": "Lütfen bekleyin...",
   "SSE.ApplicationView.txtDownload": "İndir",
   "SSE.ApplicationView.txtEmbed": "Gömülü",
+  "SSE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "SSE.ApplicationView.txtFullScreen": "Tam Ekran",
+  "SSE.ApplicationView.txtPrint": "Yazdır",
   "SSE.ApplicationView.txtShare": "Paylaş"
 }

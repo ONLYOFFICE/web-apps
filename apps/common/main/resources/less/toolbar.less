@@ -224,6 +224,12 @@
                 margin-left: 10px;
             }
         }
+
+        &.no-group-mask {
+            .elset {
+                position: relative;
+            }
+        }
     }
 
     .elset {
@@ -386,11 +392,13 @@
             }
         }
 
-        .extra {
-            #header-logo {
-                i {
-                    background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
-                    background-repeat: no-repeat;
+        .theme-type-light & {
+            .extra {
+                #header-logo {
+                    i {
+                        background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
+                        background-repeat: no-repeat;
+                    }
                 }
             }
         }

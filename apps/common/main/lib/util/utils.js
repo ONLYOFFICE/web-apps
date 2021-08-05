@@ -136,13 +136,23 @@ var utils = new(function() {
                 scale = window.AscCommon.checkDeviceScale();
                 AscCommon.correctApplicationScale(scale);
             } else {
-                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
-                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+                var str_mq_125 = "screen and (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49), " +
+                        "screen and (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx)";
+                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.74), " +
+                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx)";
+                var str_mq_175 = "screen and (-webkit-min-device-pixel-ratio: 1.75) and (-webkit-max-device-pixel-ratio: 1.99), " +
+                        "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
 
+                if ( window.matchMedia(str_mq_125).matches ) {
+                    scale.devicePixelRatio = 1.5;
+                } else
                 if ( window.matchMedia(str_mq_150).matches ) {
                     scale.devicePixelRatio = 1.5;
+                } else
+                if ( window.matchMedia(str_mq_175).matches ) {
+                    scale.devicePixelRatio = 1.75;
                 } else
                 if ( window.matchMedia(str_mq_200).matches )
                     scale.devicePixelRatio = 2;
@@ -150,15 +160,32 @@ var utils = new(function() {
             }
 
             var $root = $(document.body);
-            if ( scale.devicePixelRatio < 1.5 ) {
-                $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
+            var classes = document.body.className;
+            var clear_list = classes.replace(/pixel-ratio__[\w-]+/gi,'').trim();
+            if ( scale.devicePixelRatio < 1.25 ) {
+                 if ( /pixel-ratio__/.test(classes) ) {
+                     document.body.className = clear_list;
+                 }
             } else
-            if ( !(scale.devicePixelRatio < 1.5) && scale.devicePixelRatio < 2 ) {
-                $root.removeClass('pixel-ratio__2');
-                $root.addClass('pixel-ratio__1_5');
+            if ( scale.devicePixelRatio < 1.5 ) {
+                if ( !/pixel-ratio__1_25/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_25';
+                }
+            } else
+            if ( scale.devicePixelRatio < 1.75 ) {
+                if ( !/pixel-ratio__1_5/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_5';
+                }
+            } else
+            if ( !(scale.devicePixelRatio < 1.75) && scale.devicePixelRatio < 2 ) {
+                if ( !/pixel-ratio__1_75/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_75';
+                }
             } else {
                 $root.addClass('pixel-ratio__2');
-                $root.removeClass('pixel-ratio__1_5');
+                if ( !/pixel-ratio__2/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__2';
+                }
             }
 
             me.zoom = scale.correct ? scale.zoom : 1;
@@ -641,6 +668,14 @@ Common.Utils.String = new (function() {
                 var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
                 return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
             }
+        },
+
+        fixedDigits: function(num, digits, fill) {
+            (fill===undefined) && (fill = '0');
+            var strfill = "",
+                str = num.toString();
+            for (var i=str.length; i<digits; i++) strfill += fill;
+            return strfill + str;
         }
     }
 })();
@@ -789,10 +824,12 @@ Common.Utils.getConfigJson = function (url) {
 };
 
 Common.Utils.loadConfig = function(url, callback) {
-    "use strict";
-
-    fetch(url)
-        .then(function(response){
+    fetch(url, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+            },
+        }).then(function(response){
             if ( response.ok )
                 return response.json();
             else return 'error';
@@ -876,7 +913,7 @@ Common.Utils.lockControls = function(causes, lock, opts, defControls) {
     });
 };
 
-Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle) {
+Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
     var btnsArr = createButtonSet();
     btnsArr.setDisabled(true);
     id = id || ("id-toolbar-" + iconCls);
@@ -894,7 +931,11 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             menu: menu || false,
             enableToggle: toggle || false,
             lock: lock,
-            disabled: true
+            disabled: true,
+            dataHint: dataHint,
+            dataHintDirection: dataHintDirection,
+            dataHintOffset: dataHintOffset,
+            dataHintTitle: dataHintTitle
         });
 
         btnsArr.add(button);

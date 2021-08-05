@@ -1,8 +1,9 @@
 import React, {Component, useEffect} from 'react';
 import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,ListItem,List} from 'framework7-react';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
+import { observer, inject } from "mobx-react";
 import SpreadsheetSettingsController from '../../controller/settings/SpreadsheetSettings.jsx';
 import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
 import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
@@ -64,8 +65,8 @@ const routes = [
 ];
 
 
-const SettingsList = withTranslation()(props => {
-    const {t} = props;
+const SettingsList = inject("storeAppOptions")(observer(props => {
+    const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const navbar = <Navbar title={_t.textSettings}>
         {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
@@ -115,14 +116,20 @@ const SettingsList = withTranslation()(props => {
         window.open(url, "_blank");
     };
 
+    const appOptions = props.storeAppOptions;
+    let _isEdit = false;
 
+    if (!appOptions.isDisconnected) {
+        _isEdit = appOptions.isEdit;
+    } 
+    
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page>
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={_t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                        <ListItem disabled={appOptions.readerMode ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
@@ -131,13 +138,15 @@ const SettingsList = withTranslation()(props => {
                             <Icon slot="media" icon="icon-collaboration"></Icon>
                         </ListItem> 
                     : null}
-                    <ListItem link="#" title={_t.textSpreadsheetSettings} onClick={onoptionclick.bind(this, '/spreadsheet-settings/')}>
-                        <Icon slot="media" icon="icon-table-settings"></Icon>
-                    </ListItem>
+                    {_isEdit && 
+                        <ListItem link="#" title={_t.textSpreadsheetSettings} onClick={onoptionclick.bind(this, '/spreadsheet-settings/')}>
+                            <Icon slot="media" icon="icon-table-settings"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
+                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint} onClick={onPrint}>
@@ -156,7 +165,7 @@ const SettingsList = withTranslation()(props => {
             </Page>
         </View>
     )
-});
+}));
 
 class SettingsView extends Component {
     constructor(props) {

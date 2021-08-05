@@ -90,7 +90,6 @@ define([
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
-                    'forms:new-color': this.onNewControlsColor,
                     'forms:clear': this.onClearClick,
                     'forms:no-color': this.onNoControlsColor,
                     'forms:select-color': this.onSelectControlsColor,
@@ -206,10 +205,6 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onNewControlsColor: function() {
-            this.view.mnuFormsColorPicker.addNewColor();
-        },
-
         onNoControlsColor: function(item) {
             if (!item.isChecked())
                 this.api.asc_SetSpecialFormsHighlightColor(201, 200, 255);
@@ -233,6 +228,18 @@ define([
         },
 
         onSubmitClick: function() {
+            if (!this.api.asc_IsAllRequiredFormsFilled()) {
+                var me = this;
+                Common.UI.warning({
+                    msg: this.view.textRequired,
+                    callback: function() {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
             this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -241,19 +248,26 @@ define([
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
 
-                var app = this.getApplication();
-                var rightMenuController = app.getController('RightMenu');
-                rightMenuController.getView('RightMenu').clearSelection();
-                rightMenuController.SetDisabled(disable);
-                app.getController('Toolbar').DisableToolbar(disable, false, false, true);
-                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                app.getController('DocumentHolder').getView().SetDisabled(disable);
-                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-                app.getController('LeftMenu').setPreviewMode(disable);
-                var comments = app.getController('Common.Controllers.Comments');
-                if (comments)
-                    comments.setPreviewMode(disable);
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: false,
+                    reviewMode: false,
+                    fillFormwMode: true,
+                    allowMerge: false,
+                    allowSignature: false,
+                    allowProtect: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: false, previewMode: true},
+                    fileMenu: false,
+                    navigation: {disable: false, previewMode: true},
+                    comments: {disable: false, previewMode: true},
+                    chat: false,
+                    review: true,
+                    viewport: false,
+                    documentHolder: true,
+                    toolbar: true,
+                    plugins: false
+                }, 'forms');
                 if (this.view)
                     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }

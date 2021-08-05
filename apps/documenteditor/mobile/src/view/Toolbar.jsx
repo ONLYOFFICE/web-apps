@@ -4,14 +4,15 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
-    const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls;
+    const isDisconnected = props.isDisconnected;
+    const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     return (
         <Fragment>
             <NavLeft>
                 {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
                 {Device.ios && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
-                    disabledUndo: !props.isCanUndo,
-                    disabledRedo: !props.isCanRedo,
+                    disabledUndo: !props.isCanUndo || isDisconnected,
+                    disabledRedo: !props.isCanRedo || isDisconnected,
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
@@ -24,6 +25,9 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
+                {props.showEditDocument &&
+                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                }
                 {props.isEdit && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
                         disabled: disableEditBtn || props.disabledControls,
                         onEditClick: e => props.openOptions('edit'),

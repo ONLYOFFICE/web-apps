@@ -1,13 +1,18 @@
 <div id="comments-box" class="layout-ct vbox">
     <div class="layout-item messages-ct"></div>
     <div class="layout-item add-link-ct">
-        <label class="btn new"><%=textAddCommentToDoc%></label>
+        <label id="add-comment-doc" class="btn new" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%=textAddCommentToDoc%></label>
     </div>
     <div style="display: none;" class="layout-item new-comment-ct">
         <div class="inner-ct">
-            <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>"></textarea>
+            <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>" data-hint="1" data-hint-direction="left-top"></textarea>
         </div>
-        <button class="btn add normal dlg-btn primary"><%=textAddComment%></button>
-        <button class="btn cancel normal dlg-btn"><%=textCancel%></button>
+        <button class="btn add normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textAddComment%></button>
+        <button class="btn cancel normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textCancel%></button>
+    </div>
+    <div id="comments-header" class="">
+        <label><%=textComments%></label>
+        <div id="comments-btn-close" style="float:right;margin-left: 4px;"></div>
+        <div id="comments-btn-sort" style="float:right;"></div>
     </div>
 </div>

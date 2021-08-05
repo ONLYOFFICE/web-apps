@@ -29,7 +29,6 @@
     --f7-range-knob-size: 16px;
 
     --f7-link-highlight-color: transparent;
-    --f7-touch-ripple-color: @touchColor;
     --f7-link-touch-ripple-color: @touchColor;
 
     .button {
@@ -42,6 +41,7 @@
     --f7-dialog-button-text-color: @themeColor;
 
     .navbar {
+        --f7-touch-ripple-color: @touchColor;
         .sheet-close {
             width: 56px;
             height: 56px;
@@ -53,6 +53,20 @@
     .page.page-with-subnavbar.page-with-logo {
         .page-content {
             --f7-page-navbar-offset: var(--f7-navbar-height);
+        }
+    }
+
+    .add-popup {
+        .view{
+            .block-title{
+                margin-bottom: 0;
+                margin-top: 8px;
+            }
+            .inputs-list {
+                ul:after, :before{
+                    display: none;
+                }
+            }
         }
     }
 
@@ -244,6 +258,9 @@
                             flex: 1;
                             font-size: 17px;
                             margin-left: 5px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                             &:first-child {
                                 margin-left: 0;
                             }
@@ -491,6 +508,41 @@
             width: 100%;
             left: auto;
             margin-left: 0;
+        }
+    }
+
+    input.modal-text-input {
+        box-sizing: border-box;
+        height: 36px;
+        background: #fff;
+        margin: 0;
+        margin-top: 15px;
+        padding: 0;
+        border: none;
+        width: 100%;
+        font-size: 16px;
+        font-family: inherit;
+        display: block;
+        box-shadow: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        -webkit-transition-duration: .2s;
+        transition-duration: .2s;
+    }
+
+    .input-field {
+        .inputs-list {
+            margin: 15px 0 0;
+            ul {
+                &::before, &::after {
+                    display: none;
+                }
+            }
+            .item-input, .item-inner {
+                padding: 0;
+            }
         }
     }
 }

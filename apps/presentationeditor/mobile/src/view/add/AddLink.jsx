@@ -99,7 +99,7 @@ const PageLink = props => {
     const display = props.getTextDisplay();
     const displayDisabled = display !== false && display === null;
     const [stateDisplay, setDisplay] = useState(display !== false ? ((display !== null) ? display : _t.textDefault) : "");
-
+    const [stateAutoUpdate, setAutoUpdate] = useState(true);
     const [screenTip, setScreenTip] = useState('');
 
     return (
@@ -116,11 +116,8 @@ const PageLink = props => {
                                placeholder={_t.textLink}
                                value={link}
                                onChange={(event) => {
-                                if (link.includes('https://')) {
-                                    setDisplay(link)
-                                }
-                                setLink(event.target.value)
-                                setDisplay(event.target.value)
+                                setLink(event.target.value);
+                                if(stateAutoUpdate) setDisplay(event.target.value);
                             }}
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
@@ -133,7 +130,8 @@ const PageLink = props => {
                            placeholder={_t.textDisplay}
                            value={stateDisplay}
                            disabled={displayDisabled}
-                           onChange={(event) => {setDisplay(event.target.value)}}
+                           onChange={(event) => {setDisplay(event.target.value);
+                            setAutoUpdate(event.target.value == ''); }}
                 />
                 <ListInput label={_t.textScreenTip}
                            type="text"

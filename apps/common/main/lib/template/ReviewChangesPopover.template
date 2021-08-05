@@ -14,8 +14,8 @@
                 <div class="btn-delete img-commonctrl"></div>
                 <% } %>
             <% } else if (editable) { %>
-            <div class="btn-accept img-commonctrl"></div>
-            <div class="btn-reject img-commonctrl"></div>
+            <div class="btn-accept"></div>
+            <div class="btn-reject tool "></div>
             <% } %>
         <% } %>
     </div>

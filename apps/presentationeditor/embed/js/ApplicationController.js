@@ -43,6 +43,8 @@ PE.ApplicationController = new(function(){
         ttOffset = [0, -10],
         labelDocName;
 
+    var LoadingDocument = -256;
+
     // Initialize analytics
     // -------------------------
 
@@ -156,19 +158,24 @@ PE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Print']:
                 text = me.downloadTextText;
                 break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
+                break;
             default:
                 text = me.waitText;
                 break;
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
     function onLongActionEnd(){
-        hideMask();
+        me.loadMask && me.loadMask.hide();
     }
 
     function onDocMouseMoveStart() {
@@ -244,6 +251,7 @@ PE.ApplicationController = new(function(){
             onPlayStart();
         }
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
@@ -469,6 +477,7 @@ PE.ApplicationController = new(function(){
         else
             $parent.css('padding-right', _left_width - _right_width);
 
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
         api.Resize();
@@ -476,7 +485,7 @@ PE.ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     var isplaymode;
@@ -505,17 +514,6 @@ PE.ApplicationController = new(function(){
             $('#page-number').val(number);
     }
 
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
@@ -528,7 +526,8 @@ PE.ApplicationController = new(function(){
         }
 
         hidePreloader();
-
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        
         var message;
 
         switch (id)
@@ -567,6 +566,11 @@ PE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.AccessDeny:
                 message = me.errorAccessDeny;
+                break;
+
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                message = me.errorForceSave;
                 break;
 
             default:
@@ -713,6 +717,7 @@ PE.ApplicationController = new(function(){
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textGuest: 'Guest',
-        textAnonymous: 'Anonymous'
+        textAnonymous: 'Anonymous',
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
     }
 })();

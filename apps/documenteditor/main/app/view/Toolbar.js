@@ -82,7 +82,7 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [
+                this.SchemeNames = [ this.txtScheme22,
                     this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
                     this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
                     this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
@@ -157,28 +157,38 @@ define([
                     this.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-copy'
+                        iconCls: 'toolbar__icon btn-copy',
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'C'
                     });
                     this.toolbarControls.push(this.btnCopy);
 
                     this.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-paste'
+                        iconCls: 'toolbar__icon btn-paste',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'P'
                     });
                     this.paragraphControls.push(this.btnPaste);
 
                     this.btnIncFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-incfont'
+                        iconCls: 'toolbar__icon btn-incfont',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnIncFontSize);
 
                     this.btnDecFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-decfont',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-decfont'
+                        iconCls: 'toolbar__icon btn-decfont',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnDecFontSize);
 
@@ -186,7 +196,9 @@ define([
                         id: 'id-toolbar-btn-bold',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-bold',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnBold);
 
@@ -194,7 +206,9 @@ define([
                         id: 'id-toolbar-btn-italic',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-italic',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnItalic);
 
@@ -202,7 +216,9 @@ define([
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnUnderline);
 
@@ -210,7 +226,9 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnStrikeout);
 
@@ -219,7 +237,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-superscript',
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnSuperscript);
 
@@ -228,7 +248,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-subscript',
                         enableToggle: true,
-                        toggleGroup: 'superscriptGroup'
+                        toggleGroup: 'superscriptGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnSubscript);
 
@@ -249,7 +271,10 @@ define([
                                     checkable: true
                                 })
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnHighlightColor);
                     this.textOnlyControls.push(this.btnHighlightColor);
@@ -259,19 +284,11 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
                         split: true,
-                        menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            items: [
-                                {
-                                    id: 'id-toolbar-menu-auto-fontcolor',
-                                    caption: this.textAutoColor,
-                                    template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
-                                },
-                                {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
-                            ]
-                        })
+                        menu: true,
+                        auto: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
@@ -280,12 +297,11 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
                         split: true,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
-                            ]
-                        })
+                        transparent: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
@@ -302,7 +318,9 @@ define([
                                 {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
                                 {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnChangeCase);
 
@@ -311,8 +329,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
-                        allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignLeft);
 
@@ -321,8 +340,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
-                        allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignCenter);
 
@@ -331,8 +351,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
-                        allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignRight);
 
@@ -341,23 +362,27 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
-                        allowDepress: false,
-                        toggleGroup: 'alignGroup'
+                        toggleGroup: 'alignGroup',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
-
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-decoffset'
+                        iconCls: 'toolbar__icon btn-decoffset',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnDecLeftOffset);
 
                     this.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-incoffset'
+                        iconCls: 'toolbar__icon btn-incoffset',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.btnIncLeftOffset);
 
@@ -375,7 +400,10 @@ define([
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.paragraphControls.push(this.btnLineSpace);
 
@@ -391,7 +419,10 @@ define([
                                 {caption: this.mniHiddenChars, value: 'characters', checkable: true},
                                 {caption: this.mniHiddenBorders, value: 'table', checkable: true}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
                     });
                     this.toolbarControls.push(this.btnShowHidenChars);
 
@@ -402,7 +433,10 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnMarkers);
                     this.textOnlyControls.push(this.btnMarkers);
@@ -414,7 +448,10 @@ define([
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnNumbers);
                     this.textOnlyControls.push(this.btnNumbers);
@@ -423,7 +460,10 @@ define([
                         id: 'id-toolbar-btn-multilevels',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-multilevels',
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.paragraphControls.push(this.btnMultilevels);
                     this.textOnlyControls.push(this.btnMultilevels);
@@ -460,7 +500,10 @@ define([
                                 {caption: this.mniEraseTable, value: 'erase', checkable: true},
                                 {caption: this.mniTextToTable, value: 'convert'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertTable);
 
@@ -475,7 +518,10 @@ define([
                                 {caption: this.mniImageFromUrl, value: 'url'},
                                 {caption: this.mniImageFromStorage, value: 'storage'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertImage);
 
@@ -484,7 +530,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: me.capBtnInsChart,
                         iconCls: 'toolbar__icon btn-insertchart',
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertChart);
 
@@ -493,7 +542,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text',
                         caption: me.capBtnInsTextbox,
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertText);
                     this.btnInsertTextArt = new Common.UI.Button({
@@ -506,7 +558,10 @@ define([
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertTextArt);
 
@@ -515,7 +570,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-editheader',
                         caption: me.capBtnInsHeader,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
@@ -537,7 +595,10 @@ define([
                         id: 'id-toolbar-btn-datetime',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-datetime',
-                        caption: me.capBtnDateTime
+                        caption: me.capBtnDateTime,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsDateTime);
 
@@ -545,7 +606,10 @@ define([
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-blankpage',
-                        caption: me.capBtnBlankPage
+                        caption: me.capBtnBlankPage,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnBlankPage);
 
@@ -555,7 +619,10 @@ define([
                         iconCls: 'toolbar__icon btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'})
+                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertShape);
 
@@ -565,7 +632,10 @@ define([
                         iconCls: 'toolbar__icon btn-insertequation',
                         caption: me.capBtnInsEquation,
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'})
+                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertEquation);
 
@@ -573,7 +643,10 @@ define([
                         id: 'tlbtn-insertsymbol',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-symbol',
-                        caption: me.capBtnInsSymbol
+                        caption: me.capBtnInsSymbol,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsertSymbol);
 
@@ -613,7 +686,10 @@ define([
                                 {caption: '--'},
                                 this.mnuDropCapAdvanced = new Common.UI.MenuItem({caption: this.mniEditDropCap})
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnDropCap);
 
@@ -689,7 +765,10 @@ define([
                                     })
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     // this.paragraphControls.push(this.btnContentControls);
 
@@ -744,7 +823,10 @@ define([
                                 {caption: '--'},
                                 {caption: this.textColumnsCustom, value: 'advanced'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnColumns);
 
@@ -773,7 +855,10 @@ define([
                                     value: false
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageOrient);
 
@@ -837,7 +922,10 @@ define([
                                 {caption: '--'},
                                 {caption: this.textPageMarginsCustom, value: 'advanced'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageMargins);
 
@@ -961,7 +1049,10 @@ define([
                                 {caption: '--'},
                                 {caption: this.textPageSizeCustom, value: 'advanced'}
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnPageSize);
 
@@ -1009,14 +1100,19 @@ define([
                                     value: 5
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
-
+                    this.toolbarControls.push(this.btnLineNumbers);
 
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-clearstyle'
+                        iconCls: 'toolbar__icon btn-clearstyle',
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.toolbarControls.push(this.btnClearStyle);
 
@@ -1024,7 +1120,9 @@ define([
                         id: 'id-toolbar-btn-copystyle',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copystyle',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnCopyStyle);
 
@@ -1036,48 +1134,68 @@ define([
                             cls: 'shifted-left',
                             items: [],
                             restoreHeight: true
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
 
                     this.btnMailRecepients = new Common.UI.Button({
                         id: 'id-toolbar-btn-mailrecepients',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-mailmerge'
+                        iconCls: 'toolbar__icon btn-mailmerge',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
                     });
 
                     me.btnImgAlign = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-align',
                         caption: me.capImgAlign,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.btnImgGroup = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-group',
                         caption: me.capImgGroup,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-frwd',
                         caption: me.capImgForward,
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgBackward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-bkwd',
                         caption: me.capImgBackward,
                         split: true,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     me.btnImgWrapping = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-wrap',
                         caption: me.capImgWrapping,
-                        menu: true
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.btnWatermark = new Common.UI.Button({
@@ -1096,7 +1214,10 @@ define([
                                     value: 'remove'
                                 }
                             ]
-                        })
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
 
                     me.toolbarControls.push(me.btnImgAlign,
@@ -1136,7 +1257,9 @@ define([
                             {value: 48, displayValue: "48"},
                             {value: 72, displayValue: "72"},
                             {value: 96, displayValue: "96"}
-                        ]
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.cmbFontSize);
 
@@ -1145,7 +1268,9 @@ define([
                         menuCls: 'scrollable-menu',
                         menuStyle: 'min-width: 325px;',
                         hint: this.tipFontName,
-                        store: new Common.Collections.Fonts()
+                        store: new Common.Collections.Fonts(),
+                        dataHint: '1',
+                        dataHintDirection: 'top'
                     });
                     this.paragraphControls.push(this.cmbFontName);
 
@@ -1162,6 +1287,9 @@ define([
                         itemWidth: 104,
                         itemHeight: 38,
 //                hint        : this.tipParagraphStyle,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0',
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         beforeOpenHandler: function (e) {
@@ -1409,7 +1537,7 @@ define([
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
-                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;
@@ -1878,15 +2006,15 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1899,14 +2027,14 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -1919,10 +2047,10 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -2010,21 +2138,19 @@ define([
                         ]
                     });
                     this.mnuHighlightColorPicker.select('FFFF00');
+                    this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
                 }
 
                 if (this.btnFontColor.cmpEl) {
+                    this.btnFontColor.setMenu();
+                    this.mnuFontColorPicker = this.btnFontColor.getPicker();
                     this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
-                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 }
 
                 if (this.btnParagraphColor.cmpEl) {
+                    this.btnParagraphColor.setMenu();
+                    this.mnuParagraphColorPicker = this.btnParagraphColor.getPicker();
                     this.btnParagraphColor.setColor(this.btnParagraphColor.currentColor || 'transparent');
-                    this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-paracolor'),
-                        transparent: true
-                    });
                 }
 
                 if (this.btnContentControls.cmpEl) {
@@ -2082,6 +2208,10 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
+                    this.btnUndo.setDisabled(true);
+                    this.btnRedo.setDisabled(true);
+                    if ( this.synchTooltip )
+                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
@@ -2130,7 +2260,7 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 21) {
+                    if (index == 22) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
@@ -2140,7 +2270,7 @@ define([
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -2471,7 +2601,8 @@ define([
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
-            mniTextToTable: 'Convert Text to Table'
+            mniTextToTable: 'Convert Text to Table',
+            txtScheme22: 'New Office'
         }
     })(), DE.Views.Toolbar || {}));
 });
