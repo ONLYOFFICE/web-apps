@@ -1790,6 +1790,7 @@ define([
 
                     case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
                         config.msg = this.errorChangeOnProtectedSheet;
+                        break;
 
                     case Asc.c_oAscError.ID.SingleColumnOrRowError:
                         config.msg = this.errorSingleColumnOrRowError;
