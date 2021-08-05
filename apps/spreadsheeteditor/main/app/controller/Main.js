@@ -2152,14 +2152,10 @@ define([
                         txtOpenFile: this.txtUnlockRangeDescription,
                         validatePwd: false,
                         handler: function (result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    if (apiCallback)  {
-                                        apiCallback(me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data));
-                                    }
-                                }
-                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            if (me.api && apiCallback)  {
+                                apiCallback((result == 'ok') ? me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data) : false, result !== 'ok');
                             }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }
                     });
                     win.show();
