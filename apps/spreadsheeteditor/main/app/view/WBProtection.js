@@ -116,7 +116,10 @@ define([
                     iconCls: 'toolbar__icon protect-workbook',
                     enableToggle: true,
                     caption: this.txtProtectWB,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnProtectWB);
 
@@ -125,7 +128,10 @@ define([
                     iconCls: 'toolbar__icon protect-sheet',
                     enableToggle: true,
                     caption: this.txtProtectSheet,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnProtectSheet);
 
@@ -133,31 +139,46 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon allow-edit-ranges',
                     caption: this.txtAllowRanges,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock]
+                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAllowRanges);
 
                 this.chLockedCell = new Common.UI.CheckBox({
                     labelText: this.txtLockedCell,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLockedCell);
 
                 this.chLockedShape = new Common.UI.CheckBox({
                     labelText: this.txtLockedShape,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockShape]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockShape],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLockedShape);
 
                 this.chLockedText = new Common.UI.CheckBox({
                     labelText: this.txtLockedText,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.selSlicer, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockText]
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.selSlicer, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockText],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLockedText);
 
                 this.chHiddenFormula = new Common.UI.CheckBox({
                     labelText: this.txtHiddenFormula,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chHiddenFormula);
 

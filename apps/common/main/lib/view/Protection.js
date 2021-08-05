@@ -121,7 +121,10 @@ define([
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-protect',
-                        caption: this.txtEncrypt
+                        caption: this.txtEncrypt,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.btnsAddPwd.push(this.btnAddPwd);
 
@@ -130,7 +133,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt,
                         menu: true,
-                        visible: false
+                        visible: false,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
                 if (this.appConfig.isSignatureSupport) {
@@ -138,7 +144,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-signature',
                         caption: this.txtSignature,
-                        menu: (this.appPrefix !== 'pe-')
+                        menu: (this.appPrefix !== 'pe-'),
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     if (!this.btnSignature.menu)
                         this.btnsInvisibleSignature.push(this.btnSignature);
