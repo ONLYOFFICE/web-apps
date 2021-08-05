@@ -223,10 +223,10 @@ define([
                     slide_deleted = pr.get_LockDelete();
                     locked_transition = pr.get_LockTransition();
 
-                   if (slide_deleted !== undefined && me._state.slidecontrolsdisable !== slide_deleted) {
-                        if (me._state.activated) me._state.slidecontrolsdisable = slide_deleted;
-                        me.lockToolbar(PE.enumLock.slideDeleted, slide_deleted);
-                   }
+                   // if (slide_deleted !== undefined && me._state.slidecontrolsdisable !== slide_deleted) {
+                   //      if (me._state.activated) me._state.slidecontrolsdisable = slide_deleted;
+                   //      me.lockToolbar(PE.enumLock.slideDeleted, slide_deleted);
+                   // }
                    if (locked_transition !== undefined && me._state.lockedtransition !== locked_transition ) {
                         if (me._state.activated) me._state.lockedtransition = locked_transition;
                         me.lockToolbar(PE.enumLock.transitLock, locked_transition);
