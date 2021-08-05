@@ -85,7 +85,6 @@
     </tr>
     <tr class="form-image">
         <td class="padding-large">
-            <label class="input-label"><%= scope.textButton %></label>
             <div id="form-cnt-position" style="width: 100%;">
                 <div class="row">
                     <div id="form-img-position-preview">

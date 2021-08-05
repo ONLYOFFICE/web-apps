@@ -942,7 +942,7 @@ define([
                         this.sldrPreviewPositionX.setValue(val);
                         this._state.imgPositionX = val;
                     }
-                    val = pictPr.get_ShiftY() * 100;
+                    val = 100 - (pictPr.get_ShiftY() * 100);
                     if (this._state.imgPositionY !== val) {
                         this.sldrPreviewPositionY.setValue(val);
                         this._state.imgPositionY = val;
@@ -1205,7 +1205,7 @@ define([
                     val = this._state.imgPositionX / 100;
                     pictPr.put_ShiftX(val);
                 } else {
-                    val = this._state.imgPositionY / 100;
+                    val = (100 - this._state.imgPositionY) / 100;
                     pictPr.put_ShiftY(val);
                 }
                 props.put_PictureFormPr(pictPr);
@@ -1252,8 +1252,7 @@ define([
         textNever: 'Never',
         textTooBig: 'Image is Too Big',
         textTooSmall: 'Image is Too Small',
-        textScale: 'When to scale',
-        textButton: 'Button'
+        textScale: 'When to scale'
 
     }, DE.Views.FormSettings || {}));
 });
