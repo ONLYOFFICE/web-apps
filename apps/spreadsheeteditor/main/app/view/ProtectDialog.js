@@ -301,6 +301,8 @@ define([
                 record.set('check', !record.get('check'));
                 if (record.get('optionName') == 'SelectLockedCells' && record.get('check'))
                     this.optionsList.store.findWhere({optionName: 'SelectUnlockedCells'}).set('check', true);
+                if (record.get('optionName') == 'SelectUnlockedCells' && !record.get('check'))
+                    this.optionsList.store.findWhere({optionName: 'SelectLockedCells'}).set('check', false);
                 // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
