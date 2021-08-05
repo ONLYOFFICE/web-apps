@@ -2505,10 +2505,13 @@ define([
             toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
 
             // disable on protected sheet
+            // lock formatting controls in cell with FormatCells protection or in shape and Objects protection
             need_disable = (selectionType === Asc.c_oAscSelectionType.RangeImage || selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText ||
                             selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeSlicer);
-            toolbar.lockToolbar(need_disable ? SSE.enumLock['Objects'] : SSE.enumLock['FormatCells'], need_disable ? !!this._state.wsProps['Objects'] : !!this._state.wsProps['FormatCells'],
-                                { clear: [SSE.enumLock['FormatCells'], SSE.enumLock['Objects']]});
+            toolbar.lockToolbar(SSE.enumLock.wsLockFormat, need_disable && !!this._state.wsProps['Objects'] || !need_disable && !!this._state.wsProps['FormatCells']);
+
+            toolbar.lockToolbar(SSE.enumLock['Objects'], !!this._state.wsProps['Objects']);
+            toolbar.lockToolbar(SSE.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
 
             if (editOptionsDisabled) return;
 
