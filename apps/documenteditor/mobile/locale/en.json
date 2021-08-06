@@ -251,6 +251,7 @@
     "textNone": "None",
     "textNoStyles": "No styles for this type of charts.",
     "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "textNumbers": "Numbers",
     "textOpacity": "Opacity",
     "textOptions": "Options",
     "textOrphanControl": "Orphan Control",
@@ -294,8 +295,7 @@
     "textTopAndBottom": "Top and Bottom",
     "textTotalRow": "Total Row",
     "textType": "Type",
-    "textWrap": "Wrap",
-    "textNumbers": "Numbers"
+    "textWrap": "Wrap"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
