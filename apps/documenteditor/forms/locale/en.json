@@ -34,6 +34,8 @@
   "DE.ApplicationController.unknownErrorText": "Unknown error.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "DE.ApplicationController.waitText": "Please, wait...",
+  "DE.ApplicationController.txtEmpty": "(Empty)",
+  "DE.ApplicationController.txtPressLink": "Press Ctrl and click link",
   "DE.ApplicationView.txtDownload": "Download",
   "DE.ApplicationView.txtDownloadDocx": "Download as docx",
   "DE.ApplicationView.txtDownloadPdf": "Download as pdf",
