@@ -131,8 +131,7 @@ define([
                     'add:slide'         : this.onAddSlide.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
-                    'add:chart'         : this.onSelectChart,
-                    'transit:settab'    : this.setTrantitTab
+                    'add:chart'         : this.onSelectChart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),

@@ -17,6 +17,7 @@
       border-color: @border-preview-select;
     }
 
+
     .style{
       background: transparent;
     }
@@ -24,7 +25,7 @@
     .btn {
       border: none;
       &:hover {
-        background-color: transparent;
+        background: transparent;
       }
       .icon
       {
@@ -33,4 +34,29 @@
 
     }
   }
+
+  .combo-dataview
+  {
+    &.disabled {
+      .item {
+        &:hover:not(.selected) {
+          border-color: transparent;
+        }
+      .btn{
+        background: transparent;
+          cursor: default;
+          &:active,
+          &.active {
+            .icon {opacity: @component-normal-icon-opacity;}
+          }
+        }
+      }
+    }
+  }
+
+  .spinner
+  {
+    margin-left: 10px;
+  }
+
 }
