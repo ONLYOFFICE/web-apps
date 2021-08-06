@@ -379,6 +379,7 @@
     "Settings": {
       "textAbout": "詳細情報",
       "textAddress": "アドレス：",
+      "textAuthor": "作成者",
       "textBack": "戻る",
       "textLoading": "読み込み中...",
       "textSettings": "設定",
@@ -387,7 +388,6 @@
       "mniSlideWide": "Widescreen (16:9)",
       "textApplication": "Application",
       "textApplicationSettings": "Application Settings",
-      "textAuthor": "Author",
       "textCaseSensitive": "Case Sensitive",
       "textCentimeter": "Centimeter",
       "textCollaboration": "Collaboration",
