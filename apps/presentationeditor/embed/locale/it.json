@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Impossibile accedere al file subito.",
   "PE.ApplicationController.notcriticalErrorTitle": "Avviso",
   "PE.ApplicationController.scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Si prega di ricaricare la pagina.",
+  "PE.ApplicationController.textAnonymous": "Anonimo",
+  "PE.ApplicationController.textGuest": "Ospite",
   "PE.ApplicationController.textLoadingDocument": "Caricamento della presentazione",
   "PE.ApplicationController.textOf": "di",
   "PE.ApplicationController.txtClose": "Chiudi",
