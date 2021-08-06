@@ -1,0 +1,152 @@
+<svg width="380" height="40" viewBox="0 0 380 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon-menu-sprite Embedded Viewer">
+<g id="view-settings">
+<path id="Vector" d="M17 26H3V27H17V26Z" fill="white"/>
+<path id="Vector_2" d="M17 30H3V31H17V30Z" fill="white"/>
+<path id="Vector_3" d="M17 34H3V35H17V34Z" fill="white"/>
+</g>
+<g id="download">
+<path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M31 22H30V33.2929L25.3536 28.6464L24.6465 29.3536L30.1465 34.8536L30.5 35.2071L30.8536 34.8536L36.3536 29.3536L35.6465 28.6464L31 33.2929V22Z" fill="white"/>
+<rect id="Rectangle 88" x="24" y="36" width="13" height="1" fill="white"/>
+</g>
+<g id="share">
+<path id="share_2" d="M56 25C56 26.1046 55.1046 27 54 27C53.4663 27 52.9815 26.791 52.6229 26.4503L47.9076 29.3974C47.9676 29.5875 48 29.79 48 30C48 30.21 47.9676 30.4125 47.9076 30.6026L52.6229 33.5497C52.9815 33.209 53.4663 33 54 33C55.1046 33 56 33.8954 56 35C56 36.1046 55.1046 37 54 37C52.8954 37 52 36.1046 52 35C52 34.79 52.0324 34.5875 52.0924 34.3974L47.3771 31.4503C47.0185 31.791 46.5337 32 46 32C44.8954 32 44 31.1046 44 30C44 28.8954 44.8954 28 46 28C46.5337 28 47.0185 28.209 47.3771 28.5497L52.0924 25.6026C52.0324 25.4125 52 25.21 52 25C52 23.8954 52.8954 23 54 23C55.1046 23 56 23.8954 56 25Z" fill="white"/>
+</g>
+<g id="embed ">
+<g id="embed _2">
+<path d="M67.8536 25.3536L67.1465 24.6465L62.293 29.5L67.1465 34.3536L67.8536 33.6465L63.7072 29.5L67.8536 25.3536Z" fill="white"/>
+<path d="M72.1465 25.3536L72.8536 24.6465L77.7072 29.5L72.8536 34.3536L72.1465 33.6465L76.293 29.5L72.1465 25.3536Z" fill="white"/>
+</g>
+</g>
+<g id="full-screen">
+<path id="Rectangle 81 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M93 27H87V33H93V27ZM86 26V34H94V26H86Z" fill="white"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M86 23H83V26H84V24H86V23Z" fill="white"/>
+<path id="Subtract_2" fill-rule="evenodd" clip-rule="evenodd" d="M97 26L97 23L94 23L94 24L96 24L96 26L97 26Z" fill="white"/>
+<path id="Subtract_3" fill-rule="evenodd" clip-rule="evenodd" d="M94 37L97 37L97 34L96 34L96 36L94 36L94 37Z" fill="white"/>
+<path id="Subtract_4" fill-rule="evenodd" clip-rule="evenodd" d="M83 34L83 37L86 37L86 36L84 36L84 34L83 34Z" fill="white"/>
+</g>
+<g id="zoom-in">
+<path id="Union_2" fill-rule="evenodd" clip-rule="evenodd" d="M111 25H110V30H105V31H110V36H111V31H116V30H111V25Z" fill="white"/>
+</g>
+<g id="zoom-out">
+<rect id="Rectangle 44.8" x="135" y="30" width="1" height="10" transform="rotate(90 135 30)" fill="white"/>
+</g>
+<g id="scroll-to-first-sheet">
+<path id="Vector 13 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M155 25L147 30L155 35V25Z" fill="white"/>
+<path id="Rectangle 225" d="M145 25H146V35H145V25Z" fill="white"/>
+</g>
+<g id="scroll-to-last-sheet">
+<path id="Vector 13 (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M165 35L173 30L165 25V35Z" fill="white"/>
+<path id="Rectangle 225 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M174 35H175V25H174V35Z" fill="white"/>
+</g>
+<g id="play">
+<path id="Vector 8 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M185 23L198 30L185 37V23Z" fill="white"/>
+</g>
+<g id="pause">
+<path id="Rectangle 81 (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M205 25V35H209V25H205Z" fill="white"/>
+<path id="Rectangle 81.1 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M211 25V35H215V25H211Z" fill="white"/>
+</g>
+<g id=" print">
+<path id="Union_3" fill-rule="evenodd" clip-rule="evenodd" d="M226 24H234V26H226V24ZM225 26V24C225 23.4477 225.448 23 226 23H234C234.552 23 235 23.4477 235 24V26H237C237.552 26 238 26.4477 238 27V33C238 33.5523 237.552 34 237 34H235V36C235 36.5523 234.552 37 234 37H226C225.448 37 225 36.5523 225 36V34H223C222.448 34 222 33.5523 222 33V27C222 26.4477 222.448 26 223 26H225ZM225 33V31C225 30.4477 225.448 30 226 30H234C234.552 30 235 30.4477 235 31V33H237V27H234H226H223V33H225ZM225 28H224V29H225V28ZM234 31H226V36H234V31ZM227 32H233V33H227V32ZM233 34H227V35H233V34Z" fill="white"/>
+</g>
+<g id="clear-style">
+<path id="Union_4" fill-rule="evenodd" clip-rule="evenodd" d="M253.268 24.5608C252.291 23.5845 250.708 23.5845 249.732 24.5608L243.561 30.7324C242.584 31.7087 242.584 33.2916 243.561 34.268L245.146 35.8537L245.293 36.0002L245.5 36.0002H249.5L249.707 36.0002L255 36.0002V35.0002H250.707L255.439 30.268C256.416 29.2916 256.416 27.7087 255.439 26.7324L253.268 24.5608ZM249.293 35.0002L252.793 31.5002L248.5 27.2073L244.268 31.4395C243.682 32.0253 243.682 32.9751 244.268 33.5609L245.707 35.0002L249.293 35.0002ZM249.207 26.5002L253.5 30.7931L254.732 29.5608C255.318 28.9751 255.318 28.0253 254.732 27.4395L252.561 25.268C251.975 24.6822 251.025 24.6822 250.439 25.268L249.207 26.5002Z" fill="white"/>
+</g>
+<g id="view-settings_2">
+<path id="Vector_4" d="M17 6H3V7H17V6Z" fill="black"/>
+<path id="Vector_5" d="M17 10H3V11H17V10Z" fill="black"/>
+<path id="Vector_6" d="M17 14H3V15H17V14Z" fill="black"/>
+</g>
+<g id="download_2">
+<path id="Union_5" fill-rule="evenodd" clip-rule="evenodd" d="M31 2H30V13.2929L25.3536 8.64645L24.6465 9.35355L30.1465 14.8536L30.5 15.2071L30.8536 14.8536L36.3536 9.35355L35.6465 8.64645L31 13.2929V2Z" fill="black"/>
+<rect id="Rectangle 88_2" x="24" y="16" width="13" height="1" fill="black"/>
+</g>
+<g id="share_3">
+<path id="share_4" d="M56 5C56 6.10457 55.1046 7 54 7C53.4663 7 52.9815 6.79098 52.6229 6.45034L47.9076 9.39737C47.9676 9.58754 48 9.78999 48 10C48 10.21 47.9676 10.4125 47.9076 10.6026L52.6229 13.5497C52.9815 13.209 53.4663 13 54 13C55.1046 13 56 13.8954 56 15C56 16.1046 55.1046 17 54 17C52.8954 17 52 16.1046 52 15C52 14.79 52.0324 14.5875 52.0924 14.3974L47.3771 11.4503C47.0185 11.791 46.5337 12 46 12C44.8954 12 44 11.1046 44 10C44 8.89543 44.8954 8 46 8C46.5337 8 47.0185 8.20902 47.3771 8.54966L52.0924 5.60264C52.0324 5.41246 52 5.21001 52 5C52 3.89543 52.8954 3 54 3C55.1046 3 56 3.89543 56 5Z" fill="black"/>
+</g>
+<g id="embed _3">
+<g id="embed _4">
+<path d="M67.8536 5.35359L67.1465 4.64648L62.293 9.50004L67.1465 14.3536L67.8536 13.6465L63.7072 9.50004L67.8536 5.35359Z" fill="black"/>
+<path d="M72.1465 5.35359L72.8536 4.64648L77.7072 9.50004L72.8536 14.3536L72.1465 13.6465L76.293 9.50004L72.1465 5.35359Z" fill="black"/>
+</g>
+</g>
+<g id="full-screen_2">
+<path id="Rectangle 81 (Stroke)_3" fill-rule="evenodd" clip-rule="evenodd" d="M93 7H87V13H93V7ZM86 6V14H94V6H86Z" fill="black"/>
+<path id="Subtract_5" fill-rule="evenodd" clip-rule="evenodd" d="M86 3H83V6H84V4H86V3Z" fill="black"/>
+<path id="Subtract_6" fill-rule="evenodd" clip-rule="evenodd" d="M97 6L97 3L94 3L94 4L96 4L96 6L97 6Z" fill="black"/>
+<path id="Subtract_7" fill-rule="evenodd" clip-rule="evenodd" d="M94 17L97 17L97 14L96 14L96 16L94 16L94 17Z" fill="black"/>
+<path id="Subtract_8" fill-rule="evenodd" clip-rule="evenodd" d="M83 14L83 17L86 17L86 16L84 16L84 14L83 14Z" fill="black"/>
+</g>
+<g id="zoom-in_2">
+<path id="Union_6" fill-rule="evenodd" clip-rule="evenodd" d="M111 5H110V10H105V11H110V16H111V11H116V10H111V5Z" fill="black"/>
+</g>
+<g id="zoom-out_2">
+<rect id="Rectangle 44.8_2" x="135" y="10" width="1" height="10" transform="rotate(90 135 10)" fill="black"/>
+</g>
+<g id="scroll-to-first-sheet_2">
+<path id="Vector 13 (Stroke)_3" fill-rule="evenodd" clip-rule="evenodd" d="M155 5L147 10L155 15V5Z" fill="black"/>
+<path id="Rectangle 225_2" d="M145 5H146V15H145V5Z" fill="black"/>
+</g>
+<g id="scroll-to-last-sheet_2">
+<path id="Vector 13 (Stroke)_4" fill-rule="evenodd" clip-rule="evenodd" d="M165 15L173 10L165 5V15Z" fill="black"/>
+<path id="Rectangle 225 (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M174 15H175V5H174V15Z" fill="black"/>
+</g>
+<g id="play_2">
+<path id="Vector 8 (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M185 3L198 10L185 17V3Z" fill="black"/>
+</g>
+<g id="pause_2">
+<path id="Rectangle 81 (Stroke)_4" fill-rule="evenodd" clip-rule="evenodd" d="M205 5V15H209V5H205Z" fill="black"/>
+<path id="Rectangle 81.1 (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M211 5V15H215V5H211Z" fill="black"/>
+</g>
+<g id=" print_2">
+<path id="Union_7" fill-rule="evenodd" clip-rule="evenodd" d="M226 4H234V6H226V4ZM225 6V4C225 3.44772 225.448 3 226 3H234C234.552 3 235 3.44772 235 4V6H237C237.552 6 238 6.44772 238 7V13C238 13.5523 237.552 14 237 14H235V16C235 16.5523 234.552 17 234 17H226C225.448 17 225 16.5523 225 16V14H223C222.448 14 222 13.5523 222 13V7C222 6.44772 222.448 6 223 6H225ZM225 13V11C225 10.4477 225.448 10 226 10H234C234.552 10 235 10.4477 235 11V13H237V7H234H226H223V13H225ZM225 8H224V9H225V8ZM234 11H226V16H234V11ZM227 12H233V13H227V12ZM233 14H227V15H233V14Z" fill="black"/>
+</g>
+<g id="clear-style_2">
+<path id="Union_8" fill-rule="evenodd" clip-rule="evenodd" d="M253.268 4.56085C252.291 3.58454 250.708 3.58453 249.732 4.56085L243.561 10.7324C242.584 11.7087 242.584 13.2916 243.561 14.268L245.146 15.8537L245.293 16.0002L245.5 16.0002H249.5L249.707 16.0002L255 16.0002V15.0002H250.707L255.439 10.268C256.416 9.29164 256.416 7.70873 255.439 6.73242L253.268 4.56085ZM249.293 15.0002L252.793 11.5002L248.5 7.20729L244.268 11.4395C243.682 12.0253 243.682 12.9751 244.268 13.5609L245.707 15.0002L249.293 15.0002ZM249.207 6.50019L253.5 10.7931L254.732 9.56085C255.318 8.97506 255.318 8.02531 254.732 7.43953L252.561 5.26795C251.975 4.68217 251.025 4.68217 250.439 5.26795L249.207 6.50019Z" fill="black"/>
+</g>
+<g id="edit">
+<path id="Vector_7" d="M263 34V37H266L274 29L271 26L263 34Z" fill="white"/>
+<path id="Vector 2" d="M275 28L272 25L274 23H275L277 25V26L275 28Z" fill="white"/>
+</g>
+<g id="more-vertical">
+<circle id="Ellipse" cx="290" cy="26" r="1" transform="rotate(90 290 26)" fill="white"/>
+<circle id="Ellipse_2" cx="290" cy="30" r="1" transform="rotate(90 290 30)" fill="white"/>
+<circle id="Ellipse_3" cx="290" cy="34" r="1" transform="rotate(90 290 34)" fill="white"/>
+</g>
+<g id="go-to-location">
+<path id="Vector_8" d="M317 26H311V25C311 24.45 310.55 24 310 24H303C302.45 24 302 24.45 302 25V36C302 36.55 302.45 37 303 37H317C317.55 37 318 36.55 318 36V27C318 26.45 317.55 26 317 26ZM317 36H303V25H310V27H317V36Z" fill="white"/>
+<path id="Union_9" fill-rule="evenodd" clip-rule="evenodd" d="M309.646 33.6465L310.354 34.3536L313.207 31.5L310.354 28.6465L309.646 29.3536L311.268 30.9747H306V31.9747H311.318L309.646 33.6465Z" fill="white"/>
+</g>
+<g id="arrow-down">
+<path id="Union_10" fill-rule="evenodd" clip-rule="evenodd" d="M331 23H330V34.2929L325.354 29.6464L324.646 30.3536L330.146 35.8536L330.5 36.2071L330.854 35.8536L336.354 30.3536L335.646 29.6464L331 34.2929V23Z" fill="white"/>
+</g>
+<g id="edit_2">
+<path id="Vector_9" d="M263 14V17H266L274 9L271 6L263 14Z" fill="black"/>
+<path id="Vector 2_2" d="M275 8L272 5L274 3H275L277 5V6L275 8Z" fill="black"/>
+</g>
+<g id="more-vertical_2">
+<circle id="Ellipse_4" cx="290" cy="6" r="1" transform="rotate(90 290 6)" fill="black"/>
+<circle id="Ellipse_5" cx="290" cy="10" r="1" transform="rotate(90 290 10)" fill="black"/>
+<circle id="Ellipse_6" cx="290" cy="14" r="1" transform="rotate(90 290 14)" fill="black"/>
+</g>
+<g id="go-to-location_2">
+<path id="Vector_10" d="M317 6H311V5C311 4.45 310.55 4 310 4H303C302.45 4 302 4.45 302 5V16C302 16.55 302.45 17 303 17H317C317.55 17 318 16.55 318 16V7C318 6.45 317.55 6 317 6ZM317 16H303V5H310V7H317V16Z" fill="black"/>
+<path id="Union_11" fill-rule="evenodd" clip-rule="evenodd" d="M309.646 13.6465L310.354 14.3536L313.207 11.5L310.354 8.64648L309.646 9.35359L311.268 10.9747H306V11.9747H311.318L309.646 13.6465Z" fill="black"/>
+</g>
+<g id="arrow-down_2">
+<path id="Union_12" fill-rule="evenodd" clip-rule="evenodd" d="M331 3H330V14.2929L325.354 9.64645L324.646 10.3536L330.146 15.8536L330.5 16.2071L330.854 15.8536L336.354 10.3536L335.646 9.64645L331 14.2929V3Z" fill="black"/>
+</g>
+<g id="arrow-up">
+<path id="Union_13" fill-rule="evenodd" clip-rule="evenodd" d="M350 36.207L351 36.207L351 24.9141L355.646 29.5606L356.354 28.8535L350.854 23.3535L350.5 22.9999L350.146 23.3535L344.646 28.8535L345.354 29.5606L350 24.9141L350 36.207Z" fill="white"/>
+</g>
+<g id="arrow-up_2">
+<path id="Union_14" fill-rule="evenodd" clip-rule="evenodd" d="M350 16.207L351 16.207L351 4.91414L355.646 9.56059L356.354 8.85348L350.854 3.35348L350.5 2.99993L350.146 3.35348L344.646 8.85348L345.354 9.56059L350 4.91414L350 16.207Z" fill="black"/>
+</g>
+<g id="close">
+<path id="Vector 73" d="M366 25L375 34M375 25L366 34" stroke="white" stroke-width="1.5"/>
+</g>
+<g id="close_2">
+<path id="Vector 73_2" d="M366 5L375 14M375 5L366 14" stroke="black" stroke-width="1.5"/>
+</g>
+</g>
+</svg>
