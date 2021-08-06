@@ -203,25 +203,20 @@ class SearchView extends Component {
 
     onEditorTouchStart(e) {
         this.startPoint = this.pointerPosition(e);
-        // console.log(this.startPoint);
     }
 
     onEditorTouchEnd(e) {
         const endPoint = this.pointerPosition(e);
-        // console.log(endPoint);
 
         if (this.searchbar.enabled) {
             let distance;
 
             if(this.startPoint) {
-                distance = (!!this.startPoint.x || !!this.startPoint.y) ? 0 : 
+                distance = (this.startPoint.x === undefined || this.startPoint.y === undefined) ? 0 :
                     Math.sqrt((endPoint.x -= this.startPoint.x) * endPoint.x + (endPoint.y -= this.startPoint.y) * endPoint.y);
             } else {
                 distance = 0;
             }
-
-            // const distance = (this.startPoint === undefined || this.startPoint === undefined) ? 0 :
-            //     Math.sqrt((endPoint.x -= this.startPoint.x) * endPoint.x + (endPoint.y -= this.startPoint.y) * endPoint.y);
 
             if (distance < 1) {
                 this.searchbar.disable();
@@ -231,15 +226,10 @@ class SearchView extends Component {
 
     pointerPosition(e) {
         let out = {x:0, y:0};
-        if ( e.type == 'touchstart' || e.type == 'touchend' ) {
-            const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-            out.x = touch.pageX;
-            out.y = touch.pageY;
-        } else if ( e.type == 'mousedown' || e.type == 'mouseup' ) {
+        if ( e.type == 'pointerdown' || e.type == 'pointerup' || e.type == 'mousedown' || e.type == 'mouseup') {
             out.x = e.pageX;
             out.y = e.pageY;
         }
-
         return out;
     }
 
