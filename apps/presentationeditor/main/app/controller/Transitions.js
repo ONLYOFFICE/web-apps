@@ -63,7 +63,7 @@ define([
             this.addListeners({
                 'PE.Views.Transitions': {
                     'transit:preview':      _.bind(this.onPreviewClick, this),
-                    'transit:parametrs':    _.bind(this.onParametrClick, this),
+                    'transit:parameters':    _.bind(this.onParameterClick, this),
                     'transit:duration':     _.bind(this.onDurationChange, this),
                     'transit:applytoall':   _.bind(this.onApplyToAllClick, this),
                     'transit:selecteffect': _.bind(this.onEffectSelect, this),
@@ -119,7 +119,7 @@ define([
             }
         },
 
-        onParametrClick: function (item) {
+        onParameterClick: function (item) {
             this.EffectType = item.value;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
@@ -182,9 +182,9 @@ define([
             if (this.Effect !== type &&
                 !((this.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
                     (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover))) {
-                var  parametr = this.view.setMenuParametrs(type);
-                if (parametr)
-                this.onParametrClick(parametr);
+                var  parameter = this.view.setMenuParameters(type);
+                if (parameter)
+                this.onParameterClick(parameter);
             }
             this.Effect = type;
 
@@ -279,8 +279,8 @@ define([
                 me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
             }
 
-            if (me.btnParametrs.menu.items.length > 0 && this._state.EffectType !== undefined)
-                    me.setMenuParametrs(this._state.Effect, this._state.EffectType);
+            if (me.btnParameters.menu.items.length > 0 && this._state.EffectType !== undefined)
+                    me.setMenuParameters(this._state.Effect, this._state.EffectType);
 
             me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
             me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);

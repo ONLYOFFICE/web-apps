@@ -2411,7 +2411,7 @@ define([
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
-                var transitController    = me.getApplication().getController('Transitions');
+                var transitController = me.getApplication().getController('Transitions');
                 transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());

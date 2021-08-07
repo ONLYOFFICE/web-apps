@@ -71,11 +71,11 @@ define([
 
             if (me.btnParameters) {
                 me.btnParameters.on('click', function (e) {
-                    me.fireEvent('transit:Parameters', ['current']);
+                    me.fireEvent('transit:parameters', ['current']);
                 });
 
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('transit:Parameters', [item]);
+                    me.fireEvent('transit:parameters', [item]);
                 });
             }
 
@@ -308,7 +308,7 @@ define([
             getPanel: function () {
                 this.listEffects && this.listEffects.render(this.$el.find('#transit-field-effects'));
                 this.btnPreview && this.btnPreview.render(this.$el.find('#transit-button-preview'));
-                this.btnParameters && this.btnParameters.render(this.$el.find('#transit-button-Parameters'));
+                this.btnParameters && this.btnParameters.render(this.$el.find('#transit-button-parameters'));
                 this.btnApplyToAll && this.btnApplyToAll.render(this.$el.find('#transit-button-apply'));
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
