@@ -442,6 +442,12 @@
             height: 4px;
         }
     }
+
+    &.no-caret {
+        .inner-box-caret {
+            display: none;
+        }
+    }
 }
 
 .btn-category {
@@ -535,7 +541,7 @@
 
     &:not(.split) {
         .btn-toolbar {
-                &.dropdown-toggle:not(.x-huge) {
+                &.dropdown-toggle:not(.x-huge):not(.no-caret) {
                     width: 100%;
                     min-width: 28px;
                 }

@@ -1,5 +1,13 @@
+@import "../../../../common/main/resources/less/asc-mixins.less";
+
+// Bootstrap overwrite
+@import "../../../../common/main/resources/less/variables.less";
+@import "../../../../common/main/resources/less/colors-table.less";
+@import "../../../../common/main/resources/less/colors-table-classic.less";
+@import "../../../../common/main/resources/less/colors-table-dark.less";
+
 // Core variables and mixins
-@import "../../../../../vendor/bootstrap/less/variables.less";
+//@import "../../../../../vendor/bootstrap/less/variables.less";
 
 @icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
 
@@ -7,7 +15,7 @@
 
 // Reset
 @import "../../../../../vendor/bootstrap/less/normalize.less";
-@import "../../../../../vendor/bootstrap/less/print.less";
+//@import "../../../../../vendor/bootstrap/less/print.less";
 
 // Core CSS
 @import "../../../../../vendor/bootstrap/less/scaffolding.less";
@@ -29,31 +37,48 @@
 //@import "breadcrumbs.less";
 //@import "pagination.less";
 //@import "pager.less";
-@import "../../../../../vendor/bootstrap/less/labels.less";
+//@import "../../../../../vendor/bootstrap/less/labels.less";
 //@import "badges.less";
 //@import "jumbotron.less";
 //@import "thumbnails.less";
-@import "../../../../../vendor/bootstrap/less/alerts.less";
+//@import "../../../../../vendor/bootstrap/less/alerts.less";
 //@import "progress-bars.less";
 //@import "media.less";
 //@import "list-group.less";
 //@import "panels.less";
 //@import "wells.less";
-@import "../../../../../vendor/bootstrap/less/close.less";
+//@import "../../../../../vendor/bootstrap/less/close.less";
 
 // Components w/ JavaScript
-@import "../../../../../vendor/bootstrap/less/modals.less";
+//@import "../../../../../vendor/bootstrap/less/modals.less";
 @import "../../../../../vendor/bootstrap/less/tooltip.less";
 //@import "../../../../../vendor/bootstrap/less/popovers.less";
 @import "../../../../../vendor/bootstrap/less/dropdowns.less";
+@import "../../../../../vendor/bootstrap/less/button-groups.less";
+@import "../../../../../vendor/bootstrap/less/input-groups.less";
 //@import "carousel.less";
 
 // Utility classes
 @import "../../../../../vendor/bootstrap/less/utilities.less";
 @import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
 
+@import "../../../../common/main/resources/less/buttons.less";
+@import "../../../../common/main/resources/less/dropdown-menu.less";
+@import "../../../../common/main/resources/less/dropdown-submenu.less";
+@import "../../../../common/main/resources/less/separator.less";
+@import "../../../../common/main/resources/less/input.less";
+@import "../../../../common/main/resources/less/window.less";
+@import "../../../../common/main/resources/less/loadmask.less";
+@import "../../../../common/main/resources/less/dataview.less";
+@import "../../../../common/main/resources/less/tooltip.less";
+@import "../../../../common/main/resources/less/scroller.less";
+@import "../../../../common/main/resources/less/synchronize-tip.less";
+@import "../../../../common/main/resources/less/common.less";
+@import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/calendar.less";
 
-@import "loadmask.less";
+
+//@import "loadmask.less";
 
 @toolbarBorderColor:            #dbdbdb;
 @toolbarBorderShadowColor:      #FAFAFA;
@@ -566,13 +591,13 @@
     vertical-align: middle;
 }
 
-.btn, button {
-    &:focus, &:active:focus {
-        outline: 0 none;
-    }
-
-    background-color: @btnColor;
-}
+//.btn, button {
+//    &:focus, &:active:focus {
+//        outline: 0 none;
+//    }
+//
+//    background-color: @btnColor;
+//}
 
 .modal-dialog {
     margin-top: 100px;
@@ -628,36 +653,36 @@
     }
 }
 
-.dropdown-menu {
-    > li > a {
-        padding: 8px 20px 8px 28px;
-        &:hover, &:focus {
-            background-color: @btnColor;
-            outline: 0 none;
-        }
-        font-size: @buttonFontSize;
-    }
-
-    .divider {
-        margin: 4px 0;
-    }
-}
-
-.dropdown {
-    &.open {
-        > button {
-            background-color: @btnActiveColor !important;
-            background-position: -@icon-width*14 -@icon-height;
-        }
-    }
-}
-
-#box-tools {
-    display: inline-block;
-    a {
-        cursor: pointer;
-    }
-}
+//.dropdown-menu {
+//    > li > a {
+//        padding: 8px 20px 8px 28px;
+//        &:hover, &:focus {
+//            background-color: @btnColor;
+//            outline: 0 none;
+//        }
+//        font-size: @buttonFontSize;
+//    }
+//
+//    .divider {
+//        margin: 4px 0;
+//    }
+//}
+//
+//.dropdown {
+//    &.open {
+//        > button {
+//            background-color: @btnActiveColor !important;
+//            background-position: -@icon-width*14 -@icon-height;
+//        }
+//    }
+//}
+//
+//#box-tools {
+//    display: inline-block;
+//    a {
+//        cursor: pointer;
+//    }
+//}
 
 .masked {
     background-color: transparent;
@@ -779,4 +804,16 @@
             font-weight: normal;
         }
     }
+}
+
+.font-size-small {
+    .fontsize(@font-size-small);
+}
+
+.font-size-normal {
+    .fontsize(@font-size-base);
+}
+
+.font-size-large {
+    .fontsize(@font-size-large);
 }

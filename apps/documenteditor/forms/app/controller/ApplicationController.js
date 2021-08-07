@@ -280,7 +280,6 @@ define([
                 config.buttons  = ['ok'];
                 config.callback = _.bind(function(btn){
                     if (id == Asc.c_oAscError.ID.EditingError) {
-                        this.disableEditing(true);
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
                     this.onEditComplete();
@@ -327,7 +326,7 @@ define([
             if (this.embedConfig.toolbarDocked === 'bottom') {
                 $('#toolbar').addClass('bottom');
                 this.boxSdk.addClass('bottom');
-                $('#box-tools').removeClass('dropdown').addClass('dropup');
+                // $('#box-tools').removeClass('dropdown').addClass('dropup');
                 ttOffset[1] = -40;
             } else {
                 $('#toolbar').addClass('top');
@@ -907,56 +906,58 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -2);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-            var dividers = $('#box-tools .divider');
-            var itemsCount = $('#box-tools a').length;
+            // var dividers = $('#box-tools .divider');
+            // var itemsCount = $('#box-tools a').length;
+            //
+            var menuItems = this.view.btnOptions.menu.items;
+            var itemsCount = menuItems.length-3;
 
             if (!this.appOptions.canPrint) {
-                $('#idt-print').hide();
-                $(dividers[0]).hide();
+                menuItems[0].setVisible(false);
+                menuItems[1].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.saveUrl && !this.appOptions.canPrint || this.appOptions.canFillForms) {
-                $('#idt-download').hide();
+                menuItems[2].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
-                $('#idt-download-docx').hide();
-                $('#idt-download-pdf').hide();
-                $(dividers[0]).hide();
-                $(dividers[1]).hide();
+                menuItems[3].setVisible(false);
+                menuItems[4].setVisible(false);
+                menuItems[1].setVisible(false);
+                menuItems[5].setVisible(false);
                 itemsCount -= 2;
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
-                $('#idt-share').hide();
+                menuItems[6].setVisible(false);
                 itemsCount--;
             }
 
             if (!this.appOptions.canBackToFolder) {
-                $('#idt-close').hide();
+                menuItems[7].setVisible(false);
                 itemsCount--;
             }
 
             if (itemsCount<3)
-                $(dividers[2]).hide();
+                menuItems[8].setVisible(false);
 
             if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
-                $('#idt-embed').hide();
+                menuItems[9].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl ) {
-                $('#idt-fullscreen').hide();
+                menuItems[10].setVisible(false);
                 itemsCount--;
             }
 
-            // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             if (itemsCount<1)
-                $('#box-tools').addClass('hidden');
+                this.view.btnOptions.setVisible(false);
             else if ((!this.embedConfig.embedUrl || this.appOptions.canFillForms) && !this.embedConfig.fullscreenUrl)
-                $(dividers[2]).hide();
+                menuItems[8].setVisible(false);
 
             // common.controller.modals.attach({
             //     share: '#idt-share',
@@ -983,55 +984,9 @@ define([
             Common.Gateway.on('downloadas',         _.bind(this.onDownloadAs, this));
             Common.Gateway.on('requestclose',       _.bind(this.onRequestClose, this));
 
-            this.view.getTools('#idt-fullscreen')
-                .on('click', function(){
-                    me.onHyperlinkClick(me.embedConfig.fullscreenUrl);
-                });
-
-            this.view.getTools('#idt-download')
-                .on('click', function(){
-                    if ( !!me.embedConfig.saveUrl ){
-                        me.onHyperlinkClick(embedConfig.saveUrl);
-                    } else
-                    if (me.api && me.appOptions.canPrint){
-                        me.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    }
-
-                    Common.Analytics.trackEvent('Save');
-                });
-
-            this.view.getTools('#idt-print')
-                .on('click', function(){
-                    me.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    Common.Analytics.trackEvent('Print');
-                });
-
-            this.view.getTools('#idt-close')
-                .on('click', function(){
-                    if (me.appOptions.customization && me.appOptions.customization.goback) {
-                        if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose)
-                            Common.Gateway.requestClose();
-                        else if (me.appOptions.customization.goback.url)
-                            window.parent.location.href = me.appOptions.customization.goback.url;
-                    }
-                });
-
-            var downloadAs =  function(format){
-                me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                Common.Analytics.trackEvent('Save');
-            };
-
-            this.view.getTools('#idt-download-docx')
-                .on('click', function(){
-                    downloadAs(Asc.c_oAscFileType.DOCX);
-                });
-            this.view.getTools('#idt-download-pdf')
-                .on('click', function(){
-                    downloadAs(Asc.c_oAscFileType.PDF);
-                });
-
-            $('#id-btn-zoom-in').on('click', me.api.zoomIn.bind(me.api));
-            $('#id-btn-zoom-out').on('click', me.api.zoomOut.bind(me.api));
+            $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
+            $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
+            this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
 
             var $pagenum = $('#page-number');
             $pagenum.on({
@@ -1111,6 +1066,46 @@ define([
             });
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
+        },
+
+        onOptionsClick: function(menu, item, e) {
+            switch (item.value) {
+                case 'fullscr':
+                    this.onHyperlinkClick(this.embedConfig.fullscreenUrl);
+                    break;
+                case 'download':
+                    if ( !!this.embedConfig.saveUrl ){
+                        this.onHyperlinkClick(this.embedConfig.saveUrl);
+                    } else if (this.api && this.appOptions.canPrint){
+                        this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    }
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'print':
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    Common.Analytics.trackEvent('Print');
+                    break;
+                case 'close':
+                    if (this.appOptions.customization && this.appOptions.customization.goback) {
+                        if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
+                            Common.Gateway.requestClose();
+                        else if (this.appOptions.customization.goback.url)
+                            window.parent.location.href = this.appOptions.customization.goback.url;
+                    }
+                    break;
+                case 'download-docx':
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'download-pdf':
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'share':
+                    break;
+                case 'embed':
+                    break;
+            }
         },
 
         errorDefaultMessage     : 'Error code: %1',
