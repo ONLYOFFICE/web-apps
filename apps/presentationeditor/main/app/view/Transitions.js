@@ -193,7 +193,6 @@ define([
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon btn-insertshape',
                     menu: new Common.UI.Menu({
-                        maxHeight:115,
                         items: this.createParametersMenuItems()}),
                     lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });
