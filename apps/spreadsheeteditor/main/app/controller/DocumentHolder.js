@@ -701,6 +701,8 @@ define([
         },
 
         onAddComment: function(item) {
+            if (this._state.wsProps['Objects']) return;
+            
             if (this.api && this.permissions.canCoAuthoring && this.permissions.canComments) {
 
                 var controller = SSE.getController('Common.Controllers.Comments'),
@@ -2111,6 +2113,7 @@ define([
                 documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
 
                 if (inPivot) {
                     var canGroup = this.api.asc_canGroupPivot();
@@ -2182,7 +2185,7 @@ define([
 
             documentHolder.menuViewAddComment.setVisible(canComment);
             commentsController && commentsController.blockPopover(true);
-            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
+            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['Objects']);
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
 
             if (isInSign) {
