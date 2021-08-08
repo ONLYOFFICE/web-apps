@@ -1219,7 +1219,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-colorschemas',
                     caption     : me.capBtnColorSchemas,
-                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.wsLock],
                     menu        : new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [],

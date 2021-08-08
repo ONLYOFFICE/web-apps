@@ -237,7 +237,7 @@ define([
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
-                view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
+                view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
@@ -638,6 +638,10 @@ define([
         },
 
         onDelHyperlink: function(item) {
+            Common.NotificationCenter.trigger('protect:check', this.onDelHyperlinkCallback, this);
+        },
+
+        onDelHyperlinkCallback: function(item) {
             if (this.api) {
                 this.api.asc_removeHyperlink();
 
@@ -896,15 +900,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
-        },
-
-        onRemoveHyperlinkShape: function(item) {
-            if (this.api) {
-                this.api.asc_removeHyperlink();
-
-                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
-            }
         },
 
         onTextAdvanced: function(item) {

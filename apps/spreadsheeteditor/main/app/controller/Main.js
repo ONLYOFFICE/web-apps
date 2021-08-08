@@ -1800,6 +1800,18 @@ define([
                         config.msg = this.errorLocationOrDataRangeError;
                         break;
 
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
+                        config.msg = this.errorDeleteColumnContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
+                        config.msg = this.errorDeleteRowContainsLockedCell;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2164,7 +2176,7 @@ define([
             },
 
             checkProtectedRange: function(callback, scope, args) {
-                var result = this.api.asc_checkActiveCellProtectedRange();
+                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkActiveCellProtectedRange() : false;
                 if (result===null) {
                     this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
                     return;
@@ -3311,7 +3323,10 @@ define([
             textLearnMore: 'Learn More',
             errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
             errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.',
-            txtErrorLoadHistory: 'Loading history failed'
+            txtErrorLoadHistory: 'Loading history failed',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
+            errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.'
         }
     })(), SSE.Controllers.Main || {}))
 });
