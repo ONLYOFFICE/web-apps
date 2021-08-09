@@ -95,13 +95,15 @@ define([
         setApi: function (api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
-            this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
+            this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             return this;
         },
 
-        onApiCountPagesRestricted: function (count) {
-            /*if (this._state.no_slides !== (count <= 0))*/
-            this._state.no_slides = (count <= 0);
+        onApiCountPages: function (count) {
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                this.lockToolbar(PE.enumLock.noSlides, this._state.no_slides);
+            }
         },
 
         createToolbarPanel: function() {
@@ -267,8 +269,6 @@ define([
         setLocked: function() {
             if (this._state.lockedtransition != undefined)
                 this.lockToolbar(PE.enumLock.transitLock, this._state.lockedtransition);
-            if (this._state.no_slides != undefined)
-                this.lockToolbar(PE.enumLock.noSlides, this._state.no_slides);
         },
 
         setSettings: function () {
