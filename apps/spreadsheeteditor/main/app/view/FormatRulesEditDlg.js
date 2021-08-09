@@ -1330,7 +1330,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && props.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
@@ -1493,7 +1493,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && this._changedProps.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && this._changedProps.asc_setDxf(this.xfsFormat);
                 } else if (type == Asc.c_oAscCFType.colorScale) {
                     var scalesCount = rec.get('num');
                     var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
