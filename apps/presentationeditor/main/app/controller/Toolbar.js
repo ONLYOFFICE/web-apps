@@ -2460,8 +2460,6 @@ define([
                         });
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
-                        if (btn.cmpEl.closest('#transitions-panel').length>0)
-                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
 
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
