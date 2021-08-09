@@ -942,7 +942,7 @@ define([
                         this.sldrPreviewPositionX.setValue(val);
                         this._state.imgPositionX = val;
                     }
-                    val = 100 - (pictPr.get_ShiftY() * 100);
+                    val = pictPr.get_ShiftY() * 100;
                     if (this._state.imgPositionY !== val) {
                         this.sldrPreviewPositionY.setValue(val);
                         this._state.imgPositionY = val;
@@ -950,8 +950,13 @@ define([
                     this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
                     val = ((130 - 80) * this._state.imgPositionX) / 100 - 1;
                     this.imagePositionPreview.css({'left': val + 'px'});
-                    val = (130 - 80) * (100 - this._state.imgPositionY) / 100 - 1;
+                    val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
                     this.imagePositionPreview.css({'top': val + 'px'});
+
+                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never);
+                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+                    this.sldrPreviewPositionX.setDisabled(disableSliders);
+                    this.sldrPreviewPositionY.setDisabled(disableSliders);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1158,13 +1163,11 @@ define([
         },
 
         onImagePositionChange: function (type, field, newValue, oldValue) {
-            var value;
+            var value = ((130 - 80) * newValue) / 100 - 1;
             if (type === 'x') {
-                value = ((130 - 80) * newValue) / 100 - 1;
                 this.imagePositionPreview.css({'left': value + 'px'});
                 this._state.imgPositionX = newValue;
             } else {
-                value = (130 - 80) * (100 - newValue) / 100 - 1;
                 this.imagePositionPreview.css({'top': value + 'px'});
                 this._state.imgPositionY = newValue;
             }
@@ -1205,7 +1208,7 @@ define([
                     val = this._state.imgPositionX / 100;
                     pictPr.put_ShiftX(val);
                 } else {
-                    val = (100 - this._state.imgPositionY) / 100;
+                    val = this._state.imgPositionY / 100;
                     pictPr.put_ShiftY(val);
                 }
                 props.put_PictureFormPr(pictPr);

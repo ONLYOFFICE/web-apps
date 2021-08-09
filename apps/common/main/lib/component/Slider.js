@@ -149,11 +149,7 @@ define([
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                if (me.direction === 'vertical') {
-                    me.value = (100 - pos)/me.delta + me.minValue;
-                } else {
-                    me.value = pos/me.delta + me.minValue;
-                }
+                me.value = pos/me.delta + me.minValue;
 
                 me.thumb.removeClass('active');
                 $(document).off('mouseup',   onMouseUp);
@@ -176,11 +172,7 @@ define([
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                if (me.direction === 'vertical') {
-                    me.value = (100 - pos)/me.delta + me.minValue;
-                } else {
-                    me.value = pos/me.delta + me.minValue;
-                }
+                me.value = pos/me.delta + me.minValue;
 
                 if (Math.abs(me.value-me.lastValue)>0.001)
                     me.trigger('change', me, me.value, me.lastValue);
@@ -207,11 +199,7 @@ define([
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
-                if (me.direction === 'vertical') {
-                    me.value = (100 - pos)/me.delta + me.minValue;
-                } else {
-                    me.value = pos/me.delta + me.minValue;
-                }
+                me.value = pos/me.delta + me.minValue;
 
                 me.trigger('change', me, me.value, me.lastValue);
                 me.trigger('changecomplete', me, me.value, me.lastValue);
@@ -276,11 +264,7 @@ define([
         setValue: function(value) {
             this.lastValue = this.value;
             this.value = Math.max(this.minValue, Math.min(this.maxValue, value));
-            if (this.direction === 'vertical') {
-                this.setThumbPosition(100 - Math.round((value-this.minValue)*this.delta));
-            } else {
-                this.setThumbPosition(Math.round((value-this.minValue)*this.delta));
-            }
+            this.setThumbPosition(Math.round((value-this.minValue)*this.delta));
         },
 
         getValue: function() {
