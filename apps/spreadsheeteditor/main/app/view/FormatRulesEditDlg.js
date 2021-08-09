@@ -1407,8 +1407,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             barProps.asc_setBorderColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBorderColor(Common.Utils.ThemeColor.getRgbColor(this.chBorder.getValue()=='checked' ? this.btnPosBorder.colorPicker.currentColor : this.btnNegBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBarBorderColorSameAsPositive(this.chBorder.getValue()=='checked');
-                        } else
+                        } else {
                             barProps.asc_setBorderColor(null);
+                            barProps.asc_setNegativeBorderColor(null);
+                        }
 
                         barProps.asc_setDirection(this.cmbBarDirection.getValue());
                         barProps.asc_setShowValue(this.chShowBar.getValue()!=='checked');
