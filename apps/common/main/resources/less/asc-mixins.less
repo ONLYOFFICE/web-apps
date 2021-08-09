@@ -100,6 +100,26 @@
 
     .pixel-ratio__2 {
     }
+
+    .pixel-ratio__1_25 {
+        @ratio: 1.25;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
+
+    .pixel-ratio__1_75 {
+        @ratio: 1.75;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
 }
 
 .button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
