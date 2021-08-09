@@ -126,13 +126,11 @@ class ContextMenuController extends Component {
 
     onApiHideContextMenu() {
         if ( this.state.opened ) {
-            setTimeout(() => {
-                $$(idContextMenuElement).hide();
-                f7.popover.close(idContextMenuElement, false);
-    
-                this.$targetEl.css({left: '-10000px', top: '-10000px'});
-                this.setState({opened: false});
-            }, 800);
+            $$(idContextMenuElement).hide();
+            f7.popover.close(idContextMenuElement, false);
+
+            this.$targetEl.css({left: '-10000px', top: '-10000px'});
+            this.setState({opened: false});
         }
     }
 
