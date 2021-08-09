@@ -47,7 +47,7 @@
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
-            max-width: 100px;
+            max-width: 124px;
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;

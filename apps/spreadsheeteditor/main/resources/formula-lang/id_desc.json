@@ -4,8 +4,8 @@
 		"d": "Mengembalikan angka yang mewakili tanggal dalam kode tanggal-waktu"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(start-date; end-date; unit)",
+		"d": "Menghitung jumlah hari, bulan, atau tahun di antara dua tanggal"
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
@@ -396,8 +396,8 @@
 		"d": "Menampilkan posisi awal satu string teks dalam string teks lain. FIND membedakan huruf besar dan kecil"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(find_text; within_text; [start_num])",
+		"d": "Menemukan satu string teks ketika string teks kedua, dan mengembalikan nomor posisi mulai string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"FIXED": {
 		"a": "(number; [decimals]; [no_commas])",
@@ -408,16 +408,16 @@
 		"d": "Menampilkan jumlah karakter tertentu dari awal string teks"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [num_chars])",
+		"d": "Mengembalikan karakter pertama atau beberapa karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"LEN": {
 		"a": "(text)",
 		"d": "Menampilkan jumlah karakter dalam string teks"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text)",
+		"d": "Mengembalikan jumlah byte yang digunakan untuk menunjukkan karakter dalam string teks, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -428,8 +428,8 @@
 		"d": "Menampilkan karakter dari tengah string teks, memberikan posisi awal dan panjang"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; start_num; num_chars)",
+		"d": "Mengembalikan jumlah karakter tertentu dari sebuah string teks, dimulai dari posisi yang Anda tentukan, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -444,8 +444,8 @@
 		"d": "Mengganti bagian dari string teks dengan string teks yang lain"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(old_text; start_num; num_chars; new_text)",
+		"d": "Menggantikan bagian dari string teks, berdasarkan jumlah byte yang Anda tentukan, dengan string teks berbeda, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"REPT": {
 		"a": "(text; number_times)",
@@ -456,16 +456,16 @@
 		"d": "Menampilkan jumlah karakter tertentu dari bagian akhir string teks"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [num_chars])",
+		"d": "Menampilkan karakter terakhir atau karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"SEARCH": {
 		"a": "(find_text; within_text; [start_num])",
 		"d": "Menampilkan jumlah dari karakter saat karakter atau string teks tertentu ditemukan pertama kali, membaca dari kiri ke kanan (huruf besar dan kecil tidak dibedakan)"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(find_text; within_text; [start_num])",
+		"d": "Menemukan satu string teks dalam string teks kedua, dan mengembalikan nomor posisi awal string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; old_text; new_text; [instance_num])",
@@ -1348,8 +1348,8 @@
 		"d": "Mengonversi angka Romawi ke angka Arab"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(text)",
+		"d": "Untuk bahasa Perangkat karakter bit ganda (DBCS, Double-byte character set), fungsi tersebut mengubah karakter lebar penuh (bit ganda) menjadi lebar setengah (bit tunggal)"
 	},
 	"ASIN": {
 		"a": "(number)",
@@ -1384,8 +1384,8 @@
 		"d": "Membulatkan angka ke atas, ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance])",
+		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat"
 	},
 	"COMBIN": {
 		"a": "(number; number_chosen)",
@@ -1428,8 +1428,8 @@
 		"d": "Mengonversi radian ke derajat"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(number; significance)",
+		"d": "Membulatkan angka ke atas, ke bilangan bulat terdekat atau ke multipel terdekat dari signifikansi"
 	},
 	"EVEN": {
 		"a": "(number)",
@@ -1452,8 +1452,8 @@
 		"d": "Membulatkan angka ke bawah, mendekati multipel terdekat dari signifikansi"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance])",
+		"d": "Mengembalikan angka yang dibulatkan ke bawah ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1468,8 +1468,8 @@
 		"d": "Membulatkan angka ke bawah ke bilangan bulat terdekat"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(number; [significance])",
+		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat. Tanpa memperhatikan lambang angkanya, bilangan itu dibulatkan ke atas. Akan tetapi, jika angka signifikansinya nol, maka hasilnya nol."
 	},
 	"LCM": {
 		"a": "(number1; [number2]; ...)",
@@ -1721,7 +1721,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"d": "Mengembalikan informasi tentang pemformatan, lokasi, atau konten sel"
 	},
 	"ERROR.TYPE": {
 		"a": "(error_val)",

@@ -23,7 +23,7 @@ const CellEditorView = props => {
     return <View id="idx-celleditor" style={viewStyle} className={expanded?'expanded':'collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
-                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={!isEdit && true} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
+                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateCoauth} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
                         <i className="icon icon-function" />
                     </a>
                 </div>

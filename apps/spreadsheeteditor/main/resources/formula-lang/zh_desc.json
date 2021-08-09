@@ -4,8 +4,8 @@
 		"d": "返回在日期时间代码中代表日期的数字"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(start-date; end-date; unit)",
+		"d": "计算两个日期之间相隔的天数、月数或年数。"
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
@@ -396,8 +396,8 @@
 		"d": "返回一个字符串在另一个字符串中出现的起始位置(区分大小写)"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(find_text; within_text; [start_num])",
+		"d": "用于在第二个文本串中定位第一个文本串，并返回第一个文本串的起始位置的值，该值从第二个文本串的第一个字符算起。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"FIXED": {
 		"a": "(number; [decimals]; [no_commas])",
@@ -408,16 +408,16 @@
 		"d": "从一个文本字符串的第一个字符开始返回指定个数的字符"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [num_chars])",
+		"d": "基于所指定的字节数返回文本字符串中的第一个或前几个字符。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"LEN": {
 		"a": "(text)",
 		"d": "返回文本字符串中的字符个数"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text)",
+		"d": "返回文本字符串中用于代表字符的字节数。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -428,8 +428,8 @@
 		"d": "从文本字符串中指定的起始位置起返回指定长度的字符"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; start_num; num_chars)",
+		"d": "根据您指定的字节数，返回文本字符串中从指定位置开始的特定数目的字符。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -444,8 +444,8 @@
 		"d": "将一个字符串中的部分字符用另一个字符串替换"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(old_text; start_num; num_chars; new_text)",
+		"d": "使用其他文本字符串并根据所指定的字节数替换某文本字符串中的部分文本。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"REPT": {
 		"a": "(text; number_times)",
@@ -456,16 +456,16 @@
 		"d": "从一个文本字符串的最后一个字符开始返回指定个数的字符"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [num_chars])",
+		"d": "根据所指定的字节数返回文本字符串中最后一个或多个字符。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"SEARCH": {
 		"a": "(find_text; within_text; [start_num])",
 		"d": "返回一个指定字符或文本字符串在字符串中第一次出现的位置，从左到右查找(忽略大小写)"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(find_text; within_text; [start_num])",
+		"d": "函数可在第二个文本字符串中查找第一个文本字符串，并返回第一个文本字符串的起始位置的编号，该编号从第二个文本字符串的第一个字符算起。适用于使用双字节字符集 (DBCS) 的语言。支持 DBCS 的语言包括日语、中文、以及朝鲜语。"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; old_text; new_text; [instance_num])",
@@ -1348,8 +1348,8 @@
 		"d": "将罗马数字转换为阿拉伯数字"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(text)",
+		"d": "对于双字节字符集 (DBCS) 语言，该函数将全角（双字节）字符转换成半角（单字节）字符。"
 	},
 	"ASIN": {
 		"a": "(number)",
@@ -1384,8 +1384,8 @@
 		"d": "将数字向上舍入到最接近的整数或最接近的指定基数的倍数"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance])",
+		"d": "返回一个数字，该数字向上舍入为最接近的整数或最接近的有效位的倍数。"
 	},
 	"COMBIN": {
 		"a": "(number; number_chosen)",
@@ -1428,8 +1428,8 @@
 		"d": "将弧度转换成角度"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(number; significance)",
+		"d": "将参数向上舍入为最接近的指定基数的倍数"
 	},
 	"EVEN": {
 		"a": "(number)",
@@ -1452,8 +1452,8 @@
 		"d": "将参数向下舍入为最接近的指定基数的倍数"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance])",
+		"d": "返回一个数字，该数字向下舍入为最接近的整数或最接近的 significance 的倍数。"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1468,8 +1468,8 @@
 		"d": "将数值向下取整为最接近的整数"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(number; [significance])",
+		"d": "返回一个数字，该数字向上舍入为最接近的整数或最接近的有效位的倍数。 无论该数字的符号如何，该数字都向上舍入。 但是，如果该数字或有效位为 0，则返回 0。"
 	},
 	"LCM": {
 		"a": "(number1; [number2]; ...)",
@@ -1721,7 +1721,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"d": "返回有关单元格的格式、位置或内容的信息。"
 	},
 	"ERROR.TYPE": {
 		"a": "(error_val)",

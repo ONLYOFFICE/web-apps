@@ -20,6 +20,7 @@ const target = process.env.TARGET || 'web';
 const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
                     process.env.TARGET_EDITOR == 'slide' ? 'presentationeditor' : 'documenteditor';
 const targetPatch = process.env.TARGET_EDITOR || 'word';
+const addonPath = process.env.ADDON_ENV || 'path';
 
 module.exports = {
   mode: env,
@@ -77,6 +78,7 @@ module.exports = {
           resolvePath('node_modules/dom7'),
           resolvePath('node_modules/ssr-window'),
 
+          //resolvePath(`${addonPath}`),
           resolvePath('../../../web-apps-mobile/word'),
           resolvePath('../../../web-apps-mobile/slide'),
           resolvePath('../../../web-apps-mobile/cell')
@@ -220,6 +222,8 @@ module.exports = {
         /\.{2}\/lib\/patch/,
         resource => fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
                         resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
+        //resource => fs.existsSync(`${addonPath}/patch.jsx`) ?
+                        //resource.request = `../../../${addonPath}/patch.jsx` : resource
     ),
   ],
 };

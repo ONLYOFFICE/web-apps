@@ -10,7 +10,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
-    const isObjectLocked = props.storeFocusObjects.isLocked;
+
+    const storeFocusObjects = props.storeFocusObjects;
+    const isObjectLocked = storeFocusObjects.isLocked;
+    const isEditCell = storeFocusObjects.isEditCell;
+    const editFormulaMode = storeFocusObjects.editFormulaMode;
+
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
     const docTitle = props.storeSpreadsheetInfo.dataDoc ? props.storeSpreadsheetInfo.dataDoc.title : '';
 
@@ -140,9 +145,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      onUndo={onUndo}
                      onRedo={onRedo}
                      disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls || isObjectLocked}
-                     disabledSettings={disabledSettings}
+                     disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
+                     disabledSearch={editFormulaMode || isEditCell}
+                     disabledSettings={disabledSettings || editFormulaMode || isEditCell}
                      displayCollaboration={displayCollaboration}
+                     disabledCollaboration={editFormulaMode || isEditCell}
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}

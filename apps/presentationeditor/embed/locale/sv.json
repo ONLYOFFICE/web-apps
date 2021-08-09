@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Filen kan inte nås för tillfället. ",
   "PE.ApplicationController.notcriticalErrorTitle": "Varning",
   "PE.ApplicationController.scriptLoadError": "Anslutningen är för långsam, vissa av komponenterna kunde inte laddas. Vänligen ladda om sidan.",
+  "PE.ApplicationController.textAnonymous": "Anonym",
+  "PE.ApplicationController.textGuest": "Gäst",
   "PE.ApplicationController.textLoadingDocument": "Laddar prentationen",
   "PE.ApplicationController.textOf": "av",
   "PE.ApplicationController.txtClose": "Stäng",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "Var snäll och vänta...",
   "PE.ApplicationView.txtDownload": "Ladda ner",
   "PE.ApplicationView.txtEmbed": "Inbädda",
+  "PE.ApplicationView.txtFileLocation": "Gå till filens plats",
   "PE.ApplicationView.txtFullScreen": "Fullskärm",
   "PE.ApplicationView.txtPrint": "Skriva ut",
   "PE.ApplicationView.txtShare": "Dela"

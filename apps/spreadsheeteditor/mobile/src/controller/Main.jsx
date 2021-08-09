@@ -377,6 +377,20 @@ class MainController extends Component {
             storeToolbarSettings.setCanRedo(can);
         });
 
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onEditCell', (state) => {
+            if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
+                const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                if (storeFocusObjects.isEditCell !== isEditCell) {
+                    storeFocusObjects.setEditCell(isEditCell);
+                }
+            } else {
+                const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+                if (storeFocusObjects.editFormulaMode !== isFormula) {
+                    storeFocusObjects.setEditFormulaMode(isFormula);
+                }
+            }
+        });
     }
 
     _onLongActionEnd(type, id) {

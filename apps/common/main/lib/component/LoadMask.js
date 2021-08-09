@@ -104,38 +104,37 @@ define([
                 return this;
             },
 
-            show: function(){
-                // if (maskeEl || loaderEl)
-                //     return;
+            internalShow: function() {
+                this.ownerEl.append(this.maskeEl);
+                this.ownerEl.append(this.loaderEl);
 
+                this.loaderEl.css('min-width', $('.asc-loadmask-title', this.loaderEl).width() + 105);
+
+                if (this.ownerEl && this.ownerEl.closest('.asc-window.modal').length==0)
+                    Common.util.Shortcuts.suspendEvents();
+            },
+
+            show: function(immediately){
                 // The owner is already masked
-                var ownerEl = this.ownerEl,
-                    loaderEl = this.loaderEl,
-                    maskeEl = this.maskeEl;
-                if (!!ownerEl.ismasked)
+                if (!!this.ownerEl.ismasked)
                     return this;
 
-                ownerEl.ismasked = true;
+                this.ownerEl.ismasked = true;
 
                 var me = this;
                 if (me.title != me.options.title) {
                     me.options.title = me.title;
-                    $('.asc-loadmask-title', loaderEl).html(me.title);
+                    $('.asc-loadmask-title', this.loaderEl).html(me.title);
                 }
 
-                // show mask after 500 ms if it wont be hided
-                me.timerId = setTimeout(function () {
-                    ownerEl.append(maskeEl);
-                    ownerEl.append(loaderEl);
-
-                    // if (ownerEl.height()<1 || ownerEl.width()<1)
-                    //     loaderEl.css({visibility: 'hidden'});
-
-                    loaderEl.css('min-width', $('.asc-loadmask-title', loaderEl).width() + 105);
-
-                    if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
-                        Common.util.Shortcuts.suspendEvents();
-                },500);
+                if (immediately) {
+                    me.internalShow();
+                } else if (!me.timerId) {
+                    // show mask after 500 ms if it wont be hided
+                    me.timerId = setTimeout(function () {
+                        me.internalShow();
+                    },500);
+                }
 
                 return this;
             },

@@ -13,7 +13,7 @@ import {storeLinkSettings} from './linkSettings';
 import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
-import {storeReview} from "./review";
+import {storeReview} from '../../../../common/mobile/lib/store/review';
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
 import {storeToolbarSettings} from "./toolbar";
 

@@ -10,6 +10,11 @@ import {AddFunction} from '../../view/add/AddFunction';
 class _FunctionGroups extends Component {
     constructor (props) {
         super(props);
+
+        Common.Notifications.on('changeFuncLang', () => {
+            this.api = Common.EditorApi.get();
+            this.init();
+        });
     }
     componentDidMount() {
         Common.Notifications.on('document:ready', () => {

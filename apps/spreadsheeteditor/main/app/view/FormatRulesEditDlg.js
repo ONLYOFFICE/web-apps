@@ -1320,7 +1320,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && props.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
@@ -1341,7 +1341,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         var above = !(val%2);
                         props.asc_setAboveAverage(above);
                         props.asc_setEqualAverage(val==2 || val==3);
-                        props.asc_setStdDev(val>3 ? (val/2 - 1) : 0);
+                        props.asc_setStdDev(val>3 ? (Math.floor(val/2) - 1) : 0);
                         break;
                     case Asc.c_oAscCFType.top10:
                         props.asc_setBottom(!!this.cmbRule.getValue());
@@ -1351,7 +1351,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     case Asc.c_oAscCFType.cellIs:
                         props.asc_setOperator(this.cmbRule.getValue());
                         props.asc_setValue1(this.txtRange1.getValue());
-                        props.asc_setValue2(this.txtRange2.getValue());
+                        this.txtRange2.isVisible() && props.asc_setValue2(this.txtRange2.getValue());
                         break;
                     case Asc.c_oAscCFType.expression:
                         props.asc_setValue1(this.txtRange1.getValue());
@@ -1397,8 +1397,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             barProps.asc_setBorderColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBorderColor(Common.Utils.ThemeColor.getRgbColor(this.chBorder.getValue()=='checked' ? this.btnPosBorder.colorPicker.currentColor : this.btnNegBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBarBorderColorSameAsPositive(this.chBorder.getValue()=='checked');
-                        } else
+                        } else {
                             barProps.asc_setBorderColor(null);
+                            barProps.asc_setNegativeBorderColor(null);
+                        }
 
                         barProps.asc_setDirection(this.cmbBarDirection.getValue());
                         barProps.asc_setShowValue(this.chShowBar.getValue()!=='checked');
@@ -1481,7 +1483,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && this._changedProps.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && this._changedProps.asc_setDxf(this.xfsFormat);
                 } else if (type == Asc.c_oAscCFType.colorScale) {
                     var scalesCount = rec.get('num');
                     var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
