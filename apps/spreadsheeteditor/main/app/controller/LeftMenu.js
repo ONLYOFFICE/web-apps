@@ -726,7 +726,7 @@ define([
         onApiAddComments: function(data) {
             var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data[i].asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
