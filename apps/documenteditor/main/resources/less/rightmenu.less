@@ -161,3 +161,40 @@
     background-color: @background-normal-ie;
     background-color: @background-normal;
 }
+
+#form-cnt-position {
+    position: relative;
+    .row {
+        display: flex;
+        justify-content: flex-start;
+    }
+    #form-img-position-preview {
+        position: relative;
+        height: 130px;
+        width: 130px;
+        border: 1px solid @border-regular-control;
+        #form-img-example {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            width: 80px;
+            border: 1px solid @border-regular-control;
+        }
+    }
+    #form-img-slider-position-x {
+        margin-top: 4px;
+        margin-left: 7px;
+    }
+    #form-img-slider-position-y {
+        margin-top: 7px;
+        margin-left: 4px;
+    }
+    #form-img-slider-value {
+        margin-left: 10px;
+        margin-top: 4px;
+    }
+}
