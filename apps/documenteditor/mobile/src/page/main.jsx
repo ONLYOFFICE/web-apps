@@ -26,7 +26,7 @@ class MainPage extends Component {
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
-        ContextMenu.closeContextMenu();
+        f7.popover.close('.document-menu.modal-in', false);
 
         setTimeout(() => {
             let opened = false;
