@@ -1330,7 +1330,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && props.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
@@ -1407,8 +1407,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             barProps.asc_setBorderColor(Common.Utils.ThemeColor.getRgbColor(this.btnPosBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBorderColor(Common.Utils.ThemeColor.getRgbColor(this.chBorder.getValue()=='checked' ? this.btnPosBorder.colorPicker.currentColor : this.btnNegBorder.colorPicker.currentColor));
                             barProps.asc_setNegativeBarBorderColorSameAsPositive(this.chBorder.getValue()=='checked');
-                        } else
+                        } else {
                             barProps.asc_setBorderColor(null);
+                            barProps.asc_setNegativeBorderColor(null);
+                        }
 
                         barProps.asc_setDirection(this.cmbBarDirection.getValue());
                         barProps.asc_setShowValue(this.chShowBar.getValue()!=='checked');
@@ -1491,7 +1493,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat && this._changedProps.asc_setDxf(this.xfsFormat);
+                    (this.xfsFormat || this.xfsFormat===null) && this._changedProps.asc_setDxf(this.xfsFormat);
                 } else if (type == Asc.c_oAscCFType.colorScale) {
                     var scalesCount = rec.get('num');
                     var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
