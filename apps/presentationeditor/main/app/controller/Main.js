@@ -1016,9 +1016,6 @@ define([
                 if (options.review) {
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
-                if (options.transit) {
-                    app.getController('Transitions').SetDisabled(disable);
-                }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);
                 }
