@@ -411,7 +411,6 @@ define([
                 }
 
                 if (me.mode.canRequestSaveAs) {
-                    fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
                     Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._saveCopyDlg = new Common.Views.SaveAsDlg({

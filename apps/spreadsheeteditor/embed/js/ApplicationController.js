@@ -180,7 +180,6 @@ SSE.ApplicationController = new(function(){
     }
 
     function onDownloadUrl(url, fileType) {
-        fileType = (common.utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
         Common.Gateway.downloadAs(url, fileType);
     }
 

@@ -689,7 +689,6 @@ class MainController extends Component {
 
     onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
             Common.Gateway.downloadAs(url, fileType);
         }
 

@@ -579,7 +579,6 @@ define([
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
                 var defFileName = me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx');
                 if (me.mode.canRequestSaveAs) {
-                    fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
                     Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._mailMergeDlg = new Common.Views.SaveAsDlg({

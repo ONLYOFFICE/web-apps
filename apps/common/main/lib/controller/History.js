@@ -102,7 +102,6 @@ define([
 
         onDownloadUrl: function(url, fileType) {
             if (this.isFromSelectRevision !== undefined) {
-                fileType = (Common.Utils.getKeyByValue(Asc.c_oAscFileType, fileType) || '').toLowerCase();
                 Common.Gateway.requestRestore(this.isFromSelectRevision, url, fileType);
             }
             this.isFromSelectRevision = undefined;
