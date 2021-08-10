@@ -131,8 +131,7 @@ define([
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                     this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
-                    this.api.asc_registerCallback('asc_onBeginViewModeInReview',   _.bind(this.onBeginViewModeInReview, this));
-                    this.api.asc_registerCallback('asc_onEndViewModeInReview',     _.bind(this.onEndViewModeInReview, this));
+                    this.api.asc_registerCallback('asc_onChangeDisplayModeInReview',   _.bind(this.onChangeDisplayModeInReview, this));
                 }
                 if (this.appConfig.canReview)
                     this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));
@@ -688,27 +687,40 @@ define([
 
         turnDisplayMode: function(mode) {
             if (this.api) {
-                if (mode === 'final')
-                    this.api.asc_BeginViewModeInReview(true);
-                else if (mode === 'original')
-                    this.api.asc_BeginViewModeInReview(false);
-                else
-                    this.api.asc_EndViewModeInReview(mode=='simple');
+                var type = Asc.c_oAscDisplayModeInReview.Edit;
+                switch (mode) {
+                    case 'final':
+                        type = Asc.c_oAscDisplayModeInReview.Final;
+                        break;
+                    case 'original':
+                        type = Asc.c_oAscDisplayModeInReview.Original;
+                        break;
+                    case 'simple':
+                        type = Asc.c_oAscDisplayModeInReview.Simple;
+                        break;
+                }
+                this.api.asc_SetDisplayModeInReview(type);
             }
             this.disableEditing(mode == 'final' || mode == 'original');
             this._state.previewMode = (mode == 'final' || mode == 'original');
         },
 
-        onBeginViewModeInReview: function(mode) {
-            this.disableEditing(true);
-            this.view && this.view.turnDisplayMode(mode ? 'final' : 'original');
-            this._state.previewMode = true;
-        },
-
-        onEndViewModeInReview: function(mode) {
-            this.disableEditing(false);
-            this.view && this.view.turnDisplayMode(mode ? 'simple' : 'markup');
-            this._state.previewMode = false;
+        onChangeDisplayModeInReview: function(type) {
+            this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
+            var mode = 'markup';
+            switch (type) {
+                case Asc.c_oAscDisplayModeInReview.Final:
+                    mode = 'final';
+                    break;
+                case Asc.c_oAscDisplayModeInReview.Original:
+                    mode = 'original';
+                    break;
+                case Asc.c_oAscDisplayModeInReview.Simple:
+                    mode = 'simple';
+                    break;
+            }
+            this.view && this.view.turnDisplayMode(mode);
+            this._state.previewMode = (type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
         },
 
         isPreviewChangesMode: function() {
