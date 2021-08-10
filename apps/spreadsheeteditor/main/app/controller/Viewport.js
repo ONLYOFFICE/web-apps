@@ -216,7 +216,7 @@ define([
 
                 me.header.mnuitemCompactStatusBar = new Common.UI.MenuItem({
                     caption: me.header.textHideStatusBar,
-                    checked: Common.localStorage.getBool("sse-compact-statusbar"),
+                    checked: Common.localStorage.getBool("sse-compact-statusbar", true),
                     checkable: true,
                     value: 'statusbar'
                 });

@@ -42,6 +42,7 @@
         <label id="label-sheets" class="status-label"></label>
     </div>
     <div id="status-action">
+        <div class="separator short"></div>
         <label id="label-action" class="status-label"></label>
     </div>
 </div>

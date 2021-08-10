@@ -80,7 +80,7 @@ define([
                 }));
 
                 this.cntStatusbar = $('.statusbar', this.el);
-                this.isCompact = Common.localStorage.getBool('sse-compact-statusbar', false);
+                this.isCompact = Common.localStorage.getBool('sse-compact-statusbar', true);
                 if (!this.isCompact) {
                     this.cntStatusbar.addClass('no-compact');
                 }
@@ -398,8 +398,8 @@ define([
 
                 var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                     '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
-                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div style="position: absolute; left: 0; width: 85px;"><%= caption %></div>' +
+                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 85px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
                     '</div></a>');
 
                 this.customizeStatusBarMenu = new Common.UI.Menu({
@@ -453,6 +453,15 @@ define([
                             checked: true,
                             template: customizeStatusBarMenuTemplate,
                             exampleval: ''
+                        },
+                        {
+                            id: 'saved-status',
+                            caption: this.itemStatus,
+                            value: 'status',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
                         }
                     ]
                 });
@@ -484,7 +493,7 @@ define([
                 this.labelNumberSheets = $('#label-sheets', this.boxNumberSheets);
 
                 this.boxAction = $('#status-action', this.el);
-                this.isCompact && this.boxAction.hide();
+                //this.isCompact && this.boxAction.hide();
                 this.labelAction = $('#label-action', this.boxAction);
 
                 this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
@@ -639,8 +648,6 @@ define([
                             item.options.exampleval = (info.count) ? String(info.count) : '';
                         } else if (item.options.id === 'math-item-sum') {
                             item.options.exampleval = (info.sum && info.sum.length) ? info.sum : '';
-                        } else {
-                            item.options.exampleval = '';
                         }
                         $(item.el).find('label').text(item.options.exampleval);
                     });
@@ -820,20 +827,30 @@ define([
                     right += parseInt(this.boxFiltered.css('width'));
                     visible = true;
                 }
-                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
 
                 if (this.isCompact) {
+                    if (this.boxAction.is(':visible')) {
+                        this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': '140px'});
+                        this.boxAction.find('.separator').css('border-left-color', '');
+                        right += parseInt(this.boxAction.css('width'));
+                        visible = true;
+                    }
+
                     this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
                     this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
                     this.tabBarBox.css('right', right + 'px');
                 } else {
-                    this.boxAction.css({'right': right + 'px'})
+                    if (this.boxAction.is(':visible')) {
+                        this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
+                        this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                    }
                     this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
                     this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
                     this.tabBarBox.css('right', '0px');
                 }
+                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
             },
 
             updateVisibleItemsBoxMath: function () {
@@ -896,12 +913,16 @@ define([
             onCustomizeStatusBarClick: function (o, item, event) {
                 var value = item.value,
                     checked = item.checked;
-                this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
-                if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
-                    this.boxMath.find('.separator').hide();
+                if (value === 'status') {
+                    this.boxAction[checked ? 'removeClass' : 'addClass']('hide');
                 } else {
-                    if (this.boxMath.find('.separator').is(":hidden")) {
-                        this.boxMath.find('.separator').show();
+                    this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
+                    if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
+                        this.boxMath.find('.separator').hide();
+                    } else {
+                        if (this.boxMath.find('.separator').is(":hidden")) {
+                            this.boxMath.find('.separator').show();
+                        }
                     }
                 }
                 this.updateVisibleItemsBoxMath();
@@ -916,11 +937,11 @@ define([
                 if (compact) {
                     this.cntStatusbar.removeClass('no-compact');
                     this.boxNumberSheets.hide();
-                    this.boxAction.hide();
+                    //this.boxAction.hide();
                 } else {
                     this.cntStatusbar.addClass('no-compact');
                     this.boxNumberSheets.show();
-                    this.boxAction.show();
+                    //this.boxAction.show();
                 }
                 this.updateTabbarBorders();
                 this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
@@ -934,6 +955,12 @@ define([
 
             showStatusMessage: function(message) {
                 this.labelAction.text(message);
+                this.customizeStatusBarMenu.items.forEach(function (item) {
+                    if (item.options.id === 'saved-status') {
+                        item.options.exampleval = message;
+                    }
+                    $(item.el).find('label').text(item.options.exampleval);
+                });
             },
 
             clearStatusMessage: function() {
@@ -975,7 +1002,8 @@ define([
             itemCount           : 'Count',
             itemMinimum         : 'Minimum',
             itemMaximum         : 'Maximum',
-            itemSum             : 'Sum'
+            itemSum             : 'Sum',
+            itemStatus          : 'Status'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({

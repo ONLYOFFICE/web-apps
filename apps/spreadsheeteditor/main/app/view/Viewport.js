@@ -100,7 +100,7 @@ define([
                 }, {
                     el: items[3],
                     alias: 'statusbar',
-                    height: Common.localStorage.getBool('sse-compact-statusbar') ? 25 : 50
+                    height: Common.localStorage.getBool('sse-compact-statusbar', true) ? 25 : 50
                 }]
             });
 
