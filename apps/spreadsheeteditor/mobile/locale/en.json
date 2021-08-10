@@ -333,7 +333,10 @@
             "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
             "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
             "txtSorting": "Sorting",
-            "txtSortSelected": "Sort selected"
+            "txtSortSelected": "Sort selected",
+            "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+            "txtYes": "Yes",
+            "txtNo": "No"
         },
         "Edit": {
             "notcriticalErrorTitle": "Warning",

@@ -436,28 +436,46 @@ define([
             }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
-                    var config = {
-                        width: 500,
-                        title: this.txtSorting,
-                        msg: this.txtExpandSort,
-                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
-                                    'cancel'],
-                        callback: _.bind(function(btn){
-                            if (btn == 'expand' || btn == 'sort') {
-                                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
-                        }, this)
-                    };
-                    Common.UI.alert(config);
-                } else {
-                    this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res !== null);
-
-                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                switch (res) {
+                    case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                        var config = {
+                            width: 500,
+                            title: this.txtSorting,
+                            msg: this.txtExpandSort,
+                            buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                'cancel'],
+                            callback: _.bind(function(btn){
+                                if (btn == 'expand' || btn == 'sort') {
+                                    this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                            }, this)
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                        var config = {
+                            width: 500,
+                            title: this.txtSorting,
+                            msg: this.txtLockSort,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn){
+                                (btn == 'yes') && this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, false);
+                                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                            }, this)
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                    case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                        this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                        Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                        break;
                 }
             }
         },
@@ -3924,7 +3942,8 @@ define([
         txtImportWizard: 'Text Import Wizard',
         textPasteSpecial: 'Paste special',
         textStopExpand: 'Stop automatically expanding tables',
-        textAutoCorrectSettings: 'AutoCorrect options'
+        textAutoCorrectSettings: 'AutoCorrect options',
+        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

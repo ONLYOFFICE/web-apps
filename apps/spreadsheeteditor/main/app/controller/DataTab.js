@@ -279,29 +279,52 @@ define([
         },
 
         onCustomSort: function() {
+            Common.NotificationCenter.trigger('protect:check', this.onCustomSortCallback, this);
+        },
+
+        onCustomSortCallback: function() {
             var me = this;
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
-                    var config = {
-                        width: 500,
-                        title: this.toolbar.txtSorting,
-                        msg: this.toolbar.txtExpandSort,
-
-                        buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
-                            {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
-                            'cancel'],
-                        callback: function(btn){
-                            if (btn == 'expand' || btn == 'sort') {
-                                setTimeout(function(){
-                                    me.showCustomSort(btn == 'expand');
-                                },1);
+                switch (res) {
+                    case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                        var config = {
+                            width: 500,
+                            title: this.toolbar.txtSorting,
+                            msg: this.toolbar.txtExpandSort,
+                            buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
+                                {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
+                                'cancel'],
+                            callback: function(btn){
+                                if (btn == 'expand' || btn == 'sort') {
+                                    setTimeout(function(){
+                                        me.showCustomSort(btn == 'expand');
+                                    },1);
+                                }
                             }
-                        }
-                    };
-                    Common.UI.alert(config);
-                } else
-                    me.showCustomSort(res !== null);
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                        var config = {
+                            width: 500,
+                            title: this.toolbar.txtSorting,
+                            msg: this.toolbar.txtLockSort,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn){
+                                (btn == 'yes') && setTimeout(function(){
+                                                    me.showCustomSort(false);
+                                                },1);
+                            }
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                    case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                        me.showCustomSort(res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                        break;
+                }
             }
         },
 
@@ -326,7 +349,7 @@ define([
             var me = this;
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
+                if (res===Asc.c_oAscSelectionSortExpand.showExpandMessage) {
                     var config = {
                         width: 500,
                         title: this.txtRemDuplicates,
@@ -343,8 +366,8 @@ define([
                         }
                     };
                     Common.UI.alert(config);
-                } else
-                    me.showRemDuplicates(res !== null);
+                } else if (res !== Asc.c_oAscSelectionSortExpand.showLockMessage)
+                    me.showRemDuplicates(res===Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
             }
         },
 

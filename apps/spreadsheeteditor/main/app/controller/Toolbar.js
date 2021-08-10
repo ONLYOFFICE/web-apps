@@ -1202,25 +1202,43 @@ define([
                     }
                     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 } else {
+                    var me = this;
                     var res = this.api.asc_sortCellsRangeExpand();
-                    if (res) {
-                        var config = {
-                            width: 500,
-                            title: this.txtSorting,
-                            msg: this.txtExpandSort,
-
-                            buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                {caption: this.txtSortSelected, primary: true, value: 'sort'},
-                                'cancel'],
-                            callback: _.bind(function(btn){
-                                if (btn == 'expand' || btn == 'sort') {
-                                    this.api.asc_sortColFilter(type, '', undefined, undefined, btn == 'expand');
+                    switch (res) {
+                        case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                            var config = {
+                                width: 500,
+                                title: this.txtSorting,
+                                msg: this.txtExpandSort,
+                                buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    'cancel'],
+                                callback: function(btn){
+                                    if (btn == 'expand' || btn == 'sort') {
+                                        me.api.asc_sortColFilter(type, '', undefined, undefined, btn == 'expand')
+                                    }
                                 }
-                            }, this)
-                        };
-                        Common.UI.alert(config);
-                    } else
-                        this.api.asc_sortColFilter(type, '', undefined, undefined, res !== null);
+                            };
+                            Common.UI.alert(config);
+                            break;
+                        case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                            var config = {
+                                width: 500,
+                                title: this.txtSorting,
+                                msg: this.txtLockSort,
+                                buttons: ['yes', 'no'],
+                                primary: 'yes',
+                                callback: function(btn){
+                                    (btn == 'yes') && me.api.asc_sortColFilter(type, '', undefined, undefined, false);
+                                }
+                            };
+                            Common.UI.alert(config);
+                            break;
+                        case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                        case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                            this.api.asc_sortColFilter(type, '', undefined, undefined, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                            break;
+                    }
                 }
             }
         },
@@ -4403,7 +4421,8 @@ define([
         textDirectional: 'Directional',
         textShapes: 'Shapes',
         textIndicator: 'Indicators',
-        textRating: 'Ratings'
+        textRating: 'Ratings',
+        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?'
 
     }, SSE.Controllers.Toolbar || {}));
 });
