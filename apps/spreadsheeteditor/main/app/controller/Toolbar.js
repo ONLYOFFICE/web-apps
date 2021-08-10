@@ -1462,7 +1462,12 @@ define([
         },
 
         onClearStyleMenu: function(menu, item, e) {
-            Common.NotificationCenter.trigger('protect:check', this.onClearStyleMenuCallback, this, [menu, item]);
+            if (item.value == Asc.c_oAscCleanOptions.Format && !this._state.wsProps['FormatCells'] || item.value == Asc.c_oAscCleanOptions.All && !this.api.asc_checkLockedCells())
+                this.onClearStyleMenuCallback(menu, item);
+            else if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                this._state.wsProps['Objects'] ? Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical) : this.onClearStyleMenuCallback(menu, item);
+            } else
+                Common.NotificationCenter.trigger('protect:check', this.onClearStyleMenuCallback, this, [menu, item]);
         },
 
         onClearStyleMenuCallback: function(menu, item, e) {

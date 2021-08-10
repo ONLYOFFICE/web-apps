@@ -215,6 +215,7 @@ define([
                 Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
                 Common.NotificationCenter.on('protect:check',                _.bind(this.checkProtectedRange, this));
                 Common.NotificationCenter.on('editing:disable',              _.bind(this.onEditingDisable, this));
+                Common.NotificationCenter.on('showerror',                    _.bind(this.onError, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -2176,7 +2177,7 @@ define([
             },
 
             checkProtectedRange: function(callback, scope, args) {
-                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkActiveCellProtectedRange() : false;
+                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
                 if (result===null) {
                     this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
                     return;
