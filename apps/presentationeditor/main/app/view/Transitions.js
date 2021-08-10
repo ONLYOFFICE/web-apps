@@ -171,8 +171,8 @@ define([
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div class = "style" id = "<%= id %>">',
-                        '<div  class = "btn btn-toolbar x-huge icon-top" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                           '<div class = " icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div  class = "btn_item x-huge " style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
+                            '<div class = " icon toolbar__icon <%= imageUrl %>"></div>',
                             '<div class = "caption"><%= title %></div>',
                         '</div>',
                     '</div>'
