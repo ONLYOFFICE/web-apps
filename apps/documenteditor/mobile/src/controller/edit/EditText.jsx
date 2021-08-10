@@ -4,6 +4,49 @@ import { EditText } from '../../view/edit/EditText'
 class EditTextController extends Component {
     constructor(props) {
         super(props);
+
+        this.iconWidth = 302,
+        this.iconHeight = Asc.FONT_THUMBNAIL_HEIGHT || 26,
+        this.thumbCanvas = document.createElement('canvas'),
+        this.thumbContext = this.thumbCanvas.getContext('2d'),
+        this.thumbs = [
+            {ratio: 1, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail.png', width: this.iconWidth, height: this.iconHeight},
+            {ratio: 1.5, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: this.iconWidth * 1.5, height: this.iconHeight * 1.5},
+            {ratio: 2, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: this.iconWidth * 2, height: this.iconHeight * 2}
+        ],
+        this.thumbIdx = 0,
+        this.listItemHeight = 26,
+        this.spriteCols = 1,
+        this.applicationPixelRatio = Common.Utils.applicationPixelRatio();
+
+        if (typeof window['AscDesktopEditor'] === 'object') {
+            this.thumbs[0].path = window['AscDesktopEditor'].getFontsSprite('');
+            this.thumbs[1].path = window['AscDesktopEditor'].getFontsSprite('@1.5x');
+            this.thumbs[2].path = window['AscDesktopEditor'].getFontsSprite('@2x');
+        }
+
+        let bestDistance = Math.abs(this.applicationPixelRatio - this.thumbs[0].ratio);
+        let currentDistance = 0;
+
+        for (let i = 1; i < this.thumbs.length; i++) {
+            currentDistance = Math.abs(this.applicationPixelRatio - this.thumbs[i].ratio);
+            if (currentDistance < (bestDistance - 0.0001))
+            {
+                bestDistance = currentDistance;
+                this.thumbIdx = i;
+            }
+        }
+
+        this.thumbCanvas.height = this.thumbs[this.thumbIdx].height;
+        this.thumbCanvas.width = this.thumbs[this.thumbIdx].width;
+
+        this.loadSprite();
+    }
+
+    loadSprite() {
+        this.spriteThumbs = new Image();
+        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
     }
 
     componentDidMount() {
@@ -198,25 +241,34 @@ class EditTextController extends Component {
 
     render() {
         return (
-            <EditText changeFontSize={this.changeFontSize}
-                      changeFontFamily={this.changeFontFamily}
-                      onTextColorAuto={this.onTextColorAuto}
-                      onTextColor={this.onTextColor}
-                      onBackgroundColor={this.onBackgroundColor}
-                      toggleBold={this.toggleBold}
-                      toggleItalic={this.toggleItalic}
-                      toggleUnderline={this.toggleUnderline}
-                      toggleStrikethrough={this.toggleStrikethrough}
-                      onAdditionalStrikethrough={this.onAdditionalStrikethrough}
-                      onAdditionalCaps={this.onAdditionalCaps}
-                      onAdditionalScript={this.onAdditionalScript}
-                      changeLetterSpacing={this.changeLetterSpacing}
-                      onParagraphAlign={this.onParagraphAlign}
-                      onParagraphMove={this.onParagraphMove}
-                      onBullet={this.onBullet}
-                      onNumber={this.onNumber}
-                      onMultiLevelList={this.onMultiLevelList}
-                      onLineSpacing={this.onLineSpacing}
+            <EditText 
+                changeFontSize={this.changeFontSize}
+                changeFontFamily={this.changeFontFamily}
+                onTextColorAuto={this.onTextColorAuto}
+                onTextColor={this.onTextColor}
+                onBackgroundColor={this.onBackgroundColor}
+                toggleBold={this.toggleBold}
+                toggleItalic={this.toggleItalic}
+                toggleUnderline={this.toggleUnderline}
+                toggleStrikethrough={this.toggleStrikethrough}
+                onAdditionalStrikethrough={this.onAdditionalStrikethrough}
+                onAdditionalCaps={this.onAdditionalCaps}
+                onAdditionalScript={this.onAdditionalScript}
+                changeLetterSpacing={this.changeLetterSpacing}
+                onParagraphAlign={this.onParagraphAlign}
+                onParagraphMove={this.onParagraphMove}
+                onBullet={this.onBullet}
+                onNumber={this.onNumber}
+                onMultiLevelList={this.onMultiLevelList}
+                onLineSpacing={this.onLineSpacing}
+                spriteThumbs={this.spriteThumbs}
+                thumbs={this.thumbs}
+                thumbIdx={this.thumbIdx}
+                iconWidth={this.iconWidth}
+                iconHeight={this.iconHeight}
+                thumbCanvas={this.thumbCanvas}
+                thumbContext={this.thumbContext}
+                spriteCols={this.spriteCols}
             />
         )
     }
