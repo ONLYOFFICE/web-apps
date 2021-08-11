@@ -32,7 +32,15 @@ const EditText = props => {
             <List>
                 <ListItem title={fontName} link="/edit-text-fonts/" after={displaySize} routeProps={{
                     changeFontSize: props.changeFontSize,
-                    changeFontFamily: props.changeFontFamily
+                    changeFontFamily: props.changeFontFamily,
+                    spriteThumbs: props.spriteThumbs,
+                    thumbs: props.thumbs,
+                    thumbIdx: props.thumbIdx,
+                    iconWidth: props.iconWidth,
+                    iconHeight: props.iconHeight,
+                    thumbCanvas: props.thumbCanvas,
+                    thumbContext: props.thumbContext,
+                    spriteCols: props.spriteCols
                 }}/>
                 <ListItem className='buttons'>
                     <Row>
@@ -98,6 +106,14 @@ const PageFonts = props => {
     const displaySize = typeof size === 'undefined' ? _t.textAuto : size + ' ' + _t.textPt;
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
+    const iconWidth = props.iconWidth;
+    const iconHeight = props.iconHeight;
+    const thumbs = props.thumbs;
+    const thumbIdx = props.thumbIdx;
+    const thumbCanvas = props.thumbCanvas;
+    const thumbContext = props.thumbContext;
+    const spriteCols = props.spriteCols;
+    const spriteThumbs = props.spriteThumbs;
 
     const [vlFonts, setVlFonts] = useState({
         vlData: {
@@ -114,6 +130,13 @@ const PageFonts = props => {
             }};
         });
     };
+
+    const getImageUri = (font) => {
+        thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+        thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
+
+        return thumbCanvas.toDataURL();
+    }
 
     return (
         <Page>
@@ -147,14 +170,11 @@ const PageFonts = props => {
             }}>
                 <ul>
                     {vlFonts.vlData.items.map((item, index) => (
-                        <ListItem
-                            key={index}
-                            radio
-                            checked={curFontName === item.name}
-                            title={item.name}
-                            style={{fontFamily: `${item.name}`}}
-                            onClick={() => {props.changeFontFamily(item.name)}}
-                        ></ListItem>
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.changeFontFamily(item.name)
+                        }}>
+                            <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
                     ))}
                 </ul>
             </List>
