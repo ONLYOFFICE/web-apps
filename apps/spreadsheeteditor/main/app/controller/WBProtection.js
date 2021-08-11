@@ -91,7 +91,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorksheet',_.bind(this.onChangeProtectSheet, this));
-                this.api.asc_registerCallback('asc_onSheetsChanged',        _.bind(this.onApiSheetChanged, this));
+                this.api.asc_registerCallback('asc_onActiveSheetChanged',   _.bind(this.onActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -290,7 +290,7 @@ define([
         },
 
         onChangeProtectSheet: function() {
-            var props = this.getWSProps();
+            var props = this.getWSProps(true);
 
             this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
             Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
@@ -298,26 +298,29 @@ define([
             Common.NotificationCenter.trigger('protect:wslock', props);
         },
 
-        onApiSheetChanged: function() {
+        onActiveSheetChanged: function() {
             this.onChangeProtectSheet(); //current sheet
         },
 
-        getWSProps: function() {
-            var wsProtected = !!this.api.asc_isProtectedSheet();
-            var arr = [];
-            if (wsProtected) {
-                arr = [];
-                var props = this.api.asc_getProtectedSheet();
-                props && this.wsLockOptions.forEach(function(item){
-                    arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
-                });
-            } else {
-                this.wsLockOptions.forEach(function(item){
-                    arr[item] = false;
-                });
+        getWSProps: function(update) {
+            if (update || !this._state.protection) {
+                var wsProtected = !!this.api.asc_isProtectedSheet();
+                var arr = [];
+                if (wsProtected) {
+                    arr = [];
+                    var props = this.api.asc_getProtectedSheet();
+                    props && this.wsLockOptions.forEach(function(item){
+                        arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                    });
+                } else {
+                    this.wsLockOptions.forEach(function(item){
+                        arr[item] = false;
+                    });
+                }
+                this._state.protection = {wsLock: wsProtected, wsProps: arr};
             }
 
-            return {wsLock: wsProtected, wsProps: arr};
+            return this._state.protection;
         },
 
         onApiSelectionChanged: function(info) {
