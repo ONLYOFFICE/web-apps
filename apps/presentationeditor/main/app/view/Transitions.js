@@ -171,8 +171,8 @@ define([
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div class = "style" id = "<%= id %>">',
-                        '<div  class = "btn_item x-huge " style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                            '<div class = " icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div  class = "btn_item x-huge" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
+                            '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
                             '<div class = "caption"><%= title %></div>',
                         '</div>',
                     '</div>'
@@ -180,10 +180,10 @@ define([
                 this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
-                    cls: 'btn-toolbar ', // x-huge icon-top',
+                    cls: 'btn-toolbar', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon btn-preview',
+                    iconCls: 'toolbar__icon preview-transitions',
                     lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });
                 this.lockedControls.push(this.btnPreview);
@@ -191,7 +191,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon btn-insertshape',
+                    iconCls: 'toolbar__icon icon transition-fade',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
                     lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
@@ -202,7 +202,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon btn-changeslide',
+                    iconCls: 'toolbar__icon transition-apply-all',
                     lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });
                 this.lockedControls.push(this.btnApplyToAll);
