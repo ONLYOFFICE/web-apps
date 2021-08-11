@@ -512,8 +512,8 @@ define([
                             ToolTip = moveData.get_FormHelpText();
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
-                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review) {
-                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange(moveData.asc_getChanges());
+                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review && moveData.get_ReviewChange()) {
+                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
                             if (changes && changes.length>0)
                                 changes = changes[0];
                             if (changes) {
