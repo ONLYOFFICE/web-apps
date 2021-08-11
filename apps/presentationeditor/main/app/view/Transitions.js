@@ -170,11 +170,9 @@ define([
                 this.listEffects.menuPicker.store.add(this._arrEffectName);
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
-                    '<div class = "style" id = "<%= id %>">',
-                        '<div  class = "btn_item x-huge" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                            '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
-                            '<div class = "caption"><%= title %></div>',
-                        '</div>',
+                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
+                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div class = "caption"><%= title %></div>',
                     '</div>'
                 ].join(''));
                 this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
