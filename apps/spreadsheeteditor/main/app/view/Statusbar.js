@@ -637,6 +637,11 @@ define([
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
 
+                    this.labelMin[info.min && info.min.length > 0 ? 'show' : 'hide']();
+                    this.labelMax[info.max && info.max.length > 0 ? 'show' : 'hide']();
+                    this.labelSum[info.sum && info.sum.length > 0 ? 'show' : 'hide']();
+                    this.labelAverage[info.average && info.average.length > 0 ? 'show' : 'hide']();
+
                     this.customizeStatusBarMenu.items.forEach(function (item) {
                         if (item.options.id === 'math-item-average') {
                             item.options.exampleval = (info.average && info.average.length) ? info.average : '';

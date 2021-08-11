@@ -130,21 +130,30 @@
     #status-filtered-box {
         //float: right;
         padding-top: 6px;
-        padding-right: 14px;
 
         position: absolute;
         height: 25px;
-
-        label {
-            &:not(:last-child) {
-                padding-right: 10px;
-            }
-        }
 
         .separator {
             position: relative;
             padding-right: 11px;
             margin-top: -6px;
+        }
+    }
+
+    #status-math-box {
+        padding-right: 4px;
+        label {
+            padding-right: 10px;
+        }
+    }
+
+    #status-filtered-box {
+        padding-right: 14px;
+        label {
+            &:not(:last-child) {
+                padding-right: 10px;
+            }
         }
     }
 
