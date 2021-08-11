@@ -399,7 +399,7 @@
   "Common.Views.ReviewChanges.txtTurnon": "Track Changes",
   "Common.Views.ReviewChanges.txtView": "Display Mode",
   "Common.Views.ReviewChanges.txtMarkupSimpleCap": "Simple Markup",
-  "Common.Views.ReviewChanges.txtMarkupSimple": "All changes (Editing)<br>Turn off pop-up windows with changes",
+  "Common.Views.ReviewChanges.txtMarkupSimple": "All changes (Editing)<br>Turn off balloons",
   "Common.Views.ReviewChangesDialog.textTitle": "Review Changes",
   "Common.Views.ReviewChangesDialog.txtAccept": "Accept",
   "Common.Views.ReviewChangesDialog.txtAcceptAll": "Accept All Changes",

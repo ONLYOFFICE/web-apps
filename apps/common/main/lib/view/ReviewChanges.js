@@ -862,7 +862,7 @@ define([
             textWarnTrackChanges: 'Track Changes will be switched ON for all users with full access. The next time anyone opens the doc, Track Changes will remain enabled.',
             textEnable: 'Enable',
             txtMarkupSimpleCap: 'Simple Markup',
-            txtMarkupSimple: 'All changes (Editing)<br>Turn off pop-up windows with changes'
+            txtMarkupSimple: 'All changes (Editing)<br>Turn off balloons'
         }
     }()), Common.Views.ReviewChanges || {}));
 
