@@ -186,7 +186,6 @@ define([
                     (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover))) {
                 var  parameter = this.view.setMenuParameters(type);
                 if (parameter)
-                this.onParameterClick(parameter);
                     this.onParameterClick(parameter);
             }
             this.Effect = type;
