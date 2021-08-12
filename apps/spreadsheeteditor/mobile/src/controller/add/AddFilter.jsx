@@ -48,7 +48,9 @@ class AddFilterController extends Component {
         f7.popover.close('#add-popover');
         
         let typeCheck = type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending;
-            if( api.asc_sortCellsRangeExpand()) {
+        let res = api.asc_sortCellsRangeExpand();
+        switch (res) {
+            case Asc.c_oAscSelectionSortExpand.showExpandMessage:
                 f7.dialog.create({
                     title: _t.txtSorting,
                     text: _t.txtExpandSort,
@@ -63,18 +65,41 @@ class AddFilterController extends Component {
                         {
                             text: _t.txtSortSelected,
                             bold: true,
-                                onClick: () => {
-                                    api.asc_sortColFilter(typeCheck, '', undefined, undefined);
+                            onClick: () => {
+                                api.asc_sortColFilter(typeCheck, '', undefined, undefined);
                             }
                         },
                         {
                             text: _t.textCancel
                         }
                     ],
-                    verticalButtons: true,
+                    verticalButtons: true
                 }).open();
-            } else 
-                api.asc_sortColFilter(typeCheck, '', undefined, undefined, api.asc_sortCellsRangeExpand() !== null);
+                break;
+            case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                f7.dialog.create({
+                    title: _t.txtSorting,
+                    text: _t.txtLockSort,
+                    buttons: [
+                        {
+                            text: _t.txtYes,
+                            bold: true,
+                            onClick: () => {
+                                api.asc_sortColFilter(typeCheck, '', undefined, undefined, false);
+                            }
+                        },
+                        {
+                            text: _t.txtNo
+                        }
+                    ],
+                    verticalButtons: true
+                }).open();
+                break;
+            case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+            case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                api.asc_sortColFilter(typeCheck, '', undefined, undefined, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                break;
+        }
     }
 
     onInsertFilter (checked) {

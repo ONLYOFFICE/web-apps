@@ -213,7 +213,9 @@ define([
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
                 Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('protect:check',                _.bind(this.checkProtectedRange, this));
                 Common.NotificationCenter.on('editing:disable',              _.bind(this.onEditingDisable, this));
+                Common.NotificationCenter.on('showerror',                    _.bind(this.onError, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -1370,8 +1372,8 @@ define([
 //                    statusbarController && statusbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (me.appOptions.canProtect)
-                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('WBProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
@@ -1787,6 +1789,10 @@ define([
                         config.msg = this.errorPivotWithoutUnderlying;
                         break;
 
+                    case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
+                        config.msg = this.errorChangeOnProtectedSheet;
+                        break;
+
                     case Asc.c_oAscError.ID.SingleColumnOrRowError:
                         config.msg = this.errorSingleColumnOrRowError;
                         break;
@@ -1795,11 +1801,22 @@ define([
                         config.msg = this.errorLocationOrDataRangeError;
                         break;
 
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
+                        config.msg = this.errorDeleteColumnContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
+                        config.msg = this.errorDeleteRowContainsLockedCell;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
-
 
                 if (level == Asc.c_oAscError.Level.Critical) {
                     Common.Gateway.reportError(id, config.msg);
@@ -2108,7 +2125,7 @@ define([
                 }
             },
 
-            onConfirmAction: function(id, apiCallback) {
+            onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
                     Common.UI.warning({
@@ -2139,6 +2156,68 @@ define([
                             me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
+                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (me.api && apiCallback)  {
+                                apiCallback((result == 'ok') ? me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data) : false, result !== 'ok');
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                        }
+                    });
+                    win.show();
+                }
+            },
+
+            checkProtectedRange: function(callback, scope, args) {
+                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
+                if (result===null) {
+                    this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
+                    return;
+                }
+
+                if (result) {
+                    var me = this;
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    if (me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword())) {
+                                        callback && setTimeout(function() {
+                                            callback.apply(scope, args);
+                                        }, 1);
+                                    } else {
+                                        Common.UI.warning({
+                                            msg: me.errorWrongPassword,
+                                            callback: function() {
+                                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
+                } else {
+                    callback && setTimeout(function() {
+                        callback.apply(scope, args);
+                    }, 1);
                 }
             },
 
@@ -3231,15 +3310,24 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.',
+            txtUnlockRange: 'Unlock Range',
+            txtUnlockRangeWarning: 'A range you are trying to change is password protected.',
+            txtUnlockRangeDescription: 'Enter the password to change this range:',
+            txtUnlock: 'Unlock',
+            errorWrongPassword: 'The password you supplied is not correct.',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             textDisconnect: 'Connection is lost',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
             errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
             errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.',
-            txtErrorLoadHistory: 'Loading history failed'
+            txtErrorLoadHistory: 'Loading history failed',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
+            errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.'
         }
     })(), SSE.Controllers.Main || {}))
 });

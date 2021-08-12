@@ -101,6 +101,7 @@ define([
             /** coauthoring begin **/
             this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
             this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onWorksheetLocked, this));
+            this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
             /** coauthoring end **/
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
@@ -155,7 +156,8 @@ define([
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
             this.statusbar.btnAddWorksheet.setDisabled(locked || this.api.isCellEdited || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
                                                                                           this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable||
-                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
+                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles ||
+                                                       this.api.asc_isProtectedWorkbook());
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -171,11 +173,12 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             var count = this.statusbar.tabbar.getCount(), tab;
+            var wbprotected = this.api.asc_isProtectedWorkbook();
             for (var i = count; i-- > 0; ) {
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable) || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
+                    tab.isLockTheDrag = locked || wbprotected || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable) || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
                     tab.$el.children(':first-child').attr('draggable', tab.isLockTheDrag?'false':'true');
                     break;
                 }
@@ -185,6 +188,19 @@ define([
                 listItem.setDisabled(locked);
             }
         },
+
+        onChangeProtectWorkbook: function() {
+            this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || this.statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+            var count = this.statusbar.tabbar.getCount(), tab;
+            var wbprotected = this.api.asc_isProtectedWorkbook();
+            for (var i = count; i-- > 0; ) {
+                tab = this.statusbar.tabbar.getAt(i);
+                var islocked = tab.hasClass('coauth-locked');
+                tab.isLockTheDrag = islocked || wbprotected || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable) || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
+                tab.$el.children(':first-child').attr('draggable', tab.isLockTheDrag?'false':'true');
+            }
+        },
+
         /** coauthoring end **/
 
         onApiMathChanged: function(info) {
@@ -218,7 +234,7 @@ define([
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
-            statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+            statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
 
             statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
 
@@ -249,16 +265,17 @@ define([
         onRangeDialogMode: function (mode) {
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
-            this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || mode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || this.api.asc_isProtectedWorkbook() || mode!=Asc.c_oAscSelectionDialogType.None);
             this.statusbar.btnSheetList[mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles ? 'addClass' : 'removeClass']('disabled');
 
             var item, i = this.statusbar.tabbar.getCount();
+            var wbprotected = this.api.asc_isProtectedWorkbook();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
                 if (item.sheetindex !== currentIdx) {
                     item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles);
                 }
-                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
+                item.isLockTheDrag = (item.hasClass('coauth-locked') || wbprotected || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
             this.statusbar.rangeSelectionMode = mode;
         },
@@ -296,6 +313,9 @@ define([
                     setTimeout(function () {
                         me.hideWorksheet(true, arrIndex);
                     }, 1);
+                    break;
+                case 'protect':
+                    this.protectWorksheet();
                     break;
             }
         },
@@ -785,6 +805,10 @@ define([
                     this._sheetViewTip.show();
             } else if (!active && this._sheetViewTip && this._sheetViewTip.isVisible())
                 this._sheetViewTip.hide();
+        },
+
+        protectWorksheet: function() {
+            Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
         },
 
         zoomText        : 'Zoom {0}%',
