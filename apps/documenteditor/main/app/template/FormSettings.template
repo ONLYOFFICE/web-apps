@@ -89,14 +89,8 @@
             <div id="form-spin-width" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
-            <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
-            <div id="form-color-btn" style="display: inline-block; float: right;"></div>
-        </td>
-    </tr>
     <tr class="form-image">
-        <td class="padding-large">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textScale %></label>
             <div id="form-combo-scale" style="width: 100%;"></div>
         </td>
@@ -109,6 +103,14 @@
     <tr class="form-image">
         <td class="padding-large">
             <div id="form-button-replace" style="width:100%;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr>
+        <td class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
+            <div id="form-color-btn" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
 </table>
