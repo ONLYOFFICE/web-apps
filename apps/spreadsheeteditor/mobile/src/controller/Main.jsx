@@ -650,9 +650,9 @@ class MainController extends Component {
         }
     }
 
-    onDownloadUrl () {
+    onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            Common.Gateway.downloadAs(url);
+            Common.Gateway.downloadAs(url, fileType);
         }
 
         this._state.isFromGatewayDownloadAs = false;

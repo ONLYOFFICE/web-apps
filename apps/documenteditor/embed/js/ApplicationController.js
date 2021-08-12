@@ -266,8 +266,8 @@ DE.ApplicationController = new(function(){
         }
     }
 
-    function onDownloadUrl(url) {
-        Common.Gateway.downloadAs(url);
+    function onDownloadUrl(url, fileType) {
+        Common.Gateway.downloadAs(url, fileType);
     }
 
     function onPrint() {
