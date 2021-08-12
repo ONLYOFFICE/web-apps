@@ -749,7 +749,7 @@ define([
                         if (rec) {
                             this.list.selectRecord(rec);
                             this.list.scrollToRecord(rec);
-                        } else {
+                        } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
                             this._state.listValue = this._state.listIndex = undefined;
                         }
