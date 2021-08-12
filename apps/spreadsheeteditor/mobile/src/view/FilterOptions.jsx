@@ -19,6 +19,20 @@ const FilterOptions = (props) => {
         setAll(true);
         props.onUpdateCell('all', true);
     };
+
+    const onValidChecked = () => {
+        if ( props.listVal.every(item => !item.check) ) {
+            f7.dialog.create({
+                title: _t.textErrorTitle,
+                text: _t.textErrorMsg,
+                buttons: [
+                    {
+                        text: 'OK',
+                    }
+                ]
+            }).open();
+        }
+    };
     
     return (
         <View style={props.style}>
@@ -36,10 +50,10 @@ const FilterOptions = (props) => {
            <List>
                 <ListItem className='buttons'>
                     <Row>
-                        <a className={'button' + (props.checkSort === 'down' ? ' active' : '')} onClick={() => props.onSort('sortdown')}>
+                        <a className={'button' + (props.checkSort === 'down' ? ' active' : '')} onClick={() => {props.onSort('sortdown'); onValidChecked();}}>
                             <Icon slot="media" icon="sortdown"/>
                         </a>
-                        <a className={'button' + (props.checkSort === 'up' ? ' active' : '')} onClick={() => props.onSort('sortup')}>
+                        <a className={'button' + (props.checkSort === 'up' ? ' active' : '')} onClick={() => {props.onSort('sortup'); onValidChecked();}}>
                             <Icon slot="media" icon="sortup"/>
                         </a>
                     </Row>
@@ -51,9 +65,9 @@ const FilterOptions = (props) => {
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>
            </List>
            <List>
-               <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell('all', e.target.checked)} name='filter-cellAll' checkbox checked={all}>{_t.textSelectAll}</ListItem>
+               <ListItem className='radio-checkbox-item' onChange={e => {props.onUpdateCell('all', e.target.checked); onValidChecked();}} name='filter-cellAll' checkbox checked={all}>{_t.textSelectAll}</ListItem>
                {props.listVal.map((value) =>
-                   <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell(value.id, e.target.checked)}  key={value.value} name='filter-cell' value={value.value} title={value.cellvalue} checkbox checked={value.check} />
+                   <ListItem className='radio-checkbox-item' onChange={e => {props.onUpdateCell(value.id, e.target.checked); onValidChecked();}}  key={value.value} name='filter-cell' value={value.value} title={value.cellvalue} checkbox checked={value.check} />
                )}
            </List>
             </Page>
@@ -62,29 +76,12 @@ const FilterOptions = (props) => {
 };
 
 const FilterView = (props) => {
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
-
-    const onClosed = () => {
-        if ( props.listVal.every(item => !item.check) ) {
-            f7.dialog.create({
-                title: _t.textErrorTitle,
-                text: _t.textErrorMsg,
-                buttons: [
-                    {
-                        text: 'OK',
-                    }
-                ]
-            }).open();
-        }
-    };
-
     return (
         !Device.phone ?
-        <Popover id="picker-popover" className="popover__titled" onPopoverClosed={onClosed}>
+        <Popover id="picker-popover" className="popover__titled">
             <FilterOptions style={{height: '410px'}} {...props}></FilterOptions>
         </Popover> :
-        <Sheet className="picker__sheet" push onSheetClosed={onClosed}>
+        <Sheet className="picker__sheet" push>
             <FilterOptions  {...props}></FilterOptions>
         </Sheet>
     )
