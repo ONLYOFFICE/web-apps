@@ -113,6 +113,12 @@
             <div id="form-color-btn" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-large">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
+            <div id="form-background-color-btn" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
 </table>
 <table cols="1">
     <tr>
