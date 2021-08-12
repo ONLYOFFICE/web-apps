@@ -141,7 +141,10 @@ define([
                     itemWidth: 87,
                     itemHeight: 40,
                     enableKeyEvents: true,
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'A',
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
@@ -182,7 +185,10 @@ define([
                     caption: this.txtPreview,
                     split: false,
                     iconCls: 'toolbar__icon preview-transitions',
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'E'
                 });
                 this.lockedControls.push(this.btnPreview);
 
@@ -192,7 +198,10 @@ define([
                     iconCls: 'toolbar__icon icon transition-none',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'B'
                 });
                 this.lockedControls.push(this.btnParameters);
 
@@ -201,7 +210,10 @@ define([
                     caption: this.txtApplyToAll,
                     split: true,
                     iconCls: 'toolbar__icon transition-apply-all',
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'I'
                 });
                 this.lockedControls.push(this.btnApplyToAll);
 
@@ -213,7 +225,10 @@ define([
                     defaultUnit: this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'D'
                 });
                 this.lockedControls.push(this.numDuration);
 
@@ -225,21 +240,30 @@ define([
                     defaultUnit: this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'H'
                 });
                 this.lockedControls.push(this.numDelay);
 
                 this.chStartOnClick = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-startonclick'),
                     labelText: this.strStartOnClick,
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'F'
                 });
                 this.lockedControls.push(this.chStartOnClick);
 
                 this.chDelay = new Common.UI.CheckBox({
                     el: this.$el.find('#transit-checkbox-delay'),
                     labelText: this.strDelay,
-                    lock:[_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'G'
                 });
                 this.lockedControls.push(this.chDelay);
 
