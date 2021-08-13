@@ -277,7 +277,8 @@
     "textSheet": "Full",
     "textSheetName": "Nom del Full",
     "textUnhide": "Tornar a mostrar",
-    "textWarnDeleteSheet": "El full de treball potser té dades. Voleu continuar l'operació?"
+    "textWarnDeleteSheet": "El full de treball potser té dades. Voleu continuar l'operació?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",

@@ -277,7 +277,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "アプリケーションを終了します",
