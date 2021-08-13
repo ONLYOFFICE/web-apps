@@ -20,10 +20,27 @@ export class storeTextSettings {
             initEditorFonts: action,
             initFontInfo: action,
             changeTextColor: action,
-            changeCustomTextColors: action
+            changeCustomTextColors: action,
+            iconWidth: observable,
+            iconHeight: observable,
+            thumbCanvas: observable,
+            thumbContext: observable,
+            thumbs: observable,
+            thumbIdx: observable,
+            listItemHeight: observable,
+            spriteCols: observable,
+            loadSprite: action
         });
     }
     
+    iconWidth;
+    iconHeight;
+    thumbCanvas;
+    thumbContext;
+    thumbs;
+    thumbIdx = 0;
+    listItemHeight = 28;
+    spriteCols = 1;
     fontsArray = [];
     fontInfo = {};
     fontName = '';
@@ -84,6 +101,50 @@ export class storeTextSettings {
         });
 
         this.fontsArray = array;
+        this.iconWidth = 300;
+        this.iconHeight = Asc.FONT_THUMBNAIL_HEIGHT || 28;
+        this.thumbCanvas = document.createElement('canvas');
+        this.thumbContext = this.thumbCanvas.getContext('2d');
+        this.thumbs = [
+            {ratio: 1, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail.png', width: this.iconWidth, height: this.iconHeight},
+            {ratio: 1.25, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.25x.png', width: this.iconWidth * 1.25, height: this.iconHeight * 1.25},
+            {ratio: 1.5, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: this.iconWidth * 1.5, height: this.iconHeight * 1.5},
+            {ratio: 1.75, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.75x.png', width: this.iconWidth * 1.75, height: this.iconHeight * 1.75},
+            {ratio: 2, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: this.iconWidth * 2, height: this.iconHeight * 2}
+        ];
+
+        const applicationPixelRatio = Common.Utils.applicationPixelRatio();
+
+        if (typeof window['AscDesktopEditor'] === 'object') {
+            this.thumbs[0].path = window['AscDesktopEditor'].getFontsSprite('');
+            this.thumbs[1].path = window['AscDesktopEditor'].getFontsSprite('@1.25x');
+            this.thumbs[2].path = window['AscDesktopEditor'].getFontsSprite('@1.5x');
+            this.thumbs[3].path = window['AscDesktopEditor'].getFontsSprite('@1.75x');
+            this.thumbs[4].path = window['AscDesktopEditor'].getFontsSprite('@2x');
+        }
+
+        let bestDistance = Math.abs(applicationPixelRatio - this.thumbs[0].ratio);
+        let currentDistance = 0;
+
+        for (let i = 1; i < this.thumbs.length; i++) {
+            currentDistance = Math.abs(applicationPixelRatio - this.thumbs[i].ratio);
+            if (currentDistance < (bestDistance - 0.0001))
+            {
+                bestDistance = currentDistance;
+                this.thumbIdx = i;
+            }
+        }
+
+        this.thumbCanvas.height = this.thumbs[this.thumbIdx].height;
+        this.thumbCanvas.width = this.thumbs[this.thumbIdx].width;
+
+        this.loadSprite();
+    }
+
+    loadSprite() {
+        this.spriteThumbs = new Image();
+        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
     }
 
     initFontInfo(fontObj) {
