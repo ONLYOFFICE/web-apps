@@ -5,6 +5,7 @@ export class storeTextSettings {
         makeObservable(this, {
             fontsArray: observable,
             fontName: observable,
+            arrayRecentFonts:observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -23,6 +24,7 @@ export class storeTextSettings {
             lineSpacing: observable,
             initEditorFonts: action,
             resetFontName: action,
+            resetFontsRecent:action,
             resetFontSize: action,
             resetIsBold: action,
             resetIsItalic: action,
@@ -40,11 +42,13 @@ export class storeTextSettings {
             resetParagraphValign: action,
             resetTextColor: action,
             changeCustomTextColors: action,
-            resetLineSpacing: action
+            resetLineSpacing: action,
+            addFontToRecent:action
         });
     }
 
     fontsArray = [];
+    arrayRecentFonts = [];
     fontName = '';
     fontSize = undefined;
     isBold = false;
@@ -86,6 +90,11 @@ export class storeTextSettings {
     resetFontName (font) {
         let name = (typeof font.get_Name) === "function" ? font.get_Name() : font.asc_getName();
         this.fontName = name;
+    }
+
+    resetFontsRecent(fonts) {
+        this.arrayRecentFonts = fonts;
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     resetFontSize (size) {
@@ -202,6 +211,15 @@ export class storeTextSettings {
 
     changeCustomTextColors (colors) {
         this.customTextColors = colors;
+    }
+
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
     }
 
     resetLineSpacing (vc) {

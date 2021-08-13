@@ -6,6 +6,7 @@ export class storeTextSettings {
             fontsArray: observable,
             fontInfo: observable,
             fontName: observable,
+            arrayRecentFonts:observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -15,16 +16,19 @@ export class storeTextSettings {
             paragraphAlign: observable,
             paragraphValign: observable,
             textIn: observable,
+            resetFontsRecent:action,
             initTextSettings: action,
             initFontSettings: action,
             initEditorFonts: action,
             initFontInfo: action,
             changeTextColor: action,
-            changeCustomTextColors: action
+            changeCustomTextColors: action,
+            addFontToRecent:action
         });
     }
     
     fontsArray = [];
+    arrayRecentFonts = [];
     fontInfo = {};
     fontName = '';
     fontSize = undefined;
@@ -90,6 +94,15 @@ export class storeTextSettings {
         this.fontInfo = fontObj;
     }
 
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
+    }
+
     changeTextColor(value) {
         this.textColor = value;
     }
@@ -113,6 +126,11 @@ export class storeTextSettings {
         }
 
         return value;
+    }
+
+    resetFontsRecent(fonts) {
+        this.arrayRecentFonts = fonts;
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     changeCustomTextColors (colors) {

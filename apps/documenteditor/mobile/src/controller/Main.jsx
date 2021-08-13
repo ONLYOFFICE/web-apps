@@ -536,6 +536,8 @@ class MainController extends Component {
 
         //text settings
         const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
+
         EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
         EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
