@@ -49,8 +49,8 @@ define([
     'use strict';
 
     Common.UI.ComboBoxFonts = Common.UI.ComboBox.extend((function() {
-        var iconWidth       = 302,
-            iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 26,
+        var iconWidth       = 300,
+            iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 28,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
             thumbs       = [
@@ -61,7 +61,7 @@ define([
                 {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2}
             ],
             thumbIdx = 0,
-            listItemHeight  = 26,
+            listItemHeight  = 28,
             spriteCols     = 1,
             applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
