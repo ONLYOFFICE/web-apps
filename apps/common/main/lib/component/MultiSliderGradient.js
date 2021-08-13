@@ -58,7 +58,8 @@ define([
             thumbTemplate: '<div class="thumb" style="">' +
                             '<div class="thumb-top"><div class="thumb-top-inner"></div></div>' +
                             '<div class="thumb-bottom"><div class="thumb-bottom-inner"></div></div>' +
-                            '</div>'
+                            '</div>',
+            includeSnap: true
         },
 
         disabled: false,
