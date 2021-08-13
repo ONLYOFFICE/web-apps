@@ -16,6 +16,7 @@ export class storeTextSettings {
             paragraphAlign: observable,
             paragraphValign: observable,
             textIn: observable,
+            resetFontsRecent:action,
             initTextSettings: action,
             initFontSettings: action,
             initEditorFonts: action,
@@ -125,6 +126,11 @@ export class storeTextSettings {
         }
 
         return value;
+    }
+
+    resetFontsRecent(fonts) {
+        this.arrayRecentFonts = fonts;
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     changeCustomTextColors (colors) {

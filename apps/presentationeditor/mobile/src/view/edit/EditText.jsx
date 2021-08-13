@@ -188,10 +188,12 @@ const PageFonts = props => {
     const fonts = storeTextSettings.fontsArray;
     const arrayFonts = storeTextSettings.arrayRecentFonts;
 
-    let arr = [];
-    arrayFonts.forEach(item => arr.push(item));
-    arr = arr.join(';');
-    LocalStorage.setItem('ppe-settings-recent-fonts', arr);
+    const addRecentStorage = () => {
+        let arr = [];
+        arrayFonts.forEach(item => arr.push(item));
+        arr = arr.join(';');
+        LocalStorage.setItem('ppe-settings-recent-fonts', arr);
+    }
 
     const [vlFonts, setVlFonts] = useState({
         vlData: {
@@ -269,7 +271,8 @@ const PageFonts = props => {
                             checked={curFontName === item.name}
                             title={item.name}
                             style={{fontFamily: `${item.name}`}}
-                            onClick={() => {props.changeFontFamily(item.name); storeTextSettings.addFontToRecent(item.name)}}
+                            onClick={() => {props.changeFontFamily(item.name); storeTextSettings.addFontToRecent(item.name);
+                                addRecentStorage()}}
                         ></ListItem>
                     ))}
                 </ul>

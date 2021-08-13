@@ -351,8 +351,7 @@ class MainController extends Component {
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
-        storeTextSettings.arrayRecentFonts = LocalStorage.getItem('sse-settings-recent-fonts');
-        storeTextSettings.arrayRecentFonts = storeTextSettings.arrayRecentFonts ? storeTextSettings.arrayRecentFonts.split(';') : [];
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('sse-settings-recent-fonts'));
 
         // Spreadsheet Settings
 

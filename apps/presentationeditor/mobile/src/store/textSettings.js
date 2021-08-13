@@ -24,6 +24,7 @@ export class storeTextSettings {
             lineSpacing: observable,
             initEditorFonts: action,
             resetFontName: action,
+            resetFontsRecent:action,
             resetFontSize: action,
             resetIsBold: action,
             resetIsItalic: action,
@@ -89,6 +90,11 @@ export class storeTextSettings {
     resetFontName (font) {
         let name = (typeof font.get_Name) === "function" ? font.get_Name() : font.asc_getName();
         this.fontName = name;
+    }
+
+    resetFontsRecent(fonts) {
+        this.arrayRecentFonts = fonts;
+        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     resetFontSize (size) {
