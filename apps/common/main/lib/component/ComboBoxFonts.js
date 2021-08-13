@@ -55,7 +55,9 @@ define([
             thumbContext    = thumbCanvas.getContext('2d'),
             thumbs       = [
                 {ratio: 1,      path: '../../../../sdkjs/common/Images/fonts_thumbnail.png', width: iconWidth, height: iconHeight},
+                {ratio: 1.25,   path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.25x.png', width: iconWidth * 1.25, height: iconHeight * 1.25},
                 {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
+                {ratio: 1.75,   path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.75x.png', width: iconWidth * 1.75, height: iconHeight * 1.75},
                 {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2}
             ],
             thumbIdx = 0,
@@ -65,8 +67,10 @@ define([
 
         if (typeof window['AscDesktopEditor'] === 'object') {
             thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite('');
-            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
-            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
+            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.25x');
+            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
+            thumbs[3].path     = window['AscDesktopEditor'].getFontsSprite('@1.75x');
+            thumbs[4].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
