@@ -357,7 +357,8 @@ Common.UI.HintManager = new(function() {
                 _lang = mode.lang;
                 _getAlphabetLetters();
             },
-            'hints:clear': _clearHints
+            'hints:clear': _clearHints,
+            'window:resize': _clearHints
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();
