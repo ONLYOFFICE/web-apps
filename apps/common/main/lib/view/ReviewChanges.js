@@ -299,6 +299,15 @@ define([
                                         description: this.txtMarkup
                                     },
                                     {
+                                        caption: this.txtMarkupSimpleCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        value: 'simple',
+                                        template: menuTemplate,
+                                        description: this.txtMarkupSimple
+                                    },
+                                    {
                                         caption: this.txtFinalCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
@@ -750,8 +759,9 @@ define([
             turnDisplayMode: function(mode) {
                 if (this.btnReviewView) {
                     this.btnReviewView.menu.items[0].setChecked(mode=='markup', true);
-                    this.btnReviewView.menu.items[1].setChecked(mode=='final', true);
-                    this.btnReviewView.menu.items[2].setChecked(mode=='original', true);
+                    this.btnReviewView.menu.items[1].setChecked(mode=='simple', true);
+                    this.btnReviewView.menu.items[2].setChecked(mode=='final', true);
+                    this.btnReviewView.menu.items[3].setChecked(mode=='original', true);
                 }
             },
 
@@ -850,7 +860,9 @@ define([
             txtOff: 'OFF for me',
             textWarnTrackChangesTitle: 'Enable Track Changes for everyone?',
             textWarnTrackChanges: 'Track Changes will be switched ON for all users with full access. The next time anyone opens the doc, Track Changes will remain enabled.',
-            textEnable: 'Enable'
+            textEnable: 'Enable',
+            txtMarkupSimpleCap: 'Simple Markup',
+            txtMarkupSimple: 'All changes (Editing)<br>Turn off balloons'
         }
     }()), Common.Views.ReviewChanges || {}));
 
