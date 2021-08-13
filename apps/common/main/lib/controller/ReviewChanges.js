@@ -255,7 +255,8 @@ define([
             if ((this.appConfig.canReview || this.appConfig.canViewReview) && _.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
-                    renderTo : this.sdkViewName
+                    renderTo : this.sdkViewName,
+                    api: this.api
                 });
                 this.popover.setReviewStore(this.popoverChanges);
             }
