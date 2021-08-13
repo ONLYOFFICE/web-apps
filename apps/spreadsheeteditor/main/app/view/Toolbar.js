@@ -818,7 +818,7 @@ define([
                     cls             : 'combo-styles',
                     enableKeyEvents : true,
                     itemWidth       : 112,
-                    itemHeight      : 38,
+                    itemHeight      : 40,
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth],
                     beforeOpenHandler: function(e) {
