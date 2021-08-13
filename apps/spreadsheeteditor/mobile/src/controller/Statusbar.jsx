@@ -199,15 +199,20 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
         if (sheets.sheets.length == 1 || visibleSheets.length == 1) {
             f7.dialog.alert(_t.textErrorLastSheet, _t.notcriticalErrorTitle);
         } else {
-            f7.dialog.confirm(
-                _t.textWarnDeleteSheet,
-                _t.notcriticalErrorTitle,
-                () => {
-                    if (!api.asc_deleteWorksheet()) {
-                        f7.dialog.alert(_t.textErrorRemoveSheet, _t.notcriticalErrorTitle);
-                    }
-                }
-            );
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.textWarnDeleteSheet,
+                buttons: [
+                    {text: _t.textCancel},
+                    {
+                        text: _t.textOk,
+                        onClick: () => {
+                            if (!api.asc_deleteWorksheet()) {
+                                f7.dialog.alert(_t.textErrorRemoveSheet, _t.notcriticalErrorTitle);
+                            }
+                        }
+                    }]
+            }).open();
         }
     };
 
