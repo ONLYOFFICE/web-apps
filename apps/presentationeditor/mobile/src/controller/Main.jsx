@@ -325,6 +325,8 @@ class MainController extends Component {
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.arrayRecentFonts = LocalStorage.getItem('ppe-settings-recent-fonts');
+        storeTextSettings.arrayRecentFonts = storeTextSettings.arrayRecentFonts ? storeTextSettings.arrayRecentFonts.split(';') : [];
 
         EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
 

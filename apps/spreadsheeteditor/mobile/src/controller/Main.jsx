@@ -348,6 +348,12 @@ class MainController extends Component {
         const styleSize = this.props.storeCellSettings.styleSize;
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
 
+        // Text settings 
+
+        const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.arrayRecentFonts = LocalStorage.getItem('sse-settings-recent-fonts');
+        storeTextSettings.arrayRecentFonts = storeTextSettings.arrayRecentFonts ? storeTextSettings.arrayRecentFonts.split(';') : [];
+
         // Spreadsheet Settings
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {

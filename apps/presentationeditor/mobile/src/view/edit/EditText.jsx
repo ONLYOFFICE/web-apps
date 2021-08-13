@@ -4,6 +4,7 @@ import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row,  Button, Page,
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -187,6 +188,11 @@ const PageFonts = props => {
     const fonts = storeTextSettings.fontsArray;
     const arrayFonts = storeTextSettings.arrayRecentFonts;
 
+    let arr = [];
+    arrayFonts.forEach(item => arr.push(item));
+    arr = arr.join(';');
+    LocalStorage.setItem('ppe-settings-recent-fonts', arr);
+
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
@@ -237,18 +243,20 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{_t.textFonts}</BlockTitle>
-            <List>
-                {arrayFonts.map((item,index) => (
-                    <ListItem
-                        key={index}
-                        radio
-                        checked={curFontName === item}
-                        title={item}
-                        style={{fontFamily: `${item}`}}
-                        onClick={() => {props.changeFontFamily(item)}}
-                    /> 
-                ))}
-            </List>
+            {!!arrayFonts.length &&
+                <List>
+                    {arrayFonts.map((item,index) => (
+                        <ListItem
+                            key={index}
+                            radio
+                            checked={curFontName === item}
+                            title={item}
+                            style={{fontFamily: `${item}`}}
+                            onClick={() => {props.changeFontFamily(item)}}
+                        /> 
+                    ))}
+                </List>
+            }
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal

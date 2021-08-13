@@ -3,8 +3,8 @@ import {observer, inject} from "mobx-react";
 import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
-
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -15,12 +15,18 @@ const PageFonts = props => {
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
     const arrayFonts = storeTextSettings.arrayRecentFonts;
+
+    let arr = [];
+    arrayFonts.forEach(item => arr.push(item));
+    arr = arr.join(';');
+    LocalStorage.setItem('dde-settings-recent-fonts', arr);
     
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
         }
     });
+
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
             let fonts = [...prevState.vlData.items];
@@ -59,18 +65,20 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
-            <List>
-                {arrayFonts.map((item,index) => (
-                    <ListItem
-                        key={index}
-                        radio
-                        checked={curFontName === item}
-                        title={item}
-                        style={{fontFamily: `${item}`}}
-                        onClick={() => {storeTextSettings.changeFontFamily(item); props.changeFontFamily(item);}}
-                    /> 
-                ))}
-            </List>
+            {!!arrayFonts.length &&
+                <List>
+                    {arrayFonts.map((item,index) => (
+                        <ListItem
+                            key={index}
+                            radio
+                            checked={curFontName === item}
+                            title={item}
+                            style={{fontFamily: `${item}`}}
+                            onClick={() => {storeTextSettings.changeFontFamily(item); props.changeFontFamily(item);}}
+                        /> 
+                    ))}
+                </List>
+            }
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal

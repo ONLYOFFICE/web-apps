@@ -1,5 +1,4 @@
 import {action, observable, makeObservable, computed} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeTextSettings {
     constructor() {
@@ -88,9 +87,6 @@ export class storeTextSettings {
         });
 
         this.fontsArray = array;
-
-        this.arrayRecentFonts = LocalStorage.getItem('sse-settings-recent-fonts');
-        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
     }
 
     initFontInfo(fontObj) {
@@ -104,11 +100,6 @@ export class storeTextSettings {
         this.arrayRecentFonts.unshift(font);
 
         if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
-        
-        let arr = [];
-        this.arrayRecentFonts.forEach(item => arr.push(item));
-        arr = arr.join(';');
-        LocalStorage.setItem('sse-settings-recent-fonts', arr);
     }
 
     changeTextColor(value) {
