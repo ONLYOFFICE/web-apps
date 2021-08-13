@@ -274,7 +274,7 @@ const PageBulletsAndNumbers = props => {
     const storeTextSettings = props.storeTextSettings;
     
     return (
-        <Page>
+        <Page className="bullets-numbers">
             <Navbar title={t('Edit.textBulletsAndNumbers')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>
