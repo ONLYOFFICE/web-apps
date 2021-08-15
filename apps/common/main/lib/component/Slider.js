@@ -285,8 +285,8 @@ define([
             minValue: 0,
             maxValue: 100,
             values: [0, 100],
-            thumbTemplate: '<div class="thumb" style=""></div>',
-            includeSnap: false
+            includeSnap: false,
+            thumbTemplate: '<div class="thumb" style=""></div>'
         },
 
         disabled: false,
@@ -313,6 +313,7 @@ define([
             me.minValue = me.options.minValue;
             me.maxValue = me.options.maxValue;
             me.delta = 100/(me.maxValue - me.minValue);
+            me.includeSnap = me.options.includeSnap;
             me.thumbs = [];
             if (me.options.el) {
                 me.render();
@@ -344,7 +345,7 @@ define([
 
             var centers = [];
             var setCenters = function (index) {
-                if(!me.options.includeSnap) return;
+                if(!me.includeSnap) return;
                 centers = [50];
                 var n=0;
                 _.each(me.thumbs, function (thumb, indexT) {
@@ -357,6 +358,7 @@ define([
             };
 
             var resetPageX =  function (e) {
+                if(!me.includeSnap) return;
                 var x;
                 _.each(centers, function (cnt){
                     x=(0.01 * me.width * cnt + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
@@ -370,8 +372,7 @@ define([
             var onMouseUp = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-
-                if (me.options.includeSnap) resetPageX(e);
+                resetPageX(e);
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
@@ -414,7 +415,7 @@ define([
 
                 e.preventDefault();
                 e.stopPropagation();
-                if (me.options.includeSnap) resetPageX(e);
+                resetPageX(e);
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
