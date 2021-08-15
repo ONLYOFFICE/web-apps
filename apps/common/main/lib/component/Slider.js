@@ -343,26 +343,28 @@ define([
             el.find('.track-center').width(me.options.width - 14);
             el.width(me.options.width);
 
-            var centers = [];
             var setCenters = function (index) {
                 if(!me.includeSnap) return;
-                centers = [50];
-                var n=0;
+                var n = me.minValue;
+
+                var getX = function (position) {
+                    return (0.01 * me.width * position + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
+                };
+
+                me.centers = [getX(50)];
                 _.each(me.thumbs, function (thumb, indexT) {
-                    if (indexT != index) {
-                        centers.push((thumb.position - n) / 2 + n);
+                    if ((indexT != index) && (n != thumb.position)) {
+                        me.centers.push(getX((thumb.position - n) / 2 + n));
                         n = thumb.position;
                     }
                 });
-                if(n != 100) centers.push((100 - n) / 2 + n);
+                if(n != me.maxValue) me.centers.push(getX((me.maxValue - n) / 2 + n));
             };
 
             var resetPageX =  function (e) {
                 if(!me.includeSnap) return;
-                var x;
-                _.each(centers, function (cnt){
-                    x=(0.01 * me.width * cnt + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
-                    if((e.pageX <= x + 10) && (e.pageX >= x-10)) {
+                _.each(me.centers, function (x) {
+                    if((e.pageX <= x + 10) && (e.pageX >= x - 10)) {
                         e.pageX = x;
                         return;
                     }
@@ -445,9 +447,9 @@ define([
 
                 var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
-                setCenters(index);
 
                 me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - thumb.width()/2;
+                setCenters(index);
                 me.setActiveThumb(index);
 
                 _.each(me.thumbs, function (item, idx) {
