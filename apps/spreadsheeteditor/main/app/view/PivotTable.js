@@ -157,11 +157,11 @@ define([
                 var _set = SSE.enumLock;
 
                 this.btnsAddPivot = Common.Utils.injectButtons(this.toolbar.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtPivotTable,
-                    [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell], undefined, undefined, undefined, '1', 'bottom', 'small');
+                    [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 this.chRowHeader = new Common.UI.CheckBox({
                     labelText: this.textRowHeader,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -170,7 +170,7 @@ define([
 
                 this.chColHeader = new Common.UI.CheckBox({
                     labelText: this.textColHeader,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -179,7 +179,7 @@ define([
 
                 this.chRowBanded = new Common.UI.CheckBox({
                     labelText: this.textRowBanded,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -188,7 +188,7 @@ define([
 
                 this.chColBanded = new Common.UI.CheckBox({
                     labelText: this.textColBanded,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -200,7 +200,7 @@ define([
                     iconCls     : 'toolbar__icon btn-pivot-layout',
                     caption     : this.capLayout,
                     disabled    : true,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -213,7 +213,7 @@ define([
                     iconCls     : 'toolbar__icon btn-blank-rows',
                     caption     : this.capBlankRows,
                     disabled    : true,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -226,7 +226,7 @@ define([
                     iconCls     : 'toolbar__icon btn-subtotals',
                     caption     : this.capSubtotals,
                     disabled    : true,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -239,7 +239,7 @@ define([
                     iconCls     : 'toolbar__icon btn-grand-totals',
                     caption     : this.capGrandTotals,
                     disabled    : true,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -252,7 +252,7 @@ define([
                     iconCls: 'toolbar__icon btn-update',
                     caption: this.txtRefresh,
                     disabled    : true,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -263,7 +263,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-select-pivot',
                     caption: this.txtSelect,
-                    lock: [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit],
+                    lock: [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set['PivotTables']],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -276,7 +276,7 @@ define([
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
@@ -359,7 +359,7 @@ define([
 
                 var _set = SSE.enumLock;
                 this.btnsAddPivot = this.btnsAddPivot.concat(Common.Utils.injectButtons(this.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtCreate,
-                    [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell], undefined, undefined, undefined, '1', 'bottom', 'small'));
+                    [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small'));
 
                 this.chRowHeader.render(this.$el.find('#slot-chk-header-row'));
                 this.chColHeader.render(this.$el.find('#slot-chk-header-column'));

@@ -251,6 +251,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getHints = function() {
+        var docH = Common.Utils.innerHeight() - 20,
+            docW = Common.Utils.innerWidth() - 20;
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
@@ -277,6 +279,12 @@ Common.UI.HintManager = new(function() {
                         item.attr('data-hint-direction', 'bottom');
                     }
                 }
+                var maxHeight = docH;
+                if ($('#file-menu-panel').is(':visible') && _currentLevel > 1 &&
+                    ($('.fms-flex-apply').is(':visible') || $('#fms-flex-apply').is(':visible')) &&
+                    item.closest('.fms-flex-apply').length < 1 && item.closest('#fms-flex-apply').length < 1) {
+                    maxHeight = docH - $('.fms-flex-apply').height();
+                }
                 var offsets = item.attr('data-hint-offset');
                 var applyOffset = offsets === 'big' ? 6 : (offsets === 'medium' ? 4 : (offsets === 'small' ? 2 : 0));
                 if (applyOffset) {
@@ -298,32 +306,31 @@ Common.UI.HintManager = new(function() {
                     offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
                 }
                 var offset = item.offset();
-                if (direction === 'left-top')
+                var top, left;
+                if (direction === 'left-top') {
+                    top = offset.top - 10 + offsets[0];
+                    left = offset.left - 10 + offsets[1];
+                } else if (direction === 'top') {
+                    top = offset.top - 18 + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
+                } else if (direction === 'right') {
+                    top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
+                    left = offset.left + item.outerWidth() + offsets[1];
+                } else if (direction === 'left') {
+                    top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
+                    left = offset.left - 18 + offsets[1];
+                } else {
+                    top = offset.top + item.outerHeight() + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
+                }
+
+                if (top < maxHeight && left < docW) {
                     hint.css({
-                        top: offset.top - 10 + offsets[0],
-                        left: offset.left - 10 + offsets[1]
+                        top: top,
+                        left: left
                     });
-                else if (direction === 'top')
-                    hint.css({
-                        top: offset.top - 18 + offsets[0],
-                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
-                    });
-                else if (direction === 'right')
-                    hint.css({
-                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
-                        left: offset.left + item.outerWidth() + offsets[1]
-                    });
-                else if (direction === 'left')
-                    hint.css({
-                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
-                        left: offset.left - 18 + offsets[1]
-                    });
-                else
-                    hint.css({
-                        top: offset.top + item.outerHeight() + offsets[0],
-                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
-                    });
-                $(document.body).append(hint);
+                    $(document.body).append(hint);
+                }
 
                 _currentHints.push(hint);
             }
@@ -350,7 +357,8 @@ Common.UI.HintManager = new(function() {
                 _lang = mode.lang;
                 _getAlphabetLetters();
             },
-            'hints:clear': _clearHints
+            'hints:clear': _clearHints,
+            'window:resize': _clearHints
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();

@@ -142,6 +142,42 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
                 </div>
             </section>
+            <section id="transitions-panel" class="panel" data-tab="transit">
+                <div class="group flex small" id="transit-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
+
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="transit-duration"></label>
+                        <span id="transit-spin-duration" class="btn-slot text spinner"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="transit-button-preview"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="transit-checkbox-startonclick"></span>
+                    </div>
+                    <div class="elset font-normal">
+                        <span class="btn-slot text"  id="transit-checkbox-delay"></span>
+                        <div id="transit-spin-delay" class="btn-slot text spinner"></div>
+                   </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                     <div class="elset">
+                        <span class="btn-slot text " id="transit-button-apply"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text x-huge"></span>
+                    </div>
+                </div>
+            </section>
         </section>
     </section>
 </div>

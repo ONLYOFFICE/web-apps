@@ -153,7 +153,6 @@ define([
             var me = this,
                 win = new Common.Views.PasswordDialog({
                     api: me.api,
-                    signType: 'invisible',
                     handler: function(result, props) {
                         if (result == 'ok') {
                             me.api.asc_setCurrentPassword(props);

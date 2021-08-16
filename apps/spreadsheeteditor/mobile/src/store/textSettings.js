@@ -6,6 +6,7 @@ export class storeTextSettings {
             fontsArray: observable,
             fontInfo: observable,
             fontName: observable,
+            arrayRecentFonts: observable,
             fontSize: observable,
             isBold: observable,
             isItalic: observable,
@@ -15,6 +16,7 @@ export class storeTextSettings {
             paragraphAlign: observable,
             paragraphValign: observable,
             textIn: observable,
+            resetFontsRecent:action,
             initTextSettings: action,
             initFontSettings: action,
             initEditorFonts: action,
@@ -29,7 +31,8 @@ export class storeTextSettings {
             thumbIdx: observable,
             listItemHeight: observable,
             spriteCols: observable,
-            loadSprite: action
+            loadSprite: action,
+            addFontToRecent:action
         });
     }
     
@@ -42,6 +45,7 @@ export class storeTextSettings {
     listItemHeight = 28;
     spriteCols = 1;
     fontsArray = [];
+    arrayRecentFonts = [];
     fontInfo = {};
     fontName = '';
     fontSize = undefined;
@@ -151,6 +155,15 @@ export class storeTextSettings {
         this.fontInfo = fontObj;
     }
 
+    addFontToRecent (font) {
+        this.arrayRecentFonts.forEach(item => {
+            if (item.name === font.name) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+        })
+        this.arrayRecentFonts.unshift(font);
+
+        if (this.arrayRecentFonts.length > 5) this.arrayRecentFonts.splice(4,1);
+    }
+
     changeTextColor(value) {
         this.textColor = value;
     }
@@ -174,6 +187,11 @@ export class storeTextSettings {
         }
 
         return value;
+    }
+
+    resetFontsRecent(fonts) {
+        this.arrayRecentFonts = fonts;
+        this.arrayRecentFonts = this.arrayRecentFonts ? JSON.parse(this.arrayRecentFonts) : [];
     }
 
     changeCustomTextColors (colors) {

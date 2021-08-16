@@ -3,8 +3,8 @@ import {observer, inject} from "mobx-react";
 import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
-
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -22,7 +22,14 @@ const PageFonts = props => {
     const thumbContext = storeTextSettings.thumbContext;
     const spriteCols = storeTextSettings.spriteCols;
     const spriteThumbs = storeTextSettings.spriteThumbs;
-   
+    const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
+
+    const addRecentStorage = () => {
+        let arr = [];
+        arrayRecentFonts.forEach(item => arr.push(item));
+        LocalStorage.setItem('dde-settings-recent-fonts', JSON.stringify(arr));
+    }
+    
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
@@ -74,6 +81,18 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
+            {!!arrayRecentFonts.length &&
+                <List>
+                    {arrayRecentFonts.map((item, index) => (
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            storeTextSettings.changeFontFamily(item.name); 
+                            props.changeFontFamily(item.name);
+                        }}> 
+                            <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
+                    ))}
+                </List>
+            }
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal
@@ -82,7 +101,9 @@ const PageFonts = props => {
                     {vlFonts.vlData.items.map((item, index) => (
                         <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
                             storeTextSettings.changeFontFamily(item.name); 
-                            props.changeFontFamily(item.name)
+                            props.changeFontFamily(item.name);
+                            storeTextSettings.addFontToRecent(item); 
+                            addRecentStorage();
                         }}>
                             <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
                         </ListItem>
@@ -289,7 +310,7 @@ const PageBulletsAndNumbers = props => {
     const storeTextSettings = props.storeTextSettings;
     
     return (
-        <Page>
+        <Page className="bullets-numbers">
             <Navbar title={t('Edit.textBulletsAndNumbers')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>

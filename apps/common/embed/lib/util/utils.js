@@ -92,6 +92,14 @@
                     str = num.toString();
                 for (var i=str.length; i<digits; i++) strfill += fill;
                 return strfill + str;
+            },
+            getKeyByValue: function(obj, value) {
+                for(var prop in obj) {
+                    if(obj.hasOwnProperty(prop)) {
+                        if(obj[prop] === value)
+                            return prop;
+                    }
+                }
             }
         };
     })();

@@ -4,6 +4,7 @@ import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -106,6 +107,13 @@ const PageFonts = props => {
     const thumbContext = storeTextSettings.thumbContext;
     const spriteCols = storeTextSettings.spriteCols;
     const spriteThumbs = storeTextSettings.spriteThumbs;
+    const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
+
+    const addRecentStorage = () => {
+        let arr = [];
+        arrayRecentFonts.forEach(item => arr.push(item));
+        LocalStorage.setItem('sse-settings-recent-fonts', JSON.stringify(arr));
+    }
 
     const [vlFonts, setVlFonts] = useState({
         vlData: {
@@ -156,6 +164,17 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{_t.textFonts}</BlockTitle>
+            {!!arrayRecentFonts.length &&
+                <List>
+                    {arrayRecentFonts.map((item, index) => (
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.changeFontFamily(item.name);
+                        }}> 
+                            <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
+                    ))}
+                </List>
+            }
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal
@@ -163,7 +182,9 @@ const PageFonts = props => {
                 <ul>
                     {vlFonts.vlData.items.map((item, index) => (
                         <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
-                            props.changeFontFamily(item.name)
+                            props.changeFontFamily(item.name);
+                            storeTextSettings.addFontToRecent(item);
+                            addRecentStorage();
                         }}>
                             <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
                         </ListItem>
