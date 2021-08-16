@@ -410,6 +410,16 @@ define([
                         //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
                         //{caption: '--'},
                         {
+                            id: 'saved-status',
+                            caption: this.itemStatus,
+                            value: 'status',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {caption: '--'},
+                        {
                             id: 'math-item-average',
                             caption: this.itemAverage,
                             value: 'average',
@@ -453,15 +463,6 @@ define([
                             checked: true,
                             template: customizeStatusBarMenuTemplate,
                             exampleval: ''
-                        },
-                        {
-                            id: 'saved-status',
-                            caption: this.itemStatus,
-                            value: 'status',
-                            checkable: true,
-                            checked: true,
-                            template: customizeStatusBarMenuTemplate,
-                            exampleval: ''
                         }
                     ]
                 });
@@ -493,7 +494,7 @@ define([
                 this.labelNumberSheets = $('#label-sheets', this.boxNumberSheets);
 
                 this.boxAction = $('#status-action', this.el);
-                //this.isCompact && this.boxAction.hide();
+                this.boxAction.hide();
                 this.labelAction = $('#label-action', this.boxAction);
 
                 this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
@@ -621,6 +622,7 @@ define([
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     this.updateNumberOfSheet(sindex, wc);
+                    this.updateTabbarBorders();
 
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
@@ -835,10 +837,17 @@ define([
 
                 if (this.isCompact) {
                     if (this.boxAction.is(':visible')) {
-                        this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': '140px'});
-                        this.boxAction.find('.separator').css('border-left-color', '');
+                        var tabsWidth = this.tabbar.getWidth();
+                        if (Common.Utils.innerWidth() - right - 175 - 140 - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                            var left = tabsWidth + 175;
+                            this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        } else {
+                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': '140px'});
+                            this.boxAction.find('.separator').css('border-left-color', '');
+                            visible = true;
+                        }
                         right += parseInt(this.boxAction.css('width'));
-                        visible = true;
                     }
 
                     this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
@@ -966,6 +975,14 @@ define([
                     }
                     $(item.el).find('label').text(item.options.exampleval);
                 });
+                if (!this.boxAction.is(':visible')) {
+                    this.boxAction.show();
+                }
+                var me = this;
+                _.delay(function(){
+                    me.updateTabbarBorders();
+                    me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                },30);
             },
 
             clearStatusMessage: function() {
@@ -1008,7 +1025,7 @@ define([
             itemMinimum         : 'Minimum',
             itemMaximum         : 'Maximum',
             itemSum             : 'Sum',
-            itemStatus          : 'Status'
+            itemStatus          : 'Saving status'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({

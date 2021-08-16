@@ -337,10 +337,12 @@
                     }
                 }
                 &.separator-item {
+                    margin-top: 1px;
                     margin-left: 20px;
                     width: @scaled-one-px-value-ie;
                     width: @scaled-one-px-value;
                     > span {
+                        display: none;
                         padding: 0;
                         margin: 0;
                         width: @scaled-one-px-value-ie;
@@ -473,6 +475,19 @@
     .separator {
         &.short {
             height: 25px;
+        }
+    }
+}
+
+#statusbar-menu {
+    .dropdown-menu {
+        li {
+            > a {
+                padding: 5px 12px 5px 26px;
+                &::before {
+                    margin-left: -22px;
+                }
+            }
         }
     }
 }

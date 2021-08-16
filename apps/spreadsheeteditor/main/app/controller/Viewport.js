@@ -285,8 +285,8 @@ define([
                         style: 'min-width: 180px;',
                         items: [
                             me.header.mnuitemCompactToolbar,
-                            me.header.mnuitemCompactStatusBar,
                             me.header.mnuitemHideFormulaBar,
+                            me.header.mnuitemCompactStatusBar,
                             {caption:'--'},
                             me.header.mnuitemHideHeadings,
                             me.header.mnuitemHideGridlines,

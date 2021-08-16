@@ -788,7 +788,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             textCompactView: 'Hide Toolbar',
-            textHideStatusBar: 'Hide Status Bar',
+            textHideStatusBar: 'Combine sheet and status bars',
             textHideLines: 'Hide Rulers',
             textZoom: 'Zoom',
             textAdvSettings: 'Advanced Settings',
