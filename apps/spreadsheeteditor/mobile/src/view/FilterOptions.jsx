@@ -6,17 +6,11 @@ import { Device } from '../../../../common/mobile/utils/device';
 const FilterOptions = (props) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-
-    useEffect(() => {
-        const is_all_checked = props.listVal.every(item => item.check);
-        setAll(is_all_checked);
-    });
-
-    const [all, setAll] = useState(false);
+    let is_all_checked = props.listVal.every(item => item.check);
 
     const HandleClearFilter = () => {
+        is_all_checked = true;
         props.onClearFilter();
-        setAll(true);
         props.onUpdateCell('all', true);
     };
     
@@ -51,7 +45,7 @@ const FilterOptions = (props) => {
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>
            </List>
            <List>
-               <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell('all', e.target.checked)} name='filter-cellAll' checkbox checked={all}>{_t.textSelectAll}</ListItem>
+               <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell('all', e.target.checked)} name='filter-cellAll' checkbox checked={is_all_checked}>{_t.textSelectAll}</ListItem>
                {props.listVal.map((value) =>
                    <ListItem className='radio-checkbox-item' onChange={e => props.onUpdateCell(value.id, e.target.checked)}  key={value.value} name='filter-cell' value={value.value} title={value.cellvalue} checkbox checked={value.check} />
                )}
