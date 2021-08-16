@@ -588,7 +588,7 @@ define([
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else {
-                    var _css = {left: Math.ceil(left), top: Math.ceil(top)};
+                    var _css = {left: left, top: top};
                     if (!(menuH < docH)) _css['margin-top'] = 0;
 
                     menuRoot.css(_css);
