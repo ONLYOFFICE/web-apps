@@ -747,7 +747,7 @@ define([
                             rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
                         }
                         if (rec) {
-                            this.list.selectRecord(rec);
+                            this.list.selectRecord(rec, this.txtNewValue._input.is(':focus'));
                             this.list.scrollToRecord(rec);
                         } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
