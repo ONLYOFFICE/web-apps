@@ -308,7 +308,7 @@ div {
                 }
 			};
 
-            postMessageOrigin = fileInfo.PostMessageOrigin;
+            postMessageOrigin = fileInfo.PostMessageOrigin || "*";
             if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
                 postMessageOrigin = postMessageOrigin.substring(0, postMessageOrigin.length - 1);
             lang = config.editorConfig.lang;
