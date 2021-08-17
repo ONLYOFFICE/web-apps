@@ -351,7 +351,7 @@ define([
                     return (0.01 * me.width * position + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
                 };
 
-                me.centers = [getX(50)];
+                me.centers = [];
                 _.each(me.thumbs, function (thumb, indexT) {
                     if ((indexT != index) && (n != thumb.position)) {
                         me.centers.push(getX((thumb.position - n) / 2 + n));
