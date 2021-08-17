@@ -962,7 +962,7 @@ define([
                     this.loadMask.setTitle(title);
 
                     if (!this.isShowOpenDialog)
-                        this.loadMask.show(action.id===Asc.c_oAscAsyncAction['Open'] || action.id===Asc.c_oAscAsyncAction['MailMergeLoadFile']);
+                        this.loadMask.show(action.id===Asc.c_oAscAsyncAction['Open']);
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
