@@ -27,21 +27,29 @@ class DownloadController extends Component {
         if(format) {
             this.closeModal();
             if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
-                f7.dialog.confirm(
-                    (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
-                    _t.notcriticalErrorTitle,
-                    () => {
-                        if (format == Asc.c_oAscFileType.TXT) {
-                            const isDocReady = this.props.storeAppOptions.isDocReady;
-                            onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => {
+                                if (format == Asc.c_oAscFileType.TXT) {
+                                    const isDocReady = this.props.storeAppOptions.isDocReady;
+                                    onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                                }
+                                else {
+                                    setTimeout(() => {
+                                        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                    }, 400);
+                                }
+                            }
                         }
-                        else {
-                            setTimeout(() => {
-                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                            }, 400);
-                        }
-                    }
-                );
+                    ],
+                }).open();
             } 
             else {
                 setTimeout(() => {
