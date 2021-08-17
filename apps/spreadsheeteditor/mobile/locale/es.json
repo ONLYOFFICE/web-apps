@@ -632,7 +632,8 @@
       "txtScheme9": "Fundición",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textOk": "Ok"
     }
   }
 }

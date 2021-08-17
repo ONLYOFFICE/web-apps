@@ -632,7 +632,8 @@
       "txtScheme9": "Fosa",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continueu guardant en aquest format, es perdran totes les característiques, excepte el text.<br>Esteu segur que voleu continuar?"
+      "warnDownloadAs": "Si continueu guardant en aquest format, es perdran totes les característiques, excepte el text.<br>Esteu segur que voleu continuar?",
+      "textOk": "Ok"
     }
   }
 }
