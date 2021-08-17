@@ -566,7 +566,8 @@
     "txtScheme6": "Concurs",
     "txtScheme7": "Patrimoni net",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fosa"
+    "txtScheme9": "Fosa",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis sense desar. Feu clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

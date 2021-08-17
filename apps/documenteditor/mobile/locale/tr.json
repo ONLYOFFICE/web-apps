@@ -531,7 +531,8 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textOk": "Ok"
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
