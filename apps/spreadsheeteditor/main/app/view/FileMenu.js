@@ -221,7 +221,10 @@ define([
                 el      : $markup.elementById('#fm-btn-history'),
                 action  : 'history',
                 caption : this.btnHistoryCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.items = [];
