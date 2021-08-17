@@ -252,7 +252,10 @@ Common.UI.HintManager = new(function() {
 
     var _getHints = function() {
         var docH = Common.Utils.innerHeight() - 20,
-            docW = Common.Utils.innerWidth() - 20;
+            docW = Common.Utils.innerWidth() - 20,
+            topSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? $(_currentSection).offset().top : 0,
+            bottomSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? topSection + $(_currentSection).height() : docH;
+
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
@@ -324,7 +327,7 @@ Common.UI.HintManager = new(function() {
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
                 }
 
-                if (top < maxHeight && left < docW) {
+                if (top < maxHeight && left < docW && top > topSection && top < bottomSection) {
                     hint.css({
                         top: top,
                         left: left
@@ -370,7 +373,7 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
-                    $('input').blur(); // to change value in inputField
+                    $('input:focus').blur(); // to change value in inputField
                     _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
                     _setCurrentSection();
                     _showHints();
