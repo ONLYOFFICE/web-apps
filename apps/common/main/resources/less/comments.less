@@ -403,7 +403,7 @@
     width:100%;
     position: relative;
     overflow-y: hidden;
-    margin-bottom: 5px;
+    //margin-bottom: 5px;
 
     .dataview-ct.inner {
         overflow: visible;
@@ -413,24 +413,6 @@
 .comments-arrow {
     position: absolute;
     overflow: hidden;
-    left: -10px;
-    top: 20px;
-    width: 10px;
-    height: 30px;
-
-    &.right {
-        left: 100%;
-
-        &:after {
-            left: -8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
-            body.safari &,
-            body.chrome & {
-                box-shadow: none;
-            }
-        }
-    }
 
     &:after {
         content: '';
@@ -448,5 +430,54 @@
         transform: rotate(45deg);
         border: solid @scaled-one-px-value-ie @border-toolbar-ie;
         border: solid @scaled-one-px-value @border-toolbar;
+    }
+
+    &.left {
+        left: -10px;
+        top: 20px;
+        width: 10px;
+        height: 30px;
+    }
+
+    &.right {
+        left: 100%;
+        top: 20px;
+        width: 10px;
+        height: 30px;
+
+        &:after {
+            left: -8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+            body.safari &,
+            body.chrome & {
+                box-shadow: none;
+            }
+        }
+    }
+
+    &.top {
+        left: 20px;
+        top: -10px;
+        height: 10px;
+        width: 30px;
+
+        &:after {
+            top: 2px;
+            left: 5px;
+        }
+    }
+
+    &.bottom {
+        left: 20px;
+        top: auto;
+        bottom: -10px;
+        height: 10px;
+        width: 30px;
+
+        &:after {
+            top: -7px;
+            left: 5px;
+        }
     }
 }
