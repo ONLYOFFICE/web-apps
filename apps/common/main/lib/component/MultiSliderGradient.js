@@ -56,6 +56,7 @@ define([
             colorValues: ['#000000', '#ffffff'],
             currentThumb: 0,
             includeSnap: true,
+            intervalSnap: 5,
             thumbTemplate: '<div class="thumb" style="">' +
                             '<div class="thumb-top"><div class="thumb-top-inner"></div></div>' +
                             '<div class="thumb-bottom"><div class="thumb-bottom-inner"></div></div>' +

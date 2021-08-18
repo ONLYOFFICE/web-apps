@@ -286,6 +286,7 @@ define([
             maxValue: 100,
             values: [0, 100],
             includeSnap: false,
+            intervalSnap: undefined,
             thumbTemplate: '<div class="thumb" style=""></div>'
         },
 
@@ -314,6 +315,7 @@ define([
             me.maxValue = me.options.maxValue;
             me.delta = 100/(me.maxValue - me.minValue);
             me.includeSnap = me.options.includeSnap;
+            me.intervalSnap = me.options.intervalSnap;
             me.thumbs = [];
             if (me.options.el) {
                 me.render();
@@ -364,7 +366,7 @@ define([
             var resetPageX =  function (e) {
                 if(!me.includeSnap) return;
                 _.each(me.centers, function (x) {
-                    if((e.pageX <= x + 10) && (e.pageX >= x - 10)) {
+                    if((e.pageX <= x + me.intervalSnap) && (e.pageX >= x - me.intervalSnap)) {
                         e.pageX = x;
                         return;
                     }
