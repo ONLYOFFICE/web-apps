@@ -285,6 +285,8 @@ define([
             minValue: 0,
             maxValue: 100,
             values: [0, 100],
+            includeSnap: false,
+            intervalSnap: undefined,
             thumbTemplate: '<div class="thumb" style=""></div>'
         },
 
@@ -312,8 +314,9 @@ define([
             me.minValue = me.options.minValue;
             me.maxValue = me.options.maxValue;
             me.delta = 100/(me.maxValue - me.minValue);
+            me.includeSnap = me.options.includeSnap;
+            me.intervalSnap = me.options.intervalSnap;
             me.thumbs = [];
-
             if (me.options.el) {
                 me.render();
             }
@@ -342,9 +345,38 @@ define([
             el.find('.track-center').width(me.options.width - 14);
             el.width(me.options.width);
 
+            var setCenters = function (index) {
+                if(!me.includeSnap) return;
+                var n = me.minValue;
+
+                var getX = function (position) {
+                    return (0.01 * me.width * position + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
+                };
+
+                me.centers = [];
+                _.each(me.thumbs, function (thumb, indexT) {
+                    if ((indexT != index) && (n != thumb.position)) {
+                        me.centers.push(getX((thumb.position - n) / 2 + n));
+                        n = thumb.position;
+                    }
+                });
+                if(n != me.maxValue) me.centers.push(getX((me.maxValue - n) / 2 + n));
+            };
+
+            var resetPageX =  function (e) {
+                if(!me.includeSnap) return;
+                _.each(me.centers, function (x) {
+                    if((e.pageX <= x + me.intervalSnap) && (e.pageX >= x - me.intervalSnap)) {
+                        e.pageX = x;
+                        return;
+                    }
+                });
+            };
+
             var onMouseUp = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                resetPageX(e);
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
@@ -387,6 +419,7 @@ define([
 
                 e.preventDefault();
                 e.stopPropagation();
+                resetPageX(e);
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
@@ -418,6 +451,7 @@ define([
                     thumb = me.thumbs[index].thumb;
 
                 me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - thumb.width()/2;
+                setCenters(index);
                 me.setActiveThumb(index);
 
                 _.each(me.thumbs, function (item, idx) {
@@ -427,6 +461,7 @@ define([
                 $(document).on('mouseup', null, e.data, me.binding.onMouseUp);
                 $(document).on('mousemove', null, e.data, me.binding.onMouseMove);
             };
+
 
             var onTrackMouseUp = function (e) {
                 if ( me.disabled || !_.isUndefined(me._dragstart) || me.thumbs.length > 9) return;
