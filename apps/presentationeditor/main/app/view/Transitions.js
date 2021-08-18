@@ -144,7 +144,7 @@ define([
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintTitle: 'A',
+                    dataHintOffset: '-16, 0',
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
@@ -187,8 +187,8 @@ define([
                     iconCls: 'toolbar__icon preview-transitions',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintTitle: 'E'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnPreview);
 
@@ -201,7 +201,7 @@ define([
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintTitle: 'B'
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnParameters);
 
@@ -212,8 +212,8 @@ define([
                     iconCls: 'toolbar__icon transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintTitle: 'I'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnApplyToAll);
 
@@ -228,7 +228,7 @@ define([
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'top',
-                    dataHintTitle: 'D'
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.numDuration);
 
@@ -243,7 +243,7 @@ define([
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintTitle: 'H'
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.numDelay);
 
@@ -252,8 +252,8 @@ define([
                     labelText: this.strStartOnClick,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
-                    dataHintDirection: 'top',
-                    dataHintTitle: 'F'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chStartOnClick);
 
@@ -262,8 +262,8 @@ define([
                     labelText: this.strDelay,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintTitle: 'G'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDelay);
 
