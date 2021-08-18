@@ -42,7 +42,17 @@ var params = (function() {
     return urlParams;
 })();
 
-if ( !!params.uitheme && !localStorage.getItem("ui-theme-id") ) {
+var checkLocalStorage = (function () {
+    try {
+        var storage = window['localStorage'];
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+})();
+
+if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id") ) {
     // const _t = params.uitheme.match(/([\w-]+)/g);
 
     if ( params.uitheme == 'default-dark' )
@@ -54,11 +64,11 @@ if ( !!params.uitheme && !localStorage.getItem("ui-theme-id") ) {
     localStorage.setItem("ui-theme-id", params.uitheme);
 }
 
-var ui_theme_name = localStorage.getItem("ui-theme-id");
+var ui_theme_name = checkLocalStorage ? localStorage.getItem("ui-theme-id") : undefined;
 if ( !ui_theme_name ) {
     if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
         ui_theme_name = 'theme-dark';
-        localStorage.setItem("ui-theme-id", ui_theme_name);
+        checkLocalStorage && localStorage.setItem("ui-theme-id", ui_theme_name);
     }
 }
 if ( !!ui_theme_name ) {
