@@ -99,10 +99,6 @@
 @iconSpriteCommonPath:          "../../../../common/forms/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
 
-.input-xs {
-    .input-size(@input-height-small - 8px; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
-}
-
 .embed-body {
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
@@ -178,8 +174,7 @@
 
         .item {
             input {
-                display: inline-block;
-                width: 35px;
+                font-size: inherit;
                 padding: 0;
                 text-align: right;
             }
@@ -305,7 +300,7 @@
     }
 
     &:active:not(:disabled) {
-        &, .btn-icon {
+        & {
             background-position-y: -@icon-height !important;
         }
 
@@ -424,18 +419,6 @@
 
 // Modals
 // -------------------------
-.modal {
-    .modal-header {
-        //padding: 5px 15px;
-    }
-
-    .modal-footer {
-        //border-top: none;
-    }
-
-    //&.in .modal-dialog { .translate(0, 100%)}
-}
-
 .share-buttons {
     ul {
         width: 244px;
@@ -599,12 +582,6 @@
     float: left;
     margin: -3px 4px 0 -24px;
 }
-.btn-icon {
-    width: 22px;
-    height: 22px;
-    display: inline-block;
-    vertical-align: middle;
-}
 
 .modal-dialog {
     margin-top: 100px;
@@ -675,7 +652,7 @@
 }
 
 #page-number {
-    &.masked {
+    .masked {
         cursor: pointer;
     }
 }
@@ -698,13 +675,6 @@
 
     .tooltip-arrow {
         display: none;
-    }
-}
-
-.form-control {
-    &:focus {
-        -webkit-box-shadow: none;
-        box-shadow: none;
     }
 }
 

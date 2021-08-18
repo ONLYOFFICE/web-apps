@@ -3,6 +3,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/util/utils',
+    'common/main/lib/component/InputField',
     'common/main/lib/component/Button',
     'common/main/lib/component/Menu',
     'common/main/lib/component/Calendar'
@@ -52,6 +53,15 @@ define([
                 iconCls: 'svg-icon arrow-up'
             });
             this.btnPrev.render($('#id-btn-prev-field'));
+
+            this.txtGoToPage = new Common.UI.InputField({
+                el: $('#page-number'),
+                cls: 'masked',
+                allowBlank  : true,
+                style       : 'width: 35px;',
+                value: '1',
+                maskExp: /[0-9]/
+            });
 
             return this;
         },

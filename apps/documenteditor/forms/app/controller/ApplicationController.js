@@ -234,7 +234,6 @@ define([
                     if (id == Asc.c_oAscError.ID.EditingError) {
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
-                    this.onEditComplete();
                 }, this);
             }
 
@@ -245,11 +244,7 @@ define([
         },
 
         hidePreloader: function() {
-            (new Promise(function(resolve, reject) {
-                resolve();
-            })).then(function() {
-                $('#loading-mask').hide().remove();
-            });
+            $('#loading-mask').fadeOut('slow');
         },
 
         onOpenDocument: function(progress) {
@@ -265,7 +260,7 @@ define([
         },
 
         onCurrentPage: function(number) {
-            $('#page-number').val(number + 1);
+            this.view.txtGoToPage.setValue(number + 1);
         },
 
         loadConfig: function(data) {
@@ -549,8 +544,6 @@ define([
 
         setLongActionView: function(action) {
             var title = '', text = '', force = false;
-
-            var text = '';
             switch (action.id)
             {
                 case Asc.c_oAscAsyncAction['Print']:
@@ -947,33 +940,84 @@ define([
             Common.Gateway.on('downloadas',         _.bind(this.onDownloadAs, this));
             Common.Gateway.on('requestclose',       _.bind(this.onRequestClose, this));
 
+            this.attachUIEvents();
+
+            Common.Gateway.documentReady();
+            Common.Analytics.trackEvent('Load', 'Complete');
+        },
+
+        onOptionsClick: function(menu, item, e) {
+            switch (item.value) {
+                case 'fullscr':
+                    this.onHyperlinkClick(this.embedConfig.fullscreenUrl);
+                    break;
+                case 'download':
+                    if ( !!this.embedConfig.saveUrl ){
+                        this.onHyperlinkClick(this.embedConfig.saveUrl);
+                    } else if (this.api && this.appOptions.canPrint){
+                        this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    }
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'print':
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    Common.Analytics.trackEvent('Print');
+                    break;
+                case 'close':
+                    if (this.appOptions.customization && this.appOptions.customization.goback) {
+                        if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
+                            Common.Gateway.requestClose();
+                        else if (this.appOptions.customization.goback.url)
+                            window.parent.location.href = this.appOptions.customization.goback.url;
+                    }
+                    break;
+                case 'download-docx':
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'download-pdf':
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    Common.Analytics.trackEvent('Save');
+                    break;
+                case 'share':
+                    break;
+                case 'embed':
+                    break;
+            }
+        },
+
+        attachUIEvents: function() {
+            var me = this;
+
+            // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
 
-            var $pagenum = $('#page-number');
+            // pages
+            var $pagenum = this.view.txtGoToPage._input;
+            this.view.txtGoToPage.on({
+                'changed:after': function(input, newValue, oldValue){
+                    var newPage = parseInt(newValue);
+
+                    if ( newPage > maxPages ) newPage = maxPages;
+                    if (newPage < 2 || isNaN(newPage)) newPage = 1;
+
+                    me.api.goToPage(newPage-1);
+                },
+                'inputleave': function(){ $pagenum.blur();}
+            });
             $pagenum.on({
-                'keyup': function(e){
-                    if ( e.keyCode == 13 ){
-                        var newPage = parseInt($('#page-number').val());
-
-                        if ( newPage > maxPages ) newPage = maxPages;
-                        if (newPage < 2 || isNaN(newPage)) newPage = 1;
-
-                        me.api.goToPage(newPage-1);
-                        $pagenum.blur();
-                    }
-                }
-                , 'focusin' : function(e) {
+                'focusin' : function(e) {
                     $pagenum.removeClass('masked');
-                }
-                , 'focusout': function(e){
+                    $pagenum.select();
+                },
+                'focusout': function(e){
                     !$pagenum.hasClass('masked') && $pagenum.addClass('masked');
                 }
             });
-
             $('#pages').on('click', function(e) {
-                $pagenum.focus();
+                setTimeout(function() {$pagenum.focus().select();}, 10);
             });
 
             // TODO: add asc_hasRequiredFields to sdk
@@ -1027,48 +1071,6 @@ define([
                     }, 2000);
                 }
             });
-            Common.Gateway.documentReady();
-            Common.Analytics.trackEvent('Load', 'Complete');
-        },
-
-        onOptionsClick: function(menu, item, e) {
-            switch (item.value) {
-                case 'fullscr':
-                    this.onHyperlinkClick(this.embedConfig.fullscreenUrl);
-                    break;
-                case 'download':
-                    if ( !!this.embedConfig.saveUrl ){
-                        this.onHyperlinkClick(this.embedConfig.saveUrl);
-                    } else if (this.api && this.appOptions.canPrint){
-                        this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    }
-                    Common.Analytics.trackEvent('Save');
-                    break;
-                case 'print':
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    Common.Analytics.trackEvent('Print');
-                    break;
-                case 'close':
-                    if (this.appOptions.customization && this.appOptions.customization.goback) {
-                        if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
-                            Common.Gateway.requestClose();
-                        else if (this.appOptions.customization.goback.url)
-                            window.parent.location.href = this.appOptions.customization.goback.url;
-                    }
-                    break;
-                case 'download-docx':
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
-                    Common.Analytics.trackEvent('Save');
-                    break;
-                case 'download-pdf':
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                    Common.Analytics.trackEvent('Save');
-                    break;
-                case 'share':
-                    break;
-                case 'embed':
-                    break;
-            }
         },
 
         errorDefaultMessage     : 'Error code: %1',
