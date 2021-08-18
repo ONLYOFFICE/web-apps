@@ -909,7 +909,9 @@ define([
 
             onCustomizeStatusBarAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(obj.atposition.left);
+                    var statusHeight = $(this.el).height(),
+                        offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
+                    obj.setOffset(obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;
             },
