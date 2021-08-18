@@ -1,85 +1,39 @@
 
 import React, { Fragment, useEffect, useState } from 'react';
 import {StatusbarView} from '../view/Statusbar';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
-    const {sheets, storeAppOptions, users} = props;
-    const {t} = useTranslation();
-    const _t = t('Statusbar', {returnObjects: true});
-
-    let isEdit = storeAppOptions.isEdit;
-    let isDisconnected = users.isDisconnected;
-
+const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(observer(props => {
+    const {sheets, storeFocusObjects, users} = props;
+ 
     useEffect(() => {
-        const onDocumentReady = () => {
-            const api = Common.EditorApi.get();
-            // api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
-            api.asc_registerCallback('asc_onWorkbookLocked', onWorkbookLocked);
-            api.asc_registerCallback('asc_onWorksheetLocked', onWorksheetLocked);
+        Common.Notifications.on('engineCreated', api => {
+            api.asc_registerCallback('asc_onWorkbookLocked', (locked) => {
+                sheets.setWorkbookLocked(locked);
+                storeFocusObjects.setIsLocked(api.asc_getCellInfo());
+            });
+            api.asc_registerCallback('asc_onWorksheetLocked', (index, locked) => {
+                sheets.setWorksheetLocked(index, locked);
+                storeFocusObjects.setIsLocked(api.asc_getCellInfo());
+            });
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
-            api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-        };
-        if ( !Common.EditorApi ) {
-            Common.Notifications.on('document:ready', onDocumentReady);
-            Common.Notifications.on('document:ready', onApiSheetsChanged);
-        } else {
-            onDocumentReady();
-        }
+            api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
+            api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
+            // api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
+        });
+        Common.Notifications.on('document:ready', onApiSheetsChanged);
+        // Common.Notifications.on('api:disconnect', onApiDisconnect);
+    });
 
-        const on_main_view_click = e => {
-            if(!e.target.closest('.tab.active')) {
-                f7.popover.close('.document-menu.modal-in', false);
-            }
-        };
-
-        $$('.view-main').on('click', on_main_view_click);
-
-        return () => {
-            Common.Notifications.off('document:ready', onDocumentReady);
-            Common.Notifications.off('document:ready', onApiSheetsChanged);
-
-            const api = Common.EditorApi.get();
-            // api.asc_unregisterCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
-            api.asc_unregisterCallback('asc_onWorkbookLocked', onWorkbookLocked);
-            api.asc_unregisterCallback('asc_onWorksheetLocked', onWorksheetLocked);
-            api.asc_unregisterCallback('asc_onSheetsChanged', onApiSheetsChanged);
-            api.asc_unregisterCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
-            api.asc_unregisterCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
-
-            $$('.view-main').off('click', on_main_view_click);
-        };
-    }, []);
-
-    const onApiActiveSheetChanged = (index) => {
-        if (index < sheets.sheets.length) {
-            sheets.setActiveWorksheet(index);
-            Common.Notifications.trigger('sheet:active', index);
-        }
+    const onApiDisconnect = () => {
+        users.resetDisconnected(true);
     }
-
-    const onApiHideTabContextMenu = () => {
-        f7.popover.close('.document-menu.modal-in', false);
-    }
-
-    const onWorkbookLocked = locked => {
-        locked ? $$('.idx-btn-addtab').addClass('disabled') : $$('.idx-btn-addtab').removeClass('disabled');
-    };
-
-    const onWorksheetLocked = (index, locked) => {
-        // let model = sheets.sheets.find(sheet => sheet.index === index);
-        let model = sheets.at(index);
-        if(model && model.locked != locked)
-            model.locked = locked;
-    };
 
     const onApiSheetsChanged = () => {
-        // console.log('on api sheets changed');
-
         const api = Common.EditorApi.get();
         const sheets_count = api.asc_getWorksheetsCount();
         const active_index = api.asc_getActiveWorksheetIndex();
@@ -100,53 +54,87 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         }
 
         sheets.resetSheets(items);
-        // updateTabsColors();
+
+        updateTabsColors();
     };
 
-    // const loadTabColor = sheetindex => {
-    //     const api = Common.EditorApi.get();
-    //     let tab = sheets.sheets.find(sheet => sheet.index === sheetindex);
+    const onApiActiveSheetChanged = (index) => {
+        if (index < sheets.sheets.length) {
+            sheets.setActiveWorksheet(index);
+            Common.Notifications.trigger('sheet:active', index);
+        }
+    };
 
-    //     if (tab) {
-    //         setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
-    //     }
+    const onApiHideTabContextMenu = () => {
+        f7.popover.close('.document-menu.modal-in', false);
+    }
+
+
+    const loadTabColor = sheetindex => {
+        const api = Common.EditorApi.get();
+        let tab = sheets.sheets.find(sheet => sheet.index === sheetindex);
+
+        if (tab) {
+            setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
+        }
         
-    // };
+    };
 
-    // const onApiUpdateTabColor = index => {
-    //     loadTabColor(index);
-    // };
+    const onApiUpdateTabColor = index => {
+        loadTabColor(index);
+    };
 
-    // const setTabLineColor = (tab, color) => {
-    //     console.log(color);
-    //     if (tab) {
-    //         if (null !== color) {
-    //             color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-    //         } else {
-    //             color = '';
-    //         }
+    const setTabLineColor = (tab, color) => {
+        if (tab) {
+            if (null !== color) {
+                color = '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            } else {
+                color = '';
+            }
 
-    //         if (color.length) {
-    //             if (!tab.active) {
-    //                 color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
-    //             } else {
-    //                 color = '0px 4px 0 ' + color + ' inset';
-    //             }
+            if (color.length) {
+                if (!tab.active) {
+                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                } else {
+                    color = '0px 4px 0 ' + color + ' inset';
+                }
                 
-    //             $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
-    //         } else {
-    //             $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
-    //         }
-    //     }
-    // };
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
+            } else {
+                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
+            }
+        }
+    };
 
-    // const updateTabsColors = () => {
-    //     const api = Common.EditorApi.get();
+    const updateTabsColors = () => {
+        const api = Common.EditorApi.get();
 
-    //     sheets.sheets.forEach(model => {
-    //         setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
-    //     });
-    // };
+        sheets.sheets.forEach(model => {
+            setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
+        });
+    };
+
+    return null;
+}));
+
+const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props => {
+    const {sheets, storeAppOptions, users} = props;
+    const {t} = useTranslation();
+    const _t = t('Statusbar', {returnObjects: true});
+    const isEdit = storeAppOptions.isEdit;
+    const isDisconnected = users.isDisconnected;
+
+    useEffect(() => {
+        const on_main_view_click = e => {
+            if(!e.target.closest('.tab.active')) {
+                f7.popover.close('.document-menu.modal-in', false);
+            }
+        };
+        $$('.view-main').on('click', on_main_view_click);
+        return () => {
+            $$('.view-main').off('click', on_main_view_click);
+        };
+    }, []);
 
     const onTabClicked = i => {
         const model = sheets.at(i);
@@ -168,7 +156,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
         let index = 0, name;
         while(++index < 1000) {
-            name = /*this.strSheet*/ 'Sheet' + index;
+            name = _t.textSheet + index;
             if (items.indexOf(name.toLowerCase()) < 0) break;
         }
 
@@ -178,15 +166,12 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     const onAddTabClicked = () => {
         const api = Common.EditorApi.get();
         api.asc_closeCellEditor();
-
-        createSheetName();
         api.asc_addWorksheet(createSheetName());
     };
 
     const onTabClick = (i, target) => {
         const api = Common.EditorApi.get();
         const model = sheets.at(i);
-        // console.log(model);
 
         let opened = $$('.document-menu.modal-in').length;
         let index = model.index;
@@ -195,7 +180,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !isDisconnected) {
+                if (isEdit && !sheets.isWorkbookLocked) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
@@ -204,7 +189,6 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         else {
             f7.popover.close('#idx-tab-context-menu-popover', false);
             onTabClicked(i);
-            // Common.Notifications.trigger('sheet:active', index);
         }
     };
 
@@ -314,7 +298,6 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
         } else {
             f7.popover.close('#idx-hidden-sheets-popover');
             api['asc_showWorksheet'](index);
-            // loadTabColor(index);
         }
     };
 
@@ -348,8 +331,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(props => {
     };
 
     return (
-        <StatusbarView onTabClick={onTabClick} onTabClicked={onTabClicked} onAddTabClicked={onAddTabClicked} onTabMenu={onTabMenu} />
+        <StatusbarView 
+            onTabClick={onTabClick}
+            onTabClicked={onTabClicked}
+            onAddTabClicked={onAddTabClicked}
+            onTabMenu={onTabMenu}
+        />
     )
-});
+}));
 
-export default Statusbar;
+export {Statusbar, StatusbarController};

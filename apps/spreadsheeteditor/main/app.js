@@ -159,7 +159,9 @@ require([
             'PivotTable',
             'DataTab',
             'ViewTab',
+            'WBProtection',
             'Common.Controllers.Fonts',
+            'Common.Controllers.History',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
@@ -183,6 +185,7 @@ require([
             'spreadsheeteditor/main/app/controller/PivotTable',
             'spreadsheeteditor/main/app/controller/DataTab',
             'spreadsheeteditor/main/app/controller/ViewTab',
+            'spreadsheeteditor/main/app/controller/WBProtection',
             'spreadsheeteditor/main/app/view/FileMenuPanels',
             'spreadsheeteditor/main/app/view/ParagraphSettings',
             'spreadsheeteditor/main/app/view/ImageSettings',
@@ -196,6 +199,7 @@ require([
             'common/main/lib/util/utils',
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Fonts',
+            'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             'common/main/lib/controller/Plugins'

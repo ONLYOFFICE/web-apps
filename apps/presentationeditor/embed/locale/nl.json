@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
   "PE.ApplicationController.notcriticalErrorTitle": "Waarschuwing",
   "PE.ApplicationController.scriptLoadError": "De verbinding is te langzaam, sommige componenten konden niet geladen worden. Laad de pagina opnieuw.",
+  "PE.ApplicationController.textAnonymous": "Anoniem",
+  "PE.ApplicationController.textGuest": "Gast",
   "PE.ApplicationController.textLoadingDocument": "Presentatie wordt geladen",
   "PE.ApplicationController.textOf": "van",
   "PE.ApplicationController.txtClose": "Afsluiten",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "Een moment geduld",
   "PE.ApplicationView.txtDownload": "Downloaden",
   "PE.ApplicationView.txtEmbed": "Invoegen",
+  "PE.ApplicationView.txtFileLocation": "Open bestandslocatie",
   "PE.ApplicationView.txtFullScreen": "Volledig scherm",
   "PE.ApplicationView.txtPrint": "Afdrukken",
   "PE.ApplicationView.txtShare": "Delen"

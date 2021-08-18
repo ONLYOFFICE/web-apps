@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Kein Zugriff auf diese Datei ist möglich.",
   "PE.ApplicationController.notcriticalErrorTitle": "Warnung",
   "PE.ApplicationController.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
+  "PE.ApplicationController.textAnonymous": "Anonym",
+  "PE.ApplicationController.textGuest": "Gast",
   "PE.ApplicationController.textLoadingDocument": "Präsentation wird geladen",
   "PE.ApplicationController.textOf": "von",
   "PE.ApplicationController.txtClose": "Schließen",

@@ -423,6 +423,7 @@ define([
                     this.setTabVisible('backward');
                 }
             }
+            Common.NotificationCenter.trigger('hints:clear');
         },
 
         onProcessMouse: function(data) {

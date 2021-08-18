@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         packageFile;
 
     const copyrightHeader = 'Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved'
-    var copyright = '/*\n' +
+    var copyright = '/*!\n' +
                     ' * ' + (process.env['APP_COPYRIGHT'] || copyrightHeader) + '\n' +
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
@@ -240,6 +240,7 @@ module.exports = function(grunt) {
             }
         }
     });
+    doRegisterTask('apps-common');
     doRegisterTask('sockjs');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
@@ -432,11 +433,6 @@ module.exports = function(grunt) {
                 'template-backup': packageFile.mobile.copy['template-backup'][0].dest
             },
 
-            requirejs: {
-                compile: {
-                    options: packageFile['mobile']['js']['requirejs']['options']
-                }
-            },
 
             concat: {
                 options: {
@@ -444,8 +440,8 @@ module.exports = function(grunt) {
                     banner: copyright
                 },
                 dist: {
-                    src: packageFile.mobile.js.requirejs.options.out,
-                    dest: packageFile.mobile.js.requirejs.options.out
+                    src: packageFile.mobile.js.dest,
+                    dest: packageFile.mobile.js.dest
                 }
             },
 
@@ -498,29 +494,30 @@ module.exports = function(grunt) {
                 },
             },
             
-            replace: {
-                writeVersion: {
-                    src: ['<%= pkg.mobile.js.requirejs.options.out %>'],
-                    overwrite: true,
-                    replacements: [{
-                        from: /\{\{PRODUCT_VERSION\}\}/,
-                        to: packageFile.version
-                    }]
-                },
-                fixResourceUrl: {
-                    src: ['<%= pkg.mobile.js.requirejs.options.out %>',
-                            '<%= pkg.mobile.css.ios.dist %>',
-                            '<%= pkg.mobile.css.material.dist %>'],
-                    overwrite: true,
-                    replacements: [{
-                        from: /(?:\.{2}\/){4}common\/mobile\/resources\/img/g,
-                        to: '../img'
-                    },{
-                        from: /(?:\.{2}\/){2}common\/mobile/g,
-                        to: '../mobile'
-                    }]
-                }
-            },
+            // replace: {
+                // writeVersion: {
+                //     src: ['<%= pkg.mobile.js.requirejs.options.out %>'],
+                //     overwrite: true,
+                //     replacements: [{
+                //         from: /\{\{PRODUCT_VERSION\}\}/,
+                //         to: packageFile.version
+                //     }]
+                // },
+                // fixResourceUrl: {
+                //     src: ['<%= pkg.mobile.js.requirejs.options.out %>',
+                //             '<%= pkg.mobile.css.ios.dist %>',
+                //             '<%= pkg.mobile.css.material.dist %>'],
+                //     overwrite: true,
+                //     replacements: [{
+                //         from: /(?:\.{2}\/){4}common\/mobile\/resources\/img/g,
+                //         to: '../img'
+                //     },{
+                //         from: /(?:\.{2}\/){2}common\/mobile/g,
+                //         to: '../mobile'
+                //     }]
+                // }
+            // },
+
 
             exec: {
                 webpack_app_build: {
@@ -531,6 +528,9 @@ module.exports = function(grunt) {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
                                         packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
                         return `npm run deploy-${editor}`;
+
+                        // const addon_path = `${packageFile.mobile.js.reactjs && !!packageFile.mobile.js.reactjs.features ? `ADDON_ENV=${packageFile.mobile.js.reactjs.features}` : ''}`;
+                        // return `npx cross-env TARGET_EDITOR=${editor} NODE_ENV=production ${addon_path} node ./build/build.js`;
                     },
                 },
                 webpack_install: {
@@ -542,9 +542,9 @@ module.exports = function(grunt) {
             }
         });
 
-        var replace = grunt.config.get('replace');
-        replace.writeVersion.replacements.push(...jsreplacements);
-        grunt.config.set('replace', replace);
+        // var replace = grunt.config.get('replace');
+        // replace.writeVersion.replacements.push(...jsreplacements);
+        // grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('embed-app-init', function() {
@@ -609,6 +609,7 @@ module.exports = function(grunt) {
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
+    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
@@ -629,10 +630,10 @@ module.exports = function(grunt) {
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/
-                                                            'htmlmin', /*'requirejs',*/ 'exec:webpack_install', 'exec:webpack_app_build', /*'concat',*/ /*'copy:template-restore',*/
+                                                            'htmlmin', /*'requirejs',*/ 'exec:webpack_install', 'exec:webpack_app_build', /*'copy:template-restore',*/
                                                             /*'clean:template-backup',*/ 'copy:localization', 'copy:index-page',
-                                                            'copy:images-app', 'copy:webpack-dist', 'json-minify',
-                                                            'replace:writeVersion', 'replace:fixResourceUrl']);
+                                                            'copy:images-app', 'copy:webpack-dist', 'concat', 'json-minify'/*,*/
+                                                            /*'replace:writeVersion', 'replace:fixResourceUrl'*/]);
 
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
                                                             'clean:postbuild']);

@@ -6,6 +6,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 const AddSlide = props => {
     const layouts = props.storeSlideSettings.slideLayouts;
+    const [stateDisabled, setDisabled] = useState(false);
     return (
         <div className={'dataview slide-layout'}>
             {layouts.map((row, rowIndex) => {
@@ -13,7 +14,8 @@ const AddSlide = props => {
                     <ul key={`row-${rowIndex}`} className={'row'}>
                         {row.map((layout, index) => {
                             return (
-                                <li key={`item-${rowIndex}-${index}`} onClick={() => {props.onSlideLayout(layout.type)}}>
+                                <li className = {stateDisabled ? 'disabled' : ''} key={`item-${rowIndex}-${index}`} 
+                                    onClick={() => {props.onSlideLayout(layout.type); setDisabled(true)}}>
                                     <img src={layout.image} width={layout.width} height={layout.height}/>
                                 </li>
                             )

@@ -91,6 +91,8 @@ define([
 
             }, options);
 
+            this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
+
             this.template = options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',

@@ -63,6 +63,7 @@ const FilterOptionsController = () => {
     const onClearFilter = () => {
         const api = Common.EditorApi.get();
         if(api) api.asc_clearFilter();
+        setCheckSort('');
     };
 
     const onDeleteFilter = () => {
@@ -79,21 +80,17 @@ const FilterOptionsController = () => {
     const setClearDisable = (config) => {
         let arr = config.asc_getValues();
         let lenCheck = arr.filter((item) => item.visible == true).length;
-        lenCheck == arr.length ? setIsValid(true) : setIsValid(false)
+        lenCheck == arr.length ? setIsValid(true) : setIsValid(false);
     };
 
     const setDataFilterCells = (config) => {
-        function isNumeric(value) {
-            return !isNaN(parseFloat(value)) && isFinite(value);
-        }
-
         let value = null,
             isnumber = null,
             arrCells = [];
 
         config.asc_getValues().forEach((item, index) => {
             value = item.asc_getText();
-            isnumber = isNumeric(value);
+            isnumber = !isNaN(parseFloat(value)) && isFinite(value);
 
             arrCells.push({
                 id              : index,
@@ -111,12 +108,7 @@ const FilterOptionsController = () => {
     const onUpdateCell = (id, state) => {
         const api = Common.EditorApi.get();
 
-        if ( id == 'all' ) {
-            listVal.forEach(item => item.check = state);
-        } else {
-            listVal[id].check = state;
-        }
-
+        id == 'all' ? listVal.forEach(item => item.check = state) : listVal[id].check = state;
         setListValue([...listVal]);
 
         if ( listVal.some(item => item.check) ) {

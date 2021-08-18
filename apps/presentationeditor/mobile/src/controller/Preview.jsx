@@ -11,8 +11,6 @@ const PreviewController = props => {
 
     let _view, _touches, _touchStart, _touchEnd;
 
-    _view = $$('#pe-preview');
-
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
@@ -25,10 +23,10 @@ const PreviewController = props => {
         show();
         onDocumentReady();
 
+        _view = $$('#pe-preview');
         _view.on('touchstart', onTouchStart);
         _view.on('touchmove', onTouchMove);
         _view.on('touchend', onTouchEnd);
-        _view.on('click', onClick);
 
         return () => {
             const api = Common.EditorApi.get();
@@ -38,7 +36,6 @@ const PreviewController = props => {
             _view.off('touchstart', onTouchStart);
             _view.off('touchmove', onTouchMove);
             _view.off('touchend', onTouchEnd);
-            _view.off('click', onClick);
         };
     }, []);
 
@@ -82,13 +79,8 @@ const PreviewController = props => {
 
         if (_touchEnd[0] - _touchStart[0] > 20)
             api.DemonstrationPrevSlide();
-        else if (_touchStart[0] - _touchEnd[0] > 20)
+        else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
             api.DemonstrationNextSlide();
-    };
-
-    const onClick = e => {
-        const api = Common.EditorApi.get();
-        api.DemonstrationNextSlide();
     };
 
     // API Handlers

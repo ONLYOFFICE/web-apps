@@ -39,8 +39,8 @@ class ApplicationSettingsController extends Component {
         this.props.storeAppOptions.changeCanViewComments(value);
 
         if (!value) {
-            api.asc_hideComments();
             this.switchDisplayResolved(value);
+            api.asc_hideComments();
             LocalStorage.setBool("de-settings-resolvedcomment", false);
         } else {
             const resolved = LocalStorage.getBool("de-settings-resolvedcomment");

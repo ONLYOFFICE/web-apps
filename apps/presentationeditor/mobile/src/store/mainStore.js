@@ -16,7 +16,9 @@ import { storeLinkSettings } from "./linkSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
+import {storeReview} from '../../../../common/mobile/lib/store/review';
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
+import {storeToolbarSettings} from "./toolbar";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -33,10 +35,12 @@ export const stores = {
     storeTableSettings: new storeTableSettings(),
     storeChartSettings: new storeChartSettings(),
     storeLinkSettings: new storeLinkSettings(),
+    storeReview: new storeReview(),
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
-    storeComments: new storeComments()
+    storeComments: new storeComments(),
+    storeToolbarSettings: new storeToolbarSettings()
 };
 

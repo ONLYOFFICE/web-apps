@@ -50,7 +50,7 @@
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
-            max-width: 100px;
+            max-width: 124px;
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;
@@ -181,8 +181,7 @@
           }
 
           function encodeUrlParam(str) {
-              return str.replace(/&/g, '&amp;')
-                      .replace(/"/g, '&quot;')
+              return str.replace(/"/g, '&quot;')
                       .replace(/'/g, '&#39;')
                       .replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;');

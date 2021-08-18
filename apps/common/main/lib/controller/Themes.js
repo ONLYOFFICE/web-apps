@@ -261,6 +261,10 @@ define([
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
 
+                if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
+                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                }
+
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
@@ -282,7 +286,8 @@ define([
 
             currentThemeId: function () {
                 var t = Common.localStorage.getItem('ui-theme') || Common.localStorage.getItem('ui-theme-id');
-                return get_ui_theme_name(t) || id_default_light_theme;
+                var id = get_ui_theme_name(t);
+                return !!themes_map[id] ? id : id_default_light_theme;
             },
 
             defaultThemeId: function (type) {
@@ -297,11 +302,33 @@ define([
                 return themes_map[this.currentThemeId()].type == 'dark';
             },
 
+            isContentThemeDark: function () {
+                return Common.localStorage.getItem("content-theme") == 'dark';
+            },
+
+            toggleContentTheme: function () {
+                var is_current_dark = this.isContentThemeDark();
+                is_current_dark ? Common.localStorage.setItem('content-theme', 'light') : Common.localStorage.setItem('content-theme', 'dark');
+
+                if ( this.api.asc_setContentDarkMode )
+                    this.api.asc_setContentDarkMode(!is_current_dark);
+
+                Common.NotificationCenter.trigger('contenttheme:dark', !is_current_dark);
+            },
+
             setTheme: function (obj, force) {
                 var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
+
+                    if ( this.api.asc_setContentDarkMode )
+                        if ( themes_map[id].type == 'light' ) {
+                            this.api.asc_setContentDarkMode(false);
+                        } else {
+                            this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                            Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
+                        }
 
                     if ( this.api ) {
                         var obj = get_current_theme_colors(name_colors);

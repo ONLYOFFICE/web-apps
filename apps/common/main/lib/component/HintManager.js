@@ -183,8 +183,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getLetters = function(countButtons) {
-        var arr = [..._arrAlphabet];
-        arr[0] = _arrAlphabet[0].repeat(2);
+        var arr = _arrAlphabet.slice();
+        arr[0] = _arrAlphabet[0] + _arrAlphabet[0];
         for (var i = 1; arr.length < countButtons; i++) {
             arr.push(_arrAlphabet[0] + _arrAlphabet[i]);
         }
@@ -215,7 +215,7 @@ Common.UI.HintManager = new(function() {
         if (visibleItems.length > _arrAlphabet.length) {
             _arrLetters = _getLetters(visibleItems.length);
         } else {
-            _arrLetters = [..._arrAlphabet];
+            _arrLetters = _arrAlphabet.slice();
         }
         var usedLetters = [];
         if ($(_currentSection).find('[data-hint-title]').length > 0) {
@@ -251,10 +251,17 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getHints = function() {
+        var docH = Common.Utils.innerHeight() - 20,
+            docW = Common.Utils.innerWidth() - 20,
+            topSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? $(_currentSection).offset().top : 0,
+            bottomSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? topSection + $(_currentSection).height() : docH;
+
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
             if (!_isItemDisabled(item)) {
+                var leftBorder = 0,
+                    rightBorder = docW;
                 if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)) {
                     return;
                 }
@@ -262,6 +269,15 @@ Common.UI.HintManager = new(function() {
                     var $statusbar = item.parent();
                     if (item.offset().left > $statusbar.offset().left + $statusbar.width()) {
                         return;
+                    }
+                }
+                if (_currentLevel === 0 && item.closest('.tabs.short').length > 0) {
+                    var blockTabs = item.closest('.tabs.short');
+                    leftBorder = blockTabs.offset().left;
+                    rightBorder = leftBorder + blockTabs.width();
+                    if (!item.hasClass('scroll')) {
+                        leftBorder += 20;
+                        rightBorder -= 20;
                     }
                 }
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
@@ -276,6 +292,12 @@ Common.UI.HintManager = new(function() {
                         direction = 'bottom';
                         item.attr('data-hint-direction', 'bottom');
                     }
+                }
+                var maxHeight = docH;
+                if ($('#file-menu-panel').is(':visible') && _currentLevel > 1 &&
+                    ($('.fms-flex-apply').is(':visible') || $('#fms-flex-apply').is(':visible')) &&
+                    item.closest('.fms-flex-apply').length < 1 && item.closest('#fms-flex-apply').length < 1) {
+                    maxHeight = docH - $('.fms-flex-apply').height();
                 }
                 var offsets = item.attr('data-hint-offset');
                 var applyOffset = offsets === 'big' ? 6 : (offsets === 'medium' ? 4 : (offsets === 'small' ? 2 : 0));
@@ -295,35 +317,34 @@ Common.UI.HintManager = new(function() {
                             break;
                     }
                 } else {
-                    offsets = offsets ? item.attr('data-hint-offset').split(',').map((item) => (parseInt(item))) : [0, 0];
+                    offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
                 }
                 var offset = item.offset();
-                if (direction === 'left-top')
+                var top, left;
+                if (direction === 'left-top') {
+                    top = offset.top - 10 + offsets[0];
+                    left = offset.left - 10 + offsets[1];
+                } else if (direction === 'top') {
+                    top = offset.top - 18 + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
+                } else if (direction === 'right') {
+                    top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
+                    left = offset.left + item.outerWidth() + offsets[1];
+                } else if (direction === 'left') {
+                    top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
+                    left = offset.left - 18 + offsets[1];
+                } else {
+                    top = offset.top + item.outerHeight() + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
+                }
+
+                if (top < maxHeight && left < docW && top > topSection && top < bottomSection && left > leftBorder && left + 18 < rightBorder) {
                     hint.css({
-                        top: offset.top - 10 + offsets[0],
-                        left: offset.left - 10 + offsets[1]
+                        top: top,
+                        left: left
                     });
-                else if (direction === 'top')
-                    hint.css({
-                        top: offset.top - 18 + offsets[0],
-                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
-                    });
-                else if (direction === 'right')
-                    hint.css({
-                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
-                        left: offset.left + item.outerWidth() + offsets[1]
-                    });
-                else if (direction === 'left')
-                    hint.css({
-                        top: offset.top + (item.outerHeight() - 18) / 2 + offsets[0],
-                        left: offset.left - 18 + offsets[1]
-                    });
-                else
-                    hint.css({
-                        top: offset.top + item.outerHeight() + offsets[0],
-                        left: offset.left + (item.outerWidth() - 18) / 2 + offsets[1]
-                    });
-                $(document.body).append(hint);
+                    $(document.body).append(hint);
+                }
 
                 _currentHints.push(hint);
             }
@@ -350,7 +371,8 @@ Common.UI.HintManager = new(function() {
                 _lang = mode.lang;
                 _getAlphabetLetters();
             },
-            'hints:clear': _clearHints
+            'hints:clear': _clearHints,
+            'window:resize': _clearHints
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();
@@ -362,7 +384,7 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
-                    $('input').blur(); // to change value in inputField
+                    $('input:focus').blur(); // to change value in inputField
                     _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
                     _setCurrentSection();
                     _showHints();
@@ -431,17 +453,17 @@ Common.UI.HintManager = new(function() {
                                     _resetToDefault();
                                     return;
                                 }
-                                if (!curr.attr('content-target') || (curr.attr('content-target') && !$(`#${curr.attr('content-target')}`).is(':visible'))) { // need to open panel
+                                if (!curr.attr('content-target') || (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'))) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
                                         if (curr.attr('for')) { // to trigger event in checkbox
-                                            $(`#${curr.attr('for')}`).trigger(jQuery.Event('click', {which: 1}));
+                                            $('#' + curr.attr('for')).trigger(jQuery.Event('click', {which: 1}));
                                         } else {
                                             curr.trigger(jQuery.Event('click', {which: 1}));
                                         }
                                     }
                                 }
-                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
+                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll')) {
                                     _resetToDefault();
                                     return;
                                 }

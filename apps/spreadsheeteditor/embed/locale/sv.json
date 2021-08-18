@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "Filen kan inte nås för tillfället. ",
   "SSE.ApplicationController.notcriticalErrorTitle": "Varning",
   "SSE.ApplicationController.scriptLoadError": "Anslutningen är för långsam, vissa av komponenterna kunde inte laddas. Vänligen ladda om sidan.",
+  "SSE.ApplicationController.textAnonymous": "Anonym",
+  "SSE.ApplicationController.textGuest": "Gäst",
   "SSE.ApplicationController.textLoadingDocument": "Hämtar kalkylblad",
   "SSE.ApplicationController.textOf": "av",
   "SSE.ApplicationController.txtClose": "Stäng",
@@ -25,6 +27,7 @@
   "SSE.ApplicationController.waitText": "Var snäll och vänta...",
   "SSE.ApplicationView.txtDownload": "Ladda ner",
   "SSE.ApplicationView.txtEmbed": "Inbädda",
+  "SSE.ApplicationView.txtFileLocation": "Gå till filens plats",
   "SSE.ApplicationView.txtFullScreen": "Fullskärm",
   "SSE.ApplicationView.txtPrint": "Skriva ut",
   "SSE.ApplicationView.txtShare": "Dela"

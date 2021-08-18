@@ -302,6 +302,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             case Asc.c_oAscError.ID.UpdateVersion:
                 config.msg = _t.errorUpdateVersionOnDisconnect;
                 break;
+            
+            case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
+                config.msg = _t.errorChangeOnProtectedSheet;
+                break;
 
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);

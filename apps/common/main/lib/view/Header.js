@@ -97,6 +97,7 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
@@ -350,6 +351,10 @@ define([
 
             if ( me.btnOptions )
                 me.btnOptions.updateHint(me.tipViewSettings);
+
+            if ( me.btnContentMode ) {
+                me.btnContentMode.on('click', function (e) { Common.UI.Themes.toggleContentTheme(); });
+            }
         }
 
         function onDocNameKeyDown(e) {
@@ -383,6 +388,12 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+            }
+        }
+
+        function onContentThemeChangedToDark(isdark) {
+            if ( this.btnContentMode ) {
+                this.btnContentMode.changeIcon(!isdark ? {curr: 'btn-mode-light', next: 'btn-mode-dark'} : {curr: 'btn-mode-dark', next: 'btn-mode-light'});
             }
         }
 
@@ -453,6 +464,7 @@ define([
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
+                Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
             },
 
             render: function (el, role) {
@@ -547,6 +559,12 @@ define([
                     $btnUsers = $html.find('.btn-users');
 
                     $panelUsers.hide();
+
+                    if ( !!window.DE ) {
+                        var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
+                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
+                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
+                    }
 
                     return $html;
                 } else

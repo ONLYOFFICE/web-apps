@@ -24,16 +24,20 @@ const PageLink = props => {
                     type="text"
                     placeholder={_t.textLink}
                     value={stateLink}
-                    onChange={(event) => {setLink(event.target.value); 
-                        if(stateAutoUpdate) setDisplay(event.target.value); }}
+                    onChange={(event) => {
+                        setLink(event.target.value); 
+                        if((!stateDisplay || stateDisplay === stateLink) && stateAutoUpdate) setDisplay(event.target.value); 
+                    }}
                 ></ListInput>
                 <ListInput
                     label={_t.textDisplay}
                     type="text"
                     placeholder={_t.textDisplay}
                     value={stateDisplay}
-                    onChange={(event) => {setDisplay(event.target.value); 
-                        setAutoUpdate(event.target.value == ''); }}
+                    onChange={(event) => {
+                        setDisplay(event.target.value); 
+                        setAutoUpdate(event.target.value == ''); 
+                    }}
                 ></ListInput>
                 <ListInput
                     label={_t.textScreenTip}

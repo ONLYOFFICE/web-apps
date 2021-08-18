@@ -88,7 +88,11 @@
         "Table": "表格",
         "X Axis": "X 轴 XAS",
         "Y Axis": "Y 轴",
-        "Your text here": "你的文本在此"
+        "Your text here": "你的文本在此",
+        "Click to add first slide": "Click to add first slide",
+        "Click to add notes": "Click to add notes",
+        "Loading": "Loading",
+        "None": "None"
       },
       "textAnonymous": "匿名",
       "textBuyNow": "访问网站",
@@ -374,7 +378,9 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
-      "textZoomRotate": "缩放并旋转"
+      "textZoomRotate": "缩放并旋转",
+      "textBullets": "Bullets",
+      "textNumbers": "Numbers"
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",
@@ -431,7 +437,29 @@
       "textTitle": "标题",
       "textUnitOfMeasurement": "计量单位",
       "textUploaded": "已上传",
-      "textVersion": "版本"
+      "textVersion": "版本",
+      "txtScheme1": "Office",
+      "txtScheme10": "Median",
+      "txtScheme11": "Metro",
+      "txtScheme12": "Module",
+      "txtScheme13": "Opulent",
+      "txtScheme14": "Oriel",
+      "txtScheme15": "Origin",
+      "txtScheme16": "Paper",
+      "txtScheme17": "Solstice",
+      "txtScheme18": "Technic",
+      "txtScheme19": "Trek",
+      "txtScheme2": "Grayscale",
+      "txtScheme20": "Urban",
+      "txtScheme21": "Verve",
+      "txtScheme22": "New Office",
+      "txtScheme3": "Apex",
+      "txtScheme4": "Aspect",
+      "txtScheme5": "Civic",
+      "txtScheme6": "Concourse",
+      "txtScheme7": "Equity",
+      "txtScheme8": "Flow",
+      "txtScheme9": "Foundry"
     }
   }
 }

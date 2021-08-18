@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "Kein Zugriff auf diese Datei möglich.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Warnung",
   "SSE.ApplicationController.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
+  "SSE.ApplicationController.textAnonymous": "Anonym",
+  "SSE.ApplicationController.textGuest": "Gast",
   "SSE.ApplicationController.textLoadingDocument": "Tabelle wird geladen",
   "SSE.ApplicationController.textOf": "von",
   "SSE.ApplicationController.txtClose": "Schließen",

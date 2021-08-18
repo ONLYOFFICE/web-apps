@@ -57,9 +57,11 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions")(observer(props => {
+const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
+    const storeReview = props.storeReview;
+    const displayMode = storeReview.displayMode;
     const navbar = <Navbar title={_t.textSettings}>
                     {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
                     </Navbar>;
@@ -139,7 +141,8 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                         </ListItem>
                     }
                     {_isEdit &&
-                        <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
+                        <ListItem link="#" title={_t.textDocumentSettings} disabled={displayMode !== 'markup'} 
+                            onClick={onoptionclick.bind(this, '/document-settings/')}>
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
                         </ListItem>
                     }

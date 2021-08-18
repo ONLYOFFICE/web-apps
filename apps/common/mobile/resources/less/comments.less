@@ -189,6 +189,7 @@
     }
   }
   .toolbar {
+    position: absolute;
     border-radius: 0 0 var(--f7-popover-border-radius) var(--f7-popover-border-radius);
   }
 }
@@ -226,4 +227,12 @@
 .no-comments {
   text-align: center;
   margin-top: 35px;
+}
+
+.actions-modal.modal-in {
+  z-index: 13700;
+}
+
+.actions-backdrop.backdrop-in {
+  z-index: 13600;
 }

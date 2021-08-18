@@ -3,8 +3,8 @@ import {observer, inject} from "mobx-react";
 import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
-
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -14,11 +14,21 @@ const PageFonts = props => {
     const displaySize = typeof size === 'undefined' ? t('Edit.textAuto') : size + ' ' + t('Edit.textPt');
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
+    const arrayFonts = storeTextSettings.arrayRecentFonts;
+
+    const addRecentStorage = () => {
+        let arr = [];
+        arrayFonts.forEach(item => arr.push(item));
+        arr = arr.join(';');
+        LocalStorage.setItem('dde-settings-recent-fonts', arr);
+    }
+    
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
         }
     });
+
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
             let fonts = [...prevState.vlData.items];
@@ -57,6 +67,20 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
+            {!!arrayFonts.length &&
+                <List>
+                    {arrayFonts.map((item,index) => (
+                        <ListItem
+                            key={index}
+                            radio
+                            checked={curFontName === item}
+                            title={item}
+                            style={{fontFamily: `${item}`}}
+                            onClick={() => {storeTextSettings.changeFontFamily(item); props.changeFontFamily(item);}}
+                        /> 
+                    ))}
+                </List>
+            }
             <List virtualList virtualListParams={{
                 items: fonts,
                 renderExternal: renderExternal
@@ -69,7 +93,8 @@ const PageFonts = props => {
                             checked={curFontName === item.name}
                             title={item.name}
                             style={{fontFamily: `${item.name}`}}
-                            onClick={() => {storeTextSettings.changeFontFamily(item.name); props.changeFontFamily(item.name)}}
+                            onClick={() => {storeTextSettings.changeFontFamily(item.name); props.changeFontFamily(item.name);
+                                storeTextSettings.addFontToRecent(item.name); addRecentStorage()}}
                         ></ListItem>
                     ))}
                 </ul>
@@ -119,13 +144,13 @@ const PageAdditionalFormatting = props => {
             </List>
             <List>
                 <ListItem title={t('Edit.textLetterSpacing')}>
-                    {!isAndroid && <div slot='after-start'>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
+                    {!isAndroid && <div slot='after-start'>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
@@ -274,7 +299,7 @@ const PageBulletsAndNumbers = props => {
     const storeTextSettings = props.storeTextSettings;
     
     return (
-        <Page>
+        <Page className="bullets-numbers">
             <Navbar title={t('Edit.textBulletsAndNumbers')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>

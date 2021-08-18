@@ -18,8 +18,11 @@ import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import EncodingController from "./Encoding";
+import { StatusbarController } from "./Statusbar";
 
 @inject(
+    "users",
     "storeAppOptions",
     "storeFocusObjects",
     "storeCellSettings",
@@ -27,7 +30,8 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
     "storeChartSettings",
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor(props) {
@@ -344,6 +348,11 @@ class MainController extends Component {
         const styleSize = this.props.storeCellSettings.styleSize;
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
 
+        // Text settings 
+
+        const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('sse-settings-recent-fonts'));
+
         // Spreadsheet Settings
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
@@ -355,10 +364,38 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("View.Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose,this.isDRM);
-            if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
         });
 
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedoChanged', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
+        });
+
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onEditCell', (state) => {
+            if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
+                const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                if (storeFocusObjects.isEditCell !== isEditCell) {
+                    storeFocusObjects.setEditCell(isEditCell);
+                }
+            } else {
+                const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+                if (storeFocusObjects.editFormulaMode !== isFormula) {
+                    storeFocusObjects.setEditFormulaMode(isFormula);
+                }
+            }
+        });
     }
 
     _onLongActionEnd(type, id) {
@@ -618,9 +655,9 @@ class MainController extends Component {
         }
     }
 
-    onDownloadUrl () {
+    onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            Common.Gateway.downloadAs(url);
+            Common.Gateway.downloadAs(url, fileType);
         }
 
         this._state.isFromGatewayDownloadAs = false;
@@ -799,12 +836,14 @@ class MainController extends Component {
             <Fragment>
                 <LongActionsController />
                 <ErrorController LoadingDocument={this.LoadingDocument}/>
+                <StatusbarController />
                 <CollaborationController />
                 <CommentsController />
                 <AddCommentController />
                 <EditCommentController />
                 <ViewCommentsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
         )
     }

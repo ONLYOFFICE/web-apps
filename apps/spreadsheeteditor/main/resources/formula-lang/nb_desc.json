@@ -4,8 +4,8 @@
 		"d": "Returnerer tallet som svarer til datoen i koden for dato og tid"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(startdato; sluttdato; enhet)",
+		"d": "Beregner antall dager, måneder eller år mellom to datoer"
 	},
 	"DATEVALUE": {
 		"a": "(dato_tekst)",
@@ -396,8 +396,8 @@
 		"d": "Returnerer nummeret for posisjonen for det første tegnet i en tekststreng inne i en annen tekststreng. FINN skiller mellom store og små bokstaver"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(finn; innen_tekst; [startpos])",
+		"d": "Finner en tekststreng inni en annen tekststreng og returnerer nummeret som svarer til startposisjonen for den første tekststrengen, regnet fra det første tegnet i den andre tekststrengen, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"FIXED": {
 		"a": "(tall; [desimaler]; [ingen_tusenskille])",
@@ -408,16 +408,16 @@
 		"d": "Returnerer det angitte antall tegn fra begynnelsen av en tekststreng"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; [antall_tegn])",
+		"d": "Returnerer det første tegnet eller de første tegnene i en tekststreng, basert på antallet byte du angir, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"LEN": {
 		"a": "(tekst)",
 		"d": "Returnerer antall tegn i en tekststreng"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst)",
+		"d": "Returnerer antallet byte som brukes til å representere tegnene i en tekststreng, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"LOWER": {
 		"a": "(tekst)",
@@ -428,8 +428,8 @@
 		"d": "Returnerer tegnene fra midten av en tekststreng, hvis posisjonen for det første tegnet og lengden er oppgitt"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; startpos; antall_tegn)",
+		"d": "Returnerer et angitt antall tegn fra en tekststreng, regnet fra den posisjonen du angir og basert på antall tegn du angir, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"NUMBERVALUE": {
 		"a": "(tekst; [desimalskilletegn]; [gruppeskilletegn])",
@@ -444,8 +444,8 @@
 		"d": "Erstatter en del av en tekststreng med en annen tekststreng"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(gammel_tekst; startpos; antall_tegn; ny_tekst)",
+		"d": "Bytter ut en del av en tekststreng med en annen tekststreng. Hvilken del som byttes ut, er basert på antall byte du angir, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"REPT": {
 		"a": "(tekst; antall_ganger)",
@@ -456,16 +456,16 @@
 		"d": "Returnerer det angitte antall tegn fra slutten av en tekststreng"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(tekst; [antall_tegn])",
+		"d": "Returnerer det siste tegnet eller de siste tegnene i en tekststreng, basert på antallet byte du angir, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"SEARCH": {
 		"a": "(finn; innen_tekst; [startpos])",
 		"d": "Returnerer tallet for tegnet hvor et bestemt tegn eller en tekststreng først blir funnet, lest fra venstre mot høyre (skiller ikke mellom små og store bokstaver)"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(finn; innen_tekst; [startpos])",
+		"d": "Finner én tekststreng inni en annen tekststreng og returnerer tallet som svarer til startposisjonen for den første tekststrengen, regnet fra det første tegnet i den andre tekststrengen, er beregnet for språk som bruker dobbeltbyte-tegnsett (DBCS) - japansk, kinesisk og koreansk"
 	},
 	"SUBSTITUTE": {
 		"a": "(tekst; gammel_tekst; ny_tekst; [forekomst_nr])",
@@ -1348,8 +1348,8 @@
 		"d": "Konverterer et romertall til et arabisk tall"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(tekst)",
+		"d": "For språk med dobbeltbyte-tegnsett (DBCS) endrer funksjonen tegn med full bredde (dobbeltbyte) til tegn med halv bredde (enkeltbyte)"
 	},
 	"ASIN": {
 		"a": "(tall)",
@@ -1384,8 +1384,8 @@
 		"d": "Runder av et tall oppover til nærmeste heltall eller til nærmeste signifikante multiplum av en faktor"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(tall; [gjeldende_multiplum])",
+		"d": "Returnerer et tall som er avrundet opp til nærmeste heltall, eller til nærmeste gjeldende multiplum"
 	},
 	"COMBIN": {
 		"a": "(antall; valgt_antall)",
@@ -1428,8 +1428,8 @@
 		"d": "Konverterer radianer til grader"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(tall; gjeldende_multiplum)",
+		"d": "Runder av et tall oppover til nærmeste multiplum av en faktor"
 	},
 	"EVEN": {
 		"a": "(tall)",
@@ -1452,8 +1452,8 @@
 		"d": "Runder av et tall nedover til nærmeste signifikante multiplum av en faktor"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(tall; [gjeldende_multiplum])",
+		"d": "Returnerer et tall som er avrundet ned til nærmeste heltall eller til nærmeste multiplum av gjeldende_multiplum"
 	},
 	"FLOOR.MATH": {
 		"a": "(tall; [gjeldende_multiplum]; [modus])",
@@ -1468,8 +1468,8 @@
 		"d": "Runder av et tall nedover til nærmeste heltall"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(tall; [gjeldende_multiplum])",
+		"d": "Returnerer et tall som er avrundet opp til nærmeste heltall, eller til nærmeste gjeldende multiplum. Uansett tallets fortegn, blir tallet avrundet opp. Men hvis tallet eller gjeldende multiplum er null, returneres null."
 	},
 	"LCM": {
 		"a": "(tall1; [tall2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Søker i et område eller en matrise etter et treff og returnerer det tilsvarende elementet fra et annet område eller en annen matrise. Som standard brukes et eksakt treff"
 	},
 	"CELL": {
-		"a": "(info_type; [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"a": "(infotype; [ref])",
+		"d": "Returnerer informasjon om formatering, plassering eller innholdet til en celle"
 	},
 	"ERROR.TYPE": {
 		"a": "(feilverdi)",

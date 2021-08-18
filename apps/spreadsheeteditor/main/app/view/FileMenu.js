@@ -217,6 +217,16 @@ define([
                 dataHintOffset: [2, 14]
             });
 
+            this.miHistory = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-history'),
+                action  : 'history',
+                caption : this.btnHistoryCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -248,6 +258,7 @@ define([
                     dataHintOffset: [2, 14]
                 }),
                 this.miAccess,
+                this.miHistory,
                 this.miSettings,
                 this.miHelp,
                 new Common.UI.MenuItem({
@@ -288,7 +299,7 @@ define([
             return this;
         },
 
-        show: function(panel) {
+        show: function(panel, opts) {
             if (this.isVisible() && panel===undefined || !this.mode) return;
 
             if ( !this.rendered )
@@ -299,7 +310,7 @@ define([
                 panel = this.active || defPanel;
             this.$el.show();
             this.scroller.update();
-            this.selectMenu(panel, defPanel);
+            this.selectMenu(panel, opts, defPanel);
 
             this.api.asc_enableKeyEvents(false);
 
@@ -377,17 +388,19 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render());
+                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render());
             }
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
+                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render());
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
                 this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            this.miHistory[this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
 
             if ( this.mode.disableEditing != undefined ) {
                 this.panels['opts'].SetDisabled(this.mode.disableEditing);
@@ -426,7 +439,7 @@ define([
             this.document = data.doc;
         },
 
-        selectMenu: function(menu, defMenu) {
+        selectMenu: function(menu, opts, defMenu) {
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
@@ -439,7 +452,7 @@ define([
                     item.$el.addClass('active');
 
                     this.$el.find('.content-box:visible').hide();
-                    panel.show();
+                    panel.show(opts);
 
                     if (this.scroller) {
                         var itemTop = item.$el.position().top,
@@ -504,7 +517,6 @@ define([
             }
 
             var _btn_protect = this.getButton('protect');
-
             options && options.protect && _btn_protect.setDisabled(disable || !this.mode.isEdit);
         },
 
@@ -524,6 +536,7 @@ define([
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
-        btnSaveCopyAsCaption    : 'Save Copy as...'
+        btnSaveCopyAsCaption    : 'Save Copy as...',
+        btnHistoryCaption       : 'Versions History'
     }, SSE.Views.FileMenu || {}));
 });

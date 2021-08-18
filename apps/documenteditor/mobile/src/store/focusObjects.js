@@ -16,7 +16,8 @@ export class storeFocusObjects {
             tableObject: computed,
             isTableInStack: computed,
             chartObject: computed,
-            linkObject: computed
+            linkObject: computed,
+            objectLocked: computed
         });
     }
 
@@ -76,5 +77,26 @@ export class storeFocusObjects {
     
     get linkObject() {
         return !!this.intf ? this.intf.getLinkObject() : null;
+    }
+
+    get objectLocked() {
+        if (this._focusObjects && this._focusObjects.length > 0) {
+            const getTopObject = (objects) => {
+                const arrObj = objects;
+                let obj;
+                for (let i=arrObj.length-1; i>=0; i--) {
+                    if (arrObj[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck) {
+                        obj = arrObj[i];
+                        break;
+                    }
+                }
+                return obj;
+            };
+            const topObject = getTopObject(this._focusObjects);
+            const topObjectValue = topObject.get_ObjectValue();
+            const objectLocked = (typeof topObjectValue.get_Locked === 'function') ? topObjectValue.get_Locked() : false;
+
+            return objectLocked;
+        }
     }
 }

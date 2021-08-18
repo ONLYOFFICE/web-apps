@@ -82,7 +82,8 @@ define([
         noTextSelected:  'no-text',
         inEquation: 'in-equation',
         commentLock: 'can-comment',
-        noColumns: 'no-columns'
+        noColumns: 'no-columns',
+        transitLock: 'transit-lock'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -129,7 +130,8 @@ define([
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
+                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'}
                             ]
                         }
                     );
@@ -1096,6 +1098,7 @@ define([
                 me.isCompactView = mode.compactview;
                 if ( mode.isEdit ) {
                     me.$el.html(me.rendererComponents(me.$layout));
+
                 } else {
                     me.$layout.find('.canedit').hide();
                     me.$layout.addClass('folded');
@@ -1110,10 +1113,12 @@ define([
                         Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
                     }
                 });
-
+                //_.bind(function (element){
+                //},me);
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
+
                 }
 
                 if ( me.isCompactView )
@@ -1143,7 +1148,6 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-changeslide', this.btnChangeSlide);
@@ -1407,15 +1411,15 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1428,14 +1432,14 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -1921,7 +1925,8 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
-            txtScheme22: 'New Office'
+            txtScheme22: 'New Office',
+            textTabTransitions: 'Transitions'
         }
     }()), PE.Views.Toolbar || {}));
 });

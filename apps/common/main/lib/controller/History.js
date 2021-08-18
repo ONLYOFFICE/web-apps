@@ -100,9 +100,10 @@ define([
             this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
         },
 
-        onDownloadUrl: function(url) {
-            if (this.isFromSelectRevision !== undefined)
-                Common.Gateway.requestRestore(this.isFromSelectRevision, url);
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromSelectRevision !== undefined) {
+                Common.Gateway.requestRestore(this.isFromSelectRevision, url, fileType);
+            }
             this.isFromSelectRevision = undefined;
         },
 
@@ -111,10 +112,11 @@ define([
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
                     if (record.get('isRevision'))
-                        Common.Gateway.requestRestore(record.get('revision'));
+                        Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
-                        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+                        var fileType = Asc.c_oAscFileType[(record.get('fileType') || '').toUpperCase()] || Asc.c_oAscFileType.DOCX;
+                        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(fileType, true));
                     }
                     return;
                 }
@@ -135,9 +137,15 @@ define([
             this.currentServerVersion = record.get('serverVersion');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
-                 _.delay(function() {
-                    Common.Gateway.requestHistoryData(rev); // получаем url-ы для ревизий
-                 }, 10);
+                var me = this;
+                if (!me.timerId) {
+                    me.timerId = setTimeout(function () {
+                        me.timerId = 0;
+                    },30000);
+                    _.delay(function() {
+                        Common.Gateway.requestHistoryData(rev); // получаем url-ы для ревизий
+                    }, 10);
+                }
             } else {
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                 if (commentsController) {
@@ -166,6 +174,11 @@ define([
 
         onSetHistoryData: function(opts) {
             if (!this.mode.canUseHistory) return;
+
+            if (this.timerId) {
+                clearTimeout(this.timerId);
+                this.timerId = 0;
+            }
 
             if (opts.data.error) {
                  var config = {
@@ -204,6 +217,7 @@ define([
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
                             rev.set('token', token, {silent: true});
+                            opts.data.fileType && rev.set('fileType', opts.data.fileType, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();
@@ -216,6 +230,7 @@ define([
                     hist.asc_setIsRequested(true);
                     hist.asc_setServerVersion(this.currentServerVersion);
                     this.api.asc_showRevision(hist);
+                    this.currentRev = data.version;
 
                     var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
                     if (reviewController)

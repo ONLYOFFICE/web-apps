@@ -377,6 +377,7 @@ define([
                             caption: this.itemHidden,
                             menu: menuHiddenItems
                         },
+                        {caption: this.itemProtect, value: 'protect'},
                         {
                             caption: this.itemTabColor,
                             menu: menuColorItems
@@ -553,6 +554,7 @@ define([
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
                     var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
+                    var wbprotected = this.api.asc_isProtectedWorkbook();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
@@ -564,7 +566,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked || me.mode.isDisconnected,
+                            isLockTheDrag : locked || me.mode.isDisconnected || wbprotected,
                             iconCls       : 'btn-sheet-view',
                             iconTitle     : name,
                             iconVisible   : name!==''
@@ -616,9 +618,9 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
-                    this.tabbar.addDataHint(sindex);
+                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.asc_isProtectedWorkbook() || me.api.isCellEdited);
+                    this.tabbar.addDataHint(_.findIndex(items, function (item) { return item.sheetindex === sindex; }));
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     this.updateNumberOfSheet(sindex, wc);
@@ -737,24 +739,28 @@ define([
                         }
 
                         var isdoclocked     = this.api.asc_isWorkbookLocked();
+                        var isdocprotected  = this.api.asc_isProtectedWorkbook();
 
-                        this.tabMenu.items[0].setDisabled(isdoclocked);
-                        this.tabMenu.items[1].setDisabled(issheetlocked);
-                        this.tabMenu.items[2].setDisabled(issheetlocked);
-                        this.tabMenu.items[3].setDisabled(issheetlocked);
-                        this.tabMenu.items[4].setDisabled(issheetlocked);
-                        this.tabMenu.items[5].setDisabled(issheetlocked);
-                        this.tabMenu.items[6].setDisabled(isdoclocked);
-                        this.tabMenu.items[7].setDisabled(issheetlocked);
+                        this.tabMenu.items[0].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[1].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[2].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[3].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[4].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[5].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[6].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[7].setDisabled(select.length>1);
+                        this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
+
+                        this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
-                            this.tabMenu.items[10].hide();
+                            this.tabMenu.items[11].hide();
                         } else {
-                            this.tabMenu.items[10].show();
+                            this.tabMenu.items[11].show();
                         }
 
-                        this.tabMenu.items[9].setDisabled(issheetlocked);
-                        this.tabMenu.items[10].setDisabled(issheetlocked);
+                        this.tabMenu.items[10].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[11].setDisabled(issheetlocked || isdocprotected);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -1027,7 +1033,9 @@ define([
             itemMinimum         : 'Minimum',
             itemMaximum         : 'Maximum',
             itemSum             : 'Sum',
-            itemStatus          : 'Saving status'
+            itemStatus          : 'Saving status',
+            itemProtect         : 'Protect',
+            itemUnProtect       : 'Unprotect'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({

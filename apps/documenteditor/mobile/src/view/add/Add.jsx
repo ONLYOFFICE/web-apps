@@ -202,7 +202,7 @@ class AddView extends Component {
         const show_popover = this.props.usePopover;
         return (
             show_popover ?
-                <Popover id="add-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
                     <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels} />
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>

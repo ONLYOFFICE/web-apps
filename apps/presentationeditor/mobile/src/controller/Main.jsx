@@ -17,6 +17,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(
+    "users",
     "storeFocusObjects",
     "storeAppOptions",
     "storePresentationInfo",
@@ -26,7 +27,8 @@ import { Device } from '../../../../common/mobile/utils/device';
     "storeTableSettings",
     "storeChartSettings",
     "storeLinkSettings",
-    "storeApplicationSettings"
+    "storeApplicationSettings",
+    "storeToolbarSettings"
     )
 class MainController extends Component {
     constructor (props) {
@@ -323,6 +325,7 @@ class MainController extends Component {
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('ppe-settings-recent-fonts'));
 
         EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
 
@@ -388,6 +391,21 @@ class MainController extends Component {
         // Chart settings
 
         EditorUIController.updateChartStyles && EditorUIController.updateChartStyles(this.props.storeChartSettings, this.props.storeFocusObjects);
+
+        // Toolbar settings
+
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        this.api.asc_registerCallback('asc_onCanUndo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanUndo(can);
+        });
+        this.api.asc_registerCallback('asc_onCanRedo', (can) => {
+            if (this.props.users.isDisconnected) return;
+            storeToolbarSettings.setCanRedo(can);
+        });
+        this.api.asc_registerCallback('asc_onCountPages', (count) => {
+            storeToolbarSettings.setCountPages(count);
+        });
     }
 
     onDocumentContentReady () {
