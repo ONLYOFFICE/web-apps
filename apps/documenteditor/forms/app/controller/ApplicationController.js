@@ -17,7 +17,6 @@ define([
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip,
         $ttEl, $tooltip,
-        $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0,
         ttOffset = [0, -10];
 
@@ -27,61 +26,10 @@ define([
         ],
 
         initialize: function() {
-            var me = this,
-                styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                    'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                    'Caption', 'endnote text'],
-                translate = {
-                    'Series': this.txtSeries,
-                    'Diagram Title': this.txtDiagramTitle,
-                    'X Axis': this.txtXAxis,
-                    'Y Axis': this.txtYAxis,
-                    'Your text here': this.txtArt,
-                    "Error! Bookmark not defined.": this.txtBookmarkError,
-                    "above": this.txtAbove,
-                    "below": this.txtBelow,
-                    "on page ": this.txtOnPage + " ",
-                    "Header": this.txtHeader,
-                    "Footer": this.txtFooter,
-                    " -Section ": " " + this.txtSection + " ",
-                    "First Page ": this.txtFirstPage + " ",
-                    "Even Page ": this.txtEvenPage + " ",
-                    "Odd Page ": this.txtOddPage + " ",
-                    "Same as Previous": this.txtSameAsPrev,
-                    "Current Document": this.txtCurrentDocument,
-                    "No table of contents entries found.": this.txtNoTableOfContents,
-                    "Table of Contents": this.txtTableOfContents,
-                    "Syntax Error": this.txtSyntaxError,
-                    "Missing Operator": this.txtMissOperator,
-                    "Missing Argument": this.txtMissArg,
-                    "Number Too Large To Format": this.txtTooLarge,
-                    "Zero Divide": this.txtZeroDivide,
-                    "Is Not In Table": this.txtNotInTable,
-                    "Index Too Large": this.txtIndTooLarge,
-                    "The Formula Not In Table": this.txtFormulaNotInTable,
-                    "Table Index Cannot be Zero": this.txtTableInd,
-                    "Undefined Bookmark": this.txtUndefBookmark,
-                    "Unexpected End of Formula": this.txtEndOfFormula,
-                    "Hyperlink": this.txtHyperlink,
-                    "Error! Main Document Only.": this.txtMainDocOnly,
-                    "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
-                    "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item": this.txtChoose,
-                    "Enter a date": this.txtEnterDate,
-                    "Type equation here": this.txtTypeEquation,
-                    "Click to load image": this.txtClickToLoad,
-                    "None": this.txtNone,
-                    "No table of figures entries found.": this.txtNoTableOfFigures,
-                    "table of figures": this.txtTableOfFigures,
-                    "TOC Heading": this.txtTOCHeading
-                };
-            styleNames.forEach(function(item){
-                translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
-            });
-            me.translationTable = translate;
         },
 
         onLaunch: function() {
+            var me = this;
             if (!Common.Utils.isBrowserSupported()){
                 Common.Utils.showBrowserRestriction();
                 Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
@@ -101,8 +49,6 @@ define([
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'embedded' : true
-                // ,
-                // 'translate': this.translationTable
             });
 
             $(window).on('resize', this.onDocumentResize.bind(this));
@@ -110,9 +56,16 @@ define([
             this.boxSdk = $('#editor_sdk');
             // this.boxSdk.css('border-left', 'none');
             this.boxSdk.on('click', function(e) {
-                if ( e.target.localName == 'canvas' ) {
-                    e.currentTarget.focus();
+                if (e.target.localName == 'canvas') {
+                    if (me._preventClick)
+                        me._preventClick = false;
+                    else
+                        me.boxSdk.focus();
                 }
+            });
+            this.boxSdk.on('mousedown', function(e){
+                if (e.target.localName == 'canvas')
+                    Common.UI.Menu.Manager.hideAll();
             });
 
             this.editorConfig = {};
@@ -136,7 +89,6 @@ define([
                 Common.Gateway.appReady();
             }
 
-            var me = this;
             Common.NotificationCenter.on({
                 'modal:show': function(){
                     Common.Utils.ModalWindow.show();
@@ -821,8 +773,10 @@ define([
         },
 
         onHideContentControlsActions: function() {
-            $listControlMenu && $listControlMenu.hide();
-            this.api.asc_UncheckContentControlButtons();
+            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            var controlsContainer = this.boxSdk.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
         },
 
         onShowListActions: function(obj, x, y) {
@@ -830,66 +784,83 @@ define([
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
                 isForm = !!props.get_FormPr(),
+                menu = this.listControlMenu,
+                menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            var menuContainer = this.view.getMenuForm();
+            this._listObj = props;
 
-            if (!$listControlMenu) {
-                $listControlMenu = menuContainer.find('ul');
-                $listControlMenu.on('click', 'li', function(e) {
-                    var value = $(e.target).attr('value');
-                    if (value) {
-                        value = parseInt(value);
-                        setTimeout(function(){
-                            (value!==-1) && me.api.asc_SelectContentControlListItem(listControlItems[value], listObj.get_InternalId());
-                        }, 1);
-                    }
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tr-bl',
+                    items: []
                 });
-                $('#editor_sdk').on('click', function(e){
-                    if (e.target.localName == 'canvas') {
-                        if (me._preventClick)
-                            me._preventClick = false;
-                        else {
-                            $listControlMenu && $listControlMenu.hide();
-                            me.api.asc_UncheckContentControlButtons();
-                        }
-                    }
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.boxSdk.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
                 });
             }
-            $listControlMenu.find('li').remove();
-            listControlItems = [];
-            listObj = props;
-
             if (specProps) {
-                var k = 0;
                 if (isForm){ // for dropdown and combobox form control always add placeholder item
                     var text = props.get_PlaceholderText();
-                    $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
-                        ((text.trim()!=='') ? text : me.txtEmpty) +
-                        '</a></li>');
-                    listControlItems.push('');
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
+                        value       : '',
+                        template    : _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
+                    }));
                 }
                 var count = specProps.get_ItemsCount();
-                k = listControlItems.length;
                 for (var i=0; i<count; i++) {
-                    if (specProps.get_ItemValue(i)!=='' || !isForm) {
-                        $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + (i+k) + '">' +
-                            Common.Utils.String.htmlEncode(specProps.get_ItemDisplayText(i)) +
-                            '</a></li>');
-                        listControlItems.push(specProps.get_ItemValue(i));
-                    }
+                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
+                    }));
                 }
-                if (!isForm && listControlItems.length<1) {
-                    $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="0">' +
-                        me.txtEmpty +
-                        '</a></li>');
-                    listControlItems.push(-1);
+                if (!isForm && menu.items.length<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : this.txtEmpty,
+                        value       : -1
+                    }));
                 }
             }
 
             menuContainer.css({left: x, top : y});
-            me._preventClick = true;
-            $listControlMenu.show();
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
         },
 
         onDocumentContentReady: function() {
