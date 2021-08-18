@@ -627,7 +627,6 @@ DE.ApplicationController = new(function(){
             $('#id-btn-clear-fields').hide();
             btnSubmit.hide();
         } else {
-            $('#id-pages').hide();
             $('#id-btn-next-field .caption').text(me.textNext);
             $('#id-btn-clear-fields .caption').text(me.textClear);
 
