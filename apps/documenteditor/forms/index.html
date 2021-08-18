@@ -115,7 +115,7 @@
     <![endif]-->
   </head>
 
-  <body class="embed-body">
+  <body class="embed-body theme-classic-light theme-type-light">
       <script src="../../common/main/lib/util/htmlutils.js"></script>
       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
@@ -190,20 +190,17 @@
       <div class="toolbar" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
-              <button id="id-btn-prev-field" class="control-btn svg-icon arrow-up margin-right-small"></button><!--
-              --><button id="id-btn-next-field" class="control-btn has-caption margin-right-large"><span class="btn-icon svg-icon arrow-down"></span><span class="caption"></span></button><!--
-              --><button id="id-btn-clear-fields" class="control-btn has-caption"><span class="btn-icon svg-icon clear-style"></span><span class="caption"></span></button>
+              <span id="id-btn-prev-field" class="margin-right-small"></span>
+              <span id="id-btn-next-field" class="margin-right-large"></span>
+              <span id="id-btn-clear-fields"></span>
           </div>
           <div class="group center">
               <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div id="id-submit-group" style="display: inline-block;"><button id="id-btn-submit" class="control-btn has-caption margin-right-small colored"><span class="caption"></span></button></div>
-              <div id="id-pages" class="item margin-right-small"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div id="id-pages" class="item margin-right-small" style="vertical-align: middle;"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div id="id-submit-group" style="display: inline-block;"><button id="id-btn-submit" class="control-btn has-caption margin-left-small margin-right-small colored"><span class="caption"></span></button></div>
               <span id="box-tools"></span>
-              <!--<div id="box-tools" class="dropdown">-->
-                  <!--<button class="control-btn svg-icon more-vertical"></button>-->
-              <!--</div>-->
           </div>
       </div>
 

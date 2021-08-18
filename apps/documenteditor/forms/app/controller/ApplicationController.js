@@ -326,7 +326,6 @@ define([
             if (this.embedConfig.toolbarDocked === 'bottom') {
                 $('#toolbar').addClass('bottom');
                 this.boxSdk.addClass('bottom');
-                // $('#box-tools').removeClass('dropdown').addClass('dropup');
                 ttOffset[1] = -40;
             } else {
                 $('#toolbar').addClass('top');
@@ -509,24 +508,20 @@ define([
 
             btnSubmit = $('#id-btn-submit');
 
+            var me = this;
             if (!this.appOptions.canFillForms) {
-                $('#id-btn-prev-field').hide();
-                $('#id-btn-next-field').hide();
-                $('#id-btn-clear-fields').hide();
+                me.view.btnPrev.setVisible(false);
+                me.view.btnNext.setVisible(false);
+                me.view.btnClear.setVisible(false);
                 btnSubmit.hide();
             } else {
-                $('#id-pages').hide();
-                $('#id-btn-next-field .caption').text(this.textNext);
-                $('#id-btn-clear-fields .caption').text(this.textClear);
-
-                var me = this;
-                $('#id-btn-prev-field').on('click', function(){
+                me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
                 });
-                $('#id-btn-next-field').on('click', function(){
+                me.view.btnNext.on('click', function(){
                     me.api.asc_MoveToFillingForm(true);
                 });
-                $('#id-btn-clear-fields').on('click', function(){
+                me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
                 });
 
@@ -906,9 +901,6 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -2);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-            // var dividers = $('#box-tools .divider');
-            // var itemsCount = $('#box-tools a').length;
-            //
             var menuItems = this.view.btnOptions.menu.items;
             var itemsCount = menuItems.length-3;
 

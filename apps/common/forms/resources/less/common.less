@@ -112,6 +112,9 @@
 
     font-size: @toolbarFontSize;
     overflow: hidden;
+
+    color: @text-normal-ie;
+    color: @text-normal;
 }
 
 // Document Viewer
@@ -578,6 +581,18 @@
     }
 }
 
+.btn {
+    &.active, &:active {
+        &:not(:disabled):not(.disabled) {
+            .icon {
+                @btn-active-icon-offset: -20px;
+                background-position-y: @btn-active-icon-offset;
+                background-position-y: var(--button-small-active-icon-offset-x, 0);
+            }
+        }
+    }
+}
+
 .mi-icon {
     width: @icon-width;
     height: @icon-height;
@@ -590,14 +605,6 @@
     display: inline-block;
     vertical-align: middle;
 }
-
-//.btn, button {
-//    &:focus, &:active:focus {
-//        outline: 0 none;
-//    }
-//
-//    background-color: @btnColor;
-//}
 
 .modal-dialog {
     margin-top: 100px;
@@ -652,37 +659,6 @@
         border-radius: 0;
     }
 }
-
-//.dropdown-menu {
-//    > li > a {
-//        padding: 8px 20px 8px 28px;
-//        &:hover, &:focus {
-//            background-color: @btnColor;
-//            outline: 0 none;
-//        }
-//        font-size: @buttonFontSize;
-//    }
-//
-//    .divider {
-//        margin: 4px 0;
-//    }
-//}
-//
-//.dropdown {
-//    &.open {
-//        > button {
-//            background-color: @btnActiveColor !important;
-//            background-position: -@icon-width*14 -@icon-height;
-//        }
-//    }
-//}
-//
-//#box-tools {
-//    display: inline-block;
-//    a {
-//        cursor: pointer;
-//    }
-//}
 
 .masked {
     background-color: transparent;
