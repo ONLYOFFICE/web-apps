@@ -16,7 +16,9 @@ define([
         labelDocName,
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip,
-        $ttEl, $tooltip,
+        screenTip,
+        mouseMoveData = null,
+        isTooltipHiding = false,
         bodyWidth = 0,
         ttOffset = [0, -10];
 
@@ -91,6 +93,10 @@ define([
 
             Common.NotificationCenter.on({
                 'modal:show': function(){
+                    if (screenTip) {
+                        screenTip.toolTip.hide();
+                        screenTip.isVisible = false;
+                    }
                     Common.Utils.ModalWindow.show();
                     me.api.asc_enableKeyEvents(false);
                 },
@@ -596,15 +602,19 @@ define([
         },
 
         onDocMouseMoveStart: function() {
-            this.isHideBodyTip = true;
+            screenTip.isHidden = true;
         },
 
         onDocMouseMoveEnd: function() {
-            if (this.isHideBodyTip) {
-                if ( $tooltip ) {
-                    $tooltip.tooltip('hide');
-                    $tooltip = false;
-                }
+            var me = this;
+            if (screenTip.isHidden && screenTip.isVisible) {
+                screenTip.isVisible = false;
+                isTooltipHiding = true;
+                screenTip.toolTip.hide(function(){
+                    isTooltipHiding = false;
+                    if (mouseMoveData) me.onDocMouseMove(mouseMoveData);
+                    mouseMoveData = null;
+                });
             }
         },
 
@@ -613,46 +623,52 @@ define([
             if (data) {
                 var type = data.get_Type();
                 if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
-                    this.isHideBodyTip = false;
+                    if (isTooltipHiding) {
+                        mouseMoveData = data;
+                        return;
+                    }
 
                     var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? me.txtPressLink : data.get_FormHelpText();
                     if (str.length>500)
                         str = str.substr(0, 500) + '...';
                     str = Common.Utils.String.htmlEncode(str);
 
-                    if ( !$ttEl ) {
-                        $ttEl = $('.hyperlink-tooltip');
-                        $ttEl.tooltip({'container':'body', 'trigger':'manual'});
+                    var recalc = false;
+                    screenTip.isHidden = false;
+
+                    if (screenTip.tipType !== type || screenTip.tipLength !== str.length || screenTip.strTip.indexOf(str)<0 ) {
+                        screenTip.toolTip.setTitle(str);
+                        screenTip.tipLength = str.length;
+                        screenTip.strTip = str;
+                        screenTip.tipType = type;
+                        recalc = true;
                     }
 
-                    $ttEl.ttpos = [data.get_X(), data.get_Y()];
-                    if ( !$tooltip)
-                        $tooltip = $ttEl.data('bs.tooltip').tip();
+                    var showPoint = [data.get_X()+5, data.get_Y() + ttOffset[1]-15];
 
-                    if (!$tooltip.is(':visible')) {
-                        var tip = $ttEl.data('bs.tooltip');
-                        tip.options.title = str;
-                        tip.show([-1000, -1000]);
-                    } else
-                        $tooltip.find('.tooltip-inner')['text'](str);
+                    if (!screenTip.isVisible || recalc) {
+                        screenTip.isVisible = true;
+                        screenTip.toolTip.show([-10000, -10000]);
+                    }
 
-                    var ttHeight = $tooltip.height(),
-                        ttWidth = $tooltip.width();
+                    if ( recalc ) {
+                        screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
+                        screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
+                    }
+
                     !bodyWidth && (bodyWidth = $('body').width());
 
-                    $ttEl.ttpos[1] -= (ttHeight - ttOffset[1] + 20);
-                    if ($ttEl.ttpos[0] + ttWidth + 10 >bodyWidth) {
-                        $ttEl.ttpos[0] = bodyWidth - ttWidth - 5;
-                        if ($ttEl.ttpos[1] < 0)
-                            $ttEl.ttpos[1] += ttHeight + ttOffset[1] + 20;
-                    } else if ($ttEl.ttpos[1] < 0) {
-                        $ttEl.ttpos[1] = 0;
-                        $ttEl.ttpos[0] += 20;
+                    recalc = false;
+                    if (showPoint[0] + screenTip.tipWidth > bodyWidth ) {
+                        showPoint[0] = bodyWidth - screenTip.tipWidth;
+                        recalc = true;
                     }
-                    $tooltip.css({
-                        left: $ttEl.ttpos[0],
-                        top: $ttEl.ttpos[1]
-                    });
+                    if (showPoint[1] - screenTip.tipHeight < 0) {
+                        showPoint[1] = (recalc) ? showPoint[1]+30 : 0;
+                    } else
+                        showPoint[1] -= screenTip.tipHeight;
+
+                    screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
             }
         },
@@ -865,60 +881,7 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -2);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-            var menuItems = this.view.btnOptions.menu.items;
-            var itemsCount = menuItems.length-3;
-
-            if (!this.appOptions.canPrint) {
-                menuItems[0].setVisible(false);
-                menuItems[1].setVisible(false);
-                itemsCount--;
-            }
-
-            if ( !this.embedConfig.saveUrl && !this.appOptions.canPrint || this.appOptions.canFillForms) {
-                menuItems[2].setVisible(false);
-                itemsCount--;
-            }
-
-            if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
-                menuItems[3].setVisible(false);
-                menuItems[4].setVisible(false);
-                menuItems[1].setVisible(false);
-                menuItems[5].setVisible(false);
-                itemsCount -= 2;
-            }
-
-            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
-                menuItems[6].setVisible(false);
-                itemsCount--;
-            }
-
-            if (!this.appOptions.canBackToFolder) {
-                menuItems[7].setVisible(false);
-                itemsCount--;
-            }
-
-            if (itemsCount<3)
-                menuItems[8].setVisible(false);
-
-            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
-                menuItems[9].setVisible(false);
-                itemsCount--;
-            }
-
-            if ( !this.embedConfig.fullscreenUrl ) {
-                menuItems[10].setVisible(false);
-                itemsCount--;
-            }
-
-            if (itemsCount<1)
-                this.view.btnOptions.setVisible(false);
-            else if ((!this.embedConfig.embedUrl || this.appOptions.canFillForms) && !this.embedConfig.fullscreenUrl)
-                menuItems[8].setVisible(false);
-
-            // common.controller.modals.attach({
-            //     share: '#idt-share',
-            //     embed: '#idt-embed'
-            // });
+            this.createDelayedElements();
 
             this.api.asc_registerCallback('asc_onStartAction',           _.bind(this.onLongActionBegin, this));
             this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
@@ -984,6 +947,75 @@ define([
                 case 'embed':
                     break;
             }
+        },
+
+        createDelayedElements: function() {
+            var menuItems = this.view.btnOptions.menu.items;
+            var itemsCount = menuItems.length-3;
+
+            if (!this.appOptions.canPrint) {
+                menuItems[0].setVisible(false);
+                menuItems[1].setVisible(false);
+                itemsCount--;
+            }
+
+            if ( !this.embedConfig.saveUrl && !this.appOptions.canPrint || this.appOptions.canFillForms) {
+                menuItems[2].setVisible(false);
+                itemsCount--;
+            }
+
+            if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
+                menuItems[3].setVisible(false);
+                menuItems[4].setVisible(false);
+                menuItems[1].setVisible(false);
+                menuItems[5].setVisible(false);
+                itemsCount -= 2;
+            }
+
+            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
+                menuItems[6].setVisible(false);
+                itemsCount--;
+            }
+
+            if (!this.appOptions.canBackToFolder) {
+                menuItems[7].setVisible(false);
+                itemsCount--;
+            }
+
+            if (itemsCount<3)
+                menuItems[8].setVisible(false);
+
+            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
+                menuItems[9].setVisible(false);
+                itemsCount--;
+            }
+
+            if ( !this.embedConfig.fullscreenUrl ) {
+                menuItems[10].setVisible(false);
+                itemsCount--;
+            }
+
+            if (itemsCount<1)
+                this.view.btnOptions.setVisible(false);
+            else if ((!this.embedConfig.embedUrl || this.appOptions.canFillForms) && !this.embedConfig.fullscreenUrl)
+                menuItems[8].setVisible(false);
+
+            // common.controller.modals.attach({
+            //     share: '#idt-share',
+            //     embed: '#idt-embed'
+            // });
+
+            screenTip = {
+                toolTip: new Common.UI.Tooltip({
+                    owner: this,
+                    html: true,
+                    title: this.txtPressLink,
+                    cls: 'link-tooltip'
+                }),
+                strTip: '',
+                isHidden: true,
+                isVisible: false
+            };
         },
 
         attachUIEvents: function() {
