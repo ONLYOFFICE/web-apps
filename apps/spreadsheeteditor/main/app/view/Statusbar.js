@@ -79,6 +79,12 @@ define([
                     scope: this
                 }));
 
+                this.cntStatusbar = $('.statusbar', this.el);
+                this.isCompact = Common.localStorage.getBool('sse-compact-statusbar', true);
+                if (!this.isCompact) {
+                    this.cntStatusbar.addClass('no-compact');
+                }
+
                 this.editMode = false;
                 this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
 
@@ -393,16 +399,27 @@ define([
 
                 var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                     '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
-                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div style="position: absolute; left: 0; width: 85px;"><%= caption %></div>' +
+                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 85px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
                     '</div></a>');
 
                 this.customizeStatusBarMenu = new Common.UI.Menu({
-                    style: 'margin-top: -14px; margin-left: -7px;',
+                    style: 'margin-top: 0px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
+                    menuAlignEl: $(this.el),
                     items: [
                         //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
                         //{caption: '--'},
+                        {
+                            id: 'saved-status',
+                            caption: this.itemStatus,
+                            value: 'status',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {caption: '--'},
                         {
                             id: 'math-item-average',
                             caption: this.itemAverage,
@@ -472,6 +489,14 @@ define([
 
                 this.boxZoom = $('#status-zoom-box', this.el);
                 this.boxZoom.find('.separator').css('border-left-color','transparent');
+
+                this.boxNumberSheets = $('#status-number-of-sheet', this.el);
+                this.isCompact && this.boxNumberSheets.hide();
+                this.labelNumberSheets = $('#label-sheets', this.boxNumberSheets);
+
+                this.boxAction = $('#status-action', this.el);
+                this.boxAction.hide();
+                this.labelAction = $('#label-action', this.boxAction);
 
                 this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
                 this.$customizeStatusBarMenu = this.$el.find('#statusbar-menu');
@@ -598,6 +623,9 @@ define([
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
+                    this.updateNumberOfSheet(sindex, wc);
+                    this.updateTabbarBorders();
+
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
                     Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
@@ -613,6 +641,11 @@ define([
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
 
+                    this.labelMin[info.min && info.min.length > 0 ? 'show' : 'hide']();
+                    this.labelMax[info.max && info.max.length > 0 ? 'show' : 'hide']();
+                    this.labelSum[info.sum && info.sum.length > 0 ? 'show' : 'hide']();
+                    this.labelAverage[info.average && info.average.length > 0 ? 'show' : 'hide']();
+
                     this.customizeStatusBarMenu.items.forEach(function (item) {
                         if (item.options.id === 'math-item-average') {
                             item.options.exampleval = (info.average && info.average.length) ? info.average : '';
@@ -624,8 +657,6 @@ define([
                             item.options.exampleval = (info.count) ? String(info.count) : '';
                         } else if (item.options.id === 'math-item-sum') {
                             item.options.exampleval = (info.sum && info.sum.length) ? info.sum : '';
-                        } else {
-                            item.options.exampleval = '';
                         }
                         $(item.el).find('label').text(item.options.exampleval);
                     });
@@ -668,6 +699,8 @@ define([
 
             onSheetChanged: function(o, index, tab) {
                 this.api.asc_showWorksheet(tab.sheetindex);
+
+                this.updateNumberOfSheet(tab.sheetindex, this.api.asc_getWorksheetsCount());
 
                 if (this.hasTabInvisible && !this.tabbar.isTabVisible(index)) {
                     this.tabbar.setTabVisible(index);
@@ -795,19 +828,49 @@ define([
             },
 
             updateTabbarBorders: function() {
-                var right = parseInt(this.boxZoom.css('width')), visible = false;
+                var visible = false;
+                var right = parseInt(this.boxZoom.css('width'));
                 if (this.boxMath.is(':visible')) {
-                    right   += parseInt(this.boxMath.css('width'));
+                    this.boxMath.css({'right': right + 'px'});
+                    right += parseInt(this.boxMath.css('width'));
                     visible = true;
                 }
-
                 if (this.boxFiltered.is(':visible')) {
-                    right   += parseInt(this.boxFiltered.css('width'));
+                    this.boxFiltered.css({'right': right + 'px'});
+                    right += parseInt(this.boxFiltered.css('width'));
                     visible = true;
                 }
 
-                this.boxZoom.find('.separator').css('border-left-color',visible?'':'transparent');
-                this.tabBarBox.css('right',  right + 'px');
+                if (this.isCompact) {
+                    if (this.boxAction.is(':visible')) {
+                        var tabsWidth = this.tabbar.getWidth();
+                        if (Common.Utils.innerWidth() - right - 175 - 140 - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                            var left = tabsWidth + 175;
+                            this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        } else {
+                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': '140px'});
+                            this.boxAction.find('.separator').css('border-left-color', '');
+                            visible = true;
+                        }
+                        right += parseInt(this.boxAction.css('width'));
+                    }
+
+                    this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
+                    this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
+                    this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
+                    this.tabBarBox.css('right', right + 'px');
+                } else {
+                    if (this.boxAction.is(':visible')) {
+                        this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
+                        this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                    }
+                    this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
+                    this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
+                    this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
+                    this.tabBarBox.css('right', '0px');
+                }
+                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
             },
 
             updateVisibleItemsBoxMath: function () {
@@ -852,7 +915,9 @@ define([
 
             onCustomizeStatusBarAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(obj.atposition.left);
+                    var statusHeight = $(this.el).height(),
+                        offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
+                    obj.setOffset(obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;
             },
@@ -870,12 +935,16 @@ define([
             onCustomizeStatusBarClick: function (o, item, event) {
                 var value = item.value,
                     checked = item.checked;
-                this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
-                if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
-                    this.boxMath.find('.separator').hide();
+                if (value === 'status') {
+                    this.boxAction[checked ? 'removeClass' : 'addClass']('hide');
                 } else {
-                    if (this.boxMath.find('.separator').is(":hidden")) {
-                        this.boxMath.find('.separator').show();
+                    this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
+                    if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
+                        this.boxMath.find('.separator').hide();
+                    } else {
+                        if (this.boxMath.find('.separator').is(":hidden")) {
+                            this.boxMath.find('.separator').show();
+                        }
                     }
                 }
                 this.updateVisibleItemsBoxMath();
@@ -885,6 +954,50 @@ define([
                 item.$el.find('a').blur();
             },
 
+            onChangeCompact: function (compact) {
+                this.isCompact = compact;
+                if (compact) {
+                    this.cntStatusbar.removeClass('no-compact');
+                    this.boxNumberSheets.hide();
+                    //this.boxAction.hide();
+                } else {
+                    this.cntStatusbar.addClass('no-compact');
+                    this.boxNumberSheets.show();
+                    //this.boxAction.show();
+                }
+                this.updateTabbarBorders();
+                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
+            },
+
+            updateNumberOfSheet: function (active, count) {
+                this.labelNumberSheets.text(
+                    Common.Utils.String.format(this.sheetIndexText, active + 1, count)
+                );
+            },
+
+            showStatusMessage: function(message) {
+                this.labelAction.text(message);
+                this.customizeStatusBarMenu.items.forEach(function (item) {
+                    if (item.options.id === 'saved-status') {
+                        item.options.exampleval = message;
+                    }
+                    $(item.el).find('label').text(item.options.exampleval);
+                });
+                if (!this.boxAction.is(':visible')) {
+                    this.boxAction.show();
+                }
+                var me = this;
+                _.delay(function(){
+                    me.updateTabbarBorders();
+                    me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                },30);
+            },
+
+            clearStatusMessage: function() {
+                this.labelAction.text('');
+            },
+
+            sheetIndexText      : 'Sheet {0} of {1}',
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
@@ -920,6 +1033,7 @@ define([
             itemMinimum         : 'Minimum',
             itemMaximum         : 'Maximum',
             itemSum             : 'Sum',
+            itemStatus          : 'Saving status',
             itemProtect         : 'Protect',
             itemUnProtect       : 'Unprotect'
         }, SSE.Views.Statusbar || {}));

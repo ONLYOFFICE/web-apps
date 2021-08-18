@@ -23,7 +23,7 @@
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
     </div>
     <div id="status-math-box" class="status-group">
-        <div class="separator short" style="margin-right: 12px;"></div>
+        <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>
         <label id="status-math-min">MIN: 1</label>
@@ -31,11 +31,18 @@
         <label id="status-math-sum">SUM: 5</label>
     </div>
     <div id="status-filtered-box" class="status-group">
-        <div class="separator short" style="margin-right: 12px;"></div>
+        <div class="separator short"></div>
         <label id="status-filtered-records"></label>
     </div>
     <div id="status-sheets-bar-box">
         <div id="status-sheets-bar" class="status-group">
         </div>
+    </div>
+    <div id="status-number-of-sheet">
+        <label id="label-sheets" class="status-label"></label>
+    </div>
+    <div id="status-action">
+        <div class="separator short"></div>
+        <label id="label-action" class="status-label"></label>
     </div>
 </div>

@@ -687,6 +687,14 @@ define([
             newHintTab.attr('data-hint-direction', 'top');
             newHintTab.attr('data-hint-offset', 'medium');
             newHintTab.attr('data-hint-title', 'M');
-        }
+        },
+
+        getWidth: function() {
+            var width = 21;
+            this.tabs.forEach(function(tab){
+                width += tab.$el.width();
+            });
+            return width;
+        },
     });
 });

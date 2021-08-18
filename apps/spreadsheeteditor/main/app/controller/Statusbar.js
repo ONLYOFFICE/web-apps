@@ -67,6 +67,9 @@ define([
                     'sheet:setcolor':       _.bind(this.setWorksheetColor, this),
                     'sheet:updateColors':   _.bind(this.updateTabsColors, this),
                     'sheet:move':           _.bind(this.moveWorksheet, this)
+                },
+                'Common.Views.Header': {
+                    'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -545,41 +548,6 @@ define([
             }
         },
 
-        moveCurrentTab: function (direction) {
-            if (this.api) {
-                var indTab = 0,
-                    tabBar = this.statusbar.tabbar,
-                    index = this.api.asc_getActiveWorksheetIndex(),
-                    length = tabBar.tabs.length;
-
-                this.statusbar.tabMenu.hide();
-                this.api.asc_closeCellEditor();
-
-                for (var i = 0; i < length; ++i) {
-                    if (tabBar.tabs[i].sheetindex === index) {
-                        indTab = i;
-
-                        if (direction > 0) {
-                            indTab++;
-                            if (indTab >= length) {
-                                indTab = 0;
-                            }
-                        } else {
-                            indTab--;
-                            if (indTab < 0) {
-                                indTab = length - 1;
-                            }
-                        }
-
-                        tabBar.setActive(indTab);
-                        this.api.asc_showWorksheet(tabBar.getAt(indTab).sheetindex);
-
-                        break;
-                    }
-                }
-            }
-        },
-
         // colors
 
         onApiUpdateTabColor: function (index) {
@@ -805,6 +773,28 @@ define([
                     this._sheetViewTip.show();
             } else if (!active && this._sheetViewTip && this._sheetViewTip.isVisible())
                 this._sheetViewTip.hide();
+        },
+
+        onChangeViewMode: function(item, compact) {
+            this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
+            Common.localStorage.setBool('sse-compact-statusbar', compact);
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            this.statusbar.onChangeCompact(compact);
+
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        setStatusCaption: function(text, force, delay) {
+            if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
+                return;
+
+            this.timerCaption = undefined;
+            if (text.length) {
+                this.statusbar.showStatusMessage(text);
+                if (delay>0)
+                    this.timerCaption = (new Date()).getTime() + delay;
+            } else
+                this.statusbar.clearStatusMessage();
         },
 
         protectWorksheet: function() {

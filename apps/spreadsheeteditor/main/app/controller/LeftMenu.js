@@ -272,7 +272,7 @@ define([
             case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
-//                this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
+                this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
                 Common.Gateway.requestEditRights();
                 break;
             case 'new':
