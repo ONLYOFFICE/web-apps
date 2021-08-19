@@ -798,10 +798,9 @@ define([
             var docs=this.options[0].docs;
             var thumbsElm= this.$el.find('.thumb-wrap');
             _.each(thumbsElm, function (tmb, index){
-                //var chFirst=$(tmb).children(':first');
-                $(tmb).tooltip({
+                $(tmb).find('.title').tooltip({
                     title       : docs[index].title,
-                    placement   : 'bottom'||'coursor'
+                    placement   : 'top-right'||'coursor'
                 });
             });
 

@@ -1732,30 +1732,20 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',
-            '<h3><%= scope.fromTemplateText %></h3><hr noshade />',
+            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<% _.each(docs, function(item) { %>',
+                '<% _.each(docs, function(item, index) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.image)) { %> ',
+                    '<div class="thumb" ',
+                        '<% if(index == 0) { ' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                        ' } else if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
-                            '<% } else { ' +
-                                'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                            ' } %>',
-                        '</div>',
-                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
+                        ' <%} else {' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
+                    '</div>',
+                    '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'
@@ -1772,6 +1762,14 @@ define([
                 scope: this,
                 docs: this.options[0].docs
             }));
+            var docs=this.options[0].docs;
+            var thumbsElm= this.$el.find('.thumb-wrap');
+            _.each(thumbsElm, function (tmb, index){
+                $(tmb).find('.title').tooltip({
+                    title       : docs[index].title,
+                    placement   : 'top-right'||'coursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -1802,7 +1800,8 @@ define([
         fromBlankText       : 'From Blank',
         newDocumentText     : 'New Spreadsheet',
         newDescriptionText  : 'Create a new blank text document which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.',
-        fromTemplateText    : 'From Template'
+        fromTemplateText    : 'From Template',
+        txtCreateNew        : 'Create New'
     }, SSE.Views.FileMenuPanels.CreateNew || {}));
 
     SSE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({

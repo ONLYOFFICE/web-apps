@@ -867,18 +867,6 @@ define([
         },
 
         template: _.template([
-           /* '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',*/
             '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
             '<% _.each(docs, function(item, index) { %>',
@@ -909,6 +897,14 @@ define([
                 scope: this,
                 docs: this.options[0].docs
             }));
+            var docs=this.options[0].docs;
+            var thumbsElm= this.$el.find('.thumb-wrap');
+            _.each(thumbsElm, function (tmb, index){
+                $(tmb).find('.title').tooltip({
+                    title       : docs[index].title,
+                    placement   : 'top-right'||'coursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
