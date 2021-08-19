@@ -795,6 +795,15 @@ define([
                 scope: this,
                 docs: this.options[0].docs
             }));
+            var docs=this.options[0].docs;
+            var thumbsElm= this.$el.find('.thumb-wrap');
+            _.each(thumbsElm, function (tmb, index){
+                //var chFirst=$(tmb).children(':first');
+                $(tmb).tooltip({
+                    title       : docs[index].title,
+                    placement   : 'bottom'||'coursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
