@@ -1575,6 +1575,8 @@
   "DE.Views.DocumentHolder.txtUngroup": "Разгруппировать",
   "DE.Views.DocumentHolder.updateStyleText": "Обновить стиль %1",
   "DE.Views.DocumentHolder.vertAlignText": "Вертикальное выравнивание",
+  "DE.Views.DocumentHolder.txtRemoveWarning": "Вы хотите удалить эту подпись?<br>Это нельзя отменить.",
+  "DE.Views.DocumentHolder.notcriticalErrorTitle": "Внимание",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Границы и заливка",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Буквица",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Поля",

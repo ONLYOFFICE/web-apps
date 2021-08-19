@@ -1577,6 +1577,8 @@
   "DE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "DE.Views.DocumentHolder.txtRemoveWarning": "Do you want to remove this signature?<br>It can't be undone.",
+  "DE.Views.DocumentHolder.notcriticalErrorTitle": "Warning",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop Cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",
