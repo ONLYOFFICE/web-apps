@@ -293,7 +293,9 @@
     background-repeat: no-repeat;
     filter: @component-normal-icon-filter;
 
+    @1d25ximage: replace(@common-controls, '\.png$', '@1.25x.png');
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@common-controls, '\.png$', '@1.75x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');
 
     @media only screen {
@@ -312,6 +314,16 @@
             background-image: ~"url(@{common-image-const-path}/@{2ximage})";
             background-size: @common-controls-width auto;
         }
+    }
+
+    .pixel-ratio__1_25 & {
+        background-image: ~"url(@{common-image-const-path}/@{1d25ximage})";
+        background-size: @common-controls-width auto;
+    }
+
+    .pixel-ratio__1_75 & {
+        background-image: ~"url(@{common-image-const-path}/@{1d75ximage})";
+        background-size: @common-controls-width auto;
     }
 }
 
