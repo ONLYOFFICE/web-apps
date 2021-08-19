@@ -1711,7 +1711,11 @@ define([
                     case Asc.c_oAscError.ID.UplDocumentFileCount:
                         config.msg = this.uploadDocFileCountMessage;
                         break;
-                    
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2990,7 +2994,8 @@ define([
             errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.',
             uploadDocSizeMessage: 'Maximum document size limit exceeded.',
             uploadDocExtMessage: 'Unknown document format.',
-            uploadDocFileCountMessage: 'No documents uploaded.'
+            uploadDocFileCountMessage: 'No documents uploaded.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });
