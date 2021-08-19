@@ -573,6 +573,10 @@ PE.ApplicationController = new(function(){
                 message = me.errorForceSave;
                 break;
 
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -718,6 +722,7 @@ PE.ApplicationController = new(function(){
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
-        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();
