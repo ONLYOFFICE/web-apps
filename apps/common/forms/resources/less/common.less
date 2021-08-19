@@ -84,17 +84,17 @@
 @toolbarBorderShadowColor:      #FAFAFA;
 @toolbarTopColor:               #F7F7F7;
 @toolbarBottomColor:            #CCCCCC;
-@toolbarHoverColor:             #7698DE;
+//@toolbarHoverColor:             #7698DE;
 @toolbarFontSize:               12px;
-@buttonFontSize:                11px;
-@controlBtnHoverTopColor:       #6180C4;
-@controlBtnHoverBottomColor:    #8AACF1;
-@btnColor:                      #d8dadc;
-@btnActiveColor:                #7d858c;
+//@buttonFontSize:                11px;
+//@controlBtnHoverTopColor:       #6180C4;
+//@controlBtnHoverBottomColor:    #8AACF1;
+//@btnColor:                      #d8dadc;
+//@btnActiveColor:                #7d858c;
 @btnColored:                    #446995;
 @btnActiveColored:              #293F59;
 @btnHoverColored:               #375478;
-@notificationColor:             #fcfed7;
+//@notificationColor:             #fcfed7;
 
 @iconSpriteCommonPath:          "../../../../common/forms/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
@@ -248,6 +248,12 @@
     .margin-right-large {
         margin-right: 12px;
     }
+    .margin-left-small {
+        margin-left: 8px;
+    }
+    .margin-left-large {
+        margin-left: 12px;
+    }
 }
 
 // Logo
@@ -259,76 +265,25 @@
     background: data-uri('../../../../common/forms/resources/img/logo.svg') no-repeat;
 }
 
-// Control buttons
-// -------------------------
-.control-btn {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: transparent;
-    border: 1px solid transparent;
-    border-radius: 2px;
-
-    width: 22px;
-    height: 22px;
-    background-origin: content-box;
-    padding: 0 1px;
-    font-size: @buttonFontSize;
-
-    &.has-caption {
-        width: auto;
-        padding-right: 5px;
-    }
-
+.btn-text-default {
     &.colored {
         padding: 0 16px;
         height: 28px;
         background-color: @btnColored;
+        border: 1px solid transparent;
         border-radius: 3px;
         color: #ffffff;
         font-weight: 700;
-    }
 
-    // Hover state
-    &:hover:not(:disabled) {
-        text-decoration: none;
-        background-color: @btnColor;
-
-        &.colored {
-            background-color: @btnHoverColored;
-        }
-    }
-
-    &:active:not(:disabled) {
-        & {
-            background-position-y: -@icon-height !important;
+        &:hover:not(.disabled),
+        .over:not(.disabled) {
+            background-color: @btnHoverColored !important;
         }
 
-        &.has-caption {
-            color: #ffffff
+        &:active:not(.disabled),
+        &.active:not(.disabled) {
+            background-color: @btnActiveColored !important;;
         }
-
-        &.colored {
-            background-color: @btnActiveColored;
-        }
-    }
-
-// Focus state for keyboard and accessibility
-    &:focus {
-        .tab-focus();
-        outline: none;
-    }
-
-// Active state
-    &.active:not(:disabled),
-    &:active:not(:disabled) {
-        outline: none;
-        border: 1px solid @btnActiveColor;
-        background-color: @btnActiveColor;
-    }
-
-    &[disabled] {
-        opacity: 0.4;
     }
 }
 
@@ -657,27 +612,6 @@
     }
 }
 
-.tooltip {
-    .tooltip-inner {
-        background-color: #fff;
-        border: 1px solid rgba(0,0,0,0.15);
-        color: #333;
-        font-weight: bold;
-        font-size: 11px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-        max-width: 350px;
-
-        padding: 5px 12px;
-        white-space: pre-wrap;
-        text-align: left;
-        word-wrap: break-word;
-    }
-
-    .tooltip-arrow {
-        display: none;
-    }
-}
-
 .submit-tooltip {
     position: absolute;
     z-index: 1000;
@@ -686,68 +620,40 @@
 
     padding: 7px 15px;
     border-radius: 5px;
-    background-color: @notificationColor;
+    background-color: @background-notification-popover;
     -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
     font-size: 11px;
 }
 
-.required-tooltip {
-    position: absolute;
-    z-index: 1000;
+.synch-tip-root {
+    &.colored {
+        @tip-width: 240px;
+        width: @tip-width;
+        .tip-text {
+            width: @tip-width - 40px;
+        }
 
-    padding: 15px;
-    border-radius: 5px;
-    background-color: @btnColored;
-    color: #fff;
-    -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
-    font-size: 11px;
-
-    &.bottom-left {
-        border-top-right-radius: 0;
-        margin: 15px 0 0 0;
-
-        .tip-arrow {
-            position: absolute;
-            overflow: hidden;
-            right: 0;
-            top: -15px;
-            width: 15px;
-            height: 15px;
-            .box-shadow(8px 5px 8px -5px rgba(0, 0, 0, 0.2));
-
-            &:after {
-                content: '';
-                position: absolute;
-                top: 8px;
-                left: 8px;
-                background-color: @btnColored;
-                width: 15px;
-                height: 15px;
-
-                -moz-transform: rotate(45deg);
-                -ms-transform: rotate(45deg);
-                -webkit-transform: rotate(45deg);
-                -o-transform: rotate(45deg);
-                transform: rotate(45deg);
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+        .asc-synchronizetip {
+            background-color: @btnColored;
+            color: @text-toolbar-header;
+            .close {
+                &:before, &:after {
+                    background-color: @text-toolbar-header;
+                }
             }
         }
-    }
-    .close-div {
-        display: inline-block;
-        border: 1px solid #fff;
-        border-radius: 2px;
-        padding: 3px 12px;
-        margin-top: 10px;
-    }
-}
 
-.tooltip {
-    .tooltip-inner {
-        .toolbar & {
-            font-weight: normal;
+        .tip-arrow:after {
+            background-color: @btnColored;
+        }
+
+        .btn-div {
+            display: inline-block;
+            border: 1px solid #fff;
+            border-radius: 2px;
+            padding: 3px 12px;
+            margin-top: 10px;
         }
     }
 }

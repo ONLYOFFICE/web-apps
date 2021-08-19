@@ -5,6 +5,7 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/component/LoadMask',
     'common/main/lib/component/Tooltip',
+    'common/main/lib/component/SynchronizeTip',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
     'documenteditor/forms/app/view/ApplicationView'
@@ -14,8 +15,7 @@ define([
     var LoadingDocument = -256,
         maxPages = 0,
         labelDocName,
-        btnSubmit,
-        _submitFail, $submitedTooltip, $requiredTooltip,
+        _submitFail,
         screenTip,
         mouseMoveData = null,
         isTooltipHiding = false,
@@ -195,8 +195,8 @@ define([
 
                 case Asc.c_oAscError.ID.Submit:
                     config.msg = this.errorSubmit;
-                    // _submitFail = true;
-                    // $submitedTooltip && $submitedTooltip.hide();
+                    _submitFail = true;
+                    this.submitedTooltip && this.submitedTooltip.hide();
                     break;
 
                 case Asc.c_oAscError.ID.EditingError:
@@ -459,14 +459,12 @@ define([
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
 
-            btnSubmit = $('#id-btn-submit');
-
             var me = this;
+            me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
                 me.view.btnClear.setVisible(false);
-                btnSubmit.hide();
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
@@ -477,14 +475,9 @@ define([
                 me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
                 });
-
-                if (this.appOptions.canSubmitForms) {
-                    btnSubmit.find('.caption').text(this.textSubmit);
-                    btnSubmit.on('click', function(){
-                        me.api.asc_SendForm();
-                    });
-                } else
-                    btnSubmit.hide();
+                me.view.btnSubmit.on('click', function(){
+                    me.api.asc_SendForm();
+                });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_SetFastCollaborative(true);
@@ -557,9 +550,9 @@ define([
                     break;
                 case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
-                    $submitedTooltip && $submitedTooltip.hide();
-                    btnSubmit.attr({disabled: true});
-                    btnSubmit.css("pointer-events", "none");
+                    this.submitedTooltip && this.submitedTooltip.hide();
+                    this.view.btnSubmit.setDisabled(true);
+                    this.view.btnSubmit.cmpEl.css("pointer-events", "none");
                     break;
                 case LoadingDocument:
                     text = this.textLoadingDocument + '           ';
@@ -588,15 +581,16 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                btnSubmit.removeAttr('disabled');
-                btnSubmit.css("pointer-events", "auto");
+                 this.view.btnSubmit.setDisabled(false);
+                 this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
-                    if (!$submitedTooltip) {
-                        $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + this.textSubmited + '</div>');
-                        $(document.body).append($submitedTooltip);
-                        $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
+                    if (!this.submitedTooltip) {
+                        var me = this;
+                        this.submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + this.textSubmited + '</div>');
+                        $(document.body).append(this.submitedTooltip);
+                        this.submitedTooltip.on('click', function() {me.submitedTooltip.hide();});
                     }
-                    $submitedTooltip.show();
+                    this.submitedTooltip.show();
                 }
             }
         },
@@ -715,14 +709,8 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            if (isFilled) {
-                btnSubmit.removeAttr('disabled');
-                btnSubmit.css("pointer-events", "auto");
-                // $requiredTooltip && $requiredTooltip.hide();
-            } else {
-                btnSubmit.attr({disabled: true});
-                btnSubmit.css("pointer-events", "none");
-            }
+            this.view.btnSubmit.setDisabled(!isFilled);
+            this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
         },
 
         onProcessMouse: function(data) {
@@ -1055,25 +1043,34 @@ define([
             // TODO: add asc_hasRequiredFields to sdk
 
             if (this.appOptions.canSubmitForms && !this.api.asc_IsAllRequiredFormsFilled()) {
+                this.view.btnSubmit.setDisabled(true);
+                this.view.btnSubmit.cmpEl.css("pointer-events", "none");
                 var sgroup = $('#id-submit-group');
-                btnSubmit.attr({disabled: true});
-                btnSubmit.css("pointer-events", "none");
                 if (!Common.localStorage.getItem("de-embed-hide-submittip")) {
-                    var offset = btnSubmit.offset();
-                    $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
-                    $(document.body).append($requiredTooltip);
-                    $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
-                    $requiredTooltip.find('.close-div').on('click', function() {
-                        $requiredTooltip.hide();
+                    var requiredTooltip = new Common.UI.SynchronizeTip({
+                        extCls: 'colored',
+                        placement: 'bottom-left',
+                        target: this.view.btnSubmit.$el,
+                        text: this.textRequired,
+                        showLink: false,
+                        showButton: true,
+                        textButton: this.textGotIt
+                    });
+                    var onclose = function () {
+                        requiredTooltip.hide();
                         me.api.asc_MoveToFillingForm(true, true, true);
-                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
                         sgroup.attr('data-toggle', 'tooltip');
                         sgroup.tooltip({
                             title       : me.textRequired,
                             placement   : 'bottom'
                         });
+                    };
+                    requiredTooltip.on('buttonclick', function () {
+                        onclose();
+                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
                     });
-                    $requiredTooltip.show();
+                    requiredTooltip.on('closeclick', onclose);
+                    requiredTooltip.show();
                 } else {
                     sgroup.attr('data-toggle', 'tooltip');
                     sgroup.tooltip({
@@ -1126,7 +1123,6 @@ define([
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
-        textSubmit: 'Submit',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',

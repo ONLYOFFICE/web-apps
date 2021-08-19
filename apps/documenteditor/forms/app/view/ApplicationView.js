@@ -54,6 +54,12 @@ define([
             });
             this.btnPrev.render($('#id-btn-prev-field'));
 
+            this.btnSubmit = new Common.UI.Button({
+                cls: 'btn-text-default colored margin-left-small margin-right-small',
+                caption: this.textSubmit
+            });
+            this.btnSubmit.render($('#id-submit-group'));
+
             this.txtGoToPage = new Common.UI.InputField({
                 el: $('#page-number'),
                 cls: 'masked',
@@ -75,6 +81,7 @@ define([
         txtDownloadDocx: 'Download as docx',
         txtDownloadPdf: 'Download as pdf',
         textNext: 'Next Field',
-        textClear: 'Clear All Fields'
+        textClear: 'Clear All Fields',
+        textSubmit: 'Submit'
     });
 });
