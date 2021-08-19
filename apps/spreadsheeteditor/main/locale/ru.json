@@ -569,6 +569,7 @@
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Отменить авторазвертывание таблицы",
   "SSE.Controllers.DocumentHolder.txtUseTextImport": "Использовать мастер импорта текста",
   "SSE.Controllers.DocumentHolder.txtWidth": "Ширина",
+  "SSE.Controllers.DocumentHolder.txtRemoveWarning": "Вы хотите удалить эту подпись?<br>Это нельзя отменить.",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "Все",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Аналитические",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Базы данных",

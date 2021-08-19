@@ -3499,7 +3499,18 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_RemoveSignature(datavalue); //guid
+                    var me = this;
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.txtRemoveWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_RemoveSignature(datavalue);
+                            }
+                        }
+                    });
                     break;
             }
         },
@@ -3774,7 +3785,8 @@ define([
         txtImportWizard: 'Text Import Wizard',
         textPasteSpecial: 'Paste special',
         textStopExpand: 'Stop automatically expanding tables',
-        textAutoCorrectSettings: 'AutoCorrect options'
+        textAutoCorrectSettings: 'AutoCorrect options',
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
