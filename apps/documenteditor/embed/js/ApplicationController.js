@@ -742,6 +742,10 @@ DE.ApplicationController = new(function(){
                 message = me.errorForceSave;
                 break;
 
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -927,6 +931,7 @@ DE.ApplicationController = new(function(){
         textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         txtEmpty: '(Empty)',
-        txtPressLink: 'Press Ctrl and click link'
+        txtPressLink: 'Press Ctrl and click link',
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();

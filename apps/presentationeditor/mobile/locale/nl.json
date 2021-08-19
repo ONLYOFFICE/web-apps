@@ -157,7 +157,8 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",

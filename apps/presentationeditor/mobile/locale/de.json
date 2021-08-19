@@ -157,7 +157,8 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
