@@ -1404,7 +1404,11 @@ define([
                     case Asc.c_oAscError.ID.Password:
                         config.msg = this.errorSetPassword;
                         break;
-                    
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2727,7 +2731,8 @@ define([
             txtErrorLoadHistory: 'Loading history failed',
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            txtNone: 'None'
+            txtNone: 'None',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), PE.Controllers.Main || {}))
 });
