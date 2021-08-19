@@ -6,6 +6,8 @@ define([
     'common/main/lib/component/LoadMask',
     'common/main/lib/component/Tooltip',
     'common/main/lib/component/SynchronizeTip',
+    'common/main/lib/component/DataView',
+    'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
     'documenteditor/forms/app/view/ApplicationView'
@@ -751,6 +753,9 @@ define([
         onShowContentControlsActions: function(obj, x, y) {
             var me = this;
             switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
                         var lock = obj.pr.get_Lock();
@@ -858,6 +863,75 @@ define([
                 menu.cmpEl.focus();
             }, 10);
             this._fromShowContentControls = false;
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                controlsContainer = this.boxSdk.find('#calendar-control-container'),
+                me = this;
+
+            this._dateObj = props;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                this.boxSdk.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: this.boxSdk.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var specProps = me._dateObj.get_DateTimePr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlDatePickerDate(specProps);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+
+            }
+            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
         },
 
         onDocumentContentReady: function() {
