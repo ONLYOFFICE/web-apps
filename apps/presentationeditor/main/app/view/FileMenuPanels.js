@@ -765,28 +765,18 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',
-            '<h3><%= scope.fromTemplateText %></h3><hr noshade />',
+            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<% _.each(docs, function(item) { %>',
+                '<% _.each(docs, function(item, index) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.image)) { %> ',
+                        '<div class="thumb" ',
+                        '<% if(index == 0) { ' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                        ' } else if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
-                            '<% } else { ' +
-                                'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                            ' } %>',
+                        ' <%} else {' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
                         '</div>',
                         '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
@@ -836,7 +826,8 @@ define([
         newDocumentText     : 'New Presentation',
         newDescriptionText  : 'Create a new blank presentation which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.',
         fromTemplateText    : 'From Template',
-        noTemplatesText     : 'There are no templates'
+        noTemplatesText     : 'There are no templates',
+        txtCreateNew        : 'Create New'
     }, PE.Views.FileMenuPanels.CreateNew || {}));
 
     PE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({
