@@ -222,7 +222,8 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
