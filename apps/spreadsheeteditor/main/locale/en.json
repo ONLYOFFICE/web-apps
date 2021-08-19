@@ -569,6 +569,7 @@
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Undo table autoexpansion",
   "SSE.Controllers.DocumentHolder.txtUseTextImport": "Use text import wizard",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.txtRemoveWarning": "Do you want to remove this signature?<br>It can't be undone.",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "All",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cube",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Database",
