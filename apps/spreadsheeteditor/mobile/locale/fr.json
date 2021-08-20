@@ -193,6 +193,7 @@
     "errorInvalidRef": "Entrez un nom correct pour la sélection ou une référence valable à laquelle aller.",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorLockedAll": "L'opération ne peut pas être réalisée car la feuille a été verrouillée par un autre utilisateur.",
     "errorLockedCellPivot": "Impossible de modifier les données d'un tableau croisé dynamique.",
     "errorLockedWorksheetRename": "La feuille ne peut pas être renommée pour le moment car elle est en train d'être renommée par un autre utilisateur",
@@ -222,8 +223,7 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -273,13 +273,13 @@
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",
     "textHide": "Masquer",
     "textMore": "Plus",
+    "textOk": "OK",
     "textRename": "Renommer",
     "textRenameSheet": "Renommer la feuille",
     "textSheet": "Feuille",
     "textSheetName": "Nom de la feuille",
     "textUnhide": "Afficher",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -335,7 +335,8 @@
       "txtExpandSort": "Les données situées à côté de la sélection ne seront pas triées. Souhaitez-vous développer la sélection pour inclure les données adjacentes ou souhaitez-vous continuer à trier iniquement les cellules sélectionnées ?",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
-      "txtSortSelected": "Trier l'objet sélectionné "
+      "txtSortSelected": "Trier l'objet sélectionné ",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -573,6 +574,7 @@
       "textMatchCase": "Respecter la casse",
       "textMatchCell": "Respecter la cellule",
       "textNoTextFound": "Le texte est introuvable",
+      "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textOrientation": "Orientation",
       "textOwner": "Propriétaire",
@@ -633,8 +635,7 @@
       "txtScheme9": "Fonderie",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textOk": "Ok"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

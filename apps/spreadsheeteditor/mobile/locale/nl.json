@@ -335,7 +335,8 @@
       "txtExpandSort": "De gegevens naast de selectie worden niet gesorteerd. Wilt u de selectie uitbreiden en aangrenzende gegevens opnemen of wilt u doorgaan met sorteren van alleen de cellen die op dit moment zijn geselecteerd?",
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSorting": "Sorteren",
-      "txtSortSelected": "Geselecteerde sorteren"
+      "txtSortSelected": "Geselecteerde sorteren",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",

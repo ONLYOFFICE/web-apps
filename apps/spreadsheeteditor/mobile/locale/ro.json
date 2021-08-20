@@ -193,6 +193,7 @@
     "errorInvalidRef": "Introduceți numele din selecție corect sau o referință validă de accesat.",
     "errorKeyEncrypt": "Descriptor cheie nerecunoscut",
     "errorKeyExpire": "Descriptor cheie a expirat",
+    "errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
     "errorLockedAll": "Operațiunea nu poate fi efectuată deoarece foaia a fost blocată de către un alt utilizator.",
     "errorLockedCellPivot": "Nu puteți modifica datele manipulând tabel Pivot.",
     "errorLockedWorksheetRename": "Deocamdată, nu puteți redenumi foaia deoarece foaia este redenumită de către un alt utilizator",
@@ -222,8 +223,7 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -273,13 +273,13 @@
     "textErrorRemoveSheet": "Foaia de calcul nu poate fi ștearsă.",
     "textHide": "Ascunde",
     "textMore": "Mai multe",
+    "textOk": "OK",
     "textRename": "Redenumire",
     "textRenameSheet": "Redenumire foaie",
     "textSheet": "Foaie",
     "textSheetName": "Numele foii",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -335,7 +335,8 @@
       "txtExpandSort": "Datele lângă selecție vor fi sortate. Doriți să extindeți selecția pentru a include datele adiacente sau doriți să continuați cu selecția curentă?",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
-      "txtSortSelected": "Sortarea selecției"
+      "txtSortSelected": "Sortarea selecției",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -573,6 +574,7 @@
       "textMatchCase": "Potrivire litere mari și mici",
       "textMatchCell": "Potrivire celulă",
       "textNoTextFound": "Textul nu a fost găsit",
+      "textOk": "OK",
       "textOpenFile": "Introduceți parola pentru deschidere fișier",
       "textOrientation": "Orientare",
       "textOwner": "Proprietar",
@@ -633,8 +635,7 @@
       "txtScheme9": "Forjă",
       "txtSpace": "Spațiu",
       "txtTab": "Fila",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "textOk": "Ok"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }
 }

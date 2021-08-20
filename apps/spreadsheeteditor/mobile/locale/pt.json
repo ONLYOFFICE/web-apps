@@ -335,7 +335,8 @@
       "txtExpandSort": "Os dados próximos à seleção não serão classificados. Você quer expandir a seleção para incluir os dados adjacentes ou continuar com classificando apenas as células selecionadas atualmente?",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
-      "txtSortSelected": "Classificar selecionado"
+      "txtSortSelected": "Classificar selecionado",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

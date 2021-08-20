@@ -546,6 +546,7 @@
     "textUploaded": "已上传",
     "txtIncorrectPwd": "密码有误",
     "txtProtected": "输入密码并打开文件后，当前密码将会被重设。",
+    "textOk": "Ok",
     "txtScheme1": "Office",
     "txtScheme10": "Median",
     "txtScheme11": "Metro",
@@ -567,8 +568,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textOk": "Ok"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

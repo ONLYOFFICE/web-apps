@@ -139,6 +139,7 @@
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Contactați administratorul dvs.",
     "errorKeyEncrypt": "Descriptor cheie nerecunoscut",
     "errorKeyExpire": "Descriptor cheie a expirat",
+    "errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -157,8 +158,7 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
