@@ -10,6 +10,7 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
+    'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
     'use strict';
@@ -1007,6 +1008,9 @@ define([
                 case 'share':
                     break;
                 case 'embed':
+                    (new Common.Views.ShareDialog({
+                        embedConfig: this.embedConfig
+                    })).show();
                     break;
             }
         },

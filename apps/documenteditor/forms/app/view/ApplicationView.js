@@ -5,8 +5,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
     'common/main/lib/component/Button',
-    'common/main/lib/component/Menu',
-    'common/main/lib/component/Calendar'
+    'common/main/lib/component/Menu'
 ], function ($, _, Backbone) {
     'use strict';
 
