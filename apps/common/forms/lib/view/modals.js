@@ -139,7 +139,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 110px;">',
+                '<div class="box" style="height: 100px;">',
                 '<table cols="1" style="width: 100%;">',
                     '<tr>',
                         '<td>',
@@ -147,9 +147,14 @@ define([
                         '</td>',
                     '</tr>',
                     '<tr>',
-                    '<td colspan="2">',
-                        '<div id="share-buttons" style="margin-top: 15px;"></div>',
-                    '</td>',
+                        '<td>',
+                            '<div class="share-buttons" style="margin-top: 15px;">',
+                                '<span class="svg big-facebook" data-name="facebook"></span>',
+                                '<span class="svg big-twitter" data-name="twitter"></span>',
+                                '<span class="svg big-email" data-name="email"></span>',
+                                '<div class="autotest" id="email" style="display: none"></div>',
+                            '</div>',
+                        '</td>',
                     '</tr>',
                 '</table>',
                 '</div>',
