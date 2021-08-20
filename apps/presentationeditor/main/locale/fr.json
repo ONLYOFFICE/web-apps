@@ -395,6 +395,7 @@
   "PE.Controllers.Main.errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
   "PE.Controllers.Main.errorKeyEncrypt": "Descripteur de clés inconnu",
   "PE.Controllers.Main.errorKeyExpire": "Descripteur de clés expiré",
+  "PE.Controllers.Main.errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
   "PE.Controllers.Main.errorProcessSaveResult": "Échec de l'enregistrement",
   "PE.Controllers.Main.errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
   "PE.Controllers.Main.errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
