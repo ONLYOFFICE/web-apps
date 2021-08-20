@@ -314,6 +314,7 @@
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.  ",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorMailMergeLoadFile": "Échec du chargement",
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
@@ -334,8 +335,7 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -523,6 +523,7 @@
     "textMarginsW": "Les marges gauche et droite sont trop larges pour une largeur de page donnée",
     "textNoCharacters": "Caractères non imprimables",
     "textNoTextFound": "Le texte est introuvable",
+    "textOk": "OK",
     "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
     "textOrientation": "Orientation",
     "textOwner": "Propriétaire",
@@ -567,8 +568,7 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie",
-    "textOk": "Ok"
+    "txtScheme9": "Fonderie"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

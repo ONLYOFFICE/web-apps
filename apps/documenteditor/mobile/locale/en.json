@@ -314,6 +314,7 @@
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorKeyExpire": "Key descriptor expired",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorMailMergeLoadFile": "Loading failed",
     "errorMailMergeSaveFile": "Merge failed.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
@@ -323,7 +324,7 @@
     "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file can't be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
+    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
@@ -334,8 +335,7 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -480,7 +480,6 @@
     "textBack": "Back",
     "textBottom": "Bottom",
     "textCancel": "Cancel",
-    "textOk": "Ok",
     "textCaseSensitive": "Case Sensitive",
     "textCentimeter": "Centimeter",
     "textCollaboration": "Collaboration",
@@ -524,6 +523,7 @@
     "textMarginsW": "Left and right margins are too wide for a given page width",
     "textNoCharacters": "Nonprinting Characters",
     "textNoTextFound": "Text not found",
+    "textOk": "Ok",
     "textOpenFile": "Enter a password to open the file",
     "textOrientation": "Orientation",
     "textOwner": "Owner",

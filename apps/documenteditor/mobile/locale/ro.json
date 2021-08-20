@@ -314,6 +314,7 @@
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dvs.",
     "errorKeyEncrypt": "Descriptor cheie nerecunoscut",
     "errorKeyExpire": "Descriptor cheie a expirat",
+    "errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
     "errorMailMergeLoadFile": "Încărcarea eșuată",
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
@@ -334,8 +335,7 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -523,6 +523,7 @@
     "textMarginsW": "Marginile stânga și dreapta sunt prea late pentru această pagină",
     "textNoCharacters": "Caractere neimprimate",
     "textNoTextFound": "Textul nu a fost găsit",
+    "textOk": "OK",
     "textOpenFile": "Introduceți parola pentru deschidere fișier",
     "textOrientation": "Orientare",
     "textOwner": "Proprietar",
@@ -567,8 +568,7 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă",
-    "textOk": "Ok"
+    "txtScheme9": "Forjă"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
