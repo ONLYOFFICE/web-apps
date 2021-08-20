@@ -303,22 +303,37 @@
             }
 
             .thumb-list {
+
                 .thumb-wrap {
                     display: inline-block;
                     text-align: center;
                     width: auto;
-                    padding: 30px 20px;
                     cursor: pointer;
+                    vertical-align: top;
+                    .border-radius(@border-radius-small);
 
                     .thumb {
                         width: 96px;
                         height: 96px;
                         background-repeat: no-repeat;
                         background-position: center;
+                        margin:  12px 12px 0px 12px;
                     }
 
                     .title {
-                        padding-top: 20px;
+                        width: 104px;
+                        font-size: 12px;
+                        line-height: 14px;
+                        height: 28px;
+                        margin: 8px 8px 12px 8px;
+                    }
+                    &:hover{
+                        background-color: @highlight-button-hover-ie;
+                        background-color: @highlight-button-hover;
+                    }
+                    &:active{
+                        background-color: @highlight-button-pressed-ie;
+                        background-color: @highlight-button-pressed;
                     }
                 }
             }
