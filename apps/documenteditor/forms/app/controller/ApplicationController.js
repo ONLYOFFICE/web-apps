@@ -403,7 +403,8 @@ define([
 
             labelDocName = $('#title-doc-name');
             if (data.doc) {
-                labelDocName.text(data.doc.title || '')
+                labelDocName.text(data.doc.title || '');
+                this.embedConfig.docTitle = data.doc.title;
             }
         },
 
@@ -1006,9 +1007,12 @@ define([
                     Common.Analytics.trackEvent('Save');
                     break;
                 case 'share':
+                    (new Common.Views.ShareDialog({
+                        embedConfig: this.embedConfig
+                    })).show();
                     break;
                 case 'embed':
-                    (new Common.Views.ShareDialog({
+                    (new Common.Views.EmbedDialog({
                         embedConfig: this.embedConfig
                     })).show();
                     break;
