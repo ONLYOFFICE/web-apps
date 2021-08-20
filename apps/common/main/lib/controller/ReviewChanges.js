@@ -109,6 +109,7 @@ define([
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
+            Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -163,7 +164,7 @@ define([
         SetDisabled: function(state) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state, this.langs);
+            this.view && this.view.SetDisabled(state, this.langs, {comments: !!this._state.wsProps['Objects']});
             this.setPreviewMode(state);
         },
 
@@ -840,9 +841,10 @@ define([
                         me.view.turnChat(state);
                 });
             }
+            me.onChangeProtectSheet();
             if (me.view) {
-                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
-                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
+                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
+                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
             }
         },
 
@@ -974,8 +976,24 @@ define([
         commentsShowHide: function(mode) {
             if (!this.view) return;
             var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value);
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            this._state.wsProps = props ? props.wsProps : {};
+            this._state.wsLock = props ? props.wsLock : false;
+
+            if (!this.view) return;
+            var leftmenu = this.getApplication().getController('LeftMenu'),
+                isCommentsVisible = leftmenu && leftmenu.isCommentsVisible();
+            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
         },
 
         textInserted: '<b>Inserted:</b>',

@@ -1026,6 +1026,10 @@ define([
             Common.Gateway.requestHistory();
         },
 
+        isCommentsVisible: function() {
+            return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
         textNoTextFound        : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
         textItemEntireCell      : 'Entire cell contents',

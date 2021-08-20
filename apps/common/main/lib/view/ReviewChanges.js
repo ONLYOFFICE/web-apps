@@ -803,7 +803,7 @@ define([
                 }
             },
 
-            SetDisabled: function (state, langs) {
+            SetDisabled: function (state, langs, protectProps) {
                 this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
@@ -821,8 +821,8 @@ define([
                 }, this);
                 // this.btnChat && this.btnChat.setDisabled(state);
 
-                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
-                this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
+                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment") || protectProps && protectProps.comments);
+                this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment") || protectProps && protectProps.comments);
             },
 
             onLostEditRights: function() {
