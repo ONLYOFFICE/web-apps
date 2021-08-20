@@ -59,7 +59,6 @@ define([
             $(window).on('resize', this.onDocumentResize.bind(this));
 
             this.boxSdk = $('#editor_sdk');
-            // this.boxSdk.css('border-left', 'none');
             this.boxSdk.on('click', function(e) {
                 if (e.target.localName == 'canvas') {
                     if (me._preventClick)
@@ -276,18 +275,9 @@ define([
             this.editorConfig = $.extend(this.editorConfig, data.config);
             this.embedConfig = $.extend(this.embedConfig, data.config.embedded);
 
-            // common.controller.modals.init(this.embedConfig);
-
-            // Docked toolbar
-            if (this.embedConfig.toolbarDocked === 'bottom') {
-                $('#toolbar').addClass('bottom');
-                this.boxSdk.addClass('bottom');
-                ttOffset[1] = -40;
-            } else {
-                $('#toolbar').addClass('top');
-                this.boxSdk.addClass('top');
-                ttOffset[1] = 40;
-            }
+            $('#toolbar').addClass('top');
+            this.boxSdk.addClass('top');
+            ttOffset[1] = 40;
 
             this.appOptions.customization   = this.editorConfig.customization;
             this.appOptions.canRenameAnonymous = !((typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') && (this.appOptions.customization.anonymous.request===false));
@@ -1069,11 +1059,6 @@ define([
                 this.view.btnOptions.setVisible(false);
             else if ((!this.embedConfig.embedUrl || this.appOptions.canFillForms) && !this.embedConfig.fullscreenUrl)
                 menuItems[8].setVisible(false);
-
-            // common.controller.modals.attach({
-            //     share: '#idt-share',
-            //     embed: '#idt-embed'
-            // });
 
             screenTip = {
                 toolTip: new Common.UI.Tooltip({
