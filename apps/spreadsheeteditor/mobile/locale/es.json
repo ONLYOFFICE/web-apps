@@ -335,7 +335,8 @@
       "txtExpandSort": "Los datos al lado del rango seleccionado no serán ordenados. ¿Quiere Usted expandir el rango seleccionado para incluir datos de las celdas adyacentes o continuar la ordenación del rango seleccionado?",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
-      "txtSortSelected": "Ordenar los objetos seleccionados"
+      "txtSortSelected": "Ordenar los objetos seleccionados",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",

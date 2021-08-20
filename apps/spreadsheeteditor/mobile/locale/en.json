@@ -193,6 +193,7 @@
     "errorInvalidRef": "Enter a correct name for the selection or a valid reference to go to.",
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorKeyExpire": "Key descriptor expired",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
     "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
@@ -211,7 +212,7 @@
     "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file cannot be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
+    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "errorWrongBracketsCount": "An error in the formula.<br>Wrong number of brackets.",
     "errorWrongOperator": "An error in the entered formula. The wrong operator is used.<br>Correct the error or use the Esc button to cancel the formula editing.",
     "notcriticalErrorTitle": "Warning",
@@ -222,8 +223,7 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -264,7 +264,6 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
     "textCancel": "Cancel",
-    "textOk": "Ok",
     "textDelete": "Delete",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Worksheet with this name already exists.",
@@ -274,6 +273,7 @@
     "textErrorRemoveSheet": "Can't delete the worksheet.",
     "textHide": "Hide",
     "textMore": "More",
+    "textOk": "Ok",
     "textRename": "Rename",
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
@@ -335,8 +335,8 @@
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected",
-      "textSelectedRange": "Selected Range"
+      "textSelectedRange": "Selected Range",
+      "txtSortSelected": "Sort selected"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -535,7 +535,6 @@
       "textByColumns": "By columns",
       "textByRows": "By rows",
       "textCancel": "Cancel",
-      "textOk": "Ok",
       "textCentimeter": "Centimeter",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Color Schemes",
@@ -575,6 +574,7 @@
       "textMatchCase": "Match Case",
       "textMatchCell": "Match Cell",
       "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textOrientation": "Orientation",
       "textOwner": "Owner",

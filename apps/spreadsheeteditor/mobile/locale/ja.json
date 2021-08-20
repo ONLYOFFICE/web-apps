@@ -194,6 +194,7 @@
     "errorInvalidRef": "Enter a correct name for the selection or a valid reference to go to.",
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorKeyExpire": "Key descriptor expired",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
     "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
@@ -212,7 +213,7 @@
     "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file cannot be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
+    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "errorWrongBracketsCount": "An error in the formula.<br>Wrong number of brackets.",
     "errorWrongOperator": "An error in the entered formula. The wrong operator is used.<br>Correct the error or use the Esc button to cancel the formula editing.",
     "openErrorText": "An error has occurred while opening the file",
@@ -222,8 +223,7 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "データを読み込んでいます...",
@@ -274,12 +274,12 @@
     "textErrorRemoveSheet": "Can't delete the worksheet.",
     "textHide": "Hide",
     "textMore": "More",
+    "textOk": "Ok",
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "アプリケーションを終了します",
@@ -294,6 +294,8 @@
       "textComment": "コメント",
       "textImage": "画像",
       "textImageURL": "画像のURL",
+      "textInsert": "挿入",
+      "textInsertImage": "画像の挿入",
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "sCatDateAndTime": "Date and time",
@@ -315,8 +317,6 @@
       "textFilter": "Filter",
       "textFunction": "Function",
       "textGroups": "CATEGORIES",
-      "textInsert": "Insert",
-      "textInsertImage": "Insert Image",
       "textInternalDataRange": "Internal Data Range",
       "textInvalidRange": "ERROR! Invalid cells range",
       "textLink": "Link",
@@ -335,7 +335,8 @@
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
@@ -343,6 +344,7 @@
       "textBillions": "十億",
       "textColor": "色",
       "textDesign": "デザイン",
+      "textDisplayUnits": "表示単位",
       "textDollar": "ドル",
       "textErrorMsg": "少なくとも1つの値を選択する必要があります",
       "textErrorTitle": " 警告",
@@ -406,7 +408,6 @@
       "textDiagonalDownBorder": "Diagonal Down Border",
       "textDiagonalUpBorder": "Diagonal Up Border",
       "textDisplay": "Display",
-      "textDisplayUnits": "Display Units",
       "textEditLink": "Edit Link",
       "textEffects": "Effects",
       "textEmptyImgUrl": "You need to specify the image URL.",
@@ -535,6 +536,7 @@
       "textSearch": "検索",
       "textSearchBy": "検索",
       "textTitle": "タイトル",
+      "textUnitOfMeasurement": "測定単位",
       "textValues": "値",
       "advCSVOptions": "Choose CSV options",
       "advDRMOptions": "Protected File",
@@ -579,6 +581,7 @@
       "textMatchCase": "Match Case",
       "textMatchCell": "Match Cell",
       "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textOrientation": "Orientation",
       "textPoint": "Point",
@@ -601,7 +604,6 @@
       "textSubject": "Subject",
       "textTel": "Tel",
       "textTop": "Top",
-      "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
       "textWorkbook": "Workbook",
@@ -633,8 +635,7 @@
       "txtScheme9": "Foundry",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textOk": "Ok"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }
