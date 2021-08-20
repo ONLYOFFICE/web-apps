@@ -1734,6 +1734,10 @@ define([
                         config.msg = this.errorSubmit;
                         break;
 
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2938,7 +2942,8 @@ define([
             txtTableOfFigures: 'Table of figures',
             txtStyle_endnote_text: 'Endnote Text',
             txtTOCHeading: 'TOC Heading',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });

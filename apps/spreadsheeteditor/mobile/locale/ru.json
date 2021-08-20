@@ -222,7 +222,8 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",
@@ -253,7 +254,7 @@
     "saveTitleText": "Сохранение документа",
     "textLoadingDocument": "Загрузка документа",
     "textNo": "Нет",
-    "textOk": "Ok",
+    "textOk": "Ок",
     "textYes": "Да",
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
@@ -277,7 +278,8 @@
     "textSheet": "Лист",
     "textSheetName": "Имя листа",
     "textUnhide": "Показать",
-    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?"
+    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
@@ -532,6 +534,7 @@
       "textByColumns": "По столбцам",
       "textByRows": "По строкам",
       "textCancel": "Отмена",
+      "textOk": "Ок",
       "textCentimeter": "Сантиметр",
       "textCollaboration": "Совместная работа",
       "textColorSchemes": "Цветовые схемы",

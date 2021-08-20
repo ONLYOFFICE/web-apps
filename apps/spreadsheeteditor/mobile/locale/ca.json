@@ -222,7 +222,8 @@
     "unknownErrorText": "Error Desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "Cap Imatge Carregada.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Carregant dades...",
@@ -277,7 +278,8 @@
     "textSheet": "Full",
     "textSheetName": "Nom del Full",
     "textUnhide": "Tornar a mostrar",
-    "textWarnDeleteSheet": "El full de treball potser té dades. Voleu continuar l'operació?"
+    "textWarnDeleteSheet": "El full de treball potser té dades. Voleu continuar l'operació?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -631,7 +633,8 @@
       "txtScheme9": "Fosa",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continueu guardant en aquest format, es perdran totes les característiques, excepte el text.<br>Esteu segur que voleu continuar?"
+      "warnDownloadAs": "Si continueu guardant en aquest format, es perdran totes les característiques, excepte el text.<br>Esteu segur que voleu continuar?",
+      "textOk": "Ok"
     }
   }
 }

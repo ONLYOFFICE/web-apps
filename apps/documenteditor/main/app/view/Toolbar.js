@@ -1155,7 +1155,7 @@ define([
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         itemWidth: 104,
-                        itemHeight: 38,
+                        itemHeight: 40,
 //                hint        : this.tipParagraphStyle,
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],

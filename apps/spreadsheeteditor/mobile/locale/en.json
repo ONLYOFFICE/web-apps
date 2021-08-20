@@ -222,7 +222,8 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -263,6 +264,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
     "textCancel": "Cancel",
+    "textOk": "Ok",
     "textDelete": "Delete",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Worksheet with this name already exists.",
@@ -333,7 +335,8 @@
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -532,6 +535,7 @@
       "textByColumns": "By columns",
       "textByRows": "By rows",
       "textCancel": "Cancel",
+      "textOk": "Ok",
       "textCentimeter": "Centimeter",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Color Schemes",

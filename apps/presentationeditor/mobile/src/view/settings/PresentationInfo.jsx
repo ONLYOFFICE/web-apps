@@ -8,9 +8,6 @@ const PagePresentationInfo = (props) => {
     const _t = t("View.Settings", { returnObjects: true });
     const storeInfo = props.storePresentationInfo;
     const dataApp = props.getAppProps();
-    const dataModified = props.getModified;
-    const dataModifiedBy = props.getModifiedBy;
-    const creators = props.getCreators;
     const dataDoc = JSON.parse(JSON.stringify(storeInfo.dataDoc));
     
     return (
@@ -72,27 +69,27 @@ const PagePresentationInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataModified ? (
+            {props.modified ? (
                 <Fragment>
                     <BlockTitle>{_t.textLastModified}</BlockTitle>
                     <List>
-                        <ListItem title={dataModified}></ListItem>
+                        <ListItem title={props.modified}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
-            {dataModifiedBy ? (
+            {props.modifiedBy ? (
                 <Fragment>
                     <BlockTitle>{_t.textLastModifiedBy}</BlockTitle>
                     <List>
-                        <ListItem title={dataModifiedBy}></ListItem>
+                        <ListItem title={props.modifiedBy}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
-            {props.getCreated ? (
+            {props.created ? (
                 <Fragment>
                     <BlockTitle>{_t.textCreated}</BlockTitle>
                     <List>
-                        <ListItem title={props.getCreated}></ListItem>
+                        <ListItem title={props.created}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
@@ -104,12 +101,12 @@ const PagePresentationInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {creators ? (
+            {props.creators ? (
                 <Fragment>
                     <BlockTitle>{_t.textAuthor}</BlockTitle>
                     <List>
                         {
-                            creators.split(/\s*[,;]\s*/).map(item => {
+                            props.creators.split(/\s*[,;]\s*/).map(item => {
                                 return <ListItem title={item}></ListItem>
                             })
                         }

@@ -26,6 +26,7 @@
   "PE.ApplicationController.unknownErrorText": "Unknown error.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.ApplicationController.waitText": "Please, wait...",
+  "PE.ApplicationController.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
   "PE.ApplicationView.txtFileLocation": "Open file location",
