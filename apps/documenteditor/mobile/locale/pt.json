@@ -154,7 +154,8 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas."
+      "textWidow": "Controle de linhas órfãs/viúvas.",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",

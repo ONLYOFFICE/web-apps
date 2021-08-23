@@ -30,7 +30,8 @@
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers"
+      "textUsers": "Gebruikers",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",

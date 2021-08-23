@@ -30,7 +30,8 @@
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris"
+      "textUsers": "Usuaris",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",

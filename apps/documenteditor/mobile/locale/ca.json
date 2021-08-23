@@ -154,7 +154,8 @@
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
       "textUnderline": "Subratllat",
       "textUsers": "Usuaris",
-      "textWidow": "Control de finestra"
+      "textWidow": "Control de finestra",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",

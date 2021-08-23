@@ -30,7 +30,8 @@
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",

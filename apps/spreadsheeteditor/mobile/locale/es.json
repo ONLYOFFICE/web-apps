@@ -30,7 +30,8 @@
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios"
+      "textUsers": "Usuarios",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
