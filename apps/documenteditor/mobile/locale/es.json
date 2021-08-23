@@ -315,6 +315,7 @@
     "errorFileSizeExceed": "El tamaño del archivo excede el límite de su servidor.<br>Por favor, contacte con su administrador.",
     "errorKeyEncrypt": "Descriptor de clave desconocido",
     "errorKeyExpire": "Descriptor de clave ha expirado",
+    "errorLoadingFont": "Las fuentes no están cargadas.<br>Por favor, póngase en contacto con el administrador del Document Server.",
     "errorMailMergeLoadFile": "Error de carga",
     "errorMailMergeSaveFile": "Error de combinar.",
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
@@ -324,7 +325,7 @@
     "errorUpdateVersionOnDisconnect": "La conexión a Internet se ha restaurado y la versión del archivo ha cambiado.<br>Antes de continuar trabajando, necesita descargar el archivo o copiar su contenido para asegurarse de que no ha perdido nada y luego recargar esta página.",
     "errorUserDrop": "No se puede acceder al archivo en este momento.",
     "errorUsersExceed": "El número de usuarios permitido según su plan de precios fue excedido",
-    "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo hasta que se restablezca la conexión y se recargue la página.",
+    "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo ni imprimirlo hasta que se restablezca la conexión y se recargue la página.",
     "notcriticalErrorTitle": "Advertencia",
     "openErrorText": "Se ha producido un error al abrir el archivo ",
     "saveErrorText": "Se ha producido un error al guardar el archivo ",
@@ -335,8 +336,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -524,6 +524,7 @@
     "textMarginsW": "Los márgenes izquierdo y derecho son demasiado amplios para un ancho de página determinado",
     "textNoCharacters": "Caracteres no imprimibles",
     "textNoTextFound": "Texto no encontrado",
+    "textOk": "OK",
     "textOpenFile": "Introduzca la contraseña para abrir el archivo",
     "textOrientation": "Orientación ",
     "textOwner": "Propietario",
@@ -568,8 +569,7 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición",
-    "textOk": "Ok"
+    "txtScheme9": "Fundición"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

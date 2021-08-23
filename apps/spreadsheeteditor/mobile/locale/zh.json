@@ -333,10 +333,10 @@
       "textSortAndFilter": "排序和过滤",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "textCancel": "Cancel",
+      "textSelectedRange": "Selected Range",
       "txtExpand": "Expand and sort",
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtSorting": "Sorting",
-      "textSelectedRange": "Selected Range",
       "txtSortSelected": "Sort selected"
     },
     "Edit": {

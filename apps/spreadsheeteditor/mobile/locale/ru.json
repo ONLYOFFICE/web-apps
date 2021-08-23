@@ -329,6 +329,7 @@
       "textRange": "Диапазон",
       "textRequired": "Обязательно",
       "textScreenTip": "Подсказка",
+      "textSelectedRange": "Выбранный диапазон",
       "textShape": "Фигура",
       "textSheet": "Лист",
       "textSortAndFilter": "Сортировка и фильтрация",
@@ -336,8 +337,7 @@
       "txtExpandSort": "Данные рядом с выделенным диапазоном не будут отсортированы. Вы хотите расширить выделенный диапазон, чтобы включить данные из смежных ячеек, или продолжить сортировку только выделенного диапазона?",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
-      "txtSortSelected": "Сортировать выделенное",
-      "textSelectedRange": "Selected Range"
+      "txtSortSelected": "Сортировать выделенное"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
