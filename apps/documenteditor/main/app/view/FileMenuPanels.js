@@ -869,20 +869,24 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
+                '<div class="thumb-wrap" template="">',
+                    '<div class="blank-document-btn thumb">',
+                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                    '</div>',
+                    '<div class="title"><%= scope.titleText(scope.fromBlankText) %></div>',
+                '</div>',
             '<% _.each(docs, function(item, index) { %>',
             '<div class="thumb-wrap" template="<%= item.url %>">',
-            '<div class="thumb" ',
-            '<% if(index == 0) { ' +
-                'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
-            ' } else if (!_.isEmpty(item.image)) {%> ',
-            ' style="background-image: url(<%= item.image %>);">',
-            ' <%} else {' +
-            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-            ' } %>',
-            '</div>',
-            '<div class="title"><%= scope.titleText(Common.Utils.String.htmlEncode(item.title || item.name || "")) %></div>',
-            '</div>',
-            '<% }) %>',
+                '<div class="thumb" ',
+                    '<% if (!_.isEmpty(item.image)) {%> ',
+                    ' style="background-image: url(<%= item.image %>);">',
+                    ' <%} else {' +
+                    'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                    ' } %>',
+                '</div>',
+                    '<div class="title"><%= scope.titleText(Common.Utils.String.htmlEncode(item.title || item.name || "")) %></div>',
+                '</div>',
+                '<% }) %>',
             '</div>'
         ].join('')),
 
@@ -904,7 +908,7 @@ define([
                 scope: this,
                 docs: this.options[0].docs
             }));
-            var docs=this.options[0].docs;
+            var docs=[{title: this.fromBlankText}].concat(this.options[0].docs);
             var thumbsElm= this.$el.find('.thumb-wrap');
             _.each(thumbsElm, function (tmb, index){
                 $(tmb).find('.title').tooltip({
