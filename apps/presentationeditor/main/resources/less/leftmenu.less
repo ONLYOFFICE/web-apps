@@ -199,10 +199,6 @@
                 white-space: nowrap;
             }
 
-            .blank-document {
-                min-width: 650px;
-            }
-
             .blank-document-info {
                 vertical-align: top;
                 width: 445px;
@@ -215,12 +211,6 @@
                 }
             }
 
-            .blank-document-btn {
-                width: 96px;
-                height: 96px;
-                cursor: pointer;
-            }
-
             hr {
                 margin: 0;
                 border-bottom: none;
@@ -229,8 +219,8 @@
             }
 
             .thumb-list {
-
-                .thumb-wrap {
+                max-width: 600px;
+                .thumb-wrap, .blank-document {
                     display: inline-block;
                     text-align: center;
                     width: auto;
@@ -238,7 +228,7 @@
                     vertical-align: top;
                     .border-radius(@border-radius-small);
 
-                    .thumb {
+                    .thumb, .blank-document-btn {
                         width: 96px;
                         height: 96px;
                         background-repeat: no-repeat;

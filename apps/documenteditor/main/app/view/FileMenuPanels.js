@@ -869,8 +869,8 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<div class="thumb-wrap" template="">',
-                    '<div class="blank-document-btn thumb">',
+                '<div class="blank-document">',
+                    '<div class="blank-document-btn">',
                         '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
                     '<div class="title"><%= scope.titleText(scope.fromBlankText) %></div>',
@@ -909,7 +909,7 @@ define([
                 docs: this.options[0].docs
             }));
             var docs=[{title: this.fromBlankText}].concat(this.options[0].docs);
-            var thumbsElm= this.$el.find('.thumb-wrap');
+            var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
             _.each(thumbsElm, function (tmb, index){
                 $(tmb).find('.title').tooltip({
                     title       : docs[index].title,
