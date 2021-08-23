@@ -30,7 +30,8 @@
       "textReopen": "重新打开",
       "textResolve": "解决",
       "textTryUndoRedo": "快速共同编辑模式下，撤销/重做功能被禁用。",
-      "textUsers": "用户"
+      "textUsers": "用户",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "自定义颜色",

@@ -154,7 +154,8 @@
       "textTryUndoRedo": "快速共同编辑模式下，撤销/重做功能被禁用。",
       "textUnderline": "下划线",
       "textUsers": "用户",
-      "textWidow": "单独控制"
+      "textWidow": "单独控制",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "自定义颜色",

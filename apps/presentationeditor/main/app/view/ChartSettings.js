@@ -350,7 +350,8 @@ define([
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscChartProp();
-                props.putStyle(record.get('data'));
+                this.chartProps.putStyle(record.get('data'));
+                props.put_ChartProperties(this.chartProps);
                 this.api.ChartApply(props);
             }
             this.fireEvent('editcomplete', this);

@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas"
+      "textWidow": "Control de viudas",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",

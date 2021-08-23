@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",

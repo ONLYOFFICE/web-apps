@@ -30,7 +30,8 @@
       "textReopen": "Redeschide",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori"
+      "textUsers": "Utilizatori",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
