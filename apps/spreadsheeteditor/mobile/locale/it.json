@@ -108,6 +108,7 @@
       "textAddReply": "Add Reply",
       "textBack": "Back",
       "textCancel": "Cancel",
+      "textOk": "Ok",
       "textCollaboration": "Collaboration",
       "textComments": "Comments",
       "textDeleteComment": "Delete Comment",
@@ -123,8 +124,7 @@
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users",
-      "textOk": "Ok"
+      "textUsers": "Users"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -329,6 +329,7 @@
       "textRange": "Range",
       "textRequired": "Required",
       "textScreenTip": "Screen Tip",
+      "textSelectedRange": "Selected Range",
       "textShape": "Shape",
       "textSheet": "Sheet",
       "textSortAndFilter": "Sort and Filter",
@@ -336,7 +337,6 @@
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "textSelectedRange": "Selected Range",
       "txtSortSelected": "Sort selected"
     },
     "Edit": {

@@ -16,6 +16,7 @@
       "textBack": "戻る",
       "textEditUser": "ファイルを編集しているユーザー：",
       "textCancel": "Cancel",
+      "textOk": "Ok",
       "textCollaboration": "Collaboration",
       "textComments": "Comments",
       "textDeleteComment": "Delete Comment",
@@ -30,8 +31,7 @@
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users",
-      "textOk": "Ok"
+      "textUsers": "Users"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",

@@ -329,6 +329,7 @@
       "textRange": "Bereich",
       "textRequired": "Erforderlich",
       "textScreenTip": "QuickInfo",
+      "textSelectedRange": "Ausgewählter Bereich",
       "textShape": "Form",
       "textSheet": "Blatt",
       "textSortAndFilter": "Sortieren und Filtern",
@@ -336,8 +337,7 @@
       "txtExpandSort": "Die Daten neben der Auswahl werden nicht sortiert. Möchten Sie die Auswahl um die angrenzenden Daten erweitern oder nur mit der Sortierung der aktuell ausgewählten Zellen fortfahren?",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
-      "txtSortSelected": "Ausgewählte sortieren",
-      "textSelectedRange": "Selected Range"
+      "txtSortSelected": "Ausgewählte sortieren"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",

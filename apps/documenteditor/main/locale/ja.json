@@ -1389,6 +1389,7 @@
   "DE.Views.DocumentHolder.mergeCellsText": "セルの結合",
   "DE.Views.DocumentHolder.moreText": "以上のバリエーション...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "バリエーションなし",
+  "DE.Views.DocumentHolder.notcriticalErrorTitle": "警告",
   "DE.Views.DocumentHolder.originalSizeText": "実際のサイズ",
   "DE.Views.DocumentHolder.paragraphText": "段落",
   "DE.Views.DocumentHolder.removeHyperlinkText": "ハイパーリンクの削除",

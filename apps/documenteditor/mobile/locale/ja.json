@@ -81,6 +81,7 @@
       "textBaseline": "Baseline",
       "textBold": "Bold",
       "textBreakBefore": "Page break before",
+      "textOk": "Ok",
       "textCaps": "All caps",
       "textChart": "Chart",
       "textCollaboration": "Collaboration",
@@ -154,8 +155,7 @@
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUnderline": "Underline",
       "textUsers": "Users",
-      "textWidow": "Widow control",
-      "textOk": "Ok"
+      "textWidow": "Widow control"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",

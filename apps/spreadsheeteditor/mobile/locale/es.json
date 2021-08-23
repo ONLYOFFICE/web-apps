@@ -194,6 +194,7 @@
     "errorInvalidRef": "Introducir un nombre correcto para la selección o una referencia válida a la que dirigirse.",
     "errorKeyEncrypt": "Descriptor de clave desconocido",
     "errorKeyExpire": "Descriptor de clave ha expirado",
+    "errorLoadingFont": "Las fuentes no están cargadas.<br>Por favor, póngase en contacto con el administrador del Document Server.",
     "errorLockedAll": "No se puede realizar la operación porque la hoja ha sido bloqueada por otro usuario.",
     "errorLockedCellPivot": "No puede modificar datos dentro de una tabla pivote.",
     "errorLockedWorksheetRename": "No se puede cambiar el nombre de la hoja en este momento, porque se está cambiando el nombre por otro usuario",
@@ -212,7 +213,7 @@
     "errorUpdateVersionOnDisconnect": "La conexión a Internet se ha restaurado y la versión del archivo ha cambiado.<br>Antes de continuar trabajando, necesita descargar el archivo o copiar su contenido para asegurarse de que no ha perdido nada y luego recargar esta página.",
     "errorUserDrop": "No se puede acceder al archivo ahora mismo.",
     "errorUsersExceed": "Se superó la cantidad de usuarios permitidos por el plan de precios",
-    "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo hasta que se restablezca la conexión y se recargue la página.",
+    "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo ni imprimirlo hasta que se restablezca la conexión y se recargue la página.",
     "errorWrongBracketsCount": "Un error en la fórmula.<br>Número de corchetes incorrecto.",
     "errorWrongOperator": "Un error en la fórmula introducida. Se ha utilizado el operador incorrecto.<br>Corrija el error o utilice el botón Esc para cancelar la edición de la fórmula.",
     "notcriticalErrorTitle": "Advertencia",
@@ -223,8 +224,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -274,13 +274,13 @@
     "textErrorRemoveSheet": "No se puede eliminar la hoja de cálculo.",
     "textHide": "Ocultar",
     "textMore": "Más",
+    "textOk": "OK",
     "textRename": "Renombrar",
     "textRenameSheet": "Renombrar hoja",
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -329,6 +329,7 @@
       "textRange": "Rango",
       "textRequired": "Requerido",
       "textScreenTip": "Consejo de pantalla",
+      "textSelectedRange": "Rango seleccionado",
       "textShape": "Forma",
       "textSheet": "Hoja",
       "textSortAndFilter": "Ordenar y filtrar",
@@ -336,8 +337,7 @@
       "txtExpandSort": "Los datos al lado del rango seleccionado no serán ordenados. ¿Quiere Usted expandir el rango seleccionado para incluir datos de las celdas adyacentes o continuar la ordenación del rango seleccionado?",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
-      "txtSortSelected": "Ordenar los objetos seleccionados",
-      "textSelectedRange": "Selected Range"
+      "txtSortSelected": "Ordenar los objetos seleccionados"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -575,6 +575,7 @@
       "textMatchCase": "Coincidir mayúsculas y minúsculas",
       "textMatchCell": "Hacer coincidir las celdas",
       "textNoTextFound": "Texto no encontrado",
+      "textOk": "OK",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
       "textOwner": "Propietario",
@@ -635,8 +636,7 @@
       "txtScheme9": "Fundición",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textOk": "Ok"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }
