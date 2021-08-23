@@ -927,7 +927,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 372px; margin: 4px 6px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px; margin: 4px 2px 4px 6px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
