@@ -225,6 +225,16 @@ define([
 
                 this.api = api;
                 var theme_name = get_ui_theme_name(Common.localStorage.getItem('ui-theme'));
+                if ( !theme_name ) {
+                    if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                        for (var i of document.body.classList.entries()) {
+                            if ( i[1].startsWith('theme-') && !i[1].startsWith('theme-type-') ) {
+                                theme_name = i[1];
+                                break;
+                            }
+                        }
+                }
+
                 if ( !themes_map[theme_name] )
                     theme_name = id_default_light_theme;
 
