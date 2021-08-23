@@ -160,10 +160,10 @@ define([
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
                     '<% } %>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
