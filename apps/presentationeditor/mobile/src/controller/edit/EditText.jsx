@@ -138,7 +138,7 @@ class EditTextController extends Component {
         } else {
             typeof size === 'undefined' || size == '' ? api.FontSizeIn() : size = Math.min(300, ++size);
         }
-        if (typeof size !== 'undefined' || size == '') {
+        if (typeof size !== 'undefined' && size !== '') {
             api.put_TextPrFontSize(size);
         }
     };
