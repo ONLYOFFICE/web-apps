@@ -26,11 +26,19 @@
     .tablestyler-cell .cell-content .content-text {
         display: block;
         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAEAQMAAACeIXx6AAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA1JREFUeNpjOMDEAAIABVQAw/N8ALEAAAAASUVORK5CYII=') repeat 0 0 scroll;
-        background-size: 2px auto;
+        background-size: 2px 4px;
         height: 100%;
+
+        .pixel-ratio__1_25 & {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAFAQMAAABVfa/fAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA1JREFUeNpjOMDEAAEABtoAw4z263sAAAAASUVORK5CYII=');
+        }
 
         .pixel-ratio__1_5 & {
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGAQMAAAA8K7ZPAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpjeMAAgmAAABesAqGy0C2BAAAAAElFTkSuQmCC');
+        }
+
+        .pixel-ratio__1_75 & {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAHAQMAAAAYtQ7UAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpjOMAAglAAABjOAkF/wXxcAAAAAElFTkSuQmCC');
         }
 
         .pixel-ratio__2 & {
