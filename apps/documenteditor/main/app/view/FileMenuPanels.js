@@ -869,21 +869,23 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
+                '<% if (blank) { %> ',
                 '<div class="blank-document">',
                     '<div class="blank-document-btn">',
                         '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
-            '<% _.each(docs, function(item, index) { %>',
-            '<div class="thumb-wrap" template="<%= item.url %>">',
-                '<div class="thumb" ',
-                    '<% if (!_.isEmpty(item.image)) {%> ',
-                    ' style="background-image: url(<%= item.image %>);">',
-                    ' <%} else {' +
-                    'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                    ' } %>',
-                '</div>',
+                '<% } %>',
+                '<% _.each(docs, function(item, index) { %>',
+                '<div class="thumb-wrap" template="<%= item.url %>">',
+                    '<div class="thumb" ',
+                        '<% if (!_.isEmpty(item.image)) {%> ',
+                        ' style="background-image: url(<%= item.image %>);">',
+                        ' <%} else {' +
+                        'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
+                    '</div>',
                     '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                 '</div>',
                 '<% }) %>',
@@ -894,14 +896,17 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.docs = options.docs;
+            this.blank = !!options.blank;
         },
 
         render: function() {
             this.$el.html(this.template({
                 scope: this,
-                docs: this.options[0].docs
+                docs: this.docs,
+                blank: this.blank
             }));
-            var docs=[{title: this.txtBlank}].concat(this.options[0].docs);
+            var docs = (this.blank ? [{title: this.txtBlank}] : []).concat(this.docs);
             var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
             _.each(thumbsElm, function (tmb, index){
                 $(tmb).find('.title').tooltip({
