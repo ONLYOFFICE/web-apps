@@ -1655,6 +1655,7 @@
   "DE.Views.FileMenuPanels.CreateNew.newDescriptionText": "Create a new blank text document which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.",
   "DE.Views.FileMenuPanels.CreateNew.newDocumentText": "New Text Document",
   "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "There are no templates",
+  "DE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",
   "DE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Apply",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAddAuthor": "Add Author",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAddText": "Add Text",
@@ -2773,6 +2774,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
-  "DE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
 }

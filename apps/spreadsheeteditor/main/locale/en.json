@@ -2003,6 +2003,7 @@
   "SSE.Views.FileMenuPanels.CreateNew.fromTemplateText": "From Template",
   "SSE.Views.FileMenuPanels.CreateNew.newDescriptionText": "Create a new blank spreadsheet which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a spreadsheet of a certain type or purpose where some styles have already been pre-applied.",
   "SSE.Views.FileMenuPanels.CreateNew.newDocumentText": "New Spreadsheet",
+  "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",
   "SSE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Apply",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAddAuthor": "Add Author",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAddText": "Add Text",
@@ -3456,6 +3457,5 @@
   "SSE.Views.ViewTab.tipClose": "Close sheet view",
   "SSE.Views.ViewTab.tipCreate": "Create sheet view",
   "SSE.Views.ViewTab.tipFreeze": "Freeze panes",
-  "SSE.Views.ViewTab.tipSheetView": "Sheet view",
-  "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New"
+  "SSE.Views.ViewTab.tipSheetView": "Sheet view"
 }
