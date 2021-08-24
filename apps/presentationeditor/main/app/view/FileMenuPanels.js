@@ -771,7 +771,7 @@ define([
                     '<div class="blank-document-btn">',
                         '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
-                    '<div class="title"><%= scope.fromBlankText %></div>',
+                    '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
                 '<% _.each(docs, function(item, index) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
@@ -799,7 +799,7 @@ define([
                 scope: this,
                 docs: this.options[0].docs
             }));
-            var docs=[{title: this.fromBlankText}].concat(this.options[0].docs);
+            var docs=[{title: this.txtBlank}].concat(this.options[0].docs);
             var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
             _.each(thumbsElm, function (tmb, index){
                 $(tmb).find('.title').tooltip({
@@ -834,8 +834,8 @@ define([
                 this.menu.fireEvent('create:new', [this.menu, e.currentTarget.attributes['template'].value]);
         },
 
-        fromBlankText       : 'From Blank',
-        txtCreateNew        : 'Create New'
+        txtBlank: 'Blank presentation',
+        txtCreateNew: 'Create New'
     }, PE.Views.FileMenuPanels.CreateNew || {}));
 
     PE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({
