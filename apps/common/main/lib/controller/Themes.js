@@ -229,8 +229,11 @@ define([
                     if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                         for (var i of document.body.classList.entries()) {
                             if ( i[1].startsWith('theme-') && !i[1].startsWith('theme-type-') ) {
-                                theme_name = i[1];
-                                break;
+                                if ( themes_map[i[1]] ) {
+                                    theme_name = i[1];
+                                    Common.localStorage.setItem('ui-theme-id', theme_name);
+                                    break;
+                                }
                             }
                         }
                 }
