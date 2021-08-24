@@ -9,6 +9,7 @@
         <button id="left-btn-navigation" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-navigation">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
+        <button id="left-btn-thumbnails" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-thumbnails">&nbsp;</i></button>
     </div>
     <div class="left-panel" style="">
         <!-- /** coauthoring begin **/ -->
@@ -17,5 +18,6 @@
         <!-- /** coauthoring end **/ -->
         <div id="left-panel-navigation" class="" style="display: none; height: 100%;"></div>
         <div id="left-panel-plugins" class="" style="display: none; height: 100%;"></div>
+        <div id="left-panel-thumbnails" class="" style="display: none; height: 100%;"></div>
     </div>
 </div>
