@@ -771,7 +771,7 @@ define([
                     '<div class="blank-document-btn">',
                         '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
-                    '<div class="title"><%= scope.titleText(scope.fromBlankText) %></div>',
+                    '<div class="title"><%= scope.fromBlankText %></div>',
                 '</div>',
                 '<% _.each(docs, function(item, index) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
@@ -782,19 +782,12 @@ define([
                             'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
                         ' } %>',
                         '</div>',
-                        '<div class="title"><%= scope.titleText(Common.Utils.String.htmlEncode(item.title || item.name || "")) %></div>',
+                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'
         ].join('')),
-
-        titleText: function (text){
-            var maxLength=30;
-            if(text.length<maxLength)
-                return  text;
-            return text.substr(0,maxLength)+ "...";
-        },
-
+        
         initialize: function(options) {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
