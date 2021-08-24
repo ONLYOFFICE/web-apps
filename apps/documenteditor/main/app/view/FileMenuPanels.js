@@ -913,7 +913,7 @@ define([
             _.each(thumbsElm, function (tmb, index){
                 $(tmb).find('.title').tooltip({
                     title       : docs[index].title,
-                    placement   : 'top-right'||'coursor'
+                    placement   : 'coursor'
                 });
             });
 
