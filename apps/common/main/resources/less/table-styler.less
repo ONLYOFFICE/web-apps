@@ -37,4 +37,48 @@
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAIAQMAAADk/cxGAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpj+MAAgVAAAC0QA8HkpvUHAAAAAElFTkSuQmCC');
         }
     }
+
+    .ts-preview-box {
+        position: absolute;
+
+        &.ts-preview-box--lt {
+            border-bottom: 1px dotted gray;
+            border-bottom: @scaled-one-px-value dotted gray;
+            border-right: 1px dotted gray;
+            border-right: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--mt {
+        }
+
+        &.ts-preview-box--rt {
+            border-bottom: 1px dotted gray;
+            border-bottom: @scaled-one-px-value dotted gray;
+            border-left: 1px dotted gray;
+            border-left: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--rm {
+        }
+
+        &.ts-preview-box--lb {
+            border-top: 1px dotted gray;
+            border-top: @scaled-one-px-value dotted gray;
+            border-right: 1px dotted gray;
+            border-right: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--lm {
+        }
+
+        &.ts-preview-box--rb {
+            border-top: 1px dotted gray;
+            border-top: @scaled-one-px-value dotted gray;
+            border-left: 1px dotted gray;
+            border-left: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--mb {
+        }
+    }
 }
