@@ -25,27 +25,29 @@ class InitReview extends Component {
 
             api.asc_SetTrackRevisions(trackChanges);
             // Init display mode
-            if (!appOptions.canReview) {
-                const canViewReview = appOptions.isEdit || api.asc_HaveRevisionsChanges(true);
+
+            const canViewReview = appOptions.canReview || appOptions.isEdit || api.asc_HaveRevisionsChanges(true);
+            if (!appOptions.canReview)
                 appOptions.setCanViewReview(canViewReview);
-                if (canViewReview) {
-                    let viewReviewMode = LocalStorage.getItem("de-view-review-mode");
-                    if (viewReviewMode === null) {
-                        viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
-                        !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
-                        viewReviewMode = /^(original|final|markup)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : 'original';
-                    }
-                    viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? 'markup' : viewReviewMode;
-                    const displayMode = viewReviewMode.toLocaleLowerCase();
-                    if (displayMode === 'final') {
-                        api.asc_BeginViewModeInReview(true);
-                    } else if (displayMode === 'original') {
-                        api.asc_BeginViewModeInReview(false);
-                    } else {
-                        api.asc_EndViewModeInReview();
-                    }
-                    props.storeReview.changeDisplayMode(displayMode);
+            if (canViewReview) {
+                let viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? null : LocalStorage.getItem("de-view-review-mode");
+                if (viewReviewMode === null) {
+                    viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
+                    !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
+                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
                 }
+                let displayMode = viewReviewMode.toLocaleLowerCase();
+                let type = Asc.c_oAscDisplayModeInReview.Edit;
+                switch (displayMode) {
+                    case 'final':
+                        type = Asc.c_oAscDisplayModeInReview.Final;
+                        break;
+                    case 'original':
+                        type = Asc.c_oAscDisplayModeInReview.Original;
+                        break;
+                }
+                api.asc_SetDisplayModeInReview(type);
+                props.storeReview.changeDisplayMode(displayMode);
             }
         });
     }
@@ -102,14 +104,17 @@ class Review extends Component {
 
     onDisplayMode (mode) {
         const api = Common.EditorApi.get();
-        if (mode === 'final') {
-            api.asc_BeginViewModeInReview(true);
-        } else if (mode === 'original') {
-            api.asc_BeginViewModeInReview(false);
-        } else {
-            api.asc_EndViewModeInReview();
+        let type = Asc.c_oAscDisplayModeInReview.Edit;
+        switch (mode) {
+            case 'final':
+                type = Asc.c_oAscDisplayModeInReview.Final;
+                break;
+            case 'original':
+                type = Asc.c_oAscDisplayModeInReview.Original;
+                break;
         }
-        !this.appConfig.canReview && LocalStorage.setItem("de-view-review-mode", mode);
+        api.asc_SetDisplayModeInReview(type);
+        !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit && LocalStorage.setItem("de-view-review-mode", mode);
         this.props.storeReview.changeDisplayMode(mode);
     }
 

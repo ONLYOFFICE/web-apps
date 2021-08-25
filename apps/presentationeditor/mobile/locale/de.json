@@ -30,7 +30,8 @@
       "textReopen": "Wiederöffnen",
       "textResolve": "Lösen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -139,6 +140,7 @@
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
     "errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
+    "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",

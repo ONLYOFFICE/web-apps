@@ -150,8 +150,8 @@ class ContextMenuController extends Component {
         this.setState({openedMore: false});
     }
 
-    onMenuItemClick(action) {
-        this.onApiHideContextMenu();
+    async onMenuItemClick(action) {
+        await this.onApiHideContextMenu();
 
         if (action === 'showActionSheet') {
             this.setState({openedMore: true});

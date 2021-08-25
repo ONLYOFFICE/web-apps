@@ -154,7 +154,8 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas."
+      "textWidow": "Controle de linhas órfãs/viúvas.",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -334,7 +335,8 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -566,7 +568,8 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição"
+    "txtScheme9": "Fundição",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

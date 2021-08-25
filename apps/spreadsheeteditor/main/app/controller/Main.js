@@ -1837,12 +1837,28 @@ define([
                         config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentSize:
+                        config.msg = this.uploadDocSizeMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
                         config.msg = this.errorDeleteColumnContainsLockedCell;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentExt:
+                        config.msg = this.uploadDocExtMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
                         config.msg = this.errorDeleteRowContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentFileCount:
+                        config.msg = this.uploadDocFileCountMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
                         break;
 
                     default:
@@ -3375,6 +3391,10 @@ define([
             errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
             errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
             errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
+            uploadDocExtMessage: 'Unknown document format.',
+            uploadDocFileCountMessage: 'No documents uploaded.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textNeedSynchronize: 'You have an updates',
             textChangesSaved: 'All changes saved'
         }

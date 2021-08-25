@@ -85,7 +85,7 @@ const routes = [
     }
 ];
 
-const PageCollaboration = inject('storeAppOptions')(observer(props => {
+const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
@@ -102,9 +102,11 @@ const PageCollaboration = inject('storeAppOptions')(observer(props => {
                     }
                 </Navbar>
                 <List>
-                    <ListItem link={'/users/'} title={_t.textUsers}>
-                        <Icon slot="media" icon="icon-users"></Icon>
-                    </ListItem>
+                    {props.users.editUsers.length > 0 &&
+                        <ListItem link={'/users/'} title={_t.textUsers}>
+                            <Icon slot="media" icon="icon-users"></Icon>
+                        </ListItem>
+                    }
                     {appOptions.canViewComments &&
                         <ListItem link='/comments/' title={_t.textComments}>
                             <Icon slot="media" icon="icon-insert-comment"></Icon>
