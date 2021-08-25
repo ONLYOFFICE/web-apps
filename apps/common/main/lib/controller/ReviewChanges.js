@@ -825,8 +825,12 @@ define([
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
 
                     var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode-editor");
-                    if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup|simple)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'markup';
+                    if (val===null) {
+                        val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
+                        !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : 'markup';
+                    }
+
                     me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
                     me.view.turnDisplayMode(val);
 
@@ -848,8 +852,10 @@ define([
                     if (val===null) {
                         val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
                         !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
-                        val = /^(original|final|markup)$/i.test(val) ? val.toLocaleLowerCase() : 'original';
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
                     }
+                    me.turnDisplayMode(val);
+                    me.view.turnDisplayMode(val);
                 }
             }
 

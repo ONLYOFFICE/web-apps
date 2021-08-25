@@ -31,8 +31,11 @@ class InitReview extends Component {
                 appOptions.setCanViewReview(canViewReview);
             if (canViewReview) {
                 let viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? null : LocalStorage.getItem("de-view-review-mode");
-                if (viewReviewMode === null)
-                    viewReviewMode = appOptions.customization && /^(original|final|markup|simple)$/i.test(appOptions.customization.reviewDisplay) ? appOptions.customization.reviewDisplay.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
+                if (viewReviewMode === null) {
+                    viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
+                    !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
+                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
+                }
                 let displayMode = viewReviewMode.toLocaleLowerCase();
                 let type = Asc.c_oAscDisplayModeInReview.Edit;
                 switch (displayMode) {

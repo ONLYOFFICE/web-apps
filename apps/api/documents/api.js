@@ -139,7 +139,7 @@
                         hideReviewDisplay: false, // hide button Review mode
                         hoverMode: false, // true - show review balloons on mouse move, not on click on text
                         showReviewChanges: false,
-                        reviewDisplay: 'original',
+                        reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
                     chat: true,
