@@ -772,12 +772,17 @@ define([
 
         onMenuChange: function (value) {
             if ('hide' === value) {
-                if (this.leftMenu.btnComments.isActive() && this.api) {
-                    this.leftMenu.btnComments.toggle(false);
-                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+                if (this.api) {
+                    if (this.leftMenu.btnComments.isActive()) {
+                        this.leftMenu.btnComments.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
 
-                    // focus to sdk
-                    this.api.asc_enableKeyEvents(true);
+                        // focus to sdk
+                        this.api.asc_enableKeyEvents(true);
+                    } else if (this.leftMenu.btnThumbnails.isActive()) {
+                        this.leftMenu.btnThumbnails.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbnails);
+                    }
                 }
             }
         },

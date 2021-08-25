@@ -49,9 +49,13 @@ define([
         storeThumbnails: undefined,
         template: _.template([
             '<div id="thumbnails-box" class="layout-ct vbox">',
-            '<div id="thumbnails-header"><label><%= scope.textPageThumbnails %></label></div>',
-            '<div id="thumbnails-list" class="">',
-            '</div>',
+                '<div id="thumbnails-header">',
+                    '<label><%= scope.textPageThumbnails %></label>',
+                    '<div id="thumbnails-btn-close"></div>',
+                    '<div id="thumbnails-btn-settings"></div>',
+                '</div>',
+                '<div id="thumbnails-list">',
+                '</div>',
             '</div>'
         ].join('')),
 
@@ -61,12 +65,62 @@ define([
         },
 
         render: function(el) {
-            el = el || this.el;
-            $(el).html(this.template({scope: this}));
-            this.$el = $(el);
+            if (!this.rendered) {
+                el = el || this.el;
+                $(el).html(this.template({scope: this}));
+                this.$el = $(el);
 
+                this.buttonClose = new Common.UI.Button({
+                    parentEl: $('#thumbnails-btn-close', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-close',
+                    hint: this.textClosePanel
+                });
+                this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
+                var sizeSettingTemplate = _.template('<div id="thumbnails-size">' +
+                    '<label><%= caption %></label>' +
+                    '<div class="thumbnails-sld-box">' +
+                        '<span class="menu-item-icon menu__icon thumbnail-small btn-zoomdown"></span>' +
+                        '<div id="sld-thumbnails-size"></div>' +
+                        '<span class="menu-item-icon menu__icon thumbnail-big btn-zoomup"></span>' +
+                    '</div>',
+                    '</div>');
 
+                this.buttonSettings = new Common.UI.Button({
+                    parentEl: $('#thumbnails-btn-settings', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-settings',
+                    hint: this.textThumbnailsSettings,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        style: 'min-width: 200px;',
+                        items: [
+                            {
+                                caption: this.textThumbnailsSize,
+                                template: sizeSettingTemplate,
+                                toggleGroup: 'menuThumbnails'
+                            },
+                            {caption: '--'},
+                            {
+                                caption: this.textHighlightVisiblePart,
+                                checkable: true,
+                                toggleGroup: 'menuThumbnails'
+                            }
+                        ]
+                    })
+                });
+            }
+
+            this.sldrthumbnailsSize = new Common.UI.SingleSlider({
+                el: $('#sld-thumbnails-size'),
+                width: 120,
+                minValue: 0,
+                maxValue: 100,
+                value: 50
+            });
+
+            this.rendered = true;
             this.trigger('render:after', this);
             return this;
         },
@@ -84,7 +138,15 @@ define([
         ChangeSettings: function(props) {
         },
 
-        textPageThumbnails: 'Page Thumbnails'
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
+        textPageThumbnails: 'Page Thumbnails',
+        textClosePanel: 'Close page thumbnails',
+        textThumbnailsSettings: 'Thumbnails settings',
+        textThumbnailsSize: 'Thumbnails size',
+        textHighlightVisiblePart: 'Highlight visible part of page'
 
     }, DE.Views.PageThumbnails || {}));
 });
