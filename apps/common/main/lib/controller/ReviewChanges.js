@@ -763,7 +763,7 @@ define([
             app.getController('DocumentHolder').getView().SetDisabled(disable);
 
             if (this.appConfig.canReview) {
-                app.getController('RightMenu').getView('RightMenu').clearSelection();
+                disable && app.getController('RightMenu').getView('RightMenu').clearSelection();
                 app.getController('RightMenu').SetDisabled(disable, false);
                 app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
