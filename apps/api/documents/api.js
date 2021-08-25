@@ -838,9 +838,24 @@
         return extensionParams["url"] + "apps/";
     }
 
+
+    function getTestPath() {
+        var scripts = document.getElementsByTagName('script'),
+            match;
+
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            match = scripts[i].src.match(/(.*)apps\/api\/documents\/api.js/i);
+            if (match) {
+                return match[1] + "test/apps/";
+            }
+        }
+
+        return "";
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
-            path = extensionPath ? extensionPath : getBasePath(),
+            path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
             appMap = {
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
