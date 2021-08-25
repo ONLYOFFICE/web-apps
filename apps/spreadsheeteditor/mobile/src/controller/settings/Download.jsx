@@ -26,15 +26,21 @@ class DownloadController extends Component {
 
         if (format) {
             if (format == Asc.c_oAscFileType.CSV) {
-                f7.dialog.confirm(
-                    _t.warnDownloadAs,
-                    _t.notcriticalErrorTitle,
-                    () => {
-                        const advOptions = api.asc_getAdvancedOptions();
-                        this.closeModal();
-                        Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.CSV, advOptions, 2, new Asc.asc_CDownloadOptions(format));
-                    }
-                )
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: _t.warnDownloadAs,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => {
+                                onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
+                            }
+                        }
+                    ]
+                }).open();
             } else {
                 this.closeModal();
                 api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));

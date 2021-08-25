@@ -99,7 +99,7 @@ const PageLink = props => {
     const display = props.getTextDisplay();
     const displayDisabled = display !== false && display === null;
     const [stateDisplay, setDisplay] = useState(display !== false ? ((display !== null) ? display : _t.textDefault) : "");
-    const [stateAutoUpdate, setAutoUpdate] = useState(true);
+    const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
     const [screenTip, setScreenTip] = useState('');
 
     return (
@@ -117,7 +117,7 @@ const PageLink = props => {
                                value={link}
                                onChange={(event) => {
                                 setLink(event.target.value);
-                                if((!stateDisplay || stateDisplay === link) && stateAutoUpdate) setDisplay(event.target.value);
+                                if(stateAutoUpdate) setDisplay(event.target.value);
                             }}
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{

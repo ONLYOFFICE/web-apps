@@ -1480,7 +1480,11 @@ define([
                     case Asc.c_oAscError.ID.Password:
                         config.msg = this.errorSetPassword;
                         break;
-                    
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2821,6 +2825,7 @@ define([
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             txtNone: 'None',
             textDisconnect: 'Connection is lost',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More'

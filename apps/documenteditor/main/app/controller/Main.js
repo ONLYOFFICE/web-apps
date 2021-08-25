@@ -402,7 +402,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
-                this.appOptions.canFeatureForms = true;
+                this.appOptions.canFeatureForms = false;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -1830,6 +1830,10 @@ define([
                         config.msg = this.errorSubmit;
                         break;
 
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3026,7 +3030,8 @@ define([
             txtStyle_endnote_text: 'Endnote Text',
             txtTOCHeading: 'TOC Heading',
             textDisconnect: 'Connection is lost',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });

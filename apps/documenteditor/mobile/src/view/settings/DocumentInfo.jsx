@@ -8,10 +8,7 @@ const PageDocumentInfo = (props) => {
     const _t = t("Settings", { returnObjects: true });
     const storeInfo = props.storeDocumentInfo;
     const dataApp = props.getAppProps();
-    const dataModified = props.getModified;
-    const dataModifiedBy = props.getModifiedBy;
-    const creators = props.getCreators;
-    // console.log(creators);
+    
     const {
         pageCount,
         paragraphCount,
@@ -19,10 +16,9 @@ const PageDocumentInfo = (props) => {
         symbolsWSCount,
         wordsCount,
     } = storeInfo.infoObj;
+
     const dataDoc = JSON.parse(JSON.stringify(storeInfo.dataDoc));
-    // console.log(dataDoc);
     const isLoaded = storeInfo.isLoaded;
-    // console.log(pageCount, paragraphCount, symbolsCount, symbolsWSCount, wordsCount);
   
     return (
         <Page>
@@ -91,27 +87,27 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataModified ? (
+            {props.modified ? (
                 <Fragment>
                     <BlockTitle>{_t.textLastModified}</BlockTitle>
                     <List>
-                        <ListItem title={dataModified}></ListItem>
+                        <ListItem title={props.modified}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
-            {dataModifiedBy ? (
+            {props.modifiedBy ? (
                 <Fragment>
                     <BlockTitle>{_t.textLastModifiedBy}</BlockTitle>
                     <List>
-                        <ListItem title={dataModifiedBy}></ListItem>
+                        <ListItem title={props.modifiedBy}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
-            {props.getCreated ? (
+            {props.created ? (
                 <Fragment>
                     <BlockTitle>{_t.textCreated}</BlockTitle>
                     <List>
-                        <ListItem title={props.getCreated}></ListItem>
+                        <ListItem title={props.created}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
@@ -123,12 +119,12 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {creators ? (
+            {props.creators ? (
                 <Fragment>
                     <BlockTitle>{_t.textAuthor}</BlockTitle>
                     <List>
                         {
-                            creators.split(/\s*[,;]\s*/).map(item => {
+                            props.creators.split(/\s*[,;]\s*/).map(item => {
                                 return <ListItem title={item}></ListItem>
                             })
                         }

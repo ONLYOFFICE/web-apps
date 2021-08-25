@@ -564,25 +564,37 @@ class ViewCommentsController extends Component {
                 this.onResolveComment(comment);
                 break;
             case 'deleteComment':
-                f7.dialog.confirm(
-                    _t.textMessageDeleteComment,
-                    _t.textDeleteComment,
-                    () => {
-                        this.deleteComment(comment);
-                    }
-                );
+                f7.dialog.create({
+                    title: _t.textDeleteComment,
+                    text: _t.textMessageDeleteComment,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => this.deleteComment(comment)
+                        }
+                    ]
+                }).open();
                 break;
             case 'editReply':
                 this.props.storeComments.openEditReply(true, comment, reply);
                 break;
             case 'deleteReply':
-                f7.dialog.confirm(
-                    _t.textMessageDeleteReply,
-                    _t.textDeleteReply,
-                    () => {
-                        this.deleteReply(comment, reply);
-                    }
-                );
+                f7.dialog.create({
+                    title: _t.textDeleteReply,
+                    text: _t.textMessageDeleteReply,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => this.deleteReply(comment, reply)
+                        }
+                    ]
+                }).open();
                 break;
             case 'addReply':
                 this.props.storeComments.openAddReply(true, comment);

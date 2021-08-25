@@ -27,6 +27,7 @@
             width:60px;
             height:20px;
             background-color: transparent;
+            image-rendering: pixelated;
         }
     }
 
@@ -37,14 +38,23 @@
         display: inline-block;
         background-color: transparent;
         margin: 0 0 0 -3px;
+        image-rendering: pixelated;
     }
 
     img, .image {
         background: ~"url(@{common-image-const-path}/combo-border-size/BorderSize.png) no-repeat 0 0";
         background-size: 60px auto;
 
+        .pixel-ratio__1_25 & {
+            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.25x.png)";
+        }
+
         .pixel-ratio__1_5 & {
             background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.5x.png)";
+        }
+
+        .pixel-ratio__1_75 & {
+            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.75x.png)";
         }
 
         .pixel-ratio__2 & {

@@ -551,6 +551,12 @@
         .icon {
             width: 22px;
             height: 22px;
+
+            .pixel-ratio__1_25 &,
+            .pixel-ratio__1_75 & {
+                width: 20px;
+                height: 20px;
+            }
         }
     }
 }
@@ -584,7 +590,7 @@
     border: @scaled-one-px-value solid @border-regular-control;
 
     .equation-icon {
-        .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
+        .background-ximage-all('toolbar/math.png', 1500px, @commonimage: true);
         opacity: @component-normal-icon-opacity;
 
         .theme-dark & {
