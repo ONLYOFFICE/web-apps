@@ -30,7 +30,8 @@
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs"
+      "textUsers": "Utilisateurs",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -193,6 +194,7 @@
     "errorInvalidRef": "Entrez un nom correct pour la sélection ou une référence valable à laquelle aller.",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorLockedAll": "L'opération ne peut pas être réalisée car la feuille a été verrouillée par un autre utilisateur.",
     "errorLockedCellPivot": "Impossible de modifier les données d'un tableau croisé dynamique.",
     "errorLockedWorksheetRename": "La feuille ne peut pas être renommée pour le moment car elle est en train d'être renommée par un autre utilisateur",
@@ -272,6 +274,7 @@
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",
     "textHide": "Masquer",
     "textMore": "Plus",
+    "textOk": "OK",
     "textRename": "Renommer",
     "textRenameSheet": "Renommer la feuille",
     "textSheet": "Feuille",
@@ -333,7 +336,8 @@
       "txtExpandSort": "Les données situées à côté de la sélection ne seront pas triées. Souhaitez-vous développer la sélection pour inclure les données adjacentes ou souhaitez-vous continuer à trier iniquement les cellules sélectionnées ?",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
-      "txtSortSelected": "Trier l'objet sélectionné "
+      "txtSortSelected": "Trier l'objet sélectionné ",
+      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -571,6 +575,7 @@
       "textMatchCase": "Respecter la casse",
       "textMatchCell": "Respecter la cellule",
       "textNoTextFound": "Le texte est introuvable",
+      "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textOrientation": "Orientation",
       "textOwner": "Propriétaire",

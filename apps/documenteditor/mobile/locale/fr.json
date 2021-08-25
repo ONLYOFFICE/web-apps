@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves"
+      "textWidow": "Contrôle des veuves",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -314,6 +315,7 @@
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.  ",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorMailMergeLoadFile": "Échec du chargement",
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
@@ -522,6 +524,7 @@
     "textMarginsW": "Les marges gauche et droite sont trop larges pour une largeur de page donnée",
     "textNoCharacters": "Caractères non imprimables",
     "textNoTextFound": "Le texte est introuvable",
+    "textOk": "OK",
     "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
     "textOrientation": "Orientation",
     "textOwner": "Propriétaire",

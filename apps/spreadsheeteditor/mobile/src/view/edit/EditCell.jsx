@@ -105,8 +105,9 @@ const EditCell = props => {
                 <List className="cell-styles-list">
                     {cellStyles.map((elem, index) => {
                         return (
-                            <ListItem key={index} style={{backgroundImage: `url(${elem.image})`}} 
+                            <ListItem key={index}
                                 className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
                             </ListItem>
                         )
                     })}

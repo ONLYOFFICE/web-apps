@@ -30,7 +30,8 @@
       "textReopen": "Redeschidere",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori"
+      "textUsers": "Utilizatori",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -193,6 +194,7 @@
     "errorInvalidRef": "Introduceți numele din selecție corect sau o referință validă de accesat.",
     "errorKeyEncrypt": "Descriptor cheie nerecunoscut",
     "errorKeyExpire": "Descriptor cheie a expirat",
+    "errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
     "errorLockedAll": "Operațiunea nu poate fi efectuată deoarece foaia a fost blocată de către un alt utilizator.",
     "errorLockedCellPivot": "Nu puteți modifica datele manipulând tabel Pivot.",
     "errorLockedWorksheetRename": "Deocamdată, nu puteți redenumi foaia deoarece foaia este redenumită de către un alt utilizator",
@@ -272,6 +274,7 @@
     "textErrorRemoveSheet": "Foaia de calcul nu poate fi ștearsă.",
     "textHide": "Ascunde",
     "textMore": "Mai multe",
+    "textOk": "OK",
     "textRename": "Redenumire",
     "textRenameSheet": "Redenumire foaie",
     "textSheet": "Foaie",
@@ -326,6 +329,7 @@
       "textRange": "Zona",
       "textRequired": "Obligatoriu",
       "textScreenTip": "Sfaturi ecran",
+      "textSelectedRange": "Zona selectată",
       "textShape": "Forma",
       "textSheet": "Foaie",
       "textSortAndFilter": "Sortare și filtrare",
@@ -571,6 +575,7 @@
       "textMatchCase": "Potrivire litere mari și mici",
       "textMatchCell": "Potrivire celulă",
       "textNoTextFound": "Textul nu a fost găsit",
+      "textOk": "OK",
       "textOpenFile": "Introduceți parola pentru deschidere fișier",
       "textOrientation": "Orientare",
       "textOwner": "Proprietar",

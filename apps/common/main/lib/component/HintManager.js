@@ -252,11 +252,16 @@ Common.UI.HintManager = new(function() {
 
     var _getHints = function() {
         var docH = Common.Utils.innerHeight() - 20,
-            docW = Common.Utils.innerWidth() - 20;
+            docW = Common.Utils.innerWidth() - 20,
+            topSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? $(_currentSection).offset().top : 0,
+            bottomSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? topSection + $(_currentSection).height() : docH;
+
         if (_currentControls.length === 0)
             _getControls();
         _currentControls.forEach(function(item, index) {
             if (!_isItemDisabled(item)) {
+                var leftBorder = 0,
+                    rightBorder = docW;
                 if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)) {
                     return;
                 }
@@ -264,6 +269,15 @@ Common.UI.HintManager = new(function() {
                     var $statusbar = item.parent();
                     if (item.offset().left > $statusbar.offset().left + $statusbar.width()) {
                         return;
+                    }
+                }
+                if (_currentLevel === 0 && item.closest('.tabs.short').length > 0) {
+                    var blockTabs = item.closest('.tabs.short');
+                    leftBorder = blockTabs.offset().left;
+                    rightBorder = leftBorder + blockTabs.width();
+                    if (!item.hasClass('scroll')) {
+                        leftBorder += 20;
+                        rightBorder -= 20;
                     }
                 }
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
@@ -324,7 +338,7 @@ Common.UI.HintManager = new(function() {
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
                 }
 
-                if (top < maxHeight && left < docW) {
+                if (top < maxHeight && left < docW && top > topSection && top < bottomSection && left > leftBorder && left + 18 < rightBorder) {
                     hint.css({
                         top: top,
                         left: left
@@ -370,7 +384,7 @@ Common.UI.HintManager = new(function() {
             if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
                 e.preventDefault();
                 if (!_hintVisible) {
-                    $('input').blur(); // to change value in inputField
+                    $('input:focus').blur(); // to change value in inputField
                     _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
                     _setCurrentSection();
                     _showHints();
@@ -449,7 +463,7 @@ Common.UI.HintManager = new(function() {
                                         }
                                     }
                                 }
-                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs') {
+                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' || curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll')) {
                                     _resetToDefault();
                                     return;
                                 }

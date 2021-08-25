@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUnderline": "Subliniat",
       "textUsers": "Utilizatori",
-      "textWidow": "Control văduvă"
+      "textWidow": "Control văduvă",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -314,6 +315,7 @@
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dvs.",
     "errorKeyEncrypt": "Descriptor cheie nerecunoscut",
     "errorKeyExpire": "Descriptor cheie a expirat",
+    "errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
     "errorMailMergeLoadFile": "Încărcarea eșuată",
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
@@ -522,6 +524,7 @@
     "textMarginsW": "Marginile stânga și dreapta sunt prea late pentru această pagină",
     "textNoCharacters": "Caractere neimprimate",
     "textNoTextFound": "Textul nu a fost găsit",
+    "textOk": "OK",
     "textOpenFile": "Introduceți parola pentru deschidere fișier",
     "textOrientation": "Orientare",
     "textOwner": "Proprietar",

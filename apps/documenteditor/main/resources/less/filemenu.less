@@ -110,10 +110,6 @@
   width: 96px;
   height: 96px;
   cursor: pointer;
-
-  svg&:hover {
-    opacity:0.85;
-  }
 }
 
 #panel-settings,
@@ -166,9 +162,7 @@
     white-space: nowrap;
   }
 
-  .blank-document {
-    min-width: 650px;
-  }
+
 
   .blank-document-info {
     vertical-align: top;
@@ -182,14 +176,6 @@
     }
   }
 
-  .blank-document-btn {
-    display: inline-block;
-    margin: 25px 20px 65px;
-
-    width: 96px;
-    height: 96px;
-    cursor: pointer;
-  }
 
   hr {
     margin: 0;
@@ -199,22 +185,47 @@
   }
 
   .thumb-list {
-    .thumb-wrap {
+    max-width: 600px;
+    .thumb-wrap, .blank-document {
       display: inline-block;
       text-align: center;
       width: auto;
-      padding: 30px 20px;
       cursor: pointer;
+      vertical-align: top;
+      .border-radius(@border-radius-small);
 
-      .thumb {
+      .thumb, .blank-document-btn {
         width: 96px;
         height: 96px;
         background-repeat: no-repeat;
         background-position: center;
+        margin:  12px 12px 0px 12px;
       }
 
       .title {
-        padding-top: 20px;
+        width: 104px;
+        font-size: 12px;
+        line-height: 14px;
+        height: 28px;
+        margin: 8px 8px 12px 8px;
+        word-break: break-word;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      &:hover{
+        background-color: @highlight-button-hover-ie;
+        background-color: @highlight-button-hover;
+
+      }
+      &:active{
+        color: @text-normal-pressed-ie;
+        color: @text-normal-pressed;
+        background-color: @highlight-button-pressed-ie;
+        background-color: @highlight-button-pressed;
       }
     }
   }

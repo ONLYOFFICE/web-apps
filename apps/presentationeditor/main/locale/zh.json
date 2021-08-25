@@ -1653,7 +1653,7 @@
   "PE.Views.SlideshowSettings.textLoop": "连续循环，直到按“Esc”",
   "PE.Views.SlideshowSettings.textTitle": "显示设置",
   "PE.Views.SlideSizeSettings.strLandscape": "横向",
-  "PE.Views.SlideSizeSettings.strPortrait": "点",
+  "PE.Views.SlideSizeSettings.strPortrait": "纵向",
   "PE.Views.SlideSizeSettings.textHeight": "高度",
   "PE.Views.SlideSizeSettings.textSlideOrientation": "幻灯片方位",
   "PE.Views.SlideSizeSettings.textSlideSize": "滑动尺寸",

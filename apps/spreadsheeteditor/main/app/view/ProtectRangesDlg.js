@@ -248,11 +248,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 props = new Asc.CProtectedRange();
                 props.asc_setSqref(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
             }
+            var names = [];
+            this.rangeList.store.each(function(item){
+                names.push(item.get('name').toLowerCase());
+            });
 
             var win = new SSE.Views.ProtectDialog({
                 title   : isEdit ? me.txtEditRange : me.txtNewRange,
                 type    : 'range',
                 props   : props,
+                names   : names,
                 isEdit  : isEdit,
                 api     : me.api,
                 buttons : ['ok', 'cancel'],

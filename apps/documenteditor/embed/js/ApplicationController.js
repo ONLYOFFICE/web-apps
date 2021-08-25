@@ -627,7 +627,6 @@ DE.ApplicationController = new(function(){
             $('#id-btn-clear-fields').hide();
             btnSubmit.hide();
         } else {
-            $('#id-pages').hide();
             $('#id-btn-next-field .caption').text(me.textNext);
             $('#id-btn-clear-fields .caption').text(me.textClear);
 
@@ -741,6 +740,10 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 message = me.errorForceSave;
+                break;
+
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
                 break;
 
             default:
@@ -928,6 +931,7 @@ DE.ApplicationController = new(function(){
         textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         txtEmpty: '(Empty)',
-        txtPressLink: 'Press Ctrl and click link'
+        txtPressLink: 'Press Ctrl and click link',
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();

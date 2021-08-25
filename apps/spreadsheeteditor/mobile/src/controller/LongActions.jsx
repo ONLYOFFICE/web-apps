@@ -66,7 +66,9 @@ const LongActionsController = () => {
         if (action && !forceClose) {
             setLongActionView(action)
         } else {
-            loadMask && loadMask.el && loadMask.el.classList.contains('modal-in') && f7.dialog.close(loadMask.el);
+            loadMask && loadMask.el && loadMask.el.classList.contains('modal-in') ?
+            f7.dialog.close(loadMask.el) :
+            f7.dialog.close($$('.dialog-preloader'));
         }
     };
 
@@ -167,8 +169,11 @@ const LongActionsController = () => {
         }
 
         if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
+
             if (loadMask && loadMask.el && loadMask.el.classList.contains('modal-in')) {
                 loadMask.el.getElementsByClassName('dialog-title')[0].innerHTML = title;
+            } else if ($$('.dialog-preloader').hasClass('modal-in')) {
+                $$('.dialog-preloader').find('dialog-title').text(title);
             } else {
                 loadMask = f7.dialog.preloader(title);
             }

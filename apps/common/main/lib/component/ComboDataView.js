@@ -244,9 +244,10 @@ define([
         onResize: function() {
             if (this.openButton) {
                 var button = $('button', this.openButton.cmpEl);
-                button && button.css({
-                    width : $('.button', this.cmpEl).width(),
-                    height: $('.button', this.cmpEl).height()
+                var cntButton = $('.button', this.cmpEl);
+                button && cntButton.width() > 0 && button.css({
+                    width : cntButton.width(),
+                    height: cntButton.height()
                 });
 
                 this.openButton.menu.hide();

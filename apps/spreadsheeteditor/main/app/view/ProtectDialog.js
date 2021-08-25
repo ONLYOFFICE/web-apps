@@ -64,6 +64,8 @@ define([
             this.txtDescription = options.txtDescription || '';
             this.type = options.type || 'workbook';
             this.props = options.props;
+            this.names = options.names;
+            this.isEdit = options.isEdit;
             this.api = options.api;
 
             this.template = options.template || [
@@ -164,7 +166,25 @@ define([
                     blankError  : this.txtEmpty,
                     style       : 'width: 100%;',
                     maxLength: 255,
-                    validateOnBlur: false
+                    validateOnBlur: false,
+                    validateOnChange: false,
+                    validation  : function(value) {
+                        if (value=='') return true;
+
+                        var res = me.api.asc_checkProtectedRangeName(value);
+                        switch (res) {
+                            case Asc.c_oAscDefinedNameReason.WrongName:
+                                return me.textInvalidName;
+                                break;
+                            case Asc.c_oAscDefinedNameReason.Existed:
+                                return (me.isEdit && me.props.asc_getName().toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
+                            case Asc.c_oAscDefinedNameReason.OK:
+                                var index = me.names.indexOf(value.toLowerCase());
+                                return (index<0 || me.isEdit && me.props.asc_getName().toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
+                            default:
+                                return me.textInvalidName;
+                        }
+                    }
                 });
                 this.txtDataRange = new Common.UI.InputFieldBtn({
                     el          : $('#id-range-txt'),
@@ -429,7 +449,9 @@ define([
         txtRange: 'Range',
         txtEmpty: 'This field is required',
         textSelectData: 'Select Data',
-        textInvalidRange: 'ERROR! Invalid cells range'
+        textInvalidRange: 'ERROR! Invalid cells range',
+        textInvalidName: 'The range title must begin with a letter and may only contain letters, numbers, and spaces.',
+        textExistName: 'ERROR! Range with such a title already exists'
 
     }, SSE.Views.ProtectDialog || {}));
 });

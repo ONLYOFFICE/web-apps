@@ -91,6 +91,7 @@ const AddTabs = props => {
     const _t = t('View.Add', {returnObjects: true});
     const showPanels = props.showPanels;
     const tabs = [];
+    
     if (!showPanels) {
         tabs.push({
             caption: _t.textChart,
@@ -131,10 +132,11 @@ const AddTabs = props => {
             component: <AddOtherController/>
         });
     }
-    if (showPanels && showPanels === 'hyperlink') {
+    if ((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) {
         tabs.push({
             caption: _t.textAddLink,
             id: 'add-link',
+            icon: 'icon-link',
             component: <AddLinkController/>
         });
     }
@@ -162,10 +164,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
                 </Popup>
         )
     }
@@ -193,6 +195,7 @@ const Add = props => {
     const cellinfo = api.asc_getCellInfo();
     const seltype = cellinfo.asc_getSelectionType();
     const iscelllocked = cellinfo.asc_getLocked();
+    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
     let options;
 
     if ( !iscelllocked ) {
@@ -217,6 +220,7 @@ const Add = props => {
     return <AddView usePopover={!Device.phone}
                     onclosed={onviewclosed}
                     showPanels={options ? options.panels : undefined}
+                    isAddShapeHyperlink = {isAddShapeHyperlink}
     />
 };
 
