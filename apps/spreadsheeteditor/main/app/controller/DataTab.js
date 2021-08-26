@@ -92,7 +92,8 @@ define([
                     'data:groupsettings': this.onGroupSettings,
                     'data:sortcustom': this.onCustomSort,
                     'data:remduplicates': this.onRemoveDuplicates,
-                    'data:datavalidation': this.onDataValidation
+                    'data:datavalidation': this.onDataValidation,
+                    'data:fromtext': this.onDataFromText
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -208,14 +209,59 @@ define([
                 previewData: data,
                 settings: me._state.CSVOptions,
                 api: me.api,
-                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
-                    if (result == 'ok') {
-                        if (me && me.api) {
-                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                            decimal && options.asc_setNumberDecimalSeparator(decimal);
-                            thousands && options.asc_setNumberGroupSeparator(thousands);
-                            me.api.asc_TextToColumns(options);
+                handler: function (result, settings) {
+                    if (result == 'ok' && me.api) {
+                        me.api.asc_TextToColumns(settings.textOptions);
+                    }
+                }
+            })).show();
+        },
+
+        onDataFromText: function(type) {
+            var me = this;
+            if (type === 'file') {
+                if (this.api)
+                    this.api.asc_TextFromFileOrUrl(this._state.CSVOptions, _.bind(this.onDataFromTextCallback, this));
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (type === 'url') {
+                (new Common.Views.ImageFromUrlDialog({
+                    title: me.txtUrlTitle,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/\s/g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_TextFromFileOrUrl(me._state.CSVOptions, _.bind(me.onDataFromTextCallback, me), checkUrl);
+                                } else {
+                                    Common.UI.warning({
+                                        msg: me.textEmptyUrl
+                                    });
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
+                    }
+                })).show();
+            } else if (type === 'storage') {
+                // Common.NotificationCenter.trigger('storage:data-load', 'add');
+            }
+        },
+
+        onDataFromTextCallback: function(advOptions) {
+            var me = this;
+            (new Common.Views.OpenDialog({
+                title: me.txtImportWizard,
+                closable: true,
+                type: Common.Utils.importTextType.Data,
+                preview: advOptions.asc_getData(),
+                settings: advOptions ? advOptions.asc_getRecommendedSettings() : me._state.CSVOptions,
+                codepages: advOptions ? advOptions.asc_getCodePages() : null,
+                api: me.api,
+                handler: function (result, settings) {
+                    if (result == 'ok' && me.api) {
+                        me.api.asc_TextToColumns(settings.textOptions, settings.data, settings.range);
                     }
                 }
             })).show();
@@ -379,7 +425,10 @@ define([
         textColumns: 'Columns',
         txtDataValidation: 'Data Validation',
         txtExtendDataValidation: 'The selection contains some cells without Data Validation settings.<br>Do you want to extend Data Validation to these cells?',
-        txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?'
+        txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?',
+        textEmptyUrl: 'You need to specify URL.',
+        txtImportWizard: 'Text Import Wizard',
+        txtUrlTitle: 'Paste a data URL'
 
     }, SSE.Controllers.DataTab || {}));
 });

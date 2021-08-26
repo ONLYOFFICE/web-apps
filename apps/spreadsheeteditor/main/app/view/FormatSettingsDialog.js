@@ -291,7 +291,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, {cmp: this.codesList, selector: '.listview'}];
+            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked];
         },
 
         getDefaultFocusableComponent: function () {

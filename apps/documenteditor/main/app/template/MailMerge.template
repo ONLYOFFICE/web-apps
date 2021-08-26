@@ -23,13 +23,11 @@
     <tr>
         <td  style="padding-bottom: 13px;">
             <div id="mmerge-switcher-highlight" style="display: inline-block; vertical-align: top;"></div>
-            <label style="margin-left: 5px;"><%= scope.textHighlight %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
             <div id="mmerge-switcher-preview" style="display: inline-block; vertical-align: top;"></div>
-            <label style="margin-left: 5px;"><%= scope.textPreview %></label>
         </td>
     </tr>
     <tr>

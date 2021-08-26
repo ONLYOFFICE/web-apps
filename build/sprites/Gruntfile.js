@@ -67,6 +67,25 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '2x',
                 extpath: 'huge'
             }),
+
+            'word1.25x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name,
+                scale: '1.25x'
+            }),
+            'word-big-1.25x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name_big,
+                scale: '1.25x',
+                extpath: 'big'
+            }),
+            'word-huge-1.25x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name_huge,
+                scale: '1.25x',
+                extpath: 'huge'
+            }),
+
             'word1.5x': configTemplate({
                 editor:'documenteditor',
                 spritename: sprite_name,
@@ -84,6 +103,25 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1.5x',
                 extpath: 'huge'
             }),
+
+            'word1.75x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name,
+                scale: '1.75x'
+            }),
+            'word-big-1.75x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name_big,
+                scale: '1.75x',
+                extpath: 'big'
+            }),
+            'word-huge-1.75x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name_huge,
+                scale: '1.75x',
+                extpath: 'huge'
+            }),
+
             'slide-1x': configTemplate({
                 editor:'presentationeditor',
                 spritename: sprite_name,
@@ -95,6 +133,7 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1x',
                 extpath: 'big'
             }),
+
             'slide-2x': configTemplate({
                 editor:'presentationeditor',
                 spritename: sprite_name,
@@ -106,6 +145,7 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '2x',
                 extpath: 'big'
             }),
+
             'slide-1.5x': configTemplate({
                 editor:'presentationeditor',
                 spritename: sprite_name,
@@ -117,6 +157,31 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1.5x',
                 extpath: 'big'
             }),
+
+            'slide-1.25x': configTemplate({
+                editor:'presentationeditor',
+                spritename: sprite_name,
+                scale: '1.25x'
+            }),
+            'slide-big-1.25x': configTemplate({
+                editor:'presentationeditor',
+                spritename: sprite_name_big,
+                scale: '1.25x',
+                extpath: 'big'
+            }),
+
+            'slide-1.75x': configTemplate({
+                editor:'presentationeditor',
+                spritename: sprite_name,
+                scale: '1.75x'
+            }),
+            'slide-big-1.75x': configTemplate({
+                editor:'presentationeditor',
+                spritename: sprite_name_big,
+                scale: '1.75x',
+                extpath: 'big'
+            }),
+
             'cell-1x': configTemplate({
                 editor:'spreadsheeteditor',
                 spritename: sprite_name,
@@ -128,6 +193,7 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1x',
                 extpath: 'big'
             }),
+
             'cell-2x': configTemplate({
                 editor:'spreadsheeteditor',
                 spritename: sprite_name,
@@ -139,6 +205,7 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '2x',
                 extpath: 'big'
             }),
+
             'cell-1.5x': configTemplate({
                 editor:'spreadsheeteditor',
                 spritename: sprite_name,
@@ -149,7 +216,31 @@ module.exports = function (grunt, rootpathprefix) {
                 spritename: sprite_name_big,
                 scale: '1.5x',
                 extpath: 'big'
-            })
+            }),
+
+            'cell-1.25x': configTemplate({
+                editor:'spreadsheeteditor',
+                spritename: sprite_name,
+                scale: '1.25x'
+            }),
+            'cell-big-1.25x': configTemplate({
+                editor:'spreadsheeteditor',
+                spritename: sprite_name_big,
+                scale: '1.25x',
+                extpath: 'big'
+            }),
+
+            'cell-1.75x': configTemplate({
+                editor:'spreadsheeteditor',
+                spritename: sprite_name,
+                scale: '1.75x'
+            }),
+            'cell-big-1.75x': configTemplate({
+                editor:'spreadsheeteditor',
+                spritename: sprite_name_big,
+                scale: '1.75x',
+                extpath: 'big'
+            }),
         }
     });
 
@@ -157,9 +248,17 @@ module.exports = function (grunt, rootpathprefix) {
     grunt.loadNpmTasks('grunt-spritesmith');
 
     grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-big-1x', 'sprite:word-huge-1x', 'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
-                                        'sprite:word1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x']);
-    grunt.registerTask('slide-icons', ['sprite:slide-1x', 'sprite:slide-big-1x','sprite:slide-2x', 'sprite:slide-big-2x','sprite:slide-1.5x', 'sprite:slide-big-1.5x']);
-    grunt.registerTask('cell-icons', ['sprite:cell-1x', 'sprite:cell-big-1x','sprite:cell-2x', 'sprite:cell-big-2x','sprite:cell-1.5x', 'sprite:cell-big-1.5x']);
+                                        'sprite:word1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x',
+                                        'sprite:word1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x',
+                                        'sprite:word1.75x', 'sprite:word-big-1.75x', 'sprite:word-huge-1.75x']);
+    grunt.registerTask('slide-icons', ['sprite:slide-1x', 'sprite:slide-big-1x','sprite:slide-2x', 'sprite:slide-big-2x',
+                                        'sprite:slide-1.5x', 'sprite:slide-big-1.5x',
+                                        'sprite:slide-1.25x', 'sprite:slide-big-1.25x',
+                                        'sprite:slide-1.75x', 'sprite:slide-big-1.75x']);
+    grunt.registerTask('cell-icons', ['sprite:cell-1x', 'sprite:cell-big-1x','sprite:cell-2x', 'sprite:cell-big-2x',
+                                        'sprite:cell-1.5x', 'sprite:cell-big-1.5x',
+                                        'sprite:cell-1.25x', 'sprite:cell-big-1.25x',
+                                        'sprite:cell-1.75x', 'sprite:cell-big-1.75x']);
 
     grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons']);
     grunt.registerTask('default', ['all-icons-sprite']);

@@ -122,8 +122,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 style       : 'width: 100%;'
             });
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -188,7 +188,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFormat, this.cmbLang, this.inputFixed, this.inputFooter ];
+            return [ this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide, this.chFooter, this.inputFooter, this.chNotTitle ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -198,6 +198,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 return this.inputFixed;
             else if (!this.inputFooter.isDisabled())
                 return this.inputFooter;
+            else
+                return this.chDateTime;
         },
 
         focusControls: function() {

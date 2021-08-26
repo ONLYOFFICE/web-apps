@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "SSE.ApplicationController.scriptLoadError": "A conexão está muito lenta, e alguns dos componentes não puderam ser carregados. Por favor, recarregue a página.",
+  "SSE.ApplicationController.textAnonymous": "Anônimo",
+  "SSE.ApplicationController.textGuest": "Convidado(a)",
   "SSE.ApplicationController.textLoadingDocument": "Carregando planilha",
   "SSE.ApplicationController.textOf": "de",
   "SSE.ApplicationController.txtClose": "Fechar",
@@ -25,6 +27,7 @@
   "SSE.ApplicationController.waitText": "Por favor, aguarde...",
   "SSE.ApplicationView.txtDownload": "Transferir",
   "SSE.ApplicationView.txtEmbed": "Incorporar",
+  "SSE.ApplicationView.txtFileLocation": "Local do arquivo aberto",
   "SSE.ApplicationView.txtFullScreen": "Tela cheia",
   "SSE.ApplicationView.txtPrint": "Imprimir",
   "SSE.ApplicationView.txtShare": "Compartilhar"

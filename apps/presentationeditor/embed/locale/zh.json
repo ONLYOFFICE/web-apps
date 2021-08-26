@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "该文件现在无法访问。",
   "PE.ApplicationController.notcriticalErrorTitle": "警告",
   "PE.ApplicationController.scriptLoadError": "连接速度过慢，部分组件无法被加载。请重新加载页面。",
+  "PE.ApplicationController.textAnonymous": "匿名",
+  "PE.ApplicationController.textGuest": "访客",
   "PE.ApplicationController.textLoadingDocument": "载入演示",
   "PE.ApplicationController.textOf": "的",
   "PE.ApplicationController.txtClose": "关闭",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "请稍候...",
   "PE.ApplicationView.txtDownload": "下载",
   "PE.ApplicationView.txtEmbed": "嵌入",
+  "PE.ApplicationView.txtFileLocation": "打开文件所在位置",
   "PE.ApplicationView.txtFullScreen": "全屏",
   "PE.ApplicationView.txtPrint": "打印",
   "PE.ApplicationView.txtShare": "共享"

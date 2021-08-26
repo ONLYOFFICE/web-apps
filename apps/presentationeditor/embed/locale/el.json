@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "Δεν είναι δυνατή η πρόσβαση στο αρχείο αυτήν τη στιγμή.",
   "PE.ApplicationController.notcriticalErrorTitle": "Προειδοποίηση",
   "PE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
+  "PE.ApplicationController.textAnonymous": "Ανώνυμος",
+  "PE.ApplicationController.textGuest": "Επισκέπτης",
   "PE.ApplicationController.textLoadingDocument": "Γίνεται φόρτωση παρουσίασης",
   "PE.ApplicationController.textOf": "του",
   "PE.ApplicationController.txtClose": "Κλείσιμο",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "Παρακαλούμε, περιμένετε...",
   "PE.ApplicationView.txtDownload": "Λήψη",
   "PE.ApplicationView.txtEmbed": "Ενσωμάτωση",
+  "PE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "PE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "PE.ApplicationView.txtPrint": "Εκτύπωση",
   "PE.ApplicationView.txtShare": "Διαμοιρασμός"

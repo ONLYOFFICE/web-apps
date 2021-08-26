@@ -1,0 +1,212 @@
+<div class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" style="width: 100%;">
+        <tr>
+            <td class="padding-small">
+                <div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">
+                    <label class="header"><%= scope.textRule %></label>
+                    <div id="format-rules-edit-combo-category" class="input-group-nr"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="hasformat">
+            <td class="padding-large">
+                <div id="format-rules-edit-combo-rule" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div><!--
+             --><div id="format-rules-edit-txt-r1" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div><!--
+             --><div id="format-rules-edit-txt-r2" class="input-row" style="display: inline-block;vertical-align: top;"></div><!--
+             --><div id="format-rules-edit-spin-rank" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div><!--
+             --><div id="format-rules-edit-combo-percent" class="input-row" style="display: inline-block;vertical-align: top;"></div>
+                </td>
+            </tr>
+        <tr class="hasformat">
+            <td class="padding-small">
+                <label class="header"><%= scope.textFormat %></label>
+                <div>
+                    <div id="format-rules-format-preset" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="hasformat">
+            <td class="padding-large">
+                <div>
+                    <div id="format-rules-bold" style="display: inline-block;"></div><div id="format-rules-italic" style="display: inline-block;margin-left: 3px;"></div>
+                    <div id="format-rules-underline" style="display: inline-block;margin-left: 3px;"></div><div id="format-rules-strikeout" style="display: inline-block;margin-left: 3px;"></div>
+                    <div id="format-rules-fontcolor" style="display: inline-block;margin-left: 3px;"></div><div id="format-rules-fillcolor" style="display: inline-block;margin-left: 3px;"></div>
+                    <div id="format-rules-borders" style="display: inline-block;margin-left: 3px;"></div>
+                    <div id="format-rules-edit-combo-num-format" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-left: 3px;"></div><!--
+                --><button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-clear" style="display: inline-block;vertical-align: middle;margin-left: 10px;min-width: 80px;"><%= scope.textClear %></button>
+                    </div>
+                </td>
+            </tr>
+        <tr class="hasformat">
+            <td class="padding-small">
+                <label class="header"><%= scope.textPreview %></label>
+                <div style="border: 1px solid #cbcbcb;width: 150px; height: 40px; padding: 3px;">
+                    <div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;background-color: #ffffff;"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="scale">
+            <td class="padding-large" style="padding-top: 8px;">
+                <div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">
+                    <label style="display: block;"><%= scope.textMinpoint %></label>
+                    <div id="format-rules-edit-combo-scale-1" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-txt-scale-1" class="" style="height: 22px;margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-color-scale-1" style=""></div>
+                    </div><!--
+             --><div style="width:150px; display: inline-block; margin-right: 10px;">
+                    <label id="format-rules-edit-lbl-scale-2" style="display: block;"><%= scope.textMidpoint %></label>
+                    <div id="format-rules-edit-combo-scale-2" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-txt-scale-2" class="" style="height: 22px;margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-color-scale-2" style=""></div>
+                    </div><!--
+             --><div style="width:150px; display: inline-block;">
+                    <label style="display: block;"><%= scope.textMaxpoint %></label>
+                    <div id="format-rules-edit-combo-scale-3" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-txt-scale-3" class="" style="height: 22px;margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-color-scale-3" style=""></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="scale">
+            <td colspan="3" class="padding-small">
+                <label class="header"><%= scope.textPreview %></label>
+                <div style="border: 1px solid #cbcbcb;width: 100%; height: 40px; padding: 3px;">
+                    <div id="format-rules-edit-preview-scale" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="databar">
+            <td class="padding-large" style="padding-top: 8px;">
+                <div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">
+                    <label style="display: block;"><%= scope.textMinimum %></label>
+                    <div id="format-rules-edit-combo-bar-1" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-txt-bar-1" class="" style="height: 22px;"></div>
+                    </div><!--
+             --><div style="width:150px; display: inline-block;">
+                    <label style="display: block;"><%= scope.textMaximum %></label>
+                    <div id="format-rules-edit-combo-bar-2" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-txt-bar-2" class="" style="height: 22px;"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="databar">
+            <td class="" style="padding-bottom: 4px;">
+                <label class="header"><%= scope.textAppearance %></label>
+                </td>
+            </tr>
+        <tr class="databar">
+            <td class="padding-large" style="">
+                <div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">
+                    <label style="display: block;"><%= scope.textFill %></label>
+                    <div id="format-rules-edit-combo-fill" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div style="width: 100%;margin-bottom: 4px;height: 23px;">
+                        <label style="margin-top: 4px;"><%= scope.textPositive %></label>
+                        <div id="format-rules-edit-color-pos-fill" style="float: right;"></div>
+                        </div>
+                    <div style="width: 100%;margin-bottom: 8px;height: 23px;">
+                        <label style="margin-top: 4px;"><%= scope.textNegative %></label>
+                        <div id="format-rules-edit-color-neg-fill" style="float: right;"></div>
+                        </div>
+                    <div id="format-rules-edit-chk-fill" style=""></div>
+                    </div><!--
+             --><div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">
+                    <label style="display: block;"><%= scope.textBorder %></label>
+                    <div id="format-rules-edit-combo-border" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div style="width: 100%;margin-bottom: 4px;height: 23px;">
+                        <label style="margin-top: 4px;"><%= scope.textPositive %></label>
+                        <div id="format-rules-edit-color-pos-border" style="float: right;"></div>
+                        </div>
+                    <div style="width: 100%;margin-bottom: 8px;height: 23px;">
+                        <label style="margin-top: 4px;"><%= scope.textNegative %></label>
+                        <div id="format-rules-edit-color-neg-border" style="float: right;"></div>
+                        </div>
+                    <div id="format-rules-edit-chk-border" style=""></div>
+                    </div><!--
+             --><div style="width:150px; display: inline-block;vertical-align: top;">
+                    <label style="display: block;"><%= scope.textBarDirection %></label>
+                    <div id="format-rules-edit-combo-direction" class="input-group-nr" style="margin-bottom: 8px;"></div>
+                    <div id="format-rules-edit-chk-show-bar" style="margin-top: 12px;"></div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="databar">
+            <td class="padding-small">
+                <div style="float:left;">
+                    <label class="header" style="display: block;"><%= scope.textAxis %></label>
+                    <label style="margin-right: 10px;margin-top: 1px;vertical-align: middle;"><%= scope.textPosition %></label>
+                    <div id="format-rules-edit-combo-axis-pos" class="input-group-nr" style="margin-right: 10px;display: inline-block;vertical-align: middle;"></div>
+                    <div id="format-rules-edit-color-axis-color" style="display: inline-block;vertical-align: middle;"></div>
+                    </div>
+                <div style="float:right; width: 155px;">
+                    <label class="header" style="display: block;"><%= scope.textPreview %></label>
+                    <div style="border: 1px solid #cbcbcb;width: 150px; height: 40px; padding: 3px;">
+                        <div id="format-rules-edit-preview-databar" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <tr class="iconset">
+            <td>
+                <table>
+                    <tr>
+                        <td class="padding-large" style="padding-top: 8px;">
+                            <label class="header"><%= scope.textIconStyle %></label>
+                            <div>
+                                <div id="format-rules-icon-style" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                                <div id="format-rules-edit-chk-icon-show" style="margin-left: 10px;display: inline-block;vertical-align: middle;"></div>
+                                <button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-icon-reverse" style="float:right; display: inline-block;"><%= scope.textReverse %></button>
+                                </div>
+                            </td>
+                        </tr>
+                    <tr class="icons-5">
+                        <td class="padding-small">
+                            <div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-5" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-combo-type-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                            </td>
+                        </tr>
+                    <tr class="icons-4">
+                        <td class="padding-small">
+                            <div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-4" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-combo-type-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                            </td>
+                        </tr>
+                    <tr class="icons-3">
+                        <td class="padding-small">
+                            <div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-3" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-combo-type-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                            </td>
+                        </tr>
+                    <tr class="icons-2">
+                        <td class="padding-small">
+                            <div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-2" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-combo-type-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>
+                            </td>
+                        </tr>
+                    <tr class="icons-1">
+                        <td class="padding-small">
+                            <div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-txt-icon-1" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 5px;width: 130px;"></div><!--
+                            --><div id="format-rules-edit-combo-op-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-txt-value-1" class=" hidden" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 5px;"></div><!--
+                            --><div id="format-rules-edit-combo-type-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

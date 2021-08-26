@@ -217,8 +217,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');
@@ -285,15 +284,15 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
-              <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon tools"></button>
-              </div>
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
           </div>
           <div class="group center">
-              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+              <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon more-vertical"></button>
+              </div>
           </div>
       </div>
 
@@ -311,11 +310,6 @@
                   </div>
               </div>
           </div>
-      </div>
-
-      <div id="id-loadmask" class="hide modal cmd-loader-body">
-          <div class="cmd-loader-image"></div>
-          <div class="cmd-loader-title">Please wait...</div>
       </div>
 
       <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>

@@ -1,0 +1,124 @@
+
+@cellEditorHeight: 30px;
+@cellEditorExpandedHeight: 70px;
+@contentBackColor: #fff;
+@gray-light: #f1f1f1;
+@gray-darker: #848484; //rgb(132, 132, 132)
+@statusBarBorderColor: #cbcbcb;
+
+#idx-celleditor {
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
+
+    display: flex;
+    z-index: 5001;
+
+    height: @cellEditorHeight;
+    min-height: @cellEditorHeight;
+    background-color: @contentBackColor;
+
+    &.expanded {
+        min-height: @cellEditorExpandedHeight;
+        //height: @cellEditorExpandedHeight;
+        transition: min-height .1s;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        background-color: @border-regular-control;
+        display: block;
+        z-index: 15;
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        transform-origin: 50% 100%;
+        transform: scaleY(calc(1 / var(--f7-device-pixel-ratio)));
+    }
+
+    #box-cell-name {
+        display: inline-flex;
+        background-color: var(--f7-navbar-bg-color);
+
+        .md & {
+            background-color: @gray-light;
+        }
+    }
+
+    #idx-cell-name {
+        display: inline-block;
+        width: 90px;
+        padding: 0 4px;
+        border: 0 none;
+        line-height: 30px;
+        //font-size: 17px;
+        text-align: center;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    .phone & {
+        #idx-cell-name {
+            display: none;
+        }
+    }
+
+    #idx-btn-function {
+        height: @cellEditorHeight;
+        line-height: @cellEditorHeight;
+        padding: 0 10px;
+    }
+
+    #idx-cell-content {
+        padding: 3px 3px;
+        line-height: 1.428571429;
+        color: #000;
+        vertical-align: middle;
+        background-color: @contentBackColor;
+        min-height: @cellEditorHeight;
+        height: 100%;
+        width: 100%;
+    }
+
+    .caret {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            background-color: transparent;
+            border: solid 1px black;
+            border-bottom: none;
+            border-right: none;
+
+            transition: transform 0.2s ease;
+            transform: rotate(-135deg);
+        }
+
+        width: 30px;
+        height: 16px;
+    }
+
+    &.expanded {
+        .caret {
+            &::after {
+                transform: rotate(45deg) translate(3px, 3px);
+            }
+        }
+    }
+
+    .group--content {
+        position: relative;
+        .hairline(left, @statusBarBorderColor);
+    }
+}

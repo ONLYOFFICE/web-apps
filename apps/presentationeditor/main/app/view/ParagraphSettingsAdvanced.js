@@ -409,8 +409,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             return [
                 this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
-                this.numSpacing, // 1 tab
-                this.numDefaultTab, this.numTab, this.cmbAlign, {cmp: this.tabList, selector: '.listview'} // 2 tab
+                this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, // 1 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll // 2 tab
             ];
         },
 
@@ -424,7 +424,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                         me.cmbTextAlignment.focus();
                         break;
                     case 1:
-                        me.numSpacing.focus();
+                        me.chStrike.focus();
                         if (e && (e instanceof jQuery.Event))
                             me.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', me._originalProps || new Asc.asc_CParagraphProperty());
                         break;
@@ -726,6 +726,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         },
 
         onSelectTab: function(lisvView, itemView, record) {
+            if (!record) return;
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);
 

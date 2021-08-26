@@ -23,6 +23,12 @@
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
             border-radius: 50%;
+
+            + span {
+                outline: @scaled-one-px-value-ie dotted transparent;
+                outline: @scaled-one-px-value dotted transparent;
+                display: inline-block;
+            }
         }
 
         &:checked {
@@ -45,6 +51,20 @@
 
             + label {
                 &::before {
+                }
+            }
+        }
+    }
+
+    &:focus:not(.disabled) {
+        input[type=radio] {
+            + label {
+                border-color: @border-control-focus-ie;
+                border-color: @border-control-focus;
+
+                + span {
+                    outline-color: @border-control-focus-ie;
+                    outline-color: @border-control-focus;
                 }
             }
         }

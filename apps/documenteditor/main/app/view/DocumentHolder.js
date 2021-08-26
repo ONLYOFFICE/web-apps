@@ -359,7 +359,7 @@ define([
                 if (usersStore){
                     var rec = usersStore.findUser(id);
                     if (rec)
-                        return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                        return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
                 }
                 return me.guestText;
             };
@@ -491,7 +491,8 @@ define([
                     var showPoint, ToolTip,
                         type = moveData.get_Type();
 
-                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form) { // 1 - hyperlink, 3 - footnote
+                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
+                        type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode) {
                         if (isTooltipHiding) {
                             mouseMoveData = moveData;
                             return;
@@ -511,12 +512,22 @@ define([
                             ToolTip = moveData.get_FormHelpText();
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
+                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review && moveData.get_ReviewChange()) {
+                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
+                            if (changes && changes.length>0)
+                                changes = changes[0];
+                            if (changes) {
+                                ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
+                                ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                                ToolTip += changes.get('changetext');
+                            }
                         }
 
                         var recalc = false;
                         screenTip.isHidden = false;
 
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                        if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                         if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                             screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
@@ -2378,6 +2389,7 @@ define([
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
                     properties.put_ResetCrop(true);
+                    properties.put_Rot(0);
                     me.api.ImgApply(properties);
 
                     me.fireEvent('editcomplete', this);
@@ -2640,7 +2652,7 @@ define([
                         menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
                     }
-                    menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked);
+                    menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked);
 
                     if (me.api) {
                         mnuUnGroup.setDisabled(islocked || !me.api.CanUnGroup());
@@ -4145,7 +4157,18 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_RemoveSignature(datavalue); //guid
+                    var me = this;
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.txtRemoveWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_RemoveSignature(datavalue);
+                            }
+                        }
+                    });
                     break;
             }
         },
@@ -4632,6 +4655,9 @@ define([
         textRemComboBox: 'Remove Combo Box',
         textRemDropdown: 'Remove Dropdown',
         textRemPicture: 'Remove Image',
-        textRemField: 'Remove Text Field'
+        textRemField: 'Remove Text Field',
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
+        notcriticalErrorTitle: 'Warning'
+
 }, DE.Views.DocumentHolder || {}));
 });

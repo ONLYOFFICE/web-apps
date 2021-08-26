@@ -239,8 +239,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');
@@ -374,6 +373,7 @@
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />
     <inline src="resources/img/file-template.svg" />
+    <inline src="resources/img/cf-icons.svg" />
 
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>

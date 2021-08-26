@@ -363,7 +363,7 @@ define([
                 if (usersStore){
                     var rec = usersStore.findUser(id);
                     if (rec)
-                        return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+                        return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
                 }
                 return me.guestText;
             };
@@ -2887,6 +2887,7 @@ define([
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
                         properties.put_ResetCrop(true);
+                        properties.put_Rot(0);
                         me.api.ImgApply(properties);
                     }
 

@@ -104,7 +104,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.SchemeNames = [
+                me.SchemeNames = [me.txtScheme22,
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -1218,9 +1218,9 @@ define([
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 139px',
+                        style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 value: 'settings'
@@ -1233,7 +1233,7 @@ define([
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 value: 'settings'
@@ -1304,17 +1304,17 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 0, subtype: -1}},
-                        {offsety: 38, data: {type: 0, subtype: 1}},
-                        {offsety: 76, data: {type: 0, subtype: 2}},
-                        {offsety: 114, data: {type: 0, subtype: 3}},
-                        {offsety: 152, data: {type: 0, subtype: 4}},
-                        {offsety: 190, data: {type: 0, subtype: 5}},
-                        {offsety: 228, data: {type: 0, subtype: 6}},
-                        {offsety: 266, data: {type: 0, subtype: 7}},
-                        {offsety: 684, data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
@@ -1325,16 +1325,16 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 1, subtype: -1}},
-                        {offsety: 570, data: {type: 1, subtype: 4}},
-                        {offsety: 532, data: {type: 1, subtype: 5}},
-                        {offsety: 608, data: {type: 1, subtype: 6}},
-                        {offsety: 418, data: {type: 1, subtype: 1}},
-                        {offsety: 456, data: {type: 1, subtype: 2}},
-                        {offsety: 494, data: {type: 1, subtype: 3}},
-                        {offsety: 646, data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
@@ -1444,7 +1444,7 @@ define([
                             schemecolors.push(clr);
                         }
 
-                        if (index == 21) {
+                        if (index == 22) {
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
@@ -1454,7 +1454,7 @@ define([
                             template: itemTemplate,
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
-                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                             value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
@@ -1815,7 +1815,8 @@ define([
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
-            tipHighlightColor: 'Highlight color'
+            tipHighlightColor: 'Highlight color',
+            txtScheme22: 'New Office'
         }
     }()), PE.Views.Toolbar || {}));
 });

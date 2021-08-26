@@ -202,8 +202,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.btnDown.on('click', _.bind(this.onMoveItem, this, false));
 
             // date picker
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -357,9 +357,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         getFocusedComponents: function() {
             return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, // 0 tab
-                {cmp: this.list, selector: '.listview'}, // 2 tab
-                this.txtDate, {cmp: this.listFormats, selector: '.listview'}, this.cmbLang // 3 tab
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnApplyAll, // 0 tab
+                this.chLockDelete , this.chLockEdit, // 1 tab
+                this.list, // 2 tab
+                this.txtDate, this.listFormats, this.cmbLang // 3 tab
             ];
         },
 
@@ -370,6 +371,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             setTimeout(function(){
                 if (index==0) {
                     me.txtName.focus();
+                } else if (index==1) {
+                    me.chLockDelete.focus();
                 } else if (index==2) {
                     me.list.focus();
                 } else if (index==3)

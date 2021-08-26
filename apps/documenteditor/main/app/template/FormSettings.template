@@ -34,6 +34,11 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
+    <tr class="form-not-image">
+        <td class="padding-small">
+            <div id="form-chb-fixed"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <div id="form-chb-max-chars" style="display: inline-block;margin-top: 4px;"></div>
@@ -52,9 +57,30 @@
         </td>
     </tr>
     <tr class="form-textfield">
-        <td class="padding-large">
+        <td class="padding-small">
             <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textColor %></label>
             <div id="form-color-btn" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-autofit"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-multiline"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <label class="input-label"><%= scope.textScale %></label>
+            <div id="form-combo-scale" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-chb-aspect"></div>
         </td>
     </tr>
     <tr class="form-image">
@@ -63,7 +89,7 @@
         </td>
     </tr>
 </table>
-<table cols="2" class="form-list">
+<table cols="2" class="form-list" style="margin-top:5px;">
     <tr>
         <td colspan="2" class="padding-small">
             <label class="input-label"><%= scope.textValue %></label>
@@ -89,6 +115,16 @@
     </tr>
 </table>
 <table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-chb-required"></div>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>

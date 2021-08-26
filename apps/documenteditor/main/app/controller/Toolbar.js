@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
-    'documenteditor/main/app/view/LineNumbersDialog'
+    'documenteditor/main/app/view/LineNumbersDialog',
+    'documenteditor/main/app/view/TextToTableDialog'
 ], function () {
     'use strict';
 
@@ -292,6 +293,9 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+            toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
+            toolbar.btnMultilevels.menu.on('show:after',                _.bind(this.onListShowAfter, this, 2, toolbar.mnuMultilevelPicker));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
@@ -319,6 +323,7 @@ define([
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
+            toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
@@ -891,6 +896,8 @@ define([
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
+            toolbar.btnLineNumbers.setDisabled(in_image && in_para || this._state.lock_doc);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
@@ -1223,8 +1230,12 @@ define([
 
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
-            if (this.api)
+            if (this.api) {
+                if (!btn.pressed) {
+                    type = (type==1) ? 3 : 1;
+                }
                 this.api.put_PrAlign(type);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Align');
@@ -1357,6 +1368,17 @@ define([
             if (this.api)
                 this.api.asc_ChangeTextCase(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onListShowAfter: function(type, picker) {
+            var store = picker.store;
+            var arr = [];
+            store.each(function(item){
+                arr.push(item.get('id'));
+            });
+            if (this.api) {
+                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
+            }
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
@@ -1504,10 +1526,14 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Table');
         },
 
-        onInsertTableClick: function(menu, item, e) {
-            if (item.value === 'custom') {
-                var me = this;
+        onInsertTableShow: function(menu) {
+            var selected = this.api.asc_GetSelectedText();
+            menu.items[4].setDisabled(!selected || selected.length<1);
+        },
 
+        onInsertTableClick: function(menu, item, e) {
+            var me = this;
+            if (item.value === 'custom') {
                 (new Common.Views.InsertTableDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1528,6 +1554,16 @@ define([
             } else if (item.value == 'erase') {
                 item.isChecked() && menu.items[2].setChecked(false, true);
                 this.api.SetTableEraseMode(item.isChecked());
+            } else if (item.value == 'convert') {
+                (new DE.Views.TextToTableDialog({
+                    props: this.api.asc_PreConvertTextToTable(),
+                    handler: function(result, value) {
+                        if (result == 'ok' && me.api) {
+                            me.api.asc_ConvertTextToTable(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 
@@ -1733,6 +1769,7 @@ define([
 
             switch (item.value) {
                 case 0:
+                    this._state.linenum = undefined;
                     this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
                     break;
                 case 1:
@@ -3023,9 +3060,11 @@ define([
             var toolbar = this.toolbar;
             if(disable) {
                 if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review):not(.no-group-mask.inner-elset)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset'));
                 } else if (fillformmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view):not(.no-group-mask.inner-elset)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset:not(.no-group-mask.form-view)'));
                 } else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
@@ -3033,10 +3072,19 @@ define([
             }
             $('.no-group-mask').each(function(index, item){
                 var $el = $(item);
-                if ($el.find('.toolbar-group-mask').length>0)
+                if ($el.find('> .toolbar-group-mask').length>0)
                     $el.css('opacity', 0.4);
                 else {
                     $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                    $el.find('.elset').each(function(index, elitem){
+                        var $elset = $(elitem);
+                        if ($elset.find('> .toolbar-group-mask').length>0) {
+                            $elset.css('opacity', 0.4);
+                        } else {
+                            $elset.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                        }
+                        $el.css('opacity', 1);
+                    });
                 }
             });
 

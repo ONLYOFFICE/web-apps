@@ -188,7 +188,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputDisplay, this.inputTip];
+            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
         },
 
         ShowHideElem: function(value) {

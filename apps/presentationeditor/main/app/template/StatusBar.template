@@ -28,9 +28,9 @@
     </div>
     <div class="status-group" style="">
         <div class="cnt-lang el-edit">
-            <div class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 6px;">
+            <div class="dropdown-toggle" data-toggle="dropdown">
                 <label id="status-label-lang" class="status-label">English (United States)</label>
-                <div class="caret up img-commonctrl"></div>
+                <div class="caret"></div>
             </div>
         </div>
         <span id="btn-doc-lang" class="el-edit"></span>

@@ -11,18 +11,21 @@ def strSplit(str):
     indLast = str.rfind('"')
     result.append(str[ind3+1:indLast])
     return result
+
+
 def sortByAlphabet(inputStr):
     return inputStr.lower()
 
+
 app_names = ['documenteditor', 'presentationeditor', 'spreadsheeteditor']
-app_types = ['embed', 'main', 'mobile']
+app_types = ['embed', 'main']
 prefix_apps = '../apps/'
 prefix_src = 'src/'
 prefix_dest = 'dest/'
 str_apps = []
 langs = []
 for i in range(len(app_names)):
-    for j in range (len(app_types)):
+    for j in range(len(app_types)):
         locale_path = prefix_apps + app_names[i] + '/' + app_types[j] + '/locale/'
         src_path = prefix_src + app_names[i] + '/' + app_types[j] + '/locale/'
         dest_path = prefix_dest + app_names[i] + '/' + app_types[j] + '/locale/'
@@ -31,7 +34,7 @@ for i in range(len(app_names)):
             langs = os.listdir(locale_path)
             if not os.path.isdir(dest_path):
                 os.makedirs(dest_path)
-            if len(langs)>0:
+            if len(langs) > 0:
                 try:
                     f = io.open(locale_path + 'en.json', mode='r', encoding='utf-8')
                 except Exception:
@@ -80,7 +83,7 @@ for i in range(len(app_names)):
                     arr_len = len(str_apps)
                     for k in range(arr_len):
                         str = str_apps[k]
-                        if str.find('del_')==0:
+                        if str.find('del_') == 0:
                             continue
                         if str in d_src:
                             changed = 'changed'
@@ -103,10 +106,10 @@ for i in range(len(app_names)):
                     print('    ' + lang + '.json - ' + changed)
             if os.path.isdir(src_path):
                 add_langs = os.listdir(src_path)
-                for l in range(len(langs)):
-                    if add_langs.count(langs[l])>0:
-			add_langs.remove(langs[l])
-                for l in range(len(add_langs)):
-                    lang = add_langs[l]
+                for m in range(len(langs)):
+                    if add_langs.count(langs[m]) > 0:
+                        add_langs.remove(langs[m])
+                for m in range(len(add_langs)):
+                    lang = add_langs[m]
                     shutil.copyfile(src_path + lang, dest_path + lang)
                     print('    ' + lang + ' - ' + 'added')

@@ -64,9 +64,11 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 {panelId: 'id-autocorrect-dialog-settings-math',        panelCaption: this.textMathCorrect},
                 {panelId: 'id-autocorrect-dialog-settings-recognized',  panelCaption: this.textRecognized}
             ];
-            if (this.appPrefix=='de-' || this.appPrefix=='pe-')
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
-            else if (this.appPrefix=='sse-')
+                items.push({panelId: 'id-autocorrect-dialog-settings-autocorrect',  panelCaption: this.textAutoCorrect});
+
+            } else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
 
             _.extend(this.options, {
@@ -322,6 +324,19 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-numbered", checked);
                     me.api.asc_SetAutomaticNumberedLists(checked);
                 });
+                // AutoCorrect
+                this.chFLSentence = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-fl-sentence'),
+                    labelText: this.textFLSentence,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-sentence")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+                });
+
+                this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
             } else if (this.appPrefix=='sse-') {
                 this.chNewRows = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-new-rows'),
@@ -333,10 +348,22 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-new-rows", checked);
                     me.api.asc_setIncludeNewRowColTable(checked);
                 });
+
+                this.chHyperlink = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-hyperlink'),
+                    labelText: this.textHyperlink,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-hyperlink")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-hyperlink", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-hyperlink", checked);
+                    me.api.asc_setAutoCorrectHyperlinks(checked);
+                });
             }
 
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
+            this.btnsCategory[2].on('click', _.bind(this.onAutoformatCategoryClick, this, false));
 
             this.afterRender();
         },
@@ -351,10 +378,14 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [
-                this.inputReplace, this.inputBy, {cmp: this.mathList, selector: '.listview'}, // 0 tab
-                this.inputRecFind, {cmp: this.mathRecList, selector: '.listview'} // 1 tab
-            ];
+            var arr = [
+                    this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
+                    this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
+                    this.chFLSentence // 3 tab
+                ];
+            arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
+            arr = arr.concat(this.chFLSentence ? [this.chFLSentence] : []);
+            return arr;
         },
 
         getSettings: function() {
@@ -395,6 +426,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var value = this.getActiveCategory();
             if (value==0) this.onMathCategoryClick(true);
             else if (value==1) this.onRecCategoryClick(true);
+            else if (value==2) this.onAutoformatCategoryClick(true);
+            else if (value==3) this.onAutocorrectCategoryClick(true);
         },
 
         close: function() {
@@ -415,6 +448,20 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     me.mathList.onResetItems();
                 },delay ? 100 : 10);
             }
+        },
+
+        onAutoformatCategoryClick: function(delay) {
+            var me = this;
+            _.delay(function(){
+                me.chHyperlink ? me.chHyperlink.focus() : me.chQuotes.focus();
+            },delay ? 50 : 0);
+        },
+
+        onAutocorrectCategoryClick: function(delay) {
+            var me = this;
+            _.delay(function(){
+                me.chFLSentence.focus();
+            },delay ? 50 : 0);
         },
 
         onDelete: function() {
@@ -779,7 +826,10 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textBulleted: 'Automatic bulleted lists',
         textNumbered: 'Automatic numbered lists',
         textApplyAsWork: 'Apply as you work',
-        textNewRowCol: 'Include new rows and columns in table'
+        textNewRowCol: 'Include new rows and columns in table',
+        textAutoCorrect: 'AutoCorrect',
+        textFLSentence: 'Capitalize first letter of sentences',
+        textHyperlink: 'Internet and network paths with hyperlinks'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

@@ -1010,7 +1010,8 @@ define([
                 this.listNames = new Common.UI.ListView({
                     el: $('#status-list-names', $window),
                     store: new Common.UI.DataViewStore(pages),
-                    itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= Common.Utils.String.htmlEncode(value) %></div>')
+                    cls: 'dbl-clickable',
+                    itemTemplate: _.template('<div id="<%= id %>" class="list-item"><%= Common.Utils.String.htmlEncode(value) %></div>')
                 });
 
                 this.listNames.selectByIndex(0);

@@ -102,7 +102,7 @@ define([
                 var view = this,
                     textBox = $(this.el).find('textarea'),
                     domTextBox = null,
-                    minHeight = 50,
+                    minHeight = 55,
                     lineHeight = 0,
                     scrollPos = 0,
                     oldHeight = 0,
@@ -656,7 +656,7 @@ define([
             return Common.Utils.String.ellipsis(Common.Utils.String.htmlEncode(quote), 120, true);
         },
         getUserName: function (username) {
-            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+            return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
         },
 
         pickLink: function (message) {

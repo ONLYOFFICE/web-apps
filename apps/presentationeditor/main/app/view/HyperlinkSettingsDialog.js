@@ -191,7 +191,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputDisplay, this.inputTip];
+            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
         },
 
         setSettings: function (props) {
@@ -416,6 +416,7 @@ define([
         },
 
         onSelectItem: function(picker, item, record, e){
+            if (!record) return;
             this.btnOk.setDisabled(record.get('index')==4);
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');

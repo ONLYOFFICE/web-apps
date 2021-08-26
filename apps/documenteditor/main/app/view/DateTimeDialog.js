@@ -88,8 +88,8 @@ define([
         render: function () {
             Common.UI.Window.prototype.render.call(this);
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -124,7 +124,8 @@ define([
                 el: $('#datetime-dlg-format'),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                cls: 'dbl-clickable'
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
@@ -154,6 +155,7 @@ define([
                             Common.localStorage.setItem("de-settings-datetime-default", value);
                             Common.Utils.InternalSettings.set("de-settings-datetime-default", value);
                         }
+                        this.listFormats.focus();
                     }, this)
                 });
             }, this));
@@ -176,7 +178,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbLang, {cmp: this.listFormats, selector: '.listview'}];
+            return [this.cmbLang, this.listFormats, this.chUpdate, this.btnDefault];
         },
 
         getDefaultFocusableComponent: function () {

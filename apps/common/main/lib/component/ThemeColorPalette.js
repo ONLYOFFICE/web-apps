@@ -85,7 +85,7 @@ define([
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
                 '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div><div style="padding: 12px;">' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" style="background:#ffffff" color="" hidefocus="on">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" hidefocus="on">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +

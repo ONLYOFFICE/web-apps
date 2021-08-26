@@ -17,6 +17,8 @@
   "PE.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "PE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "PE.ApplicationController.scriptLoadError": "A conexão está muito lenta, e alguns componentes não foram carregados. Por favor, recarregue a página.",
+  "PE.ApplicationController.textAnonymous": "Anônimo",
+  "PE.ApplicationController.textGuest": "Convidado(a)",
   "PE.ApplicationController.textLoadingDocument": "Carregando apresentação",
   "PE.ApplicationController.textOf": "de",
   "PE.ApplicationController.txtClose": "Fechar",
@@ -25,6 +27,7 @@
   "PE.ApplicationController.waitText": "Por favor, aguarde...",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Incorporar",
+  "PE.ApplicationView.txtFileLocation": "Local do arquivo aberto",
   "PE.ApplicationView.txtFullScreen": "Tela cheia",
   "PE.ApplicationView.txtPrint": "Imprimir",
   "PE.ApplicationView.txtShare": "Compartilhar"

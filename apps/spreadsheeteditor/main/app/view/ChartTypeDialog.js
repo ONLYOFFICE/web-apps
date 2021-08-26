@@ -232,8 +232,25 @@ define([
                 this.mnuChartTypePicker.selectRecord(record, true);
                 if (record) {
                     this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
-                } else
-                    this.btnChartType.setIconCls('svgicon');
+                } else {
+                    var iconcls = '';
+                    switch (this.currentChartType) {
+                        case Asc.c_oAscChartTypeSettings.surfaceNormal:
+                            iconcls = 'chart-surface-normal';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.surfaceWireframe:
+                            iconcls = 'chart-surface-wireframe';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.contourNormal:
+                            iconcls = 'chart-contour-wireframe';
+                            break;
+                        case Asc.c_oAscChartTypeSettings.contourWireframe:
+                            iconcls = 'chart-contour-wireframe';
+                            break;
+
+                    }
+                    this.btnChartType.setIconCls('svgicon ' + iconcls);
+                }
                 this.seriesList.on('item:add', _.bind(this.addControls, this));
                 this.seriesList.on('item:change', _.bind(this.addControls, this));
                 this.ShowHideSettings(this.currentChartType);
@@ -331,6 +348,7 @@ define([
         },
         
         onSelectStyles: function(dataView, itemView, record) {
+            if (!record) return;
             this.chartSettings.putStyle(record.get('data'));
         },
 

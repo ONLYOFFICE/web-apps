@@ -92,7 +92,7 @@ define([
                                         '<td class="padding-large">',
                                             '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
                                             '<div style="display: inline-block; position: relative;">',
-                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
+                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle move-focus" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
                                                 '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
                                                     '<div id="id-dlg-clip-copy"></div>',
                                                     '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
@@ -174,7 +174,8 @@ define([
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
                 return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));
@@ -249,7 +250,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, {cmp: this.bookmarksList, selector: '.listview'}];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden];
         },
 
         afterRender: function() {

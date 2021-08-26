@@ -180,6 +180,13 @@ define([
                 canFocused: false
             });
 
+            this.miHistory = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-history'),
+                action  : 'history',
+                caption : this.btnHistoryCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -205,6 +212,7 @@ define([
                     canFocused: false
                 }),
                 this.miAccess,
+                this.miHistory,
                 new Common.UI.MenuItem({
                     el      : $markup.elementById('#fm-btn-settings'),
                     action  : 'opts',
@@ -223,6 +231,17 @@ define([
             this.rendered = true;
             this.$el.html($markup);
             this.$el.find('.content-box').hide();
+            if (_.isUndefined(this.scroller)) {
+                var me = this;
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el.find('.panel-menu'),
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+                Common.NotificationCenter.on('window:resize', function() {
+                    me.scroller.update();
+                });
+            }
             this.applyMode();
 
             if ( !!this.api ) {
@@ -245,6 +264,7 @@ define([
             if (!panel)
                 panel = this.active || defPanel;
             this.$el.show();
+            this.scroller.update();
             this.selectMenu(panel, defPanel);
 
             this.api && this.api.asc_enableKeyEvents(false);
@@ -332,6 +352,8 @@ define([
                 this.panels['help'] = ((new PE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            this.miHistory[this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
         },
 
         setMode: function(mode, delay) {
@@ -383,6 +405,17 @@ define([
                     this.$el.find('.content-box:visible').hide();
                     panel.show();
 
+                    if (this.scroller) {
+                        var itemTop = item.$el.position().top,
+                            itemHeight = item.$el.outerHeight(),
+                            listHeight = this.$el.outerHeight();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            var height = this.scroller.$el.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            this.scroller.scrollTop(height);
+                        }
+                    }
+                    
                     this.active = menu;
                 }
             }
@@ -418,6 +451,9 @@ define([
                 if (type == 'save') {
                     return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
                 } else
+                if (type == 'rename') {
+                    return this.options.miRename ? this.options.miRename : (this.options.miRename = new Common.UI.MenuItem({}));
+                } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
                 }
@@ -425,10 +461,23 @@ define([
                 if (type == 'save') {
                     return this.miSave;
                 } else
+                if (type == 'rename') {
+                    return this.miRename;
+                } else
                 if (type == 'protect') {
                     return this.miProtect;
                 }
             }
+        },
+
+        SetDisabled: function(disable) {
+            var _btn_save = this.getButton('save'),
+                _btn_rename = this.getButton('rename'),
+                _btn_protect = this.getButton('protect');
+
+            _btn_save[(disable || !this.mode.isEdit)?'hide':'show']();
+            _btn_protect[(disable || !this.mode.isEdit)?'hide':'show']();
+            _btn_rename[(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
         },
 
         btnSaveCaption          : 'Save',
@@ -447,6 +496,7 @@ define([
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
-        btnSaveCopyAsCaption    : 'Save Copy as...'
+        btnSaveCopyAsCaption    : 'Save Copy as...',
+        btnHistoryCaption       : 'Versions History'
     }, PE.Views.FileMenu || {}));
 });

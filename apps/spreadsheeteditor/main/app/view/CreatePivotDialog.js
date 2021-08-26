@@ -165,7 +165,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtSourceRange, this.txtDestRange];
+            return [this.txtSourceRange, this.radioNew, this.radioExist, this.txtDestRange];
         },
 
         getDefaultFocusableComponent: function () {

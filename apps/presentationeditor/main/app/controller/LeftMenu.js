@@ -62,7 +62,11 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
+                    'history:show': function () {
+                        if ( !this.leftMenu.panelHistory.isVisible() )
+                            this.clickMenuFileItem('header', 'history');
+                    }.bind(this)
                 },
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this),
@@ -106,6 +110,10 @@ define([
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
+            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
+                if ( !this.leftMenu.panelHistory.isVisible() )
+                    this.clickMenuFileItem(null, 'history');
+            }, this));
         },
 
         onLaunch: function() {
@@ -148,7 +156,8 @@ define([
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                     var collection = this.getApplication().getCollection('Common.Collections.Comments');
                     for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
+                        var comment = collection.at(i);
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -159,6 +168,9 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',            _.bind(this.onApiCountPages, this));
             this.onApiCountPages(this.api.getCountPages());
             this.leftMenu.getMenu('file').setApi(api);
+            if (this.mode.canUseHistory)
+                this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
+            this.leftMenu.btnThumbs.toggle(true);
             return this;
         },
 
@@ -192,10 +204,12 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+            if (this.mode.canUseHistory)
+                this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
+
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
-            this.leftMenu.btnThumbs.toggle(true);
             return this;
         },
 
@@ -229,18 +243,44 @@ define([
                     documentCaption = me.api.asc_getDocumentName();
                 (new Common.Views.RenameDialog({
                     filename: documentCaption,
+                    maxLength: this.mode.wopi ? this.mode.wopi.FileNameMaxLength : undefined,
                     handler: function(result, value) {
                         if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
-                            Common.Gateway.requestRename(value);
+                            me.mode.wopi ? me.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
                 })).show();
                 break;
-            default: close_menu = false;
+                case 'history':
+                    if (!this.leftMenu.panelHistory.isVisible()) {
+                        if (this.api.isDocumentModified()) {
+                            var me = this;
+                            this.api.asc_stopSaving();
+                            Common.UI.warning({
+                                closable: false,
+                                width: 500,
+                                title: this.notcriticalErrorTitle,
+                                msg: this.leavePageText,
+                                buttons: ['ok', 'cancel'],
+                                primary: 'ok',
+                                callback: function(btn) {
+                                    if (btn == 'ok') {
+                                        me.api.asc_undoAllChanges();
+                                        me.api.asc_continueSaving();
+                                        me.showHistory();
+                                    } else
+                                        me.api.asc_continueSaving();
+                                }
+                            });
+                        } else
+                            this.showHistory();
+                    }
+                    break;
+                default: close_menu = false;
             }
 
-            if (close_menu) {
+            if (close_menu && menu) {
                 menu.hide();
             }
         },
@@ -302,11 +342,14 @@ define([
             Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
             this.api.SetTextBoxInputMode(value);
 
+            var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getBool("pe-settings-coauthmode", true);
-                Common.Utils.InternalSettings.set("pe-settings-coauthmode", value);
-                this.api.asc_SetFastCollaborative(value);
+                if (this.mode.canChangeCoAuthoring) {
+                    fast_coauth = Common.localStorage.getBool("pe-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
+                    this.api.asc_SetFastCollaborative(fast_coauth);
+                }
             }
             /** coauthoring end **/
 
@@ -319,9 +362,11 @@ define([
             this.api.SetFontRenderingMode(parseInt(value));
 
             if (this.mode.isEdit) {
-                value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
-                Common.Utils.InternalSettings.set("pe-settings-autosave", value);
-                this.api.asc_setAutoSaveGap(value);
+                if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
+                    value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
+                    Common.Utils.InternalSettings.set("pe-settings-autosave", value);
+                    this.api.asc_setAutoSaveGap(value);
+                }
 
                 value = Common.localStorage.getBool("pe-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
@@ -518,7 +563,7 @@ define([
             if (panel == 'thumbs') {
                 this.isThumbsShown = show;
             } else {
-                if (!show && this.isThumbsShown && !this.leftMenu._state.pluginIsRunning) {
+                if (!show && this.isThumbsShown && !this.leftMenu._state.pluginIsRunning && !this.leftMenu._state.historyIsRunning) {
                     this.leftMenu.btnThumbs.toggle(true, false);
                 }
             }
@@ -534,13 +579,13 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            if (data && data.asc_getUserId() !== this.mode.user.id && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
@@ -713,12 +758,42 @@ define([
             }
         },
 
+        showHistory: function() {
+            if (!this.mode.wopi) {
+                var maincontroller = PE.getController('Main');
+                if (!maincontroller.loadMask)
+                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
+                maincontroller.loadMask.setTitle(this.textLoadHistory);
+                maincontroller.loadMask.show();
+            }
+            Common.Gateway.requestHistory();
+        },
+
+        SetDisabled: function(disable, disableFileMenu) {
+            this.mode.isEdit = !disable;
+            if (disable) this.leftMenu.close();
+
+            /** coauthoring begin **/
+            this.leftMenu.btnComments.setDisabled(disable);
+            var comments = this.getApplication().getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+            this.setPreviewMode(disable);
+            this.leftMenu.btnChat.setDisabled(disable);
+            /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.btnThumbs.setDisabled(disable);
+            if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
+        },
+
         textNoTextFound         : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',
         notcriticalErrorTitle: 'Warning',
         txtUntitled: 'Untitled',
         textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
-        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.'
+        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
+        textLoadHistory         : 'Loading version history...',
+        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
     }, PE.Controllers.LeftMenu || {}));
 });

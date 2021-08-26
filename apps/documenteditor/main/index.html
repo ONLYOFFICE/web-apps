@@ -14,7 +14,7 @@
             --toolbar-header-document: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
-            --highlight-button-hover: #e0e0e0;
+            --highlight-button-hover: #555;
             --highlight-header-button-hover: rgba(255,255,255,.05);
             --canvas-background: #666666;
             /*--canvas-content-background: #fff;*/
@@ -225,8 +225,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');

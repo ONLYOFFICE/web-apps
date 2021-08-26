@@ -183,7 +183,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
         getFocusedComponents: function() {
             return [
-                this.inputName, this.numWrap, // 0 tab
+                this.inputName, this.chRows, this.chCols, this.radioDown, this.radioOver, this.numWrap, this.chHeaders, // 0 tab
                 this.txtDataRange,  // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];

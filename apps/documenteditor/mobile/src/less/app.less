@@ -1,0 +1,98 @@
+@themeColor: #446995;
+
+@import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
+
+@import '../../../../common/mobile/resources/less/_mixins.less';
+@import '../../../../common/mobile/resources/less/colors-table.less';
+@import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import '../../../../common/mobile/resources/less/collaboration.less';
+@import '../../../../common/mobile/resources/less/common.less';
+@import '../../../../common/mobile/resources/less/common-ios.less';
+@import '../../../../common/mobile/resources/less/common-material.less';
+@import '../../../../common/mobile/resources/less/icons.less';
+@import '../../../../common/mobile/resources/less/dataview.less';
+@import '../../../../common/mobile/resources/less/search.less';
+@import '../../../../common/mobile/resources/less/contextmenu.less';
+@import '../../../../common/mobile/resources/less/comments.less';
+@import './app-material.less';
+@import './app-ios.less';
+@import './icons-ios.less';
+@import './icons-material.less';
+
+:root {
+    --f7-popover-width: 360px;
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+    position: relative;
+    background: #fbfbfb;
+    padding-top: calc(var(--f7-page-navbar-offset, 0px) + var(--f7-page-subnavbar-offset, 0px));
+    overflow: hidden;
+    height: 100%;
+
+    > .line {
+        height: 15px;
+        margin: 30px;
+        background: #e2e2e2;
+        overflow: hidden;
+        position: relative;
+
+        -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+        -moz-animation: flickerAnimation 2s infinite ease-in-out;
+        -o-animation: flickerAnimation 2s infinite ease-in-out;
+        animation: flickerAnimation 2s infinite ease-in-out;
+    }
+}
+
+// Review
+.page-review {
+    --f7-toolbar-link-color: @themeColor;
+    .toolbar {
+        background-color: @white;
+        box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        #btn-reject-change {
+            margin-left: 20px;
+        }
+        #btn-goto-change {
+            margin-left: 10px;
+        }
+        .next-prev {
+            .link {
+                width: 44px;
+            }
+        }
+    }
+    .page-content {
+        background-color: @white;
+        .no-changes {
+            padding: 15px;
+        }
+        .block-description {
+            padding: 15px;
+            .user-name {
+                font-size: 17px;
+                line-height: 22px;
+                color: @black;
+                margin: 0;
+            }
+            .date-change {
+                font-size: 14px;
+                line-height: 18px;
+                color: @darkGray;
+                margin: 0;
+                margin-top: 3px;
+            }
+            .text {
+                color: @black;
+                font-size: 15px;
+                line-height: 20px;
+                margin: 0;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+

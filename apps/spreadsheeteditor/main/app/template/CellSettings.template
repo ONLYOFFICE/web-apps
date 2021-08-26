@@ -145,5 +145,15 @@
             <div id="cell-checkbox-shrink"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="cell-btn-cond-format" style="width:100%;"></div>
+        </td>
+    </tr>
     <tr class="finish-cell"></tr>
 </table>

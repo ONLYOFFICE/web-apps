@@ -109,7 +109,7 @@
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clear"></span>
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
+                        <span class="btn-slot split" id="slot-btn-condformat"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
@@ -130,6 +130,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssparkline"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -167,6 +168,10 @@
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
+                </div>
             </section>
             <section class="panel" data-tab="formula">
                 <div class="group">
@@ -194,7 +199,11 @@
                 </div>
             </section>
             <section class="panel" data-tab="data">
-                <div class="group small">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-data-from-text"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <div class="elset">
                         <span class="btn-slot split slot-btn-setfilter"></span>
                         <span class="btn-slot slot-sortdesc"></span>
@@ -266,6 +275,7 @@
                         <span class="btn-slot text" id="slot-chk-gridlines"></span>
                     </div>
                     <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-zeros"></span>
                     </div>
                 </div>
             </section>

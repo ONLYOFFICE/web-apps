@@ -98,6 +98,7 @@ define([
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
             this.ConnectedSettings = el.find('.form-connected');
+            this.NotImageSettings = el.find('.form-not-image');
         },
 
         createDelayedElements: function() {
@@ -136,6 +137,9 @@ define([
             this.lockedControls.push(this.txtPlaceholder);
             this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
             this.txtPlaceholder.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
+            });
 
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
@@ -188,6 +192,34 @@ define([
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-autofit'),
+                labelText: this.textAutofit
+            });
+            this.chAutofit.on('change', this.onChAutofit.bind(this));
+            this.lockedControls.push(this.chAutofit);
+
+            this.chMulti = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-multiline'),
+                labelText: this.textMulti
+            });
+            this.chMulti.on('change', this.onChMulti.bind(this));
+            this.lockedControls.push(this.chMulti);
+
+            this.chRequired = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-required'),
+                labelText: this.textRequired
+            });
+            this.chRequired.on('change', this.onChRequired.bind(this));
+            this.lockedControls.push(this.chRequired);
+
+            this.chFixed = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-fixed'),
+                labelText: this.textFixed
+            });
+            this.chFixed.on('change', this.onChFixed.bind(this));
+            this.lockedControls.push(this.chFixed);
 
             // Radio props
             this.cmbGroupKey = new Common.UI.ComboBox({
@@ -314,6 +346,29 @@ define([
                 }
             }, this));
 
+            this.chAspect = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-aspect'),
+                labelText: this.textAspect
+            });
+            this.chAspect.on('change', this.onChAspect.bind(this));
+            this.lockedControls.push(this.chAspect);
+
+            this.cmbScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
+                    { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
+                    { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+            });
+            this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
+            this.lockedControls.push(this.cmbScale);
+            this.cmbScale.on('selected', this.onScaleChanged.bind(this));
+            this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
+            this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -433,6 +488,71 @@ define([
             }
         },
 
+        onChRequired: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Required(checked);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChAutofit: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_AutoFit(checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChMulti: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_MultiLine(checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFixed: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.asc_SetFixedForm(this.internalId, field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+             }
+        },
+
+        onChAspect: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ConstantProportions(field.getValue()=='checked');
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                pictPr.put_ScaleFlag(record.value);
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onGroupKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -545,18 +665,18 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 if (color == 'transparent') {
-                    formTextPr.put_CombBorder();
+                    formPr.put_Border();
                 } else {
-                    var brd = formTextPr.get_CombBorder();
+                    var brd = formPr.get_Border();
                     if (!brd)
                         brd = new Asc.asc_CTextBorder();
                     brd.put_Value(1);
                     brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
-                    formTextPr.put_CombBorder(brd);
+                    formPr.put_Border(brd);
                 }
-                props.put_TextFormPr(formTextPr);
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -568,9 +688,9 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_CombBorder();
-                props.put_TextFormPr(formTextPr);
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Border();
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -627,9 +747,9 @@ define([
                             rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
                         }
                         if (rec) {
-                            this.list.selectRecord(rec);
+                            this.list.selectRecord(rec, this.txtNewValue._input.is(':focus'));
                             this.list.scrollToRecord(rec);
-                        } else {
+                        } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
                             this._state.listValue = this._state.listIndex = undefined;
                         }
@@ -680,6 +800,12 @@ define([
                         this._state.help=val;
                     }
 
+                    val = formPr.get_Required();
+                    if ( this._state.Required!==val ) {
+                        this.chRequired.setValue(!!val, true);
+                        this._state.Required=val;
+                    }
+
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
@@ -702,43 +828,16 @@ define([
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
                     }
-                }
 
-                var formTextPr = props.get_TextFormPr();
-                if (formTextPr) {
-                    this._originalTextFormProps = formTextPr;
-
-                    this.labelFormName.text(this.textField);
-                    val = formTextPr.get_Comb();
-                    if ( this._state.Comb!==val ) {
-                        this.chComb.setValue(!!val, true);
-                        this._state.Comb=val;
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                        val = formPr.get_Fixed();
+                        if ( this._state.Fixed!==val ) {
+                            this.chFixed.setValue(!!val, true);
+                            this._state.Fixed=val;
+                        }
                     }
 
-                    this.btnColor.setDisabled(!val);
-
-                    this.spnWidth.setDisabled(!val);
-                    val = formTextPr.get_Width();
-                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
-                        this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
-                        this._state.Width=val;
-                    }
-
-                    val = this.api.asc_GetTextFormAutoWidth();
-                    if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
-                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.options.minValue);
-                        this._state.WidthPlaceholder=val;
-                    }
-
-                    val = formTextPr.get_MaxCharacters();
-                    this.chMaxChars.setValue(val && val>=0);
-                    this.spnMaxChars.setDisabled(!val || val<0);
-                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
-                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
-                        this._state.MaxChars=val;
-                    }
-
-                    var brd = formTextPr.get_CombBorder();
+                    var brd = formPr.get_Border();
                     if (brd) {
                         var color = brd.get_Color();
                         if (color) {
@@ -763,6 +862,69 @@ define([
                         this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
                         (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
                         this._state.BorderColor = this.BorderColor;
+                    }
+                }
+
+                var pictPr = props.get_PictureFormPr();
+                if (pictPr) {
+                    this._originalPictProps = pictPr;
+                    val = pictPr.get_ConstantProportions();
+                    if ( this._state.Aspect!==val ) {
+                        this.chAspect.setValue(!!val, true);
+                        this._state.Aspect=val;
+                    }
+
+                    val = pictPr.get_ScaleFlag();
+                    if (this._state.scaleFlag!==val) {
+                        this.cmbScale.setValue(val);
+                        this._state.scaleFlag=val;
+                    }
+                }
+
+                var formTextPr = props.get_TextFormPr();
+                if (formTextPr) {
+                    this._originalTextFormProps = formTextPr;
+
+                    this.labelFormName.text(this.textField);
+                    val = formTextPr.get_Comb();
+                    if ( this._state.Comb!==val ) {
+                        this.chComb.setValue(!!val, true);
+                        this._state.Comb=val;
+                    }
+
+                    val = formTextPr.get_MultiLine();
+                    if ( this._state.Multi!==val ) {
+                        this.chMulti.setValue(!!val, true);
+                        this._state.Multi=val;
+                    }
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
+
+                    val = formTextPr.get_AutoFit();
+                    if ( this._state.AutoFit!==val ) {
+                        this.chAutofit.setValue(!!val, true);
+                        this._state.AutoFit=val;
+                    }
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
+
+                    this.spnWidth.setDisabled(!this._state.Comb);
+                    val = formTextPr.get_Width();
+                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
+                        this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
+                        this._state.Width=val;
+                    }
+
+                    val = this.api.asc_GetTextFormAutoWidth();
+                    if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
+                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.options.minValue);
+                        this._state.WidthPlaceholder=val;
+                    }
+
+                    val = formTextPr.get_MaxCharacters();
+                    this.chMaxChars.setValue(val && val>=0);
+                    this.spnMaxChars.setDisabled(!val || val<0);
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
+                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
+                        this._state.MaxChars=val;
                     }
                 }
 
@@ -867,9 +1029,11 @@ define([
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
+            this.NotImageSettings.toggleClass('hidden', imageOnly);
         },
 
         onSelectItem: function(listView, itemView, record) {
+            if (!record) return;
             this.txtNewValue.setValue(record.get('name'));
             this._state.listValue = record.get('name');
             this._state.listIndex = undefined;
@@ -916,7 +1080,17 @@ define([
         textColor: 'Border color',
         textConnected: 'Fields connected',
         textDisconnect: 'Disconnect',
-        textNoBorder: 'No border'
+        textNoBorder: 'No border',
+        textFixed: 'Fixed size field',
+        textRequired: 'Required',
+        textAutofit: 'AutoFit',
+        textMulti: 'Multiline field',
+        textAspect: 'Lock aspect ratio',
+        textAlways: 'Always',
+        textNever: 'Never',
+        textTooBig: 'Image is Too Big',
+        textTooSmall: 'Image is Too Small',
+        textScale: 'When to scale'
 
     }, DE.Views.FormSettings || {}));
 });

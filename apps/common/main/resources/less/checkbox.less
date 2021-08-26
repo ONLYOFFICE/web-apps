@@ -20,6 +20,12 @@
             position: absolute;
             left: 0;
             margin-top: auto;
+
+            + span {
+                outline: @scaled-one-px-value-ie dotted transparent;
+                outline: @scaled-one-px-value dotted transparent;
+                display: inline-block;
+            }
         }
 
         &:checked:not(:indeterminate) {
@@ -61,6 +67,20 @@
 
             + label {
                 &::before {
+                }
+            }
+        }
+    }
+
+    &:focus:not(.disabled) {
+        input[type=checkbox] {
+            + label {
+                border-color: @border-control-focus-ie;
+                border-color: @border-control-focus;
+
+                + span {
+                    outline-color: @border-control-focus-ie;
+                    outline-color: @border-control-focus;
                 }
             }
         }

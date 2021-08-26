@@ -1,0 +1,101 @@
+.device-android {
+  .wrap-comment {
+    height: calc(100% - 72px);
+  }
+  .add-comment-popup, .add-reply-popup, .add-comment-dialog, .add-reply-dialog {
+    .wrap-textarea {
+      height: calc(100% - 41px);
+    }
+  }
+  .edit-comment-popup, .edit-reply-popup, .edit-comment-dialog, .edit-reply-dialog {
+    .wrap-textarea {
+      height: calc(100% - 56px);
+    }
+  }
+  .wrap-comment, .comment-list, .reply-list {
+    .comment-header, .reply-header {
+      display: flex;
+      .initials {
+        border-radius: 50px;
+        color: @white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .wrap-comment {
+    .comment-header {
+      align-items: center;
+      .initials {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .wrap-textarea {
+      .input:not(.input-outline):after {
+        content: none;
+      }
+    }
+  }
+
+  #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
+    .dialog {
+      --f7-dialog-text-color: @black;
+      .done {
+        padding-right: 6px;
+      }
+    }
+  }
+
+  .comment-list {
+    ul:after, .item-inner:after, li:last-child li .item-inner:after {
+      content: none;
+    }
+    .comment-header {
+      .left {
+        display: flex;
+        align-items: center;
+        .initials {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  .reply-list {
+    .reply-header {
+      .left {
+        display: flex;
+        .initials {
+          margin-top: 5px;
+          width: 24px;
+          height: 24px;
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  .edit-comment-popup, .edit-reply-popup, #edit-comment-dialog, #edit-reply-dialog {
+    .wrap-comment {
+      .comment-header, .reply-header {
+        .initials {
+          height: 40px;
+          width: 40px;
+        }
+      }
+    }
+  }
+
+  #view-comment-popover {
+    .toolbar-bottom:after {
+      content: none;
+    }
+  }
+
+}

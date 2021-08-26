@@ -131,7 +131,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnColumns, this.spnSpacing];
+            return [this.spnColumns, this.spnSpacing, this.chSeparator];
         },
 
         getDefaultFocusableComponent: function () {

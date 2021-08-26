@@ -190,7 +190,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2];
+            return [this.cmbCondition1, this.cmbValue1, this.rbAnd, this.rbOr, this.cmbCondition2, this.cmbValue2];
         },
 
         getDefaultFocusableComponent: function () {
@@ -854,7 +854,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [],
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
 
             this.cmbFieldsDesc = new Common.UI.ComboBox({
@@ -865,13 +866,23 @@ define([
                 data        : [],
                 scrollAlwaysVisible: true,
                 editable    : false,
-                disabled: true
+                disabled: true,
+                takeFocusOnClose: true
             });
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
         },
+
+        getFocusedComponents: function() {
+            return [this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return !this.cmbFieldsAsc.isDisabled() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
+        },
+
         show: function () {
             Common.UI.Window.prototype.show.call(this);
         },

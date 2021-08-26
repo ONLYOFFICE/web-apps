@@ -473,7 +473,7 @@ define([
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
-                var text        = window.getChild('.info-box span');
+                var text        = window.getChild('.info-box .text > span');
                 var footer      = window.getChild('.footer');
                 var header      = window.getChild('.header');
                 var body        = window.getChild('.body');
@@ -488,14 +488,14 @@ define([
                         options.width = options.maxwidth;
                 }
                 if (options.width=='auto') {
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
+                    text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setSize(text.position().left + text.width() + parseInt(text_cnt.css('padding-right')),
                         parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
                     window.setWidth(options.width);
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
+                    text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }

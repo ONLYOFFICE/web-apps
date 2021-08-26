@@ -79,8 +79,8 @@ define([
             var me = this,
                 $window = me.getChild(),
                 items = this.options.items,
-                checked = true,
-                checkedIndex = -1;
+                checked = true;
+            this.checkedIndex = -1;
             if (items) {
                 for (var i=0; i<items.length; i++) {
                     var item = items[i];
@@ -98,12 +98,20 @@ define([
                     }));
                     if ((checked || item.checked)&& !item.disabled) {
                         checked = false;
-                        checkedIndex = i;
+                        this.checkedIndex = i;
                     }
                 }
-                (checkedIndex>=0) && this.radio[checkedIndex].setValue(true);
+                (this.checkedIndex>=0) && this.radio[this.checkedIndex].setValue(true);
             }
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        getFocusedComponents: function() {
+            return this.radio;
+        },
+
+        getDefaultFocusableComponent: function () {
+            return (this.checkedIndex>=0) ? this.radio[this.checkedIndex] : null;
         },
 
         _handleInput: function(state) {

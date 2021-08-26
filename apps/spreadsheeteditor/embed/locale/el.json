@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "Δεν είναι δυνατή η πρόσβαση στο αρχείο αυτήν τη στιγμή.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Προειδοποίηση",
   "SSE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
+  "SSE.ApplicationController.textAnonymous": "Ανώνυμος",
+  "SSE.ApplicationController.textGuest": "Επισκέπτης",
   "SSE.ApplicationController.textLoadingDocument": "Γίνεται φόρτωση λογιστικού φύλλου",
   "SSE.ApplicationController.textOf": "του",
   "SSE.ApplicationController.txtClose": "Κλείσιμο",
@@ -25,6 +27,7 @@
   "SSE.ApplicationController.waitText": "Παρακαλούμε, περιμένετε...",
   "SSE.ApplicationView.txtDownload": "Λήψη",
   "SSE.ApplicationView.txtEmbed": "Ενσωμάτωση",
+  "SSE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "SSE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "SSE.ApplicationView.txtPrint": "Εκτύπωση",
   "SSE.ApplicationView.txtShare": "Διαμοιρασμός"

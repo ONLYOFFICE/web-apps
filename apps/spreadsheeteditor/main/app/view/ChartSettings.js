@@ -173,14 +173,19 @@ define([
                             if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
                                 this.cmbChartStyle.suspendEvents();
                                 var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
-                                this.cmbChartStyle.menuPicker.selectRecord(rec);
+                                if (rec)
+                                    this.cmbChartStyle.menuPicker.selectRecord(rec);
+                                else {
+                                    this.cmbChartStyle.fieldPicker.deselectAll();
+                                    this.cmbChartStyle.menuPicker.deselectAll();
+                                }
                                 this.cmbChartStyle.resumeEvents();
 
                                 if (this._isChartStylesChanged) {
                                     if (rec)
                                         this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
                                     else
-                                        this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                                        this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), false);
                                 }
                                 this._state.ChartStyle=value;
                             }

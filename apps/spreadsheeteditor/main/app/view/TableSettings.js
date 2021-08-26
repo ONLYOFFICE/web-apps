@@ -436,7 +436,7 @@ define([
                 if (this.chFilter.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
                     this.chFilter.setDisabled(!this._state.CheckHeader || this._locked || value===null);
 
-                if (needTablePictures)
+                if (needTablePictures || !this.mnuTableTemplatePicker)
                     this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
 
                 //for table-template
@@ -452,7 +452,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '46px', 'width': '61px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '44px', 'width': '60px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._state.TemplateName=value;
                 }
@@ -474,7 +474,7 @@ define([
                     cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 512px;',
+                        style: 'width: 505px;',
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
@@ -487,7 +487,7 @@ define([
                         restoreHeight: 325,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="44" width="60"></div>'),
                         style: 'max-height: 325px;'
                     });
                 });

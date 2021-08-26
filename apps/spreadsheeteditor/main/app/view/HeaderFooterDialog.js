@@ -646,7 +646,7 @@ define([
             this.cmbFonts[1].fillFonts(this.fontStore);
             this.updateThemeColors();
 
-            this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
+            this.HFObject = new Asc.asc_CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
             this._setDefaults(this.props);
             this.editorCanvas = this.$window.find('#ce-canvas-menu');
             var me = this;

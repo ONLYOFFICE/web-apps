@@ -136,7 +136,7 @@ define([
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
                         fnEncode: function(username) {
-                            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                            return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
                         }
                     }));
 
@@ -782,7 +782,8 @@ define([
             textAdvSettings: 'Advanced Settings',
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
-            textAddFavorite: 'Mark as favorite'
+            textAddFavorite: 'Mark as favorite',
+            textHideNotes: 'Hide Notes'
         }
     }(), Common.Views.Header || {}))
 });

@@ -82,7 +82,7 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [
+                this.SchemeNames = [ this.txtScheme22,
                     this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
                     this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
                     this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
@@ -311,7 +311,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignLeft);
@@ -321,7 +320,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignCenter);
@@ -331,7 +329,6 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignRight);
@@ -341,11 +338,9 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
-                        allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
-
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
@@ -457,7 +452,8 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
                                 {caption: this.mniDrawTable, value: 'draw', checkable: true},
-                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true},
+                                {caption: this.mniTextToTable, value: 'convert'}
                             ]
                         })
                     });
@@ -1010,7 +1006,7 @@ define([
                             ]
                         })
                     });
-
+                    this.toolbarControls.push(this.btnLineNumbers);
 
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
@@ -1159,7 +1155,7 @@ define([
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         itemWidth: 104,
-                        itemHeight: 38,
+                        itemHeight: 40,
 //                hint        : this.tipParagraphStyle,
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
@@ -1704,9 +1700,9 @@ define([
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 139px',
+                        style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -1737,7 +1733,7 @@ define([
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -1766,7 +1762,7 @@ define([
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 90px',
+                        style: 'min-width: 177px',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
                             {caption: '--'},
@@ -1877,17 +1873,17 @@ define([
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 0, subtype: -1}},
-                        {offsety: 38, data: {type: 0, subtype: 1}},
-                        {offsety: 76, data: {type: 0, subtype: 2}},
-                        {offsety: 114, data: {type: 0, subtype: 3}},
-                        {offsety: 152, data: {type: 0, subtype: 4}},
-                        {offsety: 190, data: {type: 0, subtype: 5}},
-                        {offsety: 228, data: {type: 0, subtype: 6}},
-                        {offsety: 266, data: {type: 0, subtype: 7}},
-                        {offsety: 684, data: {type: 0, subtype: 8}}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
@@ -1898,16 +1894,16 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 1, subtype: -1}},
-                        {offsety: 570, data: {type: 1, subtype: 4}},
-                        {offsety: 532, data: {type: 1, subtype: 5}},
-                        {offsety: 608, data: {type: 1, subtype: 6}},
-                        {offsety: 418, data: {type: 1, subtype: 1}},
-                        {offsety: 456, data: {type: 1, subtype: 2}},
-                        {offsety: 494, data: {type: 1, subtype: 3}},
-                        {offsety: 646, data: {type: 1, subtype: 7}}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
@@ -1918,12 +1914,12 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
-                        {offsety: 0, data: {type: 2, subtype: -1}},
-                        {offsety: 304, data: {type: 2, subtype: 1}},
-                        {offsety: 342, data: {type: 2, subtype: 2}},
-                        {offsety: 380, data: {type: 2, subtype: 3}}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true}
                     ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
@@ -2129,7 +2125,7 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 21) {
+                    if (index == 22) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
@@ -2139,7 +2135,7 @@ define([
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -2469,7 +2465,9 @@ define([
             mniUpperCase: 'UPPERCASE',
             mniCapitalizeWords: 'Capitalize Each Word',
             mniToggleCase: 'tOGGLE cASE',
-            textChangeLevel: 'Change List Level'
+            textChangeLevel: 'Change List Level',
+            mniTextToTable: 'Convert Text to Table',
+            txtScheme22: 'New Office'
         }
     })(), DE.Views.Toolbar || {}));
 });

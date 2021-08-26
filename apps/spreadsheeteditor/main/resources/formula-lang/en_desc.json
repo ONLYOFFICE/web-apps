@@ -1,1842 +1,1842 @@
 {
 	"DATE": {
-		"a": "( year, month, day )",
-		"d": "Date and time function used to add dates in the default format MM/dd/yyyy"
+		"a": "(year; month; day)",
+		"d": "Returns the number that represents the date in the date-time code"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "( start-date; end-date; unit )",
+		"d": "Returns the difference between two date values (start date and end date), based on the interval (unit) specified"
 	},
 	"DATEVALUE": {
-		"a": "( date-time-string )",
-		"d": "Date and time function used to return a serial number of the specified date"
+		"a": "(date_text)",
+		"d": "Converts a date in the form of text to a number that represents the date in the date-time code"
 	},
 	"DAY": {
-		"a": "( date-value )",
-		"d": "Date and time function which returns the day (a number from 1 to 31) of the date given in the numerical format (MM/dd/yyyy by default)"
+		"a": "(serial_number)",
+		"d": "Returns the day of the month, a number from 1 to 31."
 	},
 	"DAYS": {
-		"a": "( end-date , start-date )",
-		"d": "Date and time function used to return the number of days between two dates"
+		"a": "(end_date; start_date)",
+		"d": "Returns the number of days between the two dates."
 	},
 	"DAYS360": {
-		"a": "( start-date , end-date [ , method-flag ] )",
-		"d": "Date and time function used to return the number of days between two dates (start-date and end-date) based on a 360-day year using one of the calculation method (US or European)"
+		"a": "(start_date; end_date; [method])",
+		"d": "Returns the number of days between two dates based on a 360-day year (twelve 30-day months)"
 	},
 	"EDATE": {
-		"a": "( start-date , month-offset )",
-		"d": "Date and time function used to return the serial number of the date which comes the indicated number of months (month-offset) before or after the specified date (start-date)"
+		"a": "(start_date; months)",
+		"d": "Returns the serial number of the date that is the indicated number of months before or after the start date"
 	},
 	"EOMONTH": {
-		"a": "( start-date , month-offset )",
-		"d": "Date and time function used to return the serial number of the last day of the month that comes the indicated number of months before or after the specified start date"
+		"a": "(start_date; months)",
+		"d": "Returns the serial number of the last day of the month before or after a specified number of months"
 	},
 	"HOUR": {
-		"a": "( time-value )",
-		"d": "Date and time function which returns the hour (a number from 0 to 23) of the time value"
+		"a": "(serial_number)",
+		"d": "Returns the hour as a number from 0 (12:00 A.M.) to 23 (11:00 P.M.)."
 	},
 	"ISOWEEKNUM": {
-		"a": "( date )",
-		"d": "Date and time function used to return number of the ISO week number of the year for a given date"
+		"a": "(date)",
+		"d": "Returns the ISO week number in the year for a given date"
 	},
 	"MINUTE": {
-		"a": "( time-value )",
-		"d": "Date and time function which returns the minute (a number from 0 to 59) of the time value"
+		"a": "(serial_number)",
+		"d": "Returns the minute, a number from 0 to 59."
 	},
 	"MONTH": {
-		"a": "( date-value )",
-		"d": "Date and time function which returns the month (a number from 1 to 12) of the date given in the numerical format (MM/dd/yyyy by default)"
+		"a": "(serial_number)",
+		"d": "Returns the month, a number from 1 (January) to 12 (December)."
 	},
 	"NETWORKDAYS": {
-		"a": "( start-date , end-date [ , holidays ] )",
-		"d": "Date and time function used to return the number of the work days between two dates (start date and end-date) excluding weekends and dates considered as holidays"
+		"a": "(start_date; end_date; [holidays])",
+		"d": "Returns the number of whole workdays between two dates"
 	},
 	"NETWORKDAYS.INTL": {
-		"a": "( start_date , end_date , [ , weekend ] , [ , holidays ] )",
-		"d": "Date and time function used to return the number of whole workdays between two dates using parameters to indicate which and how many days are weekend days"
+		"a": "(start_date; end_date; [weekend]; [holidays])",
+		"d": "Returns the number of whole workdays between two dates with custom weekend parameters"
 	},
 	"NOW": {
 		"a": "()",
-		"d": "Date and time function used to return the serial number of the current date and time; if the cell format was General before the function was entered, the application changes the cell format so that it matches the date and time format of your regional settings"
+		"d": "Returns the current date and time formatted as a date and time."
 	},
 	"SECOND": {
-		"a": "( time-value )",
-		"d": "Date and time function which returns the second (a number from 0 to 59) of the time value"
+		"a": "(serial_number)",
+		"d": "Returns the second, a number from 0 to 59."
 	},
 	"TIME": {
-		"a": "( hour, minute, second )",
-		"d": "Date and time function used to add a particular time in the selected format (hh:mm tt by default)"
+		"a": "(hour; minute; second)",
+		"d": "Converts hours, minutes and seconds given as numbers to a serial number, formatted with a time format"
 	},
 	"TIMEVALUE": {
-		"a": "( date-time-string )",
-		"d": "Date and time function used to return the serial number of a time"
+		"a": "(time_text)",
+		"d": "Converts a text time to a serial number for a time, a number from 0 (12:00:00 AM) to 0.999988426 (11:59:59 PM). Format the number with a time format after entering the formula"
 	},
 	"TODAY": {
 		"a": "()",
-		"d": "Date and time function used to add the current day in the following format MM/dd/yy. This function does not require an argument"
+		"d": "Returns the current date formatted as a date."
 	},
 	"WEEKDAY": {
-		"a": "( serial-value [ , weekday-start-flag ] )",
-		"d": "Date and time function used to determine which day of the week the specified date is"
+		"a": "(serial_number; [return_type])",
+		"d": "Returns a number from 1 to 7 identifying the day of the week of a date."
 	},
 	"WEEKNUM": {
-		"a": "( serial-value [ , weekday-start-flag ] )",
-		"d": "Date and time function used to return the number of the week the specified date falls within the year"
+		"a": "(serial_number; [return_type])",
+		"d": "Returns the week number in the year"
 	},
 	"WORKDAY": {
-		"a": "( start-date , day-offset [ , holidays ] )",
-		"d": "Date and time function used to return the date which comes the indicated number of days (day-offset) before or after the specified start date excluding weekends and dates considered as holidays"
+		"a": "(start_date; days; [holidays])",
+		"d": "Returns the serial number of the date before or after a specified number of workdays"
 	},
 	"WORKDAY.INTL": {
-		"a": "( start_date , days , [ , weekend ] , [ , holidays ] )",
-		"d": "Date and time function used to return the serial number of the date before or after a specified number of workdays with custom weekend parameters; weekend parameters indicate which and how many days are weekend days"
+		"a": "(start_date; days; [weekend]; [holidays])",
+		"d": "Returns the serial number of the date before or after a specified number of workdays with custom weekend parameters"
 	},
 	"YEAR": {
-		"a": "( date-value )",
-		"d": "Date and time function which returns the year (a number from 1900 to 9999) of the date given in the numerical format (MM/dd/yyyy by default)"
+		"a": "(serial_number)",
+		"d": "Returns the year of a date, an integer in the range 1900-9999."
 	},
 	"YEARFRAC": {
-		"a": "(  start-date , end-date [ , basis ] )",
-		"d": "Date and time function used to return the fraction of a year represented by the number of whole days from start-date to end-date calculated on the specified basis"
+		"a": "(start_date; end_date; [basis])",
+		"d": "Returns the year fraction representing the number of whole days between start_date and end_date"
 	},
 	"BESSELI": {
-		"a": "( X , N )",
-		"d": "Engineering function used to return the modified Bessel function, which is equivalent to the Bessel function evaluated for purely imaginary arguments"
+		"a": "(x; n)",
+		"d": "Returns the modified Bessel function In(x)"
 	},
 	"BESSELJ": {
-		"a": "( X , N )",
-		"d": "Engineering function used to return the Bessel function"
+		"a": "(x; n)",
+		"d": "Returns the Bessel function Jn(x)"
 	},
 	"BESSELK": {
-		"a": "( X , N )",
-		"d": "Engineering function used to return the modified Bessel function, which is equivalent to the Bessel functions evaluated for purely imaginary arguments"
+		"a": "(x; n)",
+		"d": "Returns the modified Bessel function Kn(x)"
 	},
 	"BESSELY": {
-		"a": "( X , N )",
-		"d": "Engineering function used to return the Bessel function, which is also called the Weber function or the Neumann function"
+		"a": "(x; n)",
+		"d": "Returns the Bessel function Yn(x)"
 	},
 	"BIN2DEC": {
-		"a": "( number )",
-		"d": "Engineering function used to convert a binary number into a decimal number"
+		"a": "(number)",
+		"d": "Converts a binary number to decimal"
 	},
 	"BIN2HEX": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a binary number into a hexadecimal number"
+		"a": "(number; [places])",
+		"d": "Converts a binary number to hexadecimal"
 	},
 	"BIN2OCT": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a binary number into an octal number"
+		"a": "(number; [places])",
+		"d": "Converts a binary number to octal"
 	},
 	"BITAND": {
-		"a": "( number1 , number2 )",
-		"d": "Engineering function used to return a bitwise 'AND' of two numbers"
+		"a": "(number1; number2)",
+		"d": "Returns a bitwise 'And' of two numbers"
 	},
 	"BITLSHIFT": {
-		"a": "( number, shift_amount )",
-		"d": "Engineering function used to return a number shifted left by the specified number of bits"
+		"a": "(number; shift_amount)",
+		"d": "Returns a number shifted left by shift_amount bits"
 	},
 	"BITOR": {
-		"a": "( number1, number2 )",
-		"d": "Engineering function used to return a bitwise 'OR' of two numbers"
+		"a": "(number1; number2)",
+		"d": "Returns a bitwise 'Or' of two numbers"
 	},
 	"BITRSHIFT": {
-		"a": "( number, shift_amount )",
-		"d": "Engineering function used to return a number shifted right by the specified number of bits"
+		"a": "(number; shift_amount)",
+		"d": "Returns a number shifted right by shift_amount bits"
 	},
 	"BITXOR": {
-		"a": "( number1, number2 )",
-		"d": "Engineering function used to return a bitwise 'XOR' of two numbers"
+		"a": "(number1; number2)",
+		"d": "Returns a bitwise 'Exclusive Or' of two numbers"
 	},
 	"COMPLEX": {
-		"a": "( real-number , imaginary-number [ , suffix ] )",
-		"d": "Engineering function used to convert a real part and an imaginary part into the complex number expressed in a + bi or a + bj form"
+		"a": "(real_num; i_num; [suffix])",
+		"d": "Converts real and imaginary coefficients into a complex number"
 	},
 	"CONVERT": {
-		"a": "( number , from-unit , to-unit )",
-		"d": "Engineering function used to convert a number from one measurement system to another; for example, CONVERT can translate a table of distances in miles to a table of distances in kilometers"
+		"a": "(number; from_unit; to_unit)",
+		"d": "Converts a number from one measurement system to another"
 	},
 	"DEC2BIN": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a decimal number into a binary number"
+		"a": "(number; [places])",
+		"d": "Converts a decimal number to binary"
 	},
 	"DEC2HEX": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a decimal number into a hexadecimal number"
+		"a": "(number; [places])",
+		"d": "Converts a decimal number to hexadecimal"
 	},
 	"DEC2OCT": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a decimal number into an octal number"
+		"a": "(number; [places])",
+		"d": "Converts a decimal number to octal"
 	},
 	"DELTA": {
-		"a": "( number-1 [ , number-2 ] )",
-		"d": "Engineering function used to test if two numbers are equal. The function returns 1 if the numbers are equal and 0 otherwise"
+		"a": "(number1; [number2])",
+		"d": "Tests whether two numbers are equal"
 	},
 	"ERF": {
-		"a": "( lower-bound [ , upper-bound ] )",
-		"d": "Engineering function used to calculate the error function integrated between the specified lower and upper limits"
+		"a": "(lower_limit; [upper_limit])",
+		"d": "Returns the error function"
 	},
 	"ERF.PRECISE": {
-		"a": "( x )",
-		"d": "Engineering function used to returns the error function"
+		"a": "(X)",
+		"d": "Returns the error function"
 	},
 	"ERFC": {
-		"a": "( lower-bound )",
-		"d": "Engineering function used to calculate the complementary error function integrated between the specified lower limit and infinity"
+		"a": "(x)",
+		"d": "Returns the complementary error function"
 	},
 	"ERFC.PRECISE": {
-		"a": "( x )",
-		"d": "Engineering function used to return the complementary ERF function integrated between x and infinity"
+		"a": "(X)",
+		"d": "Returns the complementary error function"
 	},
 	"GESTEP": {
-		"a": "( number [ , step ] )",
-		"d": "Engineering function used to test if a number is greater than a threshold value. The function returns 1 if the number is greater than or equal to the threshold value and 0 otherwise"
+		"a": "(number; [step])",
+		"d": "Tests whether a number is greater than a threshold value"
 	},
 	"HEX2BIN": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a hexadecimal number to a binary number"
+		"a": "(number; [places])",
+		"d": "Converts a Hexadecimal number to binary"
 	},
 	"HEX2DEC": {
-		"a": "( number )",
-		"d": "Engineering function used to convert a hexadecimal number into a decimal number"
+		"a": "(number)",
+		"d": "Converts a hexadecimal number to decimal"
 	},
 	"HEX2OCT": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert a hexadecimal number to an octal number"
+		"a": "(number; [places])",
+		"d": "Converts a hexadecimal number to octal"
 	},
 	"IMABS": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the absolute value of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the absolute value (modulus) of a complex number"
 	},
 	"IMAGINARY": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the imaginary part of the specified complex number"
+		"a": "(inumber)",
+		"d": "Returns the imaginary coefficient of a complex number"
 	},
 	"IMARGUMENT": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the argument Theta, an angle expressed in radians"
+		"a": "(inumber)",
+		"d": "Returns the argument q, an angle expressed in radians"
 	},
 	"IMCONJUGATE": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the complex conjugate of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the complex conjugate of a complex number"
 	},
 	"IMCOS": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the cosine of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the cosine of a complex number"
 	},
 	"IMCOSH": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the hyperbolic cosine of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the hyperbolic cosine of a complex number"
 	},
 	"IMCOT": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the cotangent of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the cotangent of a complex number"
 	},
 	"IMCSC": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the cosecant of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the cosecant of a complex number"
 	},
 	"IMCSCH": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the hyperbolic cosecant of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the hyperbolic cosecant of a complex number"
 	},
 	"IMDIV": {
-		"a": "( complex-number-1 , complex-number-2 )",
-		"d": "Engineering function used to return the quotient of two complex numbers expressed in a + bi or a + bj form"
+		"a": "(inumber1; inumber2)",
+		"d": "Returns the quotient of two complex numbers"
 	},
 	"IMEXP": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the e constant raised to the to the power specified by a complex number. The e constant is equal to 2,71828182845904"
+		"a": "(inumber)",
+		"d": "Returns the exponential of a complex number"
 	},
 	"IMLN": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the natural logarithm of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the natural logarithm of a complex number"
 	},
 	"IMLOG10": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the logarithm of a complex number to a base of 10"
+		"a": "(inumber)",
+		"d": "Returns the base-10 logarithm of a complex number"
 	},
 	"IMLOG2": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the logarithm of a complex number to a base of 2"
+		"a": "(inumber)",
+		"d": "Returns the base-2 logarithm of a complex number"
 	},
 	"IMPOWER": {
-		"a": "( complex-number, power )",
-		"d": "Engineering function used to return the result of a complex number raised to the desired power"
+		"a": "(inumber; number)",
+		"d": "Returns a complex number raised to an integer power"
 	},
 	"IMPRODUCT": {
-		"a": "( argument-list )",
-		"d": "Engineering function used to return the product of the specified complex numbers"
+		"a": "(inumber1; [inumber2]; ...)",
+		"d": "Returns the product of 1 to 255 complex numbers"
 	},
 	"IMREAL": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the real part of the specified complex number"
+		"a": "(inumber)",
+		"d": "Returns the real coefficient of a complex number"
 	},
 	"IMSEC": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the secant of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the secant of a complex number"
 	},
 	"IMSECH": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the hyperbolic secant of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the hyperbolic secant of a complex number"
 	},
 	"IMSIN": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the sine of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the sine of a complex number"
 	},
 	"IMSINH": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the hyperbolic sine of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the hyperbolic sine of a complex number"
 	},
 	"IMSQRT": {
-		"a": "( complex-number )",
-		"d": "Engineering function used to return the square root of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the square root of a complex number"
 	},
 	"IMSUB": {
-		"a": "( complex-number-1 , complex-number-2 )",
-		"d": "Engineering function used to return the difference of two complex numbers expressed in a + bi or a + bj form"
+		"a": "(inumber1; inumber2)",
+		"d": "Returns the difference of two complex numbers"
 	},
 	"IMSUM": {
-		"a": "( argument-list )",
-		"d": "Engineering function used to return the sum of the specified complex numbers"
+		"a": "(inumber1; [inumber2]; ...)",
+		"d": "Returns the sum of complex numbers"
 	},
 	"IMTAN": {
-		"a": "( complex-number )",
-		"d": "Engineering function used return to the tangent of a complex number"
+		"a": "(inumber)",
+		"d": "Returns the tangent of a complex number"
 	},
 	"OCT2BIN": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert an octal number to a binary number"
+		"a": "(number; [places])",
+		"d": "Converts an octal number to binary"
 	},
 	"OCT2DEC": {
-		"a": "( number )",
-		"d": "Engineering function used to convert an octal number to a decimal number"
+		"a": "(number)",
+		"d": "Converts an octal number to decimal"
 	},
 	"OCT2HEX": {
-		"a": "( number [ , num-hex-digits ] )",
-		"d": "Engineering function used to convert an octal number to a hexadecimal number"
+		"a": "(number; [places])",
+		"d": "Converts an octal number to hexadecimal"
 	},
 	"DAVERAGE": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to average the values in a field (column) of records in a list or database that match conditions you specify"
+		"a": "(database; field; criteria)",
+		"d": "Averages the values in a column in a list or database that match conditions you specify"
 	},
 	"DCOUNT": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to count the cells that contain numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Counts the cells containing numbers in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DCOUNTA": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to count the nonblank cells in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Counts nonblank cells in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DGET": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to extract a single value from a column of a list or database that matches conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Extracts from a database a single record that matches the conditions you specify"
 	},
 	"DMAX": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to return the largest number in a field (column) of records in a list or database that matches conditions you that specify"
+		"a": "(database; field; criteria)",
+		"d": "Returns the largest number in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DMIN": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to return the smallest number in a field (column) of records in a list or database that matches conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Returns the smallest number in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DPRODUCT": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to multiplie the values in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Multiplies the values in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DSTDEV": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to estimate the standard deviation of a population based on a sample by using the numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Estimates the standard deviation based on a sample from selected database entries"
 	},
 	"DSTDEVP": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to calculate the standard deviation of a population based on the entire population by using the numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Calculates the standard deviation based on the entire population of selected database entries"
 	},
 	"DSUM": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to add the numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Adds the numbers in the field (column) of records in the database that match the conditions you specify"
 	},
 	"DVAR": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to estimates the variance of a population based on a sample by using the numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Estimates variance based on a sample from selected database entries"
 	},
 	"DVARP": {
-		"a": "( database , field , criteria )",
-		"d": "Database function used to calculate the variance of a population based on the entire population by using the numbers in a field (column) of records in a list or database that match conditions that you specify"
+		"a": "(database; field; criteria)",
+		"d": "Calculates variance based on the entire population of selected database entries"
 	},
 	"CHAR": {
-		"a": "( number )",
-		"d": "Text and data function used to return the ASCII character specified by a number"
+		"a": "(number)",
+		"d": "Returns the character specified by the code number from the character set for your computer"
 	},
 	"CLEAN": {
-		"a": "( string )",
-		"d": "Text and data function used to remove all the nonprintable characters from the selected string"
+		"a": "(text)",
+		"d": "Removes all nonprintable characters from text"
 	},
 	"CODE": {
-		"a": "( string )",
-		"d": "Text and data function used to return the ASCII value of the specified character or the first character in a cell"
+		"a": "(text)",
+		"d": "Returns a numeric code for the first character in a text string, in the character set used by your computer"
 	},
 	"CONCATENATE": {
-		"a": "(text1, text2, ...)",
-		"d": "Text and data function used to combine the data from two or more cells into a single one"
+		"a": "(text1; [text2]; ...)",
+		"d": "Joins several text strings into one text string"
 	},
 	"CONCAT": {
-		"a": "(text1, text2, ...)",
-		"d": "Text and data function used to combine the data from two or more cells into a single one. This function replaces the CONCATENATE function."
+		"a": "(text1; ...)",
+		"d": "Concatenates a list or range of text strings"
 	},
 	"DOLLAR": {
-		"a": "( number [ , num-decimal ] )",
-		"d": "Text and data function used to convert a number to text, using a currency format $#.##"
+		"a": "(number; [decimals])",
+		"d": "Converts a number to text, using currency format"
 	},
 	"EXACT": {
-		"a": "(text1, text2)",
-		"d": "Text and data function used to compare data in two cells. The function returns TRUE if the data are the same, and FALSE if not"
+		"a": "(text1; text2)",
+		"d": "Checks whether two text strings are exactly the same, and returns TRUE or FALSE. EXACT is case-sensitive"
 	},
 	"FIND": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(find_text; within_text; [start_num])",
+		"d": "Returns the starting position of one text string within another text string. FIND is case-sensitive"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string-1; string-2; [start-pos] )",
+		"d": "Finds the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"FIXED": {
-		"a": "( number [ , [ num-decimal ] [ , suppress-commas-flag ] ] )",
-		"d": "Text and data function used to return the text representation of a number rounded to a specified number of decimal places"
+		"a": "(number; [decimals]; [no_commas])",
+		"d": "Rounds a number to the specified number of decimals and returns the result as text with or without commas"
 	},
 	"LEFT": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(text; [num_chars])",
+		"d": "Returns the specified number of characters from the start of a text string"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string; [number-chars] )",
+		"d": "Extracts the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LEN": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(text)",
+		"d": "Returns the number of characters in a text string"
 	},
 	"LENB": {
 		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Analyses the specified string and returns the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"LOWER": {
 		"a": "(text)",
-		"d": "Text and data function used to convert uppercase letters to lowercase in the selected cell"
+		"d": "Converts all letters in a text string to lowercase"
 	},
 	"MID": {
-		"a": "( string , start-pos , number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(text; start_num; num_chars)",
+		"d": "Returns the characters from the middle of a text string, given a starting position and length"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string; start-pos; number-chars )",
+		"d": "Extracts the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"NUMBERVALUE": {
-		"a": "( text , [ , [ decimal-separator ] [ , [ group-separator ] ] )",
-		"d": "Text and data function used to convert text to a number, in a locale-independent way"
+		"a": "(text; [decimal_separator]; [group_separator])",
+		"d": "Converts text to number in a locale-independent manner"
 	},
 	"PROPER": {
-		"a": "( string )",
-		"d": "Text and data function used to convert the first character of each word to uppercase and all the remaining characters to lowercase"
+		"a": "(text)",
+		"d": "Converts a text string to proper case; the first letter in each word to uppercase, and all other letters to lowercase"
 	},
 	"REPLACE": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(old_text; start_num; num_chars; new_text)",
+		"d": "Replaces part of a text string with a different text string"
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string-1; start-pos; number-chars; string-2 )",
+		"d": "Replaces a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"REPT": {
-		"a": "(text, number_of_times)",
-		"d": "Text and data function used to repeat the data in the selected cell as many time as you wish"
+		"a": "(text; number_times)",
+		"d": "Repeats text a given number of times. Use REPT to fill a cell with a number of instances of a text string"
 	},
 	"RIGHT": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(text; [num_chars])",
+		"d": "Returns the specified number of characters from the end of a text string"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string; [number-chars] )",
+		"d": "Extracts a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SEARCH": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the single-byte character set (SBCS)"
+		"a": "(find_text; within_text; [start_num])",
+		"d": "Returns the number of the character at which a specific character or text string is first found, reading left to right (not case-sensitive)"
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "( string-1; string-2; [start-pos] )",
+		"d": "Returns the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
 	},
 	"SUBSTITUTE": {
-		"a": "( string , old-string , new-string [ , occurence ] )",
-		"d": "Text and data function used to replace a set of characters with a new one"
+		"a": "(text; old_text; new_text; [instance_num])",
+		"d": "Replaces existing text with new text in a text string"
 	},
 	"T": {
-		"a": "( value )",
-		"d": "Text and data function used to check whether the value in the cell (or used as argument) is text or not. In case it is not text, the function returns blank result. In case the value/argument is text, the function returns the same text value"
+		"a": "(value)",
+		"d": "Checks whether a value is text, and returns the text if it is, or returns double quotes (empty text) if it is not"
 	},
 	"TEXT": {
-		"a": "( value , format )",
-		"d": "Text and data function used to convert a value to a text in the specified format"
+		"a": "(value; format_text)",
+		"d": "Converts a value to text in a specific number format"
 	},
 	"TEXTJOIN": {
-		"a": "( delimiter , ignore_empty , text1 [ , text2 ] , … )",
-		"d": "Text and data function used to combine the text from multiple ranges and/or strings, and includes a delimiter you specify between each text value that will be combined; if the delimiter is an empty text string, this function will effectively concatenate the ranges"
+		"a": "(delimiter; ignore_empty; text1; ...)",
+		"d": "Concatenates a list or range of text strings using a delimiter"
 	},
 	"TRIM": {
-		"a": "( string )",
-		"d": "Text and data function used to remove the leading and trailing spaces from a string"
+		"a": "(text)",
+		"d": "Removes all spaces from a text string except for single spaces between words"
 	},
 	"UNICHAR": {
-		"a": "( number )",
-		"d": "Text and data function used to return the Unicode character that is referenced by the given numeric value."
+		"a": "(number)",
+		"d": "Returns the Unicode character referenced by the given numeric value"
 	},
 	"UNICODE": {
-		"a": "( text )",
-		"d": "Text and data function used to return the number (code point) corresponding to the first character of the text"
+		"a": "(text)",
+		"d": "Returns the number (code point) corresponding to the first character of the text"
 	},
 	"UPPER": {
 		"a": "(text)",
-		"d": "Text and data function used to convert lowercase letters to uppercase in the selected cell"
+		"d": "Converts a text string to all uppercase letters"
 	},
 	"VALUE": {
-		"a": "( string )",
-		"d": "Text and data function used to convert a text value that represents a number to a number. If the converted text is not a number, the function will return a #VALUE! error"
+		"a": "(text)",
+		"d": "Converts a text string that represents a number to a number"
 	},
 	"AVEDEV": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the average of the absolute deviations of numbers from their mean"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the average of the absolute deviations of data points from their mean. Arguments can be numbers or names, arrays or references that contain numbers"
 	},
 	"AVERAGE": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and find the average value"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the average (arithmetic mean) of its arguments, which can be numbers or names, arrays or references that contain numbers"
 	},
 	"AVERAGEA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data including text and logical values and find the average value. The AVERAGEA function treats text and FALSE as a value of 0 and TRUE as a value of 1"
+		"a": "(value1; [value2]; ...)",
+		"d": "Returns the average (arithmetic mean) of its arguments, evaluating text and FALSE in arguments as 0; TRUE evaluates as 1. Arguments can be numbers, names, arrays or references"
 	},
 	"AVERAGEIF": {
-		"a": "( cell-range, selection-criteria [ , average-range ] )",
-		"d": "Statistical function used to analyze the range of data and find the average value of all numbers in a range of cells, based on the specified criterion"
+		"a": "(range; criteria; [average_range])",
+		"d": "Finds average (arithmetic mean) for the cells specified by a given condition or criteria"
 	},
 	"AVERAGEIFS": {
-		"a": "( average-range, criteria-range-1, criteria-1 [ criteria-range-2, criteria-2 ], ... )",
-		"d": "Statistical function used to analyze the range of data and find the average value of all numbers in a range of cells, based on the multiple criterions"
+		"a": "(average_range; criteria_range; criteria; ...)",
+		"d": "Finds average (arithmetic mean) for the cells specified by a given set of conditions or criteria"
 	},
 	"BETADIST": {
-		"a": " ( probability , alpha , beta , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used to return the cumulative beta probability density function"
+		"a": "(x; alpha; beta; [A]; [B])",
+		"d": "Returns the cumulative beta probability density function"
 	},
 	"BETAINV": {
-		"a": " ( x , alpha , beta , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used return the inverse of the cumulative beta probability density function for a specified beta distribution"
+		"a": "(probability; alpha; beta; [A]; [B])",
+		"d": "Returns the inverse of the cumulative beta probability density function (BETADIST)"
 	},
 	"BETA.DIST": {
-		"a": " ( x , alpha , beta , cumulative , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used to return the beta distribution"
+		"a": "(x; alpha; beta; cumulative; [A]; [B])",
+		"d": "Returns the beta probability distribution function"
 	},
 	"BETA.INV": {
-		"a": " ( probability , alpha , beta , [ , [ A ] [ , [ B ] ] ) ",
-		"d": "Statistical function used to return the inverse of the beta cumulative probability density function"
+		"a": "(probability; alpha; beta; [A]; [B])",
+		"d": "Returns the inverse of the cumulative beta probability density function (BETA.DIST)"
 	},
 	"BINOMDIST": {
-		"a": "( number-successes , number-trials , success-probability , cumulative-flag )",
-		"d": "Statistical function used to return the individual term binomial distribution probability"
+		"a": "(number_s; trials; probability_s; cumulative)",
+		"d": "Returns the individual term binomial distribution probability"
 	},
 	"BINOM.DIST": {
-		"a": "( number-s , trials , probability-s , cumulative )",
-		"d": "Statistical function used to return the individual term binomial distribution probability"
+		"a": "(number_s; trials; probability_s; cumulative)",
+		"d": "Returns the individual term binomial distribution probability"
 	},
 	"BINOM.DIST.RANGE": {
-		"a": "( trials , probability-s , number-s [ , number-s2 ] )",
-		"d": "Statistical function used to return the probability of a trial result using a binomial distribution"
+		"a": "(trials; probability_s; number_s; [number_s2])",
+		"d": "Returns the probability of a trial result using a binomial distribution"
 	},
 	"BINOM.INV": {
-		"a": "( trials , probability-s , alpha )",
-		"d": "Statistical function used to return the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value"
+		"a": "(trials; probability_s; alpha)",
+		"d": "Returns the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value"
 	},
 	"CHIDIST": {
-		"a": "( x , deg-freedom )",
-		"d": "Statistical function used to return the right-tailed probability of the chi-squared distribution"
+		"a": "(x; deg_freedom)",
+		"d": "Returns the right-tailed probability of the chi-squared distribution"
 	},
 	"CHIINV": {
-		"a": "( probability , deg-freedom )",
-		"d": "Statistical function used to return the inverse of the right-tailed probability of the chi-squared distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the inverse of the right-tailed probability of the chi-squared distribution"
 	},
 	"CHITEST": {
-		"a": "( actual-range , expected-range )",
-		"d": "Statistical function used to return the test for independence, value from the chi-squared (χ2) distribution for the statistic and the appropriate degrees of freedom"
+		"a": "(actual_range; expected_range)",
+		"d": "Returns the test for independence: the value from the chi-squared distribution for the statistic and the appropriate degrees of freedom"
 	},
 	"CHISQ.DIST": {
-		"a": "( x , deg-freedom , cumulative )",
-		"d": "Statistical function used to return the chi-squared distribution"
+		"a": "(x; deg_freedom; cumulative)",
+		"d": "Returns the left-tailed probability of the chi-squared distribution"
 	},
 	"CHISQ.DIST.RT": {
-		"a": "( x , deg-freedom )",
-		"d": "Statistical function used to return the right-tailed probability of the chi-squared distribution"
+		"a": "(x; deg_freedom)",
+		"d": "Returns the right-tailed probability of the chi-squared distribution"
 	},
 	"CHISQ.INV": {
-		"a": "( probability , deg-freedom )",
-		"d": "Statistical function used to return the inverse of the left-tailed probability of the chi-squared distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the inverse of the left-tailed probability of the chi-squared distribution"
 	},
 	"CHISQ.INV.RT": {
-		"a": "( probability , deg-freedom )",
-		"d": "Statistical function used to return the inverse of the right-tailed probability of the chi-squared distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the inverse of the right-tailed probability of the chi-squared distribution"
 	},
 	"CHISQ.TEST": {
-		"a": "( actual-range , expected-range )",
-		"d": "Statistical function used to return the test for independence, value from the chi-squared (χ2) distribution for the statistic and the appropriate degrees of freedom"
+		"a": "(actual_range; expected_range)",
+		"d": "Returns the test for independence: the value from the chi-squared distribution for the statistic and the appropriate degrees of freedom"
 	},
 	"CONFIDENCE": {
-		"a": "( alpha , standard-dev , size )",
-		"d": "Statistical function used to return the confidence interval"
+		"a": "(alpha; standard_dev; size)",
+		"d": "Returns the confidence interval for a population mean, using a normal distribution"
 	},
 	"CONFIDENCE.NORM": {
-		"a": "( alpha , standard-dev , size )",
-		"d": "Statistical function used to return the confidence interval for a population mean, using a normal distribution"
+		"a": "(alpha; standard_dev; size)",
+		"d": "Returns the confidence interval for a population mean, using a normal distribution"
 	},
 	"CONFIDENCE.T": {
-		"a": "( alpha , standard-dev , size )",
-		"d": "Statistical function used to return the confidence interval for a population mean, using a Student's t distribution"
+		"a": "(alpha; standard_dev; size)",
+		"d": "Returns the confidence interval for a population mean, using a Student's T distribution"
 	},
 	"CORREL": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to analyze the range of data and return the correlation coefficient of two range of cells"
+		"a": "(array1; array2)",
+		"d": "Returns the correlation coefficient between two data sets"
 	},
 	"COUNT": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to count the number of the selected cells which contain numbers ignoring empty cells or those contaning text"
+		"a": "(value1; [value2]; ...)",
+		"d": "Counts the number of cells in a range that contain numbers"
 	},
 	"COUNTA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of cells and count the number of cells that are not empty"
+		"a": "(value1; [value2]; ...)",
+		"d": "Counts the number of cells in a range that are not empty"
 	},
 	"COUNTBLANK": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of cells and return the number of the empty cells"
+		"a": "(range)",
+		"d": "Counts the number of empty cells in a specified range of cells"
 	},
 	"COUNTIF": {
-		"a": "( cell-range, selection-criteria )",
-		"d": "Statistical function used to count the number of the selected cells based on the specified criterion"
+		"a": "(range; criteria)",
+		"d": "Counts the number of cells within a range that meet the given condition"
 	},
 	"COUNTIFS": {
-		"a": "( criteria-range-1, criteria-1, [ criteria-range-2, criteria-2 ], ... )",
-		"d": "Statistical function used to count the number of the selected cells based on the multiple criterions"
+		"a": "(criteria_range; criteria; ...)",
+		"d": "Counts the number of cells specified by a given set of conditions or criteria"
 	},
 	"COVAR": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return the covariance of two ranges of data"
+		"a": "(array1; array2)",
+		"d": "Returns covariance, the average of the products of deviations for each data point pair in two data sets"
 	},
 	"COVARIANCE.P": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return population covariance, the average of the products of deviations for each data point pair in two data sets; use covariance to determine the relationship between two data sets"
+		"a": "(array1; array2)",
+		"d": "Returns population covariance, the average of the products of deviations for each data point pair in two data sets"
 	},
 	"COVARIANCE.S": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return the sample covariance, the average of the products of deviations for each data point pair in two data sets"
+		"a": "(array1; array2)",
+		"d": "Returns sample covariance, the average of the products of deviations for each data point pair in two data sets"
 	},
 	"CRITBINOM": {
-		"a": "( number-trials , success-probability , alpha )",
-		"d": "Statistical function used to return the smallest value for which the cumulative binomial distribution is greater than or equal to the specified alpha value"
+		"a": "(trials; probability_s; alpha)",
+		"d": "Returns the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value"
 	},
 	"DEVSQ": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and sum the squares of the deviations of numbers from their mean"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the sum of squares of deviations of data points from their sample mean"
 	},
 	"EXPONDIST": {
-		"a": "( x , lambda , cumulative-flag )",
-		"d": "Statistical function used to return the exponential distribution"
+		"a": "(x; lambda; cumulative)",
+		"d": "Returns the exponential distribution"
 	},
 	"EXPON.DIST": {
-		"a": "( x , lambda , cumulative )",
-		"d": "Statistical function used to return the exponential distribution"
+		"a": "(x; lambda; cumulative)",
+		"d": "Returns the exponential distribution"
 	},
 	"FDIST": {
-		"a": "( x , deg-freedom1 , deg-freedom2 )",
-		"d": "Statistical function used to return the (right-tailed) F probability distribution (degree of diversity) for two data sets. You can use this function to determine whether two data sets have different degrees of diversity"
+		"a": "(x; deg_freedom1; deg_freedom2)",
+		"d": "Returns the (right-tailed) F probability distribution (degree of diversity) for two data sets"
 	},
 	"FINV": {
-		"a": "( probability , deg-freedom1 , deg-freedom2 )",
-		"d": "Statistical function used to return the inverse of the (right-tailed) F probability distribution; the F distribution can be used in an F-test that compares the degree of variability in two data sets"
+		"a": "(probability; deg_freedom1; deg_freedom2)",
+		"d": "Returns the inverse of the (right-tailed) F probability distribution: if p = FDIST(x,...), then FINV(p,...) = x"
 	},
 	"FTEST": {
-		"a": "( array1 , array2 )",
-		"d": "Statistical function used to return the result of an F-test. An F-test returns the two-tailed probability that the variances in array1 and array2 are not significantly different; use this function to determine whether two samples have different variances"
+		"a": "(array1; array2)",
+		"d": "Returns the result of an F-test, the two-tailed probability that the variances in Array1 and Array2 are not significantly different"
 	},
 	"F.DIST": {
-		"a": "( x , deg-freedom1 , deg-freedom2 , cumulative )",
-		"d": "Statistical function used to return the F probability distribution. You can use this function to determine whether two data sets have different degrees of diversity"
+		"a": "(x; deg_freedom1; deg_freedom2; cumulative)",
+		"d": "Returns the (left-tailed) F probability distribution (degree of diversity) for two data sets"
 	},
 	"F.DIST.RT": {
-		"a": "( x , deg-freedom1 , deg-freedom2 )",
-		"d": "Statistical function used to return the (right-tailed) F probability distribution (degree of diversity) for two data sets. You can use this function to determine whether two data sets have different degrees of diversity"
+		"a": "(x; deg_freedom1; deg_freedom2)",
+		"d": "Returns the (right-tailed) F probability distribution (degree of diversity) for two data sets"
 	},
 	"F.INV": {
-		"a": "( probability , deg-freedom1 , deg-freedom2 )",
-		"d": "Statistical function used to return the inverse of the (right-tailed) F probability distribution; the F distribution can be used in an F-test that compares the degree of variability in two data sets"
+		"a": "(probability; deg_freedom1; deg_freedom2)",
+		"d": "Returns the inverse of the (left-tailed) F probability distribution: if p = F.DIST(x,...), then F.INV(p,...) = x"
 	},
 	"F.INV.RT": {
-		"a": "( probability , deg-freedom1 , deg-freedom2 )",
-		"d": "Statistical function used to return the inverse of the (right-tailed) F probability distribution; the F distribution can be used in an F-test that compares the degree of variability in two data sets"
+		"a": "(probability; deg_freedom1; deg_freedom2)",
+		"d": "Returns the inverse of the (right-tailed) F probability distribution: if p = F.DIST.RT(x,...), then F.INV.RT(p,...) = x"
 	},
 	"F.TEST": {
-		"a": "( array1 , array2 )",
-		"d": "Statistical function used to return the result of an F-test, the two-tailed probability that the variances in array1 and array2 are not significantly different; use this function to determine whether two samples have different variances"
+		"a": "(array1; array2)",
+		"d": "Returns the result of an F-test, the two-tailed probability that the variances in Array1 and Array2 are not significantly different"
 	},
 	"FISHER": {
-		"a": "( number )",
-		"d": "Statistical function used to return the Fisher transformation of a number"
+		"a": "(x)",
+		"d": "Returns the Fisher transformation"
 	},
 	"FISHERINV": {
-		"a": "( number )",
-		"d": "Statistical function used to perform the inverse of Fisher transformation"
+		"a": "(y)",
+		"d": "Returns the inverse of the Fisher transformation: if y = FISHER(x), then FISHERINV(y) = x"
 	},
 	"FORECAST": {
-		"a": "( x , array-1 , array-2 )",
-		"d": "Statistical function used to predict a future value based on existing values provided"
+		"a": "(x; known_y's; known_x's)",
+		"d": "Calculates, or predicts, a future value along a linear trend by using existing values"
 	},
 	"FORECAST.ETS": {
-		"a": "( target_date , values , timeline , [ seasonality ] , [ data_completion ] , [ aggregation ] )",
-		"d": "Statistical function used to calculate or predict a future value based on existing (historical) values by using the AAA version of the Exponential Smoothing (ETS) algorithm"
+		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
+		"d": "Returns the forecasted value for a specific future target date using exponential smoothing method."
 	},
 	"FORECAST.ETS.CONFINT": {
-		"a": "( target_date , values , timeline , [ confidence_level ] , [ seasonality ], [ data_completion ] , [aggregation ] )",
-		"d": "Statistical function used to return a confidence interval for the forecast value at the specified target date"
+		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
+		"d": "Returns a confidence interval for the forecast value at the specified target date."
 	},
 	"FORECAST.ETS.SEASONALITY": {
-		"a": "( values , timeline , [ data_completion ] , [ aggregation ] )",
-		"d": "Statistical function used to return the length of the repetitive pattern  an application detects for the specified time series"
+		"a": "(values; timeline; [data_completion]; [aggregation])",
+		"d": "Returns the length of the repetitive pattern an application detects for the specified time series."
 	},
 	"FORECAST.ETS.STAT": {
-		"a": "( values , timeline , statistic_type , [ seasonality ] , [ data_completion ] , [ aggregation ] )",
-		"d": "Statistical function used to return a statistical value as a result of time series forecasting; statistic type indicates which statistic is requested by this function"
+		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
+		"d": "Returns the requested statistic for the forecast."
 	},
 	"FORECAST.LINEAR": {
-		"a": "( x, known_y's, known_x's )",
-		"d": "Statistical function used to calculate, or predict, a future value by using existing values; the predicted value is a y-value for a given x-value, the known values are existing x-values and y-values, and the new value is predicted by using linear regression"
+		"a": "(x; known_y's; known_x's)",
+		"d": "Calculates, or predicts, a future value along a linear trend by using existing values"
 	},
 	"FREQUENCY": {
-		"a": "(  data-array , bins-array )",
-		"d": "Statistical function used to сalculate how often values occur within the selected range of cells and display the first value of the returned vertical array of numbers"
+		"a": "(data_array; bins_array)",
+		"d": "Calculates how often values occur within a range of values and then returns a vertical array of numbers that have one more element than Bins_array"
 	},
 	"GAMMA": {
-		"a": "( number )",
-		"d": "Statistical function used to return the gamma function value"
+		"a": "(x)",
+		"d": "Returns the Gamma function value"
 	},
 	"GAMMADIST": {
-		"a": "( x , alpha , beta , cumulative )",
-		"d": "Statistical function used to return the gamma distribution"
+		"a": "(x; alpha; beta; cumulative)",
+		"d": "Returns the gamma distribution"
 	},
 	"GAMMA.DIST": {
-		"a": "( x , alpha , beta , cumulative )",
-		"d": "Statistical function used to return the gamma distribution"
+		"a": "(x; alpha; beta; cumulative)",
+		"d": "Returns the gamma distribution"
 	},
 	"GAMMAINV": {
-		"a": "( probability , alpha , beta )",
-		"d": "Statistical function used to return the inverse of the gamma cumulative distribution"
+		"a": "(probability; alpha; beta)",
+		"d": "Returns the inverse of the gamma cumulative distribution: if p = GAMMADIST(x,...), then GAMMAINV(p,...) = x"
 	},
 	"GAMMA.INV": {
-		"a": "( probability , alpha , beta )",
-		"d": "Statistical function used to return the inverse of the gamma cumulative distribution"
+		"a": "(probability; alpha; beta)",
+		"d": "Returns the inverse of the gamma cumulative distribution: if p = GAMMA.DIST(x,...), then GAMMA.INV(p,...) = x"
 	},
 	"GAMMALN": {
-		"a": "( number )",
-		"d": "Statistical function used to return the natural logarithm of the gamma function"
+		"a": "(x)",
+		"d": "Returns the natural logarithm of the gamma function"
 	},
 	"GAMMALN.PRECISE": {
-		"a": "( x )",
-		"d": "Statistical function used to return the natural logarithm of the gamma function"
+		"a": "(x)",
+		"d": "Returns the natural logarithm of the gamma function"
 	},
 	"GAUSS": {
-		"a": "( z )",
-		"d": "Statistical function used to calculate the probability that a member of a standard normal population will fall between the mean and z standard deviations from the mean"
+		"a": "(x)",
+		"d": "Returns 0.5 less than the standard normal cumulative distribution"
 	},
 	"GEOMEAN": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to calculate the geometric mean of the argument list"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the geometric mean of an array or range of positive numeric data"
 	},
 	"GROWTH": {
-		"a": "( known_y's, [known_x's], [new_x's], [const] )",
-		"d": "Statistical function used to calculate predicted exponential growth by using existing data; returns the y-values for a series of new x-values that you specify by using existing x-values and y-values"
+		"a": "(known_y's; [known_x's]; [new_x's]; [const])",
+		"d": "Returns numbers in an exponential growth trend matching known data points"
 	},
 	"HARMEAN": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to calculate the harmonic mean of the argument list"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the harmonic mean of a data set of positive numbers: the reciprocal of the arithmetic mean of reciprocals"
 	},
 	"HYPGEOM.DIST": {
-		"a": "( sample_s, number_sample, population_s, number_pop, cumulative )",
-		"d": "Statistical function used to return the hypergeometric distribution, the probability of a given number of sample successes, given the sample size, population successes, and population size"
+		"a": "(sample_s; number_sample; population_s; number_pop; cumulative)",
+		"d": "Returns the hypergeometric distribution"
 	},
 	"HYPGEOMDIST": {
-		"a": "( sample-successes , number-sample , population-successes , number-population )",
-		"d": "Statistical function used to return the hypergeometric distribution, the probability of a given number of sample successes, given the sample size, population successes, and population size"
+		"a": "(sample_s; number_sample; population_s; number_pop)",
+		"d": "Returns the hypergeometric distribution"
 	},
 	"INTERCEPT": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to analyze the first array values and second array values to calculate the intersection point"
+		"a": "(known_ys; known_xs)",
+		"d": "Calculates the point at which a line will intersect the y-axis by using a best-fit regression line plotted through the known x-values and y-values"
 	},
 	"KURT": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to return the kurtosis of the argument list"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the kurtosis of a data set"
 	},
 	"LARGE": {
-		"a": "(  array , k )",
-		"d": "Statistical function used to analyze the range of cells and return the k-th largest value"
+		"a": "(array; k)",
+		"d": "Returns the k-th largest value in a data set. For example, the fifth largest number"
 	},
 	"LINEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
-		"d": "Statistical function used to calculate the statistics for a line by using the least squares method to calculate a straight line that best fits your data, and then returns an array that describes the line; because this function returns an array of values, it must be entered as an array formula"
+		"a": "(known_y's; [known_x's]; [const]; [stats])",
+		"d": "Returns statistics that describe a linear trend matching known data points, by fitting a straight line using the least squares method"
 	},
 	"LOGEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
-		"d": "Statistical function used calculate an exponential curve that fits your data and returns an array of values that describes the curve in regression analysis; because this function returns an array of values, it must be entered as an array formula"
+		"a": "(known_y's; [known_x's]; [const]; [stats])",
+		"d": "Returns statistics that describe an exponential curve matching known data points"
 	},
 	"LOGINV": {
-		"a": "( x , mean , standard-deviation )",
-		"d": "Statistical function used to return the inverse of the lognormal cumulative distribution function of the given x value with the specified parameters"
+		"a": "(probability; mean; standard_dev)",
+		"d": "Returns the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters Mean and Standard_dev"
 	},
 	"LOGNORM.DIST": {
-		"a": "( x , mean , standard-deviation , cumulative )",
-		"d": "Statistical function used to return the lognormal distribution of x, where ln(x) is normally distributed with parameters Mean and Standard-deviation"
+		"a": "(x; mean; standard_dev; cumulative)",
+		"d": "Returns the lognormal distribution of x, where ln(x) is normally distributed with parameters Mean and Standard_dev"
 	},
 	"LOGNORM.INV": {
-		"a": "( probability , mean , standard-deviation )",
-		"d": "Statistical function used to return the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters Mean and Standard-deviation"
+		"a": "(probability; mean; standard_dev)",
+		"d": "Returns the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters Mean and Standard_dev"
 	},
 	"LOGNORMDIST": {
-		"a": "( x , mean , standard-deviation )",
-		"d": "Statistical function used to analyze logarithmically transformed data and return the lognormal cumulative distribution function of the given x value with the specified parameters"
+		"a": "(x; mean; standard_dev)",
+		"d": "Returns the cumulative lognormal distribution of x, where ln(x) is normally distributed with parameters Mean and Standard_dev"
 	},
 	"MAX": {
-		"a": "( number1 , number2 , ...)",
-		"d": "Statistical function used to analyze the range of data and find the largest number"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the largest value in a set of values. Ignores logical values and text"
 	},
 	"MAXA": {
-		"a": "( number1 , number2 , ...)",
-		"d": "Statistical function used to analyze the range of data and find the largest value"
+		"a": "(value1; [value2]; ...)",
+		"d": "Returns the largest value in a set of values. Does not ignore logical values and text"
 	},
 	"MAXIFS": {
-		"a": "( max_range , criteria_range1 , criteria1 [ , criteria_range2 , criteria2 ] , ...)",
-		"d": "Statistical function used to return the maximum value among cells specified by a given set of conditions or criteria"
+		"a": "(max_range; criteria_range; criteria; ...)",
+		"d": "Returns the maximum value among cells specified by a given set of conditions or criteria"
 	},
 	"MEDIAN": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to calculate the median of the argument list"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the median, or the number in the middle of the set of given numbers"
 	},
 	"MIN": {
-		"a": "( number1 , number2 , ...)",
-		"d": "Statistical function used to analyze the range of data and find the smallest number"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the smallest number in a set of values. Ignores logical values and text"
 	},
 	"MINA": {
-		"a": "( number1 , number2 , ...)",
-		"d": "Statistical function used to analyze the range of data and find the smallest value"
+		"a": "(value1; [value2]; ...)",
+		"d": "Returns the smallest value in a set of values. Does not ignore logical values and text"
 	},
 	"MINIFS": {
-		"a": "( min_range , criteria_range1 , criteria1 [ , criteria_range2 , criteria2 ] , ...)",
-		"d": "Statistical function used to return the minimum value among cells specified by a given set of conditions or criteria"
+		"a": "(min_range; criteria_range; criteria; ...)",
+		"d": "Returns the minimum value among cells specified by a given set of conditions or criteria"
 	},
 	"MODE": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the most frequently occurring value"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the most frequently occurring, or repetitive, value in an array or range of data"
 	},
 	"MODE.MULT": {
-		"a": "( number1 , [ , number2 ] ... )",
-		"d": "Statistical function used to return a vertical array of the most frequently occurring, or repetitive values in an array or range of data"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns a vertical array of the most frequently occurring, or repetitive, values in an array or range of data. For a horizontal array, use =TRANSPOSE(MODE.MULT(number1,number2,...))"
 	},
 	"MODE.SNGL": {
-		"a": "( number1 , [ , number2 ] ... )",
-		"d": "Statistical function used to return the most frequently occurring, or repetitive, value in an array or range of data"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the most frequently occurring, or repetitive, value in an array or range of data"
 	},
 	"NEGBINOM.DIST": {
-		"a": "( (number-f , number-s , probability-s , cumulative )",
-		"d": "Statistical function used to return the negative binomial distribution, the probability that there will be Number-f failures before the Number-s-th success, with Probability-s probability of a success"
+		"a": "(number_f; number_s; probability_s; cumulative)",
+		"d": "Returns the negative binomial distribution, the probability that there will be Number_f failures before the Number_s-th success, with Probability_s probability of a success"
 	},
 	"NEGBINOMDIST": {
-		"a": "( number-failures , number-successes , success-probability )",
-		"d": "Statistical function used to return the negative binomial distribution"
+		"a": "(number_f; number_s; probability_s)",
+		"d": "Returns the negative binomial distribution, the probability that there will be Number_f failures before the Number_s-th success, with Probability_s probability of a success"
 	},
 	"NORM.DIST": {
-		"a": "( x , mean , standard-dev , cumulative )",
-		"d": "Statistical function used to return the normal distribution for the specified mean and standard deviation"
+		"a": "(x; mean; standard_dev; cumulative)",
+		"d": "Returns the normal distribution for the specified mean and standard deviation"
 	},
 	"NORMDIST": {
-		"a": "( x , mean , standard-deviation , cumulative-flag )",
-		"d": "Statistical function used to return the normal distribution for the specified mean and standard deviation"
+		"a": "(x; mean; standard_dev; cumulative)",
+		"d": "Returns the normal cumulative distribution for the specified mean and standard deviation"
 	},
 	"NORM.INV": {
-		"a": "( probability , mean , standard-dev )",
-		"d": "Statistical function used to return the inverse of the normal cumulative distribution for the specified mean and standard deviation"
+		"a": "(probability; mean; standard_dev)",
+		"d": "Returns the inverse of the normal cumulative distribution for the specified mean and standard deviation"
 	},
 	"NORMINV": {
-		"a": "( x , mean , standard-deviation )",
-		"d": "Statistical function used to return the inverse of the normal cumulative distribution for the specified mean and standard deviation"
+		"a": "(probability; mean; standard_dev)",
+		"d": "Returns the inverse of the normal cumulative distribution for the specified mean and standard deviation"
 	},
 	"NORM.S.DIST": {
-		"a": "( z , cumulative )",
-		"d": "Statistical function used to return the standard normal distribution (has a mean of zero and a standard deviation of one)"
+		"a": "(z; cumulative)",
+		"d": "Returns the standard normal distribution (has a mean of zero and a standard deviation of one)"
 	},
 	"NORMSDIST": {
-		"a": "( number )",
-		"d": "Statistical function used to return the standard normal cumulative distribution function"
+		"a": "(z)",
+		"d": "Returns the standard normal cumulative distribution (has a mean of zero and a standard deviation of one)"
 	},
 	"NORM.S.INV": {
-		"a": "( probability )",
-		"d": "Statistical function used to return the inverse of the standard normal cumulative distribution; the distribution has a mean of zero and a standard deviation of one"
+		"a": "(probability)",
+		"d": "Returns the inverse of the standard normal cumulative distribution (has a mean of zero and a standard deviation of one)"
 	},
 	"NORMSINV": {
-		"a": "( probability )",
-		"d": "Statistical function used to return the inverse of the standard normal cumulative distribution"
+		"a": "(probability)",
+		"d": "Returns the inverse of the standard normal cumulative distribution (has a mean of zero and a standard deviation of one)"
 	},
 	"PEARSON": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return the Pearson product moment correlation coefficient"
+		"a": "(array1; array2)",
+		"d": "Returns the Pearson product moment correlation coefficient, r"
 	},
 	"PERCENTILE": {
-		"a": "(  array , k )",
-		"d": "Statistical function used to analyze the range of data and return the k-th percentile"
+		"a": "(array; k)",
+		"d": "Returns the k-th percentile of values in a range"
 	},
 	"PERCENTILE.EXC": {
-		"a": "(  array , k )",
-		"d": "Statistical function used to return the k-th percentile of values in a range, where k is in the range 0..1, exclusive"
+		"a": "(array; k)",
+		"d": "Returns the k-th percentile of values in a range, where k is in the range 0..1, exclusive"
 	},
 	"PERCENTILE.INC": {
-		"a": "(  array , k )",
-		"d": "Statistical function used to return the k-th percentile of values in a range, where k is in the range 0..1, exclusive"
+		"a": "(array; k)",
+		"d": "Returns the k-th percentile of values in a range, where k is in the range 0..1, inclusive"
 	},
 	"PERCENTRANK": {
-		"a": "( array , k )",
-		"d": "Statistical function used to return the rank of a value in a set of values as a percentage of the set"
+		"a": "(array; x; [significance])",
+		"d": "Returns the rank of a value in a data set as a percentage of the data set"
 	},
 	"PERCENTRANK.EXC": {
-		"a": "( array , x [ , significance ] )",
-		"d": "Statistical function used to return the rank of a value in a data set as a percentage (0..1, exclusive) of the data set"
+		"a": "(array; x; [significance])",
+		"d": "Returns the rank of a value in a data set as a percentage of the data set as a percentage (0..1, exclusive) of the data set"
 	},
 	"PERCENTRANK.INC": {
-		"a": "( array , x [ , significance ] )",
-		"d": "Statistical function used to return the rank of a value in a data set as a percentage (0..1, inclusive) of the data set"
+		"a": "(array; x; [significance])",
+		"d": "Returns the rank of a value in a data set as a percentage of the data set as a percentage (0..1, inclusive) of the data set"
 	},
 	"PERMUT": {
-		"a": "( number , number-chosen )",
-		"d": "Statistical function used to return the rank of a value in a data set as a percentage (0..1, inclusive) of the data set"
+		"a": "(number; number_chosen)",
+		"d": "Returns the number of permutations for a given number of objects that can be selected from the total objects"
 	},
 	"PERMUTATIONA": {
-		"a": "( number , number-chosen )",
-		"d": "Statistical function used to return the number of permutations for a given number of objects (with repetitions) that can be selected from the total objects"
+		"a": "(number; number_chosen)",
+		"d": "Returns the number of permutations for a given number of objects (with repetitions) that can be selected from the total objects"
 	},
 	"PHI": {
-		"a": "( x )",
-		"d": "Statistical function used to return the value of the density function for a standard normal distribution"
+		"a": "(x)",
+		"d": "Returns the value of the density function for a standard normal distribution"
 	},
 	"POISSON": {
-		"a": "( x , mean , cumulative-flag )",
-		"d": "Statistical function used to return the Poisson distribution"
+		"a": "(x; mean; cumulative)",
+		"d": "Returns the Poisson distribution"
 	},
 	"POISSON.DIST": {
-		"a": "( x , mean , cumulative )",
-		"d": "Statistical function used to return the Poisson distribution; a common application of the Poisson distribution is predicting the number of events over a specific time, such as the number of cars arriving at a toll plaza in 1 minute"
+		"a": "(x; mean; cumulative)",
+		"d": "Returns the Poisson distribution"
 	},
 	"PROB": {
-		"a": "( x-range , probability-range , lower-limit [ , upper-limit ] )",
-		"d": "Statistical function used to return the probability that values in a range are between lower and upper limits"
+		"a": "(x_range; prob_range; lower_limit; [upper_limit])",
+		"d": "Returns the probability that values in a range are between two limits or equal to a lower limit"
 	},
 	"QUARTILE": {
-		"a": "(  array , result-category )",
-		"d": "Statistical function used to analyze the range of data and return the quartile"
+		"a": "(array; quart)",
+		"d": "Returns the quartile of a data set"
 	},
 	"QUARTILE.INC": {
-		"a": "(  array , quart )",
-		"d": "Statistical function used to return the quartile of a data set, based on percentile values from 0..1, inclusive"
+		"a": "(array; quart)",
+		"d": "Returns the quartile of a data set, based on percentile values from 0..1, inclusive"
 	},
 	"QUARTILE.EXC": {
-		"a": "(  array , quart )",
-		"d": "Statistical function used to return the quartile of the data set, based on percentile values from 0..1, exclusive"
+		"a": "(array; quart)",
+		"d": "Returns the quartile of a data set, based on percentile values from 0..1, exclusive"
 	},
 	"RANK": {
-		"a": "( number , ref [ , order ] )",
-		"d": "Statistical function used to return the rank of a number in a list of numbers; the rank of a number is its size relative to other values in a list, so If you were to sort the list, the rank of the number would be its position"
+		"a": "(number; ref; [order])",
+		"d": "Returns the rank of a number in a list of numbers: its size relative to other values in the list"
 	},
 	"RANK.AVG": {
-		"a": "( number , ref [ , order ] )",
-		"d": "Statistical function used to return the rank of a number in a list of numbers: its size relative to other values in the list; if more than one value has the same rank, the average rank is returned"
+		"a": "(number; ref; [order])",
+		"d": "Returns the rank of a number in a list of numbers: its size relative to other values in the list; if more than one value has the same rank, the average rank is returned"
 	},
 	"RANK.EQ": {
-		"a": "( number , ref [ , order ] )",
-		"d": "Statistical function used to return the rank of a number in a list of numbers: its size is relative to other values in the list; if more than one value has the same rank, the top rank of that set of values is returned"
+		"a": "(number; ref; [order])",
+		"d": "Returns the rank of a number in a list of numbers: its size relative to other values in the list; if more than one value has the same rank, the top rank of that set of values is returned"
 	},
 	"RSQ": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return the square of the Pearson product moment correlation coefficient"
+		"a": "(known_y's; known_x's)",
+		"d": "Returns the square of the Pearson product moment correlation coefficient through the given data points"
 	},
 	"SKEW": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the skewness of a distribution of the argument list"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the skewness of a distribution: a characterisation of the degree of asymmetry of a distribution around its mean"
 	},
 	"SKEW.P": {
-		"a": "( number-1 [ , number 2 ] , … )",
-		"d": "Statistical function used to return the skewness of a distribution based on a population: a characterization of the degree of asymmetry of a distribution around its mean"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the skewness of a distribution based on a population: a characterisation of the degree of asymmetry of a distribution around its mean"
 	},
 	"SLOPE": {
-		"a": "( array-1 , array-2 )",
-		"d": "Statistical function used to return the slope of the linear regression line through data in two arrays"
+		"a": "(known_ys; known_xs)",
+		"d": "Returns the slope of the linear regression line through the given data points"
 	},
 	"SMALL": {
-		"a": "(  array , k )",
-		"d": "Statistical function used to analyze the range of data and find the k-th smallest value"
+		"a": "(array; k)",
+		"d": "Returns the k-th smallest value in a data set. For example, the fifth smallest number"
 	},
 	"STANDARDIZE": {
-		"a": "( x , mean , standard-deviation )",
-		"d": "Statistical function used to return a normalized value from a distribution characterized by the specified parameters"
+		"a": "(x; mean; standard_dev)",
+		"d": "Returns a normalised value from a distribution characterised by a mean and standard deviation"
 	},
 	"STDEV": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the standard deviation of a population based on a set of numbers"
+		"a": "(number1; [number2]; ...)",
+		"d": "Estimates standard deviation based on a sample (ignores logical values and text in the sample)"
 	},
 	"STDEV.P": {
-		"a": "( number1 [ , number2 ] , ... )",
-		"d": "Statistical function used to calculate standard deviation based on the entire population given as arguments (ignores logical values and text)"
+		"a": "(number1; [number2]; ...)",
+		"d": "Calculates standard deviation based on the entire population given as arguments (ignores logical values and text)"
 	},
 	"STDEV.S": {
-		"a": "( number1 [ , number2 ] , ... )",
-		"d": "Statistical function used to estimates standard deviation based on a sample (ignores logical values and text in the sample)"
+		"a": "(number1; [number2]; ...)",
+		"d": "Estimates standard deviation based on a sample (ignores logical values and text in the sample)"
 	},
 	"STDEVA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the standard deviation of a population based on a set of numbers, text, and logical values (TRUE or FALSE). The STDEVA function treats text and FALSE as a value of 0 and TRUE as a value of 1"
+		"a": "(value1; [value2]; ...)",
+		"d": "Estimates standard deviation based on a sample, including logical values and text. Text and the logical value FALSE have the value 0; the logical value TRUE has the value 1"
 	},
 	"STDEVP": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the standard deviation of an entire population"
+		"a": "(number1; [number2]; ...)",
+		"d": "Calculates standard deviation based on the entire population given as arguments (ignores logical values and text)"
 	},
 	"STDEVPA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the range of data and return the standard deviation of an entire population"
+		"a": "(value1; [value2]; ...)",
+		"d": "Calculates standard deviation based on an entire population, including logical values and text. Text and the logical value FALSE have the value 0; the logical value TRUE has the value 1"
 	},
 	"STEYX": {
-		"a": "( known-ys , known-xs )",
-		"d": "Statistical function used to return the standard error of the predicted y-value for each x in the regression line"
+		"a": "(known_y's; known_x's)",
+		"d": "Returns the standard error of the predicted y-value for each x in a regression"
 	},
 	"TDIST": {
-		"a": "( x , deg-freedom , tails )",
-		"d": "Statistical function used to return the Percentage Points (probability) for the Student t-distribution where a numeric value (x) is a calculated value of t for which the Percentage Points are to be computed; the t-distribution is used in the hypothesis testing of small sample data sets"
+		"a": "(x; deg_freedom; tails)",
+		"d": "Returns the Student's t-distribution"
 	},
 	"TINV": {
-		"a": "( probability , deg_freedom )",
-		"d": "Statistical function used to return the two-tailed inverse of the Student's t-distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the two-tailed inverse of the Student's t-distribution"
 	},
 	"T.DIST": {
-		"a": "( x , deg-freedom , cumulative )",
-		"d": "Statistical function used to return the Student's left-tailed t-distribution. The t-distribution is used in the hypothesis testing of small sample data sets. Use this function in place of a table of critical values for the t-distribution."
+		"a": "(x; deg_freedom; cumulative)",
+		"d": "Returns the left-tailed Student's t-distribution"
 	},
 	"T.DIST.2T": {
-		"a": "( x , deg-freedom )",
-		"d": "Statistical function used to return the two-tailed Student's t-distribution.The Student's t-distribution is used in the hypothesis testing of small sample data sets. Use this function in place of a table of critical values for the t-distribution"
+		"a": "(x; deg_freedom)",
+		"d": "Returns the two-tailed Student's t-distribution"
 	},
 	"T.DIST.RT": {
-		"a": "( x , deg-freedom )",
-		"d": "Statistical function used to return the right-tailed Student's t-distribution. The t-distribution is used in the hypothesis testing of small sample data sets. Use this function in place of a table of critical values for the t-distribution"
+		"a": "(x; deg_freedom)",
+		"d": "Returns the right-tailed Student's t-distribution"
 	},
 	"T.INV": {
-		"a": "( probability , deg-freedom )",
-		"d": "Statistical function used to return the left-tailed inverse of the Student's t-distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the left-tailed inverse of the Student's t-distribution"
 	},
 	"T.INV.2T": {
-		"a": "( probability , deg-freedom )",
-		"d": "Statistical function used to return the two-tailed inverse of the Student's t-distribution"
+		"a": "(probability; deg_freedom)",
+		"d": "Returns the two-tailed inverse of the Student's t-distribution"
 	},
 	"T.TEST": {
-		"a": "( array1 , array2 , tails , type )",
-		"d": "Statistical function used to return the probability associated with a Student's t-Test; use T.TEST to determine whether two samples are likely to have come from the same two underlying populations that have the same mean"
+		"a": "(array1; array2; tails; type)",
+		"d": "Returns the probability associated with a Student's t-Test"
 	},
 	"TREND": {
-		"a": "( known_y's, [known_x's], [new_x's], [const] )",
-		"d": "Statistical function used to return values along a linear trend; it fits a straight line (using the method of least squares) to the array's known_y's and known_x's"
+		"a": "(known_y's; [known_x's]; [new_x's]; [const])",
+		"d": "Returns numbers in a linear trend matching known data points, using the least squares method"
 	},
 	"TRIMMEAN": {
-		"a": "( array , percent )",
-		"d": "Statistical function used to return the mean of the interior of a data set; TRIMMEAN calculates the mean taken by excluding a percentage of data points from the top and bottom tails of a data set"
+		"a": "(array; percent)",
+		"d": "Returns the mean of the interior portion of a set of data values"
 	},
 	"TTEST": {
-		"a": "( array1 , array2 , tails , type )",
-		"d": "Statistical function used to returns the probability associated with a Student's t-Test; use TTEST to determine whether two samples are likely to have come from the same two underlying populations that have the same mean"
+		"a": "(array1; array2; tails; type)",
+		"d": "Returns the probability associated with a Student's t-Test"
 	},
 	"VAR": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the set of values and calculate the sample variance"
+		"a": "(number1; [number2]; ...)",
+		"d": "Estimates variance based on a sample (ignores logical values and text in the sample)"
 	},
 	"VAR.P": {
-		"a": "( number1 [ , number2 ], ... )",
-		"d": "Statistical function used to calculates variance based on the entire population (ignores logical values and text in the population)"
+		"a": "(number1; [number2]; ...)",
+		"d": "Calculates variance based on the entire population (ignores logical values and text in the population)"
 	},
 	"VAR.S": {
-		"a": "( number1 [ , number2 ], ... )",
-		"d": "Statistical function used to estimate variance based on a sample (ignores logical values and text in the sample)"
+		"a": "(number1; [number2]; ...)",
+		"d": "Estimates variance based on a sample (ignores logical values and text in the sample)"
 	},
 	"VARA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the set of values and calculate the sample variance"
+		"a": "(value1; [value2]; ...)",
+		"d": "Estimates variance based on a sample, including logical values and text. Text and the logical value FALSE have the value 0; the logical value TRUE has the value 1"
 	},
 	"VARP": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the set of values and calculate the variance of an entire population"
+		"a": "(number1; [number2]; ...)",
+		"d": "Calculates variance based on the entire population (ignores logical values and text in the population)"
 	},
 	"VARPA": {
-		"a": "( argument-list )",
-		"d": "Statistical function used to analyze the set of values and return the variance of an entire population"
+		"a": "(value1; [value2]; ...)",
+		"d": "Calculates variance based on the entire population, including logical values and text. Text and the logical value FALSE have the value 0; the logical value TRUE has the value 1"
 	},
 	"WEIBULL": {
-		"a": "( x , alpha , beta , cumulative )",
-		"d": "Statistical function used to return the Weibull distribution; use this distribution in reliability analysis, such as calculating a device's mean time to failure"
+		"a": "(x; alpha; beta; cumulative)",
+		"d": "Returns the Weibull distribution"
 	},
 	"WEIBULL.DIST": {
-		"a": "( x , alpha , beta , cumulative )",
-		"d": "Statistical function used to return the Weibull distribution; use this distribution in reliability analysis, such as calculating a device's mean time to failure"
+		"a": "(x; alpha; beta; cumulative)",
+		"d": "Returns the Weibull distribution"
 	},
 	"Z.TEST": {
-		"a": "( array , x [ , sigma ] )",
-		"d": "Statistical function used to return the one-tailed P-value of a z-test; for a given hypothesized population mean, x, Z.TEST returns the probability that the sample mean would be greater than the average of observations in the data set (array) — that is, the observed sample mean"
+		"a": "(array; x; [sigma])",
+		"d": "Returns the one-tailed P-value of a z-test"
 	},
 	"ZTEST": {
-		"a": "( array , x [ , sigma ] )",
-		"d": "Statistical function used to return the one-tailed probability-value of a z-test; for a given hypothesized population mean, μ0, ZTEST returns the probability that the sample mean would be greater than the average of observations in the data set (array) — that is, the observed sample mean"
+		"a": "(array; x; [sigma])",
+		"d": "Returns the one-tailed P-value of a z-test"
 	},
 	"ACCRINT": {
-		"a": "( issue , first-interest , settlement , rate , [ par ] , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the accrued interest for a security that pays periodic interest"
+		"a": "(issue; first_interest; settlement; rate; par; frequency; [basis]; [calc_method])",
+		"d": "Returns the accrued interest for a security that pays periodic interest."
 	},
 	"ACCRINTM": {
-		"a": "( issue , settlement , rate , [ [ par ] [ , [ basis ] ] ] )",
-		"d": "Financial function used to calculate the accrued interest for a security that pays interest at maturity"
+		"a": "(issue; settlement; rate; par; [basis])",
+		"d": "Returns the accrued interest for a security that pays interest at maturity"
 	},
 	"AMORDEGRC": {
-		"a": "( cost , date-purchased , first-period , salvage , period , rate [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the depreciation of an asset for each accounting period using a degressive depreciation method"
+		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
+		"d": "Returns the prorated linear depreciation of an asset for each accounting period."
 	},
 	"AMORLINC": {
-		"a": "( cost , date-purchased , first-period , salvage , period , rate [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the depreciation of an asset for each accounting period using a linear depreciation method"
+		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
+		"d": "Returns the prorated linear depreciation of an asset for each accounting period."
 	},
 	"COUPDAYBS": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the number of days from the beginning of the coupon period to the settlement date"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the number of days from the beginning of the coupon period to the settlement date"
 	},
 	"COUPDAYS": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the number of days in the coupon period that contains the settlement date"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the number of days in the coupon period that contains the settlement date"
 	},
 	"COUPDAYSNC": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the number of days from the settlement date to the next coupon payment"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the number of days from the settlement date to the next coupon date"
 	},
 	"COUPNCD": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the next coupon date after the settlement date"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the next coupon date after the settlement date"
 	},
 	"COUPNUM": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the number of coupons between the settlement date and the maturity date"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the number of coupons payable between the settlement date and maturity date"
 	},
 	"COUPPCD": {
-		"a": "( settlement , maturity , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the previous coupon date before the settlement date"
+		"a": "(settlement; maturity; frequency; [basis])",
+		"d": "Returns the previous coupon date before the settlement date"
 	},
 	"CUMIPMT": {
-		"a": "( rate , nper , pv , start-period , end-period , type )",
-		"d": "Financial function used to calculate the cumulative interest paid on an investment between two periods based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; nper; pv; start_period; end_period; type)",
+		"d": "Returns the cumulative interest paid between two periods"
 	},
 	"CUMPRINC": {
-		"a": "( rate , nper , pv , start-period , end-period , type )",
-		"d": "Financial function used to calculate the cumulative principal paid on an investment between two periods based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; nper; pv; start_period; end_period; type)",
+		"d": "Returns the cumulative principal paid on a loan between two periods"
 	},
 	"DB": {
-		"a": "( cost , salvage , life , period [ , [ month ] ] )",
-		"d": "Financial function used to calculate the depreciation of an asset for a specified accounting period using the fixed-declining balance method"
+		"a": "(cost; salvage; life; period; [month])",
+		"d": "Returns the depreciation of an asset for a specified period using the fixed-declining balance method"
 	},
 	"DDB": {
-		"a": "( cost , salvage , life , period [ , factor ] )",
-		"d": "Financial function used to calculate the depreciation of an asset for a specified accounting period using the double-declining balance method"
+		"a": "(cost; salvage; life; period; [factor])",
+		"d": "Returns the depreciation of an asset for a specified period using the double-declining balance method or some other method you specify"
 	},
 	"DISC": {
-		"a": "( settlement , maturity , pr , redemption [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the discount rate for a security"
+		"a": "(settlement; maturity; pr; redemption; [basis])",
+		"d": "Returns the discount rate for a security"
 	},
 	"DOLLARDE": {
-		"a": "( fractional-dollar , fraction )",
-		"d": "Financial function used to convert a dollar price represented as a fraction into a dollar price represented as a decimal number"
+		"a": "(fractional_dollar; fraction)",
+		"d": "Converts a dollar price, expressed as a fraction, into a dollar price, expressed as a decimal number"
 	},
 	"DOLLARFR": {
-		"a": "( decimal-dollar , fraction )",
-		"d": "Financial function used to convert a dollar price represented as a decimal number into a dollar price represented as a fraction"
+		"a": "(decimal_dollar; fraction)",
+		"d": "Converts a dollar price, expressed as a decimal number, into a dollar price, expressed as a fraction"
 	},
 	"DURATION": {
-		"a": "( settlement , maturity , coupon , yld , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the Macaulay duration of a security with an assumed par value of $100"
+		"a": "(settlement; maturity; coupon; yld; frequency; [basis])",
+		"d": "Returns the annual duration of a security with periodic interest payments"
 	},
 	"EFFECT": {
-		"a": "( nominal-rate , npery )",
-		"d": "Financial function used to calculate the effective annual interest rate for a security based on a specified nominal annual interest rate and the number of compounding periods per year"
+		"a": "(nominal_rate; npery)",
+		"d": "Returns the effective annual interest rate"
 	},
 	"FV": {
-		"a": "( rate , nper , pmt [ , [ pv ] [ ,[ type ] ] ] )",
-		"d": "Financial function used to calculate the future value of an investment based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; nper; pmt; [pv]; [type])",
+		"d": "Returns the future value of an investment based on periodic, constant payments and a constant interest rate"
 	},
 	"FVSCHEDULE": {
-		"a": "( principal , schedule )",
-		"d": "Financial function used to calculate the future value of an investment based on a series of changeable interest rates"
+		"a": "(principal; schedule)",
+		"d": "Returns the future value of an initial principal after applying a series of compound interest rates"
 	},
 	"INTRATE": {
-		"a": "( settlement , maturity , pr , redemption [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the interest rate for a fully invested security that pays interest only at maturity"
+		"a": "(settlement; maturity; investment; redemption; [basis])",
+		"d": "Returns the interest rate for a fully invested security"
 	},
 	"IPMT": {
-		"a": "( rate , per , nper , pv [ , [ fv ] [ , [ type ] ] ] )",
-		"d": "Financial function used to calculate the interest payment for an investment based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; per; nper; pv; [fv]; [type])",
+		"d": "Returns the interest payment for a given period for an investment, based on periodic, constant payments and a constant interest rate"
 	},
 	"IRR": {
-		"a": "( values [ , [ guess ] ] )",
-		"d": "Financial function used to calculate the internal rate of return for a series of periodic cash flows"
+		"a": "(values; [guess])",
+		"d": "Returns the internal rate of return for a series of cash flows"
 	},
 	"ISPMT": {
-		"a": "( rate , per , nper , pv )",
-		"d": "Financial function used to calculate the interest payment for a specified period of an investment based on a constant payment schedule"
+		"a": "(rate; per; nper; pv)",
+		"d": "Returns the interest paid during a specific period of an investment"
 	},
 	"MDURATION": {
-		"a": "( settlement , maturity , coupon , yld , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the modified Macaulay duration of a security with an assumed par value of $100"
+		"a": "(settlement; maturity; coupon; yld; frequency; [basis])",
+		"d": "Returns the Macauley modified duration for a security with an assumed par value of $100"
 	},
 	"MIRR": {
-		"a": "( values , finance-rate , reinvest-rate )",
-		"d": "Financial function used to calculate the modified internal rate of return for a series of periodic cash flows"
+		"a": "(values; finance_rate; reinvest_rate)",
+		"d": "Returns the internal rate of return for a series of periodic cash flows, considering both cost of investment and interest on reinvestment of cash"
 	},
 	"NOMINAL": {
-		"a": "( effect-rate , npery )",
-		"d": "Financial function used to calculate the nominal annual interest rate for a security based on a specified effective annual interest rate and the number of compounding periods per year"
+		"a": "(effect_rate; npery)",
+		"d": "Returns the annual nominal interest rate"
 	},
 	"NPER": {
-		"a": "( rate , pmt , pv [ , [ fv ] [ , [ type ] ] ] )",
-		"d": "Financial function used to calculate the number of periods for an investment based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; pmt; pv; [fv]; [type])",
+		"d": "Returns the number of periods for an investment based on periodic, constant payments and a constant interest rate"
 	},
 	"NPV": {
-		"a": "( rate , argument-list )",
-		"d": "Financial function used to calculate the net present value of an investment based on a specified discount rate"
+		"a": "(rate; value1; [value2]; ...)",
+		"d": "Returns the net present value of an investment based on a discount rate and a series of future payments (negative values) and income (positive values)"
 	},
 	"ODDFPRICE": {
-		"a": "( settlement , maturity , issue , first-coupon , rate , yld , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the price per $100 par value for a security that pays periodic interest but has an odd first period (it is shorter or longer than other periods)"
+		"a": "(settlement; maturity; issue; first_coupon; rate; yld; redemption; frequency; [basis])",
+		"d": "Returns the price per $100 face value of a security with an odd first period"
 	},
 	"ODDFYIELD": {
-		"a": "( settlement , maturity , issue , first-coupon , rate , pr , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the yield of a security that pays periodic interest but has an odd first period (it is shorter or longer than other periods)"
+		"a": "(settlement; maturity; issue; first_coupon; rate; pr; redemption; frequency; [basis])",
+		"d": "Returns the yield of a security with an odd first period"
 	},
 	"ODDLPRICE": {
-		"a": "( settlement , maturity , last-interest , rate , yld , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the price per $100 par value for a security that pays periodic interest but has an odd last period (it is shorter or longer than other periods)"
+		"a": "(settlement; maturity; last_interest; rate; yld; redemption; frequency; [basis])",
+		"d": "Returns the price per $100 face value of a security with an odd last period"
 	},
 	"ODDLYIELD": {
-		"a": "( settlement , maturity , last-interest , rate , pr , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the yield of a security that pays periodic interest but has an odd last period (it is shorter or longer than other periods)"
+		"a": "(settlement; maturity; last_interest; rate; pr; redemption; frequency; [basis])",
+		"d": "Returns the yield of a security with an odd last period"
 	},
 	"PDURATION": {
-		"a": "( rate , pv , fv )",
-		"d": "Financial function used return the number of periods required by an investment to reach a specified value"
+		"a": "(rate; pv; fv)",
+		"d": "Returns the number of periods required by an investment to reach a specified value"
 	},
 	"PMT": {
-		"a": "( rate , nper , pv [ , [ fv ] [ ,[ type ] ] ] )",
-		"d": "Financial function used to calculate the payment amount for a loan based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; nper; pv; [fv]; [type])",
+		"d": "Calculates the payment for a loan based on constant payments and a constant interest rate"
 	},
 	"PPMT": {
-		"a": "( rate , per , nper , pv [ , [ fv ] [ , [ type ] ] ] )",
-		"d": "Financial function used to calculate the principal payment for an investment based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; per; nper; pv; [fv]; [type])",
+		"d": "Returns the payment on the principal for a given investment based on periodic, constant payments and a constant interest rate"
 	},
 	"PRICE": {
-		"a": "( settlement , maturity , rate , yld , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the price per $100 par value for a security that pays periodic interest"
+		"a": "(settlement; maturity; rate; yld; redemption; frequency; [basis])",
+		"d": "Returns the price per $100 face value of a security that pays periodic interest"
 	},
 	"PRICEDISC": {
-		"a": "( settlement , maturity , discount , redemption [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the price per $100 par value for a discounted security"
+		"a": "(settlement; maturity; discount; redemption; [basis])",
+		"d": "Returns the price per $100 face value of a discounted security"
 	},
 	"PRICEMAT": {
-		"a": "( settlement , maturity , issue , rate , yld [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the price per $100 par value for a security that pays interest at maturity"
+		"a": "(settlement; maturity; issue; rate; yld; [basis])",
+		"d": "Returns the price per $100 face value of a security that pays interest at maturity"
 	},
 	"PV": {
-		"a": "( rate , nper , pmt [ , [ fv ] [ ,[ type ] ] ] )",
-		"d": "Financial function used to calculate the present value of an investment based on a specified interest rate and a constant payment schedule"
+		"a": "(rate; nper; pmt; [fv]; [type])",
+		"d": "Returns the present value of an investment: the total amount that a series of future payments is worth now"
 	},
 	"RATE": {
-		"a": "( nper , pmt , pv  [ , [ [ fv ] [ , [ [ type ] [ , [ guess ] ] ] ] ] ] )",
-		"d": "Financial function used to calculate the interest rate for an investment based on a constant payment schedule"
+		"a": "(nper; pmt; pv; [fv]; [type]; [guess])",
+		"d": "Returns the interest rate per period of a loan or an investment. For example, use 6%/4 for quarterly payments at 6% APR"
 	},
 	"RECEIVED": {
-		"a": "( settlement , maturity , investment , discount [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the amount received at maturity for a fully invested security"
+		"a": "(settlement; maturity; investment; discount; [basis])",
+		"d": "Returns the amount received at maturity for a fully invested security"
 	},
 	"RRI": {
-		"a": "( nper , pv , fv )",
-		"d": "Financial function used to return an equivalent interest rate for the growth of an investment"
+		"a": "(nper; pv; fv)",
+		"d": "Returns an equivalent interest rate for the growth of an investment"
 	},
 	"SLN": {
-		"a": "( cost , salvage , life )",
-		"d": "Financial function used to calculate the depreciation of an asset for one accounting period using the straight-line depreciation method"
+		"a": "(cost; salvage; life)",
+		"d": "Returns the straight-line depreciation of an asset for one period"
 	},
 	"SYD": {
-		"a": "( cost , salvage , life , per )",
-		"d": "Financial function used to calculate the depreciation of an asset for a specified accounting period using the sum of the years' digits method"
+		"a": "(cost; salvage; life; per)",
+		"d": "Returns the sum-of-years' digits depreciation of an asset for a specified period"
 	},
 	"TBILLEQ": {
-		"a": "( settlement , maturity , discount )",
-		"d": "Financial function used to calculate the bond-equivalent yield of a Treasury bill"
+		"a": "(settlement; maturity; discount)",
+		"d": "Returns the bond-equivalent yield for a treasury bill"
 	},
 	"TBILLPRICE": {
-		"a": "( settlement , maturity , discount )",
-		"d": "Financial function used to calculate the price per $100 par value for a Treasury bill"
+		"a": "(settlement; maturity; discount)",
+		"d": "Returns the price per $100 face value for a treasury bill"
 	},
 	"TBILLYIELD": {
-		"a": "( settlement , maturity , pr )",
-		"d": "Financial function used to calculate the yield of a Treasury bill"
+		"a": "(settlement; maturity; pr)",
+		"d": "Returns the yield for a treasury bill"
 	},
 	"VDB": {
-		"a": "( cost , salvage , life , start-period , end-period [ , [ [ factor ] [ , [ no-switch-flag ] ] ] ] ] )",
-		"d": "Financial function used to calculate the depreciation of an asset for a specified or partial accounting period using the variable declining balance method"
+		"a": "(cost; salvage; life; start_period; end_period; [factor]; [no_switch])",
+		"d": "Returns the depreciation of an asset for any period you specify, including partial periods, using the double-declining balance method or some other method you specify"
 	},
 	"XIRR": {
-		"a": "( values , dates [ , [ guess ] ] )",
-		"d": "Financial function used to calculate the internal rate of return for a series of irregular cash flows"
+		"a": "(values; dates; [guess])",
+		"d": "Returns the internal rate of return for a schedule of cash flows"
 	},
 	"XNPV": {
-		"a": "( rate , values , dates  )",
-		"d": "Financial function used to calculate the net present value for an investment based on a specified interest rate and a schedule of irregular payments"
+		"a": "(rate; values; dates)",
+		"d": "Returns the net present value for a schedule of cash flows"
 	},
 	"YIELD": {
-		"a": "( settlement , maturity , rate , pr , redemption , frequency [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the yield of a security that pays periodic interest"
+		"a": "(settlement; maturity; rate; pr; redemption; frequency; [basis])",
+		"d": "Returns the yield on a security that pays periodic interest"
 	},
 	"YIELDDISC": {
-		"a": "( settlement , maturity , pr , redemption , [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the annual yield of a discounted security"
+		"a": "(settlement; maturity; pr; redemption; [basis])",
+		"d": "Returns the annual yield for a discounted security. For example, a treasury bill"
 	},
 	"YIELDMAT": {
-		"a": "( settlement , maturity , issue , rate , pr [ , [ basis ] ] )",
-		"d": "Financial function used to calculate the annual yield of a security that pays interest at maturity"
+		"a": "(settlement; maturity; issue; rate; pr; [basis])",
+		"d": "Returns the annual yield of a security that pays interest at maturity"
 	},
 	"ABS": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the absolute value of a number"
+		"a": "(number)",
+		"d": "Returns the absolute value of a number, a number without its sign"
 	},
 	"ACOS": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the arccosine of a number"
+		"a": "(number)",
+		"d": "Returns the arccosine of a number, in radians in the range 0 to Pi. The arccosine is the angle whose cosine is Number"
 	},
 	"ACOSH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the inverse hyperbolic cosine of a number"
+		"a": "(number)",
+		"d": "Returns the inverse hyperbolic cosine of a number"
 	},
 	"ACOT": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the principal value of the arccotangent, or inverse cotangent, of a number"
+		"a": "(number)",
+		"d": "Returns the arccotangent of a number, in radians in the range 0 to Pi."
 	},
 	"ACOTH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the inverse hyperbolic cotangent of a number"
+		"a": "(number)",
+		"d": "Returns the inverse hyperbolic cotangent of a number"
 	},
 	"AGGREGATE": {
-		"a": "( function_num , options , ref1 [ , ref2 ] , … )",
-		"d": "Math and trigonometry function used to return an aggregate in a list or database; the function can apply different aggregate functions to a list or database with the option to ignore hidden rows and error values"
+		"a": "(function_num; options; ref1; ...)",
+		"d": "Returns an aggregate in a list or database"
 	},
 	"ARABIC": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to convert a Roman numeral to an Arabic numeral"
+		"a": "(text)",
+		"d": "Converts a Roman numeral to Arabic"
 	},
 	"ASC": {
 		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"d": "For Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
 	},
 	"ASIN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the arcsine of a number"
+		"a": "(number)",
+		"d": "Returns the arcsine of a number in radians, in the range -Pi/2 to Pi/2"
 	},
 	"ASINH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the inverse hyperbolic sine of a number"
+		"a": "(number)",
+		"d": "Returns the inverse hyperbolic sine of a number"
 	},
 	"ATAN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the arctangent of a number"
+		"a": "(number)",
+		"d": "Returns the arctangent of a number in radians, in the range -Pi/2 to Pi/2"
 	},
 	"ATAN2": {
-		"a": "( x, y )",
-		"d": "Math and trigonometry function used to return the arctangent of x and y coordinates"
+		"a": "(x_num; y_num)",
+		"d": "Returns the arctangent of the specified x and y coordinates, in radians between -Pi and Pi, excluding -Pi"
 	},
 	"ATANH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the inverse hyperbolic tangent of a number"
+		"a": "(number)",
+		"d": "Returns the inverse hyperbolic tangent of a number"
 	},
 	"BASE": {
-		"a": "( number , base [ , min-length ] )",
-		"d": "Converts a number into a text representation with the given base"
+		"a": "(number; radix; [min_length])",
+		"d": "Converts a number into a text representation with the given radix (base)"
 	},
 	"CEILING": {
-		"a": "( x, significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(number; significance)",
+		"d": "Rounds a number up, to the nearest multiple of significance"
 	},
 	"CEILING.MATH": {
-		"a": "( x [ , [ significance ] [ , [ mode ] ] )",
-		"d": "Math and trigonometry function used to rounds a number up to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance]; [mode])",
+		"d": "Rounds a number up, to the nearest integer or to the nearest multiple of significance"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "( x; [significance] )",
+		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance"
 	},
 	"COMBIN": {
-		"a": "( number , number-chosen )",
-		"d": "Math and trigonometry function used to return the number of combinations for a specified number of items"
+		"a": "(number; number_chosen)",
+		"d": "Returns the number of combinations for a given number of items"
 	},
 	"COMBINA": {
-		"a": "( number , number-chosen )",
-		"d": "Math and trigonometry function used to return the number of combinations (with repetitions) for a given number of items"
+		"a": "(number; number_chosen)",
+		"d": "Returns the number of combinations with repetitions for a given number of items"
 	},
 	"COS": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the cosine of an angle"
+		"a": "(number)",
+		"d": "Returns the cosine of an angle"
 	},
 	"COSH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic cosine of a number"
+		"a": "(number)",
+		"d": "Returns the hyperbolic cosine of a number"
 	},
 	"COT": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the cotangent of an angle specified in radians"
+		"a": "(number)",
+		"d": "Returns the cotangent of an angle"
 	},
 	"COTH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic cotangent of a hyperbolic angle"
+		"a": "(number)",
+		"d": "Returns the hyperbolic cotangent of a number"
 	},
 	"CSC": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the cosecant of an angle"
+		"a": "(number)",
+		"d": "Returns the cosecant of an angle"
 	},
 	"CSCH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic cosecant of an angle"
+		"a": "(number)",
+		"d": "Returns the hyperbolic cosecant of an angle"
 	},
 	"DECIMAL": {
-		"a": "( text , base )",
+		"a": "(number; radix)",
 		"d": "Converts a text representation of a number in a given base into a decimal number"
 	},
 	"DEGREES": {
-		"a": "( angle )",
-		"d": "Math and trigonometry function used to convert radians into degrees"
+		"a": "(angle)",
+		"d": "Converts radians to degrees"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "( x; significance )",
+		"d": "Rounds the number up to the nearest multiple of significance"
 	},
 	"EVEN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to round the number up to the nearest even integer"
+		"a": "(number)",
+		"d": "Rounds a positive number up and negative number down to the nearest even integer"
 	},
 	"EXP": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the e constant raised to the desired power. The e constant is equal to 2,71828182845904"
+		"a": "(number)",
+		"d": "Returns e raised to the power of a given number"
 	},
 	"FACT": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the factorial of a number"
+		"a": "(number)",
+		"d": "Returns the factorial of a number, equal to 1*2*3*...* Number"
 	},
 	"FACTDOUBLE": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the double factorial of a number"
+		"a": "(number)",
+		"d": "Returns the double factorial of a number"
 	},
 	"FLOOR": {
-		"a": "( x, significance )",
-		"d": "Math and trigonometry function used to round the number down to the nearest multiple of significance"
+		"a": "(number; significance)",
+		"d": "Rounds a number down to the nearest multiple of significance"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "( x; [significance] )",
+		"d": "Returns a number that is rounded down to the nearest integer or to the nearest multiple of significance"
 	},
 	"FLOOR.MATH": {
-		"a": "( x [, [significance] [, [mode]] )",
-		"d": "Math and trigonometry function used to round a number down to the nearest integer or to the nearest multiple of significance"
+		"a": "(number; [significance]; [mode])",
+		"d": "Rounds a number down, to the nearest integer or to the nearest multiple of significance"
 	},
 	"GCD": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to return the greatest common divisor of two or more numbers"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the greatest common divisor"
 	},
 	"INT": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to analyze and return the integer part of the specified number"
+		"a": "(number)",
+		"d": "Rounds a number down to the nearest integer"
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "( number; [significance] )",
+		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
 	},
 	"LCM": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to return the lowest common multiple of one or more numbers"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the least common multiple"
 	},
 	"LN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the natural logarithm of a number"
+		"a": "(number)",
+		"d": "Returns the natural logarithm of a number"
 	},
 	"LOG": {
-		"a": "( x [ , base ] )",
-		"d": "Math and trigonometry function used to return the logarithm of a number to a specified base"
+		"a": "(number; [base])",
+		"d": "Returns the logarithm of a number to the base you specify"
 	},
 	"LOG10": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the logarithm of a number to a base of 10"
+		"a": "(number)",
+		"d": "Returns the base-10 logarithm of a number"
 	},
 	"MDETERM": {
-		"a": "( array )",
-		"d": "Math and trigonometry function used to return the matrix determinant of an array"
+		"a": "(array)",
+		"d": "Returns the matrix determinant of an array"
 	},
 	"MINVERSE": {
-		"a": "( array )",
-		"d": "Math and trigonometry function used to return the inverse matrix for a given matrix and display the first value of the returned array of numbers"
+		"a": "(array)",
+		"d": "Returns the inverse matrix for the matrix stored in an array"
 	},
 	"MMULT": {
-		"a": "( array1, array2 )",
-		"d": "Math and trigonometry function used to return the matrix product of two arrays and display the first value of the returned array of numbers"
+		"a": "(array1; array2)",
+		"d": "Returns the matrix product of two arrays, an array with the same number of rows as array1 and columns as array2"
 	},
 	"MOD": {
-		"a": "( x, y )",
-		"d": "Math and trigonometry function used to return the remainder after the division of a number by the specified divisor"
+		"a": "(number; divisor)",
+		"d": "Returns the remainder after a number is divided by a divisor"
 	},
 	"MROUND": {
-		"a": "( x, multiple )",
-		"d": "Math and trigonometry function used to round the number to the desired multiple"
+		"a": "(number; multiple)",
+		"d": "Returns a number rounded to the desired multiple"
 	},
 	"MULTINOMIAL": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to return the ratio of the factorial of a sum of numbers to the product of factorials"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the multinomial of a set of numbers"
 	},
 	"MUNIT": {
-		"a": "( dimension )",
-		"d": "Math and trigonometry function used to return the unit matrix for the specified dimension"
+		"a": "(dimension)",
+		"d": "Returns the unit matrix for the specified dimension"
 	},
 	"ODD": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to round the number up to the nearest odd integer"
+		"a": "(number)",
+		"d": "Rounds a positive number up and negative number down to the nearest odd integer"
 	},
 	"PI": {
 		"a": "()",
-		"d": "math and trigonometry functions. The function returns the mathematical constant pi, equal to 3.14159265358979. It does not require any argument"
+		"d": "Returns the value of Pi, 3.14159265358979, accurate to 15 digits"
 	},
 	"POWER": {
-		"a": "( x, y )",
-		"d": "Math and trigonometry function used to return the result of a number raised to the desired power"
+		"a": "(number; power)",
+		"d": "Returns the result of a number raised to a power"
 	},
 	"PRODUCT": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to multiply all the numbers in the selected range of cells and return the product"
+		"a": "(number1; [number2]; ...)",
+		"d": "Multiplies all the numbers given as arguments"
 	},
 	"QUOTIENT": {
-		"a": "( dividend , divisor )",
-		"d": "Math and trigonometry function used to return the integer portion of a division"
+		"a": "(numerator; denominator)",
+		"d": "Returns the integer portion of a division"
 	},
 	"RADIANS": {
-		"a": "( angle )",
-		"d": "Math and trigonometry function used to convert degrees into radians"
+		"a": "(angle)",
+		"d": "Converts degrees to radians"
 	},
 	"RAND": {
 		"a": "()",
-		"d": "Math and trigonometry function used to return a random number greater than or equal to 0 and less than 1. It does not require any argument"
+		"d": "Returns a random number greater than or equal to 0 and less than 1, evenly distributed (changes on recalculation)"
 	},
 	"RANDARRAY": {
-		"a": "( [ rows ] , [ columns ] , [ min ] , [ max ] , [ whole_number ] )",
-		"d": "Math and trigonometry function used to return an array of random numbers"
+		"a": "([rows]; [columns]; [min]; [max]; [integer])",
+		"d": "Returns an array of random numbers"
 	},
 	"RANDBETWEEN": {
-		"a": "( lower-bound , upper-bound )",
-		"d": "Math and trigonometry function used to return a random number greater than or equal to lower-bound and less than or equal to upper-bound"
+		"a": "(bottom; top)",
+		"d": "Returns a random number between the numbers you specify"
 	},
 	"ROMAN": {
-		"a": "( number, form )",
-		"d": "Math and trigonometry function used to convert a number to a roman numeral"
+		"a": "(number; [form])",
+		"d": "Converts an Arabic numeral to Roman, as text"
 	},
 	"ROUND": {
-		"a": "( x , number-digits )",
-		"d": "Math and trigonometry function used to round the number to the desired number of digits"
+		"a": "(number; num_digits)",
+		"d": "Rounds a number to a specified number of digits"
 	},
 	"ROUNDDOWN": {
-		"a": "( x , number-digits )",
-		"d": "Math and trigonometry function used to round the number down to the desired number of digits"
+		"a": "(number; num_digits)",
+		"d": "Rounds a number down, towards zero"
 	},
 	"ROUNDUP": {
-		"a": "( x , number-digits )",
-		"d": "Math and trigonometry function used to round the number up to the desired number of digits"
+		"a": "(number; num_digits)",
+		"d": "Rounds a number up, away from zero"
 	},
 	"SEC": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the secant of an angle"
+		"a": "(number)",
+		"d": "Returns the secant of an angle"
 	},
 	"SECH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic secant of an angle"
+		"a": "(number)",
+		"d": "Returns the hyperbolic secant of an angle"
 	},
 	"SERIESSUM": {
-		"a": "( input-value , initial-power , step , coefficients )",
-		"d": "Math and trigonometry function used to return the sum of a power series"
+		"a": "(x; n; m; coefficients)",
+		"d": "Returns the sum of a power series based on the formula"
 	},
 	"SIGN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the sign of a number. If the number is positive, the function returns 1. If the number is negative, the function returns -1. If the number is 0, the function returns 0"
+		"a": "(number)",
+		"d": "Returns the sign of a number: 1 if the number is positive, zero if the number is zero, or -1 if the number is negative"
 	},
 	"SIN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the sine of an angle"
+		"a": "(number)",
+		"d": "Returns the sine of an angle"
 	},
 	"SINH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic sine of a number"
+		"a": "(number)",
+		"d": "Returns the hyperbolic sine of a number"
 	},
 	"SQRT": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the square root of a number"
+		"a": "(number)",
+		"d": "Returns the square root of a number"
 	},
 	"SQRTPI": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the square root of the pi constant (3.14159265358979) multiplied by the specified number"
+		"a": "(number)",
+		"d": "Returns the square root of (number * Pi)"
 	},
 	"SUBTOTAL": {
-		"a": "( function-number , argument-list )",
-		"d": "Math and trigonometry function used to return a subtotal in a list or database"
+		"a": "(function_num; ref1; ...)",
+		"d": "Returns a subtotal in a list or database"
 	},
 	"SUM": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to add all the numbers in the selected range of cells and return the result"
+		"a": "(number1; [number2]; ...)",
+		"d": "Adds all the numbers in a range of cells"
 	},
 	"SUMIF": {
-		"a": "( cell-range, selection-criteria [ , sum-range ] )",
-		"d": "Math and trigonometry function used to add all the numbers in the selected range of cells based on the specified criterion and return the result"
+		"a": "(range; criteria; [sum_range])",
+		"d": "Adds the cells specified by a given condition or criteria"
 	},
 	"SUMIFS": {
-		"a": "( sum-range, criteria-range1, criteria1, [ criteria-range2, criteria2 ], ... )",
-		"d": "Math and trigonometry function used to add all the numbers in the selected range of cells based on multiple criteria and return the result"
+		"a": "(sum_range; criteria_range; criteria; ...)",
+		"d": "Adds the cells specified by a given set of conditions or criteria"
 	},
 	"SUMPRODUCT": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to multiply the values in the selected ranges of cells or arrays and return the sum of the products"
+		"a": "(array1; [array2]; [array3]; ...)",
+		"d": "Returns the sum of the products of corresponding ranges or arrays"
 	},
 	"SUMSQ": {
-		"a": "( argument-list )",
-		"d": "Math and trigonometry function used to add the squares of numbers and return the result"
+		"a": "(number1; [number2]; ...)",
+		"d": "Returns the sum of the squares of the arguments. The arguments can be numbers, arrays, names or references to cells that contain numbers"
 	},
 	"SUMX2MY2": {
-		"a": "( array-1 , array-2 )",
-		"d": "Math and trigonometry function used to sum the difference of squares between two arrays"
+		"a": "(array_x; array_y)",
+		"d": "Sums the differences between the squares of two corresponding ranges or arrays"
 	},
 	"SUMX2PY2": {
-		"a": "( array-1 , array-2 )",
-		"d": "Math and trigonometry function used to sum the squares of numbers in the selected arrays and return the sum of the results"
+		"a": "(array_x; array_y)",
+		"d": "Returns the sum total of the sums of squares of numbers in two corresponding ranges or arrays"
 	},
 	"SUMXMY2": {
-		"a": "( array-1 , array-2 )",
-		"d": "Math and trigonometry function used to return the sum of the squares of the differences between corresponding items in the arrays"
+		"a": "(array_x; array_y)",
+		"d": "Sums the squares of the differences in two corresponding ranges or arrays"
 	},
 	"TAN": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the tangent of an angle"
+		"a": "(number)",
+		"d": "Returns the tangent of an angle"
 	},
 	"TANH": {
-		"a": "( x )",
-		"d": "Math and trigonometry function used to return the hyperbolic tangent of a number"
+		"a": "(number)",
+		"d": "Returns the hyperbolic tangent of a number"
 	},
 	"TRUNC": {
-		"a": "( x [ , number-digits ] )",
-		"d": "Math and trigonometry function used to return a number truncated to a specified number of digits"
+		"a": "(number; [num_digits])",
+		"d": "Truncates a number to an integer by removing the decimal, or fractional, part of the number"
 	},
 	"ADDRESS": {
-		"a": "( row-number , col-number [ , [ ref-type ] [ , [ A1-ref-style-flag ] [ , sheet-name ] ] ] )",
-		"d": "Lookup and reference function used to return a text representation of a cell address"
+		"a": "(row_num; column_num; [abs_num]; [a1]; [sheet_text])",
+		"d": "Creates a cell reference as text, given specified row and column numbers"
 	},
 	"CHOOSE": {
-		"a": "( index , argument-list )",
-		"d": "Lookup and reference function used to return a value from a list of values based on a specified index (position)"
+		"a": "(index_num; value1; [value2]; ...)",
+		"d": "Chooses a value or action to perform from a list of values, based on an index number"
 	},
 	"COLUMN": {
-		"a": "( [ reference ] )",
-		"d": "Lookup and reference function used to return the column number of a cell"
+		"a": "([reference])",
+		"d": "Returns the column number of a reference"
 	},
 	"COLUMNS": {
-		"a": "( array )",
-		"d": "Lookup and reference function used to return the number of columns in a cell reference"
+		"a": "(array)",
+		"d": "Returns the number of columns in an array or reference"
 	},
 	"FORMULATEXT": {
-		"a": "( reference )",
-		"d": "Lookup and reference function used to return a formula as a string"
+		"a": "(reference)",
+		"d": "Returns a formula as a string"
 	},
 	"HLOOKUP": {
-		"a": "( lookup-value  ,  table-array  ,  row-index-num  [  ,  [  range-lookup-flag  ] ] )",
-		"d": "Lookup and reference function used to perform the horizontal search for a value in the top row of a table or an array and return the value in the same column based on a specified row index number"
+		"a": "(lookup_value; table_array; row_index_num; [range_lookup])",
+		"d": "Looks for a value in the top row of a table or array of values and returns the value in the same column from a row you specify"
 	},
 	"HYPERLINK": {
-		"a": "( link_location  ,  [  ,  [  friendly_name  ] ] )",
-		"d": "Lookup and reference function used to create a shortcut that jumps to another location in the current workbook, or opens a document stored on a network server, an intranet, or the Internet"
+		"a": "(link_location; [friendly_name])",
+		"d": "Creates a shortcut or jump that opens a document stored on your hard drive, a network server, or on the Internet"
 	},
 	"INDEX": {
-		"a": "( array , [ row-number ] [ , [ column-number ] ] )",
-		"d": "Lookup and reference function used to return a value within a range of cells on the base of a specified row and column number. The INDEX function has two forms"
+		"a": "(array; row_num; [column_num]!reference; row_num; [column_num]; [area_num])",
+		"d": "Returns a value or reference of the cell at the intersection of a particular row and column, in a given range"
 	},
 	"INDIRECT": {
-		"a": "( ref-text [ , [ A1-ref-style-flag ] ] )",
-		"d": "Lookup and reference function used to return the reference to a cell based on its string representation"
+		"a": "(ref_text; [a1])",
+		"d": "Returns the reference specified by a text string"
 	},
 	"LOOKUP": {
-		"a": "(  lookup-value  ,  lookup-vector  ,  result-vector  )",
-		"d": "Lookup and reference function used to return a value from a selected range (row or column containing the data in ascending order)"
+		"a": "(lookup_value; lookup_vector; [result_vector]!lookup_value; array)",
+		"d": "Looks up a value either from a one-row or one-column range or from an array. Provided for backwards compatibility"
 	},
 	"MATCH": {
-		"a": "(  lookup-value  ,  lookup-array [ , [ match-type ]] )",
-		"d": "Lookup and reference function used to return a relative position of a specified item in a range of cells"
+		"a": "(lookup_value; lookup_array; [match_type])",
+		"d": "Returns the relative position of an item in an array that matches a specified value in a specified order"
 	},
 	"OFFSET": {
-		"a": "( reference , rows , cols [ , [ height ] [ , [ width ] ] ] )",
-		"d": "Lookup and reference function used to return a reference to a cell displaced from the specified cell (or the upper-left cell in the range of cells) to a certain number of rows and columns"
+		"a": "(reference; rows; cols; [height]; [width])",
+		"d": "Returns a reference to a range that is a given number of rows and columns from a given reference"
 	},
 	"ROW": {
-		"a": "( [ reference ] )",
-		"d": "Lookup and reference function used to return the row number of a cell reference"
+		"a": "([reference])",
+		"d": "Returns the row number of a reference"
 	},
 	"ROWS": {
-		"a": "( array )",
-		"d": "Lookup and reference function used to return the number of rows in a cell references"
+		"a": "(array)",
+		"d": "Returns the number of rows in a reference or array"
 	},
 	"TRANSPOSE": {
-		"a": "( array )",
-		"d": "Lookup and reference function used to return the first element of an array"
+		"a": "(array)",
+		"d": "Converts a vertical range of cells to a horizontal range, or vice versa"
 	},
 	"UNIQUE": {
-		"a": "( array, [by_col], [exactly_once] )",
-		"d": "Lookup and reference function used to return a list of unique values in a list or range"
+		"a": "(array; [by_col]; [exactly_once])",
+		"d": "Returns the unique values from a range or array."
 	},
 	"VLOOKUP": {
-		"a": "( lookup-value  ,  table-array  ,  col-index-num  [  ,  [  range-lookup-flag  ] ] )",
-		"d": "Lookup and reference function used to perform the vertical search for a value in the left-most column of a table or an array and return the value in the same row based on a specified column index number"
+		"a": "(lookup_value; table_array; col_index_num; [range_lookup])",
+		"d": "Looks for a value in the leftmost column of a table and then returns a value in the same row from a column that you specify. By default, the table must be sorted in an ascending order"
 	},
 	"XLOOKUP": {
-		"a": "( lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode] )",
-		"d": "Lookup and reference function used to search a range or an array, and then return the item corresponding to the first match it finds; if no match exists, then XLOOKUP can return the closest (approximate) match"
+		"a": "(lookup_value; lookup_array; return_array; [if_not_found]; [match_mode]; [search_mode])",
+		"d": "Searches a range or an array for a match and returns the corresponding item from a second range or array. By default, an exact match is used"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"a": "(info_type; [reference])",
+		"d": "Returns information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {
-		"a": "(value)",
-		"d": "Information function used to return the numeric representation of one of the existing errors"
+		"a": "(error_val)",
+		"d": "Returns a number matching an error value."
 	},
 	"ISBLANK": {
 		"a": "(value)",
-		"d": "Information function used to check if the cell is empty or not. If the cell does not contain any value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a reference is to an empty cell, and returns TRUE or FALSE"
 	},
 	"ISERR": {
 		"a": "(value)",
-		"d": "Information function used to check for an error value. If the cell contains an error value (except #N/A), the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is an error other than #N/A, and returns TRUE or FALSE"
 	},
 	"ISERROR": {
 		"a": "(value)",
-		"d": "Information function used to check for an error value. If the cell contains one of the error values: #N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME? or #NULL, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is an error, and returns TRUE or FALSE"
 	},
 	"ISEVEN": {
 		"a": "(number)",
-		"d": "Information function used to check for an even value. If the cell contains an even value, the function returns TRUE. If the value is odd, it returns FALSE"
+		"d": "Returns TRUE if the number is even"
 	},
 	"ISFORMULA": {
-		"a": "( value )",
-		"d": "Information function used to check whether there is a reference to a cell that contains a formula, and returns TRUE or FALSE"
+		"a": "(reference)",
+		"d": "Checks whether a reference is to a cell containing a formula, and returns TRUE or FALSE"
 	},
 	"ISLOGICAL": {
 		"a": "(value)",
-		"d": "Information function used to check for a logical value (TRUE or FALSE). If the cell contains a logical value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is a logical value (TRUE or FALSE), and returns TRUE or FALSE"
 	},
 	"ISNA": {
 		"a": "(value)",
-		"d": "Information function used to check for a #N/A error. If the cell contains a #N/A error value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is #N/A, and returns TRUE or FALSE"
 	},
 	"ISNONTEXT": {
 		"a": "(value)",
-		"d": "Information function used to check for a value that is not a text. If the cell does not contain a text value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is not text (blank cells are not text), and returns TRUE or FALSE"
 	},
 	"ISNUMBER": {
 		"a": "(value)",
-		"d": "Information function used to check for a numeric value. If the cell contains a numeric value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is a number, and returns TRUE or FALSE"
 	},
 	"ISODD": {
 		"a": "(number)",
-		"d": "Information function used to check for an odd value. If the cell contains an odd value, the function returns TRUE. If the value is even, it returns FALSE"
+		"d": "Returns TRUE if the number is odd"
 	},
 	"ISREF": {
 		"a": "(value)",
-		"d": "Information function used to verify if the value is a valid cell reference"
+		"d": "Checks whether a value is a reference, and returns TRUE or FALSE"
 	},
 	"ISTEXT": {
 		"a": "(value)",
-		"d": "Information function used to check for a text value. If the cell contains a text value, the function returns TRUE, otherwise the function returns FALSE"
+		"d": "Checks whether a value is text, and returns TRUE or FALSE"
 	},
 	"N": {
 		"a": "(value)",
-		"d": "Information function used to convert a value to a number"
+		"d": "Converts non-number value to a number, dates to serial numbers, TRUE to 1, anything else to 0 (zero)"
 	},
 	"NA": {
 		"a": "()",
-		"d": "Information function used to return the #N/A error value. This function does not require an argument"
+		"d": "Returns the error value #N/A (value not available)"
 	},
 	"SHEET": {
-		"a": "( value )",
-		"d": "Information function used to return the sheet number of the reference sheet"
+		"a": "([value])",
+		"d": "Returns the sheet number of the referenced sheet"
 	},
 	"SHEETS": {
-		"a": "( reference )",
-		"d": "Information function used to return the number of sheets in a reference"
+		"a": "([reference])",
+		"d": "Returns the number of sheets in a reference"
 	},
 	"TYPE": {
-		"a": "( value )",
-		"d": "Information function used to determine the type of the resulting or displayed value"
+		"a": "(value)",
+		"d": "Returns an integer representing the data type of a value: number = 1; text = 2; logical value = 4; error value = 16; array = 64; compound data = 128"
 	},
 	"AND": {
-		"a": "( logical1 , logical2, ... )",
-		"d": "Logical function used to check if the logical value you enter is TRUE or FALSE. The function returns TRUE if all the arguments are TRUE"
+		"a": "(logical1; [logical2]; ...)",
+		"d": "Checks whether all arguments are TRUE, and returns TRUE if all arguments are TRUE"
 	},
 	"FALSE": {
 		"a": "()",
-		"d": "logical functions. The function returns FALSE and does not require any argument"
+		"d": "Returns the logical value FALSE"
 	},
 	"IF": {
-		"a": "( logical_test , value_if_true [ , value_if_false ] )",
-		"d": "Logical function used to check the logical expression and return one value if it is TRUE, or another if it is FALSE"
+		"a": "(logical_test; [value_if_true]; [value_if_false])",
+		"d": "Checks whether a condition is met, and returns one value if TRUE, and another value if FALSE"
 	},
 	"IFS": {
-		"a": "( logical_test1 , value_if_true1 , [ logical_test2 , value_if_true2 ] , … )",
-		"d": "Logical function used to check whether one or more conditions are met and returns a value that corresponds to the first TRUE condition"
+		"a": "(logical_test; value_if_true; ...)",
+		"d": "Checks whether one or more conditions are met and returns a value corresponding to the first TRUE condition"
 	},
 	"IFERROR": {
-		"a": " (value , value_if_error )",
-		"d": "Logical function used to check if there is an error in the formula in the first argument. The function returns the result of the formula if there is no error, or the value_if_error if there is one"
+		"a": "(value; value_if_error)",
+		"d": "Returns value_if_error if expression is an error and the value of the expression itself otherwise"
 	},
 	"IFNA": {
-		"a": "( value , value_if_na )",
-		"d": "Logical function used to check if there is an error in the formula in the first argument. The function returns the value you specify if the formula returns the #N/A error value; otherwise returns the result of the formula"
+		"a": "(value; value_if_na)",
+		"d": "Returns the value you specify if the expression resolves to #N/A, otherwise returns the result of the expression"
 	},
 	"NOT": {
-		"a": "( logical )",
-		"d": "Logical function used to check if the logical value you enter is TRUE or FALSE. The function returns TRUE if the argument is FALSE and FALSE if the argument is TRUE"
+		"a": "(logical)",
+		"d": "Changes FALSE to TRUE, or TRUE to FALSE"
 	},
 	"OR": {
-		"a": "( logical1, logical2, ...)",
-		"d": "Logical function used to check if the logical value you enter is TRUE or FALSE. The function returns FALSE if all the arguments are FALSE"
+		"a": "(logical1; [logical2]; ...)",
+		"d": "Checks whether any of the arguments are TRUE, and returns TRUE or FALSE. Returns FALSE only if all arguments are FALSE"
 	},
 	"SWITCH": {
-		"a": "( expression , value1 , result1 [ , [ default or value2 ] [ , [ result2 ] ], … [ default or value3 , result3 ] ] )",
-		"d": "Logical function used to evaluate one value (called the expression) against a list of values, and returns the result corresponding to the first matching value; if there is no match, an optional default value may be returned"
+		"a": "(expression; value1; result1; [default_or_value2]; [result2]; ...)",
+		"d": "Evaluates an expression against a list of values and returns the result corresponding to the first matching value. If there is no match, an optional default value is returned"
 	},
 	"TRUE": {
 		"a": "()",
-		"d": "Logical function used to return TRUE and does not require any argument"
+		"d": "Returns the logical value TRUE"
 	},
 	"XOR": {
-		"a": "( logical1 [ , logical2 ] , ... )",
-		"d": "Logical function used to returns a logical Exclusive Or of all arguments"
+		"a": "(logical1; [logical2]; ...)",
+		"d": "Returns a logical 'Exclusive Or' of all arguments"
 	}
 }

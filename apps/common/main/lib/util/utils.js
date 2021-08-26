@@ -30,15 +30,26 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
 if (Common.Utils === undefined) {
     Common.Utils = {};
 }
 
-Common.Utils = _.extend(new(function() {
+function _extend_object(dest, source) {
+    if ( typeof _ != "undefined" ) {
+        return _.extend({}, dest, source);
+    } else
+    if ( !!Object ) {
+        return Object.assign({}, dest, source);
+    }
+
+    return source;
+}
+
+var utils = new(function() {
     var userAgent = navigator.userAgent.toLowerCase(),
         check = function(regex){
             return regex.test(userAgent);
@@ -114,7 +125,8 @@ Common.Utils = _.extend(new(function() {
             CSV: 1,
             TXT: 2,
             Paste: 3,
-            Columns: 4
+            Columns: 4,
+            Data: 5
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
@@ -124,13 +136,23 @@ Common.Utils = _.extend(new(function() {
                 scale = window.AscCommon.checkDeviceScale();
                 AscCommon.correctApplicationScale(scale);
             } else {
-                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
-                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+                var str_mq_125 = "screen and (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49), " +
+                        "screen and (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx)";
+                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.74), " +
+                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx)";
+                var str_mq_175 = "screen and (-webkit-min-device-pixel-ratio: 1.75) and (-webkit-max-device-pixel-ratio: 1.99), " +
+                        "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
 
+                if ( window.matchMedia(str_mq_125).matches ) {
+                    scale.devicePixelRatio = 1.5;
+                } else
                 if ( window.matchMedia(str_mq_150).matches ) {
                     scale.devicePixelRatio = 1.5;
+                } else
+                if ( window.matchMedia(str_mq_175).matches ) {
+                    scale.devicePixelRatio = 1.75;
                 } else
                 if ( window.matchMedia(str_mq_200).matches )
                     scale.devicePixelRatio = 2;
@@ -138,15 +160,32 @@ Common.Utils = _.extend(new(function() {
             }
 
             var $root = $(document.body);
-            if ( scale.devicePixelRatio < 1.5 ) {
-                $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
+            var classes = document.body.className;
+            var clear_list = classes.replace(/pixel-ratio__[\w-]+/gi,'').trim();
+            if ( scale.devicePixelRatio < 1.25 ) {
+                 if ( /pixel-ratio__/.test(classes) ) {
+                     document.body.className = clear_list;
+                 }
             } else
-            if ( !(scale.devicePixelRatio < 1.5) && scale.devicePixelRatio < 2 ) {
-                $root.removeClass('pixel-ratio__2');
-                $root.addClass('pixel-ratio__1_5');
+            if ( scale.devicePixelRatio < 1.5 ) {
+                if ( !/pixel-ratio__1_25/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_25';
+                }
+            } else
+            if ( scale.devicePixelRatio < 1.75 ) {
+                if ( !/pixel-ratio__1_5/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_5';
+                }
+            } else
+            if ( !(scale.devicePixelRatio < 1.75) && scale.devicePixelRatio < 2 ) {
+                if ( !/pixel-ratio__1_75/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__1_75';
+                }
             } else {
                 $root.addClass('pixel-ratio__2');
-                $root.removeClass('pixel-ratio__1_5');
+                if ( !/pixel-ratio__2/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__2';
+                }
             }
 
             me.zoom = scale.correct ? scale.zoom : 1;
@@ -237,7 +276,9 @@ Common.Utils = _.extend(new(function() {
         croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
                                         width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
-})(), Common.Utils || {});
+})();
+
+Common.Utils = _extend_object(Common.Utils, utils);
 
 Common.Utils.ThemeColor = new(function() {
     return {
@@ -309,7 +350,7 @@ Common.Utils.ThemeColor = new(function() {
         },
 
         colorValue2EffectId: function(clr){
-            if (typeof(clr) == 'object' && clr.effectValue !== undefined && this.effectcolors) {
+            if (typeof(clr) == 'object' && clr && clr.effectValue !== undefined && this.effectcolors) {
                 for (var i = 0; i < this.effectcolors.length; i++) {
                     if (this.effectcolors[i].effectValue===clr.effectValue && clr.color.toUpperCase()===this.effectcolors[i].color.toUpperCase()) {
                         clr.effectId = this.effectcolors[i].effectId;
@@ -322,7 +363,7 @@ Common.Utils.ThemeColor = new(function() {
     }
 })();
 
-Common.Utils.Metric = _.extend( new(function() {
+var metrics = new(function() {
     var me = this;
 
     me.c_MetricUnits = {
@@ -393,7 +434,9 @@ Common.Utils.Metric = _.extend( new(function() {
             return value;
         }
     }
-})(), Common.Utils.Metric || {});
+})();
+
+Common.Utils.Metric = _extend_object(Common.Utils.Metric, metrics);
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;
@@ -572,7 +615,8 @@ Common.Utils.String = new (function() {
         },
 
         htmlEncode: function(string) {
-            return _.escape(string);
+            return (typeof _ !== 'undefined') ? _.escape(string) :
+                            string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         },
 
         htmlDecode: function(string) {
@@ -624,6 +668,14 @@ Common.Utils.String = new (function() {
                 var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
                 return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
             }
+        },
+
+        fixedDigits: function(num, digits, fill) {
+            (fill===undefined) && (fill = '0');
+            var strfill = "",
+                str = num.toString();
+            for (var i=str.length; i<digits; i++) strfill += fill;
+            return strfill + str;
         }
     }
 })();
@@ -724,12 +776,13 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
     });
 };
 
-Common.Utils.fillUserInfo = function(info, lang, defname) {
+Common.Utils.fillUserInfo = function(info, lang, defname, defid) {
     var _user = info || {};
-    !_user.id && (_user.id = ('uid-' + Date.now()));
-    _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
-    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
-    _user.guest = _.isEmpty(_user.name);
+    _user.anonymous = !_user.id;
+    !_user.id && (_user.id = defid);
+    _user.fullname = !_user.name ? defname : _user.name;
+    _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
+    _user.guest = !_user.name;
     return _user;
 };
 
@@ -771,10 +824,12 @@ Common.Utils.getConfigJson = function (url) {
 };
 
 Common.Utils.loadConfig = function(url, callback) {
-    "use strict";
-
-    fetch(url)
-        .then(function(response){
+    fetch(url, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+            },
+        }).then(function(response){
             if ( response.ok )
                 return response.json();
             else return 'error';
@@ -983,12 +1038,8 @@ Common.Utils.ModalWindow = new(function() {
 })();
 
 Common.Utils.UserInfoParser = new(function() {
-    var parse = false,
-        separator = String.fromCharCode(160),
-        username = '',
-        usergroups,
-        reviewPermissions,
-        reviewGroups;
+    var parse = false;
+    var separator = String.fromCharCode(160);
     return {
         setParser: function(value) {
             parse = !!value;
@@ -1014,36 +1065,6 @@ Common.Utils.UserInfoParser = new(function() {
                 return groups;
             } else
                 return undefined;
-        },
-
-        setCurrentName: function(name) {
-            username = name;
-            this.setReviewPermissions(reviewGroups, reviewPermissions);
-        },
-
-        getCurrentName: function() {
-            return username;
-        },
-
-        setReviewPermissions: function(groups, permissions) {
-            if (groups) {
-                if  (typeof groups == 'object' && groups.length>0)
-                    usergroups = groups;
-                reviewGroups = groups;
-            } else if (permissions) {
-                var arr = [],
-                    arrgroups  =  this.getParsedGroups(username);
-                arrgroups && arrgroups.forEach(function(group) {
-                    var item = permissions[group.trim()];
-                    item && (arr = arr.concat(item));
-                });
-                usergroups = arr;
-                reviewPermissions = permissions;
-            }
-        },
-
-        getCurrentGroups: function() {
-            return usergroups;
         }
     }
 })();

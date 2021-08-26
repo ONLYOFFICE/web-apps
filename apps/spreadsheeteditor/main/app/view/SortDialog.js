@@ -144,7 +144,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                                 '<% } %>',
                             '</div>',
                         '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.sortList.createNewItem = function(record) {
                 return new _CustomItem({
@@ -199,6 +200,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         afterRender: function() {
             this._setDefaults(this.props);
+        },
+
+        getFocusedComponents: function() {
+            return [ this.btnAdd, this.btnDelete, this.btnCopy, this.btnOptions, this.btnUp, this.btnDown, this.sortList ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.sortList;
         },
 
         _setDefaults: function (props) {
@@ -268,7 +277,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                                 if (item)
                                     color_data.push({
                                         value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                        displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        displayValue: '',
                                         color: item
                                     });
                                 else
@@ -555,8 +564,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         var value = item ? Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase() : -1,
                             color_data = {
                                 value: value,
-                                displayValue: item ? value : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
-                                color: item
+                                displayValue: item ? '' : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
+                                color: item,
+                                styleObj: {'background-color': item ? '#' + value : 'transparent' },
+                                styleStr: item ? 'background-color: #' + value + ';' : 'background-color:transparent;'
                             };
                         item ? level.color_data.push(color_data) : level.color_data.unshift(color_data);
                         if (colorValue == color_data.value)

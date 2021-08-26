@@ -25,6 +25,7 @@
   "SSE.ApplicationController.waitText": "ກະລຸນາລໍຖ້າ...",
   "SSE.ApplicationView.txtDownload": "ດາວໂຫຼດ",
   "SSE.ApplicationView.txtEmbed": "ຝັງໄວ້",
+  "SSE.ApplicationView.txtFileLocation": "ເປີດບ່ອນຕຳແໜ່ງເອກະສານ",
   "SSE.ApplicationView.txtFullScreen": "ເຕັມຈໍ",
   "SSE.ApplicationView.txtPrint": "ພິມ",
   "SSE.ApplicationView.txtShare": "ແບ່ງປັນ"

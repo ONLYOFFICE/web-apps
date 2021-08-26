@@ -51,6 +51,11 @@
                     editCommentAuthorOnly: <can edit your own comments only> // default = false
                     deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
                     reviewGroups: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
+                    commentGroups: { // {} - use groups, but can't view/edit/delete any group's comments
+                         view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
+                         edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
+                         remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
+                    }
                 }
             },
             editorConfig: {
@@ -129,7 +134,11 @@
                     anonymous: { // set name for anonymous user
                         request: bool (default: true), // enable set name
                         label: string (default: "Guest") // postfix for user name
-                    }
+                    },
+                    review: {
+                        hideReviewDisplay: false, // hide button Review mode
+                        hoverMode: false // true - show review balloons on mouse move, not on click on text
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,
@@ -147,7 +156,7 @@
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original',
+                    reviewDisplay: 'original', // original for viewer, markup for editor
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
@@ -156,8 +165,14 @@
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,
-                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor)
+                    hideRulers: false // hide or show rulers on first loading (presentation or document editor)
+                    hideNotes: false // hide or show notes panel on first loading (presentation editor)
+                    uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
+                 coEditing: {
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
+                     change: true, // can change co-authoring mode
+                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
                     pluginsData: [
@@ -166,6 +181,9 @@
                         "speech/config.json",
                         "clipart/config.json",
                     ]
+                },
+                wopi: { // only for wopi
+                    FileNameMaxLength: 250 // max filename length for rename, 250 by default
                 }
             },
             events: {
@@ -657,6 +675,13 @@
             });
         };
 
+        var _requestClose = function(data) {
+            _sendCommand({
+                command: 'requestClose',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -668,6 +693,22 @@
 
             _sendCommand({
                 command: 'processMouse',
+                data: data
+            });
+        };
+
+        var _grabFocus = function(data) {
+            setTimeout(function(){
+                _sendCommand({
+                    command: 'grabFocus',
+                    data: data
+                });
+            }, 10);
+        };
+
+        var _blurFocus = function(data) {
+            _sendCommand({
+                command: 'blurFocus',
                 data: data
             });
         };
@@ -703,7 +744,10 @@
             insertImage         : _insertImage,
             setMailMergeRecipients: _setMailMergeRecipients,
             setRevisedFile      : _setRevisedFile,
-            setFavorite         : _setFavorite
+            setFavorite         : _setFavorite,
+            requestClose        : _requestClose,
+            grabFocus           : _grabFocus,
+            blurFocus           : _blurFocus
         }
     };
 
@@ -826,7 +870,7 @@
         path += app + "/";
         path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
-            : config.type === "embedded"
+            : (config.type === "embedded")
                 ? "embed"
                 : "main";
 
@@ -852,16 +896,16 @@
 
         if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
-                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
+                if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + encodeURIComponent(config.editorConfig.customization.loaderName);
             } else
                 params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
-                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
                 if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
                 else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
-                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
             }
         }
 

@@ -29,8 +29,10 @@
         .loadmask > .brendpanel {
             width: 100%;
             position: absolute;
-            height: 32px;
-            background-color: #e2e2e2;
+            height: 48px;
+            background-color: #F7F7F7;
+            -webkit-box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
+            box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
         }
 
         .loadmask > .brendpanel > div {
@@ -42,16 +44,19 @@
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
             height: 24px;
-            margin: 0 auto;
+            margin-left: 10px;
             text-align: center;
         }
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
-            max-width: 100px;
+            max-width: 124px;
             max-height: 20px;
             margin-top: 2px;
             opacity: 0;
+        }
+        .loadmask > .brendpanel .doc-title {
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .circle {
@@ -67,7 +72,7 @@
             background: #f5f5f5;
             width: 100%;
             height: 100%;
-            padding-top: 32px;
+            padding-top: 48px;
         }
 
         .loadmask > .placeholder .slide-h {
@@ -145,10 +150,10 @@
       <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
               <div>
-                  <div class="circle"></div>
                   <div class="brand-logo loading-logo">
                       <img src="">
                   </div>
+                  <div class="doc-title"></div>
                   <div class="circle"></div>
               </div>
           </div>
@@ -201,8 +206,7 @@
           }
 
           function encodeUrlParam(str) {
-              return str.replace(/&/g, '&amp;')
-                      .replace(/"/g, '&quot;')
+              return str.replace(/"/g, '&quot;')
                       .replace(/'/g, '&#39;')
                       .replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;');
@@ -239,17 +243,16 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
-              <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon tools"></button>
-              </div>
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
           </div>
           <div class="group center">
-              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+              <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
-              <div class="item separator"></div>
-              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+              <div class="item margin-right-small"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon more-vertical"></button>
+              </div>
           </div>
       </div>
 
@@ -267,11 +270,6 @@
                   </div>
               </div>
           </div>
-      </div>
-
-      <div id="id-loadmask" class="hide modal cmd-loader-body">
-          <div class="cmd-loader-image"></div>
-          <div class="cmd-loader-title">Please wait...</div>
       </div>
 
       <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
@@ -301,7 +299,9 @@
       <script type="text/javascript" src="../../common/locale.js"></script>
       <script type="text/javascript" src="../../common/Gateway.js"></script>
       <script type="text/javascript" src="../../common/Analytics.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/util/LocalStorage.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/view/LoadMask.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>

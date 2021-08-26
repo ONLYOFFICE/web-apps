@@ -254,8 +254,7 @@
         }
 
         function encodeUrlParam(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
+            return str.replace(/"/g, '&quot;')
                     .replace(/'/g, '&#39;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;');
@@ -355,6 +354,7 @@
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">
+    <img class="inline-svg" src="resources/img/cf-icons.svg">
     <script>
         var svgpoints = document.querySelectorAll('img.inline-svg');
         SVGInjector(svgpoints);

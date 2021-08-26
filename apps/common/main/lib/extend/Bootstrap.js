@@ -56,6 +56,12 @@ function onDropDownKeyDown(e) {
                 e.stopPropagation();
             }
         }
+    } else if ($this.hasClass('move-focus')) {
+        if (!(/^(27|13|9|32)/.test(e.keyCode) && !e.ctrlKey && !e.altKey)) {
+            patchDropDownKeyDown.call(this, e);
+            e.preventDefault();
+            e.stopPropagation();
+        }
     } else {
         patchDropDownKeyDown.call(this, e);
         e.preventDefault();

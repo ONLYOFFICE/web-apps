@@ -137,12 +137,12 @@ define([
             if (this.handler) {
                 if (state == 'ok') {
                     if (this.inputPwd.checkValidate() !== true)  {
-                        this.inputPwd.cmpEl.find('input').focus();
+                        this.inputPwd.focus();
                         return;
                     }
                     if (this.inputPwd.getValue() !== this.repeatPwd.getValue()) {
                         this.repeatPwd.checkValidate();
-                        this.repeatPwd.cmpEl.find('input').focus();
+                        this.repeatPwd.focus();
                         return;
                     }
                 }

@@ -53,16 +53,24 @@
 @import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
 
 
+@import "loadmask.less";
+
 @toolbarBorderColor:            #dbdbdb;
 @toolbarBorderShadowColor:      #FAFAFA;
-@toolbarTopColor:               #EBEBEB;
+@toolbarTopColor:               #F7F7F7;
 @toolbarBottomColor:            #CCCCCC;
 @toolbarHoverColor:             #7698DE;
 @toolbarFontSize:               12px;
+@buttonFontSize:                11px;
 @controlBtnHoverTopColor:       #6180C4;
 @controlBtnHoverBottomColor:    #8AACF1;
 @btnColor:                      #d8dadc;
 @btnActiveColor:                #7d858c;
+@btnColored:                    #446995;
+@btnActiveColored:              #293F59;
+@btnHoverColored:               #375478;
+@notificationColor:             #fcfed7;
+
 @iconSpriteCommonPath:          "../../../../common/embed/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
 
@@ -91,13 +99,13 @@
     right: 0;
 
     &.top {
-        top: 32px;
+        top: 48px;
         bottom: 0;
     }
 
     &.bottom {
         top: 0;
-        bottom: 30px;
+        bottom: 46px;
     }
 }
 
@@ -110,11 +118,15 @@
     z-index: 100;
     background-color: @toolbarTopColor;
 
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
     &.top {
         top: 0;
         left: 0;
         width: 100%;
-        height: 32px;
+        height: 48px;
 
         -webkit-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
         //-moz-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
@@ -125,7 +137,7 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 30px;
+        height: 46px;
 
         -webkit-box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
         //-moz-box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
@@ -133,11 +145,6 @@
     }
 
     .group {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        list-style-type: none;
         margin: 0;
         padding: 0;
 
@@ -161,6 +168,11 @@
             .item {
                 float: left;
             }
+
+            & > div {
+                display: inline-block;
+                vertical-align: middle;
+            }
         }
 
         &.right {
@@ -168,13 +180,21 @@
             padding-right: 10px;
 
             .item {
-                float: left;
+                display: inline-block;
             }
         }
 
         &.center {
-            left: 50%;
-            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 0 20px;
+
+            #title-doc-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .separator {
@@ -199,6 +219,18 @@
         }
     }
 
+    .margin-right-small {
+        margin-right: 8px;
+    }
+    .margin-right-large {
+        margin-right: 12px;
+    }
+    .margin-left-small {
+        margin-left: 8px;
+    }
+    .margin-left-large {
+        margin-left: 12px;
+    }
 }
 
 // Logo
@@ -219,17 +251,49 @@
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: 2px;
-    //margin: 0;
 
-    &.no-caption {
-        padding: 1px 2px;
+    width: 22px;
+    height: 22px;
+    background-origin: content-box;
+    padding: 0 1px;
+    font-size: @buttonFontSize;
+
+    &.has-caption {
+        width: auto;
+        padding-right: 5px;
     }
 
-// Hover state
-    &:hover {
-        color: @toolbarHoverColor;
+    &.colored {
+        padding: 0 16px;
+        height: 28px;
+        background-color: @btnColored;
+        border-radius: 3px;
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    // Hover state
+    &:hover:not(:disabled) {
         text-decoration: none;
-        text-shadow: 0 1px 0 @toolbarBorderShadowColor;
+        background-color: @btnColor;
+
+        &.colored {
+            background-color: @btnHoverColored;
+        }
+    }
+
+    &:active:not(:disabled) {
+        &, .btn-icon {
+            background-position-y: -@icon-height !important;
+        }
+
+        &.has-caption {
+            color: #ffffff
+        }
+
+        &.colored {
+            background-color: @btnActiveColored;
+        }
     }
 
 // Focus state for keyboard and accessibility
@@ -239,11 +303,15 @@
     }
 
 // Active state
-    &.active,
-    &:active {
+    &.active:not(:disabled),
+    &:active:not(:disabled) {
         outline: none;
         border: 1px solid @btnActiveColor;
         background-color: @btnActiveColor;
+    }
+
+    &[disabled] {
+        opacity: 0.4;
     }
 }
 
@@ -435,7 +503,7 @@
 @icon-height: 20px;
 .svg-icon {
     background: data-uri('../../../../common/embed/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*13 @icon-height*2;
+    background-size: @icon-width*19 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -473,14 +541,35 @@
     &.print {
         background-position: -@icon-width*11 0;
     }
+
+    &.arrow-up {
+        background-position: -@icon-width*17 0;
+    }
+    &.arrow-down {
+        background-position: -@icon-width*16 0;
+    }
+    &.clear-style {
+        background-position: -@icon-width*12 0;
+    }
+    &.go-to-location {
+        background-position: -@icon-width*15 0;
+    }
+    &.more-vertical {
+        background-position: -@icon-width*14 0;
+    }
 }
 
 .mi-icon {
     width: @icon-width;
     height: @icon-height;
-    //display: inline-block;
     float: left;
-    margin: 0 15px 0 -15px;
+    margin: -3px 4px 0 -24px;
+}
+.btn-icon {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .btn, button {
@@ -547,35 +636,30 @@
 
 .dropdown-menu {
     > li > a {
-        padding: 8px 20px 8px 31px;
+        padding: 8px 20px 8px 28px;
         &:hover, &:focus {
             background-color: @btnColor;
             outline: 0 none;
         }
+        font-size: @buttonFontSize;
+    }
+
+    .divider {
+        margin: 4px 0;
     }
 }
 
 .dropdown {
     &.open {
         > button {
-            background-color: @btnActiveColor;
-            background-position: 0 -@icon-height;
+            background-color: @btnActiveColor !important;
+            background-position: -@icon-width*14 -@icon-height;
         }
     }
 }
 
 #box-tools {
-    button {
-        width: 24px;
-        height: 22px;
-        background-origin: content-box;
-        padding: 0 1px;
-
-        &:active {
-            background-position: 0 -@icon-height;
-        }
-    }
-
+    display: inline-block;
     a {
         cursor: pointer;
     }
@@ -607,9 +691,14 @@
         border: 1px solid rgba(0,0,0,0.15);
         color: #333;
         font-weight: bold;
-        line-height: 26px;
         font-size: 11px;
         box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+        max-width: 350px;
+
+        padding: 5px 12px;
+        white-space: pre-wrap;
+        text-align: left;
+        word-wrap: break-word;
     }
 
     .tooltip-arrow {
@@ -621,5 +710,79 @@
     &:focus {
         -webkit-box-shadow: none;
         box-shadow: none;
+    }
+}
+
+.submit-tooltip {
+    position: absolute;
+    z-index: 1000;
+    top: 58px;
+    right: 15px;
+
+    padding: 7px 15px;
+    border-radius: 5px;
+    background-color: @notificationColor;
+    -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    font-size: 11px;
+}
+
+.required-tooltip {
+    position: absolute;
+    z-index: 1000;
+
+    padding: 15px;
+    border-radius: 5px;
+    background-color: @btnColored;
+    color: #fff;
+    -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    font-size: 11px;
+
+    &.bottom-left {
+        border-top-right-radius: 0;
+        margin: 15px 0 0 0;
+
+        .tip-arrow {
+            position: absolute;
+            overflow: hidden;
+            right: 0;
+            top: -15px;
+            width: 15px;
+            height: 15px;
+            .box-shadow(8px 5px 8px -5px rgba(0, 0, 0, 0.2));
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: 8px;
+                left: 8px;
+                background-color: @btnColored;
+                width: 15px;
+                height: 15px;
+
+                -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                transform: rotate(45deg);
+                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+            }
+        }
+    }
+    .close-div {
+        display: inline-block;
+        border: 1px solid #fff;
+        border-radius: 2px;
+        padding: 3px 12px;
+        margin-top: 10px;
+    }
+}
+
+.tooltip {
+    .tooltip-inner {
+        .toolbar & {
+            font-weight: normal;
+        }
     }
 }

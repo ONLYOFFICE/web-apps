@@ -217,8 +217,7 @@
             }
 
             function encodeUrlParam(str) {
-                return str.replace(/&/g, '&amp;')
-                        .replace(/"/g, '&quot;')
+                return str.replace(/"/g, '&quot;')
                         .replace(/'/g, '&#39;')
                         .replace(/</g, '&lt;')
                         .replace(/>/g, '&gt;');
@@ -282,17 +281,20 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
-              <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon tools"></button>
-              </div>
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
+              <button id="id-btn-prev-field" class="control-btn svg-icon arrow-up margin-right-small"></button><!--
+              --><button id="id-btn-next-field" class="control-btn has-caption margin-right-large"><span class="btn-icon svg-icon arrow-down"></span><span class="caption"></span></button><!--
+              --><button id="id-btn-clear-fields" class="control-btn has-caption"><span class="btn-icon svg-icon clear-style"></span><span class="caption"></span></button>
           </div>
           <div class="group center">
-              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+              <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
-              <div class="item separator"></div>
-              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+              <div id="id-pages" class="item margin-right-small" style="vertical-align: middle;"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div id="id-submit-group" style="display: inline-block;"><button id="id-btn-submit" class="control-btn has-caption margin-right-small margin-left-small colored"><span class="caption"></span></button></div>
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon more-vertical"></button>
+              </div>
           </div>
       </div>
 
@@ -312,12 +314,7 @@
           </div>
       </div>
 
-      <div id="id-loadmask" class="hide modal cmd-loader-body">
-          <div class="cmd-loader-image"></div>
-          <div class="cmd-loader-title">Please wait...</div>
-      </div>
-
-      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="" style="display:none;"></div>
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

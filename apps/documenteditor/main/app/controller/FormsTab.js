@@ -195,6 +195,7 @@ define([
                 this.disableEditing(state);
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 this.api.asc_SetPerformContentControlActionByClick(state);
+                this.api.asc_SetHighlightRequiredFields(state);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -233,6 +234,18 @@ define([
         },
 
         onSubmitClick: function() {
+            if (!this.api.asc_IsAllRequiredFormsFilled()) {
+                var me = this;
+                Common.UI.warning({
+                    msg: this.view.textRequired,
+                    callback: function() {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
             this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },

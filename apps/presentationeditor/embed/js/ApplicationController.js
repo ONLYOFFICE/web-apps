@@ -40,7 +40,10 @@ PE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         currentPage = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        labelDocName;
+
+    var LoadingDocument = -256;
 
     // Initialize analytics
     // -------------------------
@@ -55,6 +58,10 @@ PE.ApplicationController = new(function(){
         Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         return;
     }
+
+    common.localStorage.setId('text');
+    common.localStorage.setKeysFilter('pe-,asc.presentation');
+    common.localStorage.sync();
 
     // Handlers
     // -------------------------
@@ -76,13 +83,8 @@ PE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
-            $('#id-btn-close').hide();
-
-            // Hide last separator
-            $('#toolbar .right .separator').hide();
-            $('#pages').css('margin-right', '12px');
-        }
+        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
 
     function loadDocument(data) {
@@ -94,7 +96,19 @@ PE.ApplicationController = new(function(){
             var _permissions = $.extend({}, docConfig.permissions),
                 docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
-            _user.put_Id(config.user && config.user.id ? config.user.id : ('uid-' + Date.now()));
+
+            var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
+                guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
+                (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
+                    common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
+                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
+                user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
+                    common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
+            user.anonymous && common.localStorage.setItem("guest-id", user.id);
+
+            _user.put_Id(user.id);
+            _user.put_FullName(user.fullname);
+            _user.put_IsAnonymousUser(user.anonymous);
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
@@ -122,6 +136,8 @@ PE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
+            labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -142,19 +158,24 @@ PE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Print']:
                 text = me.downloadTextText;
                 break;
+            case LoadingDocument:
+                text = me.textLoadingDocument + '           ';
+                break;
             default:
                 text = me.waitText;
                 break;
         }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            $('#id-loadmask .cmd-loader-title').html(text);
-            showMask();
+            if (!me.loadMask)
+                me.loadMask = new common.view.LoadMask();
+            me.loadMask.setTitle(text);
+            me.loadMask.show();
         }
     }
 
     function onLongActionEnd(){
-        hideMask();
+        me.loadMask && me.loadMask.hide();
     }
 
     function onDocMouseMoveStart() {
@@ -230,6 +251,7 @@ PE.ApplicationController = new(function(){
             onPlayStart();
         }
         hidePreloader();
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
@@ -243,14 +265,19 @@ PE.ApplicationController = new(function(){
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
+        if (!config.canBackToFolder)
+            $('#idt-close').hide();
+
         if ( !embedConfig.embedUrl )
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
+        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools .divider').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -273,6 +300,7 @@ PE.ApplicationController = new(function(){
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('requestclose',       onRequestClose);
 
         PE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -295,6 +323,16 @@ PE.ApplicationController = new(function(){
             .on('click', function(){
                 api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 Common.Analytics.trackEvent('Print');
+            });
+
+        PE.ApplicationView.tools.get('#idt-close')
+            .on('click', function(){
+                if (config.customization && config.customization.goback) {
+                    if (config.customization.goback.requestClose && config.canRequestClose)
+                        Common.Gateway.requestClose();
+                    else if (config.customization.goback.url)
+                        window.parent.location.href = config.customization.goback.url;
+                }
             });
 
         var $pagenum = $('#page-number');
@@ -331,15 +369,6 @@ PE.ApplicationController = new(function(){
 
         $('#pages').on('click', function(e) {
             $pagenum.focus();
-        });
-
-        $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback) {
-                if (config.customization.goback.requestClose && config.canRequestClose)
-                    Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
-            }
         });
 
         $('#btn-left').on('click', function(){
@@ -438,6 +467,17 @@ PE.ApplicationController = new(function(){
                 logo.attr('href', config.customization.logo.url);
             }
         }
+
+        var $parent = labelDocName.parent();
+        var _left_width = $parent.position().left,
+            _right_width = $parent.next().outerWidth();
+
+        if ( _left_width < _right_width )
+            $parent.css('padding-left', _right_width - _left_width);
+        else
+            $parent.css('padding-right', _left_width - _right_width);
+
+        onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
         api.Resize();
@@ -445,7 +485,7 @@ PE.ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     var isplaymode;
@@ -474,17 +514,6 @@ PE.ApplicationController = new(function(){
             $('#page-number').val(number);
     }
 
-    function showMask() {
-        $('#id-loadmask').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-
-    function hideMask() {
-        $('#id-loadmask').modal('hide');
-    }
-
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
@@ -497,7 +526,8 @@ PE.ApplicationController = new(function(){
         }
 
         hidePreloader();
-
+        onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        
         var message;
 
         switch (id)
@@ -536,6 +566,15 @@ PE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.AccessDeny:
                 message = me.errorAccessDeny;
+                break;
+
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                message = me.errorForceSave;
+                break;
+
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
                 break;
 
             default:
@@ -593,6 +632,10 @@ PE.ApplicationController = new(function(){
         }
     }
 
+    function onRequestClose() {
+        Common.Gateway.requestClose();
+    }
+
     function onDownloadAs() {
         if ( permissions.download === false) {
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
@@ -606,6 +649,9 @@ PE.ApplicationController = new(function(){
             if (api) api.asc_runAutostartMacroses();
     }
 
+    function onBeforeUnload () {
+        common.localStorage.save();
+    }
     // Helpers
     // -------------------------
 
@@ -627,7 +673,8 @@ PE.ApplicationController = new(function(){
         $(window).resize(function(){
             onDocumentResize();
         });
-
+        window.onbeforeunload = onBeforeUnload;
+        
         api = new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
             'embedded' : true
@@ -672,6 +719,10 @@ PE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading presentation',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textGuest: 'Guest',
+        textAnonymous: 'Anonymous',
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();

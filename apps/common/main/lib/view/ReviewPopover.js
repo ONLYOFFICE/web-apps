@@ -103,6 +103,7 @@ define([
             this.canRequestUsers = options.canRequestUsers;
             this.canRequestSendNotify = options.canRequestSendNotify;
             this.mentionShare = options.mentionShare;
+            this.api = options.api;
             this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
@@ -176,7 +177,7 @@ define([
                         var view = this,
                             textBox = this.$el.find('textarea'),
                             domTextBox = null,
-                            minHeight = 50,
+                            minHeight = 55,
                             lineHeight = 0,
                             scrollPos = 0,
                             oldHeight = 0,
@@ -784,7 +785,7 @@ define([
                     }
                 }
             }
-            if (!retainContent)
+            if (!retainContent || this.isOverCursor())
                 this.calculateSizeOfContent();
         },
         calculateSizeOfContent: function (testVisible) {
@@ -839,7 +840,34 @@ define([
 
                             outerHeight = Math.max(commentsView.outerHeight(), this.$window.outerHeight());
 
-                            if (sdkBoundsHeight <= outerHeight) {
+                            var movePos = this.isOverCursor();
+                            if (movePos) {
+                                var newTopDown = movePos[1] + sdkPanelHeight,// try move down
+                                    newTopUp = movePos[0] + sdkPanelHeight; // try move up
+                                if (newTopDown + outerHeight>sdkBoundsTop + sdkBoundsHeight) {
+                                    var diffDown = sdkBoundsTop + sdkBoundsHeight - newTopDown;
+                                    if (newTopUp - outerHeight<sdkBoundsTop) {
+                                        var diffUp = newTopUp - sdkBoundsTop;
+                                        if (diffDown < diffUp * 0.9) {// magic)
+                                            this.$window.css({
+                                                maxHeight: diffUp + 'px',
+                                                top: sdkBoundsTop + 'px'
+                                            });
+                                            commentsView.css({height: diffUp - 3 + 'px'});
+                                        } else {
+                                            this.$window.css({
+                                                maxHeight: diffDown + 'px',
+                                                top: newTopDown + 'px'
+                                            });
+                                            commentsView.css({height: diffDown - 3 + 'px'});
+                                        }
+                                    } else
+                                        this.$window.css('top', newTopUp - outerHeight + 'px'); // move up
+                                } else
+                                    this.$window.css('top', newTopDown + 'px'); // move down
+                                arrowView.addClass('hidden');
+
+                            } else if (sdkBoundsHeight <= outerHeight) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'
@@ -851,6 +879,7 @@ define([
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
                                 arrowView.css({top: arrowPosY + 'px'});
+                                arrowView.removeClass('hidden');
                                 this.scroller.scrollTop(scrollPos);
                             } else {
 
@@ -869,6 +898,7 @@ define([
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
                                 arrowView.css({top: arrowPosY + 'px'});
+                                arrowView.removeClass('hidden');
                             }
                         }
                     }
@@ -880,6 +910,23 @@ define([
                 this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
             }
         },
+
+        isOverCursor: function() {
+            if (!this.api.asc_GetSelectionBounds) return;
+            
+            var p = this.api.asc_GetSelectionBounds(),
+                isCursor = Math.abs(p[0][0] - p[1][0])<0.1 && Math.abs(p[0][1] - p[1][1])<0.1 && Math.abs(p[2][0] - p[3][0])<0.1 && Math.abs(p[2][1] - p[3][1])<0.1;
+            var x0 = p[0][0], y0 = p[0][1],
+                x1 = p[isCursor ? 2 : 1][0], y1 = p[isCursor ? 2 : 1][1];
+            var leftPos = parseInt(this.$window.css('left'))-25,
+                windowWidth = this.$window.outerWidth();
+            if (x0>leftPos && x0<leftPos+windowWidth || x1>leftPos && x1<leftPos+windowWidth) {
+                var newTopDown = Math.max(y0, y1),// try move down
+                    newTopUp = Math.min(y0, y1); // try move up
+                return [newTopUp, newTopDown];
+            }
+        },
+
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
                 this.textVal = undefined;

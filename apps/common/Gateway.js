@@ -31,8 +31,8 @@
  *
 */
 
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
     Common.Gateway = new(function() {
@@ -126,6 +126,18 @@ if (Common === undefined) {
 
             'setFavorite': function(data) {
                 $me.trigger('setfavorite', data);
+            },
+
+            'requestClose': function(data) {
+                $me.trigger('requestclose', data);
+            },
+
+            'blurFocus': function(data) {
+                $me.trigger('blurfocus', data);
+            },
+
+            'grabFocus': function(data) {
+                $me.trigger('grabfocus', data);
             }
         };
 
@@ -139,7 +151,7 @@ if (Common === undefined) {
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin) return;
+            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
@@ -328,6 +340,10 @@ if (Common === undefined) {
 
             requestCreateNew:  function () {
                 _postMessage({event:'onRequestCreateNew'});
+            },
+
+            pluginsReady: function() {
+                _postMessage({ event: 'onPluginsReady' });
             },
 
             on: function(event, handler){

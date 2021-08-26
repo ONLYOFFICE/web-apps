@@ -12,6 +12,7 @@
   "PE.ApplicationController.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "PE.ApplicationController.errorDefaultMessage": "Hata kodu: %1",
   "PE.ApplicationController.errorFilePassProtect": "Döküman şifre korumalı ve açılamadı",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "İnternet bağlantısı tekrar sağlandı, ve dosya versiyon değişti.<br>Çalışmanıza devam etmeden önce, veri kaybını önlemeniz için dosyasının bir kopyasını indirmeniz ya da dosya içeriğini kopyalamanız ve sonrasında sayfayı yenilemeniz gerekmektedir.",
   "PE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "PE.ApplicationController.notcriticalErrorTitle": "Uyarı",
   "PE.ApplicationController.scriptLoadError": "Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.",
@@ -23,6 +24,8 @@
   "PE.ApplicationController.waitText": "Lütfen bekleyin...",
   "PE.ApplicationView.txtDownload": "İndir",
   "PE.ApplicationView.txtEmbed": "Gömülü",
+  "PE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "PE.ApplicationView.txtFullScreen": "Tam Ekran",
+  "PE.ApplicationView.txtPrint": "Yazdır",
   "PE.ApplicationView.txtShare": "Paylaş"
 }
