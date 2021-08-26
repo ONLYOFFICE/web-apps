@@ -119,14 +119,6 @@ export class storeTextSettings {
 
         const applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
-        if (typeof window['AscDesktopEditor'] === 'object') {
-            this.thumbs[0].path = window['AscDesktopEditor'].getFontsSprite('');
-            this.thumbs[1].path = window['AscDesktopEditor'].getFontsSprite('@1.25x');
-            this.thumbs[2].path = window['AscDesktopEditor'].getFontsSprite('@1.5x');
-            this.thumbs[3].path = window['AscDesktopEditor'].getFontsSprite('@1.75x');
-            this.thumbs[4].path = window['AscDesktopEditor'].getFontsSprite('@2x');
-        }
-
         let bestDistance = Math.abs(applicationPixelRatio - this.thumbs[0].ratio);
         let currentDistance = 0;
 
