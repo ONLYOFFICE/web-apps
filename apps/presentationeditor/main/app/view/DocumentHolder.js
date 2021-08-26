@@ -3633,7 +3633,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl, undefined, undefined, obj);
+                                    me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
