@@ -78,14 +78,22 @@ define([
                 });
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
-                var sizeSettingTemplate = _.template('<div id="thumbnails-size">' +
-                    '<label><%= caption %></label>' +
-                    '<div class="thumbnails-sld-box">' +
-                        '<span class="menu-item-icon menu__icon thumbnail-small"></span>' +
-                        '<div id="sld-thumbnails-size"></div>' +
-                        '<span class="menu-item-icon menu__icon thumbnail-big"></span>' +
-                    '</div>',
-                    '</div>');
+                this.mnuSizeSetting = new Common.UI.MenuItem({
+                    template: _.template([
+                        '<div id="thumbnails-size"',
+                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                'data-stopPropagation="true"',
+                            '<% } %>', '>',
+                            '<label>' + this.textThumbnailsSize + '</label>',
+                            '<div class="thumbnails-sld-box">',
+                                '<span class="menu-item-icon menu__icon thumbnail-small"></span>',
+                                '<div id="sld-thumbnails-size"></div>',
+                                '<span class="menu-item-icon menu__icon thumbnail-big"></span>',
+                            '</div>',
+                        '</div>'
+                    ].join('')),
+                    stopPropagation: true
+                });
 
                 this.buttonSettings = new Common.UI.Button({
                     parentEl: $('#thumbnails-btn-settings', this.$el),
@@ -96,11 +104,7 @@ define([
                         menuAlign: 'tr-br',
                         style: 'min-width: 198px;',
                         items: [
-                            {
-                                caption: this.textThumbnailsSize,
-                                template: sizeSettingTemplate,
-                                toggleGroup: 'menuThumbnails'
-                            },
+                            this.mnuSizeSetting,
                             {caption: '--'},
                             {
                                 caption: this.textHighlightVisiblePart,
