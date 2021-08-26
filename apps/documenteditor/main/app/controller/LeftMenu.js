@@ -167,6 +167,7 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
+            this.getApplication().getController('PageThumbnails').setApi(this.api).setMode(this.mode);
             return this;
         },
 

@@ -109,6 +109,7 @@ define([
                             {
                                 caption: this.textHighlightVisiblePart,
                                 checkable: true,
+                                value: 'highlight',
                                 toggleGroup: 'menuThumbnails'
                             }
                         ]
@@ -116,7 +117,7 @@ define([
                 });
             }
 
-            this.sldrthumbnailsSize = new Common.UI.SingleSlider({
+            this.sldrThumbnailsSize = new Common.UI.SingleSlider({
                 el: $('#sld-thumbnails-size'),
                 width: 120,
                 minValue: 0,

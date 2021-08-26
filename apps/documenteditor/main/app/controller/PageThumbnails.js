@@ -52,6 +52,10 @@ define([
         ],
 
         initialize: function() {
+            this._sendUndoPoint = true;
+            this.addListeners({
+                'PageThumbnails': {}
+            });
         },
 
         events: function() {
@@ -75,6 +79,43 @@ define([
         },
 
         onAfterRender: function(panelThumbnails) {
+            panelThumbnails.sldrThumbnailsSize.on('change', _.bind(this.onChangeSize, this));
+            panelThumbnails.sldrThumbnailsSize.on('changecomplete', _.bind(this.onSizeChangeComplete, this));
+
+            panelThumbnails.buttonSettings.menu.on('item:click', this.onHighlightVisiblePart.bind(this));
+        },
+
+        onHighlightVisiblePart: function(menu, item, e) {
+            if (item.value === 'highlight') {
+                //console.log(item.isChecked());
+            }
+        },
+
+        onChangeSize: function(field, newValue) {
+            this._sliderSizeChanged = newValue;
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this._sizeApplyFunc, this), 100);
+            }
+        },
+
+        onSizeChangeComplete: function(field, newValue){
+            clearInterval(this.updateslider);
+            this._sliderChanged = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._sizeApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _sizeApplyFunc: function() {
+            if (this._sliderChanged!==undefined) {
+                // apply this._sliderChanged
+                this._sliderChanged = undefined;
+            }
         },
 
     }, DE.Controllers.PageThumbnails || {}));
