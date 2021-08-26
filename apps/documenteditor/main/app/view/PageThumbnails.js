@@ -81,9 +81,9 @@ define([
                 var sizeSettingTemplate = _.template('<div id="thumbnails-size">' +
                     '<label><%= caption %></label>' +
                     '<div class="thumbnails-sld-box">' +
-                        '<span class="menu-item-icon menu__icon thumbnail-small btn-zoomdown"></span>' +
+                        '<span class="menu-item-icon menu__icon thumbnail-small"></span>' +
                         '<div id="sld-thumbnails-size"></div>' +
-                        '<span class="menu-item-icon menu__icon thumbnail-big btn-zoomup"></span>' +
+                        '<span class="menu-item-icon menu__icon thumbnail-big"></span>' +
                     '</div>',
                     '</div>');
 
@@ -94,7 +94,7 @@ define([
                     hint: this.textThumbnailsSettings,
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-br',
-                        style: 'min-width: 200px;',
+                        style: 'min-width: 198px;',
                         items: [
                             {
                                 caption: this.textThumbnailsSize,
