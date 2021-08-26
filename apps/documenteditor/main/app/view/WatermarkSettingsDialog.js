@@ -340,7 +340,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     {
                         id: 'watermark-auto-color',
                         caption: this.textAuto,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                     },
                     {caption: '--'},
                         { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
