@@ -172,8 +172,7 @@
 
     .icon {
         &.warn {
-            background: url('../../../../common/main/resources/img/controls/warnings.svg#attention') no-repeat center;
-            //background-position: @alerts-offset-x @alerts-offset-y - 105px;
+            background: ~"url('@{common-image-const-path}/controls/warnings.svg#attention')" no-repeat center;
         }
 
         &.error, &.info, &.confirm, &.warn {
@@ -182,18 +181,15 @@
         }
 
         &.error {
-            background: url('../../../../common/main/resources/img/controls/warnings.svg#warning') no-repeat center;
-            //background-position: @alerts-offset-x @alerts-offset-y - 0;
+            background: ~"url('@{common-image-const-path}/controls/warnings.svg#warning')" no-repeat center;
         }
 
         &.info {
-            background: url('../../../../common/main/resources/img/controls/warnings.svg#info') no-repeat center;
-            //background-position: @alerts-offset-x @alerts-offset-y - 35px;
+            background: ~"url('@{common-image-const-path}/controls/warnings.svg#info')" no-repeat center;
         }
 
         &.confirm {
-            background: url('../../../../common/main/resources/img/controls/warnings.svg#done') no-repeat center;
-            //background-position: @alerts-offset-x @alerts-offset-y - 70px;
+            background: ~"url('@{common-image-const-path}/controls/warnings.svg#done')" no-repeat center;
         }
     }
 
