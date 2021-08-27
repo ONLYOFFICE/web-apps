@@ -329,6 +329,7 @@
       "textRange": "Plage",
       "textRequired": "Requis",
       "textScreenTip": "Info-bulle",
+      "textSelectedRange": "Plage sélectionnée",
       "textShape": "Forme",
       "textSheet": "Feuille",
       "textSortAndFilter": "Trier et filtrer",
@@ -337,7 +338,6 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "textSelectedRange": "Selected Range"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
