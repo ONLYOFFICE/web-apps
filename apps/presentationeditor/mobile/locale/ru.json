@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Вы действительно хотите удалить этот комментарий?",
       "textMessageDeleteReply": "Вы действительно хотите удалить этот ответ?",
       "textNoComments": "Этот документ не содержит комментариев",
+      "textOk": "Ok",
       "textReopen": "Переоткрыть",
       "textResolve": "Решить",
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
-      "textUsers": "Пользователи",
-      "textOk": "Ok"
+      "textUsers": "Пользователи"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Пользовательские цвета",

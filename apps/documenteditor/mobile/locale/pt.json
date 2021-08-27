@@ -181,7 +181,15 @@
     "textColumns": "Colunas",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
-    "textRows": "Linhas"
+    "textRows": "Linhas",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -569,7 +577,11 @@
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundição",
-    "textOk": "Ok"
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "textOk": "Ok",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

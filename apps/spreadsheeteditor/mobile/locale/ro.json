@@ -337,7 +337,10 @@
       "txtExpandSort": "Datele lângă selecție vor fi sortate. Doriți să extindeți selecția pentru a include datele adiacente sau doriți să continuați cu selecția curentă?",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
-      "txtSortSelected": "Sortarea selecției"
+      "txtSortSelected": "Sortarea selecției",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -636,7 +639,17 @@
       "txtScheme9": "Forjă",
       "txtSpace": "Spațiu",
       "txtTab": "Fila",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

@@ -337,7 +337,10 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "textSelectedRange": "Selected Range"
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -636,7 +639,17 @@
       "txtSpace": "Espaço",
       "txtTab": "Aba",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textOk": "Ok"
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "textOk": "Ok",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

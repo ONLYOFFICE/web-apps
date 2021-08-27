@@ -181,7 +181,15 @@
     "textColumns": "Coloane",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "textRows": "Rânduri"
+    "textRows": "Rânduri",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
@@ -569,7 +577,11 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă"
+    "txtScheme9": "Forjă",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

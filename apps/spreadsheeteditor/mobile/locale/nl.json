@@ -337,7 +337,10 @@
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSorting": "Sorteren",
       "txtSortSelected": "Geselecteerde sorteren",
-      "textSelectedRange": "Selected Range"
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -636,7 +639,17 @@
       "txtSpace": "Spatie",
       "txtTab": "Tab",
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
-      "textOk": "Ok"
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "textOk": "Ok",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

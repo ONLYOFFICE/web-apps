@@ -181,7 +181,15 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "textRows": "行"
+    "textRows": "行",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -547,7 +555,11 @@
     "textUploaded": "已上传",
     "txtIncorrectPwd": "密码有误",
     "txtProtected": "输入密码并打开文件后，当前密码将会被重设。",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
     "textOk": "Ok",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok",
     "txtScheme1": "Office",
     "txtScheme10": "Median",
     "txtScheme11": "Metro",

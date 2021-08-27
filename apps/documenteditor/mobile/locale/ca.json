@@ -181,7 +181,15 @@
     "textColumns": "Columnes",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
-    "textRows": "Files"
+    "textRows": "Files",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",
@@ -569,7 +577,11 @@
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
     "txtScheme9": "Foneria",
-    "textOk": "Ok"
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "textOk": "Ok",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis sense desar. Cliqueu a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Cliqueu a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

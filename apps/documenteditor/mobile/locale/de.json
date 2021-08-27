@@ -181,7 +181,15 @@
     "textColumns": "Spalten",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "textRows": "Zeilen"
+    "textRows": "Zeilen",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
@@ -569,7 +577,11 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

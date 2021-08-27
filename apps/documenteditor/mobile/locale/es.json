@@ -181,7 +181,15 @@
     "textColumns": "Columnas",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "textRows": "Filas"
+    "textRows": "Filas",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
@@ -569,7 +577,11 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

@@ -337,7 +337,10 @@
       "txtNotUrl": "Aquest camp hauria de ser una URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "textSelectedRange": "Selected Range"
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -636,7 +639,17 @@
       "txtSpace": "Espai",
       "txtTab": "Tabulador",
       "warnDownloadAs": "Si continueu desant en aquest format, es perdran totes les característiques, excepte el text.<br>Segur que voleu continuar?",
-      "textOk": "Ok"
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "textOk": "Ok",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }
