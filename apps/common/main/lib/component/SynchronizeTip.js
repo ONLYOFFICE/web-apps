@@ -44,7 +44,8 @@ define([
                 target  : $(document.body),
                 text    : '',
                 placement: 'right-bottom',
-                showLink: true
+                showLink: true,
+                showButton: false
             },
 
             template: _.template([
@@ -57,6 +58,9 @@ define([
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
                         '<div class="show-link"><label><%= scope.textLink %></label></div>',
+                        '<% } %>',
+                        '<% if ( scope.showButton ) { %>',
+                        '<div class="btn-div"><%= scope.textButton %></div>',
                         '<% } %>',
                     '</div>',
                 '</div>'
@@ -71,6 +75,8 @@ define([
                 this.textLink = !_.isEmpty(this.options.textLink) ? this.options.textLink : this.textDontShow;
                 this.placement = this.options.placement;
                 this.showLink = this.options.showLink;
+                this.showButton = this.options.showButton;
+                this.textButton = this.options.textButton || '';
             },
 
             render: function() {
@@ -79,6 +85,7 @@ define([
                     $(document.body).append(this.cmpEl);
                     this.cmpEl.find('.close').on('click', _.bind(function() { this.trigger('closeclick');}, this));
                     this.cmpEl.find('.show-link label').on('click', _.bind(function() { this.trigger('dontshowclick');}, this));
+                    this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
                 }
 
                 this.applyPlacement();
