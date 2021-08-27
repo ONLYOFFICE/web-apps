@@ -2605,6 +2605,10 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
+                me.api.asc_setAutoCorrectHyperlinks(value);
             },
 
             showRenameUserDialog: function() {

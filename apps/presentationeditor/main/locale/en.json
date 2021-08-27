@@ -107,6 +107,7 @@
   "Common.Views.AutoCorrectDialog.textBy": "By",
   "Common.Views.AutoCorrectDialog.textDelete": "Delete",
   "Common.Views.AutoCorrectDialog.textFLSentence": "Capitalize first letter of sentences",
+  "Common.Views.AutoCorrectDialog.textHyperlink": "Internet and network paths with hyperlinks",
   "Common.Views.AutoCorrectDialog.textHyphens": "Hyphens (--) with dash (—)",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Math AutoCorrect",
   "Common.Views.AutoCorrectDialog.textNumbered": "Automatic numbered lists",
