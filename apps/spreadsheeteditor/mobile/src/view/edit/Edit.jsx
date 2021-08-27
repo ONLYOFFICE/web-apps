@@ -328,7 +328,6 @@ const EditLayoutContent = ({ editors }) => {
 const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-
     const store = props.storeFocusObjects;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
@@ -374,7 +373,7 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
+        if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
             editors.push({
                 caption: _t.textHyperlink,
                 id: 'edit-link',
@@ -404,10 +403,10 @@ const EditView = props => {
     return (
         show_popover ?
             <Popover id="edit-popover" className="popover__titled" onPopoverClosed={() => props.onClosed()}>
-                <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
             <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
-                <EditTabsContainer onOptionClick={onOptionClick} />
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} />
             </Sheet>
     )
 };
@@ -428,8 +427,13 @@ const EditOptions = props => {
             props.onclosed();
     };
 
+    const api = Common.EditorApi.get();
+    const cellinfo = api.asc_getCellInfo();
+    const hyperinfo = cellinfo.asc_getHyperlink();
+    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
+
     return (
-        <EditView usePopover={!Device.phone} onClosed={onviewclosed} />
+        <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} />
     )
 };
 

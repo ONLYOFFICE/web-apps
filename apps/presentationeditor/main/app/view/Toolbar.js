@@ -82,7 +82,8 @@ define([
         noTextSelected:  'no-text',
         inEquation: 'in-equation',
         commentLock: 'can-comment',
-        noColumns: 'no-columns'
+        noColumns: 'no-columns',
+        transitLock: 'transit-lock'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -129,7 +130,8 @@ define([
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
+                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'}
                             ]
                         }
                     );
@@ -1096,6 +1098,7 @@ define([
                 me.isCompactView = mode.compactview;
                 if ( mode.isEdit ) {
                     me.$el.html(me.rendererComponents(me.$layout));
+
                 } else {
                     me.$layout.find('.canedit').hide();
                     me.$layout.addClass('folded');
@@ -1110,10 +1113,12 @@ define([
                         Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
                     }
                 });
-
+                //_.bind(function (element){
+                //},me);
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
+
                 }
 
                 if ( me.isCompactView )
@@ -1143,7 +1148,6 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-changeslide', this.btnChangeSlide);
@@ -1321,9 +1325,9 @@ define([
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 139px',
+                        style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 value: 'settings'
@@ -1921,7 +1925,8 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
-            txtScheme22: 'New Office'
+            txtScheme22: 'New Office',
+            textTabTransitions: 'Transitions'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -1285,7 +1285,7 @@ define([
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         itemWidth: 104,
-                        itemHeight: 38,
+                        itemHeight: 40,
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1833,9 +1833,9 @@ define([
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 139px',
+                        style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,

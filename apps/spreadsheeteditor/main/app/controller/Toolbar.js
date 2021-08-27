@@ -171,10 +171,6 @@ define([
                 merge: undefined,
                 angle: undefined,
                 controlsdisabled: {
-                    rows: undefined,
-                    cols: undefined,
-                    cells_right: undefined,
-                    cells_down: undefined,
                     filters: undefined
                 },
                 selection_type: undefined,
@@ -195,7 +191,9 @@ define([
                 pgorient: undefined,
                 lock_doc: undefined,
                 cf_locked: [],
-                selectedCells: 0
+                selectedCells: 0,
+                wsLock: false,
+                wsProps: []
             };
             this.binding = {};
 
@@ -867,7 +865,7 @@ define([
                                 var checkUrl = value.replace(/\s/g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.asc_addImageDrawingObject(checkUrl);
+                                    me.api.asc_addImageDrawingObject([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -901,9 +899,16 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && (data.url || data.images) && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                (arr.length>0) && this.api.asc_addImageDrawingObject(arr, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
@@ -913,6 +918,10 @@ define([
         },
 
         onHyperlink: function(btn) {
+            Common.NotificationCenter.trigger('protect:check', this.onHyperlinkCallback, this, [btn]);
+        },
+
+        onHyperlinkCallback: function(btn) {
             var me = this;
             var win,
                 props;
@@ -1181,6 +1190,10 @@ define([
         },
 
         onSortType: function(type, btn) {
+            Common.NotificationCenter.trigger('protect:check', this.onSortTypeCallback, this, [type, btn]);
+        },
+
+        onSortTypeCallback: function(type, btn) {
             if (this.api) {
                 if (this.api.asc_getCellInfo().asc_getSelectionType()==Asc.c_oAscSelectionType.RangeSlicer) {
                     var selectedObjects = this.api.asc_getGraphicObjectProps();
@@ -1196,25 +1209,43 @@ define([
                     }
                     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 } else {
+                    var me = this;
                     var res = this.api.asc_sortCellsRangeExpand();
-                    if (res) {
-                        var config = {
-                            width: 500,
-                            title: this.txtSorting,
-                            msg: this.txtExpandSort,
-
-                            buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                {caption: this.txtSortSelected, primary: true, value: 'sort'},
-                                'cancel'],
-                            callback: _.bind(function(btn){
-                                if (btn == 'expand' || btn == 'sort') {
-                                    this.api.asc_sortColFilter(type, '', undefined, undefined, btn == 'expand');
+                    switch (res) {
+                        case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                            var config = {
+                                width: 500,
+                                title: this.txtSorting,
+                                msg: this.txtExpandSort,
+                                buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    'cancel'],
+                                callback: function(btn){
+                                    if (btn == 'expand' || btn == 'sort') {
+                                        me.api.asc_sortColFilter(type, '', undefined, undefined, btn == 'expand')
+                                    }
                                 }
-                            }, this)
-                        };
-                        Common.UI.alert(config);
-                    } else
-                        this.api.asc_sortColFilter(type, '', undefined, undefined, res !== null);
+                            };
+                            Common.UI.alert(config);
+                            break;
+                        case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                            var config = {
+                                width: 500,
+                                title: this.txtSorting,
+                                msg: this.txtLockSort,
+                                buttons: ['yes', 'no'],
+                                primary: 'yes',
+                                callback: function(btn){
+                                    (btn == 'yes') && me.api.asc_sortColFilter(type, '', undefined, undefined, false);
+                                }
+                            };
+                            Common.UI.alert(config);
+                            break;
+                        case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                        case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                            this.api.asc_sortColFilter(type, '', undefined, undefined, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                            break;
+                    }
                 }
             }
         },
@@ -1456,6 +1487,16 @@ define([
         },
 
         onClearStyleMenu: function(menu, item, e) {
+            if (item.value == Asc.c_oAscCleanOptions.Format && (!this._state.wsProps['FormatCells'] || !this.api.asc_checkLockedCells()) ||
+                item.value == Asc.c_oAscCleanOptions.All && !this.api.asc_checkLockedCells())
+                this.onClearStyleMenuCallback(menu, item);
+            else if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                this._state.wsProps['Objects'] ? Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical) : this.onClearStyleMenuCallback(menu, item);
+            } else
+                Common.NotificationCenter.trigger('protect:check', this.onClearStyleMenuCallback, this, [menu, item]);
+        },
+
+        onClearStyleMenuCallback: function(menu, item, e) {
             if (this.api) {
                 if (item.value == Asc.c_oAscCleanOptions.Comments) {
                     this.api.asc_RemoveAllComments(!this.mode.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
@@ -1802,6 +1843,7 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateDocumentProps',      _.bind(this.onUpdateDocumentProps, this));
                 this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
+                Common.NotificationCenter.on('protect:wslock',                  _.bind(this.onChangeProtectSheet, this));
             }
 
             if ( !this.appConfig.isEditMailMerge ) {
@@ -1817,7 +1859,7 @@ define([
 
             var shortcuts = {
                     'command+l,ctrl+l': function(e) {
-                        if ( me.editMode && !me._state.multiselect && me.appConfig.canModifyFilter) {
+                        if ( me.editMode && !me._state.multiselect && me.appConfig.canModifyFilter && !me._state.wsLock) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 filterinfo = cellinfo.asc_getAutoFilterInfo(),
                                 formattableinfo = cellinfo.asc_getFormatTableInfo();
@@ -1830,7 +1872,7 @@ define([
                         return false;
                     },
                     'command+shift+l,ctrl+shift+l': function(e) {
-                        if (me.editMode && me.api && !me._state.multiselect && me.appConfig.canModifyFilter) {
+                        if (me.editMode && me.api && !me._state.multiselect && me.appConfig.canModifyFilter && !me._state.wsLock) {
                             var state = me._state.filter;
                             me._state.filter = undefined;
 
@@ -1849,7 +1891,7 @@ define([
                     },
                     'command+k,ctrl+k': function (e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
-                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
+                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible() && !me._state.wsProps['InsertHyperlinks']) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
@@ -1880,14 +1922,18 @@ define([
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
-                                me.api.asc_insertCells(selectionType === Asc.c_oAscSelectionType.RangeRow ? Asc.c_oAscInsertOptions.InsertRows :Asc.c_oAscInsertOptions.InsertColumns );
+                                (selectionType === Asc.c_oAscSelectionType.RangeRow) && !me.toolbar.btnAddCell.menu.items[2].isDisabled() && me.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertRows);
+                                (selectionType === Asc.c_oAscSelectionType.RangeCol) && !me.toolbar.btnAddCell.menu.items[3].isDisabled() && me.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertColumns);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             } else {
                                 var items = me.toolbar.btnAddCell.menu.items,
-                                    arr = [];
-                                for (var i=0; i<4; i++)
+                                    arr = [],
+                                    enabled = false;
+                                for (var i=0; i<4; i++) {
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new Common.Views.OptionsDialog({
+                                    !items[i].isDisabled() && (enabled = true);
+                                }
+                                enabled && (new Common.Views.OptionsDialog({
                                     title: me.txtInsertCells,
                                     items: arr,
                                     handler: function (dlg, result) {
@@ -1911,10 +1957,13 @@ define([
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             } else {
                                 var items = me.toolbar.btnDeleteCell.menu.items,
-                                    arr = [];
-                                for (var i=0; i<4; i++)
+                                    arr = [],
+                                    enabled = false;
+                                for (var i=0; i<4; i++) {
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new Common.Views.OptionsDialog({
+                                    !items[i].isDisabled() && (enabled = true);
+                                }
+                                enabled && (new Common.Views.OptionsDialog({
                                     title: me.txtDeleteCells,
                                     items: arr,
                                     handler: function (dlg, result) {
@@ -1931,7 +1980,7 @@ define([
                     };
             Common.util.Shortcuts.delegateShortcuts({shortcuts: shortcuts});
 
-            this.onApiSelectionChanged(this.api.asc_getCellInfo());
+            this.onChangeProtectSheet();
             this.attachToControlEvents();
             this.onApiSheetChanged();
 
@@ -1966,7 +2015,7 @@ define([
                     restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
-                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:61px;height:46px;"></div>')
+                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>')
                 });
 
                 picker.on('item:click', function(picker, item, record) {
@@ -2486,6 +2535,15 @@ define([
             toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);
             toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
 
+            // disable on protected sheet
+            // lock formatting controls in cell with FormatCells protection or in shape and Objects protection
+            need_disable = (selectionType === Asc.c_oAscSelectionType.RangeImage || selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText ||
+                            selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeSlicer);
+            toolbar.lockToolbar(SSE.enumLock.wsLockFormat, need_disable && !!this._state.wsProps['Objects'] || !need_disable && !!this._state.wsProps['FormatCells']);
+
+            toolbar.lockToolbar(SSE.enumLock['Objects'], !!this._state.wsProps['Objects']);
+            toolbar.lockToolbar(SSE.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
+
             if (editOptionsDisabled) return;
 
             /* read font params */
@@ -2798,32 +2856,51 @@ define([
                 }
             }
 
-            val = (selectionType==Asc.c_oAscSelectionType.RangeRow);
-            if ( this._state.controlsdisabled.rows!==val ) {
-                this._state.controlsdisabled.rows=val;
-                toolbar.btnAddCell.menu.items[3].setDisabled(val);
-                toolbar.btnDeleteCell.menu.items[3].setDisabled(val);
-            }
-            val = (selectionType==Asc.c_oAscSelectionType.RangeCol);
-            if ( this._state.controlsdisabled.cols!==val ) {
-                this._state.controlsdisabled.cols=val;
-                toolbar.btnAddCell.menu.items[2].setDisabled(val);
-                toolbar.btnDeleteCell.menu.items[2].setDisabled(val);
-            }
+            var selCol = selectionType==Asc.c_oAscSelectionType.RangeCol,
+                selRow = selectionType==Asc.c_oAscSelectionType.RangeRow,
+                selMax = selectionType==Asc.c_oAscSelectionType.RangeMax;
+
+            need_disable = selRow || selMax && this._state.wsLock || this._state.wsProps['InsertColumns'];
+            toolbar.btnAddCell.menu.items[3].setDisabled(need_disable);
+
+            need_disable = selRow || selMax && this._state.wsLock || !selCol && this._state.wsLock || this._state.wsProps['DeleteColumns'];
+            toolbar.btnDeleteCell.menu.items[3].setDisabled(need_disable);
+
+            need_disable = selCol || selMax && this._state.wsLock || this._state.wsProps['InsertRows'];
+            toolbar.btnAddCell.menu.items[2].setDisabled(need_disable);
+
+            need_disable = selCol || selMax && this._state.wsLock || !selRow && this._state.wsLock || this._state.wsProps['DeleteRows'];
+            toolbar.btnDeleteCell.menu.items[2].setDisabled(need_disable);
 
             val = filterInfo && filterInfo.asc_getIsApplyAutoFilter();
-            if ( this._state.controlsdisabled.cells_right!==(this._state.controlsdisabled.rows || val) ) {
-                this._state.controlsdisabled.cells_right = (this._state.controlsdisabled.rows || val);
-                toolbar.btnAddCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
-                toolbar.btnDeleteCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
-            }
-            if ( this._state.controlsdisabled.cells_down!==(this._state.controlsdisabled.cols || val) ) {
-                this._state.controlsdisabled.cells_down = (this._state.controlsdisabled.cols || val);
-                toolbar.btnAddCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
-                toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
-            }
+            need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['InsertColumns'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
+            toolbar.btnAddCell.menu.items[0].setDisabled(need_disable);
 
-            toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+            need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['DeleteColumns'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
+            toolbar.btnDeleteCell.menu.items[0].setDisabled(need_disable);
+
+            need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['InsertRows'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
+            toolbar.btnAddCell.menu.items[1].setDisabled(need_disable);
+
+            need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['DeleteRows'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
+            toolbar.btnDeleteCell.menu.items[1].setDisabled(need_disable);
+
+            var items = toolbar.btnAddCell.menu.items,
+                enabled = false;
+            for (var i=0; i<4; i++) {
+                !items[i].isDisabled() && (enabled = true);
+            }
+            toolbar.lockToolbar(SSE.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnAddCell]});
+
+            items = me.toolbar.btnDeleteCell.menu.items;
+            enabled = false;
+            for (var i=0; i<4; i++) {
+                !items[i].isDisabled() && (enabled = true);
+            }
+            toolbar.lockToolbar(SSE.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
+
+            // info.asc_getComments()===null - has comment, but no permissions to view it
+            toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                                           this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                 { array: this.btnsComment });
 
@@ -2832,7 +2909,7 @@ define([
 
         onApiSelectionChangedRestricted: function(info) {
             var selectionType = info.asc_getSelectionType();
-            this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+            this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                     this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                     { array: this.btnsComment });
         },
@@ -3184,6 +3261,10 @@ define([
         },
 
         onInsertSymbolClick: function() {
+            Common.NotificationCenter.trigger('protect:check', this.onInsertSymbolClickCallback, this, []);
+        },
+
+        onInsertSymbolClickCallback: function() {
             if (this.api) {
                 var me = this,
                     selected = me.api.asc_GetSelectedText(),
@@ -3689,13 +3770,14 @@ define([
                         me.toolbar.btnCopy.$el.removeClass('split');
                     }
 
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) {
-                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                            if ($panel)
-                                me.toolbar.addTab(tab, $panel, 7);
-                        }
+                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ($panel) {
+                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
+                        var wbtab = me.getApplication().getController('WBProtection');
+                        $panel.append(wbtab.createToolbarPanel());
+                        me.toolbar.addTab(tab, $panel, 7);
+                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                     }
 
                     var viewtab = me.getApplication().getController('ViewTab');
@@ -3712,7 +3794,8 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell], undefined, undefined, undefined, '1', 'bottom', 'small');
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
+                                                            [_set.lostConnect, _set.commentLock, _set.editCell, _set['Objects']], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
@@ -3964,6 +4047,21 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
+                
+                this.toolbar.lockToolbar(SSE.enumLock.wsLock, this._state.wsLock);
+                this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
+                this.onApiSelectionChanged(this.api.asc_getCellInfo());
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
@@ -4332,7 +4430,8 @@ define([
         textDirectional: 'Directional',
         textShapes: 'Shapes',
         textIndicator: 'Indicators',
-        textRating: 'Ratings'
+        textRating: 'Ratings',
+        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?'
 
     }, SSE.Controllers.Toolbar || {}));
 });

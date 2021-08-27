@@ -39,11 +39,16 @@
         }
     }
 
-    .dynamic-empty-color em span {
-        border:solid @scaled-one-px-value-ie @border-color-shading-ie;
-        border:solid @scaled-one-px-value @border-color-shading;
+    .dynamic-empty-color {
         background: @background-normal-ie;
         background: @background-normal;
+
+        em span {
+            border: solid @scaled-one-px-value-ie @border-color-shading-ie;
+            border: solid @scaled-one-px-value @border-color-shading;
+            background: @background-normal-ie;
+            background: @background-normal;
+        }
     }
 
     .color-transparent {

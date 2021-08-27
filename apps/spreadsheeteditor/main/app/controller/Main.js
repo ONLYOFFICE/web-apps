@@ -213,7 +213,9 @@ define([
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
                 Common.NotificationCenter.on('markfavorite',                 _.bind(this.markFavorite, this));
+                Common.NotificationCenter.on('protect:check',                _.bind(this.checkProtectedRange, this));
                 Common.NotificationCenter.on('editing:disable',              _.bind(this.onEditingDisable, this));
+                Common.NotificationCenter.on('showerror',                    _.bind(this.onError, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -370,7 +372,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -663,10 +665,23 @@ define([
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
-                action && this.setLongActionView(action);
+                if (action) {
+                    this.setLongActionView(action);
+                } else {
+                    var me = this;
+                    if ((id == Asc.c_oAscAsyncAction['Save'] || id == Asc.c_oAscAsyncAction['ForceSaveButton']) && !this.appOptions.isOffline) {
+                        if (this._state.fastCoauth && this._state.usersCount > 1) {
+                            me._state.timerSave = setTimeout(function () {
+                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                            }, 500);
+                        } else
+                            me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                    } else
+                        this.getApplication().getController('Statusbar').setStatusCaption('');
+                }
 
                 if (id == Asc.c_oAscAsyncAction.Save) {
-                    this.toolbarView && this.toolbarView.synchronizeChanges();
+                    this.synchronizeChanges();
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -688,83 +703,97 @@ define([
             },
 
             setLongActionView: function(action) {
-                var title = '';
+                var title = '', text = '', force = false;
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction.Open:
                         title   = this.openTitleText;
+                        text    = this.openTextText;
                         break;
 
-                    case Asc.c_oAscAsyncAction.Save:
-                        title   = this.saveTitleText;
-                        break;
-
+                    case Asc.c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['ForceSaveButton']:
                     case Asc.c_oAscAsyncAction.ForceSaveTimeout:
-                        break;
-
-                    case Asc.c_oAscAsyncAction.ForceSaveButton:
+                        clearTimeout(this._state.timerSave);
+                        force   = true;
+                        text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadDocumentFonts:
                         title   = this.loadFontsTitleText;
+                        text    = this.loadFontsTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadDocumentImages:
                         title   = this.loadImagesTitleText;
+                        text    = this.loadImagesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadFont:
                         title   = this.loadFontTitleText;
+                        text    = this.loadFontTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.LoadImage:
                         title   = this.loadImageTitleText;
+                        text    = this.loadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.DownloadAs:
                         title   = this.downloadTitleText;
+                        text    = this.downloadTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.Print:
                         title   = this.printTitleText;
+                        text    = this.printTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.UploadImage:
                         title   = this.uploadImageTitleText;
+                        text    = this.uploadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction.Recalc:
                         title   = this.titleRecalcFormulas;
+                        text    = this.textRecalcFormulas;
                         break;
 
                     case Asc.c_oAscAsyncAction.SlowOperation:
                         title   = this.textPleaseWait;
+                        text    = this.textPleaseWait;
                         break;
 
                     case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
+                        text    = this.savePreparingTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['Waiting']:
                         title   = this.waitText;
+                        text    = this.waitText;
                         break;
 
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
+                        text    = this.waitText;
                         break;
 
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText + '           ';
+                        text    = this.loadingDocumentTitleText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         title    = this.textDisconnect;
+                        text     = this.textDisconnect;
                         this.disableEditing(true, true);
                         break;
 
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
+                            text    = action.id;
                         }
                         break;
                 }
@@ -777,10 +806,14 @@ define([
                         this.api.asc_enableKeyEvents(false);
                         this.loadMask.show();
                     }
+                } else {
+                    this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
             },
 
             onApplyEditRights: function(data) {
+                this.getApplication().getController('Statusbar').setStatusCaption('');
+
                 if (data && !data.allowed) {
                     Common.UI.info({
                         title: this.requestEditFailedTitleText,
@@ -1370,8 +1403,8 @@ define([
 //                    statusbarController && statusbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (me.appOptions.canProtect)
-                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('WBProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
@@ -1394,6 +1427,7 @@ define([
                         rightmenuController.getView('RightMenu').hide();
 
                     /** coauthoring begin **/
+                    me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
@@ -1787,6 +1821,10 @@ define([
                         config.msg = this.errorPivotWithoutUnderlying;
                         break;
 
+                    case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
+                        config.msg = this.errorChangeOnProtectedSheet;
+                        break;
+
                     case Asc.c_oAscError.ID.SingleColumnOrRowError:
                         config.msg = this.errorSingleColumnOrRowError;
                         break;
@@ -1795,11 +1833,38 @@ define([
                         config.msg = this.errorLocationOrDataRangeError;
                         break;
 
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentSize:
+                        config.msg = this.uploadDocSizeMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
+                        config.msg = this.errorDeleteColumnContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentExt:
+                        config.msg = this.uploadDocExtMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
+                        config.msg = this.errorDeleteRowContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentFileCount:
+                        config.msg = this.uploadDocFileCountMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
-
 
                 if (level == Asc.c_oAscError.Level.Critical) {
                     Common.Gateway.reportError(id, config.msg);
@@ -1914,6 +1979,8 @@ define([
                     }
 
                     this._isDocReady && (this._state.isDocModified !== change) && Common.Gateway.setDocumentModified(change);
+                    if (change && (!this._state.fastCoauth || this._state.usersCount<2))
+                        this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
                     this._state.isDocModified = change;
                 }
@@ -1993,9 +2060,10 @@ define([
                 });
             },
 
-            onDownloadUrl: function(url) {
-                if (this._state.isFromGatewayDownloadAs)
-                    Common.Gateway.downloadAs(url);
+            onDownloadUrl: function(url, fileType) {
+                if (this._state.isFromGatewayDownloadAs) {
+                    Common.Gateway.downloadAs(url, fileType);
+                }
                 this._state.isFromGatewayDownloadAs = false;
             },
 
@@ -2108,7 +2176,7 @@ define([
                 }
             },
 
-            onConfirmAction: function(id, apiCallback) {
+            onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
                     Common.UI.warning({
@@ -2139,6 +2207,68 @@ define([
                             me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
+                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (me.api && apiCallback)  {
+                                apiCallback((result == 'ok') ? me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data) : false, result !== 'ok');
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                        }
+                    });
+                    win.show();
+                }
+            },
+
+            checkProtectedRange: function(callback, scope, args) {
+                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
+                if (result===null) {
+                    this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
+                    return;
+                }
+
+                if (result) {
+                    var me = this;
+                    var win = new Common.Views.OpenDialog({
+                        title: this.txtUnlockRange,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        warning: true,
+                        warningMsg: this.txtUnlockRangeWarning,
+                        txtOpenFile: this.txtUnlockRangeDescription,
+                        validatePwd: false,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    if (me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword())) {
+                                        callback && setTimeout(function() {
+                                            callback.apply(scope, args);
+                                        }, 1);
+                                    } else {
+                                        Common.UI.warning({
+                                            msg: me.errorWrongPassword,
+                                            callback: function() {
+                                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
+                } else {
+                    callback && setTimeout(function() {
+                        callback.apply(scope, args);
+                    }, 1);
                 }
             },
 
@@ -2469,7 +2599,7 @@ define([
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
-                        this.toolbarView.synchronizeChanges();
+                        this.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
@@ -2807,6 +2937,18 @@ define([
                 return true;
             },
 
+            onCollaborativeChanges: function() {
+                if (this._state.hasCollaborativeChanges) return;
+                this._state.hasCollaborativeChanges = true;
+                if (this.appOptions.isEdit)
+                    this.getApplication().getController('Statusbar').setStatusCaption(this.textNeedSynchronize, true);
+            },
+
+            synchronizeChanges: function() {
+                this.toolbarView && this.toolbarView.synchronizeChanges();
+                this._state.hasCollaborativeChanges = false;
+            },   
+          
             onConvertEquationToMath: function(equation) {
                 var me = this,
                     win;
@@ -3231,15 +3373,30 @@ define([
             errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
             txtQuarter: 'Qtr',
             txtOr: '%1 or %2',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
+            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.',
+            txtUnlockRange: 'Unlock Range',
+            txtUnlockRangeWarning: 'A range you are trying to change is password protected.',
+            txtUnlockRangeDescription: 'Enter the password to change this range:',
+            txtUnlock: 'Unlock',
+            errorWrongPassword: 'The password you supplied is not correct.',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             textDisconnect: 'Connection is lost',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
             errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
             errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.',
-            txtErrorLoadHistory: 'Loading history failed'
+            txtErrorLoadHistory: 'Loading history failed',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
+            errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
+            uploadDocExtMessage: 'Unknown document format.',
+            uploadDocFileCountMessage: 'No documents uploaded.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+            textNeedSynchronize: 'You have an updates',
+            textChangesSaved: 'All changes saved'
         }
     })(), SSE.Controllers.Main || {}))
 });

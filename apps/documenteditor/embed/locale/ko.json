@@ -17,6 +17,7 @@
   "DE.ApplicationController.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
   "DE.ApplicationController.notcriticalErrorTitle": "경고",
   "DE.ApplicationController.scriptLoadError": "연결 속도가 느려, 일부 요소들이 로드되지 않았습니다. 페이지를 다시 새로 고침해주세요.",
+  "DE.ApplicationController.textAnonymous": "익명사용자",
   "DE.ApplicationController.textLoadingDocument": "문서 로드 중",
   "DE.ApplicationController.textOf": "의",
   "DE.ApplicationController.txtClose": "닫기",
@@ -24,6 +25,8 @@
   "DE.ApplicationController.unsupportedBrowserErrorText": "사용중인 브라우저가 지원되지 않습니다.",
   "DE.ApplicationController.waitText": "잠시만 기달려주세요...",
   "DE.ApplicationView.txtDownload": "다운로드 ",
+  "DE.ApplicationView.txtDownloadDocx": "docx 형식으로 다운로드",
+  "DE.ApplicationView.txtDownloadPdf": "PDF형식으로 다운로드",
   "DE.ApplicationView.txtEmbed": "개체 삽입",
   "DE.ApplicationView.txtFullScreen": "전체 화면",
   "DE.ApplicationView.txtShare": "공유"

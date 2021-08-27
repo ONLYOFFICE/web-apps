@@ -198,25 +198,26 @@ class EditTextController extends Component {
 
     render() {
         return (
-            <EditText changeFontSize={this.changeFontSize}
-                      changeFontFamily={this.changeFontFamily}
-                      onTextColorAuto={this.onTextColorAuto}
-                      onTextColor={this.onTextColor}
-                      onBackgroundColor={this.onBackgroundColor}
-                      toggleBold={this.toggleBold}
-                      toggleItalic={this.toggleItalic}
-                      toggleUnderline={this.toggleUnderline}
-                      toggleStrikethrough={this.toggleStrikethrough}
-                      onAdditionalStrikethrough={this.onAdditionalStrikethrough}
-                      onAdditionalCaps={this.onAdditionalCaps}
-                      onAdditionalScript={this.onAdditionalScript}
-                      changeLetterSpacing={this.changeLetterSpacing}
-                      onParagraphAlign={this.onParagraphAlign}
-                      onParagraphMove={this.onParagraphMove}
-                      onBullet={this.onBullet}
-                      onNumber={this.onNumber}
-                      onMultiLevelList={this.onMultiLevelList}
-                      onLineSpacing={this.onLineSpacing}
+            <EditText 
+                changeFontSize={this.changeFontSize}
+                changeFontFamily={this.changeFontFamily}
+                onTextColorAuto={this.onTextColorAuto}
+                onTextColor={this.onTextColor}
+                onBackgroundColor={this.onBackgroundColor}
+                toggleBold={this.toggleBold}
+                toggleItalic={this.toggleItalic}
+                toggleUnderline={this.toggleUnderline}
+                toggleStrikethrough={this.toggleStrikethrough}
+                onAdditionalStrikethrough={this.onAdditionalStrikethrough}
+                onAdditionalCaps={this.onAdditionalCaps}
+                onAdditionalScript={this.onAdditionalScript}
+                changeLetterSpacing={this.changeLetterSpacing}
+                onParagraphAlign={this.onParagraphAlign}
+                onParagraphMove={this.onParagraphMove}
+                onBullet={this.onBullet}
+                onNumber={this.onNumber}
+                onMultiLevelList={this.onMultiLevelList}
+                onLineSpacing={this.onLineSpacing}
             />
         )
     }

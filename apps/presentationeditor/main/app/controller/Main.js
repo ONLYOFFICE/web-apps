@@ -333,7 +333,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -730,7 +730,7 @@ define([
                     this.loadMask.setTitle(title);
 
                     if (!this.isShowOpenDialog)
-                        this.loadMask.show();
+                        this.loadMask.show(action.id===Asc.c_oAscAsyncAction['Open']);
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
@@ -1480,7 +1480,11 @@ define([
                     case Asc.c_oAscError.ID.Password:
                         config.msg = this.errorSetPassword;
                         break;
-                    
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1703,9 +1707,10 @@ define([
                 });
             },
 
-            onDownloadUrl: function(url) {
-                if (this._state.isFromGatewayDownloadAs)
-                    Common.Gateway.downloadAs(url);
+            onDownloadUrl: function(url, fileType) {
+                if (this._state.isFromGatewayDownloadAs) {
+                    Common.Gateway.downloadAs(url, fileType);
+                }
                 this._state.isFromGatewayDownloadAs = false;
             },
 
@@ -2820,6 +2825,7 @@ define([
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             txtNone: 'None',
             textDisconnect: 'Connection is lost',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More'

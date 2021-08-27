@@ -221,7 +221,10 @@ define([
                 el      : $markup.elementById('#fm-btn-history'),
                 action  : 'history',
                 caption : this.btnHistoryCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.items = [];
@@ -371,7 +374,7 @@ define([
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
                     $('a',this.miNew.$el).text(this.btnCreateNewCaption + '...');
-                    !this.panels['new'] && (this.panels['new'] = (new SSE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render());
+                    !this.panels['new'] && (this.panels['new'] = (new SSE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates, blank: this.mode.canRequestCreateNew || !!this.mode.createUrl})).render());
                 }
             }
 

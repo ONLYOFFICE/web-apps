@@ -53,8 +53,8 @@ class MainController extends Component {
 
     initSdk() {
         const on_script_load = () => {
-            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/common/AllFonts.js',
-                                                            '../../../../../../sdkjs/word/sdk-all-min.js']);
+            !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
+                                                            '../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
                                 '../../../vendor/sockjs/sockjs.min.js',
                                 '../../../vendor/jszip/jszip.min.js',
@@ -536,6 +536,8 @@ class MainController extends Component {
 
         //text settings
         const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
+
         EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
         EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
@@ -687,9 +689,9 @@ class MainController extends Component {
         }
     }
 
-    onDownloadUrl () {
+    onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            Common.Gateway.downloadAs(url);
+            Common.Gateway.downloadAs(url, fileType);
         }
 
         this._state.isFromGatewayDownloadAs = false;

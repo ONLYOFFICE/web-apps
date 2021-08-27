@@ -11,6 +11,8 @@
             border: @track-height / 2 solid @border-regular-control-ie;
             border: @track-height / 2 solid @border-regular-control;
             border-radius: @track-height / 2;
+            background-color: @border-regular-control-ie;
+            background-color: @border-regular-control;
             width: calc(100% + @track-height);
             margin-left: -@track-height / 2;
         }
@@ -30,6 +32,28 @@
             margin-left: @thumb-width / -2;
 
             &.active {
+            }
+        }
+
+        &.vertical {
+            height: auto;
+            width: 18px;
+            padding-top: 0;
+            padding-left: 7px;
+            .track {
+                position: absolute;
+                @track-height: 4px;
+                height: calc(100% + @track-height);
+                width: @track-height;
+                margin-left: 0;
+                margin-top: -@track-height / 2;
+            }
+            .thumb {
+                @thumb-width: 12px;
+                top: auto;
+                left: 3px;
+                margin-left: 0;
+                margin-top: @thumb-width / -2;
             }
         }
     }

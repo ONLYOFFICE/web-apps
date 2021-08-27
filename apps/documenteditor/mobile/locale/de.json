@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -314,6 +315,7 @@
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
     "errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
+    "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
     "errorMailMergeLoadFile": "Fehler beim Laden",
     "errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
@@ -522,6 +524,7 @@
     "textMarginsW": "Linke und rechte Ränder sind zu hoch für gültige Seitenhöhe",
     "textNoCharacters": "Formatierungszeichen",
     "textNoTextFound": "Der Text wurde nicht gefunden",
+    "textOk": "OK",
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
     "textOrientation": "Orientierung",
     "textOwner": "Besitzer",
@@ -557,6 +560,8 @@
     "txtScheme18": "Technik",
     "txtScheme19": "Wanderung",
     "txtScheme2": "Graustufe",
+    "txtScheme20": "Rhea",
+    "txtScheme21": "Telesto",
     "txtScheme22": "Neues Office",
     "txtScheme3": "Apex",
     "txtScheme4": "Bildseitenverhältnis",

@@ -322,6 +322,7 @@ define([
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
+            toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
@@ -1524,6 +1525,11 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Table');
         },
 
+        onInsertTableShow: function(menu) {
+            var selected = this.api.asc_GetSelectedText();
+            menu.items[4].setDisabled(!selected || selected.length<1);
+        },
+
         onInsertTableClick: function(menu, item, e) {
             var me = this;
             if (item.value === 'custom') {
@@ -1578,7 +1584,7 @@ define([
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -1612,9 +1618,16 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && (data.url || data.images) && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                (arr.length>0) && this.api.AddImageUrl(arr, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },

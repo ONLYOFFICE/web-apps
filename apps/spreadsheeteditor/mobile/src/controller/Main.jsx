@@ -56,8 +56,8 @@ class MainController extends Component {
 
     initSdk() {
         const on_load_scripts = () => {
-            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/common/AllFonts.js',
-                                                           '../../../../../../sdkjs/cell/sdk-all-min.js']);
+            !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
+                                                           '../../../../sdkjs/cell/sdk-all-min.js']);
             let dep_scripts = [
                 '../../../vendor/jquery/jquery.min.js',
                 '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
@@ -348,6 +348,11 @@ class MainController extends Component {
         const styleSize = this.props.storeCellSettings.styleSize;
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
 
+        // Text settings 
+
+        const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('sse-settings-recent-fonts'));
+
         // Spreadsheet Settings
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
@@ -377,6 +382,20 @@ class MainController extends Component {
             storeToolbarSettings.setCanRedo(can);
         });
 
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onEditCell', (state) => {
+            if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
+                const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                if (storeFocusObjects.isEditCell !== isEditCell) {
+                    storeFocusObjects.setEditCell(isEditCell);
+                }
+            } else {
+                const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+                if (storeFocusObjects.editFormulaMode !== isFormula) {
+                    storeFocusObjects.setEditFormulaMode(isFormula);
+                }
+            }
+        });
     }
 
     _onLongActionEnd(type, id) {
@@ -636,9 +655,9 @@ class MainController extends Component {
         }
     }
 
-    onDownloadUrl () {
+    onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            Common.Gateway.downloadAs(url);
+            Common.Gateway.downloadAs(url, fileType);
         }
 
         this._state.isFromGatewayDownloadAs = false;

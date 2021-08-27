@@ -52,6 +52,7 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
+    'presentationeditor/main/app/controller/Transitions',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HeaderFooterDialog',
@@ -1583,7 +1584,7 @@ define([
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -1617,9 +1618,16 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && (data.url || data.images) && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                (arr.length>0) && this.api.AddImageUrl(arr, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
@@ -2399,19 +2407,24 @@ define([
                 } else
                 if ( config.customization && config.customization.compactToolbar )
                     compactview = true;
-            }
 
+            }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.addTab(tab, $panel, 4);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
+
+                var transitController = me.getApplication().getController('Transitions');
+                transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
+                Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
+                Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
@@ -2458,6 +2471,7 @@ define([
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
+
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }

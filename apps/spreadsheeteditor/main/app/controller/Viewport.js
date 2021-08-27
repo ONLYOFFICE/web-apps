@@ -72,7 +72,11 @@ define([
                     'menu:show': me.onFileMenu.bind(me, 'show')
                 },
                 'Statusbar': {
-                    'sheet:changed': me.onApiSheetChanged.bind(me)
+                    'sheet:changed': me.onApiSheetChanged.bind(me),
+                    'view:compact': function (statusbar, state) {
+                        me.header.mnuitemCompactStatusBar.setChecked(state, true);
+                        me.viewport.vlayout.getItem('statusbar').height = state ? 25 : 50;
+                    }
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -210,6 +214,13 @@ define([
                     }, this));
                 }
 
+                me.header.mnuitemCompactStatusBar = new Common.UI.MenuItem({
+                    caption: me.header.textHideStatusBar,
+                    checked: Common.localStorage.getBool("sse-compact-statusbar", true),
+                    checkable: true,
+                    value: 'statusbar'
+                });
+
                 me.header.mnuitemHideFormulaBar = new Common.UI.MenuItem({
                     caption     : me.textHideFBar,
                     checked     : Common.localStorage.getBool('sse-hidden-formula'),
@@ -275,6 +286,7 @@ define([
                         items: [
                             me.header.mnuitemCompactToolbar,
                             me.header.mnuitemHideFormulaBar,
+                            me.header.mnuitemCompactStatusBar,
                             {caption:'--'},
                             me.header.mnuitemHideHeadings,
                             me.header.mnuitemHideGridlines,
@@ -491,6 +503,7 @@ define([
 
             switch ( item.value ) {
             case 'toolbar': me.header.fireEvent('toolbar:setcompact', [menu, item.isChecked()]); break;
+            case 'statusbar': me.header.fireEvent('statusbar:setcompact', [menu, item.isChecked()]); break;
             case 'formula': me.header.fireEvent('formulabar:hide', [item.isChecked()]); break;
             case 'headings': me.api.asc_setDisplayHeadings(!item.isChecked()); break;
             case 'gridlines': me.api.asc_setDisplayGridlines(!item.isChecked()); break;

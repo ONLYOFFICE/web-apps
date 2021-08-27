@@ -86,6 +86,8 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
+            this.wsLock = false;
+            this.wsProps = [];
             this.isEditCell = false;
 
             this._originalProps = null;
@@ -403,10 +405,12 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, wsLock, wsProps) {
             if (this._initSettings)
                 this.createDelayedControls();
 
+            this.wsLock = wsLock;
+            this.wsProps = wsProps;
             this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )//formatTableInfo
@@ -470,7 +474,7 @@ define([
                     this._state.CheckFilter=value;
                 }
                 if (this.chFilter.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
-                    this.chFilter.setDisabled(!this._state.CheckHeader || this._locked || value===null);
+                    this.chFilter.setDisabled(!this._state.CheckHeader || this._locked || value===null || this.wsLock);
 
                 if (needTablePictures || !this.mnuTableTemplatePicker)
                     this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
@@ -488,7 +492,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '46px', 'width': '61px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '44px', 'width': '60px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._state.TemplateName=value;
                 }
@@ -510,7 +514,7 @@ define([
                     cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 512px;',
+                        style: 'width: 505px;',
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
@@ -526,14 +530,14 @@ define([
                         restoreHeight: 325,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="44" width="60"></div>'),
                         style: 'max-height: 325px;'
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));
                 this.lockedControls.push(this.btnTableTemplate);
                 this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
-                if (this._locked) this.btnTableTemplate.setDisabled(this._locked);
+                if (this._locked) this.btnTableTemplate.setDisabled(this._locked || this.wsProps['FormatCells']);
             }
 
 
@@ -636,13 +640,16 @@ define([
             if (this._initSettings) return;
             disable = disable || this.isEditCell;
 
-            if (this._state.DisabledControls!==disable) {
-                this._state.DisabledControls = disable;
-                _.each(this.lockedControls, function(item) {
-                    item.setDisabled(disable);
-                });
-                this.linkAdvanced.toggleClass('disabled', disable);
-            }
+            var me = this;
+            _.each(this.lockedControls, function(item) {
+                item.setDisabled(disable || me.wsLock);
+            });
+            this.linkAdvanced.toggleClass('disabled', disable || this.wsLock);
+            this.btnTableTemplate && this.btnTableTemplate.setDisabled(disable || this.wsProps['FormatCells']);
+            this.chBanded.setDisabled(disable || this.wsProps['FormatCells']);
+            this.chFirst.setDisabled(disable || this.wsProps['FormatCells']);
+            this.chLast.setDisabled(disable || this.wsProps['FormatCells']);
+            this.chColBanded.setDisabled(disable || this.wsProps['FormatCells']);
         },
 
         textEdit:           'Rows & Columns',

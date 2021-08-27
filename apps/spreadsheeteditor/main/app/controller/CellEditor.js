@@ -316,6 +316,7 @@ define([
                 }
                 prev_name = name;
             });
+            this.editor.btnNamedRanges.menu.items[0].setDisabled(!!this.api.asc_isProtectedSheet());
             this.editor.btnNamedRanges.menu.items[1].setVisible(rangesMenu.items.length>2);
         },
 

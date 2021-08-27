@@ -1222,7 +1222,8 @@ define([
                     renderTo : this.sdkViewName,
                     canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined,
                     canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined,
-                    mentionShare: (this.mode) ? this.mode.mentionShare : true
+                    mentionShare: (this.mode) ? this.mode.mentionShare : true,
+                    api: this.api
                 });
                 this.popover.setCommentsStore(this.popoverComments);
             }

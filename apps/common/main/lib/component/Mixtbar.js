@@ -93,7 +93,7 @@ define([
 
                 var _template_tabs =
                     '<section class="tabs">' +
-                        '<a class="scroll left"></a>' +
+                        '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
                                 '<% if (typeof items[i] == "object") { %>' +
@@ -105,7 +105,7 @@ define([
                                 '<% } %>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right"></a>' +
+                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({

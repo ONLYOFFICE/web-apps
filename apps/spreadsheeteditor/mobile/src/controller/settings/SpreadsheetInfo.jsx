@@ -6,8 +6,8 @@ class SpreadsheetInfoController extends Component {
     constructor(props) {
         super(props);
         this.docProps = this.getDocProps();
+
         if (this.docProps) {
-            this.dataApp = this.getAppProps();
             this.modified = this.getModified();
             this.modifiedBy = this.getModifiedBy();
             this.creators = this.getCreators();
@@ -15,7 +15,6 @@ class SpreadsheetInfoController extends Component {
             this.subject = this.getSubject();
             this.description = this.getDescription();
             this.created = this.getCreated();
-
         }
     }
 
@@ -40,6 +39,7 @@ class SpreadsheetInfoController extends Component {
     getModified() {
         let valueModified = this.docProps.asc_getModified();
         const _lang = this.props.storeAppOptions.lang;
+
         if (valueModified) {
             return (
                 valueModified.toLocaleString(_lang, {
@@ -81,16 +81,18 @@ class SpreadsheetInfoController extends Component {
     getCreated() {
         let value = this.docProps.asc_getCreated();
         const _lang = this.props.storeAppOptions.lang;
+
         if(value) {
             return value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'});
         }
+
         return null;
     }
 
     render() {
         return (
             <SpreadsheetInfo
-                dataApp={this.dataApp}
+                getAppProps={this.getAppProps}
                 modified={this.modified}
                 modifiedBy={this.modifiedBy}
                 creators={this.creators}

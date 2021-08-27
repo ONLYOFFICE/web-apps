@@ -136,9 +136,10 @@
                         label: string (default: "Guest") // postfix for user name
                     },
                     review: {
-                        hideReviewDisplay: false // hide button Review mode,
+                        hideReviewDisplay: false, // hide button Review mode
+                        hoverMode: false, // true - show review balloons on mouse move, not on click on text
                         showReviewChanges: false,
-                        reviewDisplay: 'original',
+                        reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
                     chat: true,
@@ -872,9 +873,9 @@
         path += app + "/";
         path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
-            : (config.type === "embedded") ? "embed"
-            : (app=='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
-              (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view') ? "forms" : "main";
+            : (config.type === "embedded")
+                ? "embed"
+                : "main";
 
         var index = "/index.html";
         if (config.editorConfig) {

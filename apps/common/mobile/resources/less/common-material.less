@@ -48,6 +48,11 @@
             display: flex;
             justify-content: center;
         }
+        &-inner {
+            background: var(--f7-navbar-bg-color);
+            background-image: var(--f7-navbar-bg-image, var(--f7-bars-bg-image));
+            background-color: var(--f7-navbar-bg-color, var(--f7-bars-bg-color));
+        }
     }
 
     .page.page-with-subnavbar.page-with-logo {
@@ -62,8 +67,13 @@
                 margin-bottom: 0;
                 margin-top: 8px;
             }
+            .add-image {
+                ul:before, :after{
+                    display: none;
+                }
+            }
             .inputs-list {
-                ul:after, :before{
+                ul:after {
                     display: none;
                 }
             }
@@ -543,6 +553,14 @@
             .item-input, .item-inner {
                 padding: 0;
             }
+        }
+    }
+
+    // Fonts List 
+
+    .font-item {
+        .item-radio:not(.item-radio-icon-end) > .icon-radio {
+            margin-right: 0;
         }
     }
 }

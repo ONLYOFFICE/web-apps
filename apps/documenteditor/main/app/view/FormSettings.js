@@ -423,6 +423,36 @@ define([
             this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
             this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
 
+            this.imagePositionPreview = $markup.findById('#form-img-example');
+            this.imagePositionLabel = $markup.findById('#form-img-slider-value');
+
+            this.sldrPreviewPositionX = new Common.UI.SingleSlider({
+                el: $('#form-img-slider-position-x'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50
+            });
+            this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
+            this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+            this.lockedControls.push(this.sldrPreviewPositionX);
+
+            this.sldrPreviewPositionY = new Common.UI.SingleSlider({
+                el: $('#form-img-slider-position-y'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50,
+                direction: 'vertical'
+            });
+            this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
+            this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+            this.lockedControls.push(this.sldrPreviewPositionY);
+
+            var xValue = this.sldrPreviewPositionX.getValue(),
+                yValue = this.sldrPreviewPositionY.getValue();
+            this.imagePositionLabel.text(xValue + ',' + yValue);
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -719,18 +749,18 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 if (color == 'transparent') {
-                    formTextPr.put_CombBorder();
+                    formPr.put_Border();
                 } else {
-                    var brd = formTextPr.get_CombBorder();
+                    var brd = formPr.get_Border();
                     if (!brd)
                         brd = new Asc.asc_CTextBorder();
                     brd.put_Value(1);
                     brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
-                    formTextPr.put_CombBorder(brd);
+                    formPr.put_Border(brd);
                 }
-                props.put_TextFormPr(formTextPr);
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -742,9 +772,9 @@ define([
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_CombBorder();
-                props.put_TextFormPr(formTextPr);
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Border();
+                props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -801,9 +831,9 @@ define([
                             rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
                         }
                         if (rec) {
-                            this.list.selectRecord(rec);
+                            this.list.selectRecord(rec, this.txtNewValue._input.is(':focus'));
                             this.list.scrollToRecord(rec);
-                        } else {
+                        } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
                             this._state.listValue = this._state.listIndex = undefined;
                         }
@@ -890,6 +920,33 @@ define([
                             this._state.Fixed=val;
                         }
                     }
+
+                    var brd = formPr.get_Border();
+                    if (brd) {
+                        var color = brd.get_Color();
+                        if (color) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                            } else {
+                                this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                            }
+                        } else
+                            this.BorderColor = 'transparent';
+                    } else
+                        this.BorderColor = 'transparent';
+
+                    var type1 = typeof(this.BorderColor),
+                        type2 = typeof(this._state.BorderColor);
+                    if ( (type1 !== type2) || (type1=='object' &&
+                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
+                        (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
+
+                        this.btnColor.setColor(this.BorderColor);
+                        this.mnuColorPicker.clearSelection();
+                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
+                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                        this._state.BorderColor = this.BorderColor;
+                    }
                 }
 
                 var pictPr = props.get_PictureFormPr();
@@ -906,6 +963,27 @@ define([
                         this.cmbScale.setValue(val);
                         this._state.scaleFlag=val;
                     }
+
+                    val = pictPr.get_ShiftX() * 100;
+                    if (this._state.imgPositionX !== val) {
+                        this.sldrPreviewPositionX.setValue(val);
+                        this._state.imgPositionX = val;
+                    }
+                    val = pictPr.get_ShiftY() * 100;
+                    if (this._state.imgPositionY !== val) {
+                        this.sldrPreviewPositionY.setValue(val);
+                        this._state.imgPositionY = val;
+                    }
+                    this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+                    val = ((130 - 80) * this._state.imgPositionX) / 100 - 1;
+                    this.imagePositionPreview.css({'left': val + 'px'});
+                    val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
+                    this.imagePositionPreview.css({'top': val + 'px'});
+
+                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never);
+                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+                    this.sldrPreviewPositionX.setDisabled(disableSliders);
+                    this.sldrPreviewPositionY.setDisabled(disableSliders);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -933,8 +1011,6 @@ define([
                     }
                     this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
 
-                    this.btnColor.setDisabled(!this._state.Comb);
-
                     this.spnWidth.setDisabled(!this._state.Comb);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
@@ -954,33 +1030,6 @@ define([
                     if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
-                    }
-
-                    var brd = formTextPr.get_CombBorder();
-                    if (brd) {
-                        var color = brd.get_Color();
-                        if (color) {
-                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                            } else {
-                                this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                            }
-                        } else
-                            this.BorderColor = 'transparent';
-                    } else
-                        this.BorderColor = 'transparent';
-
-                    var type1 = typeof(this.BorderColor),
-                        type2 = typeof(this._state.BorderColor);
-                    if ( (type1 !== type2) || (type1=='object' &&
-                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
-                        (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
-
-                        this.btnColor.setColor(this.BorderColor);
-                        this.mnuColorPicker.clearSelection();
-                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
-                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
-                        this._state.BorderColor = this.BorderColor;
                     }
                 }
 
@@ -1109,6 +1158,61 @@ define([
             this.btnListDelete.setDisabled(disabled || this._state.DisabledControls);
             this.btnListUp.setDisabled(disabled || this._state.DisabledControls);
             this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
+        },
+
+        onImagePositionChange: function (type, field, newValue, oldValue) {
+            var value = ((130 - 80) * newValue) / 100 - 1;
+            if (type === 'x') {
+                this.imagePositionPreview.css({'left': value + 'px'});
+                this._state.imgPositionX = newValue;
+            } else {
+                this.imagePositionPreview.css({'top': value + 'px'});
+                this._state.imgPositionY = newValue;
+            }
+            if (_.isUndefined(this._state.imgPositionX)) {
+                this._state.imgPositionX = 50;
+            } else if (_.isUndefined(this._state.imgPositionY)) {
+                this._state.imgPositionY = 50;
+            }
+            this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this.imgPositionApplyFunc, this, type), 100);
+            }
+        },
+
+        onImagePositionChangeComplete: function (type, field, newValue, oldValue) {
+            clearInterval(this.updateslider);
+            if (type === 'x') {
+                this._state.imgPositionX = newValue;
+            } else {
+                this._state.imgPositionY = newValue;
+            }
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this.imgPositionApplyFunc(type);
+            }
+            this._sendUndoPoint = true;
+        },
+
+        imgPositionApplyFunc: function (type) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var pictPr = this._originalPictProps || new AscCommon.CSdtPictureFormPr();
+                var val;
+                if (type === 'x') {
+                    val = this._state.imgPositionX / 100;
+                    pictPr.put_ShiftX(val);
+                } else {
+                    val = this._state.imgPositionY / 100;
+                    pictPr.put_ShiftY(val);
+                }
+                props.put_PictureFormPr(pictPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         textField: 'Text Field',

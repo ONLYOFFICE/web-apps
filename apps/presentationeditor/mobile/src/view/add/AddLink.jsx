@@ -99,7 +99,7 @@ const PageLink = props => {
     const display = props.getTextDisplay();
     const displayDisabled = display !== false && display === null;
     const [stateDisplay, setDisplay] = useState(display !== false ? ((display !== null) ? display : _t.textDefault) : "");
-    const [stateAutoUpdate, setAutoUpdate] = useState(true);
+    const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
     const [screenTip, setScreenTip] = useState('');
 
     return (
@@ -130,8 +130,10 @@ const PageLink = props => {
                            placeholder={_t.textDisplay}
                            value={stateDisplay}
                            disabled={displayDisabled}
-                           onChange={(event) => {setDisplay(event.target.value);
-                            setAutoUpdate(event.target.value == ''); }}
+                           onChange={(event) => {
+                                setDisplay(event.target.value);
+                                setAutoUpdate(event.target.value == ''); 
+                            }}
                 />
                 <ListInput label={_t.textScreenTip}
                            type="text"

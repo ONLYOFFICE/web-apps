@@ -29,7 +29,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
         }
 
         Common.Notifications.trigger('preloader:close');
-        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument,true);
 
         const api = Common.EditorApi.get();
 
@@ -301,6 +301,14 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
             case Asc.c_oAscError.ID.UpdateVersion:
                 config.msg = _t.errorUpdateVersionOnDisconnect;
+                break;
+            
+            case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
+                config.msg = _t.errorChangeOnProtectedSheet;
+                break;
+
+            case Asc.c_oAscError.ID.LoadingFontError:
+                config.msg = _t.errorLoadingFont;
                 break;
 
             default:

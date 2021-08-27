@@ -17,6 +17,8 @@
   "SSE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",
   "SSE.ApplicationController.notcriticalErrorTitle": "警告",
   "SSE.ApplicationController.scriptLoadError": "接続が非常に遅いため、いくつかのコンポーネントはロードされませんでした。ページを再読み込みしてください。",
+  "SSE.ApplicationController.textAnonymous": "匿名",
+  "SSE.ApplicationController.textGuest": "ゲスト",
   "SSE.ApplicationController.textLoadingDocument": "スプレッドシートの読み込み中",
   "SSE.ApplicationController.textOf": "から",
   "SSE.ApplicationController.txtClose": "閉じる",
@@ -25,6 +27,7 @@
   "SSE.ApplicationController.waitText": "少々お待ちください...",
   "SSE.ApplicationView.txtDownload": "ダウンロード",
   "SSE.ApplicationView.txtEmbed": "埋め込み",
+  "SSE.ApplicationView.txtFileLocation": "ファイルを開く",
   "SSE.ApplicationView.txtFullScreen": "全画面表示",
   "SSE.ApplicationView.txtPrint": "印刷する",
   "SSE.ApplicationView.txtShare": "シェア"

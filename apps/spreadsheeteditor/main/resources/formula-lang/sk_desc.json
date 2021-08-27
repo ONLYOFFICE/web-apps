@@ -4,8 +4,8 @@
 		"d": "Vráti číslo, ktoré v kóde pre dátum a čas predstavuje dátum"
 	},
 	"DATEDIF": {
-		"a": "( start-date; end-date; unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(počiatočný_dátum; koncový_dátum; jednotka)",
+		"d": "Vypočíta počet dní, mesiacov alebo rokov medzi dvomi dátumami"
 	},
 	"DATEVALUE": {
 		"a": "(text_dátumu)",
@@ -396,8 +396,8 @@
 		"d": "Vráti počiatočnú pozíciu textového reťazca v rámci iného textového reťazca. Táto funkcia rozlišuje malé a veľké písmená"
 	},
 	"FINDB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(nájsť_text; v_texte; [počiatočné_číslo])",
+		"d": "Vráti jeden textový reťazec vo vnútri druhého reťazca a vracajú počiatočnú pozíciu prvého reťazca od prvého znaku druhého reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"FIXED": {
 		"a": "(číslo; [desatinné_miesta]; [bez_čiarok])",
@@ -408,16 +408,16 @@
 		"d": "Vráti zadaný počet znakov od začiatku textového reťazca"
 	},
 	"LEFTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [počet_znakov])",
+		"d": "Vráti prvý znak alebo prvé znaky v textovom reťazci, pričom ich počet je určený veľkosťou v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"LEN": {
 		"a": "(text)",
 		"d": "Vráti počet znakov textového reťazca"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text)",
+		"d": "Vráti počet bajtov použitých pre zobrazenie znakov v textovom reťazci, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -428,8 +428,8 @@
 		"d": "Vráti znaky z textového reťazca, ak je zadaná počiatočná pozícia a dĺžka"
 	},
 	"MIDB": {
-		"a": "( string; start-pos; number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; počiatočná_pozícia; počet_znakov)",
+		"d": "Vráti časť textového reťazca od zadanej pozície a podľa zadaného počtu bajtov, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -444,8 +444,8 @@
 		"d": "Nahradí časť textového reťazce iným textovým reťazcom"
 	},
 	"REPLACEB": {
-		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(starý_text; počiatočné_číslo; počet_znakov; nový_text)",
+		"d": "Nahradí časť textového reťazca so zadaným počtom bajtov odlišným textovým reťazcom, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"REPT": {
 		"a": "(text; počet_opakovaní)",
@@ -456,16 +456,16 @@
 		"d": "Vráti zadaný počet znakov od konca textového reťazca"
 	},
 	"RIGHTB": {
-		"a": "( string; [number-chars] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(text; [počet_znakov])",
+		"d": "Vráti znaky z konca textového reťazca, pričom dĺžka výsledku je zadaná v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"SEARCH": {
 		"a": "(nájsť_text; v_texte; [pozícia_začiatku])",
 		"d": "Vráti číslo prvého výskytu daného znaku alebo textového reťazca. Program hľadá zľava doprava a nerozlišuje veľké a malé písmená"
 	},
 	"SEARCHB": {
-		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(nájsť_text; v_texte; [pozícia_začiatku])",
+		"d": "Vyhľadávajú jeden textový reťazec v rámci druhého textového reťazca a vrátia číslo počiatočnej pozície prvého textového reťazca od prvého znaku druhého textového reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; starý_text; nový_text; [číslo_inštancie])",
@@ -1348,8 +1348,8 @@
 		"d": "Konvertuje rímske číslice na arabské"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(text)",
+		"d": "Pre jazyky s dvojbajtovými tabuľkami znakov (DBCS) sa menia znaky s plnou šírkou (dvojbajtové) na znaky s polovičnou šírkou (jednobajtové)"
 	},
 	"ASIN": {
 		"a": "(číslo)",
@@ -1384,8 +1384,8 @@
 		"d": "Zaokrúhli číslo nahor na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(číslo; [významnosť])",
+		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty"
 	},
 	"COMBIN": {
 		"a": "(počet; vybratý_počet)",
@@ -1428,8 +1428,8 @@
 		"d": "Konvertuje radiány na stupne"
 	},
 	"ECMA.CEILING": {
-		"a": "( x; significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(číslo; významnosť)",
+		"d": "Zaokrúhli číslo smerom nahor na najbližší násobok zadanej hodnoty"
 	},
 	"EVEN": {
 		"a": "(číslo)",
@@ -1452,8 +1452,8 @@
 		"d": "Zaokrúhli číslo nadol na najbližší násobok zadanej hodnoty"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(číslo; [významnosť])",
+		"d": "Vráti číslo, ktoré je zaokrúhlené nadol na najbližšie celé číslo alebo na násobok zadanej hodnoty"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1468,8 +1468,8 @@
 		"d": "Zaokrúhli číslo nadol na najbližšie celé číslo"
 	},
 	"ISO.CEILING": {
-		"a": "( number; [significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(číslo; [významnosť])",
+		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty. Číslo sa bez ohľadu na znamienko zaokrúhli nahor. Ak je však dané číslo alebo násobok nula, vráti sa nula."
 	},
 	"LCM": {
 		"a": "(číslo1; [číslo2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "V danom rozsahu alebo poli hľadá zhodu a vráti zodpovedajúcu položku z druhého rozsahu alebo poľa. Predvolene sa použije presná zhoda"
 	},
 	"CELL": {
-		"a": "(info_type; [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"a": "(typ_informácií; [odkaz])",
+		"d": "Vráti informácie o formátovaní, umiestnení alebo obsahu bunky"
 	},
 	"ERROR.TYPE": {
 		"a": "(hodnota_chyby)",

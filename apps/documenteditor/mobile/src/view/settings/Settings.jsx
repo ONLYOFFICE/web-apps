@@ -57,9 +57,11 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions")(observer(props => {
+const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
+    const storeReview = props.storeReview;
+    const displayMode = storeReview.displayMode;
     const navbar = <Navbar title={_t.textSettings}>
                     {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
                     </Navbar>;
@@ -139,7 +141,8 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                         </ListItem>
                     }
                     {_isEdit &&
-                        <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
+                        <ListItem link="#" title={_t.textDocumentSettings} disabled={displayMode !== 'markup'} 
+                            onClick={onoptionclick.bind(this, '/document-settings/')}>
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
                         </ListItem>
                     }
@@ -152,7 +155,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                         </ListItem>
                     }
                     {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={() => {}}> {/*ToDo*/}
+                    <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     }
@@ -196,10 +199,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck}/>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck}/>
+                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popup>
         )
     }

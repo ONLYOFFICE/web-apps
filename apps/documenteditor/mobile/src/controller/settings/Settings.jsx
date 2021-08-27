@@ -74,6 +74,13 @@ const Settings = props => {
         }, 400);
     };
 
+    const onDownloadOrigin = () => {
+        closeModal();
+        setTimeout(() => {
+            Common.EditorApi.get().asc_DownloadOrigin();
+        }, 0);
+    };
+
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
                          onclosed={props.onclosed}
@@ -81,6 +88,7 @@ const Settings = props => {
                          onPrint={onPrint}
                          showHelp={showHelp}
                          onOrthographyCheck={onOrthographyCheck}
+                         onDownloadOrigin={onDownloadOrigin}
     />
 };
 

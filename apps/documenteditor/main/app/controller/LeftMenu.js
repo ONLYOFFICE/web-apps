@@ -398,7 +398,7 @@ define([
             }
         },
 
-        onDownloadUrl: function(url) {
+        onDownloadUrl: function(url, fileType) {
             if (this.isFromFileDownloadAs) {
                 var me = this,
                     defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
@@ -411,7 +411,7 @@ define([
                 }
 
                 if (me.mode.canRequestSaveAs) {
-                    Common.Gateway.requestSaveAs(url, defFileName);
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._saveCopyDlg = new Common.Views.SaveAsDlg({
                         saveFolderUrl: me.mode.saveAsUrl,
@@ -511,7 +511,7 @@ define([
 
         onCreateNew: function(menu, type) {
             if ( !Common.Controllers.Desktop.process('create:new') ) {
-                if (this.mode.canRequestCreateNew)
+                if (type == 'blank' && this.mode.canRequestCreateNew)
                     Common.Gateway.requestCreateNew();
                 else {
                     var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
@@ -897,6 +897,10 @@ define([
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
+        },
+
+        isCommentsVisible: function() {
+            return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
 
         textNoTextFound         : 'Text not found',

@@ -176,9 +176,9 @@ define([
                 'cells:range': function(status){
                     me.onCellsRange(status);
                 },
-                'tabs:dragend': _.bind(me.onDragEndMouseUp, me)
+                'tabs:dragend': _.bind(me.onDragEndMouseUp, me),
+                'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
-
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
         },
 
@@ -237,7 +237,7 @@ define([
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
-                view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
+                view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
@@ -296,6 +296,7 @@ define([
             }
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                                     $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
+            this.onChangeProtectSheet();
         },
 
         loadConfig: function(data) {
@@ -425,34 +426,56 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            Common.NotificationCenter.trigger('protect:check', this.onSortCellsCallback, this, [menu, item]);
+        },
+
+        onSortCellsCallback: function(menu, item) {
             if (item.value=='advanced') {
                 Common.NotificationCenter.trigger('data:sortcustom', this);
                 return;
             }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
-                    var config = {
-                        width: 500,
-                        title: this.txtSorting,
-                        msg: this.txtExpandSort,
-                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
-                                    'cancel'],
-                        callback: _.bind(function(btn){
-                            if (btn == 'expand' || btn == 'sort') {
-                                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
-                        }, this)
-                    };
-                    Common.UI.alert(config);
-                } else {
-                    this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res !== null);
-
-                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                switch (res) {
+                    case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                        var config = {
+                            width: 500,
+                            title: this.txtSorting,
+                            msg: this.txtExpandSort,
+                            buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                'cancel'],
+                            callback: _.bind(function(btn){
+                                if (btn == 'expand' || btn == 'sort') {
+                                    this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                            }, this)
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                        var config = {
+                            width: 500,
+                            title: this.txtSorting,
+                            msg: this.txtLockSort,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn){
+                                (btn == 'yes') && this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, false);
+                                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                            }, this)
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                    case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                        this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                        Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                        break;
                 }
             }
         },
@@ -531,7 +554,16 @@ define([
             win.setSettings(rangePr, dateTypes, defRangePr);
         },
 
-        onClear: function(menu, item) {
+        onClear: function(menu, item, e) {
+            if (item.value == Asc.c_oAscCleanOptions.Format && !this._state.wsProps['FormatCells'] || item.value == Asc.c_oAscCleanOptions.All && !this.api.asc_checkLockedCells())
+                this.onClearCallback(menu, item);
+            else if (item.value == Asc.c_oAscCleanOptions.Comments) {
+                this._state.wsProps['Objects'] ? Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical) : this.onClearCallback(menu, item);
+            } else
+                Common.NotificationCenter.trigger('protect:check', this.onClearCallback, this, [menu, item]);
+        },
+
+        onClearCallback: function(menu, item) {
             if (this.api) {
                 if (item.value == Asc.c_oAscCleanOptions.Comments) {
                     this.api.asc_RemoveAllComments(!this.permissions.canDeleteComments, true);// 1 param = true if remove only my comments, 2 param - remove current comments
@@ -578,6 +610,10 @@ define([
         },
 
         onInsHyperlink: function(item) {
+            Common.NotificationCenter.trigger('protect:check', this.onInsHyperlinkCallback, this, [item]);
+        },
+
+        onInsHyperlinkCallback: function(item) {
             var me = this;
             var win,
                 props;
@@ -625,6 +661,10 @@ define([
         },
 
         onDelHyperlink: function(item) {
+            Common.NotificationCenter.trigger('protect:check', this.onDelHyperlinkCallback, this);
+        },
+
+        onDelHyperlinkCallback: function(item) {
             if (this.api) {
                 this.api.asc_removeHyperlink();
 
@@ -684,16 +724,20 @@ define([
         },
 
         onAddComment: function(item) {
+            if (this._state.wsProps['Objects']) return;
+            
             if (this.api && this.permissions.canCoAuthoring && this.permissions.canComments) {
 
                 var controller = SSE.getController('Common.Controllers.Comments'),
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments.length) {
-                        controller.onEditComments(comments);
-                    } else if (this.permissions.canCoAuthoring) {
-                        controller.addDummyComment();
+                    if (comments) {
+                        if (comments.length) {
+                            controller.onEditComments(comments);
+                        } else if (this.permissions.canCoAuthoring) {
+                            controller.addDummyComment();
+                        }
                     }
                 }
             }
@@ -883,15 +927,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
-        },
-
-        onRemoveHyperlinkShape: function(item) {
-            if (this.api) {
-                this.api.asc_removeHyperlink();
-
-                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
-            }
         },
 
         onTextAdvanced: function(item) {
@@ -1505,6 +1540,8 @@ define([
             }
             if (me.permissions.isEdit) {
                 if (!me.dlgFilter) {
+                    if (me._state.wsProps['PivotTables'] && config.asc_getPivotObj() || me._state.wsProps['AutoFilter'] && !config.asc_getPivotObj()) return;
+
                     me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
                             if (me.api) {
@@ -1802,7 +1839,7 @@ define([
                 if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
                 if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
             } else if (isimagemenu || isshapemenu || ischartmenu) {
-                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
+                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible() || this._state.wsProps['Objects']) return;
 
                 isimagemenu = isshapemenu = ischartmenu = isslicermenu = false;
                 documentHolder.mnuImgAdvanced.imageInfo = undefined;
@@ -1891,7 +1928,7 @@ define([
                     documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                 }
             } else if (istextshapemenu || istextchartmenu) {
-                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
+                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible() || this._state.wsProps['Objects']) return;
                 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
 
@@ -1968,6 +2005,8 @@ define([
                     item.setDisabled(isObjLocked);
                 });
                 documentHolder.pmiTextCopy.setDisabled(false);
+                documentHolder.menuHyperlinkShape.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlinkShape.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
 
                 //equation menu
                 var eqlen = 0;
@@ -2038,9 +2077,9 @@ define([
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
                 /** coauthoring begin **/
-                var count = cellinfo.asc_getComments().length;
-                documentHolder.ssMenu.items[19].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
-                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
+                var celcomments = cellinfo.asc_getComments(); // celcomments===null - has comment, but no permissions to view it
+                documentHolder.ssMenu.items[19].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
+                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
@@ -2075,28 +2114,36 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked);
-                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
-                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot);
-                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiSelectTable.setDisabled(this._state.wsLock);
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns']);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns']);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
                 documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort']);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
-                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
-                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells']);
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
+                documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
+                documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
+                documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
+                documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
+                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells']);
+                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
 
                 if (inPivot) {
                     var canGroup = this.api.asc_canGroupPivot();
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
@@ -2148,7 +2195,7 @@ define([
 
             var signProps = (signGuid) ? this.api.asc_getSignatureSetup(signGuid) : null,
                 isInSign = !!signProps && this._canProtect,
-                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments().length < 1;
+                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
             documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
@@ -2163,7 +2210,7 @@ define([
 
             documentHolder.menuViewAddComment.setVisible(canComment);
             commentsController && commentsController.blockPopover(true);
-            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
+            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['Objects']);
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
 
             if (isInSign) {
@@ -3554,7 +3601,18 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_RemoveSignature(datavalue); //guid
+                    var me = this;
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.txtRemoveWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_RemoveSignature(datavalue);
+                            }
+                        }
+                    });
                     break;
             }
         },
@@ -3673,6 +3731,17 @@ define([
             if (win) {
                 win.show();
                 win.setActiveCategory(2);
+            }
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
             }
         },
 
@@ -3886,7 +3955,9 @@ define([
         txtImportWizard: 'Text Import Wizard',
         textPasteSpecial: 'Paste special',
         textStopExpand: 'Stop automatically expanding tables',
-        textAutoCorrectSettings: 'AutoCorrect options'
+        textAutoCorrectSettings: 'AutoCorrect options',
+        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

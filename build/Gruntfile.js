@@ -518,6 +518,7 @@ module.exports = function(grunt) {
                 // }
             // },
 
+
             exec: {
                 webpack_app_build: {
                     options: {
@@ -527,6 +528,9 @@ module.exports = function(grunt) {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
                                         packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
                         return `npm run deploy-${editor}`;
+
+                        // const addon_path = `${packageFile.mobile.js.reactjs && !!packageFile.mobile.js.reactjs.features ? `ADDON_ENV=${packageFile.mobile.js.reactjs.features}` : ''}`;
+                        // return `npx cross-env TARGET_EDITOR=${editor} NODE_ENV=production ${addon_path} node ./build/build.js`;
                     },
                 },
                 webpack_install: {
