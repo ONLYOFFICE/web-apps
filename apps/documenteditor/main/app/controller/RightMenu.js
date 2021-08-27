@@ -321,6 +321,7 @@ define([
             this.rightmenu.tableSettings.UpdateThemeColors();
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
+            this.rightmenu.formSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
