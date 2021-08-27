@@ -208,7 +208,12 @@ define([
 
             this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
 
-            this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
+            if (this.mode.canUseThumbnails) {
+                this.leftMenu.btnThumbnails.show();
+                this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
+            } else {
+                this.leftMenu.btnThumbnails.hide();
+            }
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
 

@@ -174,6 +174,7 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnThumbnails.hide();
 
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
