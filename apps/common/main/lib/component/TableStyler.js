@@ -370,8 +370,8 @@ define([
 
         template: _.template([
             '<div id="<%=scope.id%>" class="table-styler" style="position: relative; width: <%=scope.width%>px; height:<%=scope.height%>px;">',
-                '<div style="position: absolute; left: 0; top: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-bottom: 1px dotted gray; border-right: 1px dotted gray;"></div>',
-                '<div style="position: absolute; left: <%=scope.tablePadding%>px; top: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
+                '<div class="ts-preview-box ts-preview-box--lt" style="left: 0; top: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
+                '<div class="ts-preview-box ts-preview-box--mt" style="left: <%=scope.tablePadding%>px; top: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
                     '<div id="<%=scope.id%>-table-top-border-selector" style="position: absolute; z-index: 1; height: <%=scope.tablePadding%>px; left: 0; right: 0; top:  <%=scope.tablePadding * .5%>px;">',
                         '<table width="100%" height="100%">',
                             '<tr>',
@@ -383,9 +383,9 @@ define([
                         '</table>',
                     '</div>',
                 '</div>',
-                '<div style="position: absolute; top: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-bottom: 1px dotted gray; border-left: 1px dotted gray;"></div>',
+                '<div class="ts-preview-box ts-preview-box--rt" style="top: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
 
-                '<div style="position: absolute; left: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
+                '<div class="ts-preview-box ts-preview-box--lm" style="left: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
                     '<div id="<%=scope.id%>-table-left-border-selector" style="position: absolute; z-index: 1; left: <%=scope.tablePadding * .5%>px; top: 0; bottom: 0; width: <%=scope.tablePadding%>px;">',
                         '<table width="100%" height="100%">',
                             '<tr>',
@@ -395,7 +395,7 @@ define([
                         '</table>',
                     '</div>',
                 '</div>',
-                '<div style="position: absolute; left: <%=scope.tablePadding%>px; top: <%=scope.tablePadding%>px; right: <%=scope.tablePadding%>px; bottom: <%=scope.tablePadding%>px;">',
+                '<div class="ts-preview-box ts-preview-box--mm" style="left: <%=scope.tablePadding%>px; top: <%=scope.tablePadding%>px; right: <%=scope.tablePadding%>px; bottom: <%=scope.tablePadding%>px;">',
                     '<table id="<%=scope.id%>-table-content" cols="<%=scope.columns%>" width="100%" height="100%" style="border-collapse: inherit; border-spacing: <%= scope.spacingMode ? scope.cellPadding : 0 %>px;">',
                         '<% for (var row = 0; row < scope.rows; row++) { %>',
                             '<tr>',
@@ -406,7 +406,7 @@ define([
                         '<% } %>',
                     '</table>',
                 '</div>',
-                '<div style="position: absolute; right: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
+                '<div class="ts-preview-box ts-preview-box--rm" style="right: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
                     '<div id="<%=scope.id%>-table-right-border-selector" style="position: absolute; z-index: 1; right: <%=scope.tablePadding * .5%>px; top: 0; bottom: 0; width: <%=scope.tablePadding%>px;">',
                         '<table width="100%" height="100%">',
                             '<tr>',
@@ -417,8 +417,8 @@ define([
                     '</div>',
                 '</div>',
 
-                '<div style="position: absolute; left: 0; bottom: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1px dotted gray; border-right: 1px dotted gray;"></div>',
-                '<div style="position: absolute; left: <%=scope.tablePadding%>px; bottom: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
+                '<div class="ts-preview-box ts-preview-box--lb" style="left: 0; bottom: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
+                '<div class="ts-preview-box ts-preview-box--mb" style="left: <%=scope.tablePadding%>px; bottom: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
                     '<div id="<%=scope.id%>-table-bottom-border-selector" style="position: absolute; z-index: 1; height: <%=scope.tablePadding%>px; left: 0; right: 0; bottom:  <%=scope.tablePadding * .5%>px;">',
                         '<table width="100%" height="100%">',
                             '<tr>',
@@ -430,7 +430,7 @@ define([
                         '</table>',
                     '</div>',
                 '</div>',
-                '<div style="position: absolute; bottom: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px; border-top: 1px dotted gray; border-left: 1px dotted gray;"></div>',
+                '<div class="ts-preview-box ts-preview-box--rb" style="bottom: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
             '</div>'
         ].join('')),
 

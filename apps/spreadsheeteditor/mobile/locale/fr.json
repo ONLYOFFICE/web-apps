@@ -329,6 +329,7 @@
       "textRange": "Plage",
       "textRequired": "Requis",
       "textScreenTip": "Info-bulle",
+      "textSelectedRange": "Plage sélectionnée",
       "textShape": "Forme",
       "textSheet": "Feuille",
       "textSortAndFilter": "Trier et filtrer",
@@ -336,8 +337,7 @@
       "txtExpandSort": "Les données situées à côté de la sélection ne seront pas triées. Souhaitez-vous développer la sélection pour inclure les données adjacentes ou souhaitez-vous continuer à trier iniquement les cellules sélectionnées ?",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
-      "txtSortSelected": "Trier l'objet sélectionné ",
-      "textSelectedRange": "Selected Range"
+      "txtSortSelected": "Trier l'objet sélectionné "
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",

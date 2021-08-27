@@ -26,15 +26,67 @@
     .tablestyler-cell .cell-content .content-text {
         display: block;
         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAEAQMAAACeIXx6AAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA1JREFUeNpjOMDEAAIABVQAw/N8ALEAAAAASUVORK5CYII=') repeat 0 0 scroll;
-        background-size: 2px auto;
+        background-size: 2px 4px;
         height: 100%;
+
+        .pixel-ratio__1_25 & {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAFAQMAAABVfa/fAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA1JREFUeNpjOMDEAAEABtoAw4z263sAAAAASUVORK5CYII=');
+        }
 
         .pixel-ratio__1_5 & {
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGAQMAAAA8K7ZPAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpjeMAAgmAAABesAqGy0C2BAAAAAElFTkSuQmCC');
         }
 
+        .pixel-ratio__1_75 & {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAHAQMAAAAYtQ7UAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpjOMAAglAAABjOAkF/wXxcAAAAAElFTkSuQmCC');
+        }
+
         .pixel-ratio__2 & {
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAIAQMAAADk/cxGAAAABlBMVEVMaXHAwMBbbSKjAAAAAXRSTlMAQObYZgAAAA5JREFUeNpj+MAAgVAAAC0QA8HkpvUHAAAAAElFTkSuQmCC');
+        }
+    }
+
+    .ts-preview-box {
+        position: absolute;
+
+        &.ts-preview-box--lt {
+            border-bottom: 1px dotted gray;
+            border-bottom: @scaled-one-px-value dotted gray;
+            border-right: 1px dotted gray;
+            border-right: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--mt {
+        }
+
+        &.ts-preview-box--rt {
+            border-bottom: 1px dotted gray;
+            border-bottom: @scaled-one-px-value dotted gray;
+            border-left: 1px dotted gray;
+            border-left: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--rm {
+        }
+
+        &.ts-preview-box--lb {
+            border-top: 1px dotted gray;
+            border-top: @scaled-one-px-value dotted gray;
+            border-right: 1px dotted gray;
+            border-right: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--lm {
+        }
+
+        &.ts-preview-box--rb {
+            border-top: 1px dotted gray;
+            border-top: @scaled-one-px-value dotted gray;
+            border-left: 1px dotted gray;
+            border-left: @scaled-one-px-value dotted gray;
+        }
+
+        &.ts-preview-box--mb {
         }
     }
 }
