@@ -338,7 +338,7 @@ define([
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
-            toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
+            toolbar.mnuMailRecepients.on('item:click',                  _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
@@ -2882,8 +2882,10 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
+            if (!this._state.mmdisable) {
                 this.toolbar.btnMailRecepients.setDisabled(false);
+                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
+            }
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
@@ -3099,22 +3101,45 @@ define([
             disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
         },
 
-        onSelectRecepientsClick: function() {
+        onSelectRecepientsClick: function(menu, item, e) {
             if (this._mailMergeDlg) return;
 
-            if (this.toolbar.mode.canRequestMailMergeRecipients) {
-                Common.Gateway.requestMailMergeRecipients();
-            } else {
-                var me = this;
-                me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                });
-                me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                    me.setMailMergeRecipients(recepients);
-                }).on('close', function(obj){
-                    me._mailMergeDlg = undefined;
-                });
-                me._mailMergeDlg.show();
+            var me = this;
+            if (item.value === 'file') {
+                this.api && this.api.asc_StartMailMerge();
+            } else if (item.value === 'url') {
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_StartMailMerge({ fileType: "csv", url: checkUrl });
+                                } else {
+                                    Common.UI.warning({
+                                        msg: me.textEmptyMMergeUrl
+                                    });
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                })).show();
+            } else if (item.value === 'storage') {
+                if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                    Common.Gateway.requestMailMergeRecipients();
+                } else {
+                    me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                    });
+                    me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                        me.setMailMergeRecipients(recepients);
+                    }).on('close', function(obj){
+                        me._mailMergeDlg = undefined;
+                    });
+                    me._mailMergeDlg.show();
+                }
             }
         },
 
@@ -3622,7 +3647,8 @@ define([
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
         textInsert: 'Insert',
         textTabForms: 'Forms',
-        textGroup: 'Group'
+        textGroup: 'Group',
+        textEmptyMMergeUrl: 'You need to specify URL.'
 
     }, DE.Controllers.Toolbar || {}));
 });
