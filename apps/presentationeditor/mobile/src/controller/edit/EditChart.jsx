@@ -88,7 +88,9 @@ class EditChartController extends Component {
     onStyle (style) {
         const api = Common.EditorApi.get();
         let chart = new Asc.CAscChartProp();
-        chart.putStyle(style);
+        const chartProps = this.storeFocusObjects.chartObject.get_ChartProperties();
+        chartProps.putStyle(style);
+        chart.put_ChartProperties(chartProps);
         api.ChartApply(chart);
     }
 
