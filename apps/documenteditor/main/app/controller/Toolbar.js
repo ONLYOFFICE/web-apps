@@ -3111,7 +3111,7 @@ define([
                             if (me.api) {
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
-                                    me.api.asc_StartMailMerge(checkUrl);
+                                    me.api.asc_StartMailMerge({ fileType: "csv", url: checkUrl });
                                 } else {
                                     Common.UI.warning({
                                         msg: me.textEmptyMMergeUrl
