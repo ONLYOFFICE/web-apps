@@ -1618,8 +1618,15 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && (data.url || data.images) && (!data.c || data.c=='add')) {
+            if (data && data._urls && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
+                (data._urls.length>0) && this.api.AddImageUrl(data._urls, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
+            }
+        },
+
+        insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
                 var arr = [];
                 if (data.images && data.images.length>0) {
                     for (var i=0; i<data.images.length; i++) {
@@ -1627,12 +1634,8 @@ define([
                     }
                 } else
                     data.url && arr.push(data.url);
-                (arr.length>0) && this.api.AddImageUrl(arr, undefined, data.token);// for loading from storage
-                Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                data._urls = arr;
             }
-        },
-
-        insertImage: function(data) { // gateway
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 

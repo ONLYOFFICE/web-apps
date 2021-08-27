@@ -639,8 +639,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='slide') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='slide') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
