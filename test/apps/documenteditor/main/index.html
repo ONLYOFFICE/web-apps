@@ -2,7 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <title>Documents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 </head>
 <body>
+
+    <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
+    <!--vendor-->
+    <script type="text/javascript" src="../../../../vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../../vendor/jquery.browser/dist/jquery.browser.min.js"></script>
+    <script type="text/javascript" src="../../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="../../../../vendor/sockjs/sockjs.min.js"></script>
+    <script type="text/javascript" src="../../../../vendor/xregexp/xregexp-all-min.js"></script>
+
+    <script src="../../../../vendor/requirejs/require.js"></script>
+    <script>
+        require.config({
+            baseUrl: '../../../../'
+        });
+    </script>
+
+    <script type="text/javascript" src="../../../../../sdkjs/develop/sdkjs/word/scripts.js"></script>
+    <script>
+        window.sdk_scripts.forEach(function(item){
+            document.write('<script type="text/javascript" src="' +'../'+ item + '"><\/script>');
+        });
+    </script>
+
+    <!--application-->
+    <script type="text/javascript" src="../../../unit-tests/common/locale.js"></script>
+    <script type="text/javascript" src="../../../unit-tests/common/Gateway.js"></script>
+    <script type="text/javascript" src="../../../unit-tests/common/main/lib/util/LocalStorage.js"></script>
+    <script type="text/javascript" src="../../../unit-tests/common/main/lib/util/utils.js"></script>
+
+    <script type="text/javascript" src="js/ApplicationView.js"></script>
+    <script type="text/javascript" src="js/ApplicationController.js"></script>
+    <script type="text/javascript" src="js/application.js"></script>
 </body>
 </html>
