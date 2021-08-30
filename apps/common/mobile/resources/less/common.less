@@ -871,6 +871,38 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+// Functions List 
+
+.cell-editor {
+    overflow: initial;
+}
+
+.functions-list {
+    width: 100%;
+    height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    background-color: @white;
+    .list {
+        margin: 0;
+        ul:before {
+            display: none;
+        }
+        .item-content {
+            padding-left: 0;
+        }
+        .item-inner {
+            padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+        }
+        .item-title {
+            font-size: 14px;
+        }
+    }
+}
+
 
 
 
