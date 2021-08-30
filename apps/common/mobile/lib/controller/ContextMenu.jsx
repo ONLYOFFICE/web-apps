@@ -19,6 +19,7 @@ class ContextMenuController extends Component {
         };
 
         this.fastCoAuthTips = [];
+        this.isOpenWindowUser = true;
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onMenuClosed = this.onMenuClosed.bind(this);
         this.onActionClosed = this.onActionClosed.bind(this);
@@ -27,6 +28,7 @@ class ContextMenuController extends Component {
         this.onApiHideContextMenu = this.onApiHideContextMenu.bind(this);
         this.onApiShowForeignCursorLabel = this.onApiShowForeignCursorLabel.bind(this);
         this.onApiHideForeignCursorLabel = this.onApiHideForeignCursorLabel.bind(this);
+        this.onApiMouseMove = this.onApiMouseMove.bind(this);
     }
 
     onDocumentReady() {
@@ -44,6 +46,7 @@ class ContextMenuController extends Component {
         api.asc_registerCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
         api.asc_registerCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
         api.asc_registerCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        api.asc_registerCallback('asc_onMouseMove', this.onApiMouseMove);
     }
 
     offsetPopoverTop(popover) {
@@ -202,6 +205,52 @@ class ContextMenuController extends Component {
         /** coauthoring end **/
     }
 
+    onApiMouseMove(dataarray) {
+        if ( dataarray[0].asc_getType() === Asc.c_oAscMouseMoveType.LockedObject && this.isOpenWindowUser ) {
+            const tipHeight = 20;
+            this.isOpenWindowUser = false;
+            let XY = [$$("#editor_sdk").offset().left -  $(window).scrollLeft(), 
+            $$("#editor_sdk").offset().top - $(window).scrollTop()],
+                data = dataarray[0],
+                X = data.asc_getX(),
+                Y = data.asc_getY(),
+                src = $$(`<div class="username-tip"></div>`);
+
+            src.css({
+                height      : tipHeight + 'px',
+                position    : 'absolute',
+                zIndex      : '5000',
+                visibility  : 'visible',
+            });
+
+            src.text(this.getUserName(data.asc_getUserId()));
+            src.addClass('active');
+            $$(document.body).append(src);
+
+            let showPoint = [ ($$(window).width() - (X + XY[0])), Y + XY[1] ];
+
+            if ( $$(window).width() - showPoint[0] < src.outerWidth() ) {
+                src.css({
+                    backgroundColor: '#ee3525',
+                    left:  '0px',
+                    top: (showPoint[1] - tipHeight)  + 'px',
+                });
+            } else {
+                src.css({
+                    backgroundColor: '#ee3525',
+                    right: showPoint[0] + 'px',
+                    top: showPoint[1] - 1 + 'px',
+                });
+            }
+
+            setTimeout(() => {
+                this.isOpenWindowUser = true;
+                $$('.username-tip').remove();
+            }, 1500);
+            
+        } 
+    }
+
     componentWillUnmount() {
         Common.Notifications.off('document:ready', this.onDocumentReady);
 
@@ -210,6 +259,7 @@ class ContextMenuController extends Component {
         api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
         api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
         api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
     }
 
     componentDidMount() {
