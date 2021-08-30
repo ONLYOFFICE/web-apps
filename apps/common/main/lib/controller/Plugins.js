@@ -203,34 +203,13 @@ define([
                 arr = [];
             storePlugins.each(function(item){
                 var plugin = new Asc.CPlugin();
-                plugin.set_Name(item.get('name'));
-                plugin.set_Guid(item.get('guid'));
-                plugin.set_BaseUrl(item.get('baseUrl'));
-                plugin.set_MinVersion && plugin.set_MinVersion(item.get('minVersion'));
+                plugin.deserialize(item.attributes);
 
                 var variations = item.get('variations'),
                     variationsArr = [];
                 variations.forEach(function(itemVar){
                     var variation = new Asc.CPluginVariation();
-                    variation.set_Description(itemVar.get('description'));
-                    variation.set_Url(itemVar.get('url'));
-                    variation.set_Icons(itemVar.get('icons'));
-                    variation.set_Visual(itemVar.get('isVisual'));
-                    variation.set_CustomWindow(itemVar.get('isCustomWindow'));
-                    variation.set_System(itemVar.get('isSystem'));
-                    variation.set_Viewer(itemVar.get('isViewer'));
-                    variation.set_EditorsSupport(itemVar.get('EditorsSupport'));
-                    variation.set_Modal(itemVar.get('isModal'));
-                    variation.set_InsideMode(itemVar.get('isInsideMode'));
-                    variation.set_InitDataType(itemVar.get('initDataType'));
-                    variation.set_InitData(itemVar.get('initData'));
-                    variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
-                    variation.set_Buttons(itemVar.get('buttons'));
-                    variation.set_Size(itemVar.get('size'));
-                    variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
-                    variation.set_Events(itemVar.get('events'));
-                    variation.set_Help(itemVar.get('help'));
-
+                    variation.deserialize(itemVar.attributes);
                     variationsArr.push(variation);
                 });
 
