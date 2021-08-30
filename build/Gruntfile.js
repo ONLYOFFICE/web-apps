@@ -537,7 +537,7 @@ module.exports = function(grunt) {
                     options: {
                         cwd: '../vendor/framework7-react',
                     },
-                    cmd: 'npm i --include=dev',
+                    cmd: 'npm i --include=dev --production=false',
                 },
             }
         });
