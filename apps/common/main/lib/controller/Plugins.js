@@ -203,13 +203,13 @@ define([
                 arr = [];
             storePlugins.each(function(item){
                 var plugin = new Asc.CPlugin();
-				plugin.deserialize(item.attributes);
+                plugin.deserialize(item.attributes);
 
                 var variations = item.get('variations'),
                     variationsArr = [];
                 variations.forEach(function(itemVar){
                     var variation = new Asc.CPluginVariation();
-					variation.deserialize(itemVar.attributes);
+                    variation.deserialize(itemVar.attributes);
                     variationsArr.push(variation);
                 });
 
