@@ -40,7 +40,6 @@ DE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         ttOffset = [0, -10],
-        labelDocName,
         appOptions = {},
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip,
@@ -49,10 +48,6 @@ DE.ApplicationController = new(function(){
 
     var LoadingDocument = -256;
 
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Document Editor');
 
 
     // Check browser
@@ -77,15 +72,10 @@ DE.ApplicationController = new(function(){
         common.controller.modals.init(embedConfig);
 
         // Docked toolbar
-       if (embedConfig.toolbarDocked === 'bottom') {
-            //$('#toolbar').addClass('bottom');
+        if (embedConfig.toolbarDocked === 'bottom') {
             $('#editor_sdk').addClass('bottom');
-            //$('#box-tools').removeClass('dropdown').addClass('dropup');
-            ttOffset[1] = -40;
         } else {
-            //$('#toolbar').addClass('top');
             $('#editor_sdk').addClass('top');
-            ttOffset[1] = 40;
         }
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
@@ -106,7 +96,7 @@ DE.ApplicationController = new(function(){
                 guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
                             (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
                             common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
-                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
+                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null;//,
                 user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
                                                  common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
             user.anonymous && common.localStorage.setItem("guest-id", user.id);
@@ -141,13 +131,7 @@ DE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
-
-                Common.Analytics.trackEvent('Load', 'Start');
             }
-
-            embedConfig.docTitle = docConfig.title;
-            labelDocName = $('#title-doc-name');
-            labelDocName.text(embedConfig.docTitle || '')
         }
     }
 
@@ -157,7 +141,7 @@ DE.ApplicationController = new(function(){
     }
 
     function onCurrentPage(number) {
-        $('#page-number').val(number + 1);
+        //$('#page-number').val(number + 1);
     }
 
     function onLongActionBegin(type, id) {
@@ -170,8 +154,8 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
                     $submitedTooltip && $submitedTooltip.hide();
-                    btnSubmit.attr({disabled: true});
-                    btnSubmit.css("pointer-events", "none");
+                    /*btnSubmit.attr({disabled: true});
+                    btnSubmit.css("pointer-events", "none");*/
                 break;
             case LoadingDocument:
                 text = me.textLoadingDocument + '           ';
@@ -191,8 +175,8 @@ DE.ApplicationController = new(function(){
 
     function onLongActionEnd(type, id){
         if (id==Asc.c_oAscAsyncAction['Submit']) {
-            btnSubmit.removeAttr('disabled');
-            btnSubmit.css("pointer-events", "auto");
+            /*btnSubmit.removeAttr('disabled');
+            btnSubmit.css("pointer-events", "auto");*/
             if (!_submitFail) {
                 if (!$submitedTooltip) {
                     $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
@@ -280,14 +264,14 @@ DE.ApplicationController = new(function(){
     }
 
     function onFillRequiredFields(isFilled) {
-        if (isFilled) {
+        /*if (isFilled) {
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
             // $requiredTooltip && $requiredTooltip.hide();
         } else {
             btnSubmit.attr({disabled: true});
             btnSubmit.css("pointer-events", "none");
-        }
+        }*/
     }
 
     function onShowContentControlsActions(obj, x, y) {
@@ -392,72 +376,18 @@ DE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
-        var dividers = $('#box-tools .divider');
-        var itemsCount = $('#box-tools a').length;
 
-        /*if ( permissions.print === false) {
-            $('#idt-print').hide();
-            $(dividers[0]).hide();
-            itemsCount--;
-        }
-
-        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
-            $('#idt-download').hide();
-            itemsCount--;
-        }
-
-        if ( !appOptions.canFillForms || permissions.download === false) {
-            $('#idt-download-docx').hide();
-            $('#idt-download-pdf').hide();
-            $(dividers[0]).hide();
-            $(dividers[1]).hide();
-            itemsCount -= 2;
-        }
-
-        if ( !embedConfig.shareUrl || appOptions.canFillForms) {
-            $('#idt-share').hide();
-            itemsCount--;
-        }
-
-        if (!config.canBackToFolder) {
-            $('#idt-close').hide();
-            itemsCount--;
-        }
-
-        if (itemsCount<3)
-            $(dividers[2]).hide();
-
-        if ( !embedConfig.embedUrl || appOptions.canFillForms) {
-            $('#idt-embed').hide();
-            itemsCount--;
-        }
-
-        if ( !embedConfig.fullscreenUrl ) {
-            $('#idt-fullscreen').hide();
-            itemsCount--;
-        }
-
-        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
-        if (itemsCount<1)
-            $('#box-tools').addClass('hidden');
-        else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
-            $(dividers[2]).hide();
-
-        common.controller.modals.attach({
-            share: '#idt-share',
-            embed: '#idt-embed'
-        });*/
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
         api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
         api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
         api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
-      /*  api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
+        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
-        api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);*/
+        api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
         if (appOptions.canFillForms) {
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
@@ -468,124 +398,32 @@ DE.ApplicationController = new(function(){
         Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
-        DE.ApplicationView.tools.get('#idt-fullscreen')
-            .on('click', function(){
-                common.utils.openLink(embedConfig.fullscreenUrl);
-            });
 
-        DE.ApplicationView.tools.get('#idt-download')
-            .on('click', function(){
-                    if ( !!embedConfig.saveUrl ){
-                        common.utils.openLink(embedConfig.saveUrl);
-                    } else
-                    if (api && permissions.print!==false){
-                        api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                    }
-
-                    Common.Analytics.trackEvent('Save');
-            });
-
-        DE.ApplicationView.tools.get('#idt-print')
-            .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                Common.Analytics.trackEvent('Print');
-            });
-
-       DE.ApplicationView.tools.get('#idt-close')
-            .on('click', function(){
-            if (config.customization && config.customization.goback) {
-                if (config.customization.goback.requestClose && config.canRequestClose)
-                    Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
-            }
-        });
 
         var downloadAs =  function(format){
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-            Common.Analytics.trackEvent('Save');
         };
 
-        DE.ApplicationView.tools.get('#idt-download-docx')
-            .on('click', function(){
-                downloadAs(Asc.c_oAscFileType.DOCX);
-            });
-        DE.ApplicationView.tools.get('#idt-download-pdf')
-            .on('click', function(){
-                downloadAs(Asc.c_oAscFileType.PDF);
-            });
 
-        $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
-        $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
 
-        var $pagenum = $('#page-number');
-        $pagenum.on({
-            'keyup': function(e){
-                if ( e.keyCode == 13 ){
-                    var newPage = parseInt($('#page-number').val());
 
-                    if ( newPage > maxPages ) newPage = maxPages;
-                    if (newPage < 2 || isNaN(newPage)) newPage = 1;
-
-                    api.goToPage(newPage-1);
-                    $pagenum.blur();
-                }
-            }
-            , 'focusin' : function(e) {
-                $pagenum.removeClass('masked');
-            }
-            , 'focusout': function(e){
-                !$pagenum.hasClass('masked') && $pagenum.addClass('masked');
-            }
-        });
-
-        $('#pages').on('click', function(e) {
-            $pagenum.focus();
-        });
 
         // TODO: add asc_hasRequiredFields to sdk
 
-        if (appOptions.canSubmitForms && !api.asc_IsAllRequiredFormsFilled()) {
-            var sgroup = $('#id-submit-group');
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
-            if (!common.localStorage.getItem("de-embed-hide-submittip")) {
-                var offset = btnSubmit.offset();
-                $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
-                $(document.body).append($requiredTooltip);
-                $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
-                $requiredTooltip.find('.close-div').on('click', function() {
-                    $requiredTooltip.hide();
-                    api.asc_MoveToFillingForm(true, true, true);
-                    common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                });
-                $requiredTooltip.show();
-            } else {
-                sgroup.attr('data-toggle', 'tooltip');
-                sgroup.tooltip({
-                    title       : me.textRequired,
-                    placement   : 'bottom'
-                });
-            }
-        }
+
 
         var documentMoveTimer;
         var ismoved = false;
         $(document).mousemove(function(event){
-            $('#id-btn-zoom-in').fadeIn();
-            $('#id-btn-zoom-out').fadeIn();
+            /*$('#id-btn-zoom-in').fadeIn();
+            $('#id-btn-zoom-out').fadeIn();*/
 
             ismoved = true;
             if ( !documentMoveTimer ) {
                 documentMoveTimer = setInterval(function(){
                     if ( !ismoved ) {
-                        $('#id-btn-zoom-in').fadeOut();
-                        $('#id-btn-zoom-out').fadeOut();
+                       /* $('#id-btn-zoom-in').fadeOut();
+                        $('#id-btn-zoom-out').fadeOut();*/
                         clearInterval(documentMoveTimer);
                         documentMoveTimer = undefined;
                     }
@@ -595,23 +433,10 @@ DE.ApplicationController = new(function(){
             }
         });
         Common.Gateway.documentReady();
-        Common.Analytics.trackEvent('Load', 'Complete');
     }
 
     function onEditorPermissions(params) {
-        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
-             config.customization && config.customization.logo ) {
 
-            var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
-                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-            }
-
-            if (config.customization.logo.url) {
-                logo.attr('href', config.customization.logo.url);
-            }
-        }
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
@@ -619,49 +444,12 @@ DE.ApplicationController = new(function(){
 
         api.asc_setViewMode(!appOptions.canFillForms);
 
-        btnSubmit = $('#id-btn-submit');
-
-        if (!appOptions.canFillForms) {
-            $('#id-btn-prev-field').hide();
-            $('#id-btn-next-field').hide();
-            $('#id-btn-clear-fields').hide();
-            btnSubmit.hide();
-        } else {
-            $('#id-btn-next-field .caption').text(me.textNext);
-            $('#id-btn-clear-fields .caption').text(me.textClear);
-
-            $('#id-btn-prev-field').on('click', function(){
-                api.asc_MoveToFillingForm(false);
-            });
-            $('#id-btn-next-field').on('click', function(){
-                api.asc_MoveToFillingForm(true);
-            });
-            $('#id-btn-clear-fields').on('click', function(){
-                api.asc_ClearAllSpecialForms();
-            });
-
-            if (appOptions.canSubmitForms) {
-                btnSubmit.find('.caption').text(me.textSubmit);
-                btnSubmit.on('click', function(){
-                    api.asc_SendForm();
-                });
-            } else
-                btnSubmit.hide();
+        if (appOptions.canFillForms) {
 
             api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
         }
-
-        var $parent = labelDocName.parent();
-        var _left_width = $parent.position().left,
-            _right_width = $parent.next().outerWidth();
-
-        if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
-        else
-            $parent.css('padding-right', _left_width - _right_width);
-
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         api.asc_LoadDocument();
@@ -773,8 +561,6 @@ DE.ApplicationController = new(function(){
         }
 
         $('#id-critical-error-dialog').modal('show');
-
-        Common.Analytics.trackEvent('Internal Error', id.toString());
     }
 
     function onExternalMessage(error) {
@@ -783,8 +569,6 @@ DE.ApplicationController = new(function(){
             $('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
-
-            Common.Analytics.trackEvent('External Error');
         }
     }
 
@@ -873,7 +657,7 @@ DE.ApplicationController = new(function(){
             }
         });
 
-       window["flat_desine"] = true;
+        window["flat_desine"] = true;
         api = new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
             'embedded' : true
