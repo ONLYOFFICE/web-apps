@@ -908,6 +908,8 @@ define([
 
         insertImage: function(data) { // gateway
             if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
                 var arr = [];
                 if (data.images && data.images.length>0) {
                     for (var i=0; i<data.images.length; i++) {
