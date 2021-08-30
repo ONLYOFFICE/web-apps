@@ -76,7 +76,6 @@ define([
             });
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('protect:sheet', _.bind(this.onSheetClick, this));
         },
         setConfig: function (data, api) {
@@ -93,7 +92,6 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorksheet',_.bind(this.onChangeProtectSheet, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged',   _.bind(this.onActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
 
@@ -352,10 +350,6 @@ define([
                     }
                 }
             }
-        },
-
-        onCoAuthoringDisconnect: function() {
-            this.SetDisabled(true);
         }
 
     }, SSE.Controllers.WBProtection || {}));

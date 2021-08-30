@@ -350,7 +350,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     allowSignature: true,
-                    rightMenu: {clear: disable && (PE.getController('RightMenu').rightmenu.GetActivePane() !== 'id-signature-settings'), disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: false,

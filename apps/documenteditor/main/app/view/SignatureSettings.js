@@ -400,7 +400,7 @@ define([
                     allowMerge: false,
                     allowSignature: true,
                     allowProtect: true,
-                    rightMenu: {clear: disable && (DE.getController('RightMenu').rightmenu.GetActivePane() !== 'id-signature-settings'), disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: false,
