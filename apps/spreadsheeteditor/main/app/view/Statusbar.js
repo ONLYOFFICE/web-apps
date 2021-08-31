@@ -219,24 +219,6 @@ define([
                             me.fireEvent('sheet:changename');
                         }
                     }, this),
-                    'tab:move'          : _.bind(function (selectTabs, index) {
-                        me.tabBarScroll = {scrollLeft: me.tabbar.scrollX};
-                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || (selectTabs && selectTabs.length === 1 && selectTabs[0] === index)) {
-                            return;
-                        }
-                        if (_.isArray(selectTabs)) {
-                            me.fireEvent('sheet:move', [selectTabs, false, true, undefined, index]);
-                        } else {
-                            var tabIndex = selectTabs;
-
-                            if (tabIndex < index) {
-                                ++index;
-                            }
-
-                            me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
-                        }
-
-                    }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
                         Common.Utils.isIE && (this.isDrop = false);
                         Common.UI.Menu.Manager.hideAll();
@@ -278,7 +260,7 @@ define([
                         }
                         this.dropTabs = selectTabs;
                     }, this),
-                    'tab:drop': _.bind(function (dataTransfer, index) {
+                    'tab:drop': _.bind(function (dataTransfer, index, copy) {
                          if (this.isEditFormula || (Common.Utils.isIE && this.dataTransfer === undefined)) return;
                         Common.Utils.isIE && (this.isDrop = true);
                          var data = !Common.Utils.isIE ? dataTransfer.getData('onlyoffice') : this.dataTransfer;
@@ -287,8 +269,7 @@ define([
                              if (arrData) {
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                                     this.api.asc_moveWorksheet(_.isNumber(index) ? index : this.api.asc_getWorksheetsCount(), _.findWhere(arrData, {type: 'indexes'}).value);
-                                     this.api.asc_enableKeyEvents(true);
+                                     this.fireEvent('sheet:move', [_.findWhere(arrData, {type: 'indexes'}).value, !copy, true, _.isNumber(index) ? index : this.api.asc_getWorksheetsCount()]);
                                      Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
