@@ -113,7 +113,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
             var $window = this.getChild();
             var me = this;
-            var panelAutoFormat = $window.find('#id-autocorrect-dialog-settings-' + this.appPrefix + 'autoformat');
+            var panelAutoFormat = $window.find('#id-autocorrect-dialog-settings-' + (this.appPrefix=='pe-' ? 'de-' : this.appPrefix) + 'autoformat');
 
             // Math correct
             this.chReplaceType = new Common.UI.CheckBox({
@@ -358,7 +358,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var checked = (field.getValue()==='checked');
                 Common.localStorage.setBool(me.appPrefix + "settings-autoformat-hyperlink", checked);
                 Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-hyperlink", checked);
-                me.api.asc_setAutoCorrectHyperlinks(checked);
+                me.api.asc_SetAutoCorrectHyperlinks(checked);
             });
 
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));

@@ -2230,7 +2230,7 @@ define([
 
                 value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
-                // me.api.asc_setAutoCorrectHyperlinks(value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
             },
 
             showRenameUserDialog: function() {
