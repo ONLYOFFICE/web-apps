@@ -202,18 +202,10 @@ define([
                 if (this.type == Common.Utils.importTextType.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
-                        type: 'text',
+                        type: 'password',
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
-                        }
-                    });
-
-                    this.$window.find('input').on('input', function(){
-                        if ($(this).val() !== '') {
-                            ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
-                        } else {
-                            $(this).attr('type', 'text');
                         }
                     });
                 } else {
