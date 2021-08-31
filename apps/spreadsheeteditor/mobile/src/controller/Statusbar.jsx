@@ -23,10 +23,10 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
             api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
-            // api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
+            api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
         });
         Common.Notifications.on('document:ready', onApiSheetsChanged);
-        // Common.Notifications.on('api:disconnect', onApiDisconnect);
+        Common.Notifications.on('api:disconnect', onApiDisconnect);
     });
 
     const onApiDisconnect = () => {
@@ -180,7 +180,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !sheets.isWorkbookLocked) {
+                if (isEdit && !isDisconnected) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
