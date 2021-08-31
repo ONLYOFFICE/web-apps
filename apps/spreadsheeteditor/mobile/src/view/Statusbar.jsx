@@ -8,22 +8,23 @@ const viewStyle = {
     height: 30
 };
 
-const StatusbarView = inject('storeAppOptions', 'sheets')(observer(props => {
+const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const {sheets, storeAppOptions} = props;
+    const {sheets, storeAppOptions, users} = props;
     const allSheets = sheets.sheets;
     const hiddenSheets = sheets.hiddenWorksheets();
-    const isWorkbookLocked = sheets.isWorkbookLocked;
+    // const isWorkbookLocked = sheets.isWorkbookLocked;
     const isEdit = storeAppOptions.isEdit;
+    const isDisconnected = users.isDisconnected;
 
     return (
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
-                <div id="idx-box-add-tab" className={`${isWorkbookLocked ? 'disabled' : ''}`}>
-                    <Link href={false} id="idx-btn-addtab" className={`tab${isWorkbookLocked ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
+                <div id="idx-box-add-tab" className={`${isDisconnected ? 'disabled' : ''}`}>
+                    <Link href={false} id="idx-btn-addtab" className={`tab${isDisconnected ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                         <Icon className="icon icon-plus" />
                     </Link>
                 </div>
