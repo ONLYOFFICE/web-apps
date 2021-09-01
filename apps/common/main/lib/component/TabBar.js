@@ -170,7 +170,7 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
-                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                if ((3 !== e.which) && !e.shiftKey) {
                     var lockDrag = tab.isLockTheDrag;
                     this.bar.selectTabs.forEach(function (item) {
                         if (item.isLockTheDrag) {
@@ -181,8 +181,9 @@ define([
                         lockDrag = true;
                     }
                     this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
-                    if (!lockDrag)
+                    if (!lockDrag && !e.ctrlKey && !e.metaKey) {
                         tab.changeState();
+                    }
                 } else {
                     this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
