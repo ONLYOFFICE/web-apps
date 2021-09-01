@@ -200,10 +200,10 @@ define([
         tab.$el.children().on(
             {dragstart: $.proxy(function (e) {
                 var event = e.originalEvent;
-                if (!Common.Utils.isIE) {
+                if (!Common.Utils.isIE && !Common.Utils.isSafari) {
                     var img = document.createElement('div');
                     event.dataTransfer.setDragImage(img, 0, 0);
-                } else {
+                } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
                         tab.$el.find('span').prop('title', '');
                     });
