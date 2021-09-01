@@ -188,6 +188,8 @@ define([
                 function ( obj ) {
                     if ( obj != 'error' ) {
                         parse_themes_object(obj);
+                    } else {
+                        console.warn('failed to load/parse themes.json');
                     }
                 }
             );
