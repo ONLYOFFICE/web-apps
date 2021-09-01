@@ -109,7 +109,7 @@
         "less": {
             "files": {
                 "src": "../apps/documenteditor/forms/resources/less/application.less",
-                "dest": "../deploy/web-apps/apps/documenteditor/forms/resources/css/app.css"
+                "dest": "../deploy/web-apps/apps/documenteditor/forms/resources/css/app-all.css"
             },
             "vars": {
                 "app-image-const-path": "'../img'",
@@ -130,6 +130,9 @@
             "indexhtml": {
                 "../deploy/web-apps/apps/documenteditor/forms/index.html": "../apps/documenteditor/forms/index.html.deploy"
             }
+        },
+        "inline": {
+            "src": "../deploy/web-apps/apps/documenteditor/forms/index.html"
         }
     },
     "tasks": {
