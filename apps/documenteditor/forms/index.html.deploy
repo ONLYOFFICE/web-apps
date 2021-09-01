@@ -21,7 +21,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1001;
         }
 
         .loadmask > .brendpanel {
@@ -119,7 +119,8 @@
 
        <script>
             var  userAgent = navigator.userAgent.toLowerCase(),
-                check = function(regex){ return regex.test(userAgent); };
+                check = function(regex){ return regex.test(userAgent); },
+                stopLoading = false;
             if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
                 var m = /msie (\d+\.\d+)/.exec(userAgent);
                 if (m && parseFloat(m[1]) < 10.0) {
@@ -127,12 +128,21 @@
                         '<div id="id-error-mask" class="errormask">',
                             '<div class="error-body" align="center">',
                                 '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
-                                '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+                                '<div id="id-error-mask-text">Sorry, Document Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
                             '</div>',
                         '</div>'
                     );
+                    stopLoading = true;
                 }
-            }
+            } else
+             if (check(/windows\snt/i)) {
+                 var re = /chrome\/(\d+)/i.exec(userAgent);
+                 if (!!re && !!re[1] && !(re[1] > 49)) {
+                     setTimeout(function () {
+                         document.getElementsByTagName('html')[0].className += "winxp";
+                     },0);
+                 }
+             }
 
             function getUrlParams() {
                 var e,
@@ -197,30 +207,44 @@
               <span id="box-tools"></span>
           </div>
       </div>
+      <script>
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        } else {
+            var elem = document.querySelector('.loading-logo img');
+            if (elem) {
+                logo && (elem.setAttribute('src', logo));
+                elem.style.opacity = 1;
+            }
+        }
+      </script>
+      <script>
+          window.requireTimeourError = function(){
+              var reqerr;
 
-      <script type="text/javascript" src="../../../vendor/jquery/jquery.browser.min.js"></script>
+              if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
+              else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
+              else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
+              else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+              else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
-      <!--application-->
-      <script type="text/javascript">
-          var isBrowserSupported = function() {
-              return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
-                      ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
-                      ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
-                      ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
-                      ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
+              return reqerr;
           };
 
-          if (!isBrowserSupported()){
-              document.write(
-                  '<div id="id-error-mask" class="errormask">',
-                      '<div class="error-body" align="center">',
-                          '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
-                          '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
-                      '</div>',
-                  '</div>'
-              );
-          }
+          var requireTimeoutID = setTimeout(function(){
+              window.alert(window.requireTimeourError());
+              window.location.reload();
+          }, 30000);
+
+          var require = {
+              waitSeconds: 30,
+              callback: function(){
+                  clearTimeout(requireTimeoutID);
+              }
+          };
       </script>
+      <!--application-->
+      <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
       <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
   </body>
 </html>

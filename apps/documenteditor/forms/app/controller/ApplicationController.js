@@ -37,6 +37,8 @@ define([
             var me = this;
             if (!Common.Utils.isBrowserSupported()){
                 Common.Utils.showBrowserRestriction();
+                $('#editor_sdk').hide().remove();
+                $('#toolbar').hide().remove();
                 Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
                 return;
             }
@@ -132,6 +134,12 @@ define([
             });
 
             window.onbeforeunload = _.bind(this.onBeforeUnload, this);
+
+            this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.warnLicenseExceeded = this.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.warnLicenseUsersExceeded = this.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
         },
 
         onDocumentResize: function() {
@@ -383,7 +391,6 @@ define([
             }
 
             this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
-            // this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
             this.api.asc_setDocInfo(docInfo);
             this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -438,6 +445,8 @@ define([
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
                 this.permissions.edit = this.permissions.review = false;
 
+            this.appOptions.trialMode      = params.asc_getLicenseMode();
+            this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
             this.appOptions.canFillForms   = this.appOptions.canLicense && (this.permissions.fillForms===true) && (this.editorConfig.mode !== 'view');
@@ -527,6 +536,44 @@ define([
                     })
                 }
             });
+        },
+
+        applyLicense: function() {
+            if (this._state.licenseType) {
+                var license = this._state.licenseType,
+                    buttons = ['ok'],
+                    primary = 'ok';
+                if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                    (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                    license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                    license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                } else {
+                    license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                    buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
+                    primary = 'buynow';
+                }
+
+                var value = Common.localStorage.getItem("de-license-warning");
+                value = (value!==null) ? parseInt(value) : 0;
+                var now = (new Date).getTime();
+                if (now - value > 86400000) {
+                    Common.UI.info({
+                        maxwidth: 500,
+                        title: this.textNoLicenseTitle,
+                        msg  : license,
+                        buttons: buttons,
+                        primary: primary,
+                        callback: function(btn) {
+                            Common.localStorage.setItem("de-license-warning", now);
+                            if (btn == 'buynow')
+                                window.open('{{PUBLISHER_URL}}', "_blank");
+                            else if (btn == 'contact')
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                        }
+                    });
+                }
+            }
         },
 
         onLongActionBegin: function(type, id) {
@@ -950,8 +997,11 @@ define([
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
-                // this.api.asc_SetHighlightRequiredFields(true);
+                this.api.asc_SetHighlightRequiredFields(true);
             }
+
+            if (this.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
+                this.applyLicense();
 
             Common.Gateway.on('processmouse',       _.bind(this.onProcessMouse, this));
             Common.Gateway.on('downloadas',         _.bind(this.onDownloadAs, this));
@@ -1188,8 +1238,6 @@ define([
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-        textNext: 'Next Field',
-        textClear: 'Clear All Fields',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
@@ -1200,6 +1248,20 @@ define([
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         textCloseTip: "Click to close the tip.",
         txtPressLink: 'Press Ctrl and click link',
-        txtEmpty: '(Empty)'
+        txtEmpty: '(Empty)',
+        titleServerVersion: 'Editor updated',
+        errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+        titleUpdateVersion: 'Version changed',
+        errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
+        warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
+        warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+        warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
+        warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
+        warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
+        warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
+        textBuyNow: 'Visit website',
+        textNoLicenseTitle: 'License limit reached',
+        textContactUs: 'Contact sales'
+
     }, DE.Controllers.ApplicationController));
 });
