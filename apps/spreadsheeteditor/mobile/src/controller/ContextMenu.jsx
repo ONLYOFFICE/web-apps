@@ -236,40 +236,10 @@ class ContextMenu extends ContextMenuController {
     }
 
     onApiMouseMove(dataarray) {
-        let index_hyperlink,
-            index_comments,
-            index_locked,
-            index_column, index_row,
-            index_filter,
-            index_slicer,
-            index_foreign;
+        let index_locked;
+
         for (let i = dataarray.length; i > 0; i--) {
-            switch (dataarray[i-1].asc_getType()) {
-                case Asc.c_oAscMouseMoveType.Hyperlink:
-                    index_hyperlink = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.Comment:
-                    index_comments = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.LockedObject:
-                    index_locked = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.ResizeColumn:
-                    index_column = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.ResizeRow:
-                    index_row = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.Filter:
-                    index_filter = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.Tooltip:
-                    index_slicer = i;
-                    break;
-                case Asc.c_oAscMouseMoveType.ForeignSelect:
-                    index_foreign = i;
-                    break;
-            }
+            if (dataarray[i-1].asc_getType() === Asc.c_oAscMouseMoveType.LockedObject) index_locked = i;
         }
 
         if (!index_locked && this.isOpenWindowUser) {
