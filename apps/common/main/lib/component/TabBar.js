@@ -240,7 +240,7 @@ define([
             }, this),
             dragend: $.proxy(function (e) {
                 var event = e.originalEvent;
-                if (event.dataTransfer.dropEffect === 'move') {
+                if (event.dataTransfer.dropEffect === 'move' && !event.dataTransfer.mozUserCancelled) {
                     this.bar.trigger('tab:dragend', true);
                 } else {
                     this.bar.trigger('tab:dragend', false);
