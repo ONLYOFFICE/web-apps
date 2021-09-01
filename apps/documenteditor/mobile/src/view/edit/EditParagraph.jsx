@@ -222,7 +222,7 @@ const EditParagraph = props => {
                 }}></ListItem>
             </List>
             <BlockTitle>{_t.textParagraphStyles}</BlockTitle>
-            <List>
+            <List className='link no-active-state'>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}
