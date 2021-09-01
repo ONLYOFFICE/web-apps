@@ -37,6 +37,8 @@ define([
             var me = this;
             if (!Common.Utils.isBrowserSupported()){
                 Common.Utils.showBrowserRestriction();
+                $('#editor_sdk').hide().remove();
+                $('#toolbar').hide().remove();
                 Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
                 return;
             }
@@ -1200,6 +1202,8 @@ define([
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         textCloseTip: "Click to close the tip.",
         txtPressLink: 'Press Ctrl and click link',
-        txtEmpty: '(Empty)'
+        txtEmpty: '(Empty)',
+        titleServerVersion: 'Editor updated',
+        errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
     }, DE.Controllers.ApplicationController));
 });
