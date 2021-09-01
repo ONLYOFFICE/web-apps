@@ -42,7 +42,7 @@ DE.ApplicationController = new(function(){
         ttOffset = [0, -10],
         appOptions = {},
         btnSubmit,
-        _submitFail, $submitedTooltip, $requiredTooltip,
+        _submitFail, $submitedTooltip,
         $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0;
 
@@ -67,19 +67,11 @@ DE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-        embedConfig = $.extend(embedConfig, data.config.embedded);
 
-        common.controller.modals.init(embedConfig);
-
-        // Docked toolbar
-        if (embedConfig.toolbarDocked === 'bottom') {
-            $('#editor_sdk').addClass('bottom');
-        } else {
             $('#editor_sdk').addClass('top');
-        }
 
-        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        /*config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);*/
     }
 
     function loadDocument(data) {
@@ -115,10 +107,11 @@ DE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
-            var enable = !config.customization || (config.customization.macros!==false);
+            /*var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);
+            docInfo.asc_putIsEnabledPlugins(!!enable);*/
+
 
             var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
@@ -137,11 +130,6 @@ DE.ApplicationController = new(function(){
 
     function onCountPages(count) {
         maxPages = count;
-        $('#pages').text(me.textOf + " " + count);
-    }
-
-    function onCurrentPage(number) {
-        //$('#page-number').val(number + 1);
     }
 
     function onLongActionBegin(type, id) {
@@ -388,11 +376,11 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
-        if (appOptions.canFillForms) {
+        /*if (appOptions.canFillForms) {
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
             api.asc_SetHighlightRequiredFields(true);
-        }
+        }*/
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -439,17 +427,17 @@ DE.ApplicationController = new(function(){
 
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        //appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
 
-        api.asc_setViewMode(!appOptions.canFillForms);
+        //api.asc_setViewMode(!appOptions.canFillForms);
+        //api.asc_setViewMode(false);
+        /*if (appOptions.canFillForms) {*/
 
-        if (appOptions.canFillForms) {
-
-            api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
-            api.asc_SetFastCollaborative(true);
+            //api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+            //api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
-        }
+        /*}*/
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         api.asc_LoadDocument();
@@ -468,7 +456,7 @@ DE.ApplicationController = new(function(){
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            //$('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
 
@@ -660,7 +648,7 @@ DE.ApplicationController = new(function(){
         window["flat_desine"] = true;
         api = new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true/**/
         });
 
         if (api){
@@ -669,8 +657,7 @@ DE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
-//            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
-            api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
+
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
