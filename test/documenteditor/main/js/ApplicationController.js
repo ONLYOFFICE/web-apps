@@ -35,28 +35,22 @@ DE.ApplicationController = new(function(){
         api,
         config = {},
         docConfig = {},
-        embedConfig = {},
         permissions = {},
         maxPages = 0,
         created = false,
-        ttOffset = [0, -10],
         appOptions = {},
-        btnSubmit,
         _submitFail, $submitedTooltip,
-        $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0;
 
     var LoadingDocument = -256;
 
-
-
     // Check browser
     // -------------------------
 
-    if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
+    /*if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
         Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         return;
-    }
+    }*/
 
     common.localStorage.setId('text');
     common.localStorage.setKeysFilter('de-,asc.text');
@@ -68,7 +62,7 @@ DE.ApplicationController = new(function(){
     function loadConfig(data) {
         config = $.extend(config, data.config);
 
-            $('#editor_sdk').addClass('top');
+            //$('#editor_sdk').addClass('top');
 
         /*config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                  (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);*/
@@ -133,224 +127,21 @@ DE.ApplicationController = new(function(){
     }
 
     function onLongActionBegin(type, id) {
-        var text = '';
-        switch (id)
-        {
-            case Asc.c_oAscAsyncAction['Print']:
-                text = me.downloadTextText;
-                break;
-            case Asc.c_oAscAsyncAction['Submit']:
-                    _submitFail = false;
-                    $submitedTooltip && $submitedTooltip.hide();
-                    /*btnSubmit.attr({disabled: true});
-                    btnSubmit.css("pointer-events", "none");*/
-                break;
-            case LoadingDocument:
-                text = me.textLoadingDocument + '           ';
-                break;
-            default:
-                text = me.waitText;
-                break;
-        }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             if (!me.loadMask)
                 me.loadMask = new common.view.LoadMask();
-            me.loadMask.setTitle(text);
             me.loadMask.show();
         }
     }
 
     function onLongActionEnd(type, id){
-        if (id==Asc.c_oAscAsyncAction['Submit']) {
-            /*btnSubmit.removeAttr('disabled');
-            btnSubmit.css("pointer-events", "auto");*/
-            if (!_submitFail) {
-                if (!$submitedTooltip) {
-                    $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
-                    $(document.body).append($submitedTooltip);
-                    $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
-                }
-                $submitedTooltip.show();
-            }
-        }
         me.loadMask && me.loadMask.hide();
     }
 
-    function onDocMouseMoveStart() {
-        me.isHideBodyTip = true;
-    }
-
-    function onDocMouseMoveEnd() {
-        if (me.isHideBodyTip) {
-            if ( $tooltip ) {
-                $tooltip.tooltip('hide');
-                $tooltip = false;
-            }
-        }
-    }
-
-    var $ttEl, $tooltip;
-    function onDocMouseMove(data) {
-        if (data) {
-            var type = data.get_Type();
-            if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
-                me.isHideBodyTip = false;
-
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? me.txtPressLink : data.get_FormHelpText();
-                if (str.length>500)
-                    str = str.substr(0, 500) + '...';
-                str = common.utils.htmlEncode(str);
-
-                if ( !$ttEl ) {
-                    $ttEl = $('.hyperlink-tooltip');
-                    $ttEl.tooltip({'container':'body', 'trigger':'manual'});
-                }
-                $ttEl.ttpos = [data.get_X(), data.get_Y()];
-                if ( !$tooltip)
-                    $tooltip = $ttEl.data('bs.tooltip').tip();
-
-                if (!$tooltip.is(':visible')) {
-                    var tip = $ttEl.data('bs.tooltip');
-                    tip.options.title = str;
-                    tip.show([-1000, -1000]);
-                } else
-                    $tooltip.find('.tooltip-inner')['text'](str);
-
-                var ttHeight = $tooltip.height(),
-                    ttWidth = $tooltip.width();
-                !bodyWidth && (bodyWidth = $('body').width());
-
-                $ttEl.ttpos[1] -= (ttHeight - ttOffset[1] + 20);
-                if ($ttEl.ttpos[0] + ttWidth + 10 >bodyWidth) {
-                    $ttEl.ttpos[0] = bodyWidth - ttWidth - 5;
-                    if ($ttEl.ttpos[1] < 0)
-                        $ttEl.ttpos[1] += ttHeight + ttOffset[1] + 20;
-                } else if ($ttEl.ttpos[1] < 0) {
-                    $ttEl.ttpos[1] = 0;
-                    $ttEl.ttpos[0] += 20;
-                }
-                $tooltip.css({
-                    left: $ttEl.ttpos[0],
-                    top: $ttEl.ttpos[1]
-                });
-            }
-        }
-    }
 
     function onDownloadUrl(url, fileType) {
         Common.Gateway.downloadAs(url, fileType);
-    }
-
-    function onPrint() {
-        if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-    }
-
-    function onPrintUrl(url) {
-        common.utils.dialogPrint(url, api);
-    }
-
-    function onFillRequiredFields(isFilled) {
-        /*if (isFilled) {
-            btnSubmit.removeAttr('disabled');
-            btnSubmit.css("pointer-events", "auto");
-            // $requiredTooltip && $requiredTooltip.hide();
-        } else {
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
-        }*/
-    }
-
-    function onShowContentControlsActions(obj, x, y) {
-        switch (obj.type) {
-            case Asc.c_oAscContentControlSpecificType.Picture:
-                if (obj.pr && obj.pr.get_Lock) {
-                    var lock = obj.pr.get_Lock();
-                    if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
-                        return;
-                }
-                api.asc_addImage(obj);
-                setTimeout(function(){
-                    api.asc_UncheckContentControlButtons();
-                }, 500);
-                break;
-            case Asc.c_oAscContentControlSpecificType.DropDownList:
-            case Asc.c_oAscContentControlSpecificType.ComboBox:
-                onShowListActions(obj, x, y);
-                break;
-        }
-    }
-
-    function onHideContentControlsActions() {
-        $listControlMenu && $listControlMenu.hide();
-        api.asc_UncheckContentControlButtons();
-    }
-
-    function onShowListActions(obj, x, y) {
-        var type = obj.type,
-            props = obj.pr,
-            specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-            isForm = !!props.get_FormPr();
-
-        var menuContainer = DE.ApplicationView.getMenuForm();
-
-        if (!$listControlMenu) {
-            $listControlMenu = menuContainer.find('ul');
-            $listControlMenu.on('click', 'li', function(e) {
-                var value = $(e.target).attr('value');
-                if (value) {
-                    value = parseInt(value);
-                    setTimeout(function(){
-                        (value!==-1) && api.asc_SelectContentControlListItem(listControlItems[value], listObj.get_InternalId());
-                    }, 1);
-                }
-            });
-            $('#editor_sdk').on('click', function(e){
-                if (e.target.localName == 'canvas') {
-                    if (me._preventClick)
-                        me._preventClick = false;
-                    else {
-                        $listControlMenu && $listControlMenu.hide();
-                        api.asc_UncheckContentControlButtons();
-                    }
-                }
-            });
-        }
-        $listControlMenu.find('li').remove();
-        listControlItems = [];
-        listObj = props;
-
-        if (specProps) {
-            var k = 0;
-            if (isForm){ // for dropdown and combobox form control always add placeholder item
-                var text = props.get_PlaceholderText();
-                $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
-                                        ((text.trim()!=='') ? text : me.txtEmpty) +
-                                        '</a></li>');
-                listControlItems.push('');
-            }
-            var count = specProps.get_ItemsCount();
-            k = listControlItems.length;
-            for (var i=0; i<count; i++) {
-                if (specProps.get_ItemValue(i)!=='' || !isForm) {
-                    $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + (i+k) + '">' +
-                        common.utils.htmlEncode(specProps.get_ItemDisplayText(i)) +
-                        '</a></li>');
-                    listControlItems.push(specProps.get_ItemValue(i));
-                }
-            }
-            if (!isForm && listControlItems.length<1) {
-                $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="0">' +
-                                        me.txtEmpty +
-                                        '</a></li>');
-                listControlItems.push(-1);
-            }
-        }
-
-        menuContainer.css({left: x, top : y});
-        me._preventClick = true;
-        $listControlMenu.show();
     }
 
     function hidePreloader() {
@@ -368,58 +159,19 @@ DE.ApplicationController = new(function(){
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
-        api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
-        api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
-        api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        api.asc_registerCallback('asc_onPrint',                 onPrint);
-        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
-        api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
-        /*if (appOptions.canFillForms) {
-            api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
-            api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
-            api.asc_SetHighlightRequiredFields(true);
-        }*/
+
+
 
         Common.Gateway.on('processmouse',       onProcessMouse);
-        Common.Gateway.on('downloadas',         onDownloadAs);
+        //Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
-
-
-
-        var downloadAs =  function(format){
+        /*var downloadAs =  function(format){
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-        };
-
-
-
-
+        };*/
 
         // TODO: add asc_hasRequiredFields to sdk
-
-
-
-        var documentMoveTimer;
-        var ismoved = false;
-        $(document).mousemove(function(event){
-            /*$('#id-btn-zoom-in').fadeIn();
-            $('#id-btn-zoom-out').fadeIn();*/
-
-            ismoved = true;
-            if ( !documentMoveTimer ) {
-                documentMoveTimer = setInterval(function(){
-                    if ( !ismoved ) {
-                       /* $('#id-btn-zoom-in').fadeOut();
-                        $('#id-btn-zoom-out').fadeOut();*/
-                        clearInterval(documentMoveTimer);
-                        documentMoveTimer = undefined;
-                    }
-
-                    ismoved = false;
-                }, 2000);
-            }
-        });
         Common.Gateway.documentReady();
     }
 
@@ -449,7 +201,7 @@ DE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
-    function onError(id, level, errData) {
+    /*function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').text(me.scriptLoadError);
@@ -558,7 +310,7 @@ DE.ApplicationController = new(function(){
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
         }
-    }
+    }*/
 
     function onProcessMouse(data) {
         if (data.type == 'mouseup') {
@@ -624,7 +376,7 @@ DE.ApplicationController = new(function(){
                 ismodalshown = false;
                 api.asc_enableKeyEvents(true);
             }
-        ).on('hidden.bs.dropdown', '.dropdown',
+        )/*.on('hidden.bs.dropdown', '.dropdown',
             function(e) {
                 if ( !ismodalshown )
                     api.asc_enableKeyEvents(true);
@@ -637,7 +389,7 @@ DE.ApplicationController = new(function(){
                     }
                 }
             }
-        );
+        )*/;
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
@@ -647,12 +399,11 @@ DE.ApplicationController = new(function(){
 
         window["flat_desine"] = true;
         api = new Asc.asc_docs_api({
-            'id-view'  : 'editor_sdk',
-            'embedded' : true/**/
+            'id-view'  : 'editor_sdk'
         });
 
         if (api){
-            api.asc_registerCallback('asc_onError',                 onError);
+            //api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
@@ -662,7 +413,7 @@ DE.ApplicationController = new(function(){
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
-            Common.Gateway.on('showmessage',        onExternalMessage);
+            //Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
         }
 
@@ -683,26 +434,15 @@ DE.ApplicationController = new(function(){
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
         errorUserDrop: 'The file cannot be accessed right now.',
         unsupportedBrowserErrorText: 'Your browser is not supported.',
-        textOf: 'of',
-        downloadTextText: 'Downloading document...',
-        waitText: 'Please, wait...',
         textLoadingDocument: 'Loading document',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-        textNext: 'Next Field',
-        textClear: 'Clear All Fields',
-        textSubmit: 'Submit',
-        textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
-        textRequired: 'Fill all required fields to send form.',
-        textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-        txtEmpty: '(Empty)',
-        txtPressLink: 'Press Ctrl and click link',
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();
