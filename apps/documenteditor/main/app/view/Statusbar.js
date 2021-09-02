@@ -366,6 +366,7 @@ define([
 
             SetDisabled: function(disable) {
                 this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1);
+                this.btnTurnReview && this.btnTurnReview.setDisabled(disable);
             },
 
             onApiCoAuthoringDisconnect: function() {
