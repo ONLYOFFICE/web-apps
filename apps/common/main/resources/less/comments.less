@@ -277,11 +277,15 @@
         cursor: pointer;
     }
 
-    .btn-edit,.btn-delete, .btn-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
+    .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
         margin: 0 0 0 5px;
         background-color: transparent;
+    }
+
+    .icon-resolve {
+        float: left;
     }
 
     .btn-edit {
@@ -350,7 +354,7 @@
         }
     }
 
-    .btn-resolve,.btn-accept {
+    .btn-resolve, .btn-accept, .icon-resolve {
         position: relative;
 
         &:after {
@@ -366,7 +370,7 @@
             top: 0px;
         }
 
-        &.comment-resolved {
+        &.comment-resolved, &.i-comment-resolved {
             &:after {
                 border-color: @icon-success-ie;
                 border-color: @icon-success;

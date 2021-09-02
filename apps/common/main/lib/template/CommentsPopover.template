@@ -71,16 +71,20 @@
 
     <!-- edit buttons -->
 
-    <% if (!editTextInPopover && !lock && !hint) { %>
+    <% if (!editTextInPopover && !lock) { %>
         <div class="edit-ct">
-            <% if (editable) { %>
-                <div class="btn-edit img-commonctrl"></div>
+            <% if (!hint) { %>
+                <% if (editable) { %>
+                    <div class="btn-edit img-commonctrl"></div>
+                <% } %>
+                <% if (removable) { %>
+                    <div class="btn-delete img-commonctrl"></div>
+                <% } %>
             <% } %>
-            <% if (removable) { %>
-                <div class="btn-delete img-commonctrl"></div>
-            <% } %>
-            <% if (editable) { %>
-            <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+            <% if (editable && !hint) { %>
+                <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+            <% } else if ((!editable || hint) && resolved) { %>
+                <div class="icon-resolve i-comment-resolved"></div>
             <% } %>
         </div>
     <% } %>
