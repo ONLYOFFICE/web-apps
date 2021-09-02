@@ -223,7 +223,22 @@ define([
 
             var showObjectMenu = function(event, docElement, eOpts){
                 if (me.api){
-                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
+                    var obj;
+                    if (me.mode.isEdit && !me._isDisabled) {
+                        obj = fillMenuProps(me.api.getSelectedElements());
+                    } else if (me._fillFormwMode) {
+                        var para = false,
+                            elements = me.api.getSelectedElements();
+                        for (var i = 0; i < elements.length; i++) {
+                            var elType = elements[i].get_ObjectType();
+                            if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                                para = true;
+                            }
+                        }
+                        obj = para ? fillMenuProps(elements) : fillViewMenuProps(elements);
+                    } else {
+                        obj = fillViewMenuProps(me.api.getSelectedElements());
+                    }
                     if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
                 }
             };
@@ -3723,6 +3738,10 @@ define([
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
 
+            var menuParaCopyPasteSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             var menuParaControlSettings = new Common.UI.MenuItem(
             {
                 caption: me.textEditControls,
@@ -3847,9 +3866,10 @@ define([
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
-                    menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
-                    menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
-                    if (value.paraProps) {
+                    menuParagraphAdvanced.setVisible(!me._fillFormwMode);
+                    menuParagraphBreakBefore.setVisible(!me._fillFormwMode && !isInShape && !isInChart && !isEquation);
+                    menuParagraphKeepLines.setVisible(!me._fillFormwMode && !isInShape && !isInChart && !isEquation);
+                    if (value.paraProps && !me._fillFormwMode) {
                         menuParagraphBreakBefore.setChecked(value.paraProps.value.get_PageBreakBefore());
                         menuParagraphKeepLines.setChecked(value.paraProps.value.get_KeepLines());
                     }
@@ -3897,13 +3917,17 @@ define([
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuParaCopy.setDisabled(!cancopy);
+                    menuParaCut.setVisible(true);
                     menuParaCut.setDisabled(disabled || !cancopy);
+                    menuParaPaste.setVisible(true);
                     menuParaPaste.setDisabled(disabled);
                     menuParaPrint.setVisible(me.mode.canPrint);
                     menuParaPrint.setDisabled(!cancopy);
 
+                    menuParaCopyPasteSeparator.setVisible(!me._fillFormwMode);
+
                     // spellCheck
-                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && !me._fillFormwMode);
                     me.menuSpellPara.setVisible(spell);
                     menuSpellcheckParaSeparator.setVisible(spell);
                     menuIgnoreSpellPara.setVisible(spell);
@@ -3941,9 +3965,9 @@ define([
                     if (frame_pr)
                         menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
-                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
-                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
-                    if (me.mode.canEditStyles && !isInChart) {
+                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart && !me._fillFormwMode);
+                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart && !me._fillFormwMode);
+                    if (me.mode.canEditStyles && !isInChart && !me._fillFormwMode) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
@@ -3954,9 +3978,9 @@ define([
                         in_control = !in_toc && me.api.asc_IsContentControl(),
                         control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         is_form = control_props && control_props.get_FormPr();
-                    menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
-                    menuParaControlSeparator.setVisible(in_control);
+                    menuParaRemoveControl.setVisible(in_control && !me._fillFormwMode);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form && !me._fillFormwMode);
+                    menuParaControlSeparator.setVisible(in_control && !me._fillFormwMode);
                     if (in_control) {
                         var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
@@ -3965,6 +3989,11 @@ define([
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+
+                        if (me._fillFormwMode && spectype !== Asc.c_oAscContentControlSpecificType.None) {
+                            menuParaCut.setVisible(false);
+                            menuParaPaste.setVisible(false);
+                        }
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
@@ -4020,7 +4049,7 @@ define([
                     menuParaPrint,
                     menuEquationInsertCaptionSeparator,
                     menuEquationInsertCaption,
-                    { caption: '--' },
+                    menuParaCopyPasteSeparator,
                     menuEquationSeparator,
                     menuParaRemoveControl,
                     menuParaControlSettings,
@@ -4427,9 +4456,10 @@ define([
             _.defer(function(){  me.cmpEl.focus(); }, 50);
         },
 
-        SetDisabled: function(state, canProtect) {
+        SetDisabled: function(state, canProtect, fillFormwMode) {
             this._isDisabled = state;
             this._canProtect = canProtect;
+            this._fillFormwMode = state ? fillFormwMode : false;
         },
 
         alignmentText           : 'Alignment',
