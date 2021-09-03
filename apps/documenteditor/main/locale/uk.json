@@ -72,7 +72,6 @@
   "Common.define.chartData.textPoint": "XY (розсіювання)",
   "Common.define.chartData.textStock": "Запас",
   "Common.define.chartData.textSurface": "Поверхня",
-  "Common.UI.ColorButton.textNewColor": "Додати новий власний колір",
   "Common.UI.ComboBorderSize.txtNoBorders": "Немає кордонів",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Немає кордонів",
   "Common.UI.ComboDataView.emptyComboText": "Немає стилів",
@@ -1034,11 +1033,6 @@
   "DE.Views.FileMenu.btnSettingsCaption": "Розширені налаштування...",
   "DE.Views.FileMenu.btnToEditCaption": "Редагувати документ",
   "DE.Views.FileMenu.textDownload": "Звантажити",
-  "DE.Views.FileMenuPanels.CreateNew.fromBlankText": "З бланку",
-  "DE.Views.FileMenuPanels.CreateNew.fromTemplateText": "З шаблону",
-  "DE.Views.FileMenuPanels.CreateNew.newDescriptionText": "Створіть новий порожній текстовий документ, який ви зможете стильувати та форматувати після його створення під час редагування. Або виберіть один із шаблонів, щоб запустити документ певного типу або мети, де деякі стилі вже були попередньо застосовані.",
-  "DE.Views.FileMenuPanels.CreateNew.newDocumentText": "Новий текстовий документ",
-  "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Немає шаблонів",
   "DE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Застосувати",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAddAuthor": "Додати автора",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAddText": "Додати текст",
@@ -1775,6 +1769,5 @@
   "DE.Views.WatermarkSettingsDialog.textBold": "Грубий",
   "DE.Views.WatermarkSettingsDialog.textColor": "Колір тексту",
   "DE.Views.WatermarkSettingsDialog.textItalic": "Курсив",
-  "DE.Views.WatermarkSettingsDialog.textNewColor": "Додати новий власний колір",
   "DE.Views.WatermarkSettingsDialog.textStrikeout": "Викреслений"
 }

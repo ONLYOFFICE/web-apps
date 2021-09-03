@@ -35,7 +35,6 @@
   "Common.UI.Calendar.textDecember": "desember",
   "Common.UI.Calendar.textShortApril": "apr",
   "Common.UI.Calendar.textShortAugust": "Aug",
-  "Common.UI.ColorButton.textNewColor": "Legg til ny egendefinert farge",
   "Common.UI.ExtendedColorDialog.addButtonText": "Legg til",
   "Common.UI.ExtendedColorDialog.textCurrent": "Nåværende",
   "Common.UI.SearchDialog.textMatchCase": "Følsom for store og små bokstaver",
@@ -649,6 +648,5 @@
   "DE.Views.Toolbar.txtScheme6": "Mengde",
   "DE.Views.WatermarkSettingsDialog.textAuto": "Auto",
   "DE.Views.WatermarkSettingsDialog.textBold": "Fet",
-  "DE.Views.WatermarkSettingsDialog.textDiagonal": "Diagonal",
-  "DE.Views.WatermarkSettingsDialog.textNewColor": "Legg til ny egendefinert farge"
+  "DE.Views.WatermarkSettingsDialog.textDiagonal": "Diagonal"
 }
