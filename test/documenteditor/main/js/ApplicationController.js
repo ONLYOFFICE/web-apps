@@ -47,10 +47,11 @@ DE.ApplicationController = new(function(){
     // Check browser
     // -------------------------
 
-    /*if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+    if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
+        //Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+        console.error(this.unsupportedBrowserErrorText);
         return;
-    }*/
+    }
 
     common.localStorage.setId('text');
     common.localStorage.setKeysFilter('de-,asc.text');
@@ -61,11 +62,6 @@ DE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-
-            //$('#editor_sdk').addClass('top');
-
-        /*config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);*/
     }
 
     function loadDocument(data) {
@@ -101,10 +97,10 @@ DE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
-            /*var enable = !config.customization || (config.customization.macros!==false);
+            var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);*/
+            docInfo.asc_putIsEnabledPlugins(!!enable);
 
 
             var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
@@ -122,11 +118,7 @@ DE.ApplicationController = new(function(){
         }
     }
 
-    function onCountPages(count) {
-        maxPages = count;
-    }
-
-    function onLongActionBegin(type, id) {
+   function onLongActionBegin(type, id) {
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             if (!me.loadMask)
@@ -139,7 +131,13 @@ DE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.hide();
     }
 
-
+    function onPrint() {
+        if ( permissions.print!==false )
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, false));
+    }
+    function onPrintUrl(url) {
+        common.utils.dialogPrint(url, api);
+    }
     function onDownloadUrl(url, fileType) {
         Common.Gateway.downloadAs(url, fileType);
     }
@@ -161,15 +159,17 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
+        api.asc_registerCallback('asc_onPrint',                 onPrint);
+        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
 
 
 
         Common.Gateway.on('processmouse',       onProcessMouse);
-        //Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
-        /*var downloadAs =  function(format){
+        var downloadAs =  function(format){
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-        };*/
+        };
 
         // TODO: add asc_hasRequiredFields to sdk
         Common.Gateway.documentReady();
@@ -201,14 +201,14 @@ DE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
-    /*function onError(id, level, errData) {
+    function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').text(me.scriptLoadError);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
-            //$('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
 
@@ -282,8 +282,8 @@ DE.ApplicationController = new(function(){
         if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
-            Common.Gateway.reportError(id, message);
-
+            //Common.Gateway.reportError(id, message);
+            console.error(id,message);
             $('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
@@ -291,7 +291,8 @@ DE.ApplicationController = new(function(){
             });
         }
         else {
-            Common.Gateway.reportWarning(id, message);
+            //Common.Gateway.reportWarning(id, message);
+            console.warn(id, message);
 
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
             $('#id-critical-error-message').html(message);
@@ -310,7 +311,8 @@ DE.ApplicationController = new(function(){
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
         }
-    }*/
+    }
+
 
     function onProcessMouse(data) {
         if (data.type == 'mouseup') {
@@ -331,10 +333,11 @@ DE.ApplicationController = new(function(){
 
     function onDownloadAs() {
         if ( permissions.download === false) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            //Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, false));
     }
 
     function onRunAutostartMacroses() {
@@ -376,7 +379,7 @@ DE.ApplicationController = new(function(){
                 ismodalshown = false;
                 api.asc_enableKeyEvents(true);
             }
-        )/*.on('hidden.bs.dropdown', '.dropdown',
+        ).on('hidden.bs.dropdown', '.dropdown',
             function(e) {
                 if ( !ismodalshown )
                     api.asc_enableKeyEvents(true);
@@ -389,7 +392,7 @@ DE.ApplicationController = new(function(){
                     }
                 }
             }
-        )*/;
+        );
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
@@ -403,17 +406,14 @@ DE.ApplicationController = new(function(){
         });
 
         if (api){
-            //api.asc_registerCallback('asc_onError',                 onError);
+            api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
-
-            api.asc_registerCallback('asc_onCountPages',            onCountPages);
-
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
-            //Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
         }
 
