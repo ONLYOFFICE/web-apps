@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "¿Realmente quiere eliminar este comentario?",
       "textMessageDeleteReply": "¿Realmente quiere eliminar esta respuesta?",
       "textNoComments": "Este documento no contiene comentarios",
+      "textOk": "OK",
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios",
-      "textOk": "Ok"
+      "textUsers": "Usuarios"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",

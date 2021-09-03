@@ -122,6 +122,7 @@
       "textNot": "Nu",
       "textNoWidow": "Fără control văduvă",
       "textNum": "Modificarea numerotării",
+      "textOk": "OK",
       "textOriginal": "Inițial",
       "textParaDeleted": "Paragraful a fost șters",
       "textParaFormatted": "Paragraful a fost formatat",
@@ -154,8 +155,7 @@
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUnderline": "Subliniat",
       "textUsers": "Utilizatori",
-      "textWidow": "Control văduvă",
-      "textOk": "Ok"
+      "textWidow": "Control văduvă"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -491,6 +491,8 @@
     "textCancel": "Revocare",
     "textCaseSensitive": "Sensibil la litere mari și mici",
     "textCentimeter": "Centimetru",
+    "textChooseEncoding": "Alegeți codificare",
+    "textChooseTxtOptions": "Selectează opțiunile TXT",
     "textCollaboration": "Colaborare",
     "textColorSchemes": "Scheme de culori",
     "textComment": "Comentariu",
@@ -554,7 +556,9 @@
     "textTop": "Sus",
     "textUnitOfMeasurement": "Unitate de măsură ",
     "textUploaded": "S-a încărcat",
+    "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
+    "txtOk": "OK",
     "txtProtected": "Parola curentă la fișierul va fi resetată, de îndată ce este introdusă și fișierul este deschis",
     "txtScheme1": "Office",
     "txtScheme10": "Median",
@@ -577,11 +581,7 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă",
-    "textChooseEncoding": "Choose Encoding",
-    "textChooseTxtOptions": "Choose TXT Options",
-    "txtDownloadTxt": "Download TXT",
-    "txtOk": "Ok"
+    "txtScheme9": "Forjă"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
