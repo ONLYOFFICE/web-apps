@@ -587,6 +587,7 @@
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Undo table autoexpansion",
   "SSE.Controllers.DocumentHolder.txtUseTextImport": "Use text import wizard",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "All",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cube",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Database",

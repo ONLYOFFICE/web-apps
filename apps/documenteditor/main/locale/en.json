@@ -1591,6 +1591,7 @@
   "DE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "DE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop Cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",
