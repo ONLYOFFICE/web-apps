@@ -228,13 +228,14 @@ define([
                 if ( !theme_name ) {
                     if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                         for (var i of document.body.classList.entries()) {
-                            if ( i[1].startsWith('theme-') && !i[1].startsWith('theme-type-') ) {
-                                if ( themes_map[i[1]] ) {
-                                    theme_name = i[1];
+                            document.body.classList.forEach(function (classname, i, o) {
+                                if ( !theme_name && classname.startsWith('theme-') &&
+                                        !classname.startsWith('theme-type-') && themes_map[classname] )
+                                {
+                                    theme_name = classname;
                                     Common.localStorage.setItem('ui-theme-id', theme_name);
-                                    break;
                                 }
-                            }
+                            });
                         }
                 }
 
