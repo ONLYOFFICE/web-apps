@@ -447,6 +447,11 @@ define([
                     btns.each(function(idx, item){
                         arr.push($(item).data('bs.tooltip').tip());
                     });
+                    btns = $(view.el).find('.i-comment-resolved');
+                    btns.tooltip({title: me.textViewResolved, placement: 'cursor'});
+                    btns.each(function(idx, item){
+                        arr.push($(item).data('bs.tooltip').tip());
+                    });
                     view.tipsArray = arr;
                 };
 
@@ -831,6 +836,7 @@ define([
         mniAuthorDesc: 'Author Z to A',
         mniDateDesc: 'Newest',
         mniDateAsc: 'Oldest',
-        textClosePanel: 'Close comments'
+        textClosePanel: 'Close comments',
+        textViewResolved: 'You have not permission for reopen comment'
     }, Common.Views.Comments || {}))
 });

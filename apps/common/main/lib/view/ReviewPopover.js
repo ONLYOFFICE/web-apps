@@ -269,6 +269,11 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
+                        btns = $(view.el).find('.i-comment-resolved');
+                        btns.tooltip({title: me.textViewResolved, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
                         view.tipsArray = arr;
                         this.autoHeightTextBox();
                     };
@@ -1246,6 +1251,7 @@ define([
         textOpenAgain           : "Open Again",
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
-        textMentionNotify       : '+mention will notify the user via email'
+        textMentionNotify       : '+mention will notify the user via email',
+        textViewResolved        : 'You have not permission for reopen comment'
     }, Common.Views.ReviewPopover || {}))
 });
