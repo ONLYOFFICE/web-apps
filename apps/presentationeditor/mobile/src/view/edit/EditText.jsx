@@ -34,10 +34,10 @@ const EditText = props => {
             previewList = '';
             break;
         case 0: 
-            previewList = 'Bullets';
+            previewList = t('View.Edit.textBullets');
             break;
         case 1: 
-            previewList = 'Numbers';
+            previewList = t('View.Edit.textNumbers');
             break;
     }
 

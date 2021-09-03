@@ -520,10 +520,10 @@ const EditText = props => {
             previewList = '';
             break;
         case 0: 
-            previewList = 'Bullets';
+            previewList = t('Edit.textBullets');
             break;
         case 1: 
-            previewList = 'Numbers';
+            previewList = t('Edit.textNumbers');
             break;
     }
 
