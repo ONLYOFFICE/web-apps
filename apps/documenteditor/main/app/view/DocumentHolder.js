@@ -223,22 +223,7 @@ define([
 
             var showObjectMenu = function(event, docElement, eOpts){
                 if (me.api){
-                    var obj;
-                    if (me.mode.isEdit && !me._isDisabled) {
-                        obj = fillMenuProps(me.api.getSelectedElements());
-                    } else if (me._fillFormwMode) {
-                        var para = false,
-                            elements = me.api.getSelectedElements();
-                        for (var i = 0; i < elements.length; i++) {
-                            var elType = elements[i].get_ObjectType();
-                            if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                                para = true;
-                            }
-                        }
-                        obj = para ? fillMenuProps(elements) : fillViewMenuProps(elements);
-                    } else {
-                        obj = fillViewMenuProps(me.api.getSelectedElements());
-                    }
+                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
                     if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
                 }
             };
@@ -1604,6 +1589,7 @@ define([
                     : Common.util.Shortcuts.resumeEvents(hkComments);
                 /** coauthoring end **/
                 this.editorConfig = {user: m.user};
+                this._fillFormwMode = !this.mode.isEdit && this.mode.canFillForms;
             };
 
             me.on('render:after', onAfterRender, me);
@@ -1995,6 +1981,18 @@ define([
                 value: 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuViewPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuViewCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
             var menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
@@ -2032,7 +2030,8 @@ define([
                         isInSign = !!signProps && me._canProtect,
                         control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false,
-                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock;
+                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock,
+                        canEditControl = false;
 
                     if (me.mode.compatibleFeatures)
                         canComment = canComment && !isInShape;
@@ -2041,6 +2040,8 @@ define([
                             spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
+
+                        canEditControl = spectype !== undefined && spectype === Asc.c_oAscContentControlSpecificType.None && !control_lock;
                     }
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
@@ -2064,13 +2065,21 @@ define([
                     menuViewAddComment.setVisible(canComment);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
+                    var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
+                    menuViewCut.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewCut.setDisabled(disabled || !cancopy);
+                    menuViewPaste.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewPaste.setDisabled(disabled);
                     menuViewPrint.setVisible(me.mode.canPrint);
                     menuViewPrint.setDisabled(!cancopy);
+
                 },
                 items: [
+                    menuViewCut,
                     menuViewCopy,
+                    menuViewPaste,
                     menuViewUndo,
                     menuViewPrint,
                     menuViewCopySeparator,
@@ -3738,10 +3747,6 @@ define([
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
 
-            var menuParaCopyPasteSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             var menuParaControlSettings = new Common.UI.MenuItem(
             {
                 caption: me.textEditControls,
@@ -3866,10 +3871,9 @@ define([
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
-                    menuParagraphAdvanced.setVisible(!me._fillFormwMode);
-                    menuParagraphBreakBefore.setVisible(!me._fillFormwMode && !isInShape && !isInChart && !isEquation);
-                    menuParagraphKeepLines.setVisible(!me._fillFormwMode && !isInShape && !isInChart && !isEquation);
-                    if (value.paraProps && !me._fillFormwMode) {
+                    menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
+                    menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
+                    if (value.paraProps) {
                         menuParagraphBreakBefore.setChecked(value.paraProps.value.get_PageBreakBefore());
                         menuParagraphKeepLines.setChecked(value.paraProps.value.get_KeepLines());
                     }
@@ -3917,17 +3921,13 @@ define([
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuParaCopy.setDisabled(!cancopy);
-                    menuParaCut.setVisible(true);
                     menuParaCut.setDisabled(disabled || !cancopy);
-                    menuParaPaste.setVisible(true);
                     menuParaPaste.setDisabled(disabled);
                     menuParaPrint.setVisible(me.mode.canPrint);
                     menuParaPrint.setDisabled(!cancopy);
 
-                    menuParaCopyPasteSeparator.setVisible(!me._fillFormwMode);
-
                     // spellCheck
-                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && !me._fillFormwMode);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuSpellPara.setVisible(spell);
                     menuSpellcheckParaSeparator.setVisible(spell);
                     menuIgnoreSpellPara.setVisible(spell);
@@ -3965,9 +3965,9 @@ define([
                     if (frame_pr)
                         menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
-                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart && !me._fillFormwMode);
-                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart && !me._fillFormwMode);
-                    if (me.mode.canEditStyles && !isInChart && !me._fillFormwMode) {
+                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
+                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
+                    if (me.mode.canEditStyles && !isInChart) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
@@ -3978,9 +3978,9 @@ define([
                         in_control = !in_toc && me.api.asc_IsContentControl(),
                         control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         is_form = control_props && control_props.get_FormPr();
-                    menuParaRemoveControl.setVisible(in_control && !me._fillFormwMode);
-                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form && !me._fillFormwMode);
-                    menuParaControlSeparator.setVisible(in_control && !me._fillFormwMode);
+                    menuParaRemoveControl.setVisible(in_control);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
@@ -3990,10 +3990,6 @@ define([
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
 
-                        if (me._fillFormwMode && spectype !== Asc.c_oAscContentControlSpecificType.None) {
-                            menuParaCut.setVisible(false);
-                            menuParaPaste.setVisible(false);
-                        }
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
@@ -4049,7 +4045,7 @@ define([
                     menuParaPrint,
                     menuEquationInsertCaptionSeparator,
                     menuEquationInsertCaption,
-                    menuParaCopyPasteSeparator,
+                    { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
                     menuParaControlSettings,
