@@ -11,8 +11,6 @@
     <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
     <!-- debug end -->
 
-
-
     <!--[if lt IE 9]>
        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script
     <![endif]-->
@@ -65,9 +63,9 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+               //logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
-           window.frameEditorId = params["frameEditorId"];
+           /*window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
 
            var elem = document.querySelector('.loading-logo');
@@ -76,7 +74,7 @@
                var img = document.querySelector('.loading-logo img');
                img && img.setAttribute('src', logo);
                img.style.opacity = 1;
-           }
+           }*/
         </script>
 
       <div id="editor_sdk" class="viewer top" style="overflow: hidden;" tabindex="-1"></div>
