@@ -438,6 +438,8 @@ define([
 
                 if (this.appOptions.customization.logo.url) {
                     logo.attr('href', this.appOptions.customization.logo.url);
+                } else if (this.appOptions.customization.logo.url!==undefined) {
+                    logo.removeAttr('href');logo.removeAttr('target');
                 }
             }
 
