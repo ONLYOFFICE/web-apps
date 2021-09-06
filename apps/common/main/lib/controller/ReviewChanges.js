@@ -1017,7 +1017,7 @@ define([
                 var wbprotect = this.getApplication().getController('WBProtection');
                 props = wbprotect ? wbprotect.getWSProps() : null;
             }
-            this._state.wsProps = props ? props.wsProps : {};
+            this._state.wsProps = props ? props.wsProps : [];
             this._state.wsLock = props ? props.wsLock : false;
 
             if (!this.view) return;
