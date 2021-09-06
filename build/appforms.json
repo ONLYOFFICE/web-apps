@@ -113,7 +113,7 @@
             },
             "vars": {
                 "app-image-const-path": "'../img'",
-                "common-image-const-path": "'../img'",
+                "common-image-const-path": "'../../../../common/main/resources/img/'",
                 "app-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/forms/resources/img'",
                 "common-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/forms/resources/img'"
             }
