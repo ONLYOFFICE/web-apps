@@ -363,6 +363,8 @@ SSE.ApplicationController = new(function(){
 
             if (config.customization.logo.url) {
                 logo.attr('href', config.customization.logo.url);
+            } else if (config.customization.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
             }
         }
 

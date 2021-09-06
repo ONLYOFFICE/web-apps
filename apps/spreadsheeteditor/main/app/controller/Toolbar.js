@@ -426,9 +426,10 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
-            } else if (config.isRestrictedEdit)
+            } else if (config.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
-
+                Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
+            }
         },
 
         // onNewDocument: function(btn, e) {
@@ -2913,10 +2914,13 @@ define([
         },
 
         onApiSelectionChangedRestricted: function(info) {
+            if (!this.appConfig.isRestrictedEdit) return;
+
             var selectionType = info.asc_getSelectionType();
             this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                     this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                     { array: this.btnsComment });
+            this.toolbar.lockToolbar(SSE.enumLock['Objects'], !!this._state.wsProps['Objects'], { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -4065,7 +4069,7 @@ define([
                 
                 this.toolbar.lockToolbar(SSE.enumLock.wsLock, this._state.wsLock);
                 this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
-                this.onApiSelectionChanged(this.api.asc_getCellInfo());
+                this.appConfig && this.appConfig.isEdit ? this.onApiSelectionChanged(this.api.asc_getCellInfo()) : this.onApiSelectionChangedRestricted(this.api.asc_getCellInfo());
             }
         },
 
