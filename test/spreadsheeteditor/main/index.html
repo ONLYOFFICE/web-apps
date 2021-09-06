@@ -10,6 +10,7 @@
     <!-- debug begin -->
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
     <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
+    <link rel="stylesheet/less" type="text/css" href="resources/less/celleditor.less" />
     <!-- debug end -->
 
     <!-- splash -->
@@ -204,6 +205,17 @@
 </script>
 
 <div class="viewer">
+    <div class="ce-group-name">
+        <input id="ce-cell-name" class="aslabel form-control" type="text">
+        <div id="ce-cell-name-menu"></div>
+        <button id="ce-func-label" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-function"></i></button>
+    </div>
+    <div class="ce-group-expand">
+        <button id="ce-btn-expand" type="button" class="btn"><span class="caret">&nbsp;</span></button>
+    </div>
+    <div class="ce-group-content">
+        <textarea id="ce-cell-content" class="form-control" spellcheck="false" rows="1" cols="20"></textarea>
+    </div>
     <div id="editor_sdk" class="sdk-view" style="overflow: hidden;" tabindex="-1"></div>
     <ul id="worksheets" class="worksheet-list"></ul>
 </div>
@@ -257,6 +269,7 @@
 <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>
 <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
 
+
 <script src="../../../vendor/requirejs/require.js"></script>
 <script>
     require.config({
@@ -278,8 +291,14 @@
 <script type="text/javascript" src="../../unit-tests/common/main/lib/util/LocalStorage.js"></script>
 <script type="text/javascript" src="../../unit-tests/common/main/lib/util/utils.js"></script>
 <script type="text/javascript" src="../../unit-tests/common/main/lib/view/LoadMask.js"></script>
+
+<!--<script type="text/javascript" src="../../unit-tests/common/main/lib/component/BaseView.js"></script>
+<script type="text/javascript" src="../../unit-tests/common/main/lib/core/application.js"></script>-->
 <!--<script type="text/javascript" src="../../unit-tests/common/main/lib/view/modals.js"></script>
-<script type="text/javascript" src="../../unit-tests/common/main/lib/controller/modals.js"></script>-->
+<script type="text/javascript" src="../../unit-tests/common/main/lib/controller/modals.js"></script>
+<script type="text/javascript" src="js/CellEditorView.js"></script>
+<script type="text/javascript" src="js/CellEditorController.js"></script>-->
+
 <script type="text/javascript" src="js/ApplicationView.js"></script>
 <script type="text/javascript" src="js/ApplicationController.js"></script>
 <script type="text/javascript" src="js/application.js"></script>

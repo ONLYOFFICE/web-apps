@@ -134,7 +134,7 @@ SSE.ApplicationController = new(function(){
                 api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
-                api.asc_enableKeyEvents(true);
+                api.asc_enableKeyEvents(false);
 
                // Common.Analytics.trackEvent('Load', 'Start');
             }
@@ -202,6 +202,7 @@ SSE.ApplicationController = new(function(){
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+
         if ( permissions.print === false)
             $('#idt-print').hide();
 
@@ -240,6 +241,8 @@ SSE.ApplicationController = new(function(){
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
+
+
 
         SSE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -379,7 +382,7 @@ SSE.ApplicationController = new(function(){
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         
-        api.asc_setViewMode(true);
+        //api.asc_setViewMode(true);
         api.asc_LoadDocument();
     }
     
@@ -427,6 +430,8 @@ SSE.ApplicationController = new(function(){
             }
 
             me.loadMask && me.loadMask.hide();
+           /* if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
+                this.onEditComplete(this.loadMask, {restorefocus:true});*/
         }
     }
 
