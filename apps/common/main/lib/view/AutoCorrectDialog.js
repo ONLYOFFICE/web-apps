@@ -357,7 +357,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     var checked = (field.getValue()==='checked');
                     Common.localStorage.setBool(me.appPrefix + "settings-autoformat-hyperlink", checked);
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-hyperlink", checked);
-                    me.api.asc_setAutoCorrectHyperlinks(checked);
+                    me.api.asc_SetAutoCorrectHyperlinks(checked);
                 });
             }
 
