@@ -880,25 +880,35 @@ input[type="number"]::-webkit-inner-spin-button {
 .functions-list {
     height: 175px;
     overflow-y: auto;
-    position: absolute;
-    top: 30px;
-    right: 0;
+    overflow-x: hidden;
+    // position: absolute;
+    // top: 30px;
+    // right: 0;
     background-color: @white;
     .list {
-        margin: 0;
-        ul:before {
-            display: none;
-        }
-        .item-content {
-            padding-left: 0;
-        }
-        .item-inner {
-            padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
-        }
+        // margin: 0;
+        // ul:before {
+        //     display: none;
+        // }
+        // .item-content {
+        //     padding-left: 0;
+        // }
+        // .item-inner {
+        //     padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+        // }
         .item-title {
             font-size: 15px;
         }
     }
+}
+
+.target-function-list {
+    position: absolute; 
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0; 
+    height: 100%;
 }
 
 

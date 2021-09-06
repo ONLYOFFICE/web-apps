@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
+import { Device } from '../../../../common/mobile/utils/device';
 
 const CellEditor = props => {
     useEffect(() => {
@@ -24,7 +25,15 @@ const CellEditor = props => {
         setCoauthDisabled(info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true);
     }
 
-    const onFormulaCompleteMenu = funcArr => setFuncArr(funcArr);
+    const onFormulaCompleteMenu = funcArr => {
+        setFuncArr(funcArr);
+
+        if(!Device.isPhone && funcArr) {
+            f7.popover.open('#idx-functions-list', '#idx-list-target');
+        } else {
+            f7.popover.close('#idx-functions-list');
+        }
+    }
 
     const insertFormula = (name, type) => {
         const api = Common.EditorApi.get();
