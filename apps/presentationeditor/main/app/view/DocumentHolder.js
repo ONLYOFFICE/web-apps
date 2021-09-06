@@ -3526,6 +3526,8 @@ define([
 
                     menuImgCut.setDisabled(disabled);
                     menuImgPaste.setDisabled(disabled);
+                    menuImgShapeArrange.setDisabled(disabled);
+                    menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     menuImgCut,
