@@ -245,7 +245,33 @@ module.exports = function(grunt) {
             }
         }
     });
-    doRegisterTask('apps-common');
+    doRegisterTask('apps-common', (defaultConfig, packageFile) => {
+        return {
+            imagemin: {
+                options: {
+                    optimizationLevel: 3
+                },
+                dynamic: {
+                    files: packageFile['apps-common']['imagemin']['images-common']
+                }
+            },
+            svgmin: {
+                options: {
+                    plugins: [{
+                        cleanupIDs: false
+                    },
+                    {
+                        convertPathData: {
+                            floatPrecision: 4
+                        }
+                    }]
+                },
+                dist: {
+                    files: packageFile['apps-common'].svgicons.common
+                }
+            },
+        }
+    });
     doRegisterTask('sockjs');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
@@ -614,7 +640,7 @@ module.exports = function(grunt) {
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
-    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
