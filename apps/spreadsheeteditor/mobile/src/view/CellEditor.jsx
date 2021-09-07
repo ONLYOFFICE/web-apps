@@ -1,10 +1,10 @@
 
 import React, { Fragment, useState } from 'react';
-import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7 } from 'framework7-react';
+import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7, Page, Navbar, NavRight } from 'framework7-react';
 import {observer, inject} from "mobx-react";
-// import {PageFunctionInfo} from "./add/AddFunction";
 import { __interactionsRef } from 'scheduler/tracing';
 import { Device } from '../../../../common/mobile/utils/device';
+import { useTranslation } from 'react-i18next';
 
 const viewStyle = {
     height: 30
@@ -14,44 +14,77 @@ const contentStyle = {
     flexGrow: 1
 };
 
+const FunctionInfo = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Add', {returnObjects: true});
+    const functionObj = props.functionObj;
+    const functionInfo = props.functionInfo;
+
+    return (
+        <Page className='page-function-info'>
+            <Navbar title={functionInfo.caption} backLink={_t.textBack}>
+                <NavRight>
+                    <Link text={t('View.Add.textInsert')} onClick={() => props.insertFormula(functionObj.name, functionObj.type)}></Link>
+                </NavRight>
+            </Navbar>
+            <div className='function-info'>
+                <h3>{`${functionInfo.caption} ${functionInfo.args}`}</h3>
+                <p>{functionInfo.descr}</p>
+            </div>
+        </Page>
+    )
+}
+
 const FunctionsList = props => {
+    const { t } = useTranslation();
     const isPhone = Device.isPhone;
     const functions = props.functions;
     const funcArr = props.funcArr;
 
     return (
-        <div className="functions-list" style={{width: isPhone ? '100%' : '360px'}}>
-            <List>
-                {funcArr.map((elem, index) => {
-                    return (
-                        <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                            <div slot='after'
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    let functionInfo = functions[elem.name];
-    
-                                    if(functionInfo) {    
-                                        if(isPhone) {                                         
-                                            f7.dialog.create({
-                                                title: functionInfo.caption,
-                                                content: `<h3>${functionInfo.caption} ${functionInfo.args}</h3>
-                                                <p>${functionInfo.descr}</p>`,
-                                                buttons: [{text: 'Ok'}]
-                                            }).open();
-                                        } else {
-                                            console.log('other');
-                                        }
-                                    }
-                                }}>
-                                <Icon icon='icon-info'/>
-                            </div>
-                        </ListItem>
-                    )
-                })}
-            </List>
-        </div>
+        <Page>
+            <View routes={routes}>
+                <div className="functions-list" style={{width: isPhone ? '100%' : '360px'}}>
+                    <List>
+                        {funcArr.map((elem, index) => {
+                            return (
+                                <ListItem key={index} title={elem.name} href="#" routeProps={{functionInfo: functions[elem.name], functionObj: elem}} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
+                                    <div slot='after'
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            let functionInfo = functions[elem.name];
+            
+                                            if(functionInfo) {    
+                                                if(isPhone) {                                      
+                                                    f7.dialog.create({
+                                                        title: functionInfo.caption,
+                                                        content: `<h3>${functionInfo.caption} ${functionInfo.args}</h3><p>${functionInfo.descr}</p>`,
+                                                        buttons: [
+                                                            {text: t('View.Add.textCancel')},
+                                                            {
+                                                                text: t('View.Add.textInsert'),
+                                                                onClick: () => props.insertFormula(elem.name, elem.type)
+                                                            }
+                                                        ]
+                                                    }).open();
+                                                } else {
+                                                    f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
+                                                }
+                                            }
+                                        }}>
+                                        <Icon icon='icon-info'/>
+                                    </div>
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </div>
+            </View>
+        </Page>
     )
 }
+
+
 
 const CellEditorView = props => {
     const [expanded, setExpanded] = useState(false);
@@ -97,6 +130,7 @@ const CellEditorView = props => {
                 closeByBackdropClick={false} 
                 backdrop={false} 
                 closeByOutsideClick={true}
+                style={{height: '175px'}}
             >
                 {funcArr && funcArr.length ?
                     <FunctionsList 
@@ -109,6 +143,13 @@ const CellEditorView = props => {
         </>
     );
 };
+
+const routes = [
+    {
+        path: '/function-info/',
+        component: FunctionInfo
+    }
+];
 
 
 export default inject("storeAppOptions", "storeFunctions")(observer(CellEditorView));
