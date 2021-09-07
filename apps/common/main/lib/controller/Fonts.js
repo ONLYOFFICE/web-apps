@@ -120,11 +120,7 @@ define([
             });
 
             var store = this.getCollection('Common.Collections.Fonts');
-
-            if (store) {
-                store.add(fontsArray);
-                store.sort();
-            }
+            store && store.add(fontsArray);
 
             Common.NotificationCenter.trigger('fonts:load', store, select);
         }
