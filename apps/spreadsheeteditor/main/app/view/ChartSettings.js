@@ -135,6 +135,11 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._isEditType) {
+                this._props = props;
+                return;
+            }
+
             this.ShowHideElem(!!(props && props.asc_getChartProperties && props.asc_getChartProperties()));
             this.disableControls(this._locked);
 
@@ -950,12 +955,14 @@ define([
                             if (result == 'ok') {
                                 props.endEdit();
                                 me._isEditType = false;
+                                me._props && me.ChangeSettings(me._props);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     }).on('close', function() {
                         me._isEditType && props.cancelEdit();
                         me._isEditType = false;
+                        me._props = null;
                     });
                     win.show();
                 }
