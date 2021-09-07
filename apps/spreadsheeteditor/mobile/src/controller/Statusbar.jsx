@@ -180,7 +180,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !isDisconnected) {
+                if (isEdit && !isDisconnected && !model.locked) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }

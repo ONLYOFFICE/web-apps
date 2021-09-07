@@ -67,7 +67,7 @@ module.exports = (grunt) => {
 
             inline: {
                 dist: {
-                    src: `${packageFile.forms.copy.indexhtml.dest}/index.html`
+                    src: packageFile.forms.inline.src
                 }
             }
 

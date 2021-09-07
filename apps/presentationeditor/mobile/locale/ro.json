@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Sunteți sigur că doriți să stergeți acest comentariu?",
       "textMessageDeleteReply": "Sinteți sigur că doriți să ștergeți acest răspuns?",
       "textNoComments": "Documentul nu cuprinde comentarii",
+      "textOk": "OK",
       "textReopen": "Redeschide",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori",
-      "textOk": "Ok"
+      "textUsers": "Utilizatori"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",

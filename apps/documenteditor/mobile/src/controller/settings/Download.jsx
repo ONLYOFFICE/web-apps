@@ -25,6 +25,7 @@ class DownloadController extends Component {
         const _t = t("Settings", { returnObjects: true });
 
         if(format) {
+            this.closeModal();
             if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
@@ -37,8 +38,8 @@ class DownloadController extends Component {
                             text: _t.textOk,
                             onClick: () => {
                                 if (format == Asc.c_oAscFileType.TXT) {
-                                    const isDocReady = this.props.storeAppOptions.isDocReady;
-                                    onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, isDocReady);
+                                    const advOptions = api.asc_getAdvancedOptions();
+                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));
                                 }
                                 else {
                                     setTimeout(() => {
@@ -51,7 +52,6 @@ class DownloadController extends Component {
                 }).open();
             } 
             else {
-                this.closeModal();
                 setTimeout(() => {
                     api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 }, 400);

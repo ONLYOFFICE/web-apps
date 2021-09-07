@@ -116,7 +116,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-            me._state = {};
+            me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
             /** coauthoring begin **/
@@ -1523,11 +1523,17 @@ define([
                 });
                 return;
             }
-            // if (this.api.asc_getUrlType(url)>0) {
-                var newDocumentPage = window.open(url, '_blank');
-                if (newDocumentPage)
-                    newDocumentPage.focus();
-            // }
+            if (this.api.asc_getUrlType(url)>0)
+                window.open(url, '_blank');
+            else
+                Common.UI.warning({
+                    msg: this.txtWarnUrl,
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: function(btn) {
+                        (btn == 'yes') && window.open(url, '_blank');
+                    }
+                });
         },
 
         onApiAutofilter: function(config) {
@@ -3957,7 +3963,8 @@ define([
         textStopExpand: 'Stop automatically expanding tables',
         textAutoCorrectSettings: 'AutoCorrect options',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.'
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

@@ -368,8 +368,8 @@ Common.UI.HintManager = new(function() {
         _api = api;
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
-                _lang = mode.lang;
-                _getAlphabetLetters();
+                var lang = mode.lang ? mode.lang.toLowerCase() : 'en';
+                _getAlphabetLetters(lang);
             },
             'hints:clear': _clearHints,
             'window:resize': _clearHints
@@ -492,10 +492,14 @@ Common.UI.HintManager = new(function() {
         });
     };
 
-    var _getAlphabetLetters = function () {
+    var _getAlphabetLetters = function (lng) {
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
-            _arrAlphabet = langsJson[_lang];
-            _arrEnAlphabet = langsJson['en'];
+            var _setAlphabet = function (lang) {
+                _lang = lang;
+                _arrAlphabet = langsJson[lang];
+                return _arrAlphabet;
+            };
+            return !_setAlphabet(lng) ? (!_setAlphabet(lng.split(/[\-_]/)[0]) ? _setAlphabet('en') : true) : true;
         });
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/qwertyletters.json', function (langsJson) {
             _arrQwerty = langsJson[_lang];

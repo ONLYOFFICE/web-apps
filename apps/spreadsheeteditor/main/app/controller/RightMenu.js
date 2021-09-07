@@ -54,7 +54,7 @@ define([
 
         initialize: function() {
             this.editMode = true;
-            this._state = {};
+            this._state = {wsLock: false, wsProps: []};
 
             this.addListeners({
                 'Toolbar': {
@@ -456,8 +456,10 @@ define([
                 var wbprotect = this.getApplication().getController('WBProtection');
                 props = wbprotect ? wbprotect.getWSProps() : null;
             }
-            this._state.wsProps = props.wsProps;
-            this._state.wsLock = props.wsLock;
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
+            }
             this.onSelectionChanged(this.api.asc_getCellInfo());
         }
     });

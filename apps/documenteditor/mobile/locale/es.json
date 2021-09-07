@@ -122,6 +122,7 @@
       "textNot": "No",
       "textNoWidow": "Sin control de viudas",
       "textNum": "Cambiar numeración",
+      "textOk": "OK",
       "textOriginal": "Original",
       "textParaDeleted": "Párrafo eliminado",
       "textParaFormatted": "Párrafo formateado",
@@ -154,8 +155,7 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas",
-      "textOk": "Ok"
+      "textWidow": "Control de viudas"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -491,6 +491,8 @@
     "textCancel": "Cancelar",
     "textCaseSensitive": "Distinguir mayúsculas de minúsculas",
     "textCentimeter": "Centímetro",
+    "textChooseEncoding": "Elegir codificación",
+    "textChooseTxtOptions": "Elegir opciones de archivo TXT",
     "textCollaboration": "Colaboración",
     "textColorSchemes": "Esquemas de color",
     "textComment": "Comentario",
@@ -554,7 +556,9 @@
     "textTop": "Arriba",
     "textUnitOfMeasurement": "Unidad de medida",
     "textUploaded": "Cargado",
+    "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
+    "txtOk": "OK",
     "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
     "txtScheme1": "Oficina",
     "txtScheme10": "Medio",
@@ -577,11 +581,7 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición",
-    "textChooseEncoding": "Choose Encoding",
-    "textChooseTxtOptions": "Choose TXT Options",
-    "txtDownloadTxt": "Download TXT",
-    "txtOk": "Ok"
+    "txtScheme9": "Fundición"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
