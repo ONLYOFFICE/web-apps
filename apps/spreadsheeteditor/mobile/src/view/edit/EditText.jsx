@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -109,34 +109,49 @@ const PageFonts = props => {
     const spriteThumbs = storeTextSettings.spriteThumbs;
     const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
 
+    useEffect(() => {
+        setRecent(getImageUri(arrayRecentFonts));
+
+        return () => {
+        }
+    }, []);
+
     const addRecentStorage = () => {
         let arr = [];
         arrayRecentFonts.forEach(item => arr.push(item));
+        setRecent(getImageUri(arrayRecentFonts));
         LocalStorage.setItem('sse-settings-recent-fonts', JSON.stringify(arr));
     }
 
+    const [stateRecent, setRecent] = useState([]);
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
         }
     });
 
+    const getImageUri = fonts => {
+        return fonts.map(font => {
+            thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+            thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
+
+            return thumbCanvas.toDataURL();
+        });
+    };
+
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
             let fonts = [...prevState.vlData.items];
             fonts.splice(vlData.fromIndex, vlData.toIndex, ...vlData.items);
+
+            let images = getImageUri(fonts);
+
             return {vlData: {
                 items: fonts,
+                images,
             }};
         });
     };
-
-    const getImageUri = (font) => {
-        thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
-        thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
-
-        return thumbCanvas.toDataURL();
-    }
 
     return (
         <Page>
@@ -170,7 +185,7 @@ const PageFonts = props => {
                         <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
                             props.changeFontFamily(item.name);
                         }}> 
-                            <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                            <img src={stateRecent[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
                         </ListItem>
                     ))}
                 </List>
@@ -186,7 +201,7 @@ const PageFonts = props => {
                             storeTextSettings.addFontToRecent(item);
                             addRecentStorage();
                         }}>
-                            <img src={getImageUri(item)} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                            <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
                         </ListItem>
                     ))}
                 </ul>
