@@ -2611,6 +2611,10 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
             },
 
             showRenameUserDialog: function() {

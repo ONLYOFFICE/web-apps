@@ -2233,6 +2233,10 @@ define([
                 value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
             },
 
             showRenameUserDialog: function() {

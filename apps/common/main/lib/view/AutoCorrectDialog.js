@@ -337,6 +337,17 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
                 });
 
+                this.chFLCells = new Common.UI.CheckBox({
+                    el: $window.find('#id-autocorrect-dialog-chk-fl-cells'),
+                    labelText: this.textFLCells,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-cells")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-cells", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-cells", checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
+                });
+
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
             } else if (this.appPrefix=='sse-') {
                 this.chNewRows = new Common.UI.CheckBox({
@@ -384,7 +395,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.chHyperlink // 2 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
-            arr = arr.concat(this.chFLSentence ? [this.chFLSentence] : []);
+            arr = arr.concat(this.chFLSentence ? [this.chFLSentence, this.chFLCells] : []);
             return arr;
         },
 
@@ -829,7 +840,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textNewRowCol: 'Include new rows and columns in table',
         textAutoCorrect: 'AutoCorrect',
         textFLSentence: 'Capitalize first letter of sentences',
-        textHyperlink: 'Internet and network paths with hyperlinks'
+        textHyperlink: 'Internet and network paths with hyperlinks',
+        textFLCells: 'Capitalize first letter of table cells'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
