@@ -157,8 +157,12 @@ define([
                 this._noApply = true;
                 if (record.value<0) {
                 } else {
-                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[0] : record.size[1]), true);
-                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[1] : record.size[0]), true);
+                    var w = Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[0] : record.size[1]),
+                        h = Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[1] : record.size[0]);
+                    if (w<this.spnWidth.getMinValue() || h<this.spnHeight.getMinValue())
+                        this.cmbPreset.setValue(-1);
+                    this.spnWidth.setValue(w, true);
+                    this.spnHeight.setValue(h, true);
                 }
                 this._noApply = false;
             }, this));
