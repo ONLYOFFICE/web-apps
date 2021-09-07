@@ -1688,12 +1688,18 @@ define([
         onPageSizeClick: function(menu, item, state) {
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
-                if (item.value !== 'advanced')
-                    this.api.change_DocSize(item.value[0], item.value[1]);
-                else {
+                if (item.value !== 'advanced') {
+                    if (this.checkPageSize(item.value[0], item.value[1])) {
+                        var section = this.api.asc_GetSectionProps();
+                        this.onApiPageSize(section.get_W(), section.get_H());
+                        return;
+                    } else
+                        this.api.change_DocSize(item.value[0], item.value[1]);
+                } else {
                     var win, props,
                         me = this;
                     win = new DE.Views.PageSizeDialog({
+                        checkPageSize: _.bind(this.checkPageSize, this),
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
@@ -1716,22 +1722,8 @@ define([
             if (this.api) {
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
-                    var section = this.api.asc_GetSectionProps(),
-                        errmsg = null,
-                        me = this;
-                    if (item.value[1] + item.value[3] > parseFloat(section.get_W().toFixed(4))-12.7 )
-                        errmsg = this.txtMarginsW;
-                    else if (item.value[0] + item.value[2] > parseFloat(section.get_H().toFixed(4))-2.6 )
-                        errmsg = this.txtMarginsH;
-                    if (errmsg) {
-                        Common.UI.warning({
-                            title: this.notcriticalErrorTitle,
-                            msg  : errmsg,
-                            callback: function() {
-                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                            }
-                        });
-                        this.onSectionProps(section);
+                    if (this.checkPageSize(undefined, undefined, item.value[1], item.value[3], item.value[0], item.value[2])) {
+                        this.onSectionProps(this.api.asc_GetSectionProps());
                         return;
                     } else {
                         var props = new Asc.CDocumentSectionProps();
@@ -1772,6 +1764,34 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        checkPageSize: function(width, height, left, right, top, bottom) {
+            var section = this.api.asc_GetSectionProps();
+            (width===undefined) && (width = parseFloat(section.get_W().toFixed(4)));
+            (height===undefined) && (height = parseFloat(section.get_H().toFixed(4)));
+            (left===undefined) && (left = parseFloat(section.get_LeftMargin().toFixed(4)));
+            (right===undefined) && (right = parseFloat(section.get_RightMargin().toFixed(4)));
+            (top===undefined) && (top = parseFloat(section.get_TopMargin().toFixed(4)));
+            (bottom===undefined) && (bottom = parseFloat(section.get_BottomMargin().toFixed(4)));
+            var gutterLeft = section.get_GutterAtTop() ? 0 : parseFloat(section.get_Gutter().toFixed(4)),
+                gutterTop = section.get_GutterAtTop() ? parseFloat(section.get_Gutter().toFixed(4)) : 0;
+
+            var errmsg = null;
+            if (left + right + gutterLeft > width-12.7 )
+                errmsg = this.txtMarginsW;
+            else if (top + bottom + gutterTop > height-2.6 )
+                errmsg = this.txtMarginsH;
+            if (errmsg) {
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : errmsg,
+                    callback: function() {
+                        Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                    }
+                });
+                return true;
+            }
         },
 
         onLineNumbersSelect: function(menu, item) {

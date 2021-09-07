@@ -179,6 +179,11 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
+                if (state == 'ok' && this.options.checkPageSize) {
+                    var props = this.getSettings();
+                    if (this.options.checkPageSize(props[0], props[1]))
+                        return;
+                }
                 this.options.handler.call(this, this, state);
             }
 
