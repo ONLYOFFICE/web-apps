@@ -1,4 +1,4 @@
-(function(){
+Backbone=new(function(){
     var resolveNamespace = function(className, root) {
         var parts = className.split('.'),
             current = root || window;

@@ -30,44 +30,18 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
+
 if (SSE === undefined) {
     var SSE = {};
 }
 
 SSE.ApplicationView = new(function(){
 
-    var $btnTools
-        ,$cellname
-        ,$btnexpand
-        ,$btnfunc
-        ,btnNamedRanges;
-
-
-
+    var $btnTools;
     // Initialize view
 
     function createView(){
-
-        $cellname = $('#ce-cell-name');
-        $btnexpand = $('#ce-btn-expand');
-        $btnfunc = $('#ce-func-label');
-        $btnfunc.addClass('disabled');
-        /*btnNamedRanges = new Common.UI.Button({
-            parentEl: $('#ce-cell-name-menu'),
-            menu        : new Common.UI.Menu({
-                style   : 'min-width: 70px;max-width:400px;',
-                maxHeight: 250,
-                items: [
-                    { caption: this.textManager, value: 'manager' },
-                    { caption: '--' }
-                ]
-            })
-        });
-        this.btnNamedRanges.setVisible(false);
-        this.btnNamedRanges.menu.setOffset(-81);*/
-
         $btnTools = $('#box-tools button');
-
 
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
@@ -85,24 +59,12 @@ SSE.ApplicationView = new(function(){
     function getTools(name) {
         return $btnTools.parent().find(name);
     }
-    function updateCellInfo(info) {
-        if (info) {
-            this.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
-        }
-    }
-    function cellNameDisabled(disabled){
-        (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
-        this.btnNamedRanges.setDisabled(disabled);
-    }
+
 
     return {
         create: createView
         , tools: {
             get: getTools
-        },
-        cell:   {
-            updateInfo: updateCellInfo,
-            nameDisabled: cellNameDisabled
         },
 
         txtDownload: 'Download',

@@ -1,0 +1,397 @@
+*, *:before, *:after {
+    -moz-user-select: none;
+}
+
+:focus {
+    outline: none;
+}
+
+.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
+    background: @color;
+    background: -webkit-gradient(linear, left bottom,left top, color-stop(0, @start), color-stop(1, @stop));
+    background: -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
+    background: -o-linear-gradient(@stop, @start);
+    background: linear-gradient(bottom, @start, @stop);
+//    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@stop, @start));
+}
+
+.box-shadow(@arguments) {
+    -webkit-box-shadow: @arguments;
+    //-moz-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+.box-inner-shadow(@arguments) {
+    -webkit-box-shadow: inset @arguments;
+    //-moz-box-shadow: inset @arguments;
+    box-shadow: inset @arguments;
+}
+
+.border-radius(@radius: 2px) {
+    border-radius: @radius;
+}
+
+.position(@type: absolute, @left: 0, @top: 0, @right: 0, @bottom: 0) {
+    position: @type;
+    left: @left;
+    top: @top;
+    right: @right;
+    bottom: @bottom;
+}
+
+.fontsize(@value) {
+    font-size: @value;
+}
+
+// User select
+.user-select(@select: none) {
+    -webkit-user-select: @select;
+       -moz-user-select: @select;
+        -ms-user-select: @select;
+//         -o-user-select: @select;
+            user-select: @select;
+}
+
+.toolbar-btn-icon(@icon-class, @index, @icon-size, @offset-x: 0, @offset-y: 0) {
+    .@{icon-class} {background-position: 0 -(@index * @icon-size - @offset-y);}
+    .btn.active   > .@{icon-class},
+    .btn:active   > .@{icon-class} {background-position: (-1 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+    .btn.disabled > .@{icon-class} {background-position: (-2 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+}
+
+.toolbar-group-btn-icon(@icon-class, @index, @icon-size, @offset-x: 0, @offset-y: 0) {
+    .@{icon-class} {background-position: 0 -(@index * @icon-size - @offset-y);}
+    .btn-group.open > .@{icon-class},
+    .btn.active   > .@{icon-class},
+    .btn:active   > .@{icon-class} {background-position: (-1 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+    .btn.disabled > .@{icon-class} {background-position: (-2 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+}
+
+.menu-btn-icon(@icon-class, @index, @icon-size) {
+                                .menu-item-icon.@{icon-class} {background-position: 0 -@index*@icon-size;}
+    li            > a.checked > .menu-item-icon.@{icon-class} {background-position: -1*@icon-size -@index*@icon-size;}
+}
+
+.options-btn-icon(@icon-class, @index, @icon-size) {
+                      .@{icon-class} {background-position:   0 -@index*@icon-size;}
+    button.over     > .@{icon-class} {background-position: -1*@icon-size -@index*@icon-size;}
+//    .btn-group.open > .@{icon-class},
+    button.active   > .@{icon-class},
+    button:active   > .@{icon-class} {background-position: -2*@icon-size -@index*@icon-size;}
+    button.disabled > .@{icon-class} {background-position: -3*@icon-size -@index*@icon-size;}
+}
+
+/**
+*/
+:root {
+    --bgX: 0px;
+
+    --pixel-ratio-factor: 1;
+
+    .pixel-ratio__1_5 {
+        @ratio: 1.5;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
+
+    .pixel-ratio__2 {
+    }
+
+    .pixel-ratio__1_25 {
+        @ratio: 1.25;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
+
+    .pixel-ratio__1_75 {
+        @ratio: 1.75;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
+}
+
+.button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
+    .@{icon-class} {
+        background-position: -0*@icon-size  -@index*@icon-size;
+        background-position: @normal-h-offset -@index*@icon-size;
+    }
+//    .@{icon-class} {background-position-y: -@index*@icon-size;}
+}
+
+.button-otherstates-icon(@icon-class, @icon-size) {
+    .btn {
+        &:active, &.active {
+            &:not(:disabled):not(.disabled) {
+                > .@{icon-class} {
+                    @iconsize: -1*@icon-size;
+
+                    background-position-x: @iconsize;
+                    --bgX: @iconsize;
+                }
+            }
+        }
+    }
+}
+
+.mx-button-otherstates-icon2(@offset) {
+    &.active, &:active{
+        &:not(:disabled):not(.disabled) {
+            .icon {
+                background-position-x: @offset;
+            }
+        }
+    }
+
+    //&.active   svg.icon,
+    //&:active   svg.icon {fill:#fff;}
+}
+
+.button-otherstates-icon2(@icon-class, @icon-size) {
+    button.@{icon-class} {
+        .mx-button-otherstates-icon2(@icon-size);
+    }
+}
+
+.menu-icon-normal(@icon-class, @index, @icon-size) {
+    .menu-item-icon.@{icon-class} {
+        background-position: 0          -@index*@icon-size;
+        background-position: var(--bgX) -@index*@icon-size;
+    }
+//    .menu-item-icon.@{icon-class} {background-position-y: -@index*@icon-size;}
+}
+
+.menu-otherstates-icon(@menu-class, @icon-size) {
+    .@{menu-class} li            > a.checked > .menu-item-icon {background-position-x: -1*@icon-size; --bgX: calc(-1*@icon-size);}
+    .@{menu-class} li.disabled                 .menu-item-icon {background-position-x: -2*@icon-size; --bgX: calc(-2*@icon-size);}
+}
+
+/**/
+
+.background-ximage(@image, @image2x, @w: auto, @h: auto, @repeat: no-repeat) {
+    background-image: data-uri(%("%s",@image));
+    background-repeat: @repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: data-uri(%("%s",@image2x));
+        background-size: @w @h;
+    }
+}
+
+.choose-image-path(@fromcommon) when (@fromcommon = false) {
+    @path: if(@icon-src-base64, @app-image-path, @app-image-const-path);
+};
+
+.choose-image-path(@fromcommon) when (@fromcommon = true) {
+    @path: if(@icon-src-base64, @common-image-path, @common-image-const-path);
+}
+
+.background-ximage-v2(@image, @w: auto, @h: auto, @repeat: no-repeat, @commonimage: true) {
+    .choose-image-path(@commonimage);
+    @imagepath: '@{path}/@{image}';
+
+    background-image: if(@icon-src-base64, data-uri(%("%s", '@{imagepath}')), ~"url(@{imagepath})");
+    background-repeat: @repeat;
+
+    @1d5ximage: replace(@imagepath, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@imagepath, '\.png$', '@1.75x.png');
+    @1d25ximage: replace(@imagepath, '\.png$', '@1.25x.png');
+    @2ximage: replace(@imagepath, '\.png$', '@2x.png');
+
+    @media only screen {
+         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+             (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                 (min-resolution: 144dpi) and (max-resolution: 191dpi)
+         {
+             background-image: ~"url(@{1d5ximage})";
+             background-size: @w @h;
+         }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx),
+            (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{2ximage})";
+            background-size: @w @h;
+        }
+    }
+}
+
+.background-ximage-all(@image, @w: auto, @h: auto, @repeat: no-repeat, @commonimage: true) {
+    .choose-image-path(@commonimage);
+    @imagepath: '@{path}/@{image}';
+
+    background-image: if(@icon-src-base64, data-uri(%("%s", '@{imagepath}')), ~"url(@{imagepath})");
+    background-repeat: @repeat;
+
+    @1d5ximage: replace(@imagepath, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@imagepath, '\.png$', '@1.75x.png');
+    @1d25ximage: replace(@imagepath, '\.png$', '@1.25x.png');
+    @2ximage: replace(@imagepath, '\.png$', '@2x.png');
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49),
+        (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx),
+        (min-resolution: 120dpi) and (max-resolution: 143dpi)
+        {
+            background-image: ~"url(@{1d25ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.74),
+        (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx),
+        (min-resolution: 144dpi) and (max-resolution: 167dpi)
+        {
+            background-image: ~"url(@{1d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.75) and (-webkit-max-device-pixel-ratio: 1.9),
+        (min-resolution: 1.75dppx) and (max-resolution: 1.9dppx),
+        (min-resolution: 168dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{1d75ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 2dppx),
+        (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{2ximage})";
+            background-size: @w @h;
+        }
+    }
+}
+
+.img-commonctrl {
+    &.img-colored {
+        filter: none;
+    }
+}
+
+@common-controls-width: 100px;
+.img-commonctrl,
+        .dropdown-menu li .checked:before, .input-error:before, .input-warning:before,
+        .btn-toolbar .icon.img-commonctrl, .list-item div.checked:before
+{
+    background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/@{common-controls}')), ~"url(@{common-image-const-path}/@{common-controls})");
+    background-repeat: no-repeat;
+    filter: @component-normal-icon-filter;
+
+    @1d25ximage: replace(@common-controls, '\.png$', '@1.25x.png');
+    @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@common-controls, '\.png$', '@1.75x.png');
+    @2ximage: replace(@common-controls, '\.png$', '@2x.png');
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/@{1d5ximage})";
+            background-size: @common-controls-width auto;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+                    (min-resolution: 2dppx),
+                    (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/@{2ximage})";
+            background-size: @common-controls-width auto;
+        }
+    }
+
+    .pixel-ratio__1_25 & {
+        background-image: ~"url(@{common-image-const-path}/@{1d25ximage})";
+        background-size: @common-controls-width auto;
+    }
+
+    .pixel-ratio__1_75 & {
+        background-image: ~"url(@{common-image-const-path}/@{1d75ximage})";
+        background-size: @common-controls-width auto;
+    }
+}
+
+@img-colorpicker-width: 205px;
+.img-colorpicker, .hsb-colorpicker .empty-color:before
+{
+    background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker.png')), ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker.png)");
+    background-repeat: no-repeat;
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@1.5x.png)";
+            background-size:  @img-colorpicker-width auto;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+                    (min-resolution: 2dppx),
+                    (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@2x.png)";
+            background-size:  @img-colorpicker-width auto;
+        }
+    }
+}
+
+.icon.lang-flag {
+    @img-flags-width: 48px;
+
+    width: 16px;
+    height: 12px;
+
+    background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/controls/flags.png')), ~"url(@{common-image-const-path}/controls/flags.png)");
+    background-repeat: no-repeat;
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/controls/flags@1.5x.png)";
+            background-size:  @img-flags-width auto;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+                (min-resolution: 2dppx),
+                (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/controls/flags@2x.png)";
+            background-size:  @img-flags-width auto;
+        }
+    }
+}
+
+//.adaptive-solid-border(@width, @color, @borderside: all) {
+//    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
+//    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));
+//
+//    @{lb-border}: @width solid @color;
+//
+//    @media only screen {
+//        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+//            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+//                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+//        {
+//            @{lb-border-width}: (@width / 1.5);
+//        }
+//    }
+//}

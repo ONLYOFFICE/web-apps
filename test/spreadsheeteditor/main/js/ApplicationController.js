@@ -243,6 +243,11 @@ SSE.ApplicationController = new(function(){
         Common.Gateway.on('requestclose',       onRequestClose);
 
 
+         if(common.controller.CellEditor ) {
+             common.controller.CellEditor.create();
+             common.controller.CellEditor.setApi(api)
+             common.controller.CellEditor.setMode(config);
+         }
 
         SSE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){

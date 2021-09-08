@@ -1,0 +1,15 @@
+diff -r daaf445d707b apps/common/main/lib/mods/perfect-scrollbar.js
+--- a/apps/common/main/lib/mods/perfect-scrollbar.js	Mon Jun 15 15:25:53 2015 +0300
++++ b/apps/common/main/lib/mods/perfect-scrollbar.js	Thu Jun 18 13:29:36 2015 +0300
+// change thumb event
+@@ -197,6 +197,10 @@
+         }
+ 
+         updateScrollbarCss();
++
++        if (settings.onChange) {
++            settings.onChange(this);
++        }
+       };
+ 
+       var bindMouseScrollXHandler = function () {

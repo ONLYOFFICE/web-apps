@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2021
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,49 +29,58 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- *  NotificationCenter.js
+ *  CellEditor.js
  *
- *  A pub-sub object that can be used to decouple various parts
- *  of an application through event-driven architecture.
+ *  Displays loading mask over selected element(s) or component. Accepts both single and multiple selectors.
  *
- *  Created by Alexander Yuzhin on 1/21/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created by Sharova Olga 07.09.2021
+ *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
  *
  */
 
+!window.common && (window.common = {});
+!common.view && (common.view = {});
 
-/**
- *  Using:
- *
- *  Common.NotificationCenter.on("foo", function(){
- *      alert("bar");
- *  });
- *
- *  Common.NotificationCenter.trigger("foo"); // => alert box "bar"
- *
- */
+common.view.CellEditor = new(function (){
+    var  me
+        ,$cellname
+        ,$cellcontent
+        ,$btnexpand
+        ,$btnfunc;
 
-if (Common === undefined)
-    var Common = {};
-/*if (Backbone === undefined)
-    var Backbone = ;*/
-Common.NotificationCenter=new( function (Backbone) {
-    'use strict';
+    function  createView()
+    {
+        me=this;
+        me.$el = $('#cell-editing-box');
+        me.$cellcontent=$('#ce-cell-content');
+        me.$cellname = $('#ce-cell-name');
+        me.$btnexpand = $('#ce-btn-expand');
+        me.$btnfunc = $('#ce-func-label');
+        me.$btnfunc.addClass('disabled');
 
-    var NotificationCenter = function(){};
-
-    // Copy the basic Backbone.Events on to the event aggregator
-    _.extend(NotificationCenter.prototype, Backbone.Events);
-
-    if(typeof Common.NotificationCenter == 'undefined') {
-        // Method to create new Common.NotificationCenter class
-        NotificationCenter.extend = Backbone.Model.extend;
-
-        Common.NotificationCenter = new NotificationCenter();
+        me.$cellname.on('focus', function(e){
+            var txt = me.$cellname[0];
+            txt.selectionStart = 0;
+            txt.selectionEnd = txt.value.length;
+            txt.scrollLeft = txt.scrollWidth;
+        });
     }
-    else {
-        throw ('Native Common.NotificationCenter instance already defined.')
+    function updateCellInfo(info) {
+        if (info) {
+            me.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
+        }
+    }
+    function cellNameDisabled(disabled){
+        (disabled) ? me.$cellname.attr('disabled', 'disabled') : me.$cellname.removeAttr('disabled');
+        //this.btnNamedRanges.setDisabled(disabled);
+    }
+    return {
+        create: createView,
+        cell:   {
+            updateInfo: updateCellInfo,
+            nameDisabled: cellNameDisabled
+        }
     }
 })();

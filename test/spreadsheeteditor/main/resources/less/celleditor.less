@@ -2,8 +2,9 @@
 @import "../../../../unit-tests/common/main/resources/less/colors-table-ie-fix.less";
 @import "../../../../unit-tests/common/main/resources/less/variables.less";
 @import "../../../../unit-tests/common/main/resources/less/colors-table.less";
+@import "../../../../unit-tests/common/main/resources/less/asc-mixins.less";
+@import "../../../../unit-tests/common/main/resources/less/buttons.less";
 #cell-editing-box {
-    --pixel-ratio-factor: 1;
     border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
     border-bottom: solid @scaled-one-px-value @border-toolbar;
     border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
@@ -23,7 +24,7 @@
         #ce-cell-name {
             width: 100px;
             height: 19px;
-            height: calc(19px + (1px - 1px/var(--pixel-ratio-factor,1)));
+            //height: calc(19px + (1px - 1px/var(--pixel-ratio-factor,1)));
             padding: 0px 19px 0 4px;
             vertical-align: top;
             display: inline-block;
