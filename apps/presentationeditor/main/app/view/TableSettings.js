@@ -695,7 +695,8 @@ define([
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
-                        style: 'max-height: 350px;'
+                        style: 'max-height: 350px;',
+                        delayRenderTips: true
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));

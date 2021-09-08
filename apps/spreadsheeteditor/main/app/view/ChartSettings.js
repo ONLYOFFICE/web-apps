@@ -1001,7 +1001,8 @@ define([
                     cls: 'combo-chart-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    delayRenderTips: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({
@@ -1053,7 +1054,8 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 272,
                     enableKeyEvents: true,
-                    cls: 'combo-spark-style'
+                    cls: 'combo-spark-style',
+                    delayRenderTips: true
                 });
                 this.cmbSparkStyle.render($('#spark-combo-style'));
                 this.cmbSparkStyle.openButton.menu.cmpEl.css({
