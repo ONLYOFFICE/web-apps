@@ -87,7 +87,7 @@ common.controller.CellEditor = new(function(){
            editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
            editor.$el.find('textarea#ce-cell-content').on( 'keyup', onKeyupCellEditor);
            editor.$el.find('textarea#ce-cell-content').on('blur',  onBlurCellEditor);
-           editor.$el.find('button#ce-btn-expand').on('click',  expandEditorField);/*,
+           //editor.$el.find('button#ce-btn-expand').on('click',  expandEditorField);/*,
             /*'click button#ce-func-label': onInsertFunction*/
     }
     function createController() {
@@ -102,7 +102,7 @@ common.controller.CellEditor = new(function(){
     }
     function onLayoutResize(o, r) {
         if (r == 'cell:edit') {
-            if (Math.floor(editor.$el.height()) > 19) {
+            /*if (Math.floor(editor.$el.height()) > 19) {
                 if (!editor.$btnexpand.hasClass('btn-collapse')) {
                     editor.$el.addClass('expanded');
                     editor.$btnexpand['addClass']('btn-collapse');
@@ -110,11 +110,11 @@ common.controller.CellEditor = new(function(){
 
                 o && common.localStorage.setItem('sse-celleditor-height', editor.$el.height());
                 o && common.localStorage.setBool('sse-celleditor-expand', true);
-            } else {
+            } else {*/
                 editor.$el.removeClass('expanded');
                 editor.$btnexpand['removeClass']('btn-collapse');
                 o && common.localStorage.setBool('sse-celleditor-expand', false);
-            }
+            //}
         }
     }
     function  onLaunch(){
