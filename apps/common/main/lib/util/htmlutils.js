@@ -52,6 +52,11 @@ var checkLocalStorage = (function () {
     }
 })();
 
+if ( window.desktop && window.desktop.theme && (window.desktop.theme.id || window.desktop.theme.type)) {
+    // params.uitheme = undefined;
+    localStorage.setItem("ui-theme-id", window.desktop.theme.id);
+}
+
 if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id") ) {
     // const _t = params.uitheme.match(/([\w-]+)/g);
 
