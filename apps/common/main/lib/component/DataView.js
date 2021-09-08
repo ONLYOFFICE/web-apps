@@ -272,6 +272,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -454,14 +455,28 @@ define([
                     var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
-                    if (record.get('tip')) {
-                        var view_el = $(view.el);
-                        view_el.attr('data-toggle', 'tooltip');
-                        view_el.tooltip({
-                            title       : record.get('tip'),
-                            placement   : 'cursor',
-                            zIndex : this.tipZIndex
-                        });
+                    var me = this,
+                        view_el = $(view.el),
+                        tip = record.get('tip');
+                    if (tip) {
+                        if (this.delayRenderTips)
+                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                view_el.attr('data-toggle', 'tooltip');
+                                view_el.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                view_el.mouseenter();
+                            });
+                        else {
+                            view_el.attr('data-toggle', 'tooltip');
+                            view_el.tooltip({
+                                title       : tip,
+                                placement   : 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                        }
                     }
 
                     this.listenTo(view, 'change',      this.onChangeItem);

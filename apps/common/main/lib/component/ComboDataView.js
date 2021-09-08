@@ -91,6 +91,7 @@ define([
             this.rendered    = false;
             this.needFillComboView = false;
             this.minWidth = this.options.minWidth;
+            this.delayRenderTips = this.options.delayRenderTips || false;
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -102,7 +103,8 @@ define([
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                delayRenderTips: this.delayRenderTips
             });
 
             this.openButton = new Common.UI.Button({
@@ -137,7 +139,8 @@ define([
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                delayRenderTips: this.delayRenderTips
             });
 
             // Handle resize
