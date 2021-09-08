@@ -643,6 +643,7 @@ SSE.ApplicationController = new(function(){
         
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
+            'id-input' : 'ce-cell-content',
             'embedded' : true
         });
 
