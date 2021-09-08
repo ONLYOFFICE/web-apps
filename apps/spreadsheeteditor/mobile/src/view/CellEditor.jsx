@@ -42,45 +42,41 @@ const FunctionsList = props => {
     const funcArr = props.funcArr;
 
     return (
-        <Page>
-            <View routes={routes}>
-                <div className="functions-list" style={{width: isPhone ? '100%' : '360px'}}>
-                    <List>
-                        {funcArr.map((elem, index) => {
-                            return (
-                                <ListItem key={index} title={elem.name} href="#" routeProps={{functionInfo: functions[elem.name], functionObj: elem}} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                                    <div slot='after'
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            let functionInfo = functions[elem.name];
-            
-                                            if(functionInfo) {    
-                                                if(isPhone) {                                      
-                                                    f7.dialog.create({
-                                                        title: functionInfo.caption,
-                                                        content: `<h3>${functionInfo.caption} ${functionInfo.args}</h3><p>${functionInfo.descr}</p>`,
-                                                        buttons: [
-                                                            {text: t('View.Add.textCancel')},
-                                                            {
-                                                                text: t('View.Add.textInsert'),
-                                                                onClick: () => props.insertFormula(elem.name, elem.type)
-                                                            }
-                                                        ]
-                                                    }).open();
-                                                } else {
-                                                    f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
-                                                }
-                                            }
-                                        }}>
-                                        <Icon icon='icon-info'/>
-                                    </div>
-                                </ListItem>
-                            )
-                        })}
-                    </List>
-                </div>
-            </View>
-        </Page>
+        <div className="functions-list" style={{width: isPhone ? '100%' : '360px'}}>
+            <List>
+                {funcArr.map((elem, index) => {
+                    return (
+                        <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
+                            <div slot='after'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    let functionInfo = functions[elem.name];
+    
+                                    if(functionInfo) {    
+                                        if(isPhone) {                                      
+                                            f7.dialog.create({
+                                                title: functionInfo.caption,
+                                                content: `<h3>${functionInfo.caption} ${functionInfo.args}</h3><p>${functionInfo.descr}</p>`,
+                                                buttons: [
+                                                    {text: t('View.Add.textCancel')},
+                                                    {
+                                                        text: t('View.Add.textInsert'),
+                                                        onClick: () => props.insertFormula(elem.name, elem.type)
+                                                    }
+                                                ]
+                                            }).open();
+                                        } else {
+                                            f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
+                                        }
+                                    }
+                                }}>
+                                <Icon icon='icon-info'/>
+                            </div>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </div>
     )
 }
 
@@ -101,7 +97,7 @@ const CellEditorView = props => {
 
     return (
         <>
-            <View id="idx-celleditor" style={viewStyle} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
+            <View id="idx-celleditor" style={viewStyle} routes={routes} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
                     <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateCoauth} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
@@ -124,22 +120,27 @@ const CellEditorView = props => {
                         />
                 : null}
             </View>
-            <Popover 
-                id="idx-functions-list" 
-                className="popover__titled" 
-                closeByBackdropClick={false} 
-                backdrop={false} 
-                closeByOutsideClick={true}
-                style={{height: '175px'}}
-            >
-                {funcArr && funcArr.length ?
-                    <FunctionsList 
-                        functions={functions}
-                        funcArr={funcArr} 
-                        insertFormula={props.insertFormula}
-                    />
-                : null}
-            </Popover>
+            {!isPhone &&
+                <Popover 
+                    id="idx-functions-list" 
+                    className="popover__titled" 
+                    closeByBackdropClick={false} 
+                    backdrop={false} 
+                    closeByOutsideClick={true}
+                >
+                    {funcArr && funcArr.length ?
+                        <View style={{height: '175px'}} routes={routes}>
+                            <Page>
+                                <FunctionsList 
+                                    functions={functions}
+                                    funcArr={funcArr} 
+                                    insertFormula={props.insertFormula}
+                                />
+                            </Page>
+                        </View>
+                    : null}
+                </Popover>
+            }
         </>
     );
 };
