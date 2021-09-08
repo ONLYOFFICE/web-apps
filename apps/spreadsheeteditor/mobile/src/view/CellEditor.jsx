@@ -42,7 +42,7 @@ const FunctionsList = props => {
     const funcArr = props.funcArr;
 
     return (
-        <div className="functions-list" style={{width: isPhone ? '100%' : '360px'}}>
+        <div className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
             <List>
                 {funcArr.map((elem, index) => {
                     return (
@@ -130,7 +130,8 @@ const CellEditorView = props => {
                 >
                     {funcArr && funcArr.length ?
                         <View style={{height: '175px'}} routes={routes}>
-                            <Page>
+                            <Page pageContent={false}>
+                                <Navbar className="navbar-hidden" />
                                 <FunctionsList 
                                     functions={functions}
                                     funcArr={funcArr} 
