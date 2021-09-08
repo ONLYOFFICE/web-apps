@@ -2501,12 +2501,20 @@ define([
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
-                var coord  = me.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
-                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                var infocus = me.cellEditor.is(":focus");
+
+                if (infocus) {
+                    menu.menuAlignEl = me.cellEditor;
+                    me.focusInCellEditor = true;
+                } else {
+                    menu.menuAlignEl = undefined;
+                    me.focusInCellEditor = false;
+                    var coord  = me.api.asc_getActiveCellCoord(),
+                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                }
                 menu.alignPosition();
 
-                var infocus = me.cellEditor.is(":focus");
                 if (!menu.isVisible())
                     Common.UI.Menu.Manager.hideAll();
                 _.delay(function() {
@@ -2571,12 +2579,19 @@ define([
                     functip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
+                var infocus = this.cellEditor.is(":focus"),
+                    showPoint;
+                if (infocus || this.focusInCellEditor) {
+                    var offset = this.cellEditor.offset();
+                    showPoint = [offset.left, offset.top + this.cellEditor.height() + 3];
+                } else {
+                    var pos = [
+                            this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                            this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                        ],
+                        coord  = this.api.asc_getActiveCellCoord();
                     showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
                     showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
