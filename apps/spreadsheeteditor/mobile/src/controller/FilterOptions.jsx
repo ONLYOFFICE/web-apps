@@ -11,7 +11,7 @@ const FilterOptionsController = () => {
     const [configFilter, setConfig] = useState(null);
     const [listVal, setListValue] = useState([]);
     const [isValid, setIsValid] = useState(null);
-    const [checkSort, setCheckSort] = useState(null);
+    const [checkSort, setCheckSort] = useState('');
     
     useEffect(() => {
         function onDocumentReady()  {
@@ -35,8 +35,7 @@ const FilterOptionsController = () => {
     const onApiFilterOptions= (config) => {
         setDataFilterCells(config);
         setConfig(config);
-        setClearDisable(config);
-
+        
         setCheckSort((config.asc_getSortState() === Asc.c_oAscSortOptions.Ascending ? 'down' : '') || 
         (config.asc_getSortState() === Asc.c_oAscSortOptions.Descending ? 'up' : ''));
         

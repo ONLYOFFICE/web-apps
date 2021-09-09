@@ -55,7 +55,7 @@ const FilterOptions = (props) => {
            </List>
 
            <List >
-               <ListButton color="black" className={props.isValid ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
+               <ListButton color="black" className={props.isValid || is_all_checked ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>
            </List>
            <List>
