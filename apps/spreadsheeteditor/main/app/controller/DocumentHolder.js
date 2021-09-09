@@ -2456,19 +2456,15 @@ define([
                             hint = me.txtThisRowHint;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableAll:
-                            name = caption = me.txtAllTable;
                             hint = me.txtAllTableHint;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableData:
-                            name = caption = me.txtDataTable;
                             hint = me.txtDataTableHint;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableHeaders:
-                            name = caption = me.txtHeadersTable;
                             hint = me.txtHeadersTableHint;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableTotals:
-                            name = caption = me.txtTotalsTable;
                             hint = me.txtTotalsTableHint;
                             break;
                     }
@@ -4003,10 +3999,6 @@ define([
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
         txtThisRow: 'This Row',
         txtThisRowHint: 'Choose only this row of the specified column',
-        txtAllTable: '#All',
-        txtDataTable: '#Data',
-        txtHeadersTable: '#Headers',
-        txtTotalsTable: '#Totals',
         txtAllTableHint: 'Returns the entire contents of the table or specified table columns including column headers, data and total rows',
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
