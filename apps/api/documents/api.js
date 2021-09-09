@@ -55,7 +55,8 @@
                          view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
-                    }
+                    },
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
                 }
             },
             editorConfig: {
