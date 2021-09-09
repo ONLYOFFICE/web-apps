@@ -2415,8 +2415,14 @@ define([
                     i--;
                 }
                 funcarr.sort(function (a,b) {
-                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                    var atype = a.asc_getType(),
+                        btype = b.asc_getType(),
+                        aname = a.asc_getName(true).toLocaleUpperCase(),
                         bname = b.asc_getName(true).toLocaleUpperCase();
+                    if (atype === Asc.c_oAscPopUpSelectorType.TableThisRow) return -1;
+                    if (btype === Asc.c_oAscPopUpSelectorType.TableThisRow) return 1;
+                    if ((atype === Asc.c_oAscPopUpSelectorType.TableColumnName || btype === Asc.c_oAscPopUpSelectorType.TableColumnName) && atype !== btype)
+                        return atype === Asc.c_oAscPopUpSelectorType.TableColumnName ? -1 : 1;
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
@@ -2425,24 +2431,54 @@ define([
                     var type = menuItem.asc_getType(),
                         name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
-                        iconCls = 'btn-named-range';
+                        iconCls = '',
+                        caption = name,
+                        hint = '';
                     switch (type) {
                         case Asc.c_oAscPopUpSelectorType.Func:
-                            iconCls = 'btn-function';
+                            iconCls = 'menu__icon btn-function';
+                            hint = (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '';
                             break;
                         case Asc.c_oAscPopUpSelectorType.Table:
-                            iconCls = 'btn-menu-table';
+                            iconCls = 'menu__icon btn-menu-table';
                             break;
                         case Asc.c_oAscPopUpSelectorType.Slicer:
-                            iconCls = 'btn-slicer';
+                            iconCls = 'menu__icon btn-slicer';
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.Range:
+                            iconCls = 'menu__icon btn-named-range';
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableColumnName:
+                            caption = '(...) ' + name;
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableThisRow:
+                            caption = name + ' - ' + me.txtThisRow;
+                            hint = me.txtThisRowHint;
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableAll:
+                            name = caption = me.txtAllTable;
+                            hint = me.txtAllTableHint;
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableData:
+                            name = caption = me.txtDataTable;
+                            hint = me.txtDataTableHint;
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableHeaders:
+                            name = caption = me.txtHeadersTable;
+                            hint = me.txtHeadersTableHint;
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.TableTotals:
+                            name = caption = me.txtTotalsTable;
+                            hint = me.txtTotalsTableHint;
                             break;
                     }
                     var mnu = new Common.UI.MenuItem({
-                        iconCls: 'menu__icon ' + iconCls ,
-                        caption: name,
-                        hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
+                        iconCls: iconCls,
+                        caption: caption,
+                        name: name,
+                        hint: hint
                     }).on('click', function(item, e) {
-                        setTimeout(function(){ me.api.asc_insertInCell(item.caption, type, false ); }, 10);
+                        setTimeout(function(){ me.api.asc_insertInCell(item.options.name, type, false ); }, 10);
                     });
                     menu.addItem(mnu);
                 });
@@ -3964,7 +4000,17 @@ define([
         textAutoCorrectSettings: 'AutoCorrect options',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
-        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        txtThisRow: 'This Row',
+        txtThisRowHint: 'Choose only this row of the specified column',
+        txtAllTable: '#All',
+        txtDataTable: '#Data',
+        txtHeadersTable: '#Headers',
+        txtTotalsTable: '#Totals',
+        txtAllTableHint: 'Returns the entire contents of the table or specified table columns including column headers, data and total rows',
+        txtDataTableHint: 'Returns the data cells of the table or specified table columns',
+        txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
+        txtTotalsTableHint: 'Returns the total rows for the table or specified table columns'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
