@@ -123,7 +123,7 @@ const CellEditorView = props => {
             {!isPhone &&
                 <Popover 
                     id="idx-functions-list" 
-                    className="popover__titled" 
+                    className="popover__titled popover__functions" 
                     closeByBackdropClick={false} 
                     backdrop={false} 
                     closeByOutsideClick={true}
