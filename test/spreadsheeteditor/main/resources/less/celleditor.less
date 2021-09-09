@@ -16,8 +16,6 @@
     .ce-group-name {
         float: left;
         height: 20px;
-        //border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
-        //border-bottom: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
@@ -100,11 +98,10 @@
     }
 
     .ce-group-content {
-        margin: 0 16px 0 120px;
+        margin: 0 2px 0 120px;
         height: 100%;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
-
         #ce-cell-content {
             height: 100%;
             resize: none;
@@ -113,7 +110,7 @@
             font-size: 12px;
             line-height: 18px;
             padding-bottom: 0;
-
+            padding-top: 0;
             &[disabled] {
                 color: @border-preview-select-ie;
                 color: @border-preview-select;
@@ -156,5 +153,16 @@
         .caret {
             transform: rotate(45deg);
         }
+    }
+}
+
+.layout-resizer {
+    z-index: @zindex-dropdown - 10;
+    background: @background-toolbar-ie;
+    background: @background-toolbar;
+    border: 0 none;
+
+    &.move {
+        opacity: 0.4;
     }
 }

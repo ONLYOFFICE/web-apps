@@ -135,8 +135,6 @@ SSE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(false);
-
-               // Common.Analytics.trackEvent('Load', 'Start');
             }
 
             embedConfig.docTitle = docConfig.title;
@@ -243,11 +241,7 @@ SSE.ApplicationController = new(function(){
         Common.Gateway.on('requestclose',       onRequestClose);
 
 
-         if(common.controller.CellEditor ) {
-             common.controller.CellEditor.create();
-             common.controller.CellEditor.setApi(api)
-             common.controller.CellEditor.setMode(config);
-         }
+
 
         SSE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -362,6 +356,7 @@ SSE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
+        api.asc_setAutoSaveGap(1);
         if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
             config.customization && config.customization.logo ) {
 
@@ -654,6 +649,11 @@ SSE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged',    setActiveWorkSheet);
 
+            if(common.controller.CellEditor ) {
+                common.controller.CellEditor.create();
+                common.controller.CellEditor.setApi(api)
+                common.controller.CellEditor.setMode(config);
+            }
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);

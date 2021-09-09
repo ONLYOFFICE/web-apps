@@ -16,113 +16,7 @@
 
     <!-- splash -->
 
-    <style type="text/css">
-        .loadmask {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            border: none;
-            background-color: #f4f4f4;
-            z-index: 10000;
-        }
-        .loadmask > .brendpanel {
-            width: 100%;
-            position: absolute;
-            height: 48px;
-            background-color: #F7F7F7;
-            -webkit-box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
-            box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
-        }
 
-        .loadmask > .brendpanel > div {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .loadmask > .brendpanel .loading-logo {
-            max-width: 200px;
-            height: 24px;
-            margin-left: 10px;
-            text-align: center;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 124px;
-            max-height: 20px;
-            margin-top: 2px;
-            opacity: 0;
-        }
-        .loadmask > .brendpanel .doc-title {
-            flex-grow: 1;
-        }
-
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            margin: 4px 10px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .loadmask > .placeholder {
-            background: #fbfbfb;
-            width: 100%;
-            height: 100%;
-            font-size: 0;
-            border: 1px solid #dfdfdf;
-            white-space: nowrap;
-            padding-top: 48px;
-        }
-
-        .loadmask > .placeholder > .columns {
-            width: 100%;
-            height: 100%;
-            display: inline-block;
-            background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
-            linear-gradient(rgba(0,0,0,0) 19px, #d5d5d5 20px) 0 0,
-            linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
-            background-size: 80px 20px;
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
-        }
-
-        .loadmask > .placeholder > .columns:first-child {
-            position: absolute;
-            background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
-            background-size: 20px 20px;
-            width: 25px;
-        }
-
-        @keyframes flickerAnimation {
-            0%   { opacity:1; }
-            50%  { opacity:0.3; }
-            100% { opacity:1; }
-        }
-        @-o-keyframes flickerAnimation{
-            0%   { opacity:1; }
-            50%  { opacity:0.3; }
-            100% { opacity:1; }
-        }
-        @-moz-keyframes flickerAnimation{
-            0%   { opacity:1; }
-            50%  { opacity:0.3; }
-            100% { opacity:1; }
-        }
-        @-webkit-keyframes flickerAnimation{
-            0%   { opacity:1; }
-            50%  { opacity:0.3; }
-            100% { opacity:1; }
-        }
-    </style>
 
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
@@ -130,7 +24,7 @@
 </head>
 
 <body class="main-body">
-<div id="loading-mask" class="loadmask">
+<!--<div id="loading-mask" class="loadmask">
     <div class="brendpanel">
         <div>
             <div class="brand-logo loading-logo">
@@ -144,7 +38,7 @@
         <div class="columns"></div>
         <div class="columns"></div>
     </div>
-</div>
+</div>-->
 
 <!-- debug begin -->
 <script type="text/javascript">var less=less||{};less.env='development';</script>
@@ -199,9 +93,9 @@
     var elem = document.querySelector('.loading-logo');
     if (elem && logo) {
         elem.style.backgroundImage= 'none';
-        var img = document.querySelector('.loading-logo img');
+        /*var img = document.querySelector('.loading-logo img');
         img && img.setAttribute('src', logo);
-        img.style.opacity = 1;
+        img.style.opacity = 1;*/
     }
 </script>
 
@@ -212,13 +106,14 @@
             <div id="ce-cell-name-menu" class="layout-item" style="height: 20px; top: 0px; border-left: none;"></div>
            <!-- <button id="ce-func-label" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-function"></i></button>
         --></div>
-        <div class="ce-group-expand">
+        <!--<div class="ce-group-expand">
             <button id="ce-btn-expand" type="button" class="btn"><span class="caret">&nbsp;</span></button>
-        </div>
+        </div>-->
         <div class="ce-group-content">
             <textarea id="ce-cell-content" class="form-control" spellcheck="false" rows="1" cols="20"></textarea>
         </div>
     </div>
+    <div class="layout-resizer after" style="top: 20px; height: 4px; z-index: 4;"></div>
     <div id="editor_sdk" class="sdk-view" style="overflow: hidden;" tabindex="-1"></div>
     <ul id="worksheets" class="worksheet-list"></ul>
 </div>
@@ -290,7 +185,6 @@
 <!--application-->
 <script type="text/javascript" src="../../unit-tests/common/locale.js"></script>
 <script type="text/javascript" src="../../unit-tests/common/Gateway.js"></script>
-<!--<script type="text/javascript" src="../../unit-tests/common/Analytics.js"></script>-->
 <script type="text/javascript" src="../../unit-tests/common/main/lib/util/LocalStorage.js"></script>
 <script type="text/javascript" src="../../unit-tests/common/main/lib/util/utils.js"></script>
 <script type="text/javascript" src="../../unit-tests/common/main/lib/view/LoadMask.js"></script>

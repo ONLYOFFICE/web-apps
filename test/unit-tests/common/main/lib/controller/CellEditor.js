@@ -1,5 +1,6 @@
 !window.common && (window.common = {});
 !common.controller && (common.controller = {});
+
 Common.UI = _.extend(Common.UI || {}, {
     Keys : {
         BACKSPACE:  8,
@@ -39,6 +40,7 @@ Common.UI = _.extend(Common.UI || {}, {
         EQUALITY:   187,
         MINUS:      189
     }});
+
 common.controller.CellEditor = new(function(){
     var  me,
         api,
@@ -55,17 +57,20 @@ common.controller.CellEditor = new(function(){
             //Common.NotificationCenter.trigger('edit:complete', editor);
         }
     }
+
     function onKeyupCellEditor(e) {
         if(e.keyCode == Common.UI.Keys.RETURN && !e.altKey){
             api.isCEditorFocused = 'clear';
         }
     }
+
     function onBlurCellEditor() {
         if (api.isCEditorFocused == 'clear')
             api.isCEditorFocused = undefined;
         else if (api.isCellEdited)
             api.isCEditorFocused = true;
     }
+
     function expandEditorField() {
         if ( Math.floor(editor.$el.height()) > 19) {
             editor.keep_height = editor.$el.height();
@@ -80,9 +85,8 @@ common.controller.CellEditor = new(function(){
             common.localStorage.setBool('sse-celleditor-expand', true);
         }
 
-        //Common.NotificationCenter.trigger('layout:changed', 'celleditor');
-        //Common.NotificationCenter.trigger('edit:complete', editor, {restorefocus:true});
     }
+
     function events() {
            editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
            editor.$el.find('textarea#ce-cell-content').on( 'keyup', onKeyupCellEditor);
@@ -90,6 +94,7 @@ common.controller.CellEditor = new(function(){
            //editor.$el.find('button#ce-btn-expand').on('click',  expandEditorField);/*,
             /*'click button#ce-func-label': onInsertFunction*/
     }
+
     function createController() {
         me = this;
         if (created)
@@ -100,6 +105,7 @@ common.controller.CellEditor = new(function(){
         onLaunch();
         return me;
     }
+
     function onLayoutResize(o, r) {
         if (r == 'cell:edit') {
             /*if (Math.floor(editor.$el.height()) > 19) {
@@ -117,6 +123,7 @@ common.controller.CellEditor = new(function(){
             //}
         }
     }
+
     function  onLaunch(){
         common.view.CellEditor.create();
         editor = common.view.CellEditor;
@@ -140,6 +147,7 @@ common.controller.CellEditor = new(function(){
     function onApiCellSelection(info){
         editor.cell.updateInfo(info);
     }
+
     function onApiEditCell(state) {
         if (this.viewmode) return; // signed file
 
@@ -155,9 +163,11 @@ common.controller.CellEditor = new(function(){
         }
         editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText);
     }
+
     function onLockDefNameManager(state) {
         this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
     }
+
     function onInputKeyDown(e) {
         if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
             Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.ESC === e.keyCode ||
@@ -167,6 +177,7 @@ common.controller.CellEditor = new(function(){
                 menu.find('.dropdown-menu').trigger('keydown', e);
         }
     }
+
     function onApiDisconnect() {
         mode.isEdit = false;
 
@@ -180,10 +191,7 @@ common.controller.CellEditor = new(function(){
             editor.btnNamedRanges.setVisible(false);
         }
     }
-    function onCellsRange(status) {
-        editor.cell.nameDisabled(status != Asc.c_oAscSelectionDialogType.None);
-        editor.$btnfunc.toggleClass('disabled', status != Asc.c_oAscSelectionDialogType.None);
-    }
+
     function setApi(apiF){
         api=apiF;
 
@@ -191,11 +199,10 @@ common.controller.CellEditor = new(function(){
         api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection);
         api.asc_registerCallback('asc_onEditCell', onApiEditCell);
         api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
-        //Common.NotificationCenter.on('api:disconnect', onApiDisconnect);
-        //Common.NotificationCenter.on('cells:range', onCellsRange);
         api.asc_registerCallback('asc_onLockDefNameManager', onLockDefNameManager);
         api.asc_registerCallback('asc_onInputKeyDown', onInputKeyDown);
     }
+
     function onApiSelectionChanged(info) {
         if (this.viewmode) return; // signed file
 
@@ -211,26 +218,29 @@ common.controller.CellEditor = new(function(){
 
         editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
     }
+
     function setMode(modeF) {
         mode = modeF;
 
         editor.$btnfunc[mode.isEdit?'removeClass':'addClass']('disabled');
-        //editor.btnNamedRanges.setVisible(mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge);
 
         if ( mode.isEdit ) {
             api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged);
         }
     }
+
     function setPreviewMode(mode) {
         if (this.viewmode === mode) return;
         this.viewmode = mode;
-        editor.$btnfunc[!mode && mode.isEdit?'removeClass':'addClass']('disabled');
+        //editor.$btnfunc[!mode && mode.isEdit?'removeClass':'addClass']('disabled');
         editor.cell.nameDisabled(mode && !(mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge));
     }
+
     return {
         create: createController,
         setApi: setApi,
-        setMode: setMode
+        setMode: setMode,
+        setPreviewMode: setPreviewMode
     }
 
 })();

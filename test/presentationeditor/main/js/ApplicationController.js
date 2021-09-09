@@ -72,16 +72,7 @@ PE.ApplicationController = new(function(){
 
         //common.controller.modals.init(embedConfig);
 
-        // Docked toolbar
-        /*if (embedConfig.toolbarDocked === 'bottom') {
-            $('#toolbar').addClass('bottom');
-            $('#editor_sdk').addClass('bottom');
-            $('#box-tools').removeClass('dropdown').addClass('dropup');
-            ttOffset[1] = -40;
-        } else {
-            $('#toolbar').addClass('top');
-            $('#editor_sdk').addClass('top');
-        }*/
+
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
@@ -362,123 +353,122 @@ PE.ApplicationController = new(function(){
             //Common.Analytics.trackEvent('Internal Error', id.toString());
 }
 
-function onExternalMessage(error) {
-if (error) {
-hidePreloader();
-/*$('#id-error-mask-title').text(me.criticalErrorTitle);
-$('#id-error-mask-text').text(error.msg);
-$('#id-error-mask').css('display', 'block');*/
-    console.error(error.msg);
+    function onExternalMessage(error) {
+        if (error) {
+        hidePreloader();
+        /*$('#id-error-mask-title').text(me.criticalErrorTitle);
+        $('#id-error-mask-text').text(error.msg);
+        $('#id-error-mask').css('display', 'block');*/
+            console.error(error.msg);
 
-//Common.Analytics.trackEvent('External Error');
-}
-}
+        //Common.Analytics.trackEvent('External Error');
+        }
+    }
 
-function onProcessMouse(data) {
-if (data.type == 'mouseup') {
-var e = document.getElementById('editor_sdk');
-if (e) {
-    var r = e.getBoundingClientRect();
-    api.OnMouseUp(
-        data.x - r.left,
-        data.y - r.top
-    );
-}
-}
-}
+    function onProcessMouse(data) {
+        if (data.type == 'mouseup') {
+            var e = document.getElementById('editor_sdk');
+            if (e) {
+                var r = e.getBoundingClientRect();
+                api.OnMouseUp(
+                    data.x - r.left,
+                    data.y - r.top
+                );
+            }
+        }
+    }
 
-function onRequestClose() {
-Common.Gateway.requestClose();
-}
+    function onRequestClose() {
+        Common.Gateway.requestClose();
+    }
 
-function onDownloadAs() {
-if ( permissions.download === false) {
-//Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
-    console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
-return;
-}
-if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, false));
-}
+    function onDownloadAs() {
+        if ( permissions.download === false) {
+        //Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            return;
+        }
+        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, false));
+    }
 
-function onRunAutostartMacroses() {
-if (!config.customization || (config.customization.macros!==false))
-if (api) api.asc_runAutostartMacroses();
-}
+        function onRunAutostartMacroses() {
+        if (!config.customization || (config.customization.macros!==false))
+        if (api) api.asc_runAutostartMacroses();
+    }
 
-function onBeforeUnload () {
-common.localStorage.save();
-}
-// Helpers
-// -------------------------
+    function onBeforeUnload () {
+        common.localStorage.save();
+    }
 
-function onDocumentResize() {
-if (api) {
-api.Resize();
-}
-}
+    // Helpers
+    // -------------------------
 
-function createController(){
-if (created)
-return me;
+    function onDocumentResize() {
+        if (api) {
+            api.Resize();
+        }
+    }
 
-me = this;
-created = true;
+    function createController(){
+        if (created) return me;
 
-// popover ui handlers
+        me = this;
+        created = true;
 
-$(window).resize(function(){
-onDocumentResize();
-});
-window.onbeforeunload = onBeforeUnload;
+        // popover ui handlers
 
-api = new Asc.asc_docs_api({
-'id-view'  : 'editor_sdk',
-'embedded' : true
-});
+        $(window).resize(function(){
+        onDocumentResize();
+        });
+        window.onbeforeunload = onBeforeUnload;
 
-if (api){
-api.SetThemesPath("../../../../sdkjs/slide/themes/");
+        api = new Asc.asc_docs_api({
+        'id-view'  : 'editor_sdk',
+        'embedded' : true
+        });
 
-api.asc_registerCallback('asc_onError',                 onError);
-api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
-api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
-//api.asc_registerCallback('asc_onCountPages',            onCountPages);
-//api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
+        if (api){
+            api.SetThemesPath("../../../../sdkjs/slide/themes/");
 
-// Initialize api gateway
-Common.Gateway.on('init',               loadConfig);
-Common.Gateway.on('opendocument',       loadDocument);
-Common.Gateway.on('showmessage',        onExternalMessage);
-Common.Gateway.appReady();
-}
+            api.asc_registerCallback('asc_onError',                 onError);
+            api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
+            api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
-return me;
-}
+            // Initialize api gateway
+            Common.Gateway.on('init',               loadConfig);
+            Common.Gateway.on('opendocument',       loadDocument);
+            Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.appReady();
 
-return {
-create                  : createController,
-errorDefaultMessage     : 'Error code: %1',
-unknownErrorText        : 'Unknown error.',
-convertationTimeoutText : 'Conversion timeout exceeded.',
-convertationErrorText   : 'Conversion failed.',
-downloadErrorText       : 'Download failed.',
-criticalErrorTitle      : 'Error',
-notcriticalErrorTitle   : 'Warning',
-scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-errorFilePassProtect: 'The file is password protected and cannot be opened.',
-errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-errorUserDrop: 'The file cannot be accessed right now.',
-unsupportedBrowserErrorText: 'Your browser is not supported.',
-textOf: 'of',
-downloadTextText: 'Downloading presentation...',
-waitText: 'Please, wait...',
-textLoadingDocument: 'Loading presentation',
-txtClose: 'Close',
-errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-textGuest: 'Guest',
-textAnonymous: 'Anonymous',
-errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
-}
+        }
+
+        return me;
+        }
+
+        return {
+        create                  : createController,
+        errorDefaultMessage     : 'Error code: %1',
+        unknownErrorText        : 'Unknown error.',
+        convertationTimeoutText : 'Conversion timeout exceeded.',
+        convertationErrorText   : 'Conversion failed.',
+        downloadErrorText       : 'Download failed.',
+        criticalErrorTitle      : 'Error',
+        notcriticalErrorTitle   : 'Warning',
+        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+        errorFilePassProtect: 'The file is password protected and cannot be opened.',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        errorUserDrop: 'The file cannot be accessed right now.',
+        unsupportedBrowserErrorText: 'Your browser is not supported.',
+        textOf: 'of',
+        downloadTextText: 'Downloading presentation...',
+        waitText: 'Please, wait...',
+        textLoadingDocument: 'Loading presentation',
+        txtClose: 'Close',
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+        textGuest: 'Guest',
+        textAnonymous: 'Anonymous',
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+    }
 })();
