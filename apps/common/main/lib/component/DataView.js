@@ -874,7 +874,8 @@ define([
                 this.cmpEl.html(this.template({
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
-                    style: me.style
+                    style: me.style,
+                    options: me.options
                 }));
             }
             var modalParents = this.cmpEl.closest('.asc-window');
@@ -1257,4 +1258,72 @@ define([
             }
         }, 100);
     });
+
+    Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
+        template: _.template([
+            '<div class="dataview inner" style="<%= style %>">',
+                '<% _.each(options.groups, function(group) { %>',
+                    '<div class="grouped-data <% if (!_.isEmpty(group.groupName)) { %> margin <% } %>" id="<%= group.id %>">',
+                        '<% if (!_.isEmpty(group.groupName)) { %>',
+                            '<div class="group-description">',
+                                '<span><%= group.groupName %></span>',
+                            '</div>',
+                        '<% } %>',
+                        '<div class="group-items-container">',
+                            '<% _.each(group.groupStore.toJSON(), function(item) { %>',
+                                '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                '<% }); %>',
+                        '</div>',
+                    '</div>',
+                '<% }); %>',
+            '</div>'
+        ].join('')),
+        onAfterShowMenu: function(e) {
+            if (!this.dataViewItems) {
+                var me = this;
+                _.each(me.options.groups, function (group) {
+                    me.store.models = me.store.models.concat(group.groupStore.models);
+                });
+                this.dataViewItems = [];
+                _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
+                    _.each($(group).find('div.item'), function (item, index) {
+                        var $item = $(item),
+                            rec = me.options.groups.at(indexGroup).groupStore.at(index);
+                        me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
+                        if (rec.get('tip')) {
+                            $item.tooltip({
+                                title: rec.get('tip'),
+                                placement: 'cursor',
+                                zIndex: me.tipZIndex
+                            });
+                        }
+                    });
+                });
+            }
+        },
+        onClickItem: function(e) {
+            if ( this.disabled ) return;
+
+            window._event = e;  //  for FireFox only
+
+            var groupIndex = $(e.currentTarget).closest('div.grouped-data').index(),
+                itemIndex = $(e.currentTarget).closest('div.item').index();
+            var index = _.findIndex(this.dataViewItems, function (item) {
+                    return (item.groupIndex === groupIndex && item.index === itemIndex);
+                });
+            var record = (index>=0) ? this.store.at(index) : null,
+                view = (index>=0) ? this.dataViewItems[index] : null;
+            if (!record || !view) return;
+
+            record.set({selected: true});
+            var tip = view.el.data('bs.tooltip');
+            if (tip) (tip.tip()).remove();
+
+            if (!this.isSuspendEvents) {
+                this.trigger('item:click', this, view.el, record, e);
+            }
+        }
+    }));
+
 });
