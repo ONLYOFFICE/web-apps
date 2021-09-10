@@ -61,7 +61,7 @@
     "notcriticalErrorTitle": "Avertisment",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "warnMergeLostData": "Operațiunea poate rezulta în distrugerea datelor din celule selectate. Doriți să continuați?"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {
@@ -561,6 +561,7 @@
       "textEnableAll": "Se activează toate",
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
+      "textExample": "Exemplu",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
       "textFindAndReplaceAll": "Găsire și înlocuire totală",

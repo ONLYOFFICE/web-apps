@@ -61,7 +61,7 @@
     "notcriticalErrorTitle": "Advertiment",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
-    "warnMergeLostData": "Aquesta operació pot eliminar les dades de les cel·les seleccionades. Voleu continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada.<br>Esteu segur que voleu continuar?"
   },
   "Controller": {
     "Main": {
@@ -556,6 +556,7 @@
       "textEmail": "Correu electrònic",
       "textEnableAll": "Habilita-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense una notificació",
+      "textExample": "Exemple",
       "textFind": "Cerca",
       "textFindAndReplace": "Cerca i substitueix",
       "textFindAndReplaceAll": "Cerca i substitueix-ho tot",

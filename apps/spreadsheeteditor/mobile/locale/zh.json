@@ -61,7 +61,7 @@
     "notcriticalErrorTitle": "警告",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "warnMergeLostData": "该操作将抹掉或破坏这些单元格中的数据。继续吗？"
+    "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。<br>您确定要继续吗？"
   },
   "Controller": {
     "Main": {
@@ -556,6 +556,7 @@
       "textEmail": "电子邮件",
       "textEnableAll": "启动所有项目",
       "textEnableAllMacrosWithoutNotification": "启动所有不带通知的宏",
+      "textExample": "列入",
       "textFind": "查找",
       "textFindAndReplace": "查找和替换",
       "textFindAndReplaceAll": "查找并替换所有",

@@ -649,7 +649,8 @@
       "txtComma": "Comma",
       "txtDownloadCsv": "Download CSV",
       "txtOk": "Ok",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "textExample": "Example"
     }
   }
 }
