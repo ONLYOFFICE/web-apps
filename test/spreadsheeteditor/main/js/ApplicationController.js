@@ -131,7 +131,7 @@ SSE.ApplicationController = new(function(){
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
-                api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
+               // api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(false);
@@ -199,36 +199,6 @@ SSE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-
-
-        /*if ( permissions.print === false)
-            $('#idt-print').hide();
-
-        if ( !embedConfig.saveUrl && permissions.print === false)
-            $('#idt-download').hide();
-
-        if ( !embedConfig.shareUrl )
-            $('#idt-share').hide();
-
-        if (!config.canBackToFolder)
-            $('#idt-close').hide();
-
-        if ( !embedConfig.embedUrl )
-            $('#idt-embed').hide();
-
-        if ( !embedConfig.fullscreenUrl )
-            $('#idt-fullscreen').hide();
-
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
-            $('#box-tools').addClass('hidden');
-        else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
-            $('#box-tools .divider').hide();*/
-
-        /*common.controller.modals.attach({
-            share: '#idt-share',
-            embed: '#idt-embed'
-        });*/
-
         api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
@@ -241,74 +211,6 @@ SSE.ApplicationController = new(function(){
         Common.Gateway.on('requestclose',       onRequestClose);
 
 
-
-
-        /*SSE.ApplicationView.tools.get('#idt-fullscreen')
-            .on('click', function(){
-                common.utils.openLink(embedConfig.fullscreenUrl);
-            });
-
-        SSE.ApplicationView.tools.get('#idt-download')
-            .on('click', function(){
-                if ( !!embedConfig.saveUrl ){
-                    common.utils.openLink(embedConfig.saveUrl);
-                } else
-                if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                }
-            });
-
-        SSE.ApplicationView.tools.get('#idt-print')
-            .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                //Common.Analytics.trackEvent('Print');
-            });
-
-        SSE.ApplicationView.tools.get('#idt-close')
-            .on('click', function(){
-                if (config.customization && config.customization.goback) {
-                    if (config.customization.goback.requestClose && config.canRequestClose)
-                        Common.Gateway.requestClose();
-                    else if (config.customization.goback.url)
-                        window.parent.location.href = config.customization.goback.url;
-                }
-            });
-
-        $('#id-btn-zoom-in').on('click', function () {
-            if (api){
-                var f = Math.floor(api.asc_getZoom() * 10)/10;
-                f += .1;
-                f > 0 && !(f > 2.) && api.asc_setZoom(f);
-            }
-        });
-        $('#id-btn-zoom-out').on('click', function () {
-            if (api){
-                var f = Math.ceil(api.asc_getZoom() * 10)/10;
-                f -= .1;
-                !(f < .5) && api.asc_setZoom(f);
-            }
-        });
-
-        var documentMoveTimer;
-        var ismoved = false;
-        $(document).mousemove(function(event) {
-            $('#id-btn-zoom-in').fadeIn();
-            $('#id-btn-zoom-out').fadeIn();
-
-            ismoved = true;
-            if (!documentMoveTimer) {
-                documentMoveTimer = setInterval(function () {
-                    if (!ismoved) {
-                        $('#id-btn-zoom-in').fadeOut();
-                        $('#id-btn-zoom-out').fadeOut();
-                        clearInterval(documentMoveTimer);
-                        documentMoveTimer = undefined;
-                    }
-
-                    ismoved = false;
-                }, 2000);
-            }
-        });*/
 
         var ismodalshown = false;
         $(document.body).on('show.bs.modal', '.modal',
@@ -410,12 +312,13 @@ SSE.ApplicationController = new(function(){
 
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').text(me.scriptLoadError);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');*/
+            console.error(me.scriptLoadError);
             return;
         }
 
@@ -479,25 +382,27 @@ SSE.ApplicationController = new(function(){
         if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
-            Common.Gateway.reportError(id, message);
+            //Common.Gateway.reportError(id, message);
+            console.error(id,message);
 
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
+           /* $('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
-            });
+            });*/
         }
         else {
-            Common.Gateway.reportWarning(id, message);
+           // Common.Gateway.reportWarning(id, message);
+            console.warn(id,message);
 
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
+            /*$('#id-critical-error-title').text(me.notcriticalErrorTitle);
             $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 $('#id-critical-error-dialog').modal('hide');
-            });
+            });*/
         }
 
-        $('#id-critical-error-dialog').modal('show');
+        //$('#id-critical-error-dialog').modal('show');
 
         //Common.Analytics.trackEvent('Internal Error', id.toString());
     }
