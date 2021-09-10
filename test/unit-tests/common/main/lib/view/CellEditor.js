@@ -30,25 +30,13 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-/**
- *  CellEditor.js
- *
- *  Displays loading mask over selected element(s) or component. Accepts both single and multiple selectors.
- *
- *  Created by Sharova Olga 07.09.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
- *
- */
+
 
 !window.common && (window.common = {});
 !common.view && (common.view = {});
 
 common.view.CellEditor = new(function (){
-    var  me
-        ,$cellname
-        ,$cellcontent
-        ,$btnexpand
-        ,$btnfunc;
+    var  me;
 
     function  createView()
     {
@@ -56,9 +44,6 @@ common.view.CellEditor = new(function (){
         me.$el = $('#cell-editing-box');
         me.$cellcontent=$('#ce-cell-content');
         me.$cellname = $('#ce-cell-name');
-        me.$btnexpand = $('#ce-btn-expand');
-        me.$btnfunc = $('#ce-func-label');
-        me.$btnfunc.addClass('disabled');
 
         me.$cellname.on('focus', function(e){
             var txt = me.$cellname[0];

@@ -1,7 +1,7 @@
 !window.common && (window.common = {});
 !common.controller && (common.controller = {});
 
-Common.UI = _.extend(Common.UI || {}, {
+common.ui = _.extend(common.ui || {}, {
     Keys : {
         BACKSPACE:  8,
         TAB:        9,
@@ -49,17 +49,16 @@ common.controller.CellEditor = new(function(){
         created=false;
 
     function onCellName(e){
-        if (e.keyCode == Common.UI.Keys.RETURN){
+        if (e.keyCode == common.ui.Keys.RETURN){
             var name = editor.$cellname.val();
             if (name && name.length) {
                 api.asc_findCell(name);
             }
-            //Common.NotificationCenter.trigger('edit:complete', editor);
         }
     }
 
     function onKeyupCellEditor(e) {
-        if(e.keyCode == Common.UI.Keys.RETURN && !e.altKey){
+        if(e.keyCode == common.ui.Keys.RETURN && !e.altKey){
             api.isCEditorFocused = 'clear';
         }
     }
@@ -71,35 +70,16 @@ common.controller.CellEditor = new(function(){
             api.isCEditorFocused = true;
     }
 
-    function expandEditorField() {
-        if ( Math.floor(editor.$el.height()) > 19) {
-            editor.keep_height = editor.$el.height();
-            editor.$el.height(19);
-            editor.$el.removeClass('expanded');
-            editor.$btnexpand['removeClass']('btn-collapse');
-            common.localStorage.setBool('sse-celleditor-expand', false);
-        } else {
-            editor.$el.height(editor.keep_height);
-            editor.$el.addClass('expanded');
-            editor.$btnexpand['addClass']('btn-collapse');
-            common.localStorage.setBool('sse-celleditor-expand', true);
-        }
-
-    }
-
     function events() {
            editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
            editor.$el.find('textarea#ce-cell-content').on( 'keyup', onKeyupCellEditor);
            editor.$el.find('textarea#ce-cell-content').on('blur',  onBlurCellEditor);
-           //editor.$el.find('button#ce-btn-expand').on('click',  expandEditorField);/*,
-            /*'click button#ce-func-label': onInsertFunction*/
     }
 
     function createController() {
         me = this;
         if (created)
             return me;
-
 
         created = true;
         onLaunch();
@@ -108,39 +88,23 @@ common.controller.CellEditor = new(function(){
 
     function onLayoutResize(o, r) {
         if (r == 'cell:edit') {
-            /*if (Math.floor(editor.$el.height()) > 19) {
-                if (!editor.$btnexpand.hasClass('btn-collapse')) {
-                    editor.$el.addClass('expanded');
-                    editor.$btnexpand['addClass']('btn-collapse');
-                }
-
-                o && common.localStorage.setItem('sse-celleditor-height', editor.$el.height());
-                o && common.localStorage.setBool('sse-celleditor-expand', true);
-            } else {*/
-                editor.$el.removeClass('expanded');
-                editor.$btnexpand['removeClass']('btn-collapse');
                 o && common.localStorage.setBool('sse-celleditor-expand', false);
-            //}
         }
     }
 
     function  onLaunch(){
         common.view.CellEditor.create();
         editor = common.view.CellEditor;
-        //me.bindViewEvents(editor, events);
         events();
 
         editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
 
         var val = common.localStorage.getItem('sse-celleditor-height');
-        editor.keep_height = (val!==null && parseInt(val)>0) ? parseInt(val) : 74;
+        editor.keep_height = (val!==null && parseInt(val)>0) ? parseInt(val) : 19;
         if (common.localStorage.getBool('sse-celleditor-expand')) {
             editor.$el.height(editor.keep_height);
             onLayoutResize(undefined, 'cell:edit');
         }
-
-       /* editor.btnNamedRanges.menu.on('item:click', _.bind(this.onNamedRangesMenu, this))
-            .on('show:before', _.bind(this.onNameBeforeShow, this));*/
         this.namedrange_locked = false;
     }
 
@@ -161,7 +125,6 @@ common.controller.CellEditor = new(function(){
             api.isCEditorFocused = false;
             editor.cell.nameDisabled(false);
         }
-        editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText);
     }
 
     function onLockDefNameManager(state) {
@@ -169,27 +132,17 @@ common.controller.CellEditor = new(function(){
     }
 
     function onInputKeyDown(e) {
-        if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
-            Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.ESC === e.keyCode ||
-            Common.UI.Keys.LEFT === e.keyCode || Common.UI.Keys.RIGHT === e.keyCode) {
+        /*if (common.ui.Keys.UP === e.keyCode || common.ui.Keys.DOWN === e.keyCode ||
+            common.ui.Keys.TAB === e.keyCode || common.ui.Keys.RETURN === e.keyCode || common.ui.Keys.ESC === e.keyCode ||
+            common.ui.Keys.LEFT === e.keyCode || common.ui.Keys.RIGHT === e.keyCode) {
             var menu = $('#menu-formula-selection'); // for formula menu
             if (menu.hasClass('open'))
                 menu.find('.dropdown-menu').trigger('keydown', e);
-        }
+        }*/
     }
 
     function onApiDisconnect() {
         mode.isEdit = false;
-
-        var controller = this.getApplication().getController('FormulaDialog');
-        if (controller) {
-            controller.hideDialog();
-        }
-
-        if (!mode.isEdit) {
-            $('#ce-func-label', editor.$el).addClass('disabled');
-            editor.btnNamedRanges.setVisible(false);
-        }
     }
 
     function setApi(apiF){
@@ -205,24 +158,10 @@ common.controller.CellEditor = new(function(){
 
     function onApiSelectionChanged(info) {
         if (this.viewmode) return; // signed file
-
-        var seltype = info.asc_getSelectionType(),
-            coauth_disable = (!mode.isEditMailMerge && !mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
-
-        var is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
-            is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
-            is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
-            is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
-            is_image        = seltype == Asc.c_oAscSelectionType.RangeImage || seltype == Asc.c_oAscSelectionType.RangeSlicer,
-            is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
-
-        editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
     }
 
     function setMode(modeF) {
         mode = modeF;
-
-        editor.$btnfunc[mode.isEdit?'removeClass':'addClass']('disabled');
 
         if ( mode.isEdit ) {
             api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged);
@@ -232,7 +171,6 @@ common.controller.CellEditor = new(function(){
     function setPreviewMode(mode) {
         if (this.viewmode === mode) return;
         this.viewmode = mode;
-        //editor.$btnfunc[!mode && mode.isEdit?'removeClass':'addClass']('disabled');
         editor.cell.nameDisabled(mode && !(mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge));
     }
 

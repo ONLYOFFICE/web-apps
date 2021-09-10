@@ -75,7 +75,7 @@ SSE.ApplicationController = new(function(){
         //common.controller.modals.init(embedConfig);
 
         // Docked toolbar
-        if (embedConfig.toolbarDocked === 'bottom') {
+        /*if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
             $('.viewer').addClass('bottom');
             $('#box-tools').removeClass('dropdown').addClass('dropup');
@@ -83,7 +83,7 @@ SSE.ApplicationController = new(function(){
         } else {
             $('#toolbar').addClass('top');
             $('.viewer').addClass('top');
-        }
+        }*/
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                  (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
@@ -138,8 +138,8 @@ SSE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
-            labelDocName = $('#title-doc-name');
-            labelDocName.text(embedConfig.docTitle || '')
+           /* labelDocName = $('#title-doc-name');
+            labelDocName.text(embedConfig.docTitle || '')*/
         }
     }
 
@@ -185,11 +185,11 @@ SSE.ApplicationController = new(function(){
 
     function onPrint() {
         if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, true));
     }
 
     function onPrintUrl(url) {
-        common.utils.dialogPrint(url, api);
+        //common.utils.dialogPrint(url, api);
     }
 
     function hidePreloader() {
@@ -201,7 +201,7 @@ SSE.ApplicationController = new(function(){
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
 
-        if ( permissions.print === false)
+        /*if ( permissions.print === false)
             $('#idt-print').hide();
 
         if ( !embedConfig.saveUrl && permissions.print === false)
@@ -222,7 +222,7 @@ SSE.ApplicationController = new(function(){
         if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
         else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
-            $('#box-tools .divider').hide();
+            $('#box-tools .divider').hide();*/
 
         /*common.controller.modals.attach({
             share: '#idt-share',
@@ -232,8 +232,8 @@ SSE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        api.asc_registerCallback('asc_onPrint',                 onPrint);
-        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        //api.asc_registerCallback('asc_onPrint',                 onPrint);
+        //api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
@@ -243,7 +243,7 @@ SSE.ApplicationController = new(function(){
 
 
 
-        SSE.ApplicationView.tools.get('#idt-fullscreen')
+        /*SSE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
                 common.utils.openLink(embedConfig.fullscreenUrl);
             });
@@ -256,8 +256,6 @@ SSE.ApplicationController = new(function(){
                 if (permissions.print!==false){
                     api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
-
-                //Common.Analytics.trackEvent('Save');
             });
 
         SSE.ApplicationView.tools.get('#idt-print')
@@ -310,7 +308,7 @@ SSE.ApplicationController = new(function(){
                     ismoved = false;
                 }, 2000);
             }
-        });
+        });*/
 
         var ismodalshown = false;
         $(document.body).on('show.bs.modal', '.modal',
@@ -352,33 +350,10 @@ SSE.ApplicationController = new(function(){
         });
 
         Common.Gateway.documentReady();
-        //Common.Analytics.trackEvent('Load', 'Complete');
     }
 
     function onEditorPermissions(params) {
         api.asc_setAutoSaveGap(1);
-        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
-            config.customization && config.customization.logo ) {
-
-            var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
-                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-            }
-
-            if (config.customization.logo.url) {
-                logo.attr('href', config.customization.logo.url);
-            }
-        }
-
-        var $parent = labelDocName.parent();
-        var _left_width = $parent.position().left,
-            _right_width = $parent.next().outerWidth();
-
-        if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
-        else
-            $parent.css('padding-right', _left_width - _right_width);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         
@@ -430,8 +405,6 @@ SSE.ApplicationController = new(function(){
             }
 
             me.loadMask && me.loadMask.hide();
-           /* if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
-                this.onEditComplete(this.loadMask, {restorefocus:true});*/
         }
     }
 
