@@ -182,14 +182,14 @@
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
     "textRows": "Files",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
     "menuStartNewList": "Start new list",
     "menuStartNumberingFrom": "Set numbering value",
-    "menuContinueNumbering": "Continue numbering",
-    "menuSeparateList": "Separate list",
-    "menuJoinList": "Join to previous list",
-    "textOk": "OK",
     "textCancel": "Cancel",
-    "textNumberingValue": "Numbering Value"
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",

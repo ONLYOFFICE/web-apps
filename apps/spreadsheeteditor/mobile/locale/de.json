@@ -61,7 +61,7 @@
     "notcriticalErrorTitle": "Warnung",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "warnMergeLostData": "Bei diesem Vorgang werden Daten in ausgewählten Zellen zerstört. Möchten Sie fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {
@@ -556,6 +556,7 @@
       "textEmail": "E-Mail",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
+      "textExample": "Beispiel",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",

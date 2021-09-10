@@ -105,6 +105,7 @@
   "Common.Views.AutoCorrectDialog.textBy": "După",
   "Common.Views.AutoCorrectDialog.textDelete": "Ștergere",
   "Common.Views.AutoCorrectDialog.textFLSentence": "Scrie cu majusculă prima literă a propoziției",
+  "Common.Views.AutoCorrectDialog.textHyperlink": "Căi Internet și de rețea cu hyperlink-uri",
   "Common.Views.AutoCorrectDialog.textHyphens": "Cratime (--) cu linie de dialog (—)",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Autocorecție matematică",
   "Common.Views.AutoCorrectDialog.textNumbered": "Creare automată a listei numerotate",

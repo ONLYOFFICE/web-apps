@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Você quer realmente excluir este comentário?",
       "textMessageDeleteReply": "Você realmente quer apagar esta resposta?",
       "textNoComments": "O documento não contém comentários",
+      "textOk": "OK",
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários",
-      "textOk": "Ok"
+      "textUsers": "Usuários"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -140,6 +140,7 @@
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite do servidor. <br> Entre em contato com o administrador.",
     "errorKeyEncrypt": "Descritor de chave desconhecido",
     "errorKeyExpire": "Descritor de chave expirado",
+    "errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -158,8 +159,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",

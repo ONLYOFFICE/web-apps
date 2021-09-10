@@ -182,14 +182,14 @@
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
     "textRows": "行",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
     "menuStartNewList": "Start new list",
     "menuStartNumberingFrom": "Set numbering value",
-    "menuContinueNumbering": "Continue numbering",
-    "menuSeparateList": "Separate list",
-    "menuJoinList": "Join to previous list",
-    "textOk": "OK",
     "textCancel": "Cancel",
-    "textNumberingValue": "Numbering Value"
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
