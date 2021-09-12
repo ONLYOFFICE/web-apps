@@ -13,7 +13,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
         });
         return () => {
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onError', onError);
+            if ( api ) api.asc_unregisterCallback('asc_onError', onError);
         }
     });
 
