@@ -117,9 +117,6 @@ PE.ApplicationController = new(function(){
         var text = '';
         switch (id)
         {
-            case Asc.c_oAscAsyncAction['Print']:
-                text = me.downloadTextText;
-                break;
             case LoadingDocument:
                 text = me.textLoadingDocument + '           ';
                 break;
@@ -140,19 +137,6 @@ PE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.hide();
     }
 
-    function onDownloadUrl(url, fileType) {
-        Common.Gateway.downloadAs(url, fileType);
-    }
-
-    function onPrint() {
-        if (permissions.print!==false)
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, false));
-    }
-
-    function onPrintUrl(url) {
-        common.utils.dialogPrint(url, api);
-    }
-
     function hidePreloader() {
         $('#loading-mask').fadeOut('slow');
     }
@@ -163,9 +147,6 @@ PE.ApplicationController = new(function(){
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-        api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        //api.asc_registerCallback('asc_onPrint',                 onPrint);
-        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);

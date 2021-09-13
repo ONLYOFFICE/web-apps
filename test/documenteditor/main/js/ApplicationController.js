@@ -132,19 +132,6 @@ DE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.hide();
     }
 
-    function onPrint() {
-        if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, false));
-    }
-
-    function onPrintUrl(url) {
-        common.utils.dialogPrint(url, api);
-    }
-
-    function onDownloadUrl(url, fileType) {
-        Common.Gateway.downloadAs(url, fileType);
-    }
-
     function hidePreloader() {
         $('#loading-mask').fadeOut('slow');
     }
@@ -159,9 +146,7 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
-        api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        //api.asc_registerCallback('asc_onPrint',                 onPrint);
-        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -181,8 +166,6 @@ DE.ApplicationController = new(function(){
         appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
 
-        //api.asc_setViewMode(!appOptions.canFillForms);
-            //api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
         api.asc_SetFastCollaborative(true);
         api.asc_setAutoSaveGap(1);
 
@@ -364,32 +347,6 @@ DE.ApplicationController = new(function(){
             onDocumentResize();
         });
         window.onbeforeunload = onBeforeUnload;
-
-        var ismodalshown = false;
-        $(document.body).on('show.bs.modal', '.modal',
-            function(e) {
-                ismodalshown = true;
-                api.asc_enableKeyEvents(false);
-            }
-        ).on('hidden.bs.modal', '.modal',
-            function(e) {
-                ismodalshown = false;
-                api.asc_enableKeyEvents(true);
-            }
-        ).on('hidden.bs.dropdown', '.dropdown',
-            function(e) {
-                if ( !ismodalshown )
-                    api.asc_enableKeyEvents(true);
-            }
-        ).on('blur', 'input, textarea',
-            function(e) {
-                if ( !ismodalshown ) {
-                    if (!/area_id/.test(e.target.id) ) {
-                        api.asc_enableKeyEvents(true);
-                    }
-                }
-            }
-        );
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {

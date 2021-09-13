@@ -31,8 +31,6 @@
  *
 */
 (function ($) {
-    Common.Locale.apply(function() {
-        PE.ApplicationView.create();
-        PE.ApplicationController.create();
-    });
+    PE.ApplicationView.create();
+    PE.ApplicationController.create();
 })(window.jQuery);

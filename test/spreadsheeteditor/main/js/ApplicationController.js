@@ -35,14 +35,9 @@ SSE.ApplicationController = new(function(){
         api,
         config = {},
         docConfig = {},
-        embedConfig = {},
         permissions = {},
         maxPages = 0,
-        created = false,
-        iframePrint = null;
-    var $ttEl,
-        $tooltip,
-        ttOffset = [6, -15];
+        created = false;
 
     var LoadingDocument = -256;
 
@@ -56,7 +51,7 @@ SSE.ApplicationController = new(function(){
     // -------------------------
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+        //Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         console.error( this.unsupportedBrowserErrorText);
         return;
     }
@@ -70,21 +65,6 @@ SSE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-        embedConfig = $.extend(embedConfig, data.config.embedded);
-
-        //common.controller.modals.init(embedConfig);
-
-        // Docked toolbar
-        /*if (embedConfig.toolbarDocked === 'bottom') {
-            $('#toolbar').addClass('bottom');
-            $('.viewer').addClass('bottom');
-            $('#box-tools').removeClass('dropdown').addClass('dropup');
-            ttOffset[1] = -40;
-        } else {
-            $('#toolbar').addClass('top');
-            $('.viewer').addClass('top');
-        }*/
-
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                  (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
@@ -138,10 +118,6 @@ SSE.ApplicationController = new(function(){
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(false);
             }
-
-            embedConfig.docTitle = docConfig.title;
-           /* labelDocName = $('#title-doc-name');
-            labelDocName.text(embedConfig.docTitle || '')*/
         }
     }
 
@@ -181,19 +157,6 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
-    function onDownloadUrl(url, fileType) {
-        Common.Gateway.downloadAs(url, fileType);
-    }
-
-    function onPrint() {
-        if ( permissions.print!==false )
-            api.asc_Print(new Asc.asc_CDownloadOptions(null, true));
-    }
-
-    function onPrintUrl(url) {
-        common.utils.dialogPrint(url, api);
-    }
-
     function hidePreloader() {
         $('#loading-mask').fadeOut('slow');
     }
@@ -201,44 +164,13 @@ SSE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-        api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
-        api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        //api.asc_registerCallback('asc_onPrint',                 onPrint);
-        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
-
-
-        var ismodalshown = false;
-        $(document.body).on('show.bs.modal', '.modal',
-            function(e) {
-                ismodalshown = true;
-                api.asc_enableKeyEvents(false);
-            }
-        ).on('hidden.bs.modal', '.modal',
-            function(e) {
-                ismodalshown = false;
-                api.asc_enableKeyEvents(true);
-            }
-        ).on('hidden.bs.dropdown', '.dropdown',
-            function(e) {
-                if ( !ismodalshown )
-                    api.asc_enableKeyEvents(true);
-            }
-        ).on('blur', 'input, textarea',
-            function(e) {
-                if ( !ismodalshown ) {
-                    if (!/area_id/.test(e.target.id) ) {
-                        api.asc_enableKeyEvents(true);
-                    }
-                }
-            }
-        );
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
@@ -274,9 +206,6 @@ SSE.ApplicationController = new(function(){
         var text = '';
         switch (id)
         {
-            case Asc.c_oAscAsyncAction['Print']:
-                text = me.downloadTextText;
-                break;
             case LoadingDocument:
                 text = me.textLoadingDocument + '           ';
                 break;
@@ -444,49 +373,6 @@ SSE.ApplicationController = new(function(){
         api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
     }
 
-    function onApiMouseMove(array) {
-        if ( array.length ) {
-            var ttdata;
-            for (var i = array.length; i > 0; i--) {
-                if (array[i-1].asc_getType() == Asc.c_oAscMouseMoveType.Hyperlink) {
-                    ttdata = array[i - 1];
-                    break;
-                }
-            }
-
-            if ( ttdata ) {
-                if (!$ttEl) {
-                    $ttEl = $('.hyperlink-tooltip');
-                    $ttEl.tooltip({'container': 'body', 'trigger': 'manual'});
-                    $ttEl.on('shown.bs.tooltip', function(e) {
-                        $tooltip = $ttEl.data('bs.tooltip').tip();
-
-                        $tooltip.css({
-                            left: $ttEl.ttpos[0] + ttOffset[0],
-                            top: $ttEl.ttpos[1] + ttOffset[1]
-                        });
-
-                        $tooltip.find('.tooltip-arrow').css({left: 10});
-                    });
-                }
-
-                if (!$tooltip) {
-                    $ttEl.ttpos = [ttdata.asc_getX(), ttdata.asc_getY()];
-                    $ttEl.tooltip('show');
-                } else {
-                    $tooltip.css({
-                        left: ttdata.asc_getX() + ttOffset[0],
-                        top: ttdata.asc_getY() + ttOffset[1]
-                    });
-                }
-            } else {
-                if ( $tooltip ) {
-                    $tooltip.tooltip('hide');
-                    $tooltip = false;
-                }
-            }
-        }
-    }
 
     function onRunAutostartMacroses() {
         if (!config.customization || (config.customization.macros!==false))

@@ -12,18 +12,15 @@
     background: -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
     background: -o-linear-gradient(@stop, @start);
     background: linear-gradient(bottom, @start, @stop);
-//    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@stop, @start));
 }
 
 .box-shadow(@arguments) {
     -webkit-box-shadow: @arguments;
-    //-moz-box-shadow: @arguments;
     box-shadow: @arguments;
 }
 
 .box-inner-shadow(@arguments) {
     -webkit-box-shadow: inset @arguments;
-    //-moz-box-shadow: inset @arguments;
     box-shadow: inset @arguments;
 }
 
@@ -127,7 +124,6 @@
         background-position: -0*@icon-size  -@index*@icon-size;
         background-position: @normal-h-offset -@index*@icon-size;
     }
-//    .@{icon-class} {background-position-y: -@index*@icon-size;}
 }
 
 .button-otherstates-icon(@icon-class, @icon-size) {
@@ -153,9 +149,6 @@
             }
         }
     }
-
-    //&.active   svg.icon,
-    //&:active   svg.icon {fill:#fff;}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
@@ -169,7 +162,6 @@
         background-position: 0          -@index*@icon-size;
         background-position: var(--bgX) -@index*@icon-size;
     }
-//    .menu-item-icon.@{icon-class} {background-position-y: -@index*@icon-size;}
 }
 
 .menu-otherstates-icon(@menu-class, @icon-size) {
@@ -379,19 +371,3 @@
         }
     }
 }
-
-//.adaptive-solid-border(@width, @color, @borderside: all) {
-//    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
-//    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));
-//
-//    @{lb-border}: @width solid @color;
-//
-//    @media only screen {
-//        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-//            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-//                (min-resolution: 144dpi) and (max-resolution: 191dpi)
-//        {
-//            @{lb-border-width}: (@width / 1.5);
-//        }
-//    }
-//}
