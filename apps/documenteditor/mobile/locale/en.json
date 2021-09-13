@@ -304,7 +304,8 @@
     "textTopAndBottom": "Top and Bottom",
     "textTotalRow": "Total Row",
     "textType": "Type",
-    "textWrap": "Wrap"
+    "textWrap": "Wrap",
+    "textNoFill": "No Fill"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

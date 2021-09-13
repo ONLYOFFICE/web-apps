@@ -4,6 +4,7 @@ import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, 
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const PageFonts = props => {
@@ -465,18 +466,19 @@ const PageBackgroundColor = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const backgroundColor = props.storeTextSettings.backgroundColor;
-    const customColors = props.storePalette.customColors;
+    // const customColors = props.storePalette.customColors;
     const changeColor = (color, effectId) => {
         if (color !== 'empty') {
-            if (effectId !==undefined ) {
+            if (effectId !== undefined ) {
                 props.onBackgroundColor({color: color, effectId: effectId});
             } else {
                 props.onBackgroundColor(color);
             }
-        } else {
-            // open custom color menu
-            props.f7router.navigate('/edit-text-custom-back-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
         }
+        // } else {
+        //     // open custom color menu
+        //     props.f7router.navigate('/edit-text-custom-back-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
+        // }
     };
     return(
         <Page>
@@ -489,12 +491,13 @@ const PageBackgroundColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
+            <HighlightColorPalette />
+            {/* <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
                     onBackgroundColor: props.onBackgroundColor
                 }}></ListItem>
-            </List>
+            </List> */}
         </Page>
     )
 };
