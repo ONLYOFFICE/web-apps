@@ -227,16 +227,14 @@ define([
                 var theme_name = get_ui_theme_name(Common.localStorage.getItem('ui-theme'));
                 if ( !theme_name ) {
                     if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
-                        for (var i of document.body.classList.entries()) {
-                            document.body.classList.forEach(function (classname, i, o) {
-                                if ( !theme_name && classname.startsWith('theme-') &&
-                                        !classname.startsWith('theme-type-') && themes_map[classname] )
-                                {
-                                    theme_name = classname;
-                                    Common.localStorage.setItem('ui-theme-id', theme_name);
-                                }
-                            });
-                        }
+                        document.body.classList.forEach(function (classname, i, o) {
+                            if ( !theme_name && classname.startsWith('theme-') &&
+                                    !classname.startsWith('theme-type-') && themes_map[classname] )
+                            {
+                                theme_name = classname;
+                                Common.localStorage.setItem('ui-theme-id', theme_name);
+                            }
+                        });
                 }
 
                 if ( !themes_map[theme_name] )
