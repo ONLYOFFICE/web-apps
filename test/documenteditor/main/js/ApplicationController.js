@@ -36,7 +36,6 @@ DE.ApplicationController = new(function(){
         config = {},
         docConfig = {},
         permissions = {},
-        maxPages = 0,
         created = false,
         appOptions = {},
         _submitFail, $submitedTooltip,
@@ -97,10 +96,12 @@ DE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
-            var enable = !config.customization || (config.customization.macros!==false);
+            docInfo.asc_putIsEnabledMacroses(false);
+            docInfo.asc_putIsEnabledPlugins(false);
+            /* var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);
+            docInfo.asc_putIsEnabledPlugins(!!enable);*/
 
 
             var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
@@ -110,7 +111,7 @@ DE.ApplicationController = new(function(){
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
-                api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
+                //api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
@@ -135,9 +136,11 @@ DE.ApplicationController = new(function(){
         if ( permissions.print!==false )
             api.asc_Print(new Asc.asc_CDownloadOptions(null, false));
     }
+
     function onPrintUrl(url) {
         common.utils.dialogPrint(url, api);
     }
+
     function onDownloadUrl(url, fileType) {
         Common.Gateway.downloadAs(url, fileType);
     }
@@ -153,16 +156,12 @@ DE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
-
-
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        api.asc_registerCallback('asc_onPrint',                 onPrint);
+        //api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
-
-
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -179,17 +178,14 @@ DE.ApplicationController = new(function(){
 
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        //appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
 
         //api.asc_setViewMode(!appOptions.canFillForms);
-        //api.asc_setViewMode(false);
-        /*if (appOptions.canFillForms) {*/
-
             //api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
-            //api.asc_SetFastCollaborative(true);
-            api.asc_setAutoSaveGap(1);
-        /*}*/
+        api.asc_SetFastCollaborative(true);
+        api.asc_setAutoSaveGap(1);
+
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         api.asc_LoadDocument();
@@ -203,12 +199,13 @@ DE.ApplicationController = new(function(){
 
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').text(me.scriptLoadError);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');*/
+            console.error(me.criticalErrorTitle,me.scriptLoadError);
             return;
         }
 
@@ -257,8 +254,8 @@ DE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.Submit:
                 message = me.errorSubmit;
-                _submitFail = true;
-                $submitedTooltip && $submitedTooltip.hide();
+                /*_submitFail = true;
+                $submitedTooltip && $submitedTooltip.hide();*/
                 break;
 
             case Asc.c_oAscError.ID.EditingError:
@@ -284,24 +281,24 @@ DE.ApplicationController = new(function(){
             // report only critical errors
             //Common.Gateway.reportError(id, message);
             console.error(id,message);
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
-            });
+            });*/
         }
         else {
             //Common.Gateway.reportWarning(id, message);
             console.warn(id, message);
 
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
+            /*$('#id-critical-error-title').text(me.notcriticalErrorTitle);
             $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 $('#id-critical-error-dialog').modal('hide');
-            });
+            });*/
         }
 
-        $('#id-critical-error-dialog').modal('show');
+        //$('#id-critical-error-dialog').modal('show');
     }
 
     function onExternalMessage(error) {

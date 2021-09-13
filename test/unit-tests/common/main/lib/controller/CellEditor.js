@@ -70,26 +70,16 @@ common.controller.CellEditor = new(function(){
             api.isCEditorFocused = true;
     }
 
+    function onLayoutResize(o, r) {
+        if (r == 'cell:edit') {
+            o && common.localStorage.setBool('sse-celleditor-expand', false);
+        }
+    }
+
     function events() {
            editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
            editor.$el.find('textarea#ce-cell-content').on( 'keyup', onKeyupCellEditor);
            editor.$el.find('textarea#ce-cell-content').on('blur',  onBlurCellEditor);
-    }
-
-    function createController() {
-        me = this;
-        if (created)
-            return me;
-
-        created = true;
-        onLaunch();
-        return me;
-    }
-
-    function onLayoutResize(o, r) {
-        if (r == 'cell:edit') {
-                o && common.localStorage.setBool('sse-celleditor-expand', false);
-        }
     }
 
     function  onLaunch(){
@@ -106,6 +96,15 @@ common.controller.CellEditor = new(function(){
             onLayoutResize(undefined, 'cell:edit');
         }
         this.namedrange_locked = false;
+    }
+
+    function createController() {
+        me = this;
+        if (created) return me;
+
+        created = true;
+        onLaunch();
+        return me;
     }
 
     function onApiCellSelection(info){
@@ -131,16 +130,6 @@ common.controller.CellEditor = new(function(){
         this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
     }
 
-    function onInputKeyDown(e) {
-        /*if (common.ui.Keys.UP === e.keyCode || common.ui.Keys.DOWN === e.keyCode ||
-            common.ui.Keys.TAB === e.keyCode || common.ui.Keys.RETURN === e.keyCode || common.ui.Keys.ESC === e.keyCode ||
-            common.ui.Keys.LEFT === e.keyCode || common.ui.Keys.RIGHT === e.keyCode) {
-            var menu = $('#menu-formula-selection'); // for formula menu
-            if (menu.hasClass('open'))
-                menu.find('.dropdown-menu').trigger('keydown', e);
-        }*/
-    }
-
     function onApiDisconnect() {
         mode.isEdit = false;
     }
@@ -153,7 +142,6 @@ common.controller.CellEditor = new(function(){
         api.asc_registerCallback('asc_onEditCell', onApiEditCell);
         api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
         api.asc_registerCallback('asc_onLockDefNameManager', onLockDefNameManager);
-        api.asc_registerCallback('asc_onInputKeyDown', onInputKeyDown);
     }
 
     function onApiSelectionChanged(info) {

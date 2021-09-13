@@ -42,8 +42,7 @@ SSE.ApplicationController = new(function(){
         iframePrint = null;
     var $ttEl,
         $tooltip,
-        ttOffset = [6, -15],
-        labelDocName;
+        ttOffset = [6, -15];
 
     var LoadingDocument = -256;
 
@@ -58,6 +57,7 @@ SSE.ApplicationController = new(function(){
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
         Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+        console.error( this.unsupportedBrowserErrorText);
         return;
     }
 
@@ -124,10 +124,12 @@ SSE.ApplicationController = new(function(){
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
 
-            var enable = !config.customization || (config.customization.macros!==false);
+            docInfo.asc_putIsEnabledMacroses(false);
+            docInfo.asc_putIsEnabledPlugins(false);
+            /*var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);
+            docInfo.asc_putIsEnabledPlugins(!!enable);*/
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
@@ -189,7 +191,7 @@ SSE.ApplicationController = new(function(){
     }
 
     function onPrintUrl(url) {
-        //common.utils.dialogPrint(url, api);
+        common.utils.dialogPrint(url, api);
     }
 
     function hidePreloader() {
@@ -203,7 +205,7 @@ SSE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         //api.asc_registerCallback('asc_onPrint',                 onPrint);
-        //api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
@@ -435,7 +437,8 @@ SSE.ApplicationController = new(function(){
 
     function onDownloadAs() {
         if ( permissions.download === false) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            //Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
         api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));

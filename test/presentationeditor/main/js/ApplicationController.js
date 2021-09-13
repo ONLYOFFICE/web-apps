@@ -35,27 +35,17 @@ PE.ApplicationController = new(function(){
         api,
         config = {},
         docConfig = {},
-        embedConfig = {},
         permissions = {},
-        maxPages = 0,
-        created = false,
-        currentPage = 0,
-        ttOffset = [0, -10],
-        labelDocName;
+        created = false;
 
     var LoadingDocument = -256;
 
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Presentation Editor');
-
-
-    // Check browser
+   // Check browser
     // -------------------------
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+        //Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+        console.error(this.unsupportedBrowserErrorText);
         return;
     }
 
@@ -68,12 +58,6 @@ PE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-        embedConfig = $.extend(embedConfig, data.config.embedded);
-
-        //common.controller.modals.init(embedConfig);
-
-
-
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
     }
@@ -111,28 +95,23 @@ PE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
-            var enable = !config.customization || (config.customization.macros!==false);
+            docInfo.asc_putIsEnabledMacroses(false);
+            docInfo.asc_putIsEnabledPlugins(false);
+           /* var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);
+            docInfo.asc_putIsEnabledPlugins(!!enable);*/
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
-                api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
+                //api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
 
-                //Common.Analytics.trackEvent('Load', 'Start');
             }
-
-            embedConfig.docTitle = docConfig.title;
-            //labelDocName = $('#title-doc-name');
-            //labelDocName.text(embedConfig.docTitle || '')
         }
     }
-
-
 
     function onLongActionBegin(type, id) {
         var text = '';
@@ -184,11 +163,8 @@ PE.ApplicationController = new(function(){
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-
-
-
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-        api.asc_registerCallback('asc_onPrint',                 onPrint);
+        //api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
@@ -201,12 +177,6 @@ PE.ApplicationController = new(function(){
         Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
-
-
-
-
-
-
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
                 e.currentTarget.focus();
@@ -216,8 +186,6 @@ PE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-
-
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(false);
 
@@ -230,21 +198,21 @@ PE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
-    var isplaymode;
-    function onPlayStart(e) {
-        /*if ( !isplaymode ) {
-            $('#box-preview').show();
-            api.StartDemonstration('id-preview', currentPage);
-        } else {
-            isplaymode == 'play' ?
-                api.DemonstrationPause() : api.DemonstrationPlay();
-        }*/
+    /* var isplaymode;
+     function onPlayStart(e) {
+         if ( !isplaymode ) {
+             $('#box-preview').show();
+             api.StartDemonstration('id-preview', currentPage);
+         } else {
+             isplaymode == 'play' ?
+                 api.DemonstrationPause() : api.DemonstrationPlay();
+         }
 
-        /*isplaymode != 'play' ? ($('#btn-play button').addClass('pause'), isplaymode = 'play') :
-                                    ($('#btn-play button').removeClass('pause'), isplaymode = 'pause');*/
+        isplaymode != 'play' ? ($('#btn-play button').addClass('pause'), isplaymode = 'play') :
+                                    ($('#btn-play button').removeClass('pause'), isplaymode = 'pause');
     }
 
-    /*function onPlayStop() {
+    function onPlayStop() {
         isplaymode = undefined;
         $('#page-number').val(currentPage + 1);
         //$('#btn-play button').removeClass('pause');
@@ -355,13 +323,13 @@ PE.ApplicationController = new(function(){
 
     function onExternalMessage(error) {
         if (error) {
-        hidePreloader();
-        /*$('#id-error-mask-title').text(me.criticalErrorTitle);
-        $('#id-error-mask-text').text(error.msg);
-        $('#id-error-mask').css('display', 'block');*/
+            hidePreloader();
+            /*$('#id-error-mask-title').text(me.criticalErrorTitle);
+            $('#id-error-mask-text').text(error.msg);
+            $('#id-error-mask').css('display', 'block');*/
             console.error(error.msg);
 
-        //Common.Analytics.trackEvent('External Error');
+            //Common.Analytics.trackEvent('External Error');
         }
     }
 
@@ -391,7 +359,7 @@ PE.ApplicationController = new(function(){
         if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, false));
     }
 
-        function onRunAutostartMacroses() {
+    function onRunAutostartMacroses() {
         if (!config.customization || (config.customization.macros!==false))
         if (api) api.asc_runAutostartMacroses();
     }
@@ -459,7 +427,6 @@ PE.ApplicationController = new(function(){
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
         errorUserDrop: 'The file cannot be accessed right now.',
         unsupportedBrowserErrorText: 'Your browser is not supported.',
-        textOf: 'of',
         downloadTextText: 'Downloading presentation...',
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading presentation',

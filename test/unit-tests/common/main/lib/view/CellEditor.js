@@ -52,15 +52,17 @@ common.view.CellEditor = new(function (){
             txt.scrollLeft = txt.scrollWidth;
         });
     }
+    
     function updateCellInfo(info) {
         if (info) {
             me.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
         }
     }
+    
     function cellNameDisabled(disabled){
         (disabled) ? me.$cellname.attr('disabled', 'disabled') : me.$cellname.removeAttr('disabled');
-        //this.btnNamedRanges.setDisabled(disabled);
     }
+    
     return {
         create: createView,
         cell:   {

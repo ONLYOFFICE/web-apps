@@ -1,1 +1,25 @@
-{}
+{
+  "SSE.ApplicationController.errorDefaultMessage": "Error code: %1",
+  "SSE.ApplicationController.unknownErrorText": "Unknown error.",
+  "SSE.ApplicationController.convertationTimeoutText": "Conversion timeout exceeded.",
+  "SSE.ApplicationController.convertationErrorText": "Conversion failed.",
+  "SSE.ApplicationController.downloadErrorText": "Download failed.",
+  "SSE.ApplicationController.criticalErrorTitle": "Error",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Warning",
+  "SSE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
+  "SSE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",
+  "SSE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
+  "SSE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
+  "SSE.ApplicationController.textOf": "of",
+  "SSE.ApplicationController.downloadTextText": "Downloading spreadsheet...",
+  "SSE.ApplicationController.waitText": "Please, wait...",
+  "SSE.ApplicationController.textLoadingDocument": "Loading spreadsheet",
+  "SSE.ApplicationController.txtClose": "Close",
+  "SSE.ApplicationController.errorFileSizeExceed": "The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
+  "SSE.ApplicationController.textGuest": "Guest",
+  "SSE.ApplicationController.textAnonymous": "Anonymous",
+  "SSE.ApplicationController.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+  "SSE.ApplicationController.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+ }
