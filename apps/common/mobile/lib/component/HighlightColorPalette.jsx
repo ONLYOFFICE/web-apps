@@ -2,27 +2,29 @@ import React from 'react';
 import { f7, ListItem, List, Icon, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const HighlightColorPalette = ({onColorClick, curColor}) => {
+const HighlightColorPalette = ({changeColor, curColor}) => {
     const { t } = useTranslation();
     const highlightColors = [
-        'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-        '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+        ['ffff00', '00ff00', '00ffff', 'ff00ff', '0000ff', 'ff0000', '00008b', '008b8b'],
+        ['006400', '800080', '8b0000', '808000', 'ffffff', 'd3d3d3', 'a9a9a9', '000000']
     ];
 
     return (
         <List>
             <ListItem>
-                <div className='palette'>
-                    <div className="row">
-                        {highlightColors.map((effect, index) => {
-                            return (
-                                <a key={index} className={(curColor && (curColor.color === effect  || curColor === effect)) ? 'highlight-color active' : 'highlight-color'} style={{ background: `#${effect}`}} onClick={() => {onColorClick(effect)}}></a>
-                            );
-                        })}
-                    </div>
+                <div className='highlight-palette'>
+                    {highlightColors.map((row, index) => (
+                        <div key={index} className="row">
+                            {row.map((effect, index) => {
+                                return (
+                                    <a key={index} className={(curColor && (curColor.color === effect  || curColor === effect)) ? 'highlight-color highlight-color_active' : 'highlight-color'} style={{ background: `#${effect}`}} onClick={() => {changeColor(effect)}}></a>
+                                );
+                            })}
+                        </div>
+                    ))}
                 </div>
             </ListItem>
-            <ListItem radio checked={true} title={t('Edit.textNoFill')}></ListItem>
+            <ListItem radio checked={(curColor && (curColor === 'transparent'))} title={t('Edit.textNoFill')}></ListItem>
         </List>
     )
 };

@@ -491,7 +491,7 @@ const PageBackgroundColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <HighlightColorPalette />
+            <HighlightColorPalette changeColor={changeColor} curColor={backgroundColor} />
             {/* <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
