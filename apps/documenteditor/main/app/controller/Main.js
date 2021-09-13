@@ -458,7 +458,7 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 //                    docInfo.put_Review(this.permissions.review);
 
-                    var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
@@ -521,7 +521,7 @@ define([
                 }
 
                 this._state.isFromGatewayDownloadAs = true;
-                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string')
                     this.api.asc_DownloadOrigin(true);
                 else {
@@ -1335,7 +1335,7 @@ define([
                     this.appOptions.canChat = false;
                 }
 
-                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
 
