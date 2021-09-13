@@ -98,7 +98,7 @@ export class storeAppOptions {
         this.isRestrictedEdit = !this.isEdit && this.canComments;
         this.trialMode = params.asc_getLicenseMode();
 
-        const type = /^(?:(pdf|djvu|xps))$/.exec(document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
         this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
         this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
 
