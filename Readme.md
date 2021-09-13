@@ -16,9 +16,9 @@ Code repository: [https://github.com/ONLYOFFICE/web-apps](https://github.com/ONL
 
 ## User feedback and support
 
-If you have any problems with or questions about [ONLYOFFICE Document Server][2], please visit our official forum: [dev.onlyoffice.org][1] or you can ask and answer ONLYOFFICE development questions on [Stack Overflow][3].
+If you have any problems with or questions about [ONLYOFFICE Document Server][2], please visit our official forum: [forum.onlyoffice.com][1] or you can ask and answer ONLYOFFICE development questions on [Stack Overflow][3].
 
-  [1]: http://dev.onlyoffice.org
+  [1]: https://forum.onlyoffice.com
   [2]: https://github.com/ONLYOFFICE/DocumentServer
   [3]: http://stackoverflow.com/questions/tagged/onlyoffice
 
