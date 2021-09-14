@@ -1371,8 +1371,8 @@ define([
                     selected: false
                 };
             me.recentShapes.unshift(model);
-            if (me.recentShapes.length > 12) {
-                me.recentShapes.splice(12, 1);
+            if (me.recentShapes.length > 14) {
+                me.recentShapes.splice(14, 1);
             }
 
             me.groups.at(0).groupStore.reset(me.recentShapes);

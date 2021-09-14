@@ -1687,17 +1687,19 @@ define([
             },
 
             updateAutoshapeMenu: function (menuShape, collection) {
-                var me = this;
+                var me = this,
+                    index = $(menuShape.el).prop('id').slice(-1);
 
                 var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
+                    template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: index
                 });
                 menuShape.addItem(menuitem);
 
                 var recents = Common.localStorage.getItem('pe-recent-shapes');
 
                 var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-toolbar-menu-insertshape'),
+                    el: $('#id-toolbar-menu-insertshape-'+index),
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection.toJSON(),
                     parentMenu: menuShape,
