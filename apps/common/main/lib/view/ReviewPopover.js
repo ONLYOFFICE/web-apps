@@ -939,8 +939,11 @@ define([
             var x0 = p[0][0] + sdkPanelLeftWidth, y0 = p[0][1],
                 x1 = p[isCursor ? 2 : 1][0] + sdkPanelLeftWidth, y1 = p[isCursor ? 2 : 1][1];
             var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
-                windowWidth = this.$window.outerWidth() + this.arrow.width;
-            if (x0>leftPos && x0<leftPos+windowWidth || x1>leftPos && x1<leftPos+windowWidth) {
+                windowWidth = this.$window.outerWidth() + this.arrow.width,
+                topPos = parseInt(this.$window.css('top')),
+                windowHeight = this.$window.outerHeight();
+            if (x0>leftPos && x0<leftPos+windowWidth && y0>topPos && y0<topPos+windowHeight ||
+                x1>leftPos && x1<leftPos+windowWidth && y1>topPos && y1<topPos+windowHeight) {
                 var newDown = (y0>y1) ? [x0, y0] : [x1, y1],// try move down
                     newUp = (y0<y1) ? [x0, y0] : [x1, y1]; // try move up
                 return [newUp, newDown];
