@@ -466,7 +466,7 @@ const PageBackgroundColor = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const backgroundColor = props.storeTextSettings.backgroundColor;
-    // const customColors = props.storePalette.customColors;
+
     const changeColor = (color, effectId) => {
         if (color !== 'empty') {
             if (effectId !== undefined ) {
@@ -475,12 +475,9 @@ const PageBackgroundColor = props => {
                 props.onBackgroundColor(color);
             }
         }
-        // } else {
-        //     // open custom color menu
-        //     props.f7router.navigate('/edit-text-custom-back-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
-        // }
     };
-    return(
+
+    return (
         <Page>
             <Navbar title={_t.textHighlightColor} backLink={_t.textBack}>
                 {Device.phone &&
@@ -492,12 +489,6 @@ const PageBackgroundColor = props => {
                 }
             </Navbar>
             <HighlightColorPalette changeColor={changeColor} curColor={backgroundColor} />
-            {/* <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
-            <List>
-                <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
-                    onBackgroundColor: props.onBackgroundColor
-                }}></ListItem>
-            </List> */}
         </Page>
     )
 };
@@ -534,6 +525,10 @@ const EditText = props => {
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
 
+    const backgroundColorPreview = backgroundColor !== 'transparent' ?
+        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span> :
+        <span className="color-preview"></span>;
+
     return (
         <Fragment>
             <List>
@@ -562,8 +557,7 @@ const EditText = props => {
                     onBackgroundColor: props.onBackgroundColor
                 }}>
                     {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-selection"><span className="color-preview" style={{ background: `#${backgroundColor}`}}></span></Icon> :
-                        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span>
+                        <Icon slot="media" icon="icon-text-selection">{backgroundColorPreview}</Icon> : backgroundColorPreview
                     }
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
