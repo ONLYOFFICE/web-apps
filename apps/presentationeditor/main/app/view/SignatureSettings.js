@@ -88,7 +88,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret img-commonctrl img-colored <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
