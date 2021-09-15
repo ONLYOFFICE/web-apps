@@ -52,7 +52,9 @@ export class storeTextSettings {
             listItemHeight: observable,
             spriteCols: observable,
             loadSprite: action,
-            addFontToRecent:action
+            addFontToRecent:action,
+            backgroundColor: observable,
+            resetBackgroundColor: action
         });
     }
 
@@ -81,6 +83,7 @@ export class storeTextSettings {
     canIncreaseIndent = undefined;
     canDecreaseIndent = undefined;
     textColor = undefined;
+    backgroundColor = undefined;
     customTextColors = [];
     lineSpacing = undefined;
 
@@ -280,4 +283,14 @@ export class storeTextSettings {
         this.lineSpacing = line;
     }
 
+    resetBackgroundColor(color) {
+        if (color) {
+            console.log(color);
+            if (color == -1) {
+                this.backgroundColor = 'transparent';  
+            } else {
+                this.backgroundColor = color.get_hex();
+            }
+        }
+    }
 }

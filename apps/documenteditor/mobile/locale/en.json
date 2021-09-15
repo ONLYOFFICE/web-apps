@@ -161,6 +161,9 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,8 +307,7 @@
     "textTopAndBottom": "Top and Bottom",
     "textTotalRow": "Total Row",
     "textType": "Type",
-    "textWrap": "Wrap",
-    "textNoFill": "No Fill"
+    "textWrap": "Wrap"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

@@ -24,7 +24,7 @@ const HighlightColorPalette = ({changeColor, curColor}) => {
                     ))}
                 </div>
             </ListItem>
-            <ListItem radio checked={(curColor && curColor === 'transparent')} onClick={() => changeColor('transparent')} title={t('Edit.textNoFill')}></ListItem>
+            <ListItem radio checked={(curColor && curColor === 'transparent')} onClick={() => changeColor('transparent')} title={t('Common.HighlightColorPalette.textNoFill')}></ListItem>
         </List>
     )
 };

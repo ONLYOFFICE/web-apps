@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -16,6 +17,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
+    const backgroundColor = storeTextSettings.backgroundColor;
     const displaySize = typeof fontSize === 'undefined' || fontSize == '' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
@@ -53,6 +55,10 @@ const EditText = props => {
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
 
+    const backgroundColorPreview = backgroundColor !== 'transparent' ?
+        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span> :
+        <span className="color-preview"></span>;
+
     return (
         <Fragment>
             <List>
@@ -74,6 +80,13 @@ const EditText = props => {
                     {!isAndroid ?
                         <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
                         fontColorPreview
+                    }
+                </ListItem>
+                <ListItem title={t("View.Edit.textHighlightColor")} link="/edit-text-background-color/" routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-selection">{backgroundColorPreview}</Icon> : backgroundColorPreview
                     }
                 </ListItem>
                 <ListItem title={_t.textAdditionalFormatting} link="/edit-text-add-formatting/" routeProps={{
@@ -369,6 +382,37 @@ const PageCustomFontColor = props => {
     )
 };
 
+const PageBackgroundColor = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const backgroundColor = props.storeTextSettings.backgroundColor;
+
+    const changeColor = (color, effectId) => {
+        if (color !== 'empty') {
+            if (effectId !== undefined ) {
+                props.onBackgroundColor({color: color, effectId: effectId});
+            } else {
+                props.onBackgroundColor(color);
+            }
+        }
+    };
+
+    return (
+        <Page>
+            <Navbar title={_t.textHighlightColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <HighlightColorPalette changeColor={changeColor} curColor={backgroundColor} />
+        </Page>
+    )
+};
+
 const PageAdditionalFormatting = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -609,6 +653,7 @@ const PageLineSpacing = props => {
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextFontColor = inject("storeTextSettings", "storePalette", "storeFocusObjects")(observer(PageFontColor));
+const PageTextBackgroundColor = inject("storeTextSettings", "storePalette")(observer(PageBackgroundColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 const PageTextBulletsAndNumbers = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletsAndNumbers));
@@ -618,6 +663,7 @@ export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
+    PageTextBackgroundColor,
     PageTextCustomFontColor,
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,
