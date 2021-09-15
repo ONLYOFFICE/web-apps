@@ -103,7 +103,6 @@ class MainPage extends Component {
                     </Subnavbar>
                 </Navbar>
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
-                <FilterOptionsController/>
                 {/* Page content */}
                 <View id="editor_sdk" />
                 {showPlaceholder ?
@@ -131,7 +130,9 @@ class MainPage extends Component {
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
-                <FilterOptionsController />
+                {!appOptions.isDocReady ? null :
+                    <FilterOptionsController />
+                }
                 
                 <Statusbar />
 
