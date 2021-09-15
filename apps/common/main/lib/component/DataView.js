@@ -1285,6 +1285,9 @@ define([
             var me = this;
             this.canAddRecents = true;
 
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
             me.groups = options.groups;
 
             // add recent shapes to store
@@ -1313,25 +1316,74 @@ define([
             options.store = store;
 
             Common.UI.DataViewSimple.prototype.initialize.call(this, options);
+
+            me.parentMenu.on('show:before', function() { me.updateRecents(); });
+            if (me.recentShapes.length > 0 && !me.cmpEl.find('.recent-group').is(':visible')) {
+                me.cmpEl.find('.recent-group').show();
+            }
         },
         onAfterShowMenu: function(e) {
-            if (!this.dataViewItems) {
-                var me = this;
-                this.dataViewItems = [];
+            var me = this;
+            if (!me.dataViewItems) {
+                me.dataViewItems = [];
                 _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
                     _.each($(group).find('div.item'), function (item, index) {
                         var $item = $(item),
                             rec = me.options.groups.at(indexGroup).groupStore.at(index);
                         me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
-                        if (rec.get('tip')) {
-                            $item.tooltip({
-                                title: rec.get('tip'),
-                                placement: 'cursor',
-                                zIndex: me.tipZIndex
+                        var tip = rec.get('tip');
+                        if (tip) {
+                            $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                $item.attr('data-toggle', 'tooltip');
+                                $item.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                $item.mouseenter();
                             });
                         }
                     });
                 });
+            }
+            if (me.updateDataViewItems) {
+                // add recent item in dataViewItems
+                var recent = _.where(me.dataViewItems, {groupIndex: 0});
+                var len = recent ? recent.length : 0;
+                for (var i = 0; i < len; i++) {
+                    var tip = me.dataViewItems[i].el.data('bs.tooltip');
+                    if (tip) {
+                        if (tip.dontShow===undefined)
+                            tip.dontShow = true;
+                        (tip.tip()).remove();
+                    }
+                }
+                me.dataViewItems = me.dataViewItems.slice(len);
+                var recentViewItems = [];
+                _.each(me.cmpEl.find('.recent-group div.item'), function (item, index) {
+                    var $item = $(item),
+                        rec = me.recentShapes[index];
+                    recentViewItems.push({el: $item, groupIndex: 0, index: index});
+                    var tip = rec.tip;
+                    if (tip) {
+                        $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                            $item.attr('data-toggle', 'tooltip');
+                            $item.tooltip({
+                                title: tip,
+                                placement: 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                            $item.mouseenter();
+                        });
+                    }
+                });
+                me.dataViewItems = recentViewItems.concat(me.dataViewItems);
+                me.fillIndexesArray();
+
+                if (me.recentShapes.length === 1) {
+                    $('.recent-group').show();
+                }
+                me.updateDataViewItems = false;
             }
         },
 
@@ -1361,7 +1413,6 @@ define([
         },
         addRecentItem: function (rec) {
             var me = this;
-            var len = me.recentShapes.length;
 
             var item = rec.toJSON(),
                 model = {
@@ -1374,58 +1425,49 @@ define([
             if (me.recentShapes.length > 14) {
                 me.recentShapes.splice(14, 1);
             }
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+            me.recentShapes = undefined;
+        },
+        updateRecents: function () {
+            var me = this,
+                recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
+            recents = recents ? JSON.parse(recents) : [];
 
-            me.groups.at(0).groupStore.reset(me.recentShapes);
-
-            var store = new Common.UI.DataViewStore();
-            _.each(me.groups, function (group) {
-                store.add(group.groupStore.models);
-            });
-            me.store = store;
-
-            // add recent item in dataViewItems
-            for (var i = 0; i < len; i++) {
-                var tip = me.dataViewItems[i].el.data('bs.tooltip');
-                if (tip) {
-                    if (tip.dontShow===undefined)
-                        tip.dontShow = true;
-                    (tip.tip()).remove();
+            var diff = false;
+            if (me.recentShapes) {
+                for (var i = 0; i < recents.length; i++) {
+                    if (!me.recentShapes[i] || (me.recentShapes[i] && recents[i].tip !== me.recentShapes[i].tip)) {
+                        diff = true;
+                    }
                 }
+            } else {
+                diff = true;
             }
-            me.dataViewItems = me.dataViewItems.slice(len);
 
-            var template = _.template([
-                '<% _.each(items, function(item) { %>',
-                '<% if (!item.id) item.id = Common.UI.getId(); %>',
+            if (recents.length > 0 && diff) {
+                me.recentShapes = recents;
+                me.groups.at(0).groupStore.reset(me.recentShapes);
+
+                var store = new Common.UI.DataViewStore();
+                _.each(me.groups, function (group) {
+                    store.add(group.groupStore.models);
+                });
+                me.store = store;
+
+                var template = _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
                     '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
-                '<% }) %>'
-            ].join(''));
-            this.cmpEl && this.cmpEl.find('.recent-items').html(template({
-                items: me.recentShapes,
-                itemTemplate: this.itemTemplate,
-                style : this.style
-            }));
-            var recentViewItems = [];
-            _.each($('.recent-group').find('div.item'), function (item, index) {
-                var $item = $(item),
-                    rec = me.recentShapes[index];
-                recentViewItems.push({el: $item, groupIndex: 0, index: index});
-                if (rec.tip) {
-                    $item.tooltip({
-                        title: rec.tip,
-                        placement: 'cursor',
-                        zIndex: me.tipZIndex
-                    });
-                }
-            });
-            me.dataViewItems = recentViewItems.concat(me.dataViewItems);
-            me.fillIndexesArray();
+                    '<% }) %>'
+                ].join(''));
+                me.cmpEl && me.cmpEl.find('.recent-items').html(template({
+                    items: me.recentShapes,
+                    itemTemplate: this.itemTemplate,
+                    style : this.style
+                }));
 
-            // add recent item in local storage
-            if (me.recentShapes.length === 1) {
-              $('.recent-group').show();
+                me.updateDataViewItems = true;
             }
-            Common.localStorage.setItem('pe-recent-shapes', JSON.stringify(me.recentShapes));
         }
     }));
 
