@@ -33,10 +33,8 @@
 (function ($) {
 
     $(function(){
-        Common.Locale.apply(function() {
-            SSE.ApplicationView.create();
-            SSE.ApplicationController.create();
-        });
+        SSE.ApplicationView.create();
+        SSE.ApplicationController.create();
     })
 
 })(window.jQuery);
