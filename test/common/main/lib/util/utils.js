@@ -43,34 +43,6 @@
                     if (newDocumentPage)
                         newDocumentPage.focus();
                 }
-            }
-            , dialogPrint: function(url, api) {
-                $('#id-print-frame').remove();
-
-                if ( !!url ) {
-                    var iframePrint = document.createElement("iframe");
-
-                    iframePrint.id = "id-print-frame";
-                    iframePrint.style.display = 'none';
-                    iframePrint.style.visibility = "hidden";
-                    iframePrint.style.position = "fixed";
-                    iframePrint.style.right = "0";
-                    iframePrint.style.bottom = "0";
-                    document.body.appendChild(iframePrint);
-
-                    iframePrint.onload = function () {
-                        try {
-                            iframePrint.contentWindow.focus();
-                            iframePrint.contentWindow.print();
-                            iframePrint.contentWindow.blur();
-                            window.focus();
-                        } catch (e) {
-                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                        }
-                    };
-
-                    iframePrint.src = url;
-                }
             },
             htmlEncode: function(value) {
                 return $('<div/>').text(value).html();

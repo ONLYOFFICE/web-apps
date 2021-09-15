@@ -122,14 +122,16 @@ DE.ApplicationController = new(function(){
    function onLongActionBegin(type, id) {
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (!me.loadMask)
+            /*if (!me.loadMask)
                 me.loadMask = new common.view.LoadMask();
-            me.loadMask.show();
+            me.loadMask.show();*/
+            console.log('Action begin');
         }
     }
 
     function onLongActionEnd(type, id){
-        me.loadMask && me.loadMask.hide();
+        //me.loadMask && me.loadMask.hide();
+        console.log('Action end');
     }
 
     function hidePreloader() {
@@ -137,7 +139,7 @@ DE.ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        hidePreloader();
+        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
@@ -177,7 +179,8 @@ DE.ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
+        //me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
+        //console.log('onOpenDocument');
     }
 
     function onError(id, level, errData) {
@@ -192,7 +195,7 @@ DE.ApplicationController = new(function(){
             return;
         }
 
-        hidePreloader();
+        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
@@ -286,10 +289,11 @@ DE.ApplicationController = new(function(){
 
     function onExternalMessage(error) {
         if (error) {
-            hidePreloader();
-            $('#id-error-mask-title').text(me.criticalErrorTitle);
+            //hidePreloader();
+            /*$('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
-            $('#id-error-mask').css('display', 'block');
+            $('#id-error-mask').css('display', 'block');*/
+            console.error(error.msg);
         }
     }
 
@@ -363,7 +367,7 @@ DE.ApplicationController = new(function(){
         if (api){
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
-            api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            //api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);

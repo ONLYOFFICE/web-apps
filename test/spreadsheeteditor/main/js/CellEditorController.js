@@ -1,47 +1,11 @@
 !window.common && (window.common = {});
 !common.controller && (common.controller = {});
+if (SSE === undefined) {
+    var SSE = {};
+}
+SSE.Keys={RETURN:   13};
 
-common.ui = _.extend(common.ui || {}, {
-    Keys : {
-        BACKSPACE:  8,
-        TAB:        9,
-        RETURN:     13,
-        SHIFT:      16,
-        CTRL:       17,
-        ALT:        18,
-        ESC:        27,
-        LEFT:       37,
-        UP:         38,
-        RIGHT:      39,
-        DOWN:       40,
-        DELETE:     46,
-        HOME:       36,
-        END:        35,
-        SPACE:      32,
-        PAGEUP:     33,
-        PAGEDOWN:   34,
-        INSERT:     45,
-        EQUALITY_FF:61,
-        NUM_PLUS:   107,
-        NUM_MINUS:  109,
-        F1:         112,
-        F2:         113,
-        F3:         114,
-        F4:         115,
-        F5:         116,
-        F6:         117,
-        F7:         118,
-        F8:         119,
-        F9:         120,
-        F10:        121,
-        F11:        122,
-        F12:        123,
-        MINUS_FF:   173,
-        EQUALITY:   187,
-        MINUS:      189
-    }});
-
-common.controller.CellEditor = new(function(){
+SSE.CellEditorController = new(function(){
     var  me,
         api,
         editor,
@@ -49,7 +13,7 @@ common.controller.CellEditor = new(function(){
         created=false;
 
     function onCellName(e){
-        if (e.keyCode == common.ui.Keys.RETURN){
+        if (e.keyCode == SSE.Keys.RETURN){
             var name = editor.$cellname.val();
             if (name && name.length) {
                 api.asc_findCell(name);
@@ -58,7 +22,7 @@ common.controller.CellEditor = new(function(){
     }
 
     function onKeyupCellEditor(e) {
-        if(e.keyCode == common.ui.Keys.RETURN && !e.altKey){
+        if(e.keyCode == SSE.Keys.RETURN && !e.altKey){
             api.isCEditorFocused = 'clear';
         }
     }
@@ -70,11 +34,7 @@ common.controller.CellEditor = new(function(){
             api.isCEditorFocused = true;
     }
 
-    function onLayoutResize(o, r) {
-        if (r == 'cell:edit') {
-            o && common.localStorage.setBool('sse-celleditor-expand', false);
-        }
-    }
+
 
     function events() {
            editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
@@ -83,17 +43,16 @@ common.controller.CellEditor = new(function(){
     }
 
     function  onLaunch(){
-        common.view.CellEditor.create();
-        editor = common.view.CellEditor;
+        SSE.CellEditorView.create();
+        editor = SSE.CellEditorView;
         events();
 
         editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
 
         var val = common.localStorage.getItem('sse-celleditor-height');
-        editor.keep_height = (val!==null && parseInt(val)>0) ? parseInt(val) : 19;
+        editor.keep_height = 19;//(val!==null && parseInt(val)>0) ? parseInt(val) : 19;
         if (common.localStorage.getBool('sse-celleditor-expand')) {
             editor.$el.height(editor.keep_height);
-            onLayoutResize(undefined, 'cell:edit');
         }
         this.namedrange_locked = false;
     }
@@ -126,10 +85,6 @@ common.controller.CellEditor = new(function(){
         }
     }
 
-    function onLockDefNameManager(state) {
-        this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
-    }
-
     function onApiDisconnect() {
         mode.isEdit = false;
     }
@@ -141,20 +96,9 @@ common.controller.CellEditor = new(function(){
         api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection);
         api.asc_registerCallback('asc_onEditCell', onApiEditCell);
         api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
-        api.asc_registerCallback('asc_onLockDefNameManager', onLockDefNameManager);
     }
 
-    function onApiSelectionChanged(info) {
-        if (this.viewmode) return; // signed file
-    }
 
-    function setMode(modeF) {
-        mode = modeF;
-
-        if ( mode.isEdit ) {
-            api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged);
-        }
-    }
 
     function setPreviewMode(mode) {
         if (this.viewmode === mode) return;
@@ -165,7 +109,6 @@ common.controller.CellEditor = new(function(){
     return {
         create: createController,
         setApi: setApi,
-        setMode: setMode,
         setPreviewMode: setPreviewMode
     }
 

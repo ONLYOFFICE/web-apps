@@ -41,24 +41,19 @@ SSE.ApplicationView = new(function(){
     // Initialize view
 
     function createView(){
-        $btnTools = $('#box-tools button');
+        /*$btnTools = $('#box-tools button');
 
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
             '<ul class="dropdown-menu pull-right">' +
-                            '</ul>');
+                            '</ul>');*/
     }
 
-    function getTools(name) {
-        return $btnTools.parent().find(name);
-    }
+
 
 
     return {
-        create: createView
-        , tools: {
-            get: getTools
-        },
+        create: createView,
 
         txtDownload: 'Download',
         txtPrint: 'Print',

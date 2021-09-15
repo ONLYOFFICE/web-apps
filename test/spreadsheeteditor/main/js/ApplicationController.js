@@ -51,7 +51,6 @@ SSE.ApplicationController = new(function(){
     // -------------------------
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        //Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         console.error( this.unsupportedBrowserErrorText);
         return;
     }
@@ -65,8 +64,8 @@ SSE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        /*config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
+                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);*/
     }
 
     function loadDocument(data) {
@@ -104,16 +103,8 @@ SSE.ApplicationController = new(function(){
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
 
-            docInfo.asc_putIsEnabledMacroses(false);
-            docInfo.asc_putIsEnabledPlugins(false);
-            /*var enable = !config.customization || (config.customization.macros!==false);
-            docInfo.asc_putIsEnabledMacroses(!!enable);
-            enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);*/
-
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
-               // api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(false);
@@ -157,18 +148,12 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
-    function hidePreloader() {
-        $('#loading-mask').fadeOut('slow');
-    }
-
     function onDocumentContentReady() {
-        hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
-        Common.Gateway.on('processmouse',       onProcessMouse);
-        Common.Gateway.on('downloadas',         onDownloadAs);
+        //Common.Gateway.on('processmouse',       onProcessMouse);
+        //Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
 
@@ -189,36 +174,17 @@ SSE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
+        api.asc_SetFastCollaborative(true);
         api.asc_setAutoSaveGap(1);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-        
-        //api.asc_setViewMode(true);
         api.asc_LoadDocument();
-    }
-    
-    function onOpenDocument(progress) {
-        var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     function onLongActionBegin(type, id){
-        var text = '';
-        switch (id)
-        {
-            case LoadingDocument:
-                text = me.textLoadingDocument + '           ';
-                break;
-            default:
-                text = me.waitText;
-                break;
-        }
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (!me.loadMask)
-                me.loadMask = new common.view.LoadMask();
-            me.loadMask.setTitle(text);
-            me.loadMask.show();
+           console.log('Action begin');
         }
     }
 
@@ -237,23 +203,16 @@ SSE.ApplicationController = new(function(){
                     break;
             }
 
-            me.loadMask && me.loadMask.hide();
+            console.log('Action end');
         }
     }
 
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(me.scriptLoadError);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');*/
-            console.error(me.scriptLoadError);
+            console.error(id,me.scriptLoadError);
             return;
         }
 
-        hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
@@ -311,41 +270,18 @@ SSE.ApplicationController = new(function(){
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
-            //Common.Gateway.reportError(id, message);
             console.error(id,message);
-
-           /* $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });*/
         }
         else {
-           // Common.Gateway.reportWarning(id, message);
             console.warn(id,message);
-
-            /*$('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                $('#id-critical-error-dialog').modal('hide');
-            });*/
         }
-
-        //$('#id-critical-error-dialog').modal('show');
-
-        //Common.Analytics.trackEvent('Internal Error', id.toString());
     }
 
     function onExternalMessage(error) {
         if (error) {
-            hidePreloader();
             $('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
-
-            //Common.Analytics.trackEvent('External Error');
         }
     }
 
@@ -364,26 +300,9 @@ SSE.ApplicationController = new(function(){
         Common.Gateway.requestClose();
     }
 
-    function onDownloadAs() {
-        if ( permissions.download === false) {
-            //Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
-            console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
-            return;
-        }
-        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
-    }
-
-
-    function onRunAutostartMacroses() {
-        if (!config.customization || (config.customization.macros!==false))
-            if (api) api.asc_runAutostartMacroses();
-    }
-
     function onBeforeUnload () {
         common.localStorage.save();
     }
-    // Helpers
-    // -------------------------
 
     function onDocumentResize() {
         if (api) api.asc_Resize();
@@ -412,14 +331,12 @@ SSE.ApplicationController = new(function(){
         if (api){
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
-            api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged',    setActiveWorkSheet);
 
-            if(common.controller.CellEditor ) {
-                common.controller.CellEditor.create();
-                common.controller.CellEditor.setApi(api)
-                common.controller.CellEditor.setMode(config);
+            if(SSE.CellEditorController ) {
+                SSE.CellEditorController.create();
+                SSE.CellEditorController.setApi(api);
             }
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
@@ -427,6 +344,18 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
         }
+
+        api.asc_enableKeyEvents(true);
+        var ismodalshown = false;
+        $(document.body).on('blur', 'input, textarea',
+            function(e) {
+                if ( !ismodalshown ) {
+                    if (!/area_id/.test(e.target.id) ) {
+                        api.asc_enableKeyEvents(true);
+                    }
+                }
+            }
+        );
 
         return me;
     }

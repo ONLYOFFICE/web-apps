@@ -30,12 +30,11 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+if (SSE === undefined) {
+    var SSE = {};
+}
 
-
-!window.common && (window.common = {});
-!common.view && (common.view = {});
-
-common.view.CellEditor = new(function (){
+SSE.CellEditorView = new(function (){
     var  me;
 
     function  createView()

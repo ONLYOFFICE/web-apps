@@ -114,7 +114,7 @@ PE.ApplicationController = new(function(){
     }
 
     function onLongActionBegin(type, id) {
-        var text = '';
+       /* var text = '';
         switch (id)
         {
             case LoadingDocument:
@@ -123,18 +123,20 @@ PE.ApplicationController = new(function(){
             default:
                 text = me.waitText;
                 break;
-        }
+        }*/
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            if (!me.loadMask)
+            /*if (!me.loadMask)
                 me.loadMask = new common.view.LoadMask();
             me.loadMask.setTitle(text);
-            me.loadMask.show();
+            me.loadMask.show();*/
+            console.log('Action begin');
         }
     }
 
     function onLongActionEnd(){
-        me.loadMask && me.loadMask.hide();
+        //me.loadMask && me.loadMask.hide();
+        console.log('Action end');
     }
 
     function hidePreloader() {
@@ -144,7 +146,7 @@ PE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         api.ShowThumbnails(true);
 
-        hidePreloader();
+        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
@@ -176,7 +178,7 @@ PE.ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
+        //me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
     /* var isplaymode;
@@ -217,7 +219,7 @@ PE.ApplicationController = new(function(){
             return;
         }
 
-        hidePreloader();
+        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         
         var message;
@@ -304,7 +306,7 @@ PE.ApplicationController = new(function(){
 
     function onExternalMessage(error) {
         if (error) {
-            hidePreloader();
+            //hidePreloader();
             /*$('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');*/
@@ -381,7 +383,7 @@ PE.ApplicationController = new(function(){
 
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
-            api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            //api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
