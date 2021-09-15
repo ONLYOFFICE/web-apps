@@ -36,30 +36,10 @@ if (SSE === undefined) {
 }
 
 SSE.ApplicationView = new(function(){
-
-    var $btnTools;
-    // Initialize view
-
     function createView(){
-        /*$btnTools = $('#box-tools button');
-
-        $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
-        $btnTools.parent().append(
-            '<ul class="dropdown-menu pull-right">' +
-                            '</ul>');*/
     }
 
-
-
-
     return {
-        create: createView,
-
-        txtDownload: 'Download',
-        txtPrint: 'Print',
-        txtShare: 'Share',
-        txtEmbed: 'Embed',
-        txtFullScreen: 'Full Screen',
-        txtFileLocation: 'Open file location'
+        create: createView
     }
 })();

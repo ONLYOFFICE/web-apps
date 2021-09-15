@@ -38,7 +38,6 @@ DE.ApplicationController = new(function(){
         permissions = {},
         created = false,
         appOptions = {},
-        _submitFail, $submitedTooltip,
         bodyWidth = 0;
 
     var LoadingDocument = -256;
@@ -47,7 +46,6 @@ DE.ApplicationController = new(function(){
     // -------------------------
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        //Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         console.error(this.unsupportedBrowserErrorText);
         return;
     }
@@ -122,24 +120,15 @@ DE.ApplicationController = new(function(){
    function onLongActionBegin(type, id) {
 
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-            /*if (!me.loadMask)
-                me.loadMask = new common.view.LoadMask();
-            me.loadMask.show();*/
             console.log('Action begin');
         }
     }
 
     function onLongActionEnd(type, id){
-        //me.loadMask && me.loadMask.hide();
         console.log('Action end');
     }
 
-    function hidePreloader() {
-        $('#loading-mask').fadeOut('slow');
-    }
-
     function onDocumentContentReady() {
-        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
@@ -147,15 +136,13 @@ DE.ApplicationController = new(function(){
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
-        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
 
-
-        Common.Gateway.on('processmouse',       onProcessMouse);
-        Common.Gateway.on('downloadas',         onDownloadAs);
+        //Common.Gateway.on('processmouse',       onProcessMouse);
+        //Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
-        var downloadAs =  function(format){
+        /*var downloadAs =  function(format){
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-        };
+        };*/
 
         // TODO: add asc_hasRequiredFields to sdk
         Common.Gateway.documentReady();
@@ -177,25 +164,12 @@ DE.ApplicationController = new(function(){
         api.Resize();
     }
 
-    function onOpenDocument(progress) {
-        var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        //me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
-        //console.log('onOpenDocument');
-    }
-
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(me.scriptLoadError);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');*/
             console.error(me.criticalErrorTitle,me.scriptLoadError);
             return;
         }
 
-        //hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
         var message;
@@ -240,8 +214,6 @@ DE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.Submit:
                 message = me.errorSubmit;
-                /*_submitFail = true;
-                $submitedTooltip && $submitedTooltip.hide();*/
                 break;
 
             case Asc.c_oAscError.ID.EditingError:
@@ -263,36 +235,16 @@ DE.ApplicationController = new(function(){
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
-            //Common.Gateway.reportError(id, message);
             console.error(id,message);
-            /*$('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });*/
         }
         else {
-            //Common.Gateway.reportWarning(id, message);
             console.warn(id, message);
 
-            /*$('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                $('#id-critical-error-dialog').modal('hide');
-            });*/
         }
-
-        //$('#id-critical-error-dialog').modal('show');
     }
 
     function onExternalMessage(error) {
         if (error) {
-            //hidePreloader();
-            /*$('#id-error-mask-title').text(me.criticalErrorTitle);
-            $('#id-error-mask-text').text(error.msg);
-            $('#id-error-mask').css('display', 'block');*/
             console.error(error.msg);
         }
     }
@@ -322,11 +274,6 @@ DE.ApplicationController = new(function(){
             return;
         }
         if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, false));
-    }
-
-    function onRunAutostartMacroses() {
-        if (!config.customization || (config.customization.macros!==false))
-            if (api) api.asc_runAutostartMacroses();
     }
 
     function onBeforeUnload () {

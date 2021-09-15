@@ -182,7 +182,6 @@ SSE.ApplicationController = new(function(){
     }
 
     function onLongActionBegin(type, id){
-
         if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
            console.log('Action begin');
         }

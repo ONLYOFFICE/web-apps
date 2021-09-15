@@ -100,16 +100,9 @@ SSE.CellEditorController = new(function(){
 
 
 
-    function setPreviewMode(mode) {
-        if (this.viewmode === mode) return;
-        this.viewmode = mode;
-        editor.cell.nameDisabled(mode && !(mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge));
-    }
-
     return {
         create: createController,
-        setApi: setApi,
-        setPreviewMode: setPreviewMode
+        setApi: setApi
     }
 
 })();
