@@ -89,6 +89,10 @@
                 "cwd": "../apps/common/main/resources/alphabetletters",
                 "src": "*.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/alphabetletters"
+            },
+            "themes": {
+                "src": "../apps/common/main/resources/themes/themes.json",
+                "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
             }
         },
         "imagemin": {
