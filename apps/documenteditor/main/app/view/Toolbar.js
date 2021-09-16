@@ -1283,11 +1283,14 @@ define([
                     this.paragraphControls.push(this.cmbFontName);
 
                     this.listStylesAdditionalMenuItem = new Common.UI.MenuItem({
-                        template: _.template(
-                            '<div id="id-save-style-container" class = "save-style-container">' +
-                            '<span id="id-save-style-plus" class="plus img-commonctrl"  ></span>' +
-                            '<label id="id-save-style-link" class="save-style-link" >' + me.textStyleMenuNew + '</label>' +
-                            '</div>')
+                        cls: 'save-style-container',
+                        iconCls: 'menu__icon btn-zoomup',
+                        caption: me.textStyleMenuNew
+                        // template: _.template(
+                        //     '<div id="id-save-style-container" class = "save-style-container">' +
+                        //     '<span id="id-save-style-plus" class="plus img-commonctrl"  ></span>' +
+                        //     '<label id="id-save-style-link" class="save-style-link" >' + me.textStyleMenuNew + '</label>' +
+                        //     '</div>')
                     });
 
                     this.listStyles = new Common.UI.ComboDataView({
