@@ -155,7 +155,7 @@ class EditTextController extends Component {
         api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
     }
 
-    onBackgroundColor(strColor) {
+    onHighlightColor(strColor) {
         const api = Common.EditorApi.get();
 
         if (strColor == 'transparent') {
@@ -256,7 +256,7 @@ class EditTextController extends Component {
                 changeFontSize={this.changeFontSize}
                 changeFontFamily={this.changeFontFamily}
                 onTextColor={this.onTextColor}
-                onBackgroundColor={this.onBackgroundColor}
+                onHighlightColor={this.onHighlightColor}
                 onAdditionalStrikethrough={this.onAdditionalStrikethrough}
                 onAdditionalCaps={this.onAdditionalCaps}
                 onAdditionalScript={this.onAdditionalScript}
