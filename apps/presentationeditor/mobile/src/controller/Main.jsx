@@ -377,7 +377,7 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onTextHighLight', color => {
-            storeTextSettings.resetBackgroundColor(color);
+            storeTextSettings.resetHighlightColor(color);
         });
 
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {

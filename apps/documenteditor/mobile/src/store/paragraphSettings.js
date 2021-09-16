@@ -51,6 +51,7 @@ export class storeParagraphSettings {
     getBackgroundColor (paragraphObject) {
         const shade = paragraphObject.get_Shade();
         let backColor = 'transparent';
+
         if (!!shade && shade.get_Value() === Asc.c_oAscShdClear) {
             const color = shade.get_Color();
             if (color) {
@@ -64,6 +65,7 @@ export class storeParagraphSettings {
                 }
             }
         }
+        
         this.backColor = backColor;
         return backColor;
     }

@@ -14,7 +14,7 @@ import EditChartController from "../../controller/edit/EditChart";
 import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextBackgroundColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing } from './EditText';
+import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
@@ -65,8 +65,8 @@ const routes = [
         component: PageTextFontColor
     },
     {
-        path: '/edit-text-background-color/',
-        component: PageTextBackgroundColor
+        path: '/edit-text-highlight-color/',
+        component: PageTextHighlightColor
     },
     {
         path: '/edit-text-custom-font-color/',

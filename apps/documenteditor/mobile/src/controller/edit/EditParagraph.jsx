@@ -133,15 +133,13 @@ class EditParagraphController extends Component {
 
     onBackgroundColor (color) {
         const api = Common.EditorApi.get();
-        const properties = new Asc.asc_CParagraphProperty();
-        properties.put_Shade(new Asc.asc_CParagraphShd());
+    
         if (color == 'transparent') {
-            properties.get_Shade().put_Value(Asc.c_oAscShdNil);
+            api.put_ParagraphShade(false);
         } else {
-            properties.get_Shade().put_Value(Asc.c_oAscShdClear);
-            properties.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+            api.put_ParagraphShade(true, Common.Utils.ThemeColor.getRgbColor(color));
         }
-        api.paraApply(properties);
+        
     }
 
     render () {

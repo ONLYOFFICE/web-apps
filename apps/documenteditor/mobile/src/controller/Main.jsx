@@ -573,9 +573,14 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
             storeTextSettings.resetLineSpacing(vc);
         });
-        this.api.asc_registerCallback('asc_onTextShd', (shd) => {
-            let color = shd.get_Color();
-            storeTextSettings.resetBackgroundColor(color);
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            let textPr = this.api.get_TextProps().get_TextPr();
+
+            if(textPr) {
+                color = textPr.get_HighLight();
+                storeTextSettings.resetHighlightColor(color);
+            }
         });
 
         // link settings

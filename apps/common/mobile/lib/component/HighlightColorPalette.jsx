@@ -1,8 +1,10 @@
 import React from 'react';
 import { f7, ListItem, List, Icon, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../utils/device';
 
 const HighlightColorPalette = ({changeColor, curColor}) => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const highlightColors = [
         ['ffff00', '00ff00', '00ffff', 'ff00ff', '0000ff', 'ff0000', '00008b', '008b8b'],
@@ -24,7 +26,9 @@ const HighlightColorPalette = ({changeColor, curColor}) => {
                     ))}
                 </div>
             </ListItem>
-            <ListItem radio checked={(curColor && curColor === 'transparent')} onClick={() => changeColor('transparent')} title={t('Common.HighlightColorPalette.textNoFill')}></ListItem>
+            <ListItem radio checked={(curColor && curColor === 'transparent')} onClick={() => changeColor('transparent')} title={t('Common.HighlightColorPalette.textNoFill')}>
+                {!isAndroid && <Icon slot="media" icon="icon-cancellation"></Icon>}
+            </ListItem>
         </List>
     )
 };
