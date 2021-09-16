@@ -1289,9 +1289,14 @@ define([
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             me.groups = options.groups;
+            if (options.isFromImage) {
+                var store = me.groups[0].groupStore.clone();
+                store.shift();
+                me.groups[0].groupStore = store;
+            }
 
             // add recent shapes to store
-            var recentStore = new Backbone.Collection([], {model: PE.Models.ShapeModel}),
+            var recentStore = new Common.UI.DataViewGroupStore,
                 recentArr = options.recentShapes || [],
                 cols = (recentArr.length) > 18 ? 7 : 6,
                 height = Math.ceil(recentArr.length/cols) * 35 + 3,
@@ -1346,7 +1351,7 @@ define([
                     });
                 });
             }
-            if (me.updateDataViewItems) {
+            if (me.updateDataViewItems && me.cmpEl.is(':visible')) {
                 // add recent item in dataViewItems
                 var recent = _.where(me.dataViewItems, {groupIndex: 0});
                 var len = recent ? recent.length : 0;
@@ -1412,7 +1417,16 @@ define([
             this.addRecentItem(record);
         },
         addRecentItem: function (rec) {
-            var me = this;
+            var me = this,
+                exist = false,
+                type = rec.get('data').shapeType;
+            for (var i = 0; i < me.recentShapes.length; i++) {
+                if (me.recentShapes[i].data.shapeType === type) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) return;
 
             var item = rec.toJSON(),
                 model = {
