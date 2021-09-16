@@ -41,12 +41,6 @@ SSE.ApplicationController = new(function(){
 
     var LoadingDocument = -256;
 
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Spreadsheet Editor');
-
-
     // Check browser
     // -------------------------
 
@@ -64,8 +58,6 @@ SSE.ApplicationController = new(function(){
 
     function loadConfig(data) {
         config = $.extend(config, data.config);
-        /*config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);*/
     }
 
     function loadDocument(data) {
@@ -102,6 +94,9 @@ SSE.ApplicationController = new(function(){
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
+
+            docInfo.asc_putIsEnabledMacroses(true);
+            docInfo.asc_putIsEnabledPlugins(true);
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
@@ -152,8 +147,8 @@ SSE.ApplicationController = new(function(){
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
 
-        //Common.Gateway.on('processmouse',       onProcessMouse);
-        //Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('processmouse',       onProcessMouse);
+        Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
 
@@ -295,6 +290,14 @@ SSE.ApplicationController = new(function(){
         }
     }
 
+    function onDownloadAs() {
+        if ( permissions.download === false) {
+            console.error(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            return;
+        }
+        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+    }
+
     function onRequestClose() {
         Common.Gateway.requestClose();
     }
@@ -373,11 +376,6 @@ SSE.ApplicationController = new(function(){
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
         errorUserDrop: 'The file cannot be accessed right now.',
         unsupportedBrowserErrorText: 'Your browser is not supported.',
-        textOf: 'of',
-        downloadTextText: 'Downloading spreadsheet...',
-        waitText: 'Please, wait...',
-        textLoadingDocument: 'Loading spreadsheet',
-        txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textGuest: 'Guest',

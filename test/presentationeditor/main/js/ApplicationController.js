@@ -92,6 +92,9 @@ PE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
+            docInfo.asc_putIsEnabledMacroses(true);
+            docInfo.asc_putIsEnabledPlugins(true);
+
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 api.asc_setDocInfo(docInfo);
@@ -122,8 +125,8 @@ PE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
 
-        //Common.Gateway.on('processmouse',       onProcessMouse);
-        //Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('processmouse',       onProcessMouse);
+        Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
 
         $('#editor_sdk').on('click', function(e) {

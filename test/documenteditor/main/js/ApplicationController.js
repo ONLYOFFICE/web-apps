@@ -94,12 +94,8 @@ DE.ApplicationController = new(function(){
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
 
-            docInfo.asc_putIsEnabledMacroses(false);
-            docInfo.asc_putIsEnabledPlugins(false);
-            /* var enable = !config.customization || (config.customization.macros!==false);
-            docInfo.asc_putIsEnabledMacroses(!!enable);
-            enable = !config.customization || (config.customization.plugins!==false);
-            docInfo.asc_putIsEnabledPlugins(!!enable);*/
+            docInfo.asc_putIsEnabledMacroses(true);
+            docInfo.asc_putIsEnabledPlugins(true);
 
 
             var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
@@ -137,12 +133,10 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
 
-        //Common.Gateway.on('processmouse',       onProcessMouse);
-        //Common.Gateway.on('downloadas',         onDownloadAs);
+        Common.Gateway.on('processmouse',       onProcessMouse);
+        Common.Gateway.on('downloadas',         onDownloadAs);
         Common.Gateway.on('requestclose',       onRequestClose);
-        /*var downloadAs =  function(format){
-            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-        };*/
+
 
         // TODO: add asc_hasRequiredFields to sdk
         Common.Gateway.documentReady();
@@ -279,8 +273,6 @@ DE.ApplicationController = new(function(){
     function onBeforeUnload () {
         common.localStorage.save();
     }
-        // Helpers
-    // -------------------------
 
     function onDocumentResize() {
         api && api.Resize();
@@ -314,7 +306,6 @@ DE.ApplicationController = new(function(){
         if (api){
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
-            //api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
@@ -334,14 +325,11 @@ DE.ApplicationController = new(function(){
         convertationErrorText   : 'Conversion failed.',
         downloadErrorText       : 'Download failed.',
         criticalErrorTitle      : 'Error',
-        notcriticalErrorTitle   : 'Warning',
         scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
         errorFilePassProtect: 'The file is password protected and cannot be opened.',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
         errorUserDrop: 'The file cannot be accessed right now.',
         unsupportedBrowserErrorText: 'Your browser is not supported.',
-        textLoadingDocument: 'Loading document',
-        txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         errorSubmit: 'Submit failed.',
