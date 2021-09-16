@@ -131,13 +131,16 @@ class MainPage extends Component {
                 }
 
                 {!appOptions.isDocReady ? null :
-                    <FilterOptionsController />
+                    <>
+                        <FilterOptionsController />
+                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                    </>
                 }
                 
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
-                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                
             </Page>
       )
   }
