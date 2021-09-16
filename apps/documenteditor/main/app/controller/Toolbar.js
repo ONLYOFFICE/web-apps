@@ -2641,50 +2641,39 @@ define([
             var me = this,
                 shapesStore = this.getApplication().getCollection('ShapeGroups');
 
-            var onShowAfter = function(menu) {
-                for (var i = 0; i < shapesStore.length; i++) {
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
-                        store: shapesStore.at(i).get('groupStore'),
-                        parentMenu: menu.items[i].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            if (record) {
-                                me._addAutoshape(true, record.get('data').shapeType);
-                                me._isAddingShape = true;
-                            }
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
+            });
+            me.toolbar.btnInsertShape.menu.addItem(menuitem);
 
-                            if (me.toolbar.btnInsertText.pressed) {
-                                me.toolbar.btnInsertText.toggle(false, true);
-                            }
+            var recents = Common.localStorage.getItem('de-recent-shapes');
 
-                            if (e.type !== 'click')
-                                me.toolbar.btnInsertShape.menu.hide();
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                        }
-                    });
+            var shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-toolbar-menu-insertshape'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: shapesStore.toJSON(),
+                parentMenu: me.toolbar.btnInsertShape.menu,
+                restoreHeight: 640,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null
+            });
+            shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me._addAutoshape(true, record.get('data').shapeType);
+                        me._isAddingShape = true;
+                    }
+
+                    if (me.toolbar.btnInsertText.pressed) {
+                        me.toolbar.btnInsertText.toggle(false, true);
+                    }
+
+                    if (e.type !== 'click')
+                        me.toolbar.btnInsertShape.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
                 }
-                menu.off('show:after', onShowAfter);
-            };
-            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
-
-            for (var i = 0; i < shapesStore.length; i++) {
-                var shapeGroup = shapesStore.at(i);
-
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tl-tr',
-                        items: [
-                            { template: _.template('<div id="id-toolbar-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
-                });
-                me.toolbar.btnInsertShape.menu.addItem(menuItem);
-            }
+            });
         },
 
         fillEquations: function() {
@@ -3670,7 +3659,8 @@ define([
         textInsert: 'Insert',
         textTabForms: 'Forms',
         textGroup: 'Group',
-        textEmptyMMergeUrl: 'You need to specify URL.'
+        textEmptyMMergeUrl: 'You need to specify URL.',
+        textRecentlyUsed: 'Recently Used'
 
     }, DE.Controllers.Toolbar || {}));
 });

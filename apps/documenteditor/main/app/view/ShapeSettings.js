@@ -1611,7 +1611,7 @@ define([
                 iconCls: 'btn-change-shape',
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
-                    cls: 'menu-shapes',
+                    cls: 'menu-shapes menu-change-shape',
                     items: []
                 }),
                 dataHint: '1',
@@ -1786,46 +1786,33 @@ define([
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.application.getCollection('ShapeGroups'),
-                count = shapesStore.length;
+                recents = Common.localStorage.getItem('de-recent-shapes');
 
-            var onShowAfter = function(menu) {
-                for (var i=-1; i<count-1 && count>0; i++) {
-                    var store = shapesStore.at(i > -1 ? i : 0).get('groupStore');
-                    if (i<0) {
-                        store = store.clone();
-                        store.shift();
-                    }
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-shape-menu-shapegroup' + (i+1), menu.items[i+1].$el),
-                        store: store,
-                        parentMenu: menu.items[i+1].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            me.api.ChangeShapeType(record.get('data').shapeType);
-                            me.fireEvent('editcomplete', me);
-                        }
-                        if (e.type !== 'click')
-                            me.btnChangeShape.menu.hide();
-                    });
-                }
-                menu.off('show:after', onShowAfter);
-            };
-            me.btnChangeShape.menu.on('show:after', onShowAfter);
-
-            for (var i=-1; i<count-1 && count>0; i++) {
-                var shapeGroup = shapesStore.at(i > -1 ? i : i + 1);
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tr-tl',
-                        items: [
-                            {template: _.template('<div id="id-shape-menu-shapegroup' + (i + 1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
-                        ]
-                    })
+            for (var i = 0; i < 2; i++) {
+                var menuitem = new Common.UI.MenuItem({
+                    template: _.template('<div id="id-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: i
                 });
-                me.btnChangeShape.menu.addItem(menuItem);
+                me.btnChangeShape.menu.addItem(menuitem);
+
+                var shapePicker = new Common.UI.DataViewShape({
+                    el: $('#id-change-shape-menu-' + i),
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                    groups: shapesStore.toJSON(),
+                    parentMenu: me.btnChangeShape.menu,
+                    restoreHeight: 640,
+                    textRecentlyUsed: me.textRecentlyUsed,
+                    recentShapes: recents ? JSON.parse(recents) : null,
+                    isFromImage: i === 0
+                });
+                shapePicker.on('item:click', function(picker, item, record, e) {
+                    if (me.api) {
+                        me.api.ChangeShapeType(record.get('data').shapeType);
+                        me.fireEvent('editcomplete', me);
+                    }
+                    if (e.type !== 'click')
+                        me.btnChangeShape.menu.hide();
+                });
             }
             me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
             me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
@@ -2093,6 +2080,7 @@ define([
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle'
+        textAngle: 'Angle',
+        textRecentlyUsed: 'Recently Used'
     }, DE.Views.ShapeSettings || {}));
 });
