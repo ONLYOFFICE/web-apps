@@ -502,6 +502,8 @@ define([
                     }
                     Common.UI.Menu.Manager.hideAll();
                 } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    if ( this.menuRoot.length<1 || $(e.target).closest('ul[role=menu]').get(0) !== this.menuRoot.get(0)) return;
+
                     var innerMenu = this.findInnerMenu(e.keyCode);
                     if (innerMenu && innerMenu.focusInner) {
                         e.preventDefault();

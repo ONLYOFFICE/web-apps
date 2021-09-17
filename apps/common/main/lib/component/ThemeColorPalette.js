@@ -105,6 +105,7 @@ define([
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
             this.enableKeyEvents= me.options.enableKeyEvents;
             this.tabindex = me.options.tabindex || 0;
+            this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
 
             me.colorItems = [];
