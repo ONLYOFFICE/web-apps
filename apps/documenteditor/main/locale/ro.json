@@ -1591,6 +1591,7 @@
   "DE.Views.DocumentHolder.txtTopAndBottom": "Sus și jos",
   "DE.Views.DocumentHolder.txtUnderbar": "Bară dedesubt textului",
   "DE.Views.DocumentHolder.txtUngroup": "Anularea grupării",
+  "DE.Views.DocumentHolder.txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
   "DE.Views.DocumentHolder.updateStyleText": "Actualizare stil %1",
   "DE.Views.DocumentHolder.vertAlignText": "Aliniere verticală",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borduri și umplere",
