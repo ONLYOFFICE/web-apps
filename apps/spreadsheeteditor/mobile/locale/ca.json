@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Segur que vols suprimir aquest comentari?",
       "textMessageDeleteReply": "Segur que vols suprimir aquesta resposta?",
       "textNoComments": "Aquest document no conté comentaris",
+      "textOk": "D'acord",
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris",
-      "textOk": "Ok"
+      "textUsers": "Usuaris"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",
@@ -194,6 +194,7 @@
     "errorInvalidRef": "Introdueix un nom correcte per a la selecció o una referència vàlida a la qual accedir.",
     "errorKeyEncrypt": "Descriptor de claus desconegut",
     "errorKeyExpire": "El descriptor de claus ha caducat",
+    "errorLoadingFont": "No s'han carregat els tipus de lletra.<br>Contacteu amb l'administrador del Servidor de Documents.",
     "errorLockedAll": "Aquesta operació no es pot fer perquè un altre usuari ha bloquejat el full.",
     "errorLockedCellPivot": "No podeu canviar les dades d'una taula dinàmica",
     "errorLockedWorksheetRename": "En aquest moment no es pot canviar el nom del full de càlcul, perquè ja ho fa un altre usuari",
@@ -223,8 +224,7 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "S'estant carregant les dades...",
@@ -274,13 +274,13 @@
     "textErrorRemoveSheet": "No es pot suprimir el full de càlcul.",
     "textHide": "Amaga",
     "textMore": "Més",
+    "textOk": "D'acord",
     "textRename": "Canvia el nom",
     "textRenameSheet": "Canvia el nom del full",
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Cliqueu a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Cliqueu a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -329,18 +329,18 @@
       "textRange": "Interval",
       "textRequired": "Obligatori",
       "textScreenTip": "Consell de pantalla",
+      "textSelectedRange": "Interval Seleccionat",
       "textShape": "Forma",
       "textSheet": "Full",
       "textSortAndFilter": "Ordena i filtra",
       "txtExpand": "Amplia i ordena",
       "txtExpandSort": "No s'ordenaran les dades que hi ha al costat de la selecció. ¿Voleu ampliar la selecció per incloure les dades adjacents o bé voleu continuar i ordenar només les cel·les seleccionades?",
+      "txtLockSort": "Les dades es troben al costat de la vostra selecció, però no teniu permisos suficients per canviar aquestes cel·les.<br>Voleu continuar amb la selecció actual?",
+      "txtNo": "No",
       "txtNotUrl": "Aquest camp hauria de ser una URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "textSelectedRange": "Selected Range",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
-      "txtNo": "No",
-      "txtYes": "Yes"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -540,6 +540,9 @@
       "textByRows": "Per files",
       "textCancel": "Cancel·la",
       "textCentimeter": "Centímetre",
+      "textChooseCsvOptions": "Tria opcions CSV",
+      "textChooseDelimeter": "Tria separador",
+      "textChooseEncoding": "Tria codificació",
       "textCollaboration": "Col·laboració",
       "textColorSchemes": "Combinacions de colors",
       "textComment": "Comentari",
@@ -547,6 +550,7 @@
       "textComments": "Comentaris",
       "textCreated": "Creat",
       "textCustomSize": "Mida personalitzada",
+      "textDelimeter": "Separador",
       "textDisableAll": "Inhabilita-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilita totes les macros amb una notificació",
       "textDisableAllMacrosWithoutNotification": "Inhabilita totes les macros sense una notificació",
@@ -556,6 +560,7 @@
       "textEmail": "Correu electrònic",
       "textEnableAll": "Habilita-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense una notificació",
+      "textEncoding": "Codificació",
       "textExample": "Exemple",
       "textFind": "Cerca",
       "textFindAndReplace": "Cerca i substitueix",
@@ -579,6 +584,7 @@
       "textMatchCase": "Coincidir majúscules i minúscules",
       "textMatchCell": "Coincidir la cel·la",
       "textNoTextFound": "No s'ha trobat el text",
+      "textOk": "D'acord",
       "textOpenFile": "Introdueix una contrasenya per obrir el fitxer",
       "textOrientation": "Orientació",
       "textOwner": "Propietari",
@@ -611,9 +617,13 @@
       "textValues": "Valors",
       "textVersion": "Versió",
       "textWorkbook": "Llibre de treball",
+      "txtColon": "Dos punts",
+      "txtComma": "Coma",
       "txtDelimiter": "Delimitador",
+      "txtDownloadCsv": "Baixar CSV",
       "txtEncoding": "Codificació",
       "txtIncorrectPwd": "La contrasenya no és correcta",
+      "txtOk": "D'acord",
       "txtProtected": "Un cop hàgiu introduït la contrasenya i obert el fitxer, es restablirà la contrasenya actual del fitxer",
       "txtScheme1": "Office",
       "txtScheme10": "Mediana",
@@ -637,20 +647,10 @@
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
       "txtScheme9": "Foneria",
+      "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Tabulador",
-      "warnDownloadAs": "Si continueu desant en aquest format, es perdran totes les característiques, excepte el text.<br>Segur que voleu continuar?",
-      "textChooseCsvOptions": "Choose CSV Options",
-      "textChooseDelimeter": "Choose Delimeter",
-      "textChooseEncoding": "Choose Encoding",
-      "textDelimeter": "Delimiter",
-      "textEncoding": "Encoding",
-      "textOk": "Ok",
-      "txtColon": "Colon",
-      "txtComma": "Comma",
-      "txtDownloadCsv": "Download CSV",
-      "txtOk": "Ok",
-      "txtSemicolon": "Semicolon"
+      "warnDownloadAs": "Si continueu desant en aquest format, es perdran totes les característiques, excepte el text.<br>Segur que voleu continuar?"
     }
   }
 }
