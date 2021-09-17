@@ -750,7 +750,7 @@ define([
                                 {
                                     caption: this.mniHighlightControls,
                                     value: 'highlight',
-                                    menu: new Common.UI.Menu({
+                                    menu: this.mnuHighlightControls = new Common.UI.Menu({
                                         menuAlign   : 'tl-tr',
                                         items: [
                                             this.mnuNoControlsColor = new Common.UI.MenuItem({
@@ -760,7 +760,10 @@ define([
                                             }),
                                             {caption: '--'},
                                             {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
-                                            {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                                            {
+                                                id: 'id-toolbar-menu-new-control-color',
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                            }
                                         ]
                                     })
                                 }
