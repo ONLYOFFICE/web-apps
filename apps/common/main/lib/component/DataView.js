@@ -262,6 +262,7 @@ define([
             me.multiSelect    = me.options.multiSelect;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
@@ -698,17 +699,25 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -820,8 +829,22 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
+        focus: function(index) {
             this.cmpEl && this.cmpEl.find('.dataview').focus();
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                this.selectByIndex(index, true);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -1146,17 +1169,25 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)

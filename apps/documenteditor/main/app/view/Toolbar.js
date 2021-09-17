@@ -2017,6 +2017,7 @@ define([
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
+                    outerMenu:  {menu: this.btnMarkers.menu, index: 0},
                     restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
@@ -2032,12 +2033,14 @@ define([
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
+                this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuNumbersPicker.conf;
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
+                    outerMenu:  {menu: this.btnNumbers.menu, index: 0},
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
@@ -2052,12 +2055,14 @@ define([
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
+                this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
                 this.mnuMultilevelPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-multilevels'),
                     parentMenu: this.btnMultilevels.menu,
+                    outerMenu:  {menu: this.btnMultilevels.menu, index: 0},
                     restoreHeight: 92,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
@@ -2068,6 +2073,7 @@ define([
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
+                this.btnMultilevels.menu.setInnerMenu([{menu: this.mnuMultilevelPicker, index: 0}]);
                 _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.conf : undefined;
