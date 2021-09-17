@@ -372,8 +372,12 @@ class MainController extends Component {
             storeTextSettings.resetDecreaseIndent(value);
         });
 
-        this.api.asc_registerCallback('asc_onTextColor', (color) => {
+        this.api.asc_registerCallback('asc_onTextColor', color => {
             storeTextSettings.resetTextColor(color);
+        });
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            storeTextSettings.resetHighlightColor(color);
         });
 
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {

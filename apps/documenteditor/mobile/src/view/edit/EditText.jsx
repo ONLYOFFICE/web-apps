@@ -4,6 +4,7 @@ import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, 
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 const PageFonts = props => {
@@ -461,24 +462,22 @@ const PageCustomBackColor = props => {
     )
 };
 
-const PageBackgroundColor = props => {
+const PageHighlightColor = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-    const backgroundColor = props.storeTextSettings.backgroundColor;
-    const customColors = props.storePalette.customColors;
+    const highlightColor = props.storeTextSettings.highlightColor;
+
     const changeColor = (color, effectId) => {
         if (color !== 'empty') {
-            if (effectId !==undefined ) {
-                props.onBackgroundColor({color: color, effectId: effectId});
+            if (effectId !== undefined ) {
+                props.onHighlightColor({color: color, effectId: effectId});
             } else {
-                props.onBackgroundColor(color);
+                props.onHighlightColor(color);
             }
-        } else {
-            // open custom color menu
-            props.f7router.navigate('/edit-text-custom-back-color/', {props: {onBackgroundColor: props.onBackgroundColor}});
         }
     };
-    return(
+
+    return (
         <Page>
             <Navbar title={_t.textHighlightColor} backLink={_t.textBack}>
                 {Device.phone &&
@@ -489,12 +488,7 @@ const PageBackgroundColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
-            <List>
-                <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
-                    onBackgroundColor: props.onBackgroundColor
-                }}></ListItem>
-            </List>
+            <HighlightColorPalette changeColor={changeColor} curColor={highlightColor} />
         </Page>
     )
 };
@@ -506,7 +500,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
-    const backgroundColor = storeTextSettings.backgroundColor;
+    const highlightColor = storeTextSettings.highlightColor;
     const displaySize = typeof fontSize === 'undefined' ? t('Edit.textAuto') : fontSize + ' ' + t('Edit.textPt');
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
@@ -530,6 +524,10 @@ const EditText = props => {
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
+
+    const highlightColorPreview = highlightColor !== 'transparent' ?
+        <span className="color-preview" style={{ background: `#${(typeof highlightColor === "object" ? highlightColor.color : highlightColor)}`}}></span> :
+        <span className="color-preview"></span>;
 
     return (
         <Fragment>
@@ -555,12 +553,11 @@ const EditText = props => {
                         fontColorPreview
                     }
                 </ListItem>
-                <ListItem title={t("Edit.textHighlightColor")} link="/edit-text-background-color/" routeProps={{
-                    onBackgroundColor: props.onBackgroundColor
+                <ListItem title={t("Edit.textHighlightColor")} link="/edit-text-highlight-color/" routeProps={{
+                    onHighlightColor: props.onHighlightColor
                 }}>
                     {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-selection"><span className="color-preview" style={{ background: `#${backgroundColor}`}}></span></Icon> :
-                        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span>
+                        <Icon slot="media" icon="icon-text-selection">{highlightColorPreview}</Icon> : highlightColorPreview
                     }
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
@@ -624,9 +621,7 @@ const PageTextBulletsAndNumbers = inject("storeTextSettings")(observer(PageBulle
 const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
-const PageTextBackgroundColor = inject("storeTextSettings", "storePalette")(observer(PageBackgroundColor));
-const PageTextCustomBackColor = inject("storeTextSettings", "storePalette")(observer(PageCustomBackColor));
-
+const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
 
 export {
     EditTextContainer as EditText,
@@ -636,6 +631,6 @@ export {
     PageTextLineSpacing,
     PageTextFontColor,
     PageTextCustomFontColor,
-    PageTextBackgroundColor,
-    PageTextCustomBackColor
+    PageTextHighlightColor,
+    // PageTextCustomBackColor
 };

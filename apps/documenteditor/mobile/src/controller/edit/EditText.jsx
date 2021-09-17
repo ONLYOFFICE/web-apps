@@ -45,12 +45,17 @@ class EditTextController extends Component {
         api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
     }
 
-    onBackgroundColor(color) {
+    onHighlightColor(strColor) {
         const api = Common.EditorApi.get();
-        if (color == 'transparent') {
-            api.put_ParagraphShade(false);
+        
+        if (strColor == 'transparent') {
+            api.SetMarkerFormat(true, false);
         } else {
-            api.put_ParagraphShade(true, Common.Utils.ThemeColor.getRgbColor(color));
+            let r = strColor[0] + strColor[1],
+                g = strColor[2] + strColor[3],
+                b = strColor[4] + strColor[5];
+
+            api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
         }
     }
 
@@ -203,7 +208,7 @@ class EditTextController extends Component {
                 changeFontFamily={this.changeFontFamily}
                 onTextColorAuto={this.onTextColorAuto}
                 onTextColor={this.onTextColor}
-                onBackgroundColor={this.onBackgroundColor}
+                onHighlightColor={this.onHighlightColor}
                 toggleBold={this.toggleBold}
                 toggleItalic={this.toggleItalic}
                 toggleUnderline={this.toggleUnderline}

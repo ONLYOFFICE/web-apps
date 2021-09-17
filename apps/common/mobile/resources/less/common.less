@@ -901,6 +901,30 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+// Highlight Colors
+
+.highlight-palette {
+    width: 100%;
+}
+
+.highlight-color {
+    min-width: 10px;
+    min-height: 34px;
+    margin: 1px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    position: relative;
+    flex-grow: 1;
+    &_active:after {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0 1px #ffffff, 0 0 0 4px #446995;
+        z-index: 1;
+        border-radius: 1px;
+    }
+}
+
 
 
 

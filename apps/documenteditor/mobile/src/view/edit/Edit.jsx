@@ -14,7 +14,7 @@ import EditChartController from "../../controller/edit/EditChart";
 import EditHyperlinkController from "../../controller/edit/EditHyperlink";
 import EditHeaderController from "../../controller/edit/EditHeader";
 
-import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
+import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
@@ -48,12 +48,8 @@ const routes = [
         component: PageTextCustomFontColor,
     },
     {
-        path: '/edit-text-background-color/',
-        component: PageTextBackgroundColor,
-    },
-    {
-        path: '/edit-text-custom-back-color/',
-        component: PageTextCustomBackColor,
+        path: '/edit-text-highlight-color/',
+        component: PageTextHighlightColor,
     },
     //Edit paragraph
     {
