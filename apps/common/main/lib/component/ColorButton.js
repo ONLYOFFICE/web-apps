@@ -59,8 +59,7 @@ define([
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
                     transparent: this.options.transparent,
                     value: color,
-                    colors: colors,
-                    parentButton: this
+                    colors: colors
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
@@ -69,6 +68,7 @@ define([
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
                     (color == 'auto') && this.setAutoColor(true);
                 }
+                this.initInnerMenu();
             }
             return this.colorPicker;
         },
@@ -105,7 +105,7 @@ define([
                         }
                     ])
                 });
-                this.colorPicker && (this.colorPicker.parentButton = menu);
+                this.initInnerMenu();
                 var me = this;
                 menu.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
                 menu.on('show:after', function(menu) {
@@ -123,6 +123,14 @@ define([
             return this.menu;
         },
 
+        initInnerMenu: function() {
+            if (!this.colorPicker || typeof this.menu !== 'object') return;
+
+            var index = (this.options.additionalItems || []).length + (this.options.auto ? 2 : 0);
+            this.colorPicker.outerMenu = {menu: this.menu, index: index};
+            this.menu.setInnerMenu([{menu: this.colorPicker, index: index}]);
+        },
+      
         setMenu: function (m) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
@@ -174,47 +182,10 @@ define([
                 $('button', this.cmpEl).click();
                 return false;
             }
-            if (e.keyCode == Common.UI.Keys.RETURN) {
-                var li = $(e.target).closest('li');
-                if (li.length>0) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    li.click();
-                }
-                Common.UI.Menu.Manager.hideAll();
-            } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
-                var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
-                if (!$items.length) return;
-                var index = $items.index($items.filter(':focus')),
-                    me = this,
-                    pickerIndex = $items.length-1 ;
-                if (e.keyCode == Common.UI.Keys.DOWN && (index==pickerIndex-1 || pickerIndex==0) || e.keyCode == Common.UI.Keys.UP && index==pickerIndex) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    _.delay(function() {
-                        me.focusInner(e);
-                    }, 10);
-                }
-            }
         },
 
         isMenuOpen: function() {
             return this.cmpEl.hasClass('open');
-        },
-
-        focusInner: function(e) {
-            if (!this.colorPicker) return;
-
-            this.colorPicker.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
-        },
-
-        focusOuter: function(e) {
-            if (!this.menu) return;
-
-            var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', this.menu.$el).find('> a');
-            if (!$items.length) return;
-
-            $items.eq(e.keyCode == Common.UI.Keys.UP ? $items.length-2 : $items.length-1).focus();
         },
 
         textNewColor: 'Add New Custom Color',
