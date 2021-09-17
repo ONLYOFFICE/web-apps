@@ -619,7 +619,7 @@ define([
                         iconCls: 'toolbar__icon btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'

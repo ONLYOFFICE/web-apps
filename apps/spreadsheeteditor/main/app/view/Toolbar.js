@@ -803,7 +803,7 @@ define([
                     enableToggle: true,
                     caption     : me.capInsertShape,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

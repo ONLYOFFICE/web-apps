@@ -1249,7 +1249,7 @@ define([
                     btn.updateHint(me.tipInsertShape);
                     btn.setMenu(
                         new Common.UI.Menu({
-                            cls: 'menu-shapes'
+                            cls: 'menu-shapes menu-insert-shape'
                         }).on('hide:after', function (e) {
                             me.fireEvent('insert:shape', ['menu:hide']);
                         })
@@ -1687,39 +1687,31 @@ define([
             },
 
             updateAutoshapeMenu: function (menuShape, collection) {
-                var me = this;
-                var onShowAfter = function(menu) {
-                    for (var i = 0; i < collection.length; i++) {
-                        var shapePicker = new Common.UI.DataViewSimple({
-                            el: $('.shapegroup-' + i, menu.items[i].$el),
-                            store: collection.at(i).get('groupStore'),
-                            parentMenu: menu.items[i].menu,
-                            itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                        });
-                        shapePicker.on('item:click', function(picker, item, record, e) {
-                            if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                            if (record)
-                                me.fireEvent('insert:shape', [record.get('data').shapeType]);
-                        });
-                    }
-                    menu.off('show:after', onShowAfter);
-                };
-                menuShape.on('show:after', onShowAfter);
+                var me = this,
+                    index = $(menuShape.el).prop('id').slice(-1);
 
-                for (var i = 0; i < collection.size(); i++) {
-                    var group = collection.at(i);
+                var menuitem = new Common.UI.MenuItem({
+                    template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: index
+                });
+                menuShape.addItem(menuitem);
 
-                    var menuitem = new Common.UI.MenuItem({
-                        caption: group.get('groupName'),
-                        menu: new Common.UI.Menu({
-                            menuAlign: 'tl-tr',
-                            items: [
-                                {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
-                            ]
-                        })
-                    });
-                    menuShape.addItem(menuitem);
-                }
+                var recents = Common.localStorage.getItem('pe-recent-shapes');
+
+                var shapePicker = new Common.UI.DataViewShape({
+                    el: $('#id-toolbar-menu-insertshape-'+index),
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                    groups: collection.toJSON(),
+                    parentMenu: menuShape,
+                    restoreHeight: 640,
+                    textRecentlyUsed: me.textRecentlyUsed,
+                    recentShapes: recents ? JSON.parse(recents) : null
+                });
+                shapePicker.on('item:click', function(picker, item, record, e) {
+                    if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
+                    if (record)
+                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                });
             },
 
             updateAddSlideMenu: function(collection) {
@@ -1926,7 +1918,8 @@ define([
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office',
-            textTabTransitions: 'Transitions'
+            textTabTransitions: 'Transitions',
+            textRecentlyUsed: 'Recently Used'
         }
     }()), PE.Views.Toolbar || {}));
 });
