@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Segur que vols suprimir aquest comentari?",
       "textMessageDeleteReply": "Segur que vols suprimir aquesta resposta?",
       "textNoComments": "Aquest document no conté comentaris",
+      "textOk": "OK",
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris",
-      "textOk": "Ok"
+      "textUsers": "Usuaris"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",
@@ -140,6 +140,7 @@
     "errorFileSizeExceed": "La mida del fitxer supera la el límit del vostre servidor.<br>Contacteu amb el vostre administrador.",
     "errorKeyEncrypt": "Descriptor de claus desconegut",
     "errorKeyExpire": "El descriptor de claus ha caducat",
+    "errorLoadingFont": "No s'han carregat els tipus de lletra.<br>Contacteu amb l'administrador del Servidor de Documents.",
     "errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torneu a carregar la pàgina.",
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torneu a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torneu a carregar la pàgina.",
@@ -158,8 +159,7 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "S'estant carregant les dades...",

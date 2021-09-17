@@ -586,6 +586,7 @@
   "SSE.Controllers.DocumentHolder.txtUnderbar": "Bară dedesubt textului",
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Anulare extindere automată a tabelului ",
   "SSE.Controllers.DocumentHolder.txtUseTextImport": "Utilizați expertul import text",
+  "SSE.Controllers.DocumentHolder.txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
   "SSE.Controllers.DocumentHolder.txtWidth": "Lățime",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "Toate",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cub",

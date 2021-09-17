@@ -142,6 +142,7 @@
   "Common.Views.RenameDialog.txtInvalidName": "Nazwa pliku nie może zawierać żadnego z następujących znaków:",
   "Common.Views.ReviewChanges.txtMarkupCap": "Zmiany",
   "Common.Views.ReviewPopover.textAddReply": "Dodaj odpowiedź",
+  "Common.Views.ReviewPopover.textMentionNotify": "+wzmianka powiadomi użytkownika e-mailem",
   "Common.Views.SaveAsDlg.textTitle": "Folder do zapisu",
   "Common.Views.SymbolTableDialog.textCharacter": "Znak",
   "Common.Views.SymbolTableDialog.textCode": "Nazwa Unicode",

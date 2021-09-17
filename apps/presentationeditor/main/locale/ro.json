@@ -1280,6 +1280,7 @@
   "PE.Views.DocumentHolder.txtTop": "Sus",
   "PE.Views.DocumentHolder.txtUnderbar": "Bară dedesubt textului",
   "PE.Views.DocumentHolder.txtUngroup": "Anularea grupării",
+  "PE.Views.DocumentHolder.txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
   "PE.Views.DocumentHolder.vertAlignText": "Aliniere verticală",
   "PE.Views.DocumentPreview.goToSlideText": "Salt la dispozitivul",
   "PE.Views.DocumentPreview.slideIndexText": "Diapozitiv {0} din {1}",

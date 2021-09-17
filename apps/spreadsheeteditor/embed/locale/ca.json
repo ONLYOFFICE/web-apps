@@ -14,6 +14,7 @@
   "SSE.ApplicationController.errorFilePassProtect": "El fitxer està protegit amb contrasenya i no es pot obrir.",
   "SSE.ApplicationController.errorFileSizeExceed": "La mida del fitxer supera el límit establert pel vostre servidor. Contacteu amb el vostre administrador del servidor de documents per obtenir més informació.",
   "SSE.ApplicationController.errorForceSave": "S'ha produït un error en desar el fitxer. Utilitzeu l'opció \"Baixa-ho com a\" per desar el fitxer al disc dur de l’ordinador o torneu-ho a provar més endavant.",
+  "SSE.ApplicationController.errorLoadingFont": "No s'han carregat els tipus de lletra.<br>Contacteu amb l'administrador del Servidor de Documents.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat. <br> Abans de continuar treballant, heu de baixar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, torneu a carregar aquesta pàgina.",
   "SSE.ApplicationController.errorUserDrop": "Ara mateix no es pot accedir al fitxer.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Advertiment",
