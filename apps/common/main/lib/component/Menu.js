@@ -171,6 +171,7 @@ define([
                 this.menuAlignEl    = this.options.menuAlignEl;
                 this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
                 this.search = this.options.search;
+                this.outerMenu      = this.options.outerMenu;
 
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
@@ -267,6 +268,7 @@ define([
                     this.parentEl.on('hide.bs.dropdown',    _.bind(me.onBeforeHideMenu, me));
                     this.parentEl.on('hidden.bs.dropdown',  _.bind(me.onAfterHideMenu, me));
                     this.parentEl.on('keydown.after.bs.dropdown', _.bind(me.onAfterKeydownMenu, me));
+                    this.parentEl.on('keydown.before.bs.dropdown', _.bind(me.onBeforeKeydownMenu, me));
                     this.options.innerMenus && this.on('keydown:before', _.bind(me.onBeforeKeyDown, me));
 
                     menuRoot.hover(
@@ -451,6 +453,21 @@ define([
                         this._search.index = $items.index($items.filter(':focus'));
                     }
                     this.selectCandidate();
+                }
+            },
+
+            onBeforeKeydownMenu: function(e) {
+                if (e.isDefaultPrevented() || !(this.outerMenu && this.outerMenu.menu))
+                    return;
+
+                if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN)  {
+                    var $items = this.menuRoot.find('> li').find('> a'),
+                        index = $items.index($items.filter(':focus'));
+                    if (e.keyCode==Common.UI.Keys.UP && index==0 || e.keyCode == Common.UI.Keys.DOWN && index==$items.length-1) {
+                        this.outerMenu.menu.focusOuter(e, this.outerMenu.index);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
                 }
             },
 
