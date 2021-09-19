@@ -1303,7 +1303,7 @@ define([
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0',
+                        dataHintOffset: '-16, -4',
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         beforeOpenHandler: function (e) {

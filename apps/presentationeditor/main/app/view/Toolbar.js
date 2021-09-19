@@ -1001,7 +1001,7 @@ define([
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0',
+                        dataHintOffset: '-16, -4',
                         beforeOpenHandler: function (e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
