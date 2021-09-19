@@ -139,21 +139,96 @@ const PageBorderColor = props => {
     )
 };
 
-const PageStyle = props => {
+const PageChartType = props => {
     const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
     const storeChartSettings = props.storeChartSettings;
-    const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
     const types = storeChartSettings.types;
-    const curType = chartProperties ? chartProperties.getType() : null;
-    const chartStyles = storeChartSettings.chartStyles;
-    const isAndroid = Device.android;
-    // console.log(chartStyles, curType);
-    // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom);
+    const storeFocusObjects = props.storeFocusObjects;
+    const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
+    const curType = chartProperties && chartProperties.getType();
 
+    return (
+        <Page>
+            <Navbar backLink={t('Edit.textBack')} title={t('Edit.textType')} />
+
+            <div id={"edit-chart-type"} className="page-content no-padding-top dataview">
+                <div className="chart-types">
+                    {types.map((row, rowIndex) => {
+                        return (
+                            <ul className="row" key={`row-${rowIndex}`}>
+                                {row.map((type, index)=>{
+                                    return(
+                                        <li key={`${rowIndex}-${index}`}
+                                            className={curType === type.type ? ' active' : ''}
+                                            onClick={() => {props.onType(type.type)}}>
+                                            <div className={'thumb'}
+                                                style={{backgroundImage: `url('resources/img/charts/${type.thumb}')`}}>
+                                            </div>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        )
+                    })}
+                </div>
+            </div>
+        </Page>
+    )
+}
+
+const PageChartStyle = props => {
+    const { t } = useTranslation();
+    const storeChartSettings = props.storeChartSettings;
     const styles = storeChartSettings.styles;
+    const chartStyles = storeChartSettings.chartStyles;
 
+    return (
+        <Page>
+            <Navbar backLink={t('Edit.textBack')} title={t('Edit.textStyle')} />
+
+            {chartStyles ? 
+                    <div id={"edit-chart-style"} className="page-content no-padding-top dataview">
+                        <div className={'chart-styles'}>
+                            <ul className="row">
+                                {styles ? styles.map((row, rowIndex) => {
+                                    return (
+                                        row.map((style, index)=>{
+                                            return(
+                                                <li key={`${rowIndex}-${index}`}
+                                                    onClick={() => {props.onStyle(style.asc_getName())}}>
+                                                    <img src={`${style.asc_getImage()}`}/>
+                                                </li>
+                                            )
+                                        })
+                                    )        
+                                }) : <div className={'text-content'}>{t('Edit.textNoStyles')}</div>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                : null}
+        </Page>
+    )
+}
+
+const PageChartDesignFill = props => {
+    const { t } = useTranslation();
+
+    return (
+        <Page>
+            <Navbar backLink={t('Edit.textBack')} title={t('Edit.textFill')} />
+            <div id={"edit-chart-fill"} className="page-content no-padding-top">
+                <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
+            </div>
+        </Page>
+    )
+}
+
+const PageChartBorder = props => {
+    const { t } = useTranslation();
+    const storeChartSettings = props.storeChartSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
+
     let borderSize, borderType, borderColor;
     if (shapeObject) {
         const shapeStroke = shapeObject.get_ShapeProperties().get_stroke();
@@ -171,6 +246,45 @@ const PageStyle = props => {
 
     // Init border color
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+    
+    return (
+        <Page>
+            <Navbar backLink={t('Edit.textBack')} title={t('Edit.textBorder')} />
+
+            <div id={"edit-chart-border"} className="page-content no-padding-top">
+               <List>
+                    <ListItem>
+                        <div slot="root-start" className='inner-range-title'>{t('Edit.textSize')}</div>
+                        <div slot='inner' style={{width: '100%'}}>
+                            <Range min="0" max="7" step="1" value={stateBorderSize}
+                                   onRangeChange={(value) => {setBorderSize(value); setTextBorderSize(borderSizeTransform.sizeByIndex(value));}}
+                                   onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
+                            ></Range>
+                        </div>
+                        <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
+                        </div>
+                    </ListItem>
+                    <ListItem title={t('Edit.textColor')} link='/edit-chart-border-color/' routeProps={{
+                        onBorderColor: props.onBorderColor
+                    }}>
+                        <span className="color-preview"
+                              slot="after"
+                              style={{ background: displayBorderColor }}
+                        ></span>
+                    </ListItem>
+                </List>
+            </div>
+        </Page>
+    )
+}
+
+const PageDesign = props => {
+    const { t } = useTranslation();
+    const chartProperties = props.storeFocusObjects.chartObject ? props.storeFocusObjects.chartObject.get_ChartProperties() : null;
+
+    // console.log(chartStyles, curType);
+    // console.log(Asc.c_oAscChartTypeSettings.comboBarLine, Asc.c_oAscChartTypeSettings.comboBarLineSecondary, Asc.c_oAscChartTypeSettings.comboAreaBar, Asc.c_oAscChartTypeSettings.comboCustom);
 
     if (!chartProperties && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -179,14 +293,7 @@ const PageStyle = props => {
 
     return (
         <Page>
-            <Navbar backLink={_t.textBack}>
-                <div className="tab-buttons tabbar">
-                    <Link key={"de-link-chart-type"}  tabLink={"#edit-chart-type"} tabLinkActive={true}>{_t.textType}</Link>
-                    {chartStyles ? <Link key={"de-link-chart-style"}  tabLink={"#edit-chart-style"}>{_t.textStyle}</Link> : null}
-                    <Link key={"de-link-chart-fill"}  tabLink={"#edit-chart-fill"}>{_t.textFill}</Link>
-                    <Link key={"de-link-chart-border"}  tabLink={"#edit-chart-border"}>{_t.textBorder}</Link>
-                    {isAndroid && <span className='tab-link-highlight'></span>}
-                </div>
+            <Navbar backLink={t('Edit.textBack')} title={t('Edit.textDesign')}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -195,78 +302,17 @@ const PageStyle = props => {
                     </NavRight>
                 }
             </Navbar>
-            <Tabs animated>
-                <Tab key={"de-tab-chart-type"} id={"edit-chart-type"} className="page-content no-padding-top dataview" tabActive={true}>
-                    <div className="chart-types">
-                        {types.map((row, rowIndex) => {
-                            return (
-                                <ul className="row" key={`row-${rowIndex}`}>
-                                    {row.map((type, index)=>{
-                                        return(
-                                            <li key={`${rowIndex}-${index}`}
-                                                className={curType === type.type ? ' active' : ''}
-                                                onClick={()=>{props.onType(type.type)}}>
-                                                <div className={'thumb'}
-                                                     style={{backgroundImage: `url('resources/img/charts/${type.thumb}')`}}>
-                                                </div>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            )
-                        })}
-                    </div>
-                </Tab>
-                {chartStyles ? 
-                    <Tab key={"de-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
-                        <div className={'chart-styles'}>
-                            {styles ? styles.map((row, rowIndex) => {
-                                return (
-                                    <ul className="row" key={`row-${rowIndex}`}>
-                                        {row.map((style, index)=>{
-                                            return(
-                                                <li key={`${rowIndex}-${index}`}
-                                                    onClick={()=>{props.onStyle(style.asc_getName())}}>
-                                                    <img src={`${style.asc_getImage()}`}/>
-                                                </li>
-                                            )
-                                        })}
-                                    </ul>
-                                )
-                            }) :
-                                <div className={'text-content'}>{_t.textNoStyles}</div>
-                            }
-                        </div>
-                    </Tab>
-                : null}
-                <Tab key={"de-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">
-                    <PaletteFill onFillColor={props.onFillColor} f7router={props.f7router}/>
-                </Tab>
-                <Tab key={"de-tab-chart-border"} id={"edit-chart-border"} className="page-content no-padding-top">
-                    <List>
-                        <ListItem>
-                            <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
-                            <div slot='inner' style={{width: '100%'}}>
-                                <Range min="0" max="7" step="1" value={stateBorderSize}
-                                       onRangeChange={(value) => {setBorderSize(value); setTextBorderSize(borderSizeTransform.sizeByIndex(value));}}
-                                       onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
-                                ></Range>
-                            </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
-                                {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
-                            </div>
-                        </ListItem>
-                        <ListItem title={_t.textColor} link='/edit-chart-border-color/' routeProps={{
-                            onBorderColor: props.onBorderColor
-                        }}>
-                            <span className="color-preview"
-                                  slot="after"
-                                  style={{ background: displayBorderColor}}
-                            ></span>
-                        </ListItem>
-                    </List>
-                </Tab>
-            </Tabs>
+            <Fragment>
+                <List>
+                    <ListItem title={t('Edit.textType')} link='/edit-chart-type/' routeProps = {{onType: props.onType}} />
+                    <ListItem title={t('Edit.textStyle')} link='/edit-chart-style/' routeProps = {{onStyle: props.onStyle}} />
+                    <ListItem title={t('Edit.textFill')} link='/edit-chart-fill/' routeProps = {{onFillColor: props.onFillColor}} />
+                    <ListItem title={t('Edit.textBorder')} link='/edit-chart-border/' routeProps = {{
+                        onBorderSize: props.onBorderSize,
+                        onBorderColor: props.onBorderColor
+                    }} />
+                </List>
+            </Fragment>
         </Page>
     )
 };
@@ -425,37 +471,39 @@ const PageReorder = props => {
 
 const EditChart = props => {
     const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
 
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textStyle} link='/edit-chart-style/' routeProps={{
+                <ListItem title={t('Edit.textDesign')} link='/edit-chart-design/' routeProps={{
                     onType: props.onType,
                     onStyle: props.onStyle,
                     onFillColor: props.onFillColor,
                     onBorderColor: props.onBorderColor,
                     onBorderSize: props.onBorderSize
                 }}></ListItem>
-                <ListItem title={_t.textWrap} link='/edit-chart-wrap/' routeProps={{
+                <ListItem title={t('Edit.textWrap')} link='/edit-chart-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onAlign: props.onAlign,
                     onMoveText: props.onMoveText,
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReorder} link='/edit-chart-reorder/' routeProps={{
+                <ListItem title={t('Edit.textReorder')} link='/edit-chart-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
             <List className="buttons-list">
-                <ListButton title={_t.textRemoveChart} onClick={() => {props.onRemoveChart()}} className='button-red button-fill button-raised'/>
+                <ListButton title={t('Edit.textRemoveChart')} onClick={() => {props.onRemoveChart()}} className='button-red button-fill button-raised'/>
             </List>
         </Fragment>
     )
 };
 
-const PageChartStyle = inject("storeChartSettings", "storeFocusObjects")(observer(PageStyle));
+const PageChartDesign = inject("storeChartSettings", "storeFocusObjects")(observer(PageDesign));
+const PageChartDesignType = inject("storeChartSettings", "storeFocusObjects")(observer(PageChartType));
+const PageChartDesignStyle = inject("storeChartSettings")(observer(PageChartStyle));
+const PageChartDesignBorder = inject("storeChartSettings", "storeFocusObjects")(observer(PageChartBorder));
 const PageChartWrap = inject("storeChartSettings", "storeFocusObjects")(observer(PageWrap));
 const PageChartReorder = inject("storeFocusObjects")(observer(PageReorder));
 const PageChartCustomFillColor = inject("storeChartSettings", "storePalette")(observer(PageCustomFillColor));
@@ -463,7 +511,11 @@ const PageChartBorderColor = inject("storeChartSettings", "storePalette")(observ
 const PageChartCustomBorderColor = inject("storeChartSettings", "storePalette")(observer(PageCustomBorderColor));
 
 export {EditChart,
-        PageChartStyle,
+        PageChartDesign,
+        PageChartDesignType,
+        PageChartDesignStyle,
+        PageChartDesignFill,
+        PageChartDesignBorder,
         PageChartCustomFillColor,
         PageChartBorderColor,
         PageChartCustomBorderColor,

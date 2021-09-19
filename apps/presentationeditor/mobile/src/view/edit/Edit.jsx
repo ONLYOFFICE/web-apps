@@ -18,7 +18,7 @@ import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCusto
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
-import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
+import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
 import { PageLinkTo, PageTypeLink } from './EditLink'
 
 const routes = [
@@ -173,8 +173,24 @@ const routes = [
     // Chart
 
     {
+        path: '/edit-chart-design/',
+        component: PageChartDesign,
+    },
+    {
+        path: '/edit-chart-type/',
+        component: PageChartDesignType
+    },
+    {
         path: '/edit-chart-style/',
-        component: PageChartStyle
+        component: PageChartDesignStyle
+    },
+    {
+        path: '/edit-chart-fill/',
+        component: PageChartDesignFill
+    },
+    {
+        path: '/edit-chart-border/',
+        component: PageChartDesignBorder
     },
     {
         path: '/edit-chart-reorder/',
