@@ -536,7 +536,7 @@ define([
                 if (this.options.innerMenus || !menus) return;
 
                 this.options.innerMenus = menus;
-                this.options.innerMenus && this.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
+                this.rendered && this.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
             },
             
             findInnerMenu: function(direction, index, findOuter) {

@@ -830,7 +830,7 @@ define([
         },
 
         focus: function(index) {
-            this.cmpEl && this.cmpEl.find('.dataview').focus();
+            $(this.el).find('.inner').addBack().filter('.inner').focus();
             if (typeof index == 'string') {
                 if (index == 'first') {
                     this.selectByIndex(0, true);
