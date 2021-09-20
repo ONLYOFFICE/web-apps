@@ -137,6 +137,7 @@ define([
             this.toggleGroup    = me.options.toggleGroup;
             this.template       = me.options.template || this.template;
             this.iconCls        = me.options.iconCls;
+            this.liCls          = me.options.liCls;
             this.hint           = me.options.hint;
             this.rendered       = false;
 
@@ -215,6 +216,9 @@ define([
                             }
                         });
                     }
+
+                    if (this.liCls)
+                        el.addClass(this.liCls);
 
                     if (this.disabled)
                         el.toggleClass('disabled', this.disabled);
