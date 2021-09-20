@@ -1,10 +1,10 @@
-import React, { useEffect,useRef,useState } from 'react';
+import React, { memo, useEffect,useRef,useState } from 'react';
 import FilterView from '../../src/view/FilterOptions';
 import { f7,Sheet,Popover } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 
-const FilterOptionsController = () => {
+const FilterOptionsController = memo( () => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const configRef = useRef();
@@ -126,6 +126,6 @@ const FilterOptionsController = () => {
         <FilterView onSort={onSort} listVal={listVal} checkSort={checkSort} isValid={isValid} onUpdateCell={onUpdateCell} 
         onDeleteFilter={onDeleteFilter} onClearFilter={onClearFilter}/>
     )
-};
+});
 
 export default FilterOptionsController;

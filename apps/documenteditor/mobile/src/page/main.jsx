@@ -150,9 +150,7 @@ class MainPage extends Component {
                   !this.state.collaborationVisible ? null :
                       <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
               }
-              {!appOptions.isDocReady ? null :
-                    <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
-              }  
+              {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} /> }  
           </Page>
       )
   }
