@@ -701,7 +701,8 @@ define([
                         } else if (data.keyCode==Common.UI.Keys.UP) {
                             if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
                                 this.deselectAll(true);
-                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
                             } else
                                 while (idx===undefined) {
                                     topIdx--;
@@ -711,7 +712,8 @@ define([
                         } else {
                             if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
                                 this.deselectAll(true);
-                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
                             } else
                                 while (idx===undefined) {
                                     topIdx++;
@@ -1171,7 +1173,8 @@ define([
                         } else if (data.keyCode==Common.UI.Keys.UP) {
                             if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
                                 this.deselectAll(true);
-                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
                             } else
                                 while (idx===undefined) {
                                     topIdx--;
@@ -1181,7 +1184,8 @@ define([
                         } else {
                             if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
                                 this.deselectAll(true);
-                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
                             } else
                                 while (idx===undefined) {
                                     topIdx++;

@@ -2080,9 +2080,11 @@ define([
                 this.mnuPageNumberPosPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-pageposition'),
                     allowScrollbar: false,
+                    parentMenu:  this.mnuInsertPageNum.menu,
+                    outerMenu:  {menu: this.mnuInsertPageNum.menu, index: 0},
+                    showLast: false,
                     store: new Common.UI.DataViewStore([
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2090,7 +2092,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2098,7 +2099,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2106,7 +2106,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2114,7 +2113,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2122,7 +2120,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2133,6 +2130,7 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
                 });
                 _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
+                this.mnuInsertPageNum.menu.setInnerMenu([{menu: this.mnuPageNumberPosPicker, index: 0}]);
 
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),

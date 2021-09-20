@@ -2181,9 +2181,12 @@ define([
             }
         },
 
-        onInsertPageNumberClick: function(picker, item, record) {
+        onInsertPageNumberClick: function(picker, item, record, e) {
             if (this.api)
                 this.api.put_PageNum(record.get('data').type, record.get('data').subtype);
+
+            if (e.type !== 'click')
+                this.toolbar.btnEditHeader.menu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
