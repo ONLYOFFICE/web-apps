@@ -9,7 +9,6 @@ SSE.CellEditorController = new(function(){
     var  me,
         api,
         editor,
-        mode,
         created=false;
 
     function onCellName(e){
@@ -71,8 +70,6 @@ SSE.CellEditorController = new(function(){
     }
 
     function onApiEditCell(state) {
-        if (this.viewmode) return; // signed file
-
         if (state == Asc.c_oAscCellEditorState.editStart){
             api.isCellEdited = true;
             editor.cell.nameDisabled(true);
@@ -85,17 +82,12 @@ SSE.CellEditorController = new(function(){
         }
     }
 
-    function onApiDisconnect() {
-        mode.isEdit = false;
-    }
-
     function setApi(apiF){
         api=apiF;
 
         api.isCEditorFocused = false;
         api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection);
         api.asc_registerCallback('asc_onEditCell', onApiEditCell);
-        api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
     }
 
 
