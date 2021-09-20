@@ -127,7 +127,9 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
@@ -571,9 +573,14 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
             storeTextSettings.resetLineSpacing(vc);
         });
-        this.api.asc_registerCallback('asc_onTextShd', (shd) => {
-            let color = shd.get_Color();
-            storeTextSettings.resetBackgroundColor(color);
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            let textPr = this.api.get_TextProps().get_TextPr();
+
+            if(textPr) {
+                color = textPr.get_HighLight();
+                storeTextSettings.resetHighlightColor(color);
+            }
         });
 
         // link settings

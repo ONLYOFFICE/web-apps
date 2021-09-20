@@ -157,8 +157,12 @@ define([
                 this._noApply = true;
                 if (record.value<0) {
                 } else {
-                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[0] : record.size[1]), true);
-                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[1] : record.size[0]), true);
+                    var w = Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[0] : record.size[1]),
+                        h = Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[1] : record.size[0]);
+                    if (w<this.spnWidth.getMinValue() || h<this.spnHeight.getMinValue())
+                        this.cmbPreset.setValue(-1);
+                    this.spnWidth.setValue(w, true);
+                    this.spnHeight.setValue(h, true);
                 }
                 this._noApply = false;
             }, this));
@@ -179,6 +183,11 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
+                if (state == 'ok' && this.options.checkPageSize) {
+                    var props = this.getSettings();
+                    if (this.options.checkPageSize(props[0], props[1]))
+                        return;
+                }
                 this.options.handler.call(this, this, state);
             }
 

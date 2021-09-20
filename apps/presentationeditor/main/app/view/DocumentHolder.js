@@ -443,8 +443,18 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                    window.open(url);
+                if (url) {
+                    if (me.api.asc_getUrlType(url)>0)
+                        window.open(url);
+                    else
+                        Common.UI.warning({
+                            msg: me.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                (btn == 'yes') && window.open(url);
+                            }
+                        });
                 }
             };
 
@@ -3526,6 +3536,8 @@ define([
 
                     menuImgCut.setDisabled(disabled);
                     menuImgPaste.setDisabled(disabled);
+                    menuImgShapeArrange.setDisabled(disabled);
+                    menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     menuImgCut,
@@ -3633,7 +3645,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl, undefined, undefined, obj);
+                                    me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
@@ -3954,7 +3966,8 @@ define([
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
         mniCustomTable: 'Insert Custom Table',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
     }, PE.Views.DocumentHolder || {}));
 });

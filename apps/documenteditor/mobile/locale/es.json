@@ -122,6 +122,7 @@
       "textNot": "No",
       "textNoWidow": "Sin control de viudas",
       "textNum": "Cambiar numeración",
+      "textOk": "OK",
       "textOriginal": "Original",
       "textParaDeleted": "Párrafo eliminado",
       "textParaFormatted": "Párrafo formateado",
@@ -154,8 +155,7 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas",
-      "textOk": "Ok"
+      "textWidow": "Control de viudas"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -181,7 +181,15 @@
     "textColumns": "Columnas",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "textRows": "Filas"
+    "textRows": "Filas",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
@@ -483,6 +491,8 @@
     "textCancel": "Cancelar",
     "textCaseSensitive": "Distinguir mayúsculas de minúsculas",
     "textCentimeter": "Centímetro",
+    "textChooseEncoding": "Elegir codificación",
+    "textChooseTxtOptions": "Elegir opciones de archivo TXT",
     "textCollaboration": "Colaboración",
     "textColorSchemes": "Esquemas de color",
     "textComment": "Comentario",
@@ -546,7 +556,9 @@
     "textTop": "Arriba",
     "textUnitOfMeasurement": "Unidad de medida",
     "textUploaded": "Cargado",
+    "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
+    "txtOk": "OK",
     "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
     "txtScheme1": "Oficina",
     "txtScheme10": "Medio",

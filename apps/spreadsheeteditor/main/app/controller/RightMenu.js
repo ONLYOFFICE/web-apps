@@ -54,7 +54,7 @@ define([
 
         initialize: function() {
             this.editMode = true;
-            this._state = {};
+            this._state = {wsLock: false, wsProps: []};
 
             this.addListeners({
                 'Toolbar': {
@@ -168,14 +168,14 @@ define([
             this.onFocusObject(SelectedObjects, cellInfo, formatTableInfo, sparkLineInfo, pivotInfo);
         },
 
-        onFocusObject: function(SelectedObjects, cellInfo, formatTableInfo, sparkLineInfo, pivotInfo) {
-            if (!this.editMode)
+        onFocusObject: function(SelectedObjects, cellInfo, formatTableInfo, sparkLineInfo, pivotInfo, forceSignature) {
+            if (!this.editMode && !forceSignature)
                 return;
 
-            var isCellLocked = cellInfo.asc_getLocked() || this._state.wsProps['FormatCells'],
-                isTableLocked = (cellInfo.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter) || this._state.wsProps['FormatCells'],
-                isSparkLocked = (cellInfo.asc_getLockedSparkline()===true) || this._state.wsLock,
-                isPivotLocked = (cellInfo.asc_getLockedPivotTable()===true) || this._state.wsProps['PivotTables'];
+            var isCellLocked = cellInfo && cellInfo.asc_getLocked() || this._state.wsProps['FormatCells'],
+                isTableLocked = (cellInfo && cellInfo.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter) || this._state.wsProps['FormatCells'],
+                isSparkLocked = (cellInfo && cellInfo.asc_getLockedSparkline()===true) || this._state.wsLock,
+                isPivotLocked = (cellInfo && cellInfo.asc_getLockedPivotTable()===true) || this._state.wsProps['PivotTables'];
 
             for (var i=0; i<this._settings.length; ++i) {
                 if (i==Common.Utils.documentSettingsType.Signature) continue;
@@ -241,7 +241,7 @@ define([
                 this._settings[settingsType].hidden = 0;
             }
 
-            if (SelectedObjects.length<=0) { // cell is selected
+            if (SelectedObjects.length<=0 && cellInfo) { // cell is selected
                 settingsType = Common.Utils.documentSettingsType.Cell;
                 this._settings[settingsType].props = cellInfo;
                 this._settings[settingsType].locked = isCellLocked;
@@ -296,6 +296,7 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
 
                 if (active == undefined && this._openRightMenu && lastactive>=0)
                     active = lastactive;
@@ -425,12 +426,9 @@ define([
                 this.rightmenu.cellSettings.disableControls(disabled);
                 this.rightmenu.slicerSettings.disableControls(disabled);
 
-                if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.btnSignature.setDisabled(disabled);
-                }
-
-                if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.btnSignature.setDisabled(disabled);
+                if (this.rightmenu.signatureSettings) {
+                    !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
+                    allowSignature && disabled && this.onFocusObject([], undefined, undefined, undefined, undefined, true); // force press signature button
                 }
 
                 if (disabled) {
@@ -458,8 +456,10 @@ define([
                 var wbprotect = this.getApplication().getController('WBProtection');
                 props = wbprotect ? wbprotect.getWSProps() : null;
             }
-            this._state.wsProps = props.wsProps;
-            this._state.wsLock = props.wsLock;
+            if (props) {
+                this._state.wsProps = props.wsProps;
+                this._state.wsLock = props.wsLock;
+            }
             this.onSelectionChanged(this.api.asc_getCellInfo());
         }
     });

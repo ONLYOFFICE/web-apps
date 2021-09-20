@@ -336,8 +336,11 @@
       "textSelectedRange": "Selected Range",
       "txtExpand": "Expand and sort",
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -614,7 +617,16 @@
       "txtSpace": "空格",
       "txtTab": "标签",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
       "textOk": "Ok",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
       "txtScheme1": "Office",
       "txtScheme10": "Median",
       "txtScheme11": "Metro",
@@ -636,7 +648,8 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

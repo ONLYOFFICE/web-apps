@@ -1,0 +1,143 @@
+{
+    "name": "documenteditor",
+    "version": "4.3.0",
+    "build": 1149,
+    "homepage": "http://www.onlyoffice.com",
+    "private": true,
+    "forms": {
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/documenteditor/forms"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/documenteditor/forms/resources/img"
+            ]
+        },
+        "js": {
+            "requirejs": {
+                "options": {
+                    "name": "../apps/documenteditor/forms/app.js",
+                    "out": "../deploy/web-apps/apps/documenteditor/forms/app.js",
+                    "baseUrl": "../apps/",
+                    "inlineText": true,
+                    "findNestedDependencies": true,
+                    "preserveLicenseComments": false,
+                    "optimizeAllPluginResources": true,
+                    "paths": {
+                        "jquery": "../vendor/jquery/jquery",
+                        "underscore": "../vendor/underscore/underscore",
+                        "backbone": "../vendor/backbone/backbone",
+                        "text": "../vendor/requirejs-text/text",
+                        "bootstrap": "../vendor/bootstrap/dist/js/bootstrap",
+                        "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
+                        "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
+                        "xregexp": "empty:",
+                        "sockjs": "empty:",
+                        "jszip": "empty:",
+                        "jszip-utils": "empty:",
+                        "coapisettings": "empty:",
+                        "allfonts": "empty:",
+                        "sdk": "empty:",
+                        "api": "empty:",
+                        "core": "common/main/lib/core/application",
+                        "notification": "common/main/lib/core/NotificationCenter",
+                        "keymaster": "common/main/lib/core/keymaster",
+                        "tip": "common/main/lib/util/Tip",
+                        "analytics": "common/Analytics",
+                        "gateway": "common/Gateway",
+                        "locale": "common/locale",
+                        "irregularstack": "common/IrregularStack"
+                    },
+                    "shim": {
+                        "underscore": {
+                            "exports": "_"
+                        },
+                        "backbone": {
+                            "deps": [
+                                "underscore",
+                                "jquery"
+                            ],
+                            "exports": "Backbone"
+                        },
+                        "bootstrap": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        },
+                        "perfectscrollbar": {
+                            "deps": [
+                                "jmousewheel"
+                            ]
+                        },
+                        "notification": {
+                            "deps": [
+                                "backbone"
+                            ]
+                        },
+                        "core": {
+                            "deps": [
+                                "backbone",
+                                "notification"
+                            ]
+                        },
+                        "sdk": {
+                            "deps": [
+                                "jquery",
+                                "underscore",
+                                "coapisettings",
+                                "allfonts",
+                                "xregexp",
+                                "sockjs",
+                                "jszip",
+                                "jszip-utils"
+                            ]
+                        },
+                        "gateway": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        },
+                        "analytics": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "less": {
+            "files": {
+                "src": "../apps/documenteditor/forms/resources/less/application.less",
+                "dest": "../deploy/web-apps/apps/documenteditor/forms/resources/css/app-all.css"
+            },
+            "vars": {
+                "app-image-const-path": "'../img'",
+                "common-image-const-path": "'../../../../common/main/resources/img/'",
+                "app-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/forms/resources/img'",
+                "common-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/forms/resources/img'"
+            }
+        },
+        "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/forms/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/forms/locale/"
+                }
+            ],
+            "indexhtml": {
+                "../deploy/web-apps/apps/documenteditor/forms/index.html": "../apps/documenteditor/forms/index.html.deploy"
+            }
+        },
+        "inline": {
+            "src": "../deploy/web-apps/apps/documenteditor/forms/index.html"
+        }
+    },
+    "tasks": {
+        "deploy": [
+            "deploy-app-forms"
+        ]
+    }
+}

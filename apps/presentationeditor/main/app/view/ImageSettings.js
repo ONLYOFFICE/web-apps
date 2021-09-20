@@ -331,8 +331,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='change') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='change') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 

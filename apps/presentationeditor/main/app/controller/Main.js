@@ -416,7 +416,9 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -2227,6 +2229,14 @@ define([
                 value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
             },
 
             showRenameUserDialog: function() {

@@ -104,7 +104,7 @@ class ContextMenuController extends Component {
     }
 
     onApiOpenContextMenu(x, y) {
-        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup').length < 1) {
+        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup, .actions-modal.modal-in').length < 1) {
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()

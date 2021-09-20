@@ -619,7 +619,7 @@ define([
                         iconCls: 'toolbar__icon btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -1146,7 +1146,14 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-mailmerge',
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniFromFile, value: 'file'},
+                                {caption: this.mniFromUrl, value: 'url'},
+                                {caption: this.mniFromStorage, value: 'storage'}
+                            ]
+                        })
                     });
 
                     me.btnImgAlign = new Common.UI.Button({
@@ -1234,6 +1241,7 @@ define([
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
                     this.mnuChangeCase = this.btnChangeCase.menu;
+                    this.mnuMailRecepients = this.btnMailRecepients.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -2602,7 +2610,10 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
             mniTextToTable: 'Convert Text to Table',
-            txtScheme22: 'New Office'
+            txtScheme22: 'New Office',
+            mniFromFile: 'From File',
+            mniFromUrl: 'From URL',
+            mniFromStorage: 'From Storage'
         }
     })(), DE.Views.Toolbar || {}));
 });

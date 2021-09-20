@@ -131,8 +131,8 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
-            if (!this.editMode)
+        onFocusObject: function(SelectedObjects, forceSignature) {
+            if (!this.editMode && !forceSignature)
                 return;
 
             var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
@@ -269,6 +269,7 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
                 else if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
                 if (active == undefined && open && lastactive>=0)
@@ -321,6 +322,7 @@ define([
             this.rightmenu.tableSettings.UpdateThemeColors();
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
+            this.rightmenu.formSettings && this.rightmenu.formSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
@@ -422,8 +424,9 @@ define([
                 }
                 this.rightmenu.chartSettings.disableControls(disabled);
 
-                if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.btnSignature.setDisabled(disabled);
+                if (this.rightmenu.signatureSettings) {
+                    !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
+                    allowSignature && disabled && this.onFocusObject([], true); // force press signature button
                 }
 
                 if (disabled) {

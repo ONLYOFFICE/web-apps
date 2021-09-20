@@ -860,6 +860,71 @@ input[type="number"]::-webkit-inner-spin-button {
     box-shadow: inset 0 2px red;
 }
 
+// Fonts List 
+
+.font-item {
+    .item-inner {
+        overflow: hidden;
+        &:after {
+            left: 16px;
+        }
+    }
+}
+
+// Functions List 
+
+.cell-editor {
+    overflow: initial;
+}
+
+.functions-list {
+    height: 175px;
+    overflow-y: auto;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: @white;
+    .list {
+        margin: 0;
+        ul:before {
+            display: none;
+        }
+        .item-content {
+            padding-left: 0;
+        }
+        .item-inner {
+            padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+        }
+        .item-title {
+            font-size: 15px;
+        }
+    }
+}
+
+// Highlight Colors
+
+.highlight-palette {
+    width: 100%;
+}
+
+.highlight-color {
+    min-width: 10px;
+    min-height: 34px;
+    margin: 1px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    position: relative;
+    flex-grow: 1;
+    &_active:after {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0 1px #ffffff, 0 0 0 4px #446995;
+        z-index: 1;
+        border-radius: 1px;
+    }
+}
+
 
 
 

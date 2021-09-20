@@ -80,6 +80,10 @@
         }
     }
 
+    .coauth__sheet{
+        max-height: 65%;
+    }
+
     // Buttons
     .segmented {
         .decrement, .increment {
@@ -290,7 +294,7 @@
             .color-preview {
                 width: 30px;
                 height: 30px;
-                border-radius: 16px;
+                border-radius: 4px;
                 margin-top: -3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
                 &.auto {
@@ -553,6 +557,14 @@
             .item-input, .item-inner {
                 padding: 0;
             }
+        }
+    }
+
+    // Fonts List 
+
+    .font-item {
+        .item-radio:not(.item-radio-icon-end) > .icon-radio {
+            margin-right: 0;
         }
     }
 }

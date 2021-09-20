@@ -443,8 +443,18 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                    window.open(url);
+                if (url) {
+                    if (me.api.asc_getUrlType(url)>0)
+                        window.open(url);
+                    else
+                        Common.UI.warning({
+                            msg: me.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                (btn == 'yes') && window.open(url);
+                            }
+                        });
                 }
             };
 
@@ -1589,6 +1599,7 @@ define([
                     : Common.util.Shortcuts.resumeEvents(hkComments);
                 /** coauthoring end **/
                 this.editorConfig = {user: m.user};
+                this._fillFormwMode = !this.mode.isEdit && this.mode.canFillForms;
             };
 
             me.on('render:after', onAfterRender, me);
@@ -1980,6 +1991,18 @@ define([
                 value: 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuViewPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuViewCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
             var menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
@@ -2017,7 +2040,8 @@ define([
                         isInSign = !!signProps && me._canProtect,
                         control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false,
-                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock;
+                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock,
+                        canEditControl = false;
 
                     if (me.mode.compatibleFeatures)
                         canComment = canComment && !isInShape;
@@ -2026,6 +2050,8 @@ define([
                             spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
+
+                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox) && !control_lock;
                     }
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
@@ -2049,13 +2075,21 @@ define([
                     menuViewAddComment.setVisible(canComment);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
+                    var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
+                    menuViewCut.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewCut.setDisabled(disabled || !cancopy);
+                    menuViewPaste.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewPaste.setDisabled(disabled);
                     menuViewPrint.setVisible(me.mode.canPrint);
                     menuViewPrint.setDisabled(!cancopy);
+
                 },
                 items: [
+                    menuViewCut,
                     menuViewCopy,
+                    menuViewPaste,
                     menuViewUndo,
                     menuViewPrint,
                     menuViewCopySeparator,
@@ -3965,6 +3999,7 @@ define([
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
@@ -4427,9 +4462,10 @@ define([
             _.defer(function(){  me.cmpEl.focus(); }, 50);
         },
 
-        SetDisabled: function(state, canProtect) {
+        SetDisabled: function(state, canProtect, fillFormwMode) {
             this._isDisabled = state;
             this._canProtect = canProtect;
+            this._fillFormwMode = state ? fillFormwMode : false;
         },
 
         alignmentText           : 'Alignment',
@@ -4660,7 +4696,8 @@ define([
         textRemPicture: 'Remove Image',
         textRemField: 'Remove Text Field',
         txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
-        notcriticalErrorTitle: 'Warning'
+        notcriticalErrorTitle: 'Warning',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
 }, DE.Views.DocumentHolder || {}));
 });

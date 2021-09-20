@@ -314,7 +314,7 @@ define([
                                         checked: true,
                                         value: 'markup',
                                         template: menuTemplate,
-                                        description: this.txtMarkup
+                                        description: Common.Utils.String.format(this.txtMarkup, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtEditing + ')')
                                     },
                                     {
                                         caption: this.txtMarkupSimpleCap,
@@ -323,7 +323,7 @@ define([
                                         checked: false,
                                         value: 'simple',
                                         template: menuTemplate,
-                                        description: this.txtMarkupSimple
+                                        description: Common.Utils.String.format(this.txtMarkupSimple, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtEditing + ')')
                                     },
                                     {
                                         caption: this.txtFinalCap,
@@ -331,7 +331,7 @@ define([
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
                                         template: menuTemplate,
-                                        description: this.txtFinal,
+                                        description: Common.Utils.String.format(this.txtFinal, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtPreview + ')'),
                                         value: 'final'
                                     },
                                     {
@@ -340,7 +340,7 @@ define([
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
                                         template: menuTemplate,
-                                        description: this.txtOriginal,
+                                        description: Common.Utils.String.format(this.txtOriginal, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtPreview + ')'),
                                         value: 'original'
                                     }
                                 ]
@@ -862,9 +862,9 @@ define([
             txtAcceptChanges: 'Accept Changes',
             txtRejectChanges: 'Reject Changes',
             txtView: 'Display Mode',
-            txtMarkup: 'Text with changes (Editing)',
-            txtFinal: 'All changes like accept (Preview)',
-            txtOriginal: 'Text without changes (Preview)',
+            txtMarkup: 'Text with changes {0}',
+            txtFinal: 'All changes like accept {0}',
+            txtOriginal: 'Text without changes {0}',
             tipReviewView: 'Select the way you want the changes to be displayed',
             tipAcceptCurrent: 'Accept current changes',
             tipRejectCurrent: 'Reject current changes',
@@ -910,7 +910,9 @@ define([
             textWarnTrackChanges: 'Track Changes will be switched ON for all users with full access. The next time anyone opens the doc, Track Changes will remain enabled.',
             textEnable: 'Enable',
             txtMarkupSimpleCap: 'Simple Markup',
-            txtMarkupSimple: 'All changes (Editing)<br>Turn off balloons'
+            txtMarkupSimple: 'All changes {0}<br>Turn off balloons',
+            txtEditing: 'Editing',
+            txtPreview: 'Preview'
         }
     }()), Common.Views.ReviewChanges || {}));
 

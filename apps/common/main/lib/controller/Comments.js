@@ -903,8 +903,6 @@ define([
                 // хотим показать тот же коментарий что был и выбран
                 return;
             }
-            if (this.mode && !this.mode.canComments)
-                hint = true;
 
             var popover = this.getPopover();
             if (popover) {

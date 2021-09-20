@@ -49,7 +49,7 @@ const FilterOptionsController = () => {
 
             let $target = $$('#idx-context-menu-target')
                         .css({left: `${posX}px`, top: `${posY}px`});
-            f7.popover.open('#picker-popover',$target);
+            if(!$$('#picker-popover.modal-in').length) f7.popover.open('#picker-popover',$target);
         }    
     }
 

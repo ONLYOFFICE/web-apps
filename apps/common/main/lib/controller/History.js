@@ -202,6 +202,7 @@ define([
                         urlGetTime = new Date();
                     var diff = (!opts.data.previous || this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
+                        fileType = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.fileType : opts.data.fileType,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
                         docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev,
                         token = opts.data.token;
@@ -217,7 +218,7 @@ define([
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
                             rev.set('token', token, {silent: true});
-                            opts.data.fileType && rev.set('fileType', opts.data.fileType, {silent: true});
+                            fileType && rev.set('fileType', fileType, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();

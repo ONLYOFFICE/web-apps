@@ -116,7 +116,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-            me._state = {};
+            me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
             /** coauthoring begin **/
@@ -1523,11 +1523,17 @@ define([
                 });
                 return;
             }
-            // if (this.api.asc_getUrlType(url)>0) {
-                var newDocumentPage = window.open(url, '_blank');
-                if (newDocumentPage)
-                    newDocumentPage.focus();
-            // }
+            if (this.api.asc_getUrlType(url)>0)
+                window.open(url, '_blank');
+            else
+                Common.UI.warning({
+                    msg: this.txtWarnUrl,
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: function(btn) {
+                        (btn == 'yes') && window.open(url, '_blank');
+                    }
+                });
         },
 
         onApiAutofilter: function(config) {
@@ -2495,12 +2501,20 @@ define([
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
-                var coord  = me.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
-                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                var infocus = me.cellEditor.is(":focus");
+
+                if (infocus) {
+                    menu.menuAlignEl = me.cellEditor;
+                    me.focusInCellEditor = true;
+                } else {
+                    menu.menuAlignEl = undefined;
+                    me.focusInCellEditor = false;
+                    var coord  = me.api.asc_getActiveCellCoord(),
+                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                }
                 menu.alignPosition();
 
-                var infocus = me.cellEditor.is(":focus");
                 if (!menu.isVisible())
                     Common.UI.Menu.Manager.hideAll();
                 _.delay(function() {
@@ -2565,12 +2579,19 @@ define([
                     functip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
+                var infocus = this.cellEditor.is(":focus"),
+                    showPoint;
+                if (infocus || this.focusInCellEditor) {
+                    var offset = this.cellEditor.offset();
+                    showPoint = [offset.left, offset.top + this.cellEditor.height() + 3];
+                } else {
+                    var pos = [
+                            this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                            this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                        ],
+                        coord  = this.api.asc_getActiveCellCoord();
                     showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
                     showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
@@ -3957,7 +3978,8 @@ define([
         textStopExpand: 'Stop automatically expanding tables',
         textAutoCorrectSettings: 'AutoCorrect options',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.'
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

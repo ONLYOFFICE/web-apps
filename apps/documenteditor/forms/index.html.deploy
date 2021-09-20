@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Documents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../../../apps/documenteditor/forms/resources/css/app-all.css" rel="stylesheet">
+
+    <!-- splash -->
+
+    <style type="text/css">
+        .loadmask {
+            left: 0;
+            top: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            border: none;
+            background-color: #f4f4f4;
+            z-index: 1001;
+        }
+
+        .loadmask > .brendpanel {
+            width: 100%;
+            position: absolute;
+            height: 48px;
+            background-color: #F7F7F7;
+            -webkit-box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
+            box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
+        }
+
+        .loadmask > .brendpanel > div {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .loadmask > .brendpanel .loading-logo {
+            max-width: 200px;
+            height: 24px;
+            margin-left: 10px;
+            text-align: center;
+        }
+
+        .loadmask > .brendpanel .loading-logo > img {
+            display: inline-block;
+            max-width: 100px;
+            max-height: 20px;
+            margin-top: 2px;
+            opacity: 0;
+        }
+        .loadmask > .brendpanel .doc-title {
+            flex-grow: 1;
+        }
+
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            margin: 4px 10px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .loadmask > .placeholder {
+            background: #fbfbfb;
+            width: 100%;
+            height: 100%;
+            padding-top: 56px;
+        }
+
+        .loadmask > .placeholder > .line {
+            height: 15px;
+            margin: 30px;
+            background: #e2e2e2;
+            overflow: hidden;
+            position: relative;
+
+            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+            -moz-animation: flickerAnimation 2s infinite ease-in-out;
+            -o-animation: flickerAnimation 2s infinite ease-in-out;
+            animation: flickerAnimation 2s infinite ease-in-out;
+        }
+
+        @keyframes flickerAnimation {
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-o-keyframes flickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-moz-keyframes flickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-webkit-keyframes flickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="embed-body theme-classic-light theme-type-light">
+      <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+       <script>
+            var  userAgent = navigator.userAgent.toLowerCase(),
+                check = function(regex){ return regex.test(userAgent); },
+                stopLoading = false;
+            if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+                var m = /msie (\d+\.\d+)/.exec(userAgent);
+                if (m && parseFloat(m[1]) < 10.0) {
+                    document.write(
+                        '<div id="id-error-mask" class="errormask">',
+                            '<div class="error-body" align="center">',
+                                '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
+                                '<div id="id-error-mask-text">Sorry, Document Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+                            '</div>',
+                        '</div>'
+                    );
+                    stopLoading = true;
+                }
+            } else
+             if (check(/windows\snt/i)) {
+                 var re = /chrome\/(\d+)/i.exec(userAgent);
+                 if (!!re && !!re[1] && !(re[1] > 49)) {
+                     setTimeout(function () {
+                         document.getElementsByTagName('html')[0].className += "winxp";
+                     },0);
+                 }
+             }
+
+            function getUrlParams() {
+                var e,
+                    a = /\+/g,  // Regex for replacing addition symbol with a space
+                    r = /([^&=]+)=?([^&]*)/g,
+                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                    q = window.location.search.substring(1),
+                    urlParams = {};
+
+                while (e = r.exec(q))
+                    urlParams[d(e[1])] = d(e[2]);
+
+                return urlParams;
+            }
+
+            function encodeUrlParam(str) {
+                return str.replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+            }
+
+            var params = getUrlParams(),
+                           lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+                           logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+
+            window.frameEditorId = params["frameEditorId"];
+            window.parentOrigin = params["parentOrigin"];
+            var elem = document.querySelector('.loading-logo');
+            if (elem && logo) {
+                elem.style.backgroundImage= 'none';
+                var img = document.querySelector('.loading-logo img');
+                img && img.setAttribute('src', logo);
+                img.style.opacity = 1;
+            }
+        </script>
+
+      <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
+
+      <div class="overlay-controls" style="margin-left: -32px">
+          <ul class="left">
+              <li id="id-btn-zoom-in"><button class="overlay svg-icon zoom-up"></button></li>
+              <li id="id-btn-zoom-out"><button class="overlay svg-icon zoom-down"></button></li>
+          </ul>
+      </div>
+
+      <div class="toolbar" id="toolbar">
+          <div class="group left">
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
+              <span id="id-btn-prev-field" class="margin-right-small"></span>
+              <span id="id-btn-next-field" class="margin-right-large"></span>
+              <span id="id-btn-clear-fields"></span>
+          </div>
+          <div class="group center">
+              <span id="title-doc-name"></span>
+          </div>
+          <div class="group right">
+              <div id="id-pages" class="item margin-right-small" style="vertical-align: middle;">
+                  <div id="page-number" style="display: inline-block; vertical-align: middle;"></div><span class="text" id="pages" tabindex="-1">of 1</span>
+              </div>
+              <div id="id-submit-group" style="display: inline-block;"></div>
+              <span id="box-tools"></span>
+          </div>
+      </div>
+      <script>
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        } else {
+            var elem = document.querySelector('.loading-logo img');
+            if (elem) {
+                logo && (elem.setAttribute('src', logo));
+                elem.style.opacity = 1;
+            }
+        }
+      </script>
+      <script>
+          window.requireTimeourError = function(){
+              var reqerr;
+
+              if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
+              else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
+              else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
+              else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+              else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
+
+              return reqerr;
+          };
+
+          var requireTimeoutID = setTimeout(function(){
+              window.alert(window.requireTimeourError());
+              window.location.reload();
+          }, 30000);
+
+          var require = {
+              waitSeconds: 30,
+              callback: function(){
+                  clearTimeout(requireTimeoutID);
+              }
+          };
+      </script>
+      <!--application-->
+      <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
+      <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
+  </body>
+</html>

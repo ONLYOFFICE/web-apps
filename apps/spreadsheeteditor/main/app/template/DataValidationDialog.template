@@ -89,7 +89,7 @@
             <tr>
                 <td class="padding-small">
                     <div style="display: inline-block; margin-right: 5px;vertical-align: bottom;">
-                        <div id="data-validation-img-style" class="icon img-commonctrl error" style="margin-bottom: -1px;"></div>
+                        <div id="data-validation-img-style" class="icon  error" style="margin-bottom: -1px;"></div>
                     </div>
                     <div style="display: inline-block;">
                         <label class="input-label"><%= scope.textStyle %></label>

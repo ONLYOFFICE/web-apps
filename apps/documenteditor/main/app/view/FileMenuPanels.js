@@ -212,6 +212,10 @@ define([
                     '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
+                '<tr class="view-review">',
+                    '<td class="left"><label><%= scope.strReviewHover %></label></td>',
+                    '<td class="right"><span id="fms-cmb-review-hover"></span></td>',
+                '</tr>','<tr class="divider view-review"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
@@ -522,6 +526,20 @@ define([
                 dataHintOffset: 'big'
             });
 
+            this.cmbReviewHover = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-review-hover'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: false, displayValue: this.txtChangesBalloons },
+                    { value: true, displayValue: this.txtChangesTip }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -587,6 +605,7 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -666,6 +685,12 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+
+            if (this.mode.canViewReview) {
+                value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
+                item = this.cmbReviewHover.store.findWhere({value: value});
+                this.cmbReviewHover.setValue(item ? item.get('value') : false);
+            }
         },
 
         applySettings: function() {
@@ -697,6 +722,13 @@ define([
 
             Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
+
+            if (this.mode.canViewReview) {
+                var val = this.cmbReviewHover.getValue();
+                Common.localStorage.setBool("de-settings-review-hover-mode", val);
+                Common.Utils.InternalSettings.set("de-settings-review-hover-mode", val);
+                this.mode.reviewHoverMode = val;
+            }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
@@ -794,7 +826,10 @@ define([
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
-        txtAutoCorrect: 'AutoCorrect options...'
+        txtAutoCorrect: 'AutoCorrect options...',
+        strReviewHover: 'Track Changes Display',
+        txtChangesTip: 'Show by hover in tooltips',
+        txtChangesBalloons: 'Show by click in balloons'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

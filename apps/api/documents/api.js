@@ -883,17 +883,20 @@
             check = function(regex){ return regex.test(userAgent); },
             isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
             isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0);
+            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
+            path_type = "main";
 
         path += app + "/";
-        path += (config.type === "mobile" || isSafari_mobile)
+        path_type = (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
-            : (config.type === "embedded")
-                ? "embed"
-                : "main";
+            : ((app=='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
+                                         (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
+            ? "forms" : (config.type === "embedded") ? "embed"
+            : "main";
 
+        path += path_type;
         var index = "/index.html";
-        if (config.editorConfig) {
+        if (config.editorConfig && path_type!=="forms") {
             var customization = config.editorConfig.customization;
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
