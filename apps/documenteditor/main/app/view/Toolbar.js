@@ -1286,7 +1286,7 @@ define([
                     this.paragraphControls.push(this.cmbFontName);
 
                     this.listStylesAdditionalMenuItem = new Common.UI.MenuItem({
-                        liCls: 'save-style-container',
+                        cls: 'save-style-container',
                         iconCls: 'menu__icon btn-zoomup',
                         caption: me.textStyleMenuNew
                     });
