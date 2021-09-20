@@ -1,0 +1,239 @@
+@import "colors-table-ie-fix.less";
+
+// Brand colors
+// -------------------------
+
+@brand-primary:         #428bca;
+@brand-success:         #5cb85c;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
+@brand-info:            #5bc0de;
+
+
+:root {
+    --toolbar-header-document: #446995;
+    --toolbar-header-spreadsheet: #40865c;
+    --toolbar-header-presentation: #aa5252;
+
+    --background-normal: #fff;
+    --background-toolbar: #f7f7f7;
+    --background-toolbar-additional: #efefef;
+    --background-primary-dialog-button: #444;
+    --background-tab-underline: #444;
+    --background-notification-popover: #fcfed7;
+    --background-notification-badge: #ffd112;
+    --background-scrim: fade(#000, 20%);
+    --background-loader: fade(#181818, 90%);
+    --background-alt-key-hint: #FFD938;
+
+    --highlight-button-hover: #e0e0e0;
+    --highlight-button-pressed: #cbcbcb;
+    --highlight-button-pressed-hover: #bababa;
+    --highlight-primary-dialog-button-hover: #1c1c1c;
+    --highlight-header-button-hover: fade(#fff, 15%);
+    --highlight-header-button-pressed: fade(#fff, 25%);
+    --highlight-toolbar-tab-underline: #444;
+    --highlight-text-select: #3494fb;
+
+    --border-toolbar: #cbcbcb;
+    --border-divider: #dfdfdf;
+    --border-regular-control: #c0c0c0;
+    --border-toolbar-button-hover: #e0e0e0;
+    --border-preview-hover: #bababa;
+    --border-preview-select: #888;
+    --border-control-focus: #848484;
+    --border-color-shading: fade(#000, 15%);
+    --border-error: #f62211;
+
+    --text-normal: fade(#000, 80%);
+    --text-normal-pressed: fade(#000, 80%);
+    --text-secondary: fade(#000, 60%);
+    --text-tertiary: fade(#000, 40%);
+    --text-link: #445799;
+    --text-link-hover: #445799;
+    --text-link-active: #445799;
+    --text-link-visited: #445799;
+    --text-inverse: #fff;
+    --text-toolbar-header: #fff;
+    --text-contrast-background: #fff;
+
+    --icon-normal: #444;
+    --icon-normal-pressed: #444;
+    --icon-inverse: #fff;
+    --icon-toolbar-header: #fff;
+    --icon-notification-badge: #000;
+    --icon-contrast-popover: #fff;
+    --icon-success: #090;
+
+    // Canvas
+
+    --canvas-background: #eee;
+    --canvas-content-background: #fff;
+    --canvas-page-border: #ccc;
+
+    --canvas-ruler-background: #fff;
+    --canvas-ruler-margins-background: #d9d9d9;
+    --canvas-ruler-mark: #555;
+    --canvas-ruler-handle-border: #555;
+    --canvas-ruler-handle-border-disabled: #aaa;
+
+    --canvas-high-contrast: #000;
+    --canvas-high-contrast-disabled: #666;
+
+    --canvas-cell-border: fade(#000, 10%);
+    --canvas-cell-title-hover: #dfdfdf;
+    --canvas-cell-title-selected: #cfcfcf;
+    --canvas-cell-title-border: #d8d8d8;
+    --canvas-cell-title-border-hover: #c9c9c9;
+    --canvas-cell-title-border-selected: #bbb;
+
+    --canvas-dark-cell-title: #444;
+    --canvas-dark-cell-title-hover: #666 ;
+    --canvas-dark-cell-title-selected: #111;
+    --canvas-dark-cell-title-border: #3d3d3d;
+    --canvas-dark-cell-title-border-hover: #5c5c5c;
+    --canvas-dark-cell-title-border-selected: #0f0f0f;
+
+    --canvas-scroll-thumb: #f7f7f7;
+    --canvas-scroll-thumb-hover: #c0c0c0;
+    --canvas-scroll-thumb-pressed: #adadad;
+    --canvas-scroll-thumb-border: #cbcbcb;
+    --canvas-scroll-thumb-border-hover: #cbcbcb;
+    --canvas-scroll-thumb-border-pressed: #adadad;
+    --canvas-scroll-arrow: #adadad;
+    --canvas-scroll-arrow-hover: #f7f7f7;
+    --canvas-scroll-arrow-pressed: #f7f7f7;
+    --canvas-scroll-thumb-target: #c0c0c0;
+    --canvas-scroll-thumb-target-hover: #f7f7f7;
+    --canvas-scroll-thumb-target-pressed: #f7f7f7;
+
+    // Others
+
+    //--button-small-normal-icon-offset-x: 0;
+    //--button-small-active-icon-offset-x: 0;
+    //--button-large-normal-icon-offset-x: 0;
+    //--button-large-active-icon-offset-x: 0;
+    //--button-huge-normal-icon-offset-x: 0;
+    //--button-huge-active-icon-offset-x: 0;
+    //--button-xhuge-normal-icon-offset-x: 0;
+    //--button-xhuge-active-icon-offset-x: 0;
+    --button-header-normal-icon-offset-x: -20px;
+    --button-header-active-icon-offset-x: -20px;
+    //--menu-icon-item-checked-offset-x: 0;
+
+    --modal-window-mask-opacity: 0.2;
+    --image-border-types-filter: none;
+    --image-border-types-filter-selected: none;
+    --component-normal-icon-filter: none;
+
+    --component-normal-icon-opacity: .8;
+    --component-hover-icon-opacity: .8;
+    --component-active-icon-opacity: 1;
+    --component-active-hover-icon-opacity: 1;
+    --component-disabled-opacity: .4;
+
+    --header-component-normal-icon-opacity: 1;
+    --header-component-hover-icon-opacity: 1;
+    --header-component-active-icon-opacity: 1;
+    --header-component-active-hover-icon-opacity: 1;
+    //--button-icon-opacity: 1;
+}
+
+// Background
+// -------------------------
+@background-normal: var(--background-normal);
+@background-toolbar: var(--background-toolbar);
+@background-toolbar-additional: var(--background-toolbar-additional);
+@background-primary-dialog-button: var(--background-primary-dialog-button);
+@background-tab-underline: var(--background-tab-underline);
+@background-notification-popover: var(--background-notification-popover);
+@background-notification-badge: var(--background-notification-badge);
+@background-scrim: var(--background-scrim);
+@background-loader: var(--background-loader);
+@background-alt-key-hint: var(--background-alt-key-hint);
+
+// Highlight
+// -------------------------
+@highlight-button-hover: var(--highlight-button-hover);
+@highlight-button-pressed: var(--highlight-button-pressed);
+@highlight-button-pressed-hover: var(--highlight-button-pressed-hover);
+@highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
+@highlight-header-button-hover: var(--highlight-header-button-hover);
+@highlight-header-button-pressed: var(--highlight-header-button-pressed);
+@highlight-toolbar-tab-underline: var(--highlight-toolbar-tab-underline);
+@highlight-text-select: var(--highlight-text-select);
+
+// Border
+// -------------------------
+@border-toolbar: var(--border-toolbar);
+@border-divider: var(--border-divider);
+@border-regular-control: var(--border-regular-control);
+@border-toolbar-button-hover: var(--border-toolbar-button-hover);
+@border-preview-hover: var(--border-preview-hover);
+@border-preview-select: var(--border-preview-select);
+@border-control-focus: var(--border-control-focus);
+@border-color-shading: var(--border-color-shading);
+@border-error: var(--border-error);
+
+// Text
+// -------------------------
+@text-normal: var(--text-normal);
+@text-normal-pressed: var(--text-normal-pressed);
+@text-secondary: var(--text-secondary);
+@text-tertiary: var(--text-tertiary);
+@text-link: var(--text-link);
+@text-link-hover: var(--text-link-hover);
+@text-link-active: var(--text-link-active);
+@text-link-visited: var(--text-link-visited);
+@text-inverse: var(--text-inverse);
+@text-toolbar-header: var(--text-toolbar-header);
+@text-contrast-background: var(--text-contrast-background);
+@text-alt-key-hint: var(--text-alt-key-hint);
+
+// Icon
+// -------------------------
+@icon-normal: var(--icon-normal);
+@icon-normal-pressed: var(--icon-normal-pressed);
+@icon-inverse: var(--icon-inverse);
+@icon-toolbar-header: var(--icon-toolbar-header);
+@icon-contrast-popover: var(--icon-contrast-popover);
+@icon-notification-badge: var(--icon-notification-badge);
+@icon-success: var(--icon-success);
+
+@button-small-normal-icon-offset-x: var(--button-small-normal-icon-offset-x,0);
+@button-small-active-icon-offset-x: var(--button-small-active-icon-offset-x,0);
+@button-large-normal-icon-offset-x: var(--button-large-normal-icon-offset-x, 0);
+@button-large-active-icon-offset-x: var(--button-large-active-icon-offset-x, 0);
+@button-huge-normal-icon-offset-x: var(--button-huge-normal-icon-offset-x, 0);
+@button-xhuge-normal-icon-offset-x: var(--button-xhuge-normal-icon-offset-x, 0);
+@button-xhuge-active-icon-offset-x: var(--button-xhuge-active-icon-offset-x, 0);
+//@button-huge-normal-icon-offset-x: var(--button-huge-normal-icon-offset-x, 0);
+//@button-huge-active-icon-offset-x: var(--button-huge-active-icon-offset-x, 0);
+
+@button-header-normal-icon-offset-x: var(--button-header-normal-icon-offset-x, -20px);
+@button-header-active-icon-offset-x: var(--button-header-active-icon-offset-x, -20px);
+
+@component-normal-icon-filter: var(--component-normal-icon-filter);
+@component-normal-icon-opacity: var(--component-normal-icon-opacity, .8);
+@component-hover-icon-opacity: var(--component-hover-icon-opacity, .8);
+@component-active-icon-opacity: var(--component-active-icon-opacity, .8);
+@component-active-hover-icon-opacity: var(--component-active-hover-icon-opacity, .8);
+@component-disabled-opacity: var(--component-disabled-opacity, .4);
+//@button-icon-opacity: var(--button-icon-opacity, 1);
+
+@header-component-normal-icon-opacity: var(--header-component-normal-icon-opacity, 1);
+@header-component-hover-icon-opacity: var(--header-component-hover-icon-opacity, 1);
+@header-component-active-icon-opacity: var(--header-component-active-icon-opacity, 1);
+@header-component-active-hover-icon-opacity: var(--header-component-active-hover-icon-opacity, 1);
+
+@menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
+@img-border-type-filter: var(--image-border-types-filter, none);
+@img-border-type-filter-selected: var(--image-border-types-filter-selected, none);
+
+// Canvas
+// ---------------------------
+@canvas-background: var(--canvas-background);
+@canvas-content-background: var(--canvas-content-background);
+@canvas-page-border: var(--canvas-page-border);
+@canvas-scroll-thumb-hover: var(--canvas-scroll-thumb-hover);
+@canvas-scroll-thumb-border-hover: var(--canvas-scroll-thumb-border-hover);

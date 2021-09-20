@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2021
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,26 +30,43 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+if (SSE === undefined) {
+    var SSE = {};
+}
 
-+function () {
-    !window.common && (window.common = {});
-    !common.utils && (common.utils = {});
+SSE.CellEditorView = new(function (){
+    var  me;
 
-    common.utils = new(function(){
-        return {
-            htmlEncode: function(value) {
-                return $('<div/>').text(value).html();
-            },
+    function  createView()
+    {
+        me=this;
+        me.$el = $('#cell-editing-box');
+        me.$cellcontent=$('#ce-cell-content');
+        me.$cellname = $('#ce-cell-name');
 
-            fillUserInfo: function(info, lang, defname, defid) {
-                var _user = info || {};
-                _user.anonymous = !_user.id;
-                !_user.id && (_user.id = defid);
-                _user.fullname = !_user.name ? defname : _user.name;
-                _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
-                _user.guest = !_user.name;
-                return _user;
-            }
-        };
-    })();
-}();
+        me.$cellname.on('focus', function(e){
+            var txt = me.$cellname[0];
+            txt.selectionStart = 0;
+            txt.selectionEnd = txt.value.length;
+            txt.scrollLeft = txt.scrollWidth;
+        });
+    }
+    
+    function updateCellInfo(info) {
+        if (info) {
+            me.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
+        }
+    }
+    
+    function cellNameDisabled(disabled){
+        (disabled) ? me.$cellname.attr('disabled', 'disabled') : me.$cellname.removeAttr('disabled');
+    }
+    
+    return {
+        create: createView,
+        cell:   {
+            updateInfo: updateCellInfo,
+            nameDisabled: cellNameDisabled
+        }
+    }
+})();

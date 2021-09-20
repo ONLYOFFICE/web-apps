@@ -10,7 +10,7 @@
 
 define([
     'backbone',
-    '../../../../../apps/common/main/lib/component/Button.js',
+    '../../../../../../../web-apps — копия/apps/common/main/lib/component/Button.js',
     '../../../../../apps/common/main/lib/component/Menu.js'
 ],function() {
     var chai    = require('chai'),

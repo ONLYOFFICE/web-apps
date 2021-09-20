@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Documents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- debug begin -->
+    <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
+    <!-- debug end -->
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="embed-body">
+<div id="loading-mask" class="loadmask">
+    <!--<div class="brendpanel">
+        <div>
+            <div class="brand-logo loading-logo">
+                <img src="">
+            </div>
+            <div class="doc-title"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+    <div class="placeholder">
+        <div class="slide-h">
+            <div class="slide-v">
+                <div class="slide-container">
+                    <div class="line"></div>
+                    <div class="line empty"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+</div>
+<!-- debug begin -->
+<script type="text/javascript">var less=less||{};less.env='development';</script>
+<script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
+<!-- debug end -->
+
+<script>
+    var  userAgent = navigator.userAgent.toLowerCase(),
+        check = function(regex){ return regex.test(userAgent); };
+    if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+        var m = /msie (\d+\.\d+)/.exec(userAgent);
+        if (m && parseFloat(m[1]) < 10.0) {
+            document.write(
+                '<div id="id-error-mask" class="errormask">',
+                '<div class="error-body" align="center">',
+                '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
+                '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+                '</div>',
+                '</div>'
+            );
+        }
+    }
+
+    function getUrlParams() {
+        var e,
+            a = /\+/g,  // Regex for replacing addition symbol with a space
+            r = /([^&=]+)=?([^&]*)/g,
+            d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+            q = window.location.search.substring(1),
+            urlParams = {};
+
+        while (e = r.exec(q))
+            urlParams[d(e[1])] = d(e[2]);
+
+        return urlParams;
+    }
+
+    function encodeUrlParam(str) {
+        return str.replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    var params = getUrlParams(),
+        lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+        logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+
+    window.frameEditorId = params["frameEditorId"];
+    window.parentOrigin = params["parentOrigin"];
+
+    var elem = document.querySelector('.loading-logo');
+    if (elem && logo) {
+        elem.style.backgroundImage= 'none';
+        var img = document.querySelector('.loading-logo img');
+        img && img.setAttribute('src', logo);
+        img.style.opacity = 1;
+    }
+</script>
+
+<!--<div id="box-preview">
+    <div id="id-preview" tabindex="-1"></div>
+</div>-->
+<div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
+
+<!--<div class="overlay-controls" style="margin-left: -32px">
+    <ul class="left">
+        <li id="btn-left"><button class="overlay svg-icon slide-prev"></button></li>
+        <li id="btn-play"><button class="overlay svg-icon play"></button></li>
+        <li id="btn-right"><button class="overlay svg-icon slide-next"></button></li>
+    </ul>
+</div>-->
+
+<!--<div class="toolbar" id="toolbar">
+        <div class="group left">
+        <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
+    </div>-
+    <div class="group center">
+        <span id="title-doc-name"></span>
+    </div>
+    <div class="group right">
+        <div class="item margin-right-small"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+            <div id="box-tools" class="dropdown">
+            <button class="control-btn svg-icon more-vertical"></button>
+        </div>
+    </div>
+</div>-->
+
+<!--<div class="error modal fade" id="id-critical-error-dialog" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="id-critical-error-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="id-critical-error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>-->
+
+<!--vendor-->
+<script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../../vendor/jquery.browser/dist/jquery.browser.min.js"></script>
+<script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
+<script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
+
+<script src="../../../vendor/requirejs/require.js"></script>
+<script>
+    require.config({
+        baseUrl: '../../'
+    });
+</script>
+
+<script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/slide/scripts.js"></script>
+<script>
+    window.sdk_scripts.forEach(function(item){
+        document.write('<script type="text/javascript" src="' + item + '"><\/script>');
+    });
+</script>
+
+<!--application-->
+<script type="text/javascript" src="../../common/Gateway.js"></script>
+<script type="text/javascript" src="../../common/main/lib/util/LocalStorage.js"></script>
+<script type="text/javascript" src="../../common/main/lib/util/utils.js"></script>
+<script type="text/javascript" src="js/ApplicationView.js"></script>
+<script type="text/javascript" src="js/ApplicationController.js"></script>
+<script type="text/javascript" src="js/application.js"></script>
+<script type="text/javascript">
+    var isBrowserSupported = function() {
+        return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
+            ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
+            ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
+            ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+            ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
+    };
+
+    if (!isBrowserSupported()){
+        document.write(
+            '<div id="id-error-mask" class="errormask">',
+            '<div class="error-body" align="center">',
+            '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
+            '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+            '</div>',
+            '</div>'
+        );
+    }
+</script>
+</body>
+</html>

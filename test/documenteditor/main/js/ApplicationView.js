@@ -29,27 +29,22 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- */
+*/
+if (DE === undefined) {
+    var DE = {};
+}
 
-+function () {
-    !window.common && (window.common = {});
-    !common.utils && (common.utils = {});
+DE.ApplicationView = new(function(){
 
-    common.utils = new(function(){
-        return {
-            htmlEncode: function(value) {
-                return $('<div/>').text(value).html();
-            },
 
-            fillUserInfo: function(info, lang, defname, defid) {
-                var _user = info || {};
-                _user.anonymous = !_user.id;
-                !_user.id && (_user.id = defid);
-                _user.fullname = !_user.name ? defname : _user.name;
-                _user.group && (_user.fullname = (_user.group).toString() + AscCommon.UserInfoParser.getSeparator() + _user.fullname);
-                _user.guest = !_user.name;
-                return _user;
-            }
-        };
-    })();
-}();
+    // Initialize view
+
+    function createView(){
+
+    }
+
+    return {
+        create: createView
+
+    }
+})();
