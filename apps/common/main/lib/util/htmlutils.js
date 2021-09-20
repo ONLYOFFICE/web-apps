@@ -52,9 +52,15 @@ var checkLocalStorage = (function () {
     }
 })();
 
-if ( window.desktop && window.desktop.theme && (window.desktop.theme.id || window.desktop.theme.type)) {
-    // params.uitheme = undefined;
-    localStorage.setItem("ui-theme-id", window.desktop.theme.id);
+if ( window.desktop && window.desktop.theme ) {
+    if ( window.desktop.theme.id ) {
+        // params.uitheme = undefined;
+        localStorage.setItem("ui-theme-id", window.desktop.theme.id);
+    } else
+    if ( window.desktop.theme.type ) {
+        if ( window.desktop.theme.type == 'dark' ) params.uitheme == 'default-dark'; else
+        if ( window.desktop.theme.type == 'light' ) params.uitheme == 'default-light';
+    }
 }
 
 if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id") ) {
