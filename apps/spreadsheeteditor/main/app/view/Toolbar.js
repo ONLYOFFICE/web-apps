@@ -908,7 +908,7 @@ define([
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset  : '-16, 0',
+                    dataHintOffset  : '-16, -4',
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
