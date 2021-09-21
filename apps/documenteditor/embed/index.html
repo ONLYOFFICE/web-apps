@@ -52,7 +52,6 @@
             display: inline-block;
             max-width: 124px;
             max-height: 20px;
-            margin-top: 2px;
             opacity: 0;
         }
         .loadmask > .brendpanel .doc-title {
@@ -171,6 +170,8 @@
            var elem = document.querySelector('.loading-logo');
            if (elem && logo) {
                elem.style.backgroundImage= 'none';
+               elem.style.width = 'auto';
+               elem.style.height = 'auto';
                var img = document.querySelector('.loading-logo img');
                img && img.setAttribute('src', logo);
                img.style.opacity = 1;
