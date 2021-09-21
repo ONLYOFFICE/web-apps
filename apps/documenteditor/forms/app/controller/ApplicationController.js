@@ -431,8 +431,8 @@ define([
                 this.appOptions.customization && this.appOptions.customization.logo ) {
 
                 var logo = $('#header-logo');
-                if (this.appOptions.customization.logo.imageEmbedded) {
-                    logo.html('<img src="'+this.appOptions.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
+                if (this.appOptions.customization.logo.image) {
+                    logo.html('<img src="'+this.appOptions.customization.logo.image+'" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -1062,12 +1062,34 @@ define([
         },
 
         createDelayedElements: function() {
-            var menuItems = this.view.btnOptions.menu.items;
-            var itemsCount = menuItems.length-3;
+            var me = this,
+                menuItems = this.view.btnOptions.menu.items,
+                itemsCount = menuItems.length-3;
+            var initMenu = function(menu) {
+                var last;
+                if (!menuItems[0].isVisible())
+                    menuItems[1].setVisible(false);
+                else
+                    last = menuItems[1];
+
+                if (!menuItems[2].isVisible() && !menuItems[3].isVisible() && !menuItems[4].isVisible())
+                    menuItems[5].setVisible(false);
+                else
+                    last = menuItems[5];
+
+                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
+                    menuItems[8].setVisible(false);
+                else
+                    last = menuItems[8];
+
+                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
+                    last && last.setVisible(false);
+
+                menu.off('show:after', initMenu);
+            };
 
             if (!this.appOptions.canPrint) {
                 menuItems[0].setVisible(false);
-                menuItems[1].setVisible(false);
                 itemsCount--;
             }
 
@@ -1079,8 +1101,6 @@ define([
             if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
                 menuItems[3].setVisible(false);
                 menuItems[4].setVisible(false);
-                menuItems[1].setVisible(false);
-                menuItems[5].setVisible(false);
                 itemsCount -= 2;
             }
 
@@ -1094,9 +1114,6 @@ define([
                 itemsCount--;
             }
 
-            if (itemsCount<3)
-                menuItems[8].setVisible(false);
-
             if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
                 menuItems[9].setVisible(false);
                 itemsCount--;
@@ -1106,11 +1123,10 @@ define([
                 menuItems[10].setVisible(false);
                 itemsCount--;
             }
-
             if (itemsCount<1)
                 this.view.btnOptions.setVisible(false);
-            else if ((!this.embedConfig.embedUrl || this.appOptions.canFillForms) && !this.embedConfig.fullscreenUrl)
-                menuItems[8].setVisible(false);
+
+            this.view.btnOptions.menu.on('show:after', initMenu);
 
             screenTip = {
                 toolTip: new Common.UI.Tooltip({

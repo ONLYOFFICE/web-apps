@@ -419,7 +419,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2|xml))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -870,15 +870,24 @@
             isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
             isChrome = !isIE && check(/\bchrome\b/),
             isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
-            path_type = "main";
+            path_type;
 
         path += app + "/";
-        path_type = (config.type === "mobile" || isSafari_mobile)
-            ? "mobile"
-            : ((app=='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
-                                         (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
-            ? "forms" : (config.type === "embedded") ? "embed"
-            : "main";
+        if (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform') {
+            if (config.document.permissions) {
+                (config.document.permissions.fillForms===undefined) && (config.document.permissions.fillForms = (config.document.permissions.edit !== false));
+                config.document.permissions.edit = config.document.permissions.review = config.document.permissions.comment = false;
+            }
+            path_type = (config.type === "mobile" || isSafari_mobile)
+                        ? "mobile" : config.document.permissions && (config.document.permissions.fillForms === true) && (config.editorConfig.mode !== 'view')
+                        ? "forms" : "embed";
+        } else {
+            path_type = (config.type === "mobile" || isSafari_mobile)
+                        ? "mobile" : ((app==='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
+                                     (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
+                        ? "forms" : (config.type === "embedded")
+                        ? "embed" : "main";
+        }
 
         path += path_type;
         var index = "/index.html";
@@ -887,7 +896,7 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
                 index = "/index_internal.html";
 
         }
