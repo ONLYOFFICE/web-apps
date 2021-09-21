@@ -870,10 +870,9 @@
             isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
             isChrome = !isIE && check(/\bchrome\b/),
             isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
-            path_type = "main";
+            path_type;
 
         path += app + "/";
-        path_type = "";
         if (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform') {
             if (config.document.permissions) {
                 (config.document.permissions.fillForms===undefined) && (config.document.permissions.fillForms = (config.document.permissions.edit !== false));

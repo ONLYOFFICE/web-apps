@@ -431,8 +431,8 @@ define([
                 this.appOptions.customization && this.appOptions.customization.logo ) {
 
                 var logo = $('#header-logo');
-                if (this.appOptions.customization.logo.imageEmbedded) {
-                    logo.html('<img src="'+this.appOptions.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
+                if (this.appOptions.customization.logo.image) {
+                    logo.html('<img src="'+this.appOptions.customization.logo.image+'" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
