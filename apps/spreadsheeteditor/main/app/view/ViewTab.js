@@ -97,7 +97,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
                         caption: me.capBtnSheetView,
-                        lock        : [_set.lostConnect, _set.coAuth],
+                        lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                         menu: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
@@ -110,7 +110,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-sheet-view-new',
                         caption     : this.textCreate,
-                        lock        : [_set.coAuth, _set.lostConnect],
+                        lock        : [_set.coAuth, _set.lostConnect, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'big'
@@ -123,7 +123,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-sheet-view-close',
                         caption     : this.textClose,
-                        lock        : [_set.sheetView, _set.coAuth, _set.lostConnect],
+                        lock        : [_set.sheetView, _set.coAuth, _set.lostConnect, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'big'
@@ -138,7 +138,7 @@ define([
                     iconCls: 'toolbar__icon btn-freeze-panes',
                     caption: this.capBtnFreeze,
                     menu: true,
-                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -151,7 +151,7 @@ define([
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
                     editable    : false,
-                    lock        : [_set.coAuth, _set.lostConnect],
+                    lock        : [_set.coAuth, _set.lostConnect, _set.editCell],
                     data        : [
                         { displayValue: "50%", value: 50 },
                         { displayValue: "75%", value: 75 },
@@ -166,12 +166,13 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.cmbZoom.setValue(100);
+                this.lockedControls.push(this.cmbZoom);
 
                 this.chFormula = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-formula'),
                     labelText: this.textFormula,
                     value: !Common.localStorage.getBool('sse-hidden-formula'),
-                    lock        : [_set.lostConnect, _set.coAuth],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -181,7 +182,7 @@ define([
                 this.chHeadings = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-heading'),
                     labelText: this.textHeadings,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -191,7 +192,7 @@ define([
                 this.chGridlines = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-gridlines'),
                     labelText: this.textGridlines,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -201,7 +202,7 @@ define([
                 this.chZeros = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-zeros'),
                     labelText: this.textZeros,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
