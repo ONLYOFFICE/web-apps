@@ -3112,6 +3112,16 @@ define([
                 caption     : me.addToLayoutText
             }).on('click', _.bind(me.addToLayout, me));
 
+            var menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
+            }).on('click', function(item) {
+                me.api && me.api.asc_editPointsGeometry();
+            });
+
+            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -3513,6 +3523,11 @@ define([
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
 
+                    var canEditPoints = me.api && me.api.asc_canEditGeometry();
+                    menuImgEditPoints.setVisible(canEditPoints);
+                    menuImgEditPointsSeparator.setVisible(canEditPoints);
+                    canEditPoints && menuImgEditPoints.setDisabled(disabled);
+
                     menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
@@ -3544,6 +3559,8 @@ define([
                     menuImgCopy,
                     menuImgPaste,
                     { caption: '--' },
+                    menuImgEditPoints,
+                    menuImgEditPointsSeparator,
                     menuImgShapeArrange,
                     menuImgShapeAlign,
                     menuImgShapeRotate,
@@ -3967,7 +3984,8 @@ define([
         txtResetLayout: 'Reset Slide',
         mniCustomTable: 'Insert Custom Table',
         textFromStorage: 'From Storage',
-        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        textEditPoints: 'Edit Points'
 
     }, PE.Views.DocumentHolder || {}));
 });

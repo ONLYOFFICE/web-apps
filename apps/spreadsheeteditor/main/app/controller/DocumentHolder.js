@@ -253,6 +253,7 @@ define([
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
+                view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -1047,6 +1048,10 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
             })).show();
+        },
+
+        onImgEditPoints: function(item) {
+            this.api && this.api.asc_editPointsGeometry();
         },
 
         onApiCoAuthoringDisconnect: function() {
@@ -1925,6 +1930,11 @@ define([
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
                 documentHolder.menuImgMacro.setDisabled(isObjLocked);
+
+                var canEditPoints = this.api && this.api.asc_canEditGeometry();
+                documentHolder.menuImgEditPoints.setVisible(canEditPoints);
+                documentHolder.menuImgEditPointsSeparator.setVisible(canEditPoints);
+                canEditPoints && documentHolder.menuImgEditPoints.setDisabled(isObjLocked);
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());

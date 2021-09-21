@@ -2416,6 +2416,10 @@ define([
                 caption : me.editChartText
             }).on('click', _.bind(me.editChartClick, me));
 
+            var menuChartEditSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.menuOriginalSize = new Common.UI.MenuItem({
                 caption : me.originalSizeText
             }).on('click', function(item, e) {
@@ -2572,6 +2576,16 @@ define([
                 caption     : '--'
             });
 
+            var menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
+            }).on('click', function(item) {
+                me.api && me.api.asc_editPointsGeometry();
+            });
+
+            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -2678,7 +2692,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[22].setVisible(menuChartEdit.isVisible());
+                    menuChartEditSeparator.setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2717,6 +2731,11 @@ define([
                         menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
                         menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                     }
+
+                    var canEditPoints = me.api && me.api.asc_canEditGeometry();
+                    menuImgEditPoints.setVisible(canEditPoints);
+                    menuImgEditPointsSeparator.setVisible(canEditPoints);
+                    canEditPoints && menuImgEditPoints.setDisabled(islocked);
                 },
                 items: [
                     menuImgCut,
@@ -2730,6 +2749,8 @@ define([
                     menuImgRemoveControl,
                     menuImgControlSettings,
                     menuImgControlSeparator,
+                    menuImgEditPoints,
+                    menuImgEditPointsSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -2741,7 +2762,7 @@ define([
                     me.menuOriginalSize,
                     menuImgReplace,
                     menuChartEdit,
-                    { caption: '--' },
+                    menuChartEditSeparator,
                     menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -4697,7 +4718,8 @@ define([
         textRemField: 'Remove Text Field',
         txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
         notcriticalErrorTitle: 'Warning',
-        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        textEditPoints: 'Edit Points'
 
 }, DE.Views.DocumentHolder || {}));
 });

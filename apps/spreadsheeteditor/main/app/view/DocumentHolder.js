@@ -821,6 +821,14 @@ define([
                 caption: me.textMacro
             });
 
+            me.menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
+            });
+
+            me.menuImgEditPointsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
@@ -831,6 +839,8 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
+                    me.menuImgEditPoints,
+                    me.menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
@@ -1250,7 +1260,8 @@ define([
         txtCondFormat: 'Conditional Formatting',
         textBullets: 'Bullets',
         textNumbering: 'Numbering',
-        textMacro: 'Assign Macro'
+        textMacro: 'Assign Macro',
+        textEditPoints: 'Edit Points'
 
     }, SSE.Views.DocumentHolder || {}));
 });
