@@ -17,6 +17,7 @@ import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import { Device } from '../../../../common/mobile/utils/device';
 @inject(
     "users",
     "storeAppOptions",
@@ -539,38 +540,41 @@ class MainController extends Component {
 
         const storeAppOptions = this.props.storeAppOptions;
 
-        // if(storeAppOptions.canFillForms) {
-            this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
-                switch (obj.type) {
-                    case Asc.c_oAscContentControlSpecificType.DateTime:
-                        this.onShowDateActions(obj, x, y);
-                        break;
-                    case Asc.c_oAscContentControlSpecificType.Picture:
-                        if (obj.pr && obj.pr.get_Lock) {
-                            let lock = obj.pr.get_Lock();
-                            if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                                return;
-                        }
-                        this.api.asc_addImage(obj);
-                        setTimeout(() => {
-                            this.api.asc_UncheckContentControlButtons();
-                        }, 500);
-                        break;
-                    case Asc.c_oAscContentControlSpecificType.DropDownList:
-                    case Asc.c_oAscContentControlSpecificType.ComboBox:
-                        this.onShowListActions(obj, x, y);
-                        break;
-                }
-            });
-            this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
-                if (this.cmpCalendar) {
-                    this.cmpCalendar.close();
-                }
-            });
-            this.api.asc_SetHighlightRequiredFields(true);
+        // if (storeAppOptions.isEdit) {
+        this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        let lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.api.asc_addImage(obj);
+                    setTimeout(() => {
+                        this.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        });
+
+        this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
+            if (this.cmpCalendar) {
+                this.controlsContainer.remove();
+                this.cmpCalendar.destroy();
+            }
+        });
+
+        this.api.asc_SetHighlightRequiredFields(true);
         // }
 
-        //text settings
+        // text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
 
@@ -683,75 +687,42 @@ class MainController extends Component {
     }
 
     onShowDateActions(obj, x, y) {
-        console.log(obj, x, y);
         let props = obj.pr,
             specProps = props.get_DateTimePr();
-            // controlsContainer = this.boxSdk.find('#calendar-control-container');
 
+        this.controlsContainer = this.boxSdk.find('#calendar-control-container');
         this._dateObj = props;
 
-        // if (controlsContainer.length < 1) {
-        //     controlsContainer = $$('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
-        //     this.boxSdk.append(controlsContainer);
-        // }
-
-        // Common.UI.Menu.Manager.hideAll();
-
-        // controlsContainer.css({left: x, top : y});
-        // controlsContainer.show();
-
-        if (!this.cmpCalendar) {
+        if (this.controlsContainer.length < 1) {
+            this.controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
+            this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
+            this.boxSdk.append(this.controlsContainer);
+        }
+       
+        if(!Device.isPhone) {
             this.cmpCalendar = f7.calendar.create({
-                inputEl: this.boxSdk.find('#id-document-calendar-control'),
-                backgrop: false,
-                closeByBackdropClick: false,
-                firstday: 1,
-                value: new Date(specProps ? specProps.get_FullDate() : undefined),
-                // openIn: 'sheet',
-                header: true,
+                inputEl: '#calendar-target-element',
+                firstday: 0,
+                value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+                openIn: 'popover',
                 footer: true,
-            }).open();
-
-            // this.cmpCalendar = this.boxSdk.find('#id-document-calendar-control'); 
-
-            this.cmpCalendar.on('change', (calendar, value) => {
-                let specProps = this._dateObj.get_DateTimePr();
-                specProps.put_FullDate(new Date(value));
-                this.api.asc_SetContentControlDatePickerDate(specProps);
-                controlsContainer.hide();
-                this.api.asc_UncheckContentControlButtons();
+                on: {
+                    change: (calendar, value) => {
+                        if(value[0]) {
+                            let specProps = this._dateObj.get_DateTimePr();
+                            // console.log(new Date(value[0]));
+                            specProps.put_FullDate(new Date(value[0]));
+                            this.api.asc_SetContentControlDatePickerDate(specProps);
+                            this.api.asc_UncheckContentControlButtons();
+                        }
+                    }
+                }
             });
 
+            this.cmpCalendar.open();
         }
-
-        // this.cmpCalendar.setValue([new Date(specProps ? specProps.get_FullDate() : undefined)]);
-
-        // Align
-
-        // let offset = controlsContainer.offset(),
-        //     docW = Common.Utils.innerWidth(),
-        //     docH = Common.Utils.innerHeight() - 10, 
-        //     menuW = this.cmpCalendar.outerWidth(),
-        //     menuH = this.cmpCalendar.outerHeight(),
-        //     buttonOffset = 22,
-        //     left = offset.left - menuW,
-        //     top  = offset.top;
-
-        // if (top + menuH > docH) {
-        //     top = docH - menuH;
-        //     left -= buttonOffset;
-        // }
-
-        // if (top < 0)
-        //     top = 0;
-
-        // if (left + menuW > docW)
-        //     left = docW - menuW;
-
-        // this.cmpCalendar.css({left: left, top : top});
-        // this._preventClick = true;
     }
-
+        
     onShowListActions(obj, x, y) {
         let type = obj.type,
             props = obj.pr,
@@ -763,7 +734,6 @@ class MainController extends Component {
         this._listObj = props;
 
         this._fromShowContentControls = true;
-        // Common.UI.Menu.Manager.hideAll();
 
         if (!menu) {
             this.listControlMenu = menu = new Common.UI.Menu({
