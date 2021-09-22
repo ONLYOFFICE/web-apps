@@ -833,16 +833,18 @@ define([
 
         focus: function(index) {
             $(this.el).find('.inner').addBack().filter('.inner').focus();
+            var rec;
             if (typeof index == 'string') {
                 if (index == 'first') {
-                    this.selectByIndex(0, true);
+                    rec = this.selectByIndex(0, true);
                 } else if (index == 'last') {
                     if (this._layoutParams === undefined)
                         this.fillIndexesArray();
-                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
                 }
             } else if (index !== undefined)
-                this.selectByIndex(index, true);
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
         },
 
         focusInner: function(e) {
