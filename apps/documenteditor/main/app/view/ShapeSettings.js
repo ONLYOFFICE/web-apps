@@ -1586,7 +1586,8 @@ define([
                 cls: 'combo-chart-style',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                delayRenderTips: true
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
                 '<div class="item-icon-box" id="<%= id %>">',

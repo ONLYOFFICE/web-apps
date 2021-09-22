@@ -252,7 +252,7 @@ Common.UI.HintManager = new(function() {
 
     var _getHints = function() {
         var docH = Common.Utils.innerHeight() - 20,
-            docW = Common.Utils.innerWidth() - 20,
+            docW = Common.Utils.innerWidth(),
             topSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? $(_currentSection).offset().top : 0,
             bottomSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? topSection + $(_currentSection).height() : docH;
 

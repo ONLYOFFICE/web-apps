@@ -105,7 +105,7 @@ define([
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
             this.enableKeyEvents= me.options.enableKeyEvents;
             this.tabindex = me.options.tabindex || 0;
-            this.parentButton     = me.options.parentButton;
+            this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
 
             me.colorItems = [];
@@ -516,8 +516,8 @@ define([
                 var rec = this.getSelectedColor();
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     rec && this.selectByIndex(rec.index);
-                    if (this.parentButton && this.parentButton.menu)
-                        this.parentButton.menu.hide();
+                    if (this.outerMenu && this.outerMenu.menu)
+                        this.outerMenu.menu.hide();
                 } else {
                     var idx = rec ? rec.index : -1;
                     if (idx<0) {
@@ -544,9 +544,9 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            if (topIdx==0 && this.parentButton) {
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
                                 this.clearSelection(true);
-                                this.parentButton.focusOuter(data);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
                             } else
                                 while (idx===undefined) {
                                     topIdx--;
@@ -554,9 +554,9 @@ define([
                                     idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                                 }
                         } else {
-                            if (topIdx==this._layoutParams.rows-1 && this.parentButton) {
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
                                 this.clearSelection(true);
-                                this.parentButton.focusOuter(data);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
                             } else
                                 while (idx===undefined) {
                                     topIdx++;
@@ -633,6 +633,10 @@ define([
                 }
             } else if (index !== undefined)
                 this.selectByIndex(index, true);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         },
 
         textThemeColors         : 'Theme Colors',

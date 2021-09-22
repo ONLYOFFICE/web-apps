@@ -1,18 +1,18 @@
-import React, { useEffect,useState } from 'react';
+import React, { memo, useEffect,useRef,useState } from 'react';
 import FilterView from '../../src/view/FilterOptions';
 import { f7,Sheet,Popover } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 
-const FilterOptionsController = () => {
+const FilterOptionsController = memo( () => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const configRef = useRef();
 
-    const [configFilter, setConfig] = useState(null);
     const [listVal, setListValue] = useState([]);
     const [isValid, setIsValid] = useState(null);
-    const [checkSort, setCheckSort] = useState(null);
-    
+    const [checkSort, setCheckSort] = useState('');
+
     useEffect(() => {
         function onDocumentReady()  {
             const api = Common.EditorApi.get();
@@ -34,9 +34,8 @@ const FilterOptionsController = () => {
 
     const onApiFilterOptions= (config) => {
         setDataFilterCells(config);
-        setConfig(config);
-        setClearDisable(config);
-
+        configRef.current = config;
+        
         setCheckSort((config.asc_getSortState() === Asc.c_oAscSortOptions.Ascending ? 'down' : '') || 
         (config.asc_getSortState() === Asc.c_oAscSortOptions.Descending ? 'up' : ''));
         
@@ -55,7 +54,7 @@ const FilterOptionsController = () => {
 
     const onSort = (type) => {
         const api = Common.EditorApi.get();
-        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configFilter.asc_getCellId(), configFilter.asc_getDisplayName());
+        api.asc_sortColFilter(type == 'sortdown' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, configRef.current.asc_getCellId(), configRef.current.asc_getDisplayName());
         f7.sheet.close('.picker__sheet');
         f7.popover.close('#picker-popover');
     };
@@ -112,21 +111,21 @@ const FilterOptionsController = () => {
         setListValue([...listVal]);
 
         if ( listVal.some(item => item.check) ) {
-            configFilter.asc_getValues().forEach(
+            configRef.current.asc_getValues().forEach(
                 (item, index) => item.asc_setVisible(listVal[index].check)
             );
 
-            configFilter.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
-            api.asc_applyAutoFilter(configFilter);
+            configRef.current.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
+            api.asc_applyAutoFilter(configRef.current);
         }
 
-        setClearDisable(configFilter);
+        setClearDisable(configRef.current);
     };
 
     return (
         <FilterView onSort={onSort} listVal={listVal} checkSort={checkSort} isValid={isValid} onUpdateCell={onUpdateCell} 
         onDeleteFilter={onDeleteFilter} onClearFilter={onClearFilter}/>
     )
-};
+});
 
 export default FilterOptionsController;

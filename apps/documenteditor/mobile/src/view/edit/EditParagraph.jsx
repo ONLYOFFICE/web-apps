@@ -196,7 +196,8 @@ const EditParagraph = props => {
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
     const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
-
+    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
+    
     return (
         <Fragment>
             <List>
@@ -222,7 +223,7 @@ const EditParagraph = props => {
                 }}></ListItem>
             </List>
             <BlockTitle>{_t.textParagraphStyles}</BlockTitle>
-            <List>
+            <List className={activeStyle}>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}

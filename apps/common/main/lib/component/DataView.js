@@ -262,6 +262,7 @@ define([
             me.multiSelect    = me.options.multiSelect;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
@@ -272,6 +273,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -454,14 +456,28 @@ define([
                     var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
-                    if (record.get('tip')) {
-                        var view_el = $(view.el);
-                        view_el.attr('data-toggle', 'tooltip');
-                        view_el.tooltip({
-                            title       : record.get('tip'),
-                            placement   : 'cursor',
-                            zIndex : this.tipZIndex
-                        });
+                    var me = this,
+                        view_el = $(view.el),
+                        tip = record.get('tip');
+                    if (tip) {
+                        if (this.delayRenderTips)
+                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                view_el.attr('data-toggle', 'tooltip');
+                                view_el.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                view_el.mouseenter();
+                            });
+                        else {
+                            view_el.attr('data-toggle', 'tooltip');
+                            view_el.tooltip({
+                                title       : tip,
+                                placement   : 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                        }
                     }
 
                     this.listenTo(view, 'change',      this.onChangeItem);
@@ -683,17 +699,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -805,8 +831,22 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
-            this.cmpEl && this.cmpEl.find('.dataview').focus();
+        focus: function(index) {
+            $(this.el).find('.inner').addBack().filter('.inner').focus();
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                this.selectByIndex(index, true);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -1134,17 +1174,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)

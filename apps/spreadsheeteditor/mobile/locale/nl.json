@@ -61,7 +61,7 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "De bewerking kan gegevens in de geselecteerde cellen vernietigen. Doorgaan?"
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
   },
   "Controller": {
     "Main": {
@@ -556,6 +556,7 @@
       "textEmail": "E-mail",
       "textEnableAll": "Alles inschakelen",
       "textEnableAllMacrosWithoutNotification": "Schakel alle macro's in zonder een notificatie",
+      "textExample": "Voorbeeld",
       "textFind": "Zoeken",
       "textFindAndReplace": "Zoeken en vervangen",
       "textFindAndReplaceAll": "Zoek en vervang alles",

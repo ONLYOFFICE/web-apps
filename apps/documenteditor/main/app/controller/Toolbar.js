@@ -357,8 +357,7 @@ define([
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
-
-            $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
+            toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
 
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -2200,9 +2199,12 @@ define([
             }
         },
 
-        onInsertPageNumberClick: function(picker, item, record) {
+        onInsertPageNumberClick: function(picker, item, record, e) {
             if (this.api)
                 this.api.put_PageNum(record.get('data').type, record.get('data').subtype);
+
+            if (e.type !== 'click')
+                this.toolbar.btnEditHeader.menu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');

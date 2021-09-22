@@ -240,6 +240,8 @@ define([
         createDelayedControls: function() {
             var me = this;
 
+            this._tableTemplates && this._onInitTemplates(this._tableTemplates);
+
             this.chHeader = new Common.UI.CheckBox({
                 el: $('#table-checkbox-header'),
                 labelText: this.textHeader,
@@ -729,6 +731,11 @@ define([
         },
 
         _onInitTemplates: function(Templates){
+            if (this._initSettings) {
+                this._tableTemplates = Templates;
+                return;
+            }
+
             var self = this;
             this._isTemplatesChanged = true;
 
@@ -754,7 +761,8 @@ define([
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
-                        style: 'max-height: 350px;'
+                        style: 'max-height: 350px;',
+                        delayRenderTips: true
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));

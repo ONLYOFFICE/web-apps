@@ -55,7 +55,7 @@ const PageApplicationSettings = props => {
                     </List>
                     <BlockTitle>{_t.textRegionalSettings}</BlockTitle>
                     <List mediaList>
-                        <ListItem title={currentRegSetting.displayName} subtitle={`Example: ${regExample}`} link="/regional-settings/" routeProps={{
+                        <ListItem title={currentRegSetting.displayName} subtitle={`${t('View.Settings.textExample')}: ${regExample}`} link="/regional-settings/" routeProps={{
                             onRegSettings: props.onRegSettings
                         }}></ListItem>
                     </List>
