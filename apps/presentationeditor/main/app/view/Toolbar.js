@@ -1261,12 +1261,20 @@ define([
                     btn.setMenu(
                         new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
+                                {caption: '--'},
+                                {
+                                    caption: me.txtDuplicateSlide,
+                                    value: 'duplicate'
+                                }
                             ]
                         })
                     );
                     btn.on('click', function (btn, e) {
                         me.fireEvent('add:slide');
+                    });
+                    btn.menu.on('item:click', function (menu, item) {
+                        (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
                     });
                 });
             },
@@ -1743,6 +1751,7 @@ define([
                         if (menu) {
                             menu.on('show:after', function () {
                                 me.onSlidePickerShowAfter(picker);
+                                !change && me.fireEvent('duplicate:check', [menu]);
                                 picker.scroller.update({alwaysVisibleY: true});
                                 if (change) {
                                     var record = picker.store.findLayoutByIndex(picker.options.layout_index);
@@ -1919,7 +1928,8 @@ define([
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office',
             textTabTransitions: 'Transitions',
-            textRecentlyUsed: 'Recently Used'
+            textRecentlyUsed: 'Recently Used',
+            txtDuplicateSlide: 'Duplicate Slide'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -1987,6 +1987,7 @@
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
   "PE.Views.Toolbar.txtUngroup": "Ungroup",
   "PE.Views.Toolbar.textRecentlyUsed": "Recently Used",
+  "PE.Views.Toolbar.txtDuplicateSlide": "Duplicate Slide",
   "PE.Views.Transitions.strDelay": "Delay",
   "PE.Views.Transitions.strDuration": "Duration",
   "PE.Views.Transitions.strStartOnClick": "Start On Click",

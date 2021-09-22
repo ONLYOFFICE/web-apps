@@ -129,6 +129,8 @@ define([
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
+                    'duplicate:slide'   : this.onDuplicateSlide.bind(this),
+                    'duplicate:check'   : this.onDuplicateCheck.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
                     'add:chart'         : this.onSelectChart
@@ -887,6 +889,20 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
             }
+        },
+
+        onDuplicateSlide: function() {
+            if ( this.api) {
+                this.api.DublicateSlide();
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Duplicate Slide');
+            }
+        },
+
+        onDuplicateCheck: function(menu) {
+            if (this.api)
+                menu.items[2].setDisabled(this.api.getCountPages()<1);
         },
 
         onChangeSlide: function(type) {
