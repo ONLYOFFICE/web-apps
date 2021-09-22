@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
@@ -130,14 +130,16 @@ class MainPage extends Component {
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
-                {!appOptions.isDocReady ? null :
-                    <FilterOptionsController />
+                {appOptions.isDocReady &&
+                    <Fragment key='filter-context'>
+                        <FilterOptionsController />
+                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                    </Fragment>
                 }
                 
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
-                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
             </Page>
       )
   }
