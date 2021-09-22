@@ -32,7 +32,7 @@
 
     .cnt-hb {
         display: inline-block;
-        overflow: hidden;
+        //overflow: hidden;
         width: 196px;
         height: 196px;
         position: relative;
@@ -54,12 +54,24 @@
     }
 
     .cnt-hb-arrow {
+        display:  inline-block;
         width: 12px;
         height: 12px;
         margin: -6px;
-        margin-left: calc(-6*@scaled-one-px-value);
         position: absolute;
-        background-position: 0 -196px;
+        border: @scaled-one-px-value-ie solid #000;
+        border: @scaled-one-px-value solid #000;
+        &:after{
+            content: ' ';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: @scaled-one-px-value-ie solid #fff;
+            border: @scaled-one-px-value solid #fff;
+        }
+
+
+       // background-position: 0 -196px;
     }
 
     .cnt-sat-arrow {
