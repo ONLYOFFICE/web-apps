@@ -1735,6 +1735,7 @@ define([
                         var picker = new Common.UI.DataView({
                             el: $('.menu-layouts', menu.$el),
                             parentMenu: menu,
+                            outerMenu:  !change ? {menu: menu, index: 0} : undefined,
                             showLast: change,
                             restoreHeight: 300,
                             restoreWidth: 302,
@@ -1766,6 +1767,7 @@ define([
                                 } else
                                     picker.scroller.scrollTop(0);
                             });
+                            !change && menu.setInnerMenu([{menu: picker, index: 0}]);
                         }
                         menu.off('show:before', me.binding.onShowBeforeAddSlide);
                         if (change && this.mnuSlidePicker)
