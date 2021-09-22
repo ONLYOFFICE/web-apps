@@ -95,7 +95,8 @@ define([
                     'forms:select-color': this.onSelectControlsColor,
                     'forms:mode': this.onModeClick,
                     'forms:goto': this.onGoTo,
-                    'forms:submit': this.onSubmitClick
+                    'forms:submit': this.onSubmitClick,
+                    'forms:save': this.onSaveFormClick
                 }
             });
         },
@@ -243,6 +244,10 @@ define([
 
             this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSaveFormClick: function() {
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM));
         },
 
         disableEditing: function(disable) {

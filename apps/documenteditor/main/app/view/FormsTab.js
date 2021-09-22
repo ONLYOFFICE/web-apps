@@ -75,6 +75,7 @@ define([
             '<div class="group no-group-mask form-view" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-save"></span>' +
             '</div>' +
         '</section>';
 
@@ -123,6 +124,9 @@ define([
             });
             this.btnSubmit && this.btnSubmit.on('click', function (b, e) {
                 me.fireEvent('forms:submit');
+            });
+            this.btnSaveForm && this.btnSaveForm.on('click', function (b, e) {
+                me.fireEvent('forms:save');
             });
         }
 
@@ -292,6 +296,17 @@ define([
                     });
                     this.paragraphControls.push(this.btnSubmit);
                 }
+                if (this.appConfig.canDownloadForms) {
+                    this.btnSaveForm = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon save-form',
+                        caption: this.capBtnSaveForm,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnSaveForm);
+                }
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -331,6 +346,7 @@ define([
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
                     me.btnSubmit && me.btnSubmit.updateHint(me.tipSubmit);
+                    me.btnSaveForm && me.btnSaveForm.updateHint(me.tipSaveForm);
 
                     setEvents.call(me);
                 });
@@ -340,13 +356,12 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
-                if (this.appConfig.canSubmitForms) {
-                    this.btnSubmit.render($host.find('#slot-btn-form-submit'));
-                }
+                this.appConfig.canSubmitForms && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
+                this.appConfig.canDownloadForms && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnClear.render($host.find('#slot-btn-form-clear'));
-                    this.btnSubmit && $host.find('.separator.submit').show().next('.group').show();
+                    (this.btnSubmit || this.btnSaveForm) && $host.find('.separator.submit').show().next('.group').show();
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -412,7 +427,9 @@ define([
             tipNextForm: 'Go to the next field',
             tipSubmit: 'Submit form',
             textSubmited: 'Form submitted successfully',
-            textRequired: 'Fill all required fields to send form.'
+            textRequired: 'Fill all required fields to send form.',
+            capBtnSaveForm: 'Save as a Form',
+            tipSaveForm: 'Save a file as a fillable OFORM document'
         }
     }()), DE.Views.FormsTab || {}));
 });
