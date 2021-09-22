@@ -52,15 +52,20 @@
         position: relative;
         background-position: -196px 0;
     }
-
+    .radius(@parametr){
+        border-radius: @parametr;
+        -moz-border-radius: @parametr;
+        -webkit-border-radius: @parametr;
+    }
     .cnt-hb-arrow {
-        display:  inline-block;
+        display:  block;
         width: 12px;
         height: 12px;
         margin: -6px;
         position: absolute;
         border: @scaled-one-px-value-ie solid #000;
         border: @scaled-one-px-value solid #000;
+        .radius(50%);
         &:after{
             content: ' ';
             position: absolute;
@@ -68,6 +73,7 @@
             height: 100%;
             border: @scaled-one-px-value-ie solid #fff;
             border: @scaled-one-px-value solid #fff;
+            .radius(50%);
         }
 
 
