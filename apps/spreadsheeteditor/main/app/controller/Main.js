@@ -146,11 +146,7 @@ define([
                         'Quarters': this.txtQuarters,
                         'Years': this.txtYears,
                         '%1 or %2': this.txtOr,
-                        'Qtr': this.txtQuarter,
-                        'All': this.txtAllTable,
-                        'Data': this.txtDataTable,
-                        'Headers': this.txtHeadersTable,
-                        'Totals': this.txtTotalsTable
+                        'Qtr': this.txtQuarter
                     };
 
                 styleNames.forEach(function(item){
@@ -3406,11 +3402,7 @@ define([
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textNeedSynchronize: 'You have an updates',
-            textChangesSaved: 'All changes saved',
-            txtAllTable: 'All',
-            txtDataTable: 'Data',
-            txtHeadersTable: 'Headers',
-            txtTotalsTable: 'Totals'
+            textChangesSaved: 'All changes saved'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -2462,7 +2462,6 @@ define([
                             caption = '(...) ' + name;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableThisRow:
-                            caption = name + ' - ' + me.txtThisRow;
                             hint = me.txtThisRowHint;
                             break;
                         case Asc.c_oAscPopUpSelectorType.TableAll:
@@ -4024,7 +4023,6 @@ define([
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
-        txtThisRow: 'This Row',
         txtThisRowHint: 'Choose only this row of the specified column',
         txtAllTableHint: 'Returns the entire contents of the table or specified table columns including column headers, data and total rows',
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
