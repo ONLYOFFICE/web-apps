@@ -78,9 +78,10 @@
 @import "../../../../common/main/resources/less/calendar.less";
 @import "../../../../common/main/resources/less/spinner.less";
 
-@toolbarBorderColor:            #dbdbdb;
-@toolbarBorderShadowColor:      #FAFAFA;
-@toolbarTopColor:               #F7F7F7;
+@toolbarBorderColor:            @border-toolbar-ie;
+@toolbarBorderColor:            @border-toolbar;
+@toolbarTopColor:               @background-toolbar-ie;
+@toolbarTopColor:               @background-toolbar;
 @toolbarFontSize:               12px;
 @btnColored:                    #446995;
 @btnActiveColored:              #293F59;
@@ -144,20 +145,7 @@
         width: 100%;
         height: 48px;
 
-        -webkit-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
-        //-moz-box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
-        box-shadow: inset 0 -1px 0 @toolbarBorderColor, inset 0 1px 0 @toolbarBorderShadowColor;
-    }
-
-    &.bottom {
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 46px;
-
-        -webkit-box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
-        //-moz-box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
-        box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
+        .box-inner-shadow(0 -1px 0 @toolbarBorderColor);
     }
 
     .group {
@@ -210,27 +198,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-        }
-
-        .separator {
-            height: 22px;
-            margin: 0 9px;
-            border-right: 1px solid @toolbarBorderShadowColor;
-            border-left: 1px solid @toolbarBorderColor;
-        }
-    }
-
-    .close {
-        font-size: 28px;
-        font-family: Arial, sans-serif;
-        color: #666666;
-        opacity: 0.8;
-        display: block;
-        line-height: 22px;
-
-        &:hover {
-            opacity: 1;
-            color: #666666;
         }
     }
 
@@ -320,9 +287,7 @@
         background-origin: content-box;
         padding: 1px 0 0 1px;
 
-        -webkit-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
-        -moz-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
-        box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        .box-shadow(0 0 0 2px rgba(255,255,255,0.3));
 
         &:hover {
             opacity: .6;
@@ -579,8 +544,7 @@
 .masked {
     background-color: transparent;
     border-color: transparent;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+    .box-shadow(none);
 }
 
 #pages {
@@ -604,9 +568,9 @@
 
     padding: 7px 15px;
     border-radius: 5px;
+    background-color: @background-notification-popover-ie;
     background-color: @background-notification-popover;
-    -webkit-box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.5);
+    .box-shadow(0 4px 15px -2px rgba(0, 0, 0, 0.5));
     font-size: 11px;
 }
 
