@@ -17,6 +17,7 @@ import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
 @inject(
     "users",
@@ -538,11 +539,7 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
-        const storeAppOptions = this.props.storeAppOptions;
-
-        // if (storeAppOptions.isEdit) {
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
-            console.log(obj, x, y);
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
                     this.onShowDateActions(obj, x, y);
@@ -567,18 +564,7 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
             console.log(true);
-            // console.log(this.cmpCalendar);
-            // if (this.cmpCalendar) {
-            //     console.log(1);
-            //     // this.controlsContainer.remove();
-            //     $$('#calendar-target-element').remove();
-            //     this.cmpCalendar.destroy();
-            //     console.log(this.cmpCalendar);
-            // }
         });
-
-        // this.api.asc_SetHighlightRequiredFields(true);
-        // }
 
         // text settings
         const storeTextSettings = this.props.storeTextSettings;
@@ -693,6 +679,7 @@ class MainController extends Component {
     }
 
     onShowDateActions(obj, x, y) {
+        const { t } = this.props;
         let props = obj.pr,
             specProps = props.get_DateTimePr(),
             isPhone = Device.isPhone;
@@ -702,123 +689,49 @@ class MainController extends Component {
 
         if (this.controlsContainer.length < 1) {
             this.controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
-            this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
             this.boxSdk.append(this.controlsContainer);
         }
-       
+
+        this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
+
         this.cmpCalendar = f7.calendar.create({
             inputEl: '#calendar-target-element',
-            firstDay: 0,
-            // backdrop: false,
-            // closeByBackdropClick: false,
-            // closeByOutsideClick: true,
+            dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
+            monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
+            backdrop: isPhone ? false : true,
+            closeByBackdropClick: isPhone ? false : true,
             value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
-            openIn: 'sheet',
-            footer: true,
+            openIn: isPhone ? 'sheet' : 'popover',
             on: {
                 change: (calendar, value) => {
                     if(calendar.initialized && value[0]) {
                         let specProps = this._dateObj.get_DateTimePr();
-                        console.log(value[0]);
                         specProps.put_FullDate(new Date(value[0]));
                         this.api.asc_SetContentControlDatePickerDate(specProps);
+                        calendar.close();
                         this.api.asc_UncheckContentControlButtons();
                     }
                 }
             }
         });
 
-        this.cmpCalendar.open();
+        setTimeout(() => {
+            this.cmpCalendar.open();
+        }, 100)
     }
     
         
     onShowListActions(obj, x, y) {
-        let type = obj.type,
-            props = obj.pr,
-            specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-            isForm = !!props.get_FormPr(),
-            menu = this.listControlMenu,
-            menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null;
-
-        this._listObj = props;
-
-        this._fromShowContentControls = true;
-
-        if (!menu) {
-            this.listControlMenu = menu = new Common.UI.Menu({
-                maxHeight: 207,
-                menuAlign: 'tr-bl',
-                items: []
-            });
-
-            menu.on('item:click', (menu, item) => {
-                setTimeout(() => {
-                    (item.value !== -1) && this.api.asc_SelectContentControlListItem(item.value, this._listObj.get_InternalId());
-                }, 1);
-            });
-
-            // Prepare menu container
-
-            if (!menuContainer || menuContainer.length < 1) {
-                menuContainer = $$(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                this.boxSdk.append(menuContainer);
-            }
-
-            menu.render(menuContainer);
-            menu.cmpEl.attr({tabindex: "-1"});
-
-            menu.on('hide:after', () => {
-                this.listControlMenu.removeAll();
-                if (!this._fromShowContentControls)
-                    this.api.asc_UncheckContentControlButtons();
-            });
-        }
-        if (specProps) {
-            if (isForm) { // for dropdown and combobox form control always add placeholder item
-                let text = props.get_PlaceholderText();
-
-                menu.addItem(new Common.UI.MenuItem({
-                    caption: (text.trim()!=='') ? text : this.txtEmpty,
-                    value: '',
-                    template: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                        '<%= caption %>',
-                        '</a>'
-                    ].join(''))
-                }));
-            }
-
-            let count = specProps.get_ItemsCount();
-
-            for (let i=0; i < count; i++) {
-                (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
-                    caption: specProps.get_ItemDisplayText(i),
-                    value: specProps.get_ItemValue(i),
-                    template: _.template([
-                        '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
-                        '<%= Common.Utils.String.htmlEncode(caption) %>',
-                        '</a>'
-                    ].join(''))
-                }));
-            }
-
-            if (!isForm && menu.items.length < 1) {
-                menu.addItem(new Common.UI.MenuItem({
-                    caption: this.txtEmpty,
-                    value: -1
-                }));
-            }
+        this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+       
+        if (this.dropdownListTarget.length < 1) {
+            this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+            this.boxSdk.append(this.dropdownListTarget);
         }
 
-        menuContainer.css({left: x, top : y});
-        menuContainer.attr('data-value', 'prevent-canvas-click');
-        this._preventClick = true;
-        menu.show();
+        this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
 
-        // _.delay(function() {
-        //     menu.cmpEl.focus();
-        // }, 10);
-        this._fromShowContentControls = false;
+        Common.Notifications.trigger('openDropdownList', obj, x, y);
     }
 
     onProcessSaveResult (data) {
@@ -1024,6 +937,7 @@ class MainController extends Component {
                 <ViewCommentsController />
                 <PluginsController />
                 <EncodingController />
+                <DropdownListController />
             </Fragment>
             )
     }
