@@ -89,6 +89,11 @@ class MainPage extends Component {
         });
     };
 
+    componentDidMount () {
+        if ( $$('.skl-container').length )
+            $$('.skl-container').remove();
+    }
+
     render() {
         const appOptions = this.props.storeAppOptions;
         const config = appOptions.config;

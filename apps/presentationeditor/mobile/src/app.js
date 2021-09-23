@@ -35,9 +35,9 @@ Framework7.use(Framework7React)
 ReactDOM.render(
     <I18nextProvider i18n={i18n}>
         <Provider {...stores}>
-            <Suspense fallback="">
+            {/*<Suspense fallback="">*/}
                 <App />
-            </Suspense>
+            {/*</Suspense>*/}
         </Provider>
     </I18nextProvider>,
   document.getElementById('app'),

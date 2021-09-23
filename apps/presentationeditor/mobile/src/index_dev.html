@@ -22,16 +22,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
   <link rel="icon" href="static/icons/favicon.png">
-  
-  
+
+    <link rel="stylesheet" type="text/css" href="../../common/mobile/resources/less/skeleton.css">
+
   <!-- built styles file will be auto injected -->
 </head>
 <body>
+    <section class="skl-container">
+        <div class="skl-navbar skl-navbar--slide"></div>
+    </section>
     <script>
         const isAndroid = /Android/.test(navigator.userAgent);
         if ( isAndroid && navigator.platform == 'Win32' )
             // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
             navigator.__defineGetter__('platform', () => 'Win32Debug');
+
+        let navbar = document.querySelector('.skl-navbar');
+        if ( window.devicePixelRatio ) {
+            if ( navbar ) {
+                navbar.classList.add(`skl-pixel-ratio--${Math.floor(window.devicePixelRatio)}`);
+            }
+        }
 
         if ( !isAndroid ) {
             const ua = navigator.userAgent;
@@ -42,6 +53,10 @@
                 Object.defineProperty(navigator, 'userAgent', {
                     get: function () { return `iPad; CPU OS 11_0 ${ua}`; }
                 });
+            }
+        } else {
+            if ( navbar ) {
+                navbar.classList.add('skl-navbar--md');
             }
         }
 

@@ -34,6 +34,10 @@ body {
     background-color: #40865c;
 }
 
+.skl-navbar.skl-navbar--slide {
+    background-color: #aa5252;
+}
+
 .skl-navbar::before {
     content: '';
     position: absolute;

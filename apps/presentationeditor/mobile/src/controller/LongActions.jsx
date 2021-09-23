@@ -35,9 +35,11 @@ const LongActionsController = () => {
 
         return (() => {
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
-            api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
-            api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
+            if ( api ) {
+                api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
+                api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
+                api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
+            }
 
             Common.Notifications.off('preloader:endAction', onLongActionEnd);
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
