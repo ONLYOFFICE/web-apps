@@ -44,9 +44,11 @@ class ContextMenu extends ContextMenuController {
         super.componentWillUnmount();
 
         const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
-        api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
-        api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
+        if ( api ) {
+            api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
+            api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+            api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
+        }
     }
 
 

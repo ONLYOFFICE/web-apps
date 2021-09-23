@@ -19,7 +19,7 @@ const FilterOptionsController = () => {
             api.asc_registerCallback('asc_onSetAFDialog',onApiFilterOptions);
         }
         
-        if ( !Common.EditorApi ) {
+        if ( !Common.EditorApi.get() ) {
             Common.Notifications.on('document:ready',onDocumentReady);
         } else {
             onDocumentReady();
@@ -28,7 +28,9 @@ const FilterOptionsController = () => {
         return () => { 
             Common.Notifications.off('document:ready', onDocumentReady);
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onSetAFDialog',onApiFilterOptions);
+            if ( api ) {
+                api.asc_unregisterCallback('asc_onSetAFDialog', onApiFilterOptions);
+            }
         }
     }, []);
 
