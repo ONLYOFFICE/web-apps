@@ -1432,6 +1432,8 @@
   "SSE.Views.AdvancedSeparatorDialog.strThousandsSeparator": "Thousands separator",
   "SSE.Views.AdvancedSeparatorDialog.textLabel": "Settings used to recognize numeric data",
   "SSE.Views.AdvancedSeparatorDialog.textTitle": "Advanced Settings",
+  "SSE.Views.AdvancedSeparatorDialog.txtNone": "(none)",
+  "SSE.Views.AdvancedSeparatorDialog.textQualifier": "Text qualifier",
   "SSE.Views.AutoFilterDialog.btnCustomFilter": "Custom Filter",
   "SSE.Views.AutoFilterDialog.textAddSelection": "Add current selection to filter",
   "SSE.Views.AutoFilterDialog.textEmptyItem": "{Blanks}",
