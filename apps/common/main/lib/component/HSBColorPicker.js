@@ -126,7 +126,7 @@ define([
                     previewColorText[0].innerHTML = (me.color == 'transparent') ? me.textNoColor : me.color.toUpperCase();
 
                 if (arrowSatBrightness.length>0 && arrowHue.length>0) {
-                    arrowSatBrightness.css('left', saturationVal + '%').css('top', 100 - brightnessVal + '%').css({'background-color' : me.color});
+                    arrowSatBrightness.css({'left': saturationVal + '%', 'top': 100 - brightnessVal + '%', 'background-color' : me.color});
                     arrowHue.css('top', parseInt(hueVal * 100 / 360.0) + '%');
                 }
             };
