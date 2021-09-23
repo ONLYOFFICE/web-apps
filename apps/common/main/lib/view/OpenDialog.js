@@ -292,7 +292,7 @@ define([
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
-                        qualifier = this.separatorOptions ? this.separatorOptions.qualifier : undefined;
+                        qualifier = this.separatorOptions ? this.separatorOptions.qualifier : '"';
                     var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
                     decimal && options.asc_setNumberDecimalSeparator(decimal);
                     thousands && options.asc_setNumberGroupSeparator(thousands);
@@ -553,7 +553,7 @@ define([
                         me.separatorOptions = {
                             decimal: (value.decimal.length > 0) ? value.decimal : decimal,
                             thousands: (value.thousands.length > 0) ? value.thousands : thousands,
-                            qualifier: (value.qualifier.length > 0) ? value.qualifier : qualifier
+                            qualifier: value.qualifier
                         };
                     }
                 }
