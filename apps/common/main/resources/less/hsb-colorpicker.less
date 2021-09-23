@@ -32,8 +32,7 @@
 
     .cnt-hb {
         display: inline-block;
-        //overflow: hidden;
-        width: 196px;
+        width: 195px;
         height: 196px;
         position: relative;
         background-position: 0 0;
@@ -50,13 +49,11 @@
         width: 12px;
         height: 100%;
         position: relative;
-        background-position: -196px 0;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
+        background-position: -195px 0;
     }
-    .radius(@parametr){
-        border-radius: @parametr;
-        -moz-border-radius: @parametr;
-        -webkit-border-radius: @parametr;
-    }
+
     .cnt-hb-arrow {
         display:  block;
         width: 12px;
@@ -65,7 +62,7 @@
         position: absolute;
         border: @scaled-one-px-value-ie solid #000;
         border: @scaled-one-px-value solid #000;
-        .radius(50%);
+        .border-radius(50%);
         &:after{
             content: ' ';
             position: absolute;
@@ -73,11 +70,8 @@
             height: 100%;
             border: @scaled-one-px-value-ie solid #fff;
             border: @scaled-one-px-value solid #fff;
-            .radius(50%);
+            .border-radius(50%);
         }
-
-
-       // background-position: 0 -196px;
     }
 
     .cnt-sat-arrow {
