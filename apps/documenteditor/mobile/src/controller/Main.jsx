@@ -542,6 +542,7 @@ class MainController extends Component {
 
         // if (storeAppOptions.isEdit) {
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            console.log(obj, x, y);
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
                     this.onShowDateActions(obj, x, y);
@@ -565,13 +566,18 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
-            if (this.cmpCalendar) {
-                this.controlsContainer.remove();
-                this.cmpCalendar.destroy();
-            }
+            console.log(true);
+            // console.log(this.cmpCalendar);
+            // if (this.cmpCalendar) {
+            //     console.log(1);
+            //     // this.controlsContainer.remove();
+            //     $$('#calendar-target-element').remove();
+            //     this.cmpCalendar.destroy();
+            //     console.log(this.cmpCalendar);
+            // }
         });
 
-        this.api.asc_SetHighlightRequiredFields(true);
+        // this.api.asc_SetHighlightRequiredFields(true);
         // }
 
         // text settings
@@ -688,9 +694,10 @@ class MainController extends Component {
 
     onShowDateActions(obj, x, y) {
         let props = obj.pr,
-            specProps = props.get_DateTimePr();
+            specProps = props.get_DateTimePr(),
+            isPhone = Device.isPhone;
 
-        this.controlsContainer = this.boxSdk.find('#calendar-control-container');
+        this.controlsContainer = this.boxSdk.find('#calendar-target-element');
         this._dateObj = props;
 
         if (this.controlsContainer.length < 1) {
@@ -699,29 +706,31 @@ class MainController extends Component {
             this.boxSdk.append(this.controlsContainer);
         }
        
-        if(!Device.isPhone) {
-            this.cmpCalendar = f7.calendar.create({
-                inputEl: '#calendar-target-element',
-                firstday: 0,
-                value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
-                openIn: 'popover',
-                footer: true,
-                on: {
-                    change: (calendar, value) => {
-                        if(value[0]) {
-                            let specProps = this._dateObj.get_DateTimePr();
-                            // console.log(new Date(value[0]));
-                            specProps.put_FullDate(new Date(value[0]));
-                            this.api.asc_SetContentControlDatePickerDate(specProps);
-                            this.api.asc_UncheckContentControlButtons();
-                        }
+        this.cmpCalendar = f7.calendar.create({
+            inputEl: '#calendar-target-element',
+            firstDay: 0,
+            // backdrop: false,
+            // closeByBackdropClick: false,
+            // closeByOutsideClick: true,
+            value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+            openIn: 'sheet',
+            footer: true,
+            on: {
+                change: (calendar, value) => {
+                    if(calendar.initialized && value[0]) {
+                        let specProps = this._dateObj.get_DateTimePr();
+                        console.log(value[0]);
+                        specProps.put_FullDate(new Date(value[0]));
+                        this.api.asc_SetContentControlDatePickerDate(specProps);
+                        this.api.asc_UncheckContentControlButtons();
                     }
                 }
-            });
+            }
+        });
 
-            this.cmpCalendar.open();
-        }
+        this.cmpCalendar.open();
     }
+    
         
     onShowListActions(obj, x, y) {
         let type = obj.type,
