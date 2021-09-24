@@ -83,9 +83,6 @@
 @toolbarTopColor:               @background-toolbar-ie;
 @toolbarTopColor:               @background-toolbar;
 @toolbarFontSize:               12px;
-@btnColored:                    #446995;
-@btnActiveColored:              #293F59;
-@btnHoverColored:               #375478;
 
 @iconSpriteCommonPath:          "../../../../common/forms/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
@@ -228,20 +225,20 @@
     &.colored {
         padding: 0 16px;
         height: 28px;
-        background-color: @btnColored;
+        background-color: @background-accent-button;
         border: 1px solid transparent;
         border-radius: 3px;
-        color: #ffffff;
+        color: @text-contrast-background !important;
         font-weight: 700;
 
         &:hover:not(.disabled),
         .over:not(.disabled) {
-            background-color: @btnHoverColored !important;
+            background-color: @highlight-accent-button-hover !important;
         }
 
         &:active:not(.disabled),
         &.active:not(.disabled) {
-            background-color: @btnActiveColored !important;;
+            background-color: @highlight-accent-button-pressed !important;
         }
     }
 }
@@ -583,22 +580,22 @@
         }
 
         .asc-synchronizetip {
-            background-color: @btnColored;
-            color: @text-toolbar-header;
+            background-color: @background-contrast-popover;
+            color: @text-contrast-background;
             .close {
                 &:before, &:after {
-                    background-color: @text-toolbar-header;
+                    background-color: @text-contrast-background;
                 }
             }
         }
 
         .tip-arrow:after {
-            background-color: @btnColored;
+            background-color: @background-contrast-popover;
         }
 
         .btn-div {
             display: inline-block;
-            border: 1px solid #fff;
+            border: 1px solid @border-regular-control;
             border-radius: 2px;
             padding: 3px 12px;
             margin-top: 10px;
