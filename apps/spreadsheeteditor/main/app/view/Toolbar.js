@@ -2047,7 +2047,7 @@ define([
                                     {
                                         id: 'id-toolbar-menu-auto-bordercolor',
                                         caption: this.textAutoColor,
-                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
                                         stopPropagation: true
                                     },
                                     {caption: '--'},
