@@ -291,10 +291,12 @@ define([
                     }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
-                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined;
+                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
+                        qualifier = this.separatorOptions ? this.separatorOptions.qualifier : '"';
                     var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
                     decimal && options.asc_setNumberDecimalSeparator(decimal);
                     thousands && options.asc_setNumberGroupSeparator(thousands);
+                    qualifier && options.asc_setTextQualifier(qualifier);
                     this.handler.call(this, state, {
                         textOptions: options,
                         range: this.txtDestRange ? this.txtDestRange.getValue() : '',
@@ -433,6 +435,7 @@ define([
                     if (this.separatorOptions) {
                         options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
                         options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                        options.asc_setTextQualifier(this.separatorOptions.qualifier);
                     }
                     this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
                     break;
@@ -441,6 +444,7 @@ define([
                     if (this.separatorOptions) {
                         options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
                         options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                        options.asc_setTextQualifier(this.separatorOptions.qualifier);
                     }
                     this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
@@ -536,17 +540,20 @@ define([
 
             var me = this,
                 decimal = this.api.asc_getDecimalSeparator(),
-                thousands = this.api.asc_getGroupSeparator();
+                thousands = this.api.asc_getGroupSeparator(),
+                qualifier = this.settings ? this.settings.asc_getTextQualifier() : '"';
             (new SSE.Views.AdvancedSeparatorDialog({
                 props: {
                     decimal: decimal,
-                    thousands: thousands
+                    thousands: thousands,
+                    qualifier: qualifier
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.separatorOptions = {
                             decimal: (value.decimal.length > 0) ? value.decimal : decimal,
-                            thousands: (value.thousands.length > 0) ? value.thousands : thousands
+                            thousands: (value.thousands.length > 0) ? value.thousands : thousands,
+                            qualifier: value.qualifier
                         };
                     }
                 }
