@@ -17,6 +17,8 @@ import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import DropdownListController from "./DropdownList";
+import { Device } from '../../../../common/mobile/utils/device';
 @inject(
     "users",
     "storeAppOptions",
@@ -38,6 +40,7 @@ class MainController extends Component {
 
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
+        this.boxSdk = $$('#editor_sdk');
 
         this._state = {
             licenseType: false,
@@ -536,7 +539,30 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
-        //text settings
+        this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        let lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.api.asc_addImage(obj);
+                    setTimeout(() => {
+                        this.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        });
+
+        // text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
 
@@ -646,6 +672,64 @@ class MainController extends Component {
             if (this.props.users.isDisconnected) return;
             storeToolbarSettings.setCanRedo(can);
         });
+    }
+
+    onShowDateActions(obj, x, y) {
+        const { t } = this.props;
+        let props = obj.pr,
+            specProps = props.get_DateTimePr(),
+            isPhone = Device.isPhone;
+
+        this.controlsContainer = this.boxSdk.find('#calendar-target-element');
+        this._dateObj = props;
+
+        if (this.controlsContainer.length < 1) {
+            this.controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
+            this.boxSdk.append(this.controlsContainer);
+        }
+
+        this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
+
+        this.cmpCalendar = f7.calendar.create({
+            inputEl: '#calendar-target-element',
+            dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
+            monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
+            backdrop: isPhone ? false : true,
+            closeByBackdropClick: isPhone ? false : true,
+            value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+            openIn: isPhone ? 'sheet' : 'popover',
+            on: {
+                change: (calendar, value) => {
+                    if(calendar.initialized && value[0]) {
+                        let specProps = this._dateObj.get_DateTimePr();
+                        specProps.put_FullDate(new Date(value[0]));
+                        this.api.asc_SetContentControlDatePickerDate(specProps);
+                        calendar.close();
+                        this.api.asc_UncheckContentControlButtons();
+                    }
+                }
+            }
+        });
+
+        setTimeout(() => {
+            this.cmpCalendar.open();
+        }, 100)
+    }
+    
+        
+    onShowListActions(obj, x, y) {
+        if(!Device.isPhone) {
+            this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+        
+            if (this.dropdownListTarget.length < 1) {
+                this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                this.boxSdk.append(this.dropdownListTarget);
+            }
+        
+            this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+        }
+
+        Common.Notifications.trigger('openDropdownList', obj);
     }
 
     onProcessSaveResult (data) {
@@ -851,6 +935,7 @@ class MainController extends Component {
                 <ViewCommentsController />
                 <PluginsController />
                 <EncodingController />
+                <DropdownListController />
             </Fragment>
             )
     }
