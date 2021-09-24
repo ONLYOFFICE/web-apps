@@ -1,6 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
-import { f7, Page, Navbar, List, ListItem, BlockTitle, ListButton, Popover, Popup, View, Link, Actions, ActionsGroup } from "framework7-react";
-import { useTranslation } from "react-i18next";
+import { f7, Page, Navbar, List, ListItem, BlockTitle, ListButton, Popover, Popup, View, Link, Sheet } from "framework7-react";
 import { Device } from '../../../../common/mobile/utils/device';
 
 const PageDropdownList = props => {
@@ -27,16 +26,15 @@ class DropdownListView extends Component {
     render() {
         return (
             Device.isPhone ? 
-                <Popup id="dropdown-list-popup" style={{height: '410px'}}> 
+                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToStep={true} swipeToClose={true}> 
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
                         closeModal={this.props.closeModal}
-                        style={{height: '100%'}}
                     />
-                </Popup>
+                </Sheet>
             : 
-                <Popover id="dropdown-list-popover" closeByOutsideClick={false} closeByBackdropClick={false}>
+                <Popover id="dropdown-list-popover" className="popover__titled" closeByOutsideClick={false}>
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
@@ -53,7 +51,7 @@ class DropdownListView extends Component {
 const DropdownList = props => {
     useEffect(() => {
         if(Device.isPhone) {
-            f7.popup.open('#dropdown-list-popup', true);
+            f7.sheet.open('#dropdown-list-sheet', true);
         } else {
             f7.popover.open('#dropdown-list-popover', '#dropdown-list-target');
         }

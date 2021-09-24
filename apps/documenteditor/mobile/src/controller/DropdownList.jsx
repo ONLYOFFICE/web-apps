@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { f7 } from "framework7-react";
+import { withTranslation } from "react-i18next";
 import DropdownList from "../view/DropdownList";
 
 class DropdownListController extends Component {
@@ -12,19 +13,17 @@ class DropdownListController extends Component {
             isOpen: false
         };
 
-        Common.Notifications.on('openDropdownList', (obj, x, y) => {
-            this.initDropdownList(obj, x, y);
+        Common.Notifications.on('openDropdownList', obj => {
+            this.initDropdownList(obj);
         });
     }
 
-    initDropdownList(obj, x, y) {
+    initDropdownList(obj) {
         let type = obj.type;
 
-        this.left = x;
-        this.top = y;
-        this.props = obj.pr;
-        this.specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.props.get_ComboBoxPr() : this.props.get_DropDownListPr();
-        this.isForm = !!this.props.get_FormPr();
+        this.propsObj = obj.pr;
+        this.specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.propsObj.get_ComboBoxPr() : this.propsObj.get_DropDownListPr();
+        this.isForm = !!this.propsObj.get_FormPr();
         this.listItems = [];
 
         this.initListItems();
@@ -35,7 +34,17 @@ class DropdownListController extends Component {
     }
 
     initListItems() {
-        let count = this.specProps.get_ItemsCount();
+        const { t } = this.props;
+        const count = this.specProps.get_ItemsCount();
+
+        if(this.isForm) {
+            let text = this.propsObj.get_PlaceholderText();
+
+            this.listItems.push({
+                caption: text.trim() !== '' ? text : t('Edit.textEmpty'),
+                value: ''
+            });
+        }
 
         for (let i = 0; i < count; i++) {
             if(this.specProps.get_ItemValue(i) || !this.isForm) {
@@ -45,11 +54,18 @@ class DropdownListController extends Component {
                 });
             }
         }
+
+        if (!this.isForm && this.listItems.length < 1) {
+            this.listItems.push({
+                caption: t('Edit.textEmpty'),
+                value: -1
+            });
+        }
     }
 
     closeModal() {
         if(Device.isPhone) {
-            f7.popup.close('#dropdown-list-popup', true);
+            f7.sheet.close('#dropdown-list-sheet', true);
         } else {
             f7.popover.close('#dropdown-list-popover', true);
         }
@@ -59,10 +75,10 @@ class DropdownListController extends Component {
 
     onChangeItemList(value) {
         const api = Common.EditorApi.get();
-        // const internalId = this.props.get_InternalId;
+        // const internalId = this.propsObj.get_InternalId;
 
         if(value !== -1) {
-            this.closeModal()
+            this.closeModal();
             api.asc_SelectContentControlListItem(value);
         }
     }
@@ -79,4 +95,4 @@ class DropdownListController extends Component {
     }
 }
 
-export default DropdownListController;
+export default withTranslation()(DropdownListController);

@@ -326,7 +326,8 @@
     "textSeptember": "September",
     "textOctober": "October",
     "textNovember": "November",
-    "textDecember": "December"
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

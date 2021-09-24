@@ -562,10 +562,6 @@ class MainController extends Component {
             }
         });
 
-        this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
-            console.log(true);
-        });
-
         // text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
@@ -722,16 +718,18 @@ class MainController extends Component {
     
         
     onShowListActions(obj, x, y) {
-        this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
-       
-        if (this.dropdownListTarget.length < 1) {
-            this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
-            this.boxSdk.append(this.dropdownListTarget);
+        if(!Device.isPhone) {
+            this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+        
+            if (this.dropdownListTarget.length < 1) {
+                this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                this.boxSdk.append(this.dropdownListTarget);
+            }
+        
+            this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
         }
 
-        this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
-
-        Common.Notifications.trigger('openDropdownList', obj, x, y);
+        Common.Notifications.trigger('openDropdownList', obj);
     }
 
     onProcessSaveResult (data) {
