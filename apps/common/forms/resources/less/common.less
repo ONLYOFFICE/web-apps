@@ -218,7 +218,13 @@
     display: block;
     width: 100px;
     height: 24px;
-    background: data-uri('../../../../common/forms/resources/img/logo.svg') no-repeat;
+    background: data-uri('../../../../common/main/resources/img/header/dark-logo_s.svg') no-repeat;
+}
+
+.theme-dark {
+    .brand-logo {
+        background: data-uri('../../../../common/main/resources/img/header/header-logo_s.svg') no-repeat;
+    }
 }
 
 .btn-text-default {
@@ -415,21 +421,28 @@
 
 @icon-width: 20px;
 @icon-height: 20px;
+
+.theme-dark {
+    @neg-value: -@icon-height;
+    --icon-normal-top: @neg-value;
+}
+@icon-normal-top: var(--icon-normal-top, 0);
+
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
     background-size: @icon-width*19 @icon-height*2;
 
     &.download {
-        background-position: -@icon-width 0;
+        background-position: -@icon-width @icon-normal-top;
     }
     &.share {
-        background-position: -@icon-width*2 0;
+        background-position: -@icon-width*2 @icon-normal-top;
     }
     &.embed {
-        background-position: -@icon-width*3 0;
+        background-position: -@icon-width*3 @icon-normal-top;
     }
     &.fullscr {
-        background-position: -@icon-width*4 0;
+        background-position: -@icon-width*4 @icon-normal-top;
     }
     &.zoom-up {
         background-position: -@icon-width*5 -@icon-height;
@@ -453,23 +466,23 @@
     }
 
     &.print {
-        background-position: -@icon-width*11 0;
+        background-position: -@icon-width*11 @icon-normal-top;
     }
 
     &.arrow-up {
-        background-position: -@icon-width*17 0;
+        background-position: -@icon-width*17 @icon-normal-top;
     }
     &.arrow-down {
-        background-position: -@icon-width*16 0;
+        background-position: -@icon-width*16 @icon-normal-top;
     }
     &.clear-style {
-        background-position: -@icon-width*12 0;
+        background-position: -@icon-width*12 @icon-normal-top;
     }
     &.go-to-location {
-        background-position: -@icon-width*15 0;
+        background-position: -@icon-width*15 @icon-normal-top;
     }
     &.more-vertical {
-        background-position: -@icon-width*14 0;
+        background-position: -@icon-width*14 @icon-normal-top;
     }
 }
 
