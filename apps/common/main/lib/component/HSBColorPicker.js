@@ -55,7 +55,7 @@ define([
                     '<% } %>'+
                     '<div>'+
                         '<div class="cnt-hb img-colorpicker">'+
-                            '<div class="cnt-hb-arrow img-colorpicker"></div>'+
+                            '<div class="cnt-hb-arrow"></div>'+
                         '</div>'+
                         '<% if (this.changeSaturation) { %>'+
                             '<div class="cnt-root">'+
@@ -106,6 +106,7 @@ define([
                 refreshUI();
 
                 me.trigger('changecolor', me, me.color);
+
             };
 
             var refreshUI = function(){
@@ -125,8 +126,7 @@ define([
                     previewColorText[0].innerHTML = (me.color == 'transparent') ? me.textNoColor : me.color.toUpperCase();
 
                 if (arrowSatBrightness.length>0 && arrowHue.length>0) {
-                    arrowSatBrightness.css('left', saturationVal + '%');
-                    arrowSatBrightness.css('top', 100 - brightnessVal + '%');
+                    arrowSatBrightness.css({'left': saturationVal + '%', 'top': 100 - brightnessVal + '%', 'background-color' : me.color});
                     arrowHue.css('top', parseInt(hueVal * 100 / 360.0) + '%');
                 }
             };
