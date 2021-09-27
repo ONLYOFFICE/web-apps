@@ -23,6 +23,15 @@ define([
                         {caption: this.txtDownloadDocx, value: 'download-docx', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadPdf, value: 'download-pdf', iconCls: 'mi-icon'},
                         {caption: '--'},
+                        {caption: this.txtTheme, value: 'theme', iconCls: 'mi-icon',
+                            menu        : this.mnuThemes = new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                restoreHeight: true,
+                                items: []
+                            })
+                        },
+                        {caption: '--'},
                         {caption: this.txtShare, value: 'share', iconCls: 'mi-icon svg-icon share'},
                         {caption: this.txtFileLocation, value: 'close', iconCls: 'mi-icon svg-icon go-to-location'},
                         {caption: '--'},
@@ -81,6 +90,7 @@ define([
         txtDownloadPdf: 'Download as pdf',
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
-        textSubmit: 'Submit'
+        textSubmit: 'Submit',
+        txtTheme: 'Interface theme'
     });
 });

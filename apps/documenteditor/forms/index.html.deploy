@@ -20,7 +20,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background-color: #e2e2e2;
+            background-color: var(--canvas-background, #e2e2e2);
             z-index: 1001;
         }
 
@@ -29,8 +30,11 @@
             position: absolute;
             height: 48px;
             background-color: #F7F7F7;
-            -webkit-box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
-            box-shadow: inset 0 -1px 0 #dbdbdb, inset 0 1px 0 #FAFAFA;
+            background-color: var(--background-toolbar, #F7F7F7);
+            -webkit-box-shadow: inset 0 -1px 0 #cbcbcb;
+            box-shadow: inset 0 -1px 0 #cbcbcb;
+            -webkit-box-shadow: inset 0 -1px 0 var(--border-toolbar, #cbcbcb);
+            box-shadow: inset 0 -1px 0 var(--border-toolbar, #cbcbcb);
         }
 
         .loadmask > .brendpanel > div {
@@ -41,7 +45,7 @@
 
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
-            height: 24px;
+            height: 20px;
             margin-left: 10px;
             text-align: center;
         }
@@ -58,8 +62,8 @@
 
         .loadmask > .brendpanel .circle {
             vertical-align: middle;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 12px;
             margin: 4px 10px;
             background: rgba(255, 255, 255, 0.2);
@@ -75,7 +79,7 @@
         .loadmask > .placeholder > .line {
             height: 15px;
             margin: 30px;
-            background: #e2e2e2;
+            background: rgba(0,0,0,.05);
             overflow: hidden;
             position: relative;
 
@@ -112,7 +116,7 @@
     <![endif]-->
   </head>
 
-  <body class="embed-body theme-classic-light theme-type-light">
+  <body class="embed-body">
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
