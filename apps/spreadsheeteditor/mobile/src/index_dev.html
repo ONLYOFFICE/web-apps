@@ -23,7 +23,11 @@
   <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
   <link rel="icon" href="static/icons/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="../../common/mobile/resources/less/skeleton.css">
+    <% if (!htmlWebpackPlugin.options.skeleton.content) { %>
+        <link rel="stylesheet" href="../../common/mobile/resources/css/skeleton.css">
+    <% } else { %>
+        <style><%= htmlWebpackPlugin.options.skeleton.content %></style>
+    <% } %>
 
   <!-- built styles file will be auto injected -->
 </head>
