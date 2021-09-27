@@ -150,6 +150,7 @@ require([
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
+                'common/main/lib/controller/Themes',
                 'common/forms/lib/view/modals'
             ], function() {
                 app.start();

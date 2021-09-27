@@ -58,6 +58,8 @@ define([
                 'embedded' : true
             });
 
+            Common.UI.Themes.init(this.api);
+
             $(window).on('resize', this.onDocumentResize.bind(this));
 
             this.boxSdk = $('#editor_sdk');
