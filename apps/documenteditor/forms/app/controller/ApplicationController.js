@@ -1063,28 +1063,49 @@ define([
             }
         },
 
+        onThemeClick: function(menu, item) {
+            Common.UI.Themes.setTheme(item.value);
+        },
+
+        onThemeChange: function() {
+            var current = Common.UI.Themes.currentThemeId();
+            _.each(this.view.mnuThemes.items, function(item){
+                item.setChecked(current===item.value, true);
+            });
+        },
+
         createDelayedElements: function() {
             var me = this,
                 menuItems = this.view.btnOptions.menu.items,
-                itemsCount = menuItems.length-3;
+                itemsCount = menuItems.length-4;
             var initMenu = function(menu) {
                 var last;
+                // print
                 if (!menuItems[0].isVisible())
                     menuItems[1].setVisible(false);
                 else
                     last = menuItems[1];
 
+                // download
                 if (!menuItems[2].isVisible() && !menuItems[3].isVisible() && !menuItems[4].isVisible())
                     menuItems[5].setVisible(false);
                 else
                     last = menuItems[5];
 
-                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
-                    menuItems[8].setVisible(false);
+                // theme
+                if (!menuItems[6].isVisible())
+                    menuItems[7].setVisible(false);
                 else
-                    last = menuItems[8];
+                    last = menuItems[7];
 
-                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
+                // share, location
+                if (!menuItems[8].isVisible() && !menuItems[9].isVisible())
+                    menuItems[10].setVisible(false);
+                else
+                    last = menuItems[10];
+
+                // embed, fullscreen
+                if (!menuItems[11].isVisible() && !menuItems[12].isVisible())
                     last && last.setVisible(false);
 
                 menu.off('show:after', initMenu);
@@ -1106,23 +1127,43 @@ define([
                 itemsCount -= 2;
             }
 
-            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
+            if (Common.UI.Themes.available()) {
+                var current = Common.UI.Themes.currentThemeId();
+                for (var t in Common.UI.Themes.map()) {
+                    this.view.mnuThemes.addItem(new Common.UI.MenuItem({
+                        caption     : Common.UI.Themes.get(t).text,
+                        value       : t,
+                        toggleGroup : 'themes',
+                        checkable   : true,
+                        checked     : t===current
+                    }));
+                }
+            }
+            if (this.view.mnuThemes.items.length<1) {
                 menuItems[6].setVisible(false);
+                itemsCount--;
+            } else {
+                this.view.mnuThemes.on('item:click', _.bind(this.onThemeClick, this));
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChange.bind(this));
+            }
+
+            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
+                menuItems[8].setVisible(false);
                 itemsCount--;
             }
 
             if (!this.appOptions.canBackToFolder) {
-                menuItems[7].setVisible(false);
-                itemsCount--;
-            }
-
-            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
                 menuItems[9].setVisible(false);
                 itemsCount--;
             }
 
+            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
+                menuItems[11].setVisible(false);
+                itemsCount--;
+            }
+
             if ( !this.embedConfig.fullscreenUrl ) {
-                menuItems[10].setVisible(false);
+                menuItems[12].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)

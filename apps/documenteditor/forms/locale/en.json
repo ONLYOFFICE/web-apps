@@ -57,5 +57,6 @@
   "DE.ApplicationView.txtShare": "Share",
   "DE.ApplicationView.textSubmit": "Submit",
   "DE.ApplicationView.textClear": "Clear All Fields",
-  "DE.ApplicationView.textNext": "Next Field"
+  "DE.ApplicationView.textNext": "Next Field",
+  "DE.ApplicationView.txtTheme": "Interface theme"
 }
