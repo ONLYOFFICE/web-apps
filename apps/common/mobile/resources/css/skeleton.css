@@ -26,15 +26,15 @@ body {
     height: calc(56px + 26px);
 }
 
-.skl-navbar.skl-navbar--word {
+.skl-navbar.skl-navbar--word:not(.skl-navbar--ios) {
     background-color: #446995;
 }
 
-.skl-navbar.skl-navbar--cell {
+.skl-navbar.skl-navbar--cell:not(.skl-navbar--ios) {
     background-color: #40865c;
 }
 
-.skl-navbar.skl-navbar--slide {
+.skl-navbar.skl-navbar--slide:not(.skl-navbar--ios) {
     background-color: #aa5252;
 }
 
