@@ -365,7 +365,7 @@
   "PE.Controllers.LeftMenu.newDocumentTitle": "Презентация без имени",
   "PE.Controllers.LeftMenu.notcriticalErrorTitle": "Внимание",
   "PE.Controllers.LeftMenu.requestEditRightsText": "Запрос прав на редактирование...",
-  "PE.Controllers.LeftMenu.textLoadHistory": "Загрузка журнала версий...",
+  "PE.Controllers.LeftMenu.textLoadHistory": "Загрузка истории версий...",
   "PE.Controllers.LeftMenu.textNoTextFound": "Искомые данные не найдены. Пожалуйста, измените параметры поиска.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
