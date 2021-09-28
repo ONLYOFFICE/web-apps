@@ -23,7 +23,11 @@ body {
 }
 
 .skl-navbar.skl-navbar--md {
-    height: calc(56px + 26px);
+    /*height: calc(56px + 26px);*/
+}
+
+.skl-navbar.skl-navbar--ios {
+    background-color: #f7f7f8;
 }
 
 .skl-navbar.skl-navbar--word:not(.skl-navbar--ios) {

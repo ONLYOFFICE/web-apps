@@ -205,7 +205,7 @@ module.exports = {
         useShortDoctype: true
       } : false,
       skeleton: {
-          content: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
+          stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
       },
     }),
     new CopyWebpackPlugin({
