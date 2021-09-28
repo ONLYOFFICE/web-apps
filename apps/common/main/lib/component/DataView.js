@@ -1386,7 +1386,7 @@ define([
                 _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
                     _.each($(group).find('div.item'), function (item, index) {
                         var $item = $(item),
-                            rec = me.options.groups.at(indexGroup).groupStore.at(index);
+                            rec = me.options.groups[indexGroup].groupStore.at(index);
                         me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
                         var tip = rec.get('tip');
                         if (tip) {
@@ -1512,7 +1512,7 @@ define([
 
             if (recents.length > 0 && diff) {
                 me.recentShapes = recents;
-                me.groups.at(0).groupStore.reset(me.recentShapes);
+                me.groups[0].groupStore.reset(me.recentShapes);
 
                 var store = new Common.UI.DataViewStore();
                 _.each(me.groups, function (group) {
