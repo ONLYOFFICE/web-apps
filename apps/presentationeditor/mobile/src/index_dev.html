@@ -23,7 +23,11 @@
   <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
   <link rel="icon" href="static/icons/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="../../common/mobile/resources/less/skeleton.css">
+    <% if (!htmlWebpackPlugin.options.skeleton.stylesheet) { %>
+        <link rel="stylesheet" href="../../common/mobile/resources/css/skeleton.css">
+    <% } else { %>
+        <style><%= htmlWebpackPlugin.options.skeleton.stylesheet %></style>
+    <% } %>
 
   <!-- built styles file will be auto injected -->
 </head>
@@ -37,11 +41,11 @@
             // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
             navigator.__defineGetter__('platform', () => 'Win32Debug');
 
+        const element_add_class = (el, cls) => (el && el.classList.add(cls));
+
         let navbar = document.querySelector('.skl-navbar');
         if ( window.devicePixelRatio ) {
-            if ( navbar ) {
-                navbar.classList.add(`skl-pixel-ratio--${Math.floor(window.devicePixelRatio)}`);
-            }
+            element_add_class(navbar, `skl-pixel-ratio--${Math.floor(window.devicePixelRatio)}`);
         }
 
         if ( !isAndroid ) {
@@ -53,11 +57,11 @@
                 Object.defineProperty(navigator, 'userAgent', {
                     get: function () { return `iPad; CPU OS 11_0 ${ua}`; }
                 });
+            } else {
+                element_add_class(navbar, `skl-navbar--ios`);
             }
         } else {
-            if ( navbar ) {
-                navbar.classList.add('skl-navbar--md');
-            }
+            element_add_class(navbar, `skl-navbar--md`);
         }
 
         const getUrlParams = () => {
