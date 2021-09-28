@@ -1371,7 +1371,6 @@ define([
                     restoreHeight: 174,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    //itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
                     itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
                         +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg,#000, #fff)'
                         +' <%} else {%> radial-gradient( #000 , #fff 70%) <%}%>;"></div>')
