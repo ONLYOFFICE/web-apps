@@ -456,9 +456,7 @@ define([
             this.appOptions.canFillForms   = this.appOptions.canLicense && (this.permissions.fillForms===true) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
-            var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
-            this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
-            this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
+            this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
 
             this.appOptions.fileKey = this.document.key;
@@ -776,11 +774,11 @@ define([
         },
 
         onDownloadAs: function() {
-            if ( !this.appOptions.canDownload && !this.appOptions.canDownloadOrigin ) {
+            if ( !this.appOptions.canDownload ) {
                 Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
                 return;
             }
-            var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
             else
@@ -1116,7 +1114,7 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.saveUrl && !this.appOptions.canPrint || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.canFillForms) {
                 menuItems[2].setVisible(false);
                 itemsCount--;
             }
