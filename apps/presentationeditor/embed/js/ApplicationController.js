@@ -76,11 +76,13 @@ PE.ApplicationController = new(function(){
         if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
             $('#editor_sdk').addClass('bottom');
+            $('#box-preview').addClass('bottom');
             $('#box-tools').removeClass('dropdown').addClass('dropup');
             ttOffset[1] = -40;
         } else {
             $('#toolbar').addClass('top');
             $('#editor_sdk').addClass('top');
+            $('#box-preview').addClass('top');
         }
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
