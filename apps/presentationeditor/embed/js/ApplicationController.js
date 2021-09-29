@@ -76,11 +76,13 @@ PE.ApplicationController = new(function(){
         if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
             $('#editor_sdk').addClass('bottom');
+            $('#box-preview').addClass('bottom');
             $('#box-tools').removeClass('dropdown').addClass('dropup');
             ttOffset[1] = -40;
         } else {
             $('#toolbar').addClass('top');
             $('#editor_sdk').addClass('top');
+            $('#box-preview').addClass('top');
         }
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
@@ -259,7 +261,7 @@ PE.ApplicationController = new(function(){
         if ( permissions.print === false)
             $('#idt-print').hide();
 
-        if (!embedConfig.saveUrl && permissions.print === false)
+        if (!embedConfig.saveUrl || permissions.download === false)
             $('#idt-download').hide();
 
         if ( !embedConfig.shareUrl )
@@ -274,7 +276,7 @@ PE.ApplicationController = new(function(){
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if ( (!embedConfig.saveUrl || permissions.download === false) && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
         else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
             $('#box-tools .divider').hide();
@@ -309,11 +311,8 @@ PE.ApplicationController = new(function(){
 
         PE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                if ( !!embedConfig.saveUrl ){
+                if ( !!embedConfig.saveUrl && permissions.download !== false){
                     common.utils.openLink(embedConfig.saveUrl);
-                } else
-                if (api && permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
