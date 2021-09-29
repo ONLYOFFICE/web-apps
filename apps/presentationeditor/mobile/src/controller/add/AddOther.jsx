@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
+import {observer, inject} from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 
@@ -10,6 +11,7 @@ class AddOtherController extends Component {
         super(props);
         this.onStyleClick = this.onStyleClick.bind(this);
         this.initStyleTable = this.initStyleTable.bind(this);
+        this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
 
         this.initTable = false;
     }
@@ -90,6 +92,15 @@ class AddOtherController extends Component {
         }).open();
     }
 
+    onGetTableStylesPreviews = () => {
+        const api = Common.EditorApi.get();
+        if (this.props.storeTableSettings.isRenderStyles) {
+            f7.preloader.showIn('.preload');
+            setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews()) , 10);
+            this.props.storeTableSettings.resetFlagRender(false);
+        }
+    }
+
     hideAddComment () {
         const api = Common.EditorApi.get();
         const stack = api.getSelectedElements();
@@ -122,11 +133,12 @@ class AddOtherController extends Component {
                       onStyleClick={this.onStyleClick}
                       initStyleTable={this.initStyleTable}
                       hideAddComment={this.hideAddComment}
+                      onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
             />
         )
     }
 }
 
-const AddOtherWithTranslation = withTranslation()(AddOtherController);
+const AddOtherWithTranslation =  inject("storeTableSettings")(withTranslation()(AddOtherController));
 
 export {AddOtherWithTranslation as AddOtherController};

@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {Page, Navbar, NavRight, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
 import { f7 } from 'framework7-react';
@@ -173,12 +173,18 @@ const PageWrap = props => {
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,onReadyStyles, onGetTableStylesPreviews,storeFocusObjects}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject && tableObject.get_TableStyle();
     const [stateId, setId] = useState(styleId);
-    const styles =  storeTableSettings.styles;
-
+    const styles =  storeTableSettings.arrayStyles;
+    
+    useEffect(() => {
+        if (storeTableSettings.isRenderStyles) onGetTableStylesPreviews();
+        return () => {
+            storeTableSettings.resetFlagRender(false);
+        }
+    }, []);
     return (
         <div className="dataview table-styles">
             <ul className="row">
@@ -192,6 +198,7 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
                         )
                     })}
             </ul>
+            {storeTableSettings.isRenderStyles && onReadyStyles()}
         </div>
     )
 }));
@@ -200,6 +207,9 @@ const PageStyleOptions = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
+    const nextStateRef = useRef();
+    const prevStateRef = useRef();
+
     let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
     if (tableObject) {
         tableLook = tableObject.get_TableLook();
@@ -210,9 +220,30 @@ const PageStyleOptions = props => {
         isLastCol = tableLook.get_LastCol();
         isBandVer = tableLook.get_BandVer();
     }
+    
+    nextStateRef.current = [isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer];
+
+    useEffect(() => {
+        props.storeTableSettings.resetFlagRender(false);
+        prevStateRef.current = [...nextStateRef.current];
+
+        return () => {
+            if (!(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
+                props.onGetTableStylesPreviews();
+            } 
+        }
+    }, []);
+
+    const openIndicator = () => {
+        if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
+            $$('.table-styles').hide();
+            f7.preloader.showIn('.preload');
+        }
+    }
+
     return (
         <Page>
-            <Navbar title={_t.textOptions} backLink={_t.textBack}>
+            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={openIndicator}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -464,14 +495,17 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-    const storeTableSettings = props.storeTableSettings;
-    const templates = storeTableSettings.styles;
     const isAndroid = Device.android;
 
     const tableObject = props.storeFocusObjects.tableObject;
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
+    }
+
+    const onReadyStyles = () => {
+        f7.preloader.hideIn('.preload');
+        $$('.table-styles').show();
     }
 
     return (
@@ -495,12 +529,14 @@ const PageStyle = props => {
                 <Tab key={"de-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
                     <List>
                         <ListItem>
-                            <StyleTemplates templates={templates} onStyleClick={props.onStyleClick}/>
+                            <div className="preload"></div>
+                            <StyleTemplates onReadyStyles={onReadyStyles} onGetTableStylesPreviews={props.onGetTableStylesPreviews} onStyleClick={props.onStyleClick}/>
                         </ListItem>
                     </List>
                     <List>
                         <ListItem title={_t.textStyleOptions} link={'/edit-table-style-options/'} routeProps={{
-                            onCheckTemplateChange: props.onCheckTemplateChange
+                            onCheckTemplateChange: props.onCheckTemplateChange,
+                            onGetTableStylesPreviews: props.onGetTableStylesPreviews,
                         }}/>
                     </List>
                 </Tab>
@@ -560,6 +596,7 @@ const EditTable = props => {
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,
                     onCheckTemplateChange: props.onCheckTemplateChange,
+                    onGetTableStylesPreviews: props.onGetTableStylesPreviews,
                     onFillColor: props.onFillColor,
                     onBorderTypeClick: props.onBorderTypeClick
                 }}></ListItem>

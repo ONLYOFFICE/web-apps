@@ -1,14 +1,23 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
+import { f7 } from 'framework7-react';
 import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
 const AddTable = props => {
+
     const storeTableSettings = props.storeTableSettings;
-    const styles = storeTableSettings.styles;
+    const styles = storeTableSettings.arrayStyles;
+
+    const onReadyStyles = () => {
+        f7.preloader.hideIn('.preload');
+    }
+
     return (
+        
         <div className={'table-styles dataview'}>
+            <div className="preload"></div>
             <ul className="row">
                 {styles.map((style, index) => {
                     return (
@@ -19,6 +28,7 @@ const AddTable = props => {
                     )
                 })}
             </ul>
+            {onReadyStyles()}
         </div>
     )
 };

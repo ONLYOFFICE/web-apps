@@ -47,6 +47,7 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
+
     return (
         <Navbar>
             {tabs.length > 1 ?
@@ -64,11 +65,12 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
     )
 };
 
-const AddLayoutContent = ({ tabs }) => {
+const AddLayoutContent = ({ tabs, onGetTableStylesPreviews }) => {
+
     return (
         <Tabs animated>
             {tabs.map((item, index) =>
-                <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
+                <Tab key={"de-tab-" + item.id} onTabShow={(e) => {e.id === 'add-table' && onGetTableStylesPreviews()}}  id={item.id} className="page-content" tabActive={index === 0}>
                     {item.component}
                 </Tab>
             )}
@@ -76,7 +78,7 @@ const AddLayoutContent = ({ tabs }) => {
     )
 };
 
-const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPanels, style, inPopover}) => {
+const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const api = Common.EditorApi.get();
@@ -179,11 +181,21 @@ const AddTabs = inject("storeFocusObjects")(observer(({storeFocusObjects, showPa
             component: <AddLinkController noNavbar={true}/>
         });
     }
+
+    const onGetTableStylesPreviews = () => {
+        const api = Common.EditorApi.get();
+        if(storeTableSettings.isRenderStyles) {
+            f7.preloader.showIn('.preload');
+            setTimeout( () => storeTableSettings.setStyles(api.asc_getTableStylesPreviews()), 10);
+            storeTableSettings.resetFlagRender(false);
+        }
+    }
+
     return (
         <View style={style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
                 <AddLayoutNavbar tabs={tabs} inPopover={inPopover}/>
-                <AddLayoutContent tabs={tabs} />
+                <AddLayoutContent tabs={tabs} onGetTableStylesPreviews={onGetTableStylesPreviews}/>
             </Page>
         </View>
     )

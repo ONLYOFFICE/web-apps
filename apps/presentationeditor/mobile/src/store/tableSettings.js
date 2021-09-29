@@ -8,28 +8,37 @@ export class storeTableSettings {
             cellBorders: observable,
             cellBorderWidth: observable,
             cellBorderColor: observable,
+            arrayStyles: observable,
+            isRenderStyles:observable,
             initTableTemplates: action,
-            styles: computed,
+            resetFlagRender: action,
+            setStyles: action,
             updateCellBorderWidth: action,
             updateCellBorderColor: action,
         });
     }
 
     _templates = [];
+    arrayStyles = [];
+    isRenderStyles;
 
-    initTableTemplates (templates) {
-        this._templates = templates;
+    resetFlagRender (bool) {
+        this.isRenderStyles = bool;
+    }
+    
+    initTableTemplates () {
+        this.isRenderStyles = true;
     }
 
-    get styles () {
+    setStyles (arrStyles) {
         let styles = [];
-        for (let template of this._templates) {
+        for (let template of arrStyles) {
             styles.push({
-                imageUrl    : template.asc_getImage(),
-                templateId  : template.asc_getId()
-            });
-        }
-        return styles;
+                        imageUrl    : template.asc_getImage(),
+                        templateId  : template.asc_getId()
+                    });
+                }
+        return this.arrayStyles = styles;
     }
 
     getTableLook (tableObject) {

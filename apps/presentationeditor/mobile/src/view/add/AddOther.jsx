@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -9,10 +9,16 @@ const PageTable = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
-    const styles = storeTableSettings.styles;
+    const styles = storeTableSettings.arrayStyles;
+
+    const onReadyStyles = () => {
+        f7.preloader.hideIn('.preload');
+    }
+
     return (
         <Page id={'add-table'}>
             <Navbar title={_t.textTable} backLink={_t.textBack}/>
+            <div className="preload"></div>
             <div className={'table-styles dataview'}>
                 <ul className="row">
                     {styles.map((style, index) => {
@@ -24,6 +30,7 @@ const PageTable = props => {
                         )
                     })}
                 </ul>
+                {onReadyStyles()}
             </div>
         </Page>
     )
@@ -36,7 +43,7 @@ const AddOther = props => {
     const hideAddComment = props.hideAddComment();
     return (
         <List>
-            <ListItem title={_t.textTable} link={'/add-table/'} routeProps={{
+            <ListItem title={_t.textTable} link={'/add-table/'} onClick = {() => props.onGetTableStylesPreviews()} routeProps={{
                 onStyleClick: props.onStyleClick,
                 initStyleTable: props.initStyleTable
             }}>

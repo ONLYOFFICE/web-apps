@@ -17,7 +17,9 @@ class EditTableController extends Component {
         this.onRemoveColumn = this.onRemoveColumn.bind(this);
         this.onRemoveRow = this.onRemoveRow.bind(this);
         this.onWrapMoveText = this.onWrapMoveText.bind(this);
+        this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
     }
+
     closeIfNeed () {
         if (!this.props.storeFocusObjects.isTableInStack) {
             if ( Device.phone ) {
@@ -160,6 +162,7 @@ class EditTableController extends Component {
     onCheckTemplateChange (tableLook, type, isChecked) {
         const api = Common.EditorApi.get();
         const properties = new Asc.CTableProp();
+        
         switch (type) {
             case 0:
                 tableLook.put_FirstRow(isChecked);
@@ -182,6 +185,11 @@ class EditTableController extends Component {
         }
         properties.put_TableLook(tableLook);
         api.tblApply(properties);
+    }
+
+    onGetTableStylesPreviews() {
+        const api = Common.EditorApi.get();
+        setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews()),10);
     }
 
     onFillColor (color) {
@@ -228,9 +236,10 @@ class EditTableController extends Component {
                        onCheckTemplateChange={this.onCheckTemplateChange}
                        onFillColor={this.onFillColor}
                        onBorderTypeClick={this.onBorderTypeClick}
+                       onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
             />
         )
     }
 }
 
-export default inject("storeFocusObjects")(observer(EditTableController));
+export default inject("storeFocusObjects", "storeTableSettings")(observer(EditTableController));
