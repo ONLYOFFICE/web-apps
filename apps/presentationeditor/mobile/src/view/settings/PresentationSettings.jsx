@@ -58,7 +58,7 @@ const PagePresentationColorSchemes = props => {
                                 onChange={() => {
                                     if(index !== curScheme) {
                                         setScheme(index);
-                                        props.onColorSchemeChange(index);
+                                        setTimeout(() => props.onColorSchemeChange(index), 10);
                                     };
                             }}>
                                 <div slot="before-title">

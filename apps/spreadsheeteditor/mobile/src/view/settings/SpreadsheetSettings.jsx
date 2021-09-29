@@ -31,7 +31,7 @@ const PageSpreadsheetColorSchemes = props => {
                             onChange={() => {
                                 if(index !== curScheme) {
                                     setScheme(index);
-                                    props.onColorSchemeChange(index);
+                                    setTimeout(() => props.onColorSchemeChange(index), 15);
                                 };
                         }}>
                             <div slot="before-title">
