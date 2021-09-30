@@ -126,7 +126,8 @@ define([
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
 
             this.fillControls = [];
-
+            this.gradientColorsStr="";
+            this.typeGradient = 0 ;
             this.render();
         },
 
@@ -406,10 +407,12 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 174;
                 var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
                 this.mnuDirectionPicker.selectRecord(record, true);
-                if (record)
-                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                if(record) {
+                    this.typeGradient = record.get('type') +90;
+                }
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
+
                 this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
@@ -418,9 +421,10 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 58;
                 this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
                 if (this.GradRadialDirectionIdx>=0)
-                    this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
+                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type + 90;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
+
                 this.numGradientAngle.setValue(0, true);
                 this.numGradientAngle.setDisabled(true);
             }
@@ -459,7 +463,9 @@ define([
             } else {
                 rawData = record;
             }
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
+
+            this.typeGradient = rawData.type + 90;
+
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
@@ -932,7 +938,6 @@ define([
                         }
                         this._state.GradFillType = this.GradFillType;
                     }
-
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR ) {
                         var value = Math.floor(fill.get_linear_angle()/60000);
                         if (Math.abs(this.GradLinearDirectionType-value)>0.001) {
@@ -940,9 +945,10 @@ define([
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
                             this.mnuDirectionPicker.selectRecord(record, true);
                             if (record)
-                                this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                this.typeGradient = record.get('type') + 90;
                             else
-                                this.btnDirection.setIconCls('');
+                                this.typeGradient= -1;
+
                             this.numGradientAngle.setValue(value, true);
                         }
                     } else
@@ -975,10 +981,34 @@ define([
                             me.GradColor.values[index] = position;
                         }
                     });
+                    var arrGrCollors=[];
+                    var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
                     for (var index=0; index<length; index++) {
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                        arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
+
+                    me.gradientColorsStr= arrGrCollors.join(', ');
+                    if (me.gradientColorsStr != "") {
+                        if(me.mnuDirectionPicker.dataViewItems.length==1)
+                            me.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + me.gradientColorsStr + ')'});
+                        else
+                            me.mnuDirectionPicker.dataViewItems.forEach(function (item){
+                                var type = item.options.model.attributes.type+90;
+                                item.$el.children(0).css({'background': 'linear-gradient('+ type + 'deg, '+ me.gradientColorsStr + ')'});
+                            });
+
+                        if(this.typeGradient == -1)
+                            this.btnDirection.$icon.css({'background': 'none'});
+                        else if(this.typeGradient==92)
+                            this.btnDirection.$icon.css({'background': ('radial-gradient(' + me.gradientColorsStr + ')')});
+                        else
+                            this.btnDirection.$icon.css({
+                                'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + me.gradientColorsStr + ')')
+                            });
+                    }
+
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
                         me.GradColor.currentIdx = 0;
                     }
@@ -1352,7 +1382,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-gradient gradient-left',
+                iconCls     : 'item-gradient',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
                     menuAlign: 'tr-br',
