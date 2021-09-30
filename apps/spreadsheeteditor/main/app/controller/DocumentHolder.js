@@ -184,7 +184,7 @@ define([
 
         onCreateDelayedElements: function(view) {
             var me = this;
-            if (me.permissions.isEdit) {
+            if (me.permissions.isEdit && !me._isDisabled) {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
                 view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
@@ -2189,11 +2189,8 @@ define([
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
                 iscelledit = this.api.isCellEdited,
-                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
                 signGuid;
-
-            if (!documentHolder.viewModeMenu)
-                documentHolder.createDelayedElementsViewer();
 
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();

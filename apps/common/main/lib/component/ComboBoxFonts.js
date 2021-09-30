@@ -53,12 +53,13 @@ define([
             iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 28,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
+            postfix = (/^(zh|ja|ko)$/i.test(Common.Locale.getCurrentLanguage())) ? '_ea' : '',
             thumbs       = [
-                {ratio: 1,      path: '../../../../sdkjs/common/Images/fonts_thumbnail.png', width: iconWidth, height: iconHeight},
-                {ratio: 1.25,   path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.25x.png', width: iconWidth * 1.25, height: iconHeight * 1.25},
-                {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
-                {ratio: 1.75,   path: '../../../../sdkjs/common/Images/fonts_thumbnail@1.75x.png', width: iconWidth * 1.75, height: iconHeight * 1.75},
-                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: iconWidth * 2, height: iconHeight * 2}
+                {ratio: 1,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '.png', width: iconWidth, height: iconHeight},
+                {ratio: 1.25,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.25x.png', width: iconWidth * 1.25, height: iconHeight * 1.25},
+                {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
+                {ratio: 1.75,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.75x.png', width: iconWidth * 1.75, height: iconHeight * 1.75},
+                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2x.png', width: iconWidth * 2, height: iconHeight * 2}
             ],
             thumbIdx = 0,
             listItemHeight  = 28,

@@ -132,7 +132,7 @@ DE.ApplicationController = new(function(){
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
+            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
                 permissions.edit = permissions.review = false;
             }

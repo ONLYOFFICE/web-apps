@@ -71,6 +71,7 @@
   { "src": "HelpfulHints/Search.htm", "name": "Suchen und Ersetzen" },
   { "src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung" },
   { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
+  {"src": "HelpfulHints/Password.htm", "name": "Dokumente mit einem Kennwort schützen"},
   { "src": "HelpfulHints/About.htm", "name": "Über den Dokumenteneditor", "headername": "Nützliche Hinweise" },
   { "src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate von elektronischen Dokumenten" },
   { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastaturkürzel" }

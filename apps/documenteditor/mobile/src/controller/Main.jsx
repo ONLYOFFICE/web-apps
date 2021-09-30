@@ -138,7 +138,7 @@ class MainController extends Component {
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                    const type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
@@ -771,7 +771,7 @@ class MainController extends Component {
         }
 
         this._state.isFromGatewayDownloadAs = true;
-        const type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
         if (type && typeof type[1] === 'string') {
             this.api.asc_DownloadOrigin(true);

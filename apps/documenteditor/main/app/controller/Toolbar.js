@@ -140,7 +140,7 @@ define([
                         var _file_type = _main.document.fileType,
                             _format;
                         if ( !!_file_type ) {
-                            if ( /^pdf|xps|djvu/i.test(_file_type) ) {
+                            if ( /^pdf|xps|oxps|djvu/i.test(_file_type) ) {
                                 _main.api.asc_DownloadOrigin();
                                 return;
                             } else {
