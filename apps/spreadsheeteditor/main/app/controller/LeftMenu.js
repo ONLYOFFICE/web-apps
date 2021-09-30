@@ -551,7 +551,7 @@ define([
         /** coauthoring end **/
 
         onQuerySearch: function(d, w, opts) {
-            if (opts.textsearch && opts.textsearch.length) {
+            // if (opts.textsearch && opts.textsearch.length) {
                 var options = this.dlgSearch.findOptions;
                 options.asc_setFindWhat(opts.textsearch);
                 options.asc_setScanForward(d != 'back');
@@ -570,11 +570,11 @@ define([
                         }
                     });
                 }
-            }
+            // }
         },
 
         onQueryReplace: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
+            // if (!_.isEmpty(opts.textsearch)) {
                 this.api.isReplaceAll = false;
 
                 var options = this.dlgSearch.findOptions;
@@ -588,11 +588,11 @@ define([
                 options.asc_setIsReplaceAll(false);
 
                 this.api.asc_replaceText(options);
-            }
+            // }
         },
 
         onQueryReplaceAll: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
+            // if (!_.isEmpty(opts.textsearch)) {
                 this.api.isReplaceAll = true;
 
                 var options = this.dlgSearch.findOptions;
@@ -606,7 +606,7 @@ define([
                 options.asc_setIsReplaceAll(true);
 
                 this.api.asc_replaceText(options);
-            }
+            // }
         },
 
         onSearchHighlight: function(w, highlight) {
