@@ -40,14 +40,14 @@
 
         .loadmask > .brendpanel .loading-logo {
             max-width: 200px;
-            height: 24px;
+            height: 20px;
             margin-left: 10px;
             text-align: center;
         }
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
-            max-width: 124px;
+            max-width: 100px;
             max-height: 20px;
             opacity: 0;
         }
