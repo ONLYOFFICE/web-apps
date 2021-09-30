@@ -457,8 +457,8 @@ PE.ApplicationController = new(function(){
             config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded || config.customization.logo.image) {
-                logo.html('<img src="'+(config.customization.logo.imageEmbedded || config.customization.logo.image)+'" style="max-width:124px; max-height:20px;"/>');
+            if (config.customization.logo.image || config.customization.logo.imageEmbedded) {
+                logo.html('<img src="'+(config.customization.logo.image || config.customization.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 config.customization.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
