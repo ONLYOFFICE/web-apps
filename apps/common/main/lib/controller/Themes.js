@@ -257,7 +257,13 @@ define([
                                     !classname.startsWith('theme-type-') && themes_map[classname] )
                             {
                                 theme_name = classname;
-                                Common.localStorage.setItem('ui-theme-id', theme_name);
+                                // Common.localStorage.setItem('ui-theme-id', theme_name);
+                                var theme_obj = {
+                                    id: theme_name,
+                                    type: themes_map[theme_name].type
+                                };
+
+                                Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
                             }
                         });
                 }

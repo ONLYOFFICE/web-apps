@@ -9,6 +9,9 @@
 
     <!-- splash -->
     <style type="text/css">
+        .theme-dark {
+            --romb-start-color: #555;
+        }
         .loadmask {
             left: 0;
             top: 0;
@@ -51,6 +54,12 @@
         .loader-page-text-customer {
             font-size: 16px;
             margin-bottom: 5px;
+        }
+        .theme-dark .loadmask {
+            background-color: #555;
+        }
+        .theme-dark .loader-page-text {
+            color: rgba(255, 255, 255, 0.8);
         }
         .romb {
             width: 40px;
@@ -98,8 +107,8 @@
         @-webkit-keyframes red {
             0%    { top:120px; background: #de7a59; }
             10%    { top:120px; background: #F2CBBF; }
-            14%    { background: #f4f4f4; top:120px; }
-            15%    { background: #f4f4f4; top:0;}
+            14%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:120px; }
+            15%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0;}
             20%    { background: #E6E4E4; }
             30%    { background: #D2D2D2; }
             40%    { top:120px; }
@@ -108,8 +117,8 @@
         @keyframes red {
             0%    { top:120px; background: #de7a59; }
             10%    { top:120px; background: #F2CBBF; }
-            14%    { background: #f4f4f4; top:120px; }
-            15%    { background: #f4f4f4; top:0; }
+            14%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:120px; }
+            15%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0;}
             20%    { background: #E6E4E4; }
             30%    { background: #D2D2D2; }
             40%    { top:120px; }
@@ -118,9 +127,9 @@
         @-webkit-keyframes green {
             0%    { top:110px; background: #a1cb5c; opacity:1; }
             10%    { top:110px; background: #CBE0AC; opacity:1; }
-            14%    { background: #f4f4f4; top:110px; opacity:1; }
-            15%    { background: #f4f4f4; top:0; opacity:1; }
-            20%    { background: #f4f4f4; top:0; opacity:0; }
+            14%    { background: #f4f4f4; top:110px; background: var(--romb-start-color,#f4f4f4); opacity:1; }
+            15%    { background: #f4f4f4; top:0; background: var(--romb-start-color,#f4f4f4); opacity:1; }
+            20%    { background: #f4f4f4; top:0; background: var(--romb-start-color,#f4f4f4); opacity:0; }
             25%    { background: #EFEFEF; top:0; opacity:1; }
             30%    { background:#E6E4E4; }
             70%    { top:110px; }
@@ -129,9 +138,9 @@
         @keyframes green {
             0%    { top:110px; background: #a1cb5c; opacity:1; }
             10%    { top:110px; background: #CBE0AC; opacity:1; }
-            14%    { background: #f4f4f4; top:110px; opacity:1; }
-            15%    { background: #f4f4f4; top:0; opacity:1; }
-            20%    { background: #f4f4f4; top:0; opacity:0; }
+            14%    { background: #f4f4f4; top:110px; background: var(--romb-start-color,#f4f4f4); opacity:1; }
+            15%    { background: #f4f4f4; top:0; background: var(--romb-start-color,#f4f4f4); opacity:1; }
+            20%    { background: #f4f4f4; top:0; background: var(--romb-start-color,#f4f4f4); opacity:0; }
             25%    { background: #EFEFEF; top:0; opacity:1; }
             30%    { background:#E6E4E4; }
             70%    { top:110px; }
@@ -140,20 +149,20 @@
         @-webkit-keyframes blue {
             0%    { top:100px; background: #55bce6; opacity:1; }
             10%    { top:100px; background: #BFE8F8; opacity:1; }
-            14%    { background: #f4f4f4; top:100px; opacity:1; }
-            15%    { background: #f4f4f4; top:0; opacity:1; }
-            20%    { background: #f4f4f4; top:0; opacity:0; }
-            25%    { background: #f4f4f4; top:0; opacity:0; }
+            14%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:100px; opacity:1; }
+            15%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:1; }
+            20%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:0; }
+            25%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:0; }
             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
         @keyframes blue {
             0%    { top:100px; background: #55bce6; opacity:1; }
             10%    { top:100px; background: #BFE8F8; opacity:1; }
-            14%    { background: #f4f4f4; top:100px; opacity:1; }
-            15%    { background: #f4f4f4; top:0; opacity:1; }
-            20%    { background: #f4f4f4; top:0; opacity:0; }
-            25%    { background: #f4f4f4; top:0; opacity:0; }
+            14%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:100px; opacity:1; }
+            15%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:1; }
+            20%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:0; }
+            25%    { background: #f4f4f4; background: var(--romb-start-color,#f4f4f4); top:0; opacity:0; }
             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
@@ -245,6 +254,7 @@
     <!-- debug end -->
 </head>
 <body>
+<script src="../../common/main/lib/util/htmlutils.js"></script>
 <div id="viewport"></div>
 
 <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
