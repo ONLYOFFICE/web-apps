@@ -105,7 +105,7 @@
                 customization: {
                     logo: {
                         image: url,
-                        imageEmbedded: url,
+                        imageEmbedded: url, // deprecated, use image instead
                         url: http://...
                     },
                     customer: {
@@ -918,8 +918,8 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
-                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
+                if (config.type=='embedded' && (config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.image))
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.image);
                 else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
                     params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
             }
