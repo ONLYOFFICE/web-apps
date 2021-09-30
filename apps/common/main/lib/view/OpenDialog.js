@@ -422,31 +422,22 @@ define([
                 delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
             (delimiter == -1) && (delimiter = null);
 
+            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+            if (this.separatorOptions) {
+                options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
+                options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                options.asc_setTextQualifier(this.separatorOptions.qualifier);
+            }
+
             switch (this.type) {
                 case Common.Utils.importTextType.CSV:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this));
-                    break;
                 case Common.Utils.importTextType.TXT:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding), _.bind(this.previewCallback, this));
+                case Common.Utils.importTextType.Data:
+                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
                 case Common.Utils.importTextType.Paste:
                 case Common.Utils.importTextType.Columns:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                        options.asc_setTextQualifier(this.separatorOptions.qualifier);
-                    }
                     this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
-                    break;
-                case Common.Utils.importTextType.Data:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                        options.asc_setTextQualifier(this.separatorOptions.qualifier);
-                    }
-                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
             }
         },
@@ -539,9 +530,9 @@ define([
             if (!SSE) return;
 
             var me = this,
-                decimal = this.api.asc_getDecimalSeparator(),
-                thousands = this.api.asc_getGroupSeparator(),
-                qualifier = this.settings ? this.settings.asc_getTextQualifier() : '"';
+                decimal = this.separatorOptions ? this.separatorOptions.decimal : this.api.asc_getDecimalSeparator(),
+                thousands = this.separatorOptions ? this.separatorOptions.thousands : this.api.asc_getGroupSeparator(),
+                qualifier = this.separatorOptions ? this.separatorOptions.qualifier : (this.settings || (new Asc.asc_CTextOptions())).asc_getTextQualifier();
             (new SSE.Views.AdvancedSeparatorDialog({
                 props: {
                     decimal: decimal,
@@ -555,6 +546,7 @@ define([
                             thousands: (value.thousands.length > 0) ? value.thousands : thousands,
                             qualifier: value.qualifier
                         };
+                        me.preview && me.updatePreview();
                     }
                 }
             })).show();
