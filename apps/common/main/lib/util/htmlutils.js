@@ -72,14 +72,14 @@ if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id
     if ( params.uitheme == 'default-light' )
         params.uitheme = 'theme-classic-light';
 
-    localStorage.setItem("ui-theme-id", params.uitheme);
+    localStorage.removeItem("ui-theme");
 }
 
-var ui_theme_name = checkLocalStorage ? localStorage.getItem("ui-theme-id") : undefined;
+var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
 if ( !ui_theme_name ) {
     if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
         ui_theme_name = 'theme-dark';
-        checkLocalStorage && localStorage.setItem("ui-theme-id", ui_theme_name);
+        checkLocalStorage && localStorage.removeItem("ui-theme");
     }
 }
 if ( !!ui_theme_name ) {
