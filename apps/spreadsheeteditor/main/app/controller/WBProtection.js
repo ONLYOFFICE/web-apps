@@ -293,7 +293,7 @@ define([
         onChangeProtectSheet: function() {
             var props = this.getWSProps(true);
 
-            if (this.view) {
+            if (this.view && props) {
                 this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
                 Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
                 Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});

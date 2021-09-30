@@ -82,6 +82,7 @@ define([
             "text-inverse",
             "text-toolbar-header",
             "text-contrast-background",
+            "text-alt-key-hint",
 
             "icon-normal",
             "icon-normal-pressed",
@@ -117,6 +118,8 @@ define([
             "canvas-dark-cell-title-border",
             "canvas-dark-cell-title-border-hover",
             "canvas-dark-cell-title-border-selected",
+            "canvas-dark-content-background",
+            "canvas-dark-page-border",
 
             "canvas-scroll-thumb",
             "canvas-scroll-thumb-hover",

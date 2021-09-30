@@ -403,7 +403,7 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
+        if ( !embedConfig.saveUrl || permissions.download === false || appOptions.canFillForms) {
             $('#idt-download').hide();
             itemsCount--;
         }
@@ -439,7 +439,6 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
         if (itemsCount<1)
             $('#box-tools').addClass('hidden');
         else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
@@ -477,11 +476,8 @@ DE.ApplicationController = new(function(){
 
         DE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                    if ( !!embedConfig.saveUrl ){
+                    if ( !!embedConfig.saveUrl && permissions.download !== false){
                         common.utils.openLink(embedConfig.saveUrl);
-                    } else
-                    if (api && permissions.print!==false){
-                        api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                     }
 
                     Common.Analytics.trackEvent('Save');
@@ -605,9 +601,11 @@ DE.ApplicationController = new(function(){
              config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
+            if (config.customization.logo.image || config.customization.logo.imageEmbedded) {
+                logo.html('<img src="'+(config.customization.logo.image || config.customization.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                config.customization.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
             }
 
             if (config.customization.logo.url) {

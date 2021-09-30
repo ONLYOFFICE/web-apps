@@ -289,7 +289,7 @@ define([
                     }
                 }
 
-                if (isLabel || event.target.className.match('checkbox')) {
+                if (isLabel || event.target.className.match('checkbox') && event.target.localName!=='input') {
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {

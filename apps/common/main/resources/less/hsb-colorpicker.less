@@ -32,12 +32,9 @@
 
     .cnt-hb {
         display: inline-block;
-        overflow: hidden;
         width: 195px;
         height: 196px;
         position: relative;
-        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-        border: @scaled-one-px-value solid @border-regular-control;
         background-position: 0 0;
     }
 
@@ -49,7 +46,7 @@
     }
 
     .cnt-sat {
-        width: 10px;
+        width: 12px;
         height: 100%;
         position: relative;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
@@ -58,21 +55,33 @@
     }
 
     .cnt-hb-arrow {
-        width: 9px;
-        height: 9px;
-        margin: -4px;
+        display:  block;
+        width: 12px;
+        height: 12px;
+        margin: -6px;
         position: absolute;
-        background-position: 0 -196px;
+        border: @scaled-one-px-value-ie solid #000;
+        border: @scaled-one-px-value solid #000;
+        .border-radius(50%);
+        &:after{
+            content: ' ';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: @scaled-one-px-value-ie solid #fff;
+            border: @scaled-one-px-value solid #fff;
+            .border-radius(50%);
+        }
     }
 
     .cnt-sat-arrow {
-        width: 14px;
-        height: 9px;
-        margin-top: -4px;
-        margin-left: -3px;
-        margin-left: calc(-2px - @scaled-one-px-value);
+        width: 20px;
+        height: 12px;
+        margin-top: -6px;
+        margin-left: -4px;
+        margin-left: calc(-3px - @scaled-one-px-value);
         position: absolute;
-        background-position: -11px -196px;
+        background-position: -12px -196px;
     }
 
     .empty-color {
