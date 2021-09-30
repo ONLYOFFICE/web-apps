@@ -407,12 +407,10 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 174;
                 var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
                 this.mnuDirectionPicker.selectRecord(record, true);
-                if(record) {
-                    this.typeGradient = record.get('type') +90;
-                }
+                if(record)
+                    this.typeGradient = this.GradLinearDirectionType +90;
                 else
                     this.typeGradient= -1;
-
                 this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
@@ -421,7 +419,7 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 58;
                 this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
                 if (this.GradRadialDirectionIdx>=0)
-                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type + 90;
+                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type;
                 else
                     this.typeGradient= -1;
 
@@ -945,7 +943,7 @@ define([
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
                             this.mnuDirectionPicker.selectRecord(record, true);
                             if (record)
-                                this.typeGradient = record.get('type') + 90;
+                                this.typeGradient = value + 90;
                             else
                                 this.typeGradient= -1;
 
@@ -991,8 +989,9 @@ define([
 
                     me.gradientColorsStr= arrGrCollors.join(', ');
                     if (me.gradientColorsStr != "") {
-                        if(me.mnuDirectionPicker.dataViewItems.length==1)
+                        if(me.mnuDirectionPicker.dataViewItems.length==1) {
                             me.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + me.gradientColorsStr + ')'});
+                        }
                         else
                             me.mnuDirectionPicker.dataViewItems.forEach(function (item){
                                 var type = item.options.model.attributes.type+90;
@@ -1001,7 +1000,7 @@ define([
 
                         if(this.typeGradient == -1)
                             this.btnDirection.$icon.css({'background': 'none'});
-                        else if(this.typeGradient==92)
+                        else if(this.typeGradient==2)
                             this.btnDirection.$icon.css({'background': ('radial-gradient(' + me.gradientColorsStr + ')')});
                         else
                             this.btnDirection.$icon.css({
