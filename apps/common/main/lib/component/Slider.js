@@ -316,6 +316,7 @@ define([
             me.delta = 100/(me.maxValue - me.minValue);
             me.includeSnap = me.options.includeSnap;
             me.intervalSnap = me.options.intervalSnap;
+            me.mouseFree = true;
             me.thumbs = [];
             if (me.options.el) {
                 me.render();
@@ -404,7 +405,7 @@ define([
 
                 $(document).off('mouseup', me.binding.onMouseUp);
                 $(document).off('mousemove', me.binding.onMouseMove);
-
+                me.mouseFree = true;
                 me._dragstart = undefined;
                 !me.isRemoveThumb && me.trigger('changecomplete', me, value, lastValue);
                 me.isRemoveThumb = undefined;
@@ -443,7 +444,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-
+                me.mouseFree = false;
                 var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
 

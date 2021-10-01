@@ -92,7 +92,7 @@ define([
 
             this.fillControls = [];
             this.gradientColorsStr="";
-            this.typeGradient = 0;
+            this.typeGradient = 90;
 
             this.render();
             this.createDelayedControls();
