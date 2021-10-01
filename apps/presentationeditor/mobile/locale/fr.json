@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Voulez-vous vraiment supprimer ce commentaire?",
       "textMessageDeleteReply": "Voulez-vous vraiment supprimer cette réponse?",
       "textNoComments": "Il n'y a pas de commentaires dans ce document",
+      "textOk": "Ok",
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs",
-      "textOk": "Ok"
+      "textUsers": "Utilisateurs"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
