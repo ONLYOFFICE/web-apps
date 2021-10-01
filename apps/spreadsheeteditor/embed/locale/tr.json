@@ -16,6 +16,7 @@
   "SSE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Uyarı",
   "SSE.ApplicationController.scriptLoadError": "Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.",
+  "SSE.ApplicationController.textGuest": "Ziyaretçi",
   "SSE.ApplicationController.textLoadingDocument": "Spreadsheet yükleniyor",
   "SSE.ApplicationController.textOf": "'in",
   "SSE.ApplicationController.txtClose": "Kapat",

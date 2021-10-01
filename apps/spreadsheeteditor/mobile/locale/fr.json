@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Voulez-vous vraiment supprimer ce commentaire?",
       "textMessageDeleteReply": "Voulez-vous vraiment supprimer cette réponse?",
       "textNoComments": "Il n'y a pas de commentaires dans ce document",
+      "textOk": "Ok",
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs",
-      "textOk": "Ok"
+      "textUsers": "Utilisateurs"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -335,12 +335,12 @@
       "textSortAndFilter": "Trier et filtrer",
       "txtExpand": "Développer et trier",
       "txtExpandSort": "Les données situées à côté de la sélection ne seront pas triées. Souhaitez-vous développer la sélection pour inclure les données adjacentes ou souhaitez-vous continuer à trier iniquement les cellules sélectionnées ?",
+      "txtLockSort": "Des données se trouvent à côté de votre sélection, mais vous n'avez pas les autorisations suffisantes pour modifier ces cellules.<br>Voulez-vous continuer avec la sélection actuelle ?",
+      "txtNo": "Non",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
-      "txtNo": "No",
-      "txtYes": "Yes"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -540,6 +540,9 @@
       "textByRows": "Par lignes",
       "textCancel": "Annuler",
       "textCentimeter": "Centimètre",
+      "textChooseCsvOptions": "Choisir les options CSV",
+      "textChooseDelimeter": "Choisir la délimitation",
+      "textChooseEncoding": "Choisir l'encodage",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Jeux de couleurs",
       "textComment": "Commentaire",
@@ -547,6 +550,7 @@
       "textComments": "Commentaires",
       "textCreated": "Créé",
       "textCustomSize": "Taille personnalisée",
+      "textDelimeter": "Délimiteur",
       "textDisableAll": "Désactiver tout",
       "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
       "textDisableAllMacrosWithoutNotification": "Désactiver toutes les macros sans notification",
@@ -556,6 +560,7 @@
       "textEmail": "E-mail",
       "textEnableAll": "Activer tout",
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
+      "textEncoding": "Encodage",
       "textExample": "Exemple",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
@@ -612,9 +617,13 @@
       "textValues": "Valeurs",
       "textVersion": "Version",
       "textWorkbook": "Classeur",
+      "txtColon": "Deux-points",
+      "txtComma": "Virgule",
       "txtDelimiter": "Délimiteur",
+      "txtDownloadCsv": "Télécharger le CSV",
       "txtEncoding": "Codage ",
       "txtIncorrectPwd": "Mot de passe incorrect",
+      "txtOk": "Ok",
       "txtProtected": "Une fois le mot de passe saisi et le ficher ouvert, le mot de passe actuel sera réinitialisé",
       "txtScheme1": "Office",
       "txtScheme10": "Médian",
@@ -638,19 +647,10 @@
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
       "txtScheme9": "Fonderie",
+      "txtSemicolon": "Point-virgule",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textChooseCsvOptions": "Choose CSV Options",
-      "textChooseDelimeter": "Choose Delimeter",
-      "textChooseEncoding": "Choose Encoding",
-      "textDelimeter": "Delimiter",
-      "textEncoding": "Encoding",
-      "txtColon": "Colon",
-      "txtComma": "Comma",
-      "txtDownloadCsv": "Download CSV",
-      "txtOk": "Ok",
-      "txtSemicolon": "Semicolon"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }
