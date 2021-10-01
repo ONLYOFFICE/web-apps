@@ -123,7 +123,7 @@ define([
 
             this.fillControls = [];
             this.gradientColorsStr="";
-            this.typeGradient = 0 ;
+            this.typeGradient = 0;
 
             this.render();
 

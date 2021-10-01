@@ -91,6 +91,8 @@ define([
             this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
 
             this.fillControls = [];
+            this.gradientColorsStr="";
+            this.typeGradient = 0;
 
             this.render();
             this.createDelayedControls();
@@ -910,9 +912,9 @@ define([
                                 var record = this.mnuDirectionPicker.store.findWhere({type: value});
                                 this.mnuDirectionPicker.selectRecord(record, true);
                                 if (record)
-                                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                    this.typeGradient = value + 90;
                                 else
-                                    this.btnDirection.setIconCls('');
+                                    this.typeGradient= -1;
                                 this.numGradientAngle.setValue(value, true);
                             }
                         }
@@ -934,10 +936,32 @@ define([
                                 Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()));
                             me.GradColor.values.push(position*100);
                         });
+
+                        var arrGrCollors=[];
                         for (var index=0; index<length; index++) {
                             me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                             me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                            arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index) +'%');
                         }
+
+                        me.gradientColorsStr= arrGrCollors.join(', ');
+                        if (me.gradientColorsStr != "") {
+                            if(me.mnuDirectionPicker.dataViewItems.length==1)
+                                me.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + me.gradientColorsStr + ')'});
+                            else
+                                me.mnuDirectionPicker.dataViewItems.forEach(function (item){
+                                    var type = item.options.model.attributes.type+90;
+                                    item.$el.children(0).css({'background': 'linear-gradient('+ type + 'deg, '+ me.gradientColorsStr + ')'});
+                                });
+
+                            if(this.typeGradient == -1)
+                                this.btnDirection.$icon.css({'background': 'none'});
+                            else
+                                this.btnDirection.$icon.css({
+                                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + me.gradientColorsStr + ')')
+                                });
+                        }
+
                         if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
                             me.GradColor.currentIdx = 0;
                         }
@@ -1306,7 +1330,7 @@ define([
                 rawData = record;
             }
 
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
+            this.typeGradient = rawData.type + 90;
             this.GradLinearDirectionType = rawData.type;
             this.numGradientAngle.setValue(rawData.type, true);
 
