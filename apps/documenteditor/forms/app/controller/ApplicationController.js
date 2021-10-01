@@ -220,6 +220,10 @@ define([
                     config.msg = this.errorForceSave;
                     break;
 
+                case Asc.c_oAscError.ID.LoadingFontError:
+                    config.msg = this.errorLoadingFont;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -1320,7 +1324,8 @@ define([
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',
         textNoLicenseTitle: 'License limit reached',
-        textContactUs: 'Contact sales'
+        textContactUs: 'Contact sales',
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
 
     }, DE.Controllers.ApplicationController));
 });
