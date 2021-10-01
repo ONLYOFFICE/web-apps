@@ -11,6 +11,7 @@
         font-weight: bold;
         margin-top: 10px;
         margin-left: 12px;
+
     }
 
     #plugins-list {
@@ -103,10 +104,41 @@
         right: 7px;
         width: 16px;
         height: 16px;
-        background-position: -26px -150px;
         cursor: pointer;
-    }
 
+        &.close {
+            opacity: 0.8;
+            &:hover {
+                opacity: 1;
+            }
+
+            &.disabled {
+                cursor: default;
+            }
+
+            &:before, &:after {
+                content: ' ';
+                position: absolute;
+                left: 7px;
+                left: calc(7px / @pixel-ratio-factor);
+                top: @scaled-one-px-value-ie;
+                top: @scaled-one-px-value;
+                height: 14px;
+                width: 2px;
+                width: @scaled-two-px-value;
+                background-color: @icon-normal-ie;
+                background-color: @icon-normal;
+            }
+
+            &:before {
+                transform: rotate(45deg);
+            }
+
+            &:after {
+                transform: rotate(-45deg);
+            }
+        }
+    }
     #current-plugin-frame {
         width: 100%;
         height: 100%;
