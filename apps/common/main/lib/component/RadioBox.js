@@ -121,7 +121,8 @@ define([
             this.$label.on('keydown', this.onKeyDown.bind(this));
 
             this.$label.find('svg, span').on('click', function(e) {
-                this.setValue(true);
+                if ( !this.disabled )
+                    this.setValue(true);
             }.bind(this));
 
             this.rendered = true;
@@ -163,12 +164,10 @@ define([
 
         setValue: function(value, suspendchange) {
             if (this.rendered) {
-                if ( !this.disabled ) {
-                    var lastValue = this.$radio.hasClass('checked');
-                    this.setRawValue(value);
-                    if (suspendchange !== true && lastValue !== value)
-                        this.trigger('change', this, this.$radio.is(':checked'));
-                }
+                var lastValue = this.$radio.hasClass('checked');
+                this.setRawValue(value);
+                if (suspendchange !== true && lastValue !== value)
+                    this.trigger('change', this, this.$radio.is(':checked'));
             } else {
                 this.options.checked = value;
             }
