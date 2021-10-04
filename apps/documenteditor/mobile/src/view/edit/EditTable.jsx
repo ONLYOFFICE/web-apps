@@ -180,10 +180,10 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     const styles =  storeTableSettings.arrayStyles;
     
     useEffect(() => {
-        if (storeTableSettings.isRenderStyles) onGetTableStylesPreviews();
-        return () => {
+        if (storeTableSettings.isRenderStyles) {
+            onGetTableStylesPreviews();
             storeTableSettings.resetFlagRender(false);
-        }
+        } 
     }, []);
     return (
         <div className="dataview table-styles">
@@ -224,12 +224,11 @@ const PageStyleOptions = props => {
     nextStateRef.current = [isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer];
 
     useEffect(() => {
-        props.storeTableSettings.resetFlagRender(false);
         prevStateRef.current = [...nextStateRef.current];
 
         return () => {
             if (!(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-                props.onGetTableStylesPreviews();
+                props.storeTableSettings.resetFlagRender(true);
             } 
         }
     }, []);
@@ -238,6 +237,7 @@ const PageStyleOptions = props => {
         if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
             $$('.table-styles').hide();
             f7.preloader.showIn('.preload');
+            props.onGetTableStylesPreviews();
         }
     }
 

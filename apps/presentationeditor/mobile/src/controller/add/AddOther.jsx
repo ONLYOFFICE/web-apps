@@ -95,8 +95,9 @@ class AddOtherController extends Component {
     onGetTableStylesPreviews = () => {
         const api = Common.EditorApi.get();
         if (this.props.storeTableSettings.isRenderStyles) {
+            $$('.table-styles').hide();
             f7.preloader.showIn('.preload');
-            setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews()) , 10);
+            setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)) , 10);
             this.props.storeTableSettings.resetFlagRender(false);
         }
     }

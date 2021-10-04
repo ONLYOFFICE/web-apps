@@ -12,6 +12,7 @@ const AddTable = props => {
 
     const onReadyStyles = () => {
         f7.preloader.hideIn('.preload');
+        $$('.table-styles').show();
     }
 
     return (
