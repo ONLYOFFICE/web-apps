@@ -114,13 +114,24 @@ class ContextMenu extends ContextMenuController {
 
     onMergeCells() {
         const { t } = this.props;
-        const _t = t("ContextMenu", { returnObjects: true });
         const api = Common.EditorApi.get();
         if (api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
             setTimeout(() => {
-                f7.dialog.confirm(_t.warnMergeLostData, _t.notcriticalErrorTitle, () => {
-                    api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
-                });
+                f7.dialog.create({
+                    title: t('ContextMenu.notcriticalErrorTitle'),
+                    text: t('ContextMenu.warnMergeLostData'),
+                    buttons: [
+                        {
+                            text: t('ContextMenu.menuCancel')
+                        },
+                        {
+                            text: 'OK',
+                            onClick: () => {
+                                api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
+                            }
+                        }
+                ]   
+                }).open();
             }, 0);
         } else {
             api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
