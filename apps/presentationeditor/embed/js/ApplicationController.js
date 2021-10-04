@@ -37,6 +37,7 @@ PE.ApplicationController = new(function(){
         docConfig = {},
         embedConfig = {},
         permissions = {},
+        appOptions = {},
         maxPages = 0,
         created = false,
         currentPage = 0,
@@ -453,23 +454,8 @@ PE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
-            config.customization && config.customization.logo ) {
-
-            var logo = $('#header-logo');
-            if (config.customization.logo.image || config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+(config.customization.logo.image || config.customization.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
-                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-
-                config.customization.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
-            }
-
-            if (config.customization.logo.url) {
-                logo.attr('href', config.customization.logo.url);
-            } else if (config.customization.logo.url!==undefined) {
-                logo.removeAttr('href');logo.removeAttr('target');
-            }
-        }
+        appOptions.canBranding  = params.asc_getCustomization();
+        appOptions.canBranding && setBranding(config.customization);
 
         var $parent = labelDocName.parent();
         var _left_width = $parent.position().left,
@@ -654,6 +640,24 @@ PE.ApplicationController = new(function(){
 
     function onBeforeUnload () {
         common.localStorage.save();
+    }
+
+    function setBranding(value) {
+        if ( value && value.logo) {
+            var logo = $('#header-logo');
+            if (value.logo.image || value.logo.imageEmbedded) {
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
+            }
+
+            if (value.logo.url) {
+                logo.attr('href', value.logo.url);
+            } else if (value.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
+            }
+        }
     }
     // Helpers
     // -------------------------
