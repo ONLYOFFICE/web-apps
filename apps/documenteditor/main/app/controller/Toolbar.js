@@ -2640,8 +2640,7 @@ define([
         },
 
         fillAutoShapes: function() {
-            var me = this,
-                shapesStore = this.getApplication().getCollection('ShapeGroups');
+            var me = this;
 
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
@@ -2653,7 +2652,7 @@ define([
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-toolbar-menu-insertshape'),
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                groups: shapesStore.toJSON(),
+                groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
                 restoreHeight: 640,
                 textRecentlyUsed: me.textRecentlyUsed,

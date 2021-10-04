@@ -1660,7 +1660,6 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                shapesStore = this.application.getCollection('ShapeGroups'),
                 recents = Common.localStorage.getItem('sse-recent-shapes');
 
             for (var i = 0; i < 2; i++) {
@@ -1673,7 +1672,7 @@ define([
                 var shapePicker = new Common.UI.DataViewShape({
                     el: $('#id-change-shape-menu-' + i),
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                    groups: shapesStore.toJSON(),
+                    groups: me.application.getCollection('ShapeGroups'),
                     parentMenu: me.btnChangeShape.menu,
                     restoreHeight: 640,
                     textRecentlyUsed: me.textRecentlyUsed,

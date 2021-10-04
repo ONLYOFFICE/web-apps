@@ -1715,7 +1715,7 @@ define([
                 var shapePicker = new Common.UI.DataViewShape({
                     el: $('#id-toolbar-menu-insertshape-'+index),
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                    groups: collection.toJSON(),
+                    groups: collection,
                     parentMenu: menuShape,
                     restoreHeight: 640,
                     textRecentlyUsed: me.textRecentlyUsed,

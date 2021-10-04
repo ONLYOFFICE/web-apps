@@ -1316,7 +1316,7 @@ define([
     Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
         template: _.template([
             '<div class="dataview inner" style="<%= style %>">',
-                '<% _.each(options.groups, function(group, index) { %>',
+                '<% _.each(options.groupsWithRecent, function(group, index) { %>',
                     '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" <% if (!options.recentShapes && index === 0) { %> style="display: none;" <% } %>>',
                         '<% if (!_.isEmpty(group.groupName)) { %>',
                             '<div class="group-description">',
@@ -1340,7 +1340,7 @@ define([
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-            me.groups = options.groups;
+            me.groups = options.groups.toJSON();
             if (options.isFromImage) {
                 var store = me.groups[0].groupStore.clone();
                 store.shift();
@@ -1364,6 +1364,8 @@ define([
                 groupHeight : height
             });
 
+            me.options.groupsWithRecent = me.groups;
+
             var store = new Common.UI.DataViewStore();
 
             _.each(me.groups, function (group) {
@@ -1386,7 +1388,7 @@ define([
                 _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
                     _.each($(group).find('div.item'), function (item, index) {
                         var $item = $(item),
-                            rec = me.options.groups[indexGroup].groupStore.at(index);
+                            rec = me.groups[indexGroup].groupStore.at(index);
                         me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
                         var tip = rec.get('tip');
                         if (tip) {
