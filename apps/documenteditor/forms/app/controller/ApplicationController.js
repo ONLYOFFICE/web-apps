@@ -433,23 +433,6 @@ define([
 
             if ( this.onServerVersion(params.asc_getBuildVersion())) return;
 
-            if ( (licType === Asc.c_oLicenseResult.Success) && (typeof this.appOptions.customization == 'object') &&
-                this.appOptions.customization && this.appOptions.customization.logo ) {
-
-                var logo = $('#header-logo');
-                if (this.appOptions.customization.logo.image || this.appOptions.customization.logo.imageDark) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (this.appOptions.customization.logo.imageDark || this.appOptions.customization.logo.image) : (this.appOptions.customization.logo.image || this.appOptions.customization.logo.imageDark);
-                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
-                    logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-                }
-
-                if (this.appOptions.customization.logo.url) {
-                    logo.attr('href', this.appOptions.customization.logo.url);
-                } else if (this.appOptions.customization.logo.url!==undefined) {
-                    logo.removeAttr('href');logo.removeAttr('target');
-                }
-            }
-
             this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
                 this.permissions.edit = this.permissions.review = false;
@@ -460,6 +443,9 @@ define([
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
             this.appOptions.canFillForms   = this.appOptions.canLicense && (this.permissions.fillForms===true) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
+
+            this.appOptions.canBranding  = params.asc_getCustomization();
+            this.appOptions.canBranding && this.setBranding(this.appOptions.customization);
 
             this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
@@ -579,6 +565,23 @@ define([
                                 window.open('mailto:{{SALES_EMAIL}}', "_blank");
                         }
                     });
+                }
+            }
+        },
+
+        setBranding: function (value) {
+            if ( value && value.logo) {
+                var logo = $('#header-logo');
+                if (value.logo.image || value.logo.imageDark) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
+                    logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+                }
+
+                if (value.logo.url) {
+                    logo.attr('href', value.logo.url);
+                } else if (value.logo.url!==undefined) {
+                    logo.removeAttr('href');logo.removeAttr('target');
                 }
             }
         },
@@ -1075,10 +1078,12 @@ define([
             _.each(this.view.mnuThemes.items, function(item){
                 item.setChecked(current===item.value, true);
             });
-            var value = this.appOptions.customization;
-            if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
-                var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                $('#header-logo img').attr('src', image);
+            if (this.appOptions.canBranding) {
+                var value = this.appOptions.customization;
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    $('#header-logo img').attr('src', image);
+                }
             }
         },
 
