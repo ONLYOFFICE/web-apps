@@ -395,6 +395,8 @@ class MainController extends Component {
                     storeFocusObjects.setEditFormulaMode(isFormula);
                 }
             }
+
+            storeFocusObjects.setFunctionsDisabled(state === Asc.c_oAscCellEditorState.editText);
         });
     }
 
