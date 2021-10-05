@@ -476,14 +476,14 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
                         disabled: disabled === true,
                         dataHint:'0',
-                        dataHintDirection: 'left',
-                        dataHintOffset: '10, 10'
+                        dataHintDirection: hintDirection ? hintDirection : 'left',
+                        dataHintOffset: hintOffset ? hintOffset : '10, 10'
                     })).render(slot);
                 }
 
@@ -546,7 +546,7 @@ define([
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big');
                         else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
@@ -562,7 +562,7 @@ define([
 
                     if ( !!window.DE ) {
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
-                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
+                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'), undefined, 'bottom', 'big');
                         me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
                     }
 
