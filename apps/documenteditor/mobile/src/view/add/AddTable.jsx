@@ -16,21 +16,22 @@ const AddTable = props => {
     }
 
     return (
-        
-        <div className={'table-styles dataview'}>
+        <Fragment>
             <div className="preload"></div>
-            <ul className="row">
-                {styles.map((style, index) => {
-                    return (
-                        <li key={index}
-                            onClick={() => {props.onStyleClick(style.templateId)}}>
-                            <img src={style.imageUrl}/>
-                        </li>
-                    )
-                })}
-            </ul>
-            {onReadyStyles()}
-        </div>
+            <div className={'table-styles dataview'}>
+                <ul className="row">
+                    {styles.map((style, index) => {
+                        return (
+                            <li key={index}
+                                onClick={() => {props.onStyleClick(style.templateId)}}>
+                                <img src={style.imageUrl}/>
+                            </li>
+                        )
+                    })}
+                </ul>
+                {onReadyStyles()}
+            </div>
+        </Fragment>
     )
 };
 
