@@ -387,6 +387,9 @@ define([
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
 
+                if (me.thumbs.length < 3)
+                    me.isRemoveThumb = false;
+                
                 if (me.isRemoveThumb) {
                     if (me.thumbs.length < 3) {
                         $(document).off('mouseup', me.binding.onMouseUp);
