@@ -378,6 +378,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
                 resetPageX(e);
+                me.mouseFree = true;
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
@@ -405,7 +406,6 @@ define([
 
                 $(document).off('mouseup', me.binding.onMouseUp);
                 $(document).off('mousemove', me.binding.onMouseMove);
-                me.mouseFree = true;
                 me._dragstart = undefined;
                 !me.isRemoveThumb && me.trigger('changecomplete', me, value, lastValue);
                 me.isRemoveThumb = undefined;

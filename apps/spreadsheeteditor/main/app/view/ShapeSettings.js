@@ -929,7 +929,7 @@ define([
                             me.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + me.gradientColorsStr + ')'});
                         else
                             me.mnuDirectionPicker.dataViewItems.forEach(function (item){
-                                var type = item.options.model.attributes.type+90;
+                                var type = item.model.get('type')+90;
                                 item.$el.children(0).css({'background': 'linear-gradient('+ type + 'deg, '+ me.gradientColorsStr + ')'});
                             });
 
