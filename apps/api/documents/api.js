@@ -115,7 +115,8 @@
                         mail: 'support@gmail.com',
                         www: 'www.superpuper.com',
                         info: 'Some info',
-                        logo: ''
+                        logo: '',
+                        logoDark: '', // logo for dark theme
                     },
                     about: true,
                     feedback: {

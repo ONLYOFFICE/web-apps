@@ -196,6 +196,7 @@ define([
                 this.licData = data || true;
             } else {
                 if (data && typeof data == 'object' && typeof(data.customer)=='object') {
+                    this.licData = data;
                     var customer = data.customer;
 
                     $('#id-about-licensor-logo').addClass('hidden');
@@ -229,13 +230,24 @@ define([
                         this.lblCompanyLic.text(value) :
                         this.lblCompanyLic.parents('tr').addClass('hidden');
 
-                    (value = customer.logo) && value.length ?
+                    value = Common.UI.Themes.isDarkTheme() ? (customer.logoDark || customer.logo) : (customer.logo || customer.logoDark);
+                    value.length ?
                         this.divCompanyLogo.html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />') :
                         this.divCompanyLogo.parents('tr').addClass('hidden');
+                    value.length && Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
                 } else {
                     this.cntLicenseeInfo.addClass('hidden');
                     this.cntLicensorInfo.addClass('margin-bottom');
                 }
+            }
+        },
+
+        changeLogo: function () {
+            if (!this.licData) return;
+
+            var customer = this.licData.customer;
+            if ( customer.logo && customer.logoDark && customer.logo !== customer.logoDark) {
+                this.divCompanyLogo.find('img').attr('src', Common.UI.Themes.isDarkTheme() ? (customer.logoDark || customer.logo) : (customer.logo || customer.logoDark));
             }
         },
 
