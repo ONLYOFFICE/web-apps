@@ -316,7 +316,6 @@ define([
             me.delta = 100/(me.maxValue - me.minValue);
             me.includeSnap = me.options.includeSnap;
             me.intervalSnap = me.options.intervalSnap;
-            me.mouseFree = true;
             me.thumbs = [];
             if (me.options.el) {
                 me.render();
@@ -378,7 +377,6 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
                 resetPageX(e);
-                me.mouseFree = true;
 
                 var index = e.data.index,
                     lastValue = me.thumbs[index].value,
@@ -444,7 +442,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me.mouseFree = false;
+
                 var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
 

@@ -1139,8 +1139,6 @@ define([
         },
 
         btnDirectionRedraw: function(slider, gradientColorsStr) {
-            if(!slider.mouseFree) return;
-
             this.gradientColorsStr = gradientColorsStr;
             if (this.mnuDirectionPicker.dataViewItems.length == 1)
                 this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
