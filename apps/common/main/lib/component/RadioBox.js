@@ -101,7 +101,6 @@ define([
             this.setCaption(this.options.labelText);
 
             // handle events
-            this.$radio.on('click', _.bind(this.onItemCheck, this));
         },
 
         render: function () {
@@ -118,12 +117,12 @@ define([
             this.$radio = el.find('input[type=radio]');
             this.$label = el.find('div.radiobox');
             this.$span = this.$label.find('span');
-            this.$label.on('keydown', this.onKeyDown.bind(this));
-
-            this.$label.find('svg, span').on('click', function(e) {
-                if ( !this.disabled )
-                    this.setValue(true);
-            }.bind(this));
+            this.$label.on({
+                'keydown': this.onKeyDown.bind(this),
+                'click': function(e){
+                    if ( !this.disabled )
+                        this.setValue(true);
+                }.bind(this),});
 
             this.rendered = true;
 
