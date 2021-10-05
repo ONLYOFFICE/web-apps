@@ -30,15 +30,15 @@ body {
     background-color: #f7f7f8;
 }
 
-.skl-navbar.skl-navbar--word:not(.skl-navbar--ios) {
+.skl-navbar.skl-navbar--word.skl-navbar--md {
     background-color: #446995;
 }
 
-.skl-navbar.skl-navbar--cell:not(.skl-navbar--ios) {
+.skl-navbar.skl-navbar--cell.skl-navbar--md {
     background-color: #40865c;
 }
 
-.skl-navbar.skl-navbar--slide:not(.skl-navbar--ios) {
+.skl-navbar.skl-navbar--slide.skl-navbar--md {
     background-color: #aa5252;
 }
 
