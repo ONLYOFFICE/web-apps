@@ -600,7 +600,6 @@ define([
             for (var index=0; index < slider.thumbs.length; index++) {
                 arrGrCollors.push(slider.getColorValue(index)+ ' '+ slider.getValue(index)*scale +'%');
             }
-
             this.btnDirectionRedraw(slider, arrGrCollors.join(', '));
 
             this._sendUndoPoint = true;

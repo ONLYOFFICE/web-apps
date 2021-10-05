@@ -922,26 +922,8 @@ define([
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                         arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
+                    this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
 
-                    me.gradientColorsStr= arrGrCollors.join(', ');
-                    if (me.gradientColorsStr != "") {
-                        if(me.mnuDirectionPicker.dataViewItems.length==1)
-                            me.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + me.gradientColorsStr + ')'});
-                        else
-                            me.mnuDirectionPicker.dataViewItems.forEach(function (item){
-                                var type = item.model.get('type')+90;
-                                item.$el.children(0).css({'background': 'linear-gradient('+ type + 'deg, '+ me.gradientColorsStr + ')'});
-                            });
-
-                        if(this.typeGradient == -1)
-                            this.btnDirection.$icon.css({'background': 'none'});
-                        else if(this.typeGradient==2)
-                            this.btnDirection.$icon.css({'background': ('radial-gradient(' + me.gradientColorsStr + ')')});
-                        else
-                            this.btnDirection.$icon.css({
-                                'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + me.gradientColorsStr + ')')
-                            });
-                    }
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
                         me.GradColor.currentIdx = 0;
                     }
@@ -1154,6 +1136,28 @@ define([
 
                 this._noApply = false;
             }
+        },
+
+        btnDirectionRedraw: function(slider, gradientColorsStr) {
+            if(!slider.mouseFree) return;
+
+            this.gradientColorsStr = gradientColorsStr;
+            if (this.mnuDirectionPicker.dataViewItems.length == 1)
+                this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
+            else
+                this.mnuDirectionPicker.dataViewItems.forEach(function (item) {
+                    var type = item.model.get('type') + 90;
+                    item.$el.children(0).css({'background': 'linear-gradient(' + type + 'deg, ' + gradientColorsStr + ')'});
+                });
+
+            if (this.typeGradient == -1)
+                this.btnDirection.$icon.css({'background': 'none'});
+            else if (this.typeGradient == 2)
+                this.btnDirection.$icon.css({'background': ('radial-gradient(' + gradientColorsStr + ')')});
+            else
+                this.btnDirection.$icon.css({
+                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + gradientColorsStr + ')')
+                });
         },
 
         createDelayedControls: function() {

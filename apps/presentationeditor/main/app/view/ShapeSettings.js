@@ -929,7 +929,6 @@ define([
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                         arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
-
                     this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
 
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
