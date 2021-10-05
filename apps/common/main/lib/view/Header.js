@@ -465,6 +465,7 @@ define([
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
                 Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
             render: function (el, role) {
@@ -491,8 +492,9 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
-                        this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
                         (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
@@ -615,14 +617,23 @@ define([
                 this.branding = value;
 
                 if ( value ) {
-                    if ( value.logo && value.logo.image ) {
+                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                         element = $('#header-logo');
                         if (element) {
-                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
                             (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
+                }
+            },
+
+            changeLogo: function () {
+                var value = this.branding;
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    $('#header-logo img').attr('src', image);
                 }
             },
 

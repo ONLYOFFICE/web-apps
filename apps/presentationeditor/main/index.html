@@ -255,15 +255,11 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-
-        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
-        if ( !!ui_theme_name ) {
-            document.documentElement.classList.add(ui_theme_name);
-        }
 
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
@@ -318,7 +314,7 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                logo && (elem.setAttribute('src', logo));
+                (logo || logoDark) && elem.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
                 elem.style.opacity = 1;
             }
         }

@@ -572,8 +572,9 @@ define([
         setBranding: function (value) {
             if ( value && value.logo) {
                 var logo = $('#header-logo');
-                if (value.logo.image) {
-                    logo.html('<img src="'+value.logo.image+'" style="max-width:100px; max-height:20px;"/>');
+                if (value.logo.image || value.logo.imageDark) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -1077,6 +1078,13 @@ define([
             _.each(this.view.mnuThemes.items, function(item){
                 item.setChecked(current===item.value, true);
             });
+            if (this.appOptions.canBranding) {
+                var value = this.appOptions.customization;
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    $('#header-logo img').attr('src', image);
+                }
+            }
         },
 
         createDelayedElements: function() {
