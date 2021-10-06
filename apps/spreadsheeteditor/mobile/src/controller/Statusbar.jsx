@@ -19,6 +19,9 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
                 sheets.setWorksheetLocked(index, locked);
                 storeFocusObjects.setIsLocked(api.asc_getCellInfo());
             });
+            api.asc_registerCallback('asc_onChangeProtectWorkbook', () => {
+                sheets.setProtectedWorkbook(api.asc_isProtectedWorkbook());
+            });
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
@@ -123,6 +126,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const _t = t('Statusbar', {returnObjects: true});
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
+    const isProtectedWorkbook = sheets.isProtectedWorkbook;
 
     useEffect(() => {
         const on_main_view_click = e => {
@@ -180,7 +184,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !isDisconnected && !model.locked) {
+                if (isEdit && !isDisconnected && !model.locked && !isProtectedWorkbook) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
@@ -229,7 +233,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
             let current = api.asc_getWorksheetName(api.asc_getActiveWorksheetIndex());
 
             f7.dialog.create({
-                title: _t.textRenameSheet,
+                title: _t.textSheetName,
                 content: Device.ios ?
                     '<div class="input-field"><input type="text" name="modal-sheet-name" maxlength="31" value="' + current + '" placeholder="' + _t.textSheetName + '" class="modal-text-input"></div>' : 
                     '<div class="item-content item-input" style="margin-top: 15px; position: relative; padding-bottom: 10px;"><div class="item-inner"><div class="item-input-wrap" style="min-height: initial; width: 100%;"><input type="text" style="width: 100%;" name="modal-sheet-name" value="' + current + '" maxlength="31" placeholder="' + _t.textSheetName + '" /></div></div></div>',
