@@ -126,6 +126,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const _t = t('Statusbar', {returnObjects: true});
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
+    const isProtectedWorkbook = sheets.isProtectedWorkbook;
 
     useEffect(() => {
         const on_main_view_click = e => {
@@ -183,7 +184,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !isDisconnected && !model.locked) {
+                if (isEdit && !isDisconnected && !model.locked && !isProtectedWorkbook) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }
