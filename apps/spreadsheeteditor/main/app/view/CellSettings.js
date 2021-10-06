@@ -68,7 +68,8 @@ define([
         initialize: function () {
             this._initSettings = true;
             this._noApply = true;
-
+            this._sendUndoPoint = true;
+            
             this._state = {
                 DisabledControls: true,
                 DisabledFillPanels: true,
