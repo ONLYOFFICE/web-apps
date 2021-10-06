@@ -31,10 +31,12 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         return () => {
             const api = Common.EditorApi.get();
 
-            api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
-            api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
-            api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
-            api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
+            if ( api ) {
+                api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
+                api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
+                api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
+                api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
+            }
         };
     });
 

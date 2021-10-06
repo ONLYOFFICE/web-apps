@@ -282,7 +282,7 @@ class MainController extends Component {
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
+                    // Common.EditorApi = {get: () => this.api};
 
                     // Set font rendering mode
                     let value = LocalStorage.getItem("de-settings-fontrender");
@@ -408,7 +408,9 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
+
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -941,6 +943,7 @@ class MainController extends Component {
     }
 
     componentDidMount() {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

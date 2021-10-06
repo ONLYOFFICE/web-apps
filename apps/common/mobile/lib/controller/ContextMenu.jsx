@@ -206,10 +206,12 @@ class ContextMenuController extends Component {
         Common.Notifications.off('document:ready', this.onDocumentReady);
 
         const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
-        api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
-        api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
-        api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        if ( api ) {
+            api.asc_unregisterCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
+            api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
+            api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
+            api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        }
     }
 
     componentDidMount() {
