@@ -232,14 +232,14 @@ define([
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));*/
 
             this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1},
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3},
+                { offsetx: 100, offsety: 100, type:225, subtype:7}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -262,7 +262,7 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" ></div>')
                 });
             });
             this.btnDirection.render($('#cell-button-direction'));
