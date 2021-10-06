@@ -566,7 +566,7 @@ define([
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
                         me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'), undefined, 'bottom', 'big');
 
-                        var document = this.getApplication().getController('Main').document;
+                        var document = window.DE.getController('Main').document;
                         me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme() && !/^pdf|djvu|xps|oxps$/.test(document.fileType));
                     }
 
