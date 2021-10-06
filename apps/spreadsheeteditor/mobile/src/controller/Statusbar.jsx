@@ -19,6 +19,9 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
                 sheets.setWorksheetLocked(index, locked);
                 storeFocusObjects.setIsLocked(api.asc_getCellInfo());
             });
+            api.asc_registerCallback('asc_onChangeProtectWorkbook', () => {
+                sheets.setProtectedWorkbook(api.asc_isProtectedWorkbook());
+            });
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
