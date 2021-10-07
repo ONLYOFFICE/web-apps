@@ -144,7 +144,7 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td colspan="3" align="center">',
-                            '<label class="asc-about-desc"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></label>',
+                            '<a href="<%= publisherurl %>" target="_blank"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></a>',
                         '</td>',
                     '</tr>',
                 '</table>'
