@@ -44,54 +44,56 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
-                {!wsLock && !wsProps.FormatCells && 
+                {!wsLock || !wsProps.FormatCells && 
                 <>
-                    <ListItem className='buttons'>
-                        <Row>
-                            <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
-                            <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
-                            <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                        </Row>
-                    </ListItem>
-                    <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
-                        onTextColor: props.onTextColor
-                    }}>
-                        {!isAndroid ?
-                            <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
-                            fontColorPreview
-                        }
-                    </ListItem>
-                    <ListItem title={_t.textFillColor} link="/edit-cell-fill-color/" routeProps={{
-                        onFillColor: props.onFillColor
-                    }}>
-                        {!isAndroid ?
-                            <Icon slot="media" icon="icon-fill-color">{fillColorPreview}</Icon> :
-                            fillColorPreview
-                        }
-                    </ListItem>
-                    <ListItem title={_t.textTextFormat} link="/edit-cell-text-format/" routeProps={{
-                        onHAlignChange: props.onHAlignChange,
-                        onVAlignChange: props.onVAlignChange,
-                        onWrapTextChange: props.onWrapTextChange
-                    }}>
-                        {!isAndroid ?
-                            <Icon slot="media" icon="icon-text-align-left"></Icon> : null
-                        }
-                    </ListItem>
-                    <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
-                        onTextOrientationChange: props.onTextOrientationChange
-                    }}>
-                        {!isAndroid ?
-                            <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
-                        }
-                    </ListItem>
-                    <ListItem title={_t.textBorderStyle} link="/edit-cell-border-style/" routeProps={{
-                        onBorderStyle: props.onBorderStyle
-                    }}>
-                        {!isAndroid ?
-                            <Icon slot="media" icon="icon-table-borders-all"></Icon> : null
-                        }
-                    </ListItem>
+                    <List>
+                        <ListItem className='buttons'>
+                            <Row>
+                                <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
+                                <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
+                                <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
+                            </Row>
+                        </ListItem>
+                        <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
+                            onTextColor: props.onTextColor
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
+                                fontColorPreview
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textFillColor} link="/edit-cell-fill-color/" routeProps={{
+                            onFillColor: props.onFillColor
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-fill-color">{fillColorPreview}</Icon> :
+                                fillColorPreview
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textTextFormat} link="/edit-cell-text-format/" routeProps={{
+                            onHAlignChange: props.onHAlignChange,
+                            onVAlignChange: props.onVAlignChange,
+                            onWrapTextChange: props.onWrapTextChange
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-align-left"></Icon> : null
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
+                            onTextOrientationChange: props.onTextOrientationChange
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textBorderStyle} link="/edit-cell-border-style/" routeProps={{
+                            onBorderStyle: props.onBorderStyle
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-table-borders-all"></Icon> : null
+                            }
+                        </ListItem>
+                    </List>
                     <List>
                         <ListItem title={_t.textFormat} link="/edit-format-cell/" routeProps={{
                             onCellFormat: props.onCellFormat,

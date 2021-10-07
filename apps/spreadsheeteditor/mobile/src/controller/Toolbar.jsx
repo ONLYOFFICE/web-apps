@@ -4,9 +4,12 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
+
+    const storeWorksheets = props.storeWorksheets;
+    const worksheetProtection = storeWorksheets.worksheetProtection;
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
@@ -153,6 +156,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
+                     worksheetProtection={worksheetProtection}
         />
     )
 }));

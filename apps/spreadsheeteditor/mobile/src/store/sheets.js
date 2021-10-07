@@ -101,7 +101,7 @@ export class storeWorksheets {
         this.isProtectedWorkbook = value;
     }
 
-    worksheetProtection;
+    worksheetProtection = {wsLock: false, wsProps: ''};
     setWorksheetProtection(value) {
         this.worksheetProtection = value;
     }
