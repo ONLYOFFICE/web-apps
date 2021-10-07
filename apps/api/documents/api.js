@@ -143,6 +143,37 @@
                         reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
+                    layout: {
+                        toolbar: {
+                            file: {
+                                close: false / true,
+                                advanced: false / true,
+                                info: {
+                                    application: false/true
+                                } / false / true
+                            } / false / true,
+                            home:  {} / false / true,
+                            insert:  {} / false / true,
+                            layout:  {} / false / true,
+                            references:  {} / false / true,
+                            collaboration:  {} / false / true
+                        },
+                        leftMenu: {
+                            navigation: false/true
+                        },
+                        rightMenu: {
+                        },
+                        statusBar: {
+                            textLang: false/true
+                            docLang: false/true
+                        }
+                    },
+                    features: {
+                        spellcheck: {
+                            mode: false/true // значение при первом открытии редактора
+                            change: false/true // показывать настройку или скрывать
+                        } / false / true // если не объект, то как и раньше - значение при первом открытии    редактора
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,

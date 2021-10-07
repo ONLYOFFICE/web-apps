@@ -3184,7 +3184,7 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'collaboration'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
