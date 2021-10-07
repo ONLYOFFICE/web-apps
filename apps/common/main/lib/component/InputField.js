@@ -560,85 +560,111 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-select-range',
-                btnHint: ''
+                iconCls: 'hide-password',
+                btnHint: '',
+                repeatInput: null,
+                showPwdOnClick: false
             },
-        render : function(parentEl) {
 
+            render : function(parentEl) {
 
-            if (!this.rendered) {
-                this.cmpEl = $(this.template({
-                    id          : this.id,
-                    cls         : this.cls,
-                    style       : this.style,
-                    value       : this.value,
-                    type        : 'password',
-                    name        : this.name,
-                    placeHolder : this.placeHolder,
-                    spellcheck  : this.spellcheck,
-                    iconCls     : this.options.iconCls,
-                    scope       : this
-                }));
+                if (!this.rendered) {
+                    this.cmpEl = $(this.template({
+                        id          : this.id,
+                        cls         : this.cls,
+                        style       : this.style,
+                        value       : this.value,
+                        type        : 'password',
+                        name        : this.name,
+                        placeHolder : this.placeHolder,
+                        spellcheck  : this.spellcheck,
+                        iconCls     : 'hide-password',
+                        scope       : this
+                    }));
 
-                if (parentEl) {
-                    this.setElement(parentEl, false);
-                    parentEl.html(this.cmpEl);
+                    if (parentEl) {
+                        this.setElement(parentEl, false);
+                        parentEl.html(this.cmpEl);
+                    } else {
+                        this.$el.html(this.cmpEl);
+                    }
                 } else {
-                    this.$el.html(this.cmpEl);
-                }
-            } else {
-                this.cmpEl = this.$el;
-            }
-
-            if (!this.rendered) {
-                var el = this.cmpEl;
-
-                this._btnElm = this.cmpEl.find('button');
-                this._button = new Common.UI.Button({
-                    el: this._button,
-                    hint: this.options.btnHint || ''
-                });
-                this._button.on('click', _.bind(this.onButtonClick, this));
-                this._btnElm.on('mousedown', _.bind(this.onMouseDown, this));
-
-                this._input = this.cmpEl.find('input').addBack().filter('input');
-                if (this.editable) {
-                    this._input.on('blur',   _.bind(this.onInputChanged, this));
-                    this._input.on('keypress', _.bind(this.onKeyPress, this));
-                    this._input.on('keydown',    _.bind(this.onKeyDown, this));
-                    this._input.on('keyup',    _.bind(this.onKeyUp, this));
-                    if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
-                    if (this.maxLength) this._input.attr('maxlength', this.maxLength);
+                    this.cmpEl = this.$el;
                 }
 
+                if (!this.rendered) {
+                    var el = this.cmpEl;
 
-                this.setEditable(this.editable);
+                    this._btnElm = this.cmpEl.find('button');
+                    this._button = new Common.UI.Button({
+                        el: this._btnElm,
+                        hint: this.options.btnHint || ''
+                    });
+                    this._button.setIconCls('hide-password');
+                    this._button.on('click', _.bind(this.onButtonClick, this));
+                    if(this.options.showPwdOnClick)
+                        this._button.on('click', _.bind(this.passwordShow, this));
+                    else
+                        this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
 
-                if (this.disabled)
-                    this.setDisabled(this.disabled);
+                    this._input = this.cmpEl.find('input').addBack().filter('input');
+                    if (this.editable) {
+                        this._input.on('blur',   _.bind(this.onInputChanged, this));
+                        this._input.on('keypress', _.bind(this.onKeyPress, this));
+                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
+                        this._input.on('keyup',    _.bind(this.onKeyUp, this));
+                        if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
+                        if (this.maxLength) this._input.attr('maxlength', this.maxLength);
+                    }
 
-                if (this._input.closest('.asc-window').length>0)
-                    var onModalClose = function() {
-                        var errorTip = el.find('.input-error').data('bs.tooltip');
-                        if (errorTip) errorTip.tip().remove();
-                        Common.NotificationCenter.off({'modal:close': onModalClose});
-                    };
-                Common.NotificationCenter.on({'modal:close': onModalClose});
-            }
-            this.rendered = true;
 
-            return this;
+                    this.setEditable(this.editable);
+
+                    if (this.disabled)
+                        this.setDisabled(this.disabled);
+
+                    if (this._input.closest('.asc-window').length>0)
+                        var onModalClose = function() {
+                            var errorTip = el.find('.input-error').data('bs.tooltip');
+                            if (errorTip) errorTip.tip().remove();
+                            Common.NotificationCenter.off({'modal:close': onModalClose});
+                        };
+                    Common.NotificationCenter.on({'modal:close': onModalClose});
+                }
+                this.rendered = true;
+
+                return this;
             },
 
-            onMouseDown: function (e) {
-                if ((this._input.val() == '')||(this.disabled)) return;
-                this._btnElm.on('mouseup', _.bind(this.onMouseUp,this));
+            passwordShow: function (e) {
+                if (this.disabled) return;
+                this._button.setIconCls('btn-sheet-view');
                 this._input.attr('type', 'text');
+                if(this.options.repeatInput)
+                    this.options.repeatInput.attr('type', 'text');
+
+                if(this.options.showPwdOnClick)
+                {
+                    this._button.off('click', _.bind(this.passwordShow, this));
+                    this._button.on('click', _.bind(this.passwordHide, this));
+                }
+                else
+                    this._btnElm.on('mouseup', _.bind(this.passwordHide,this));
             },
 
-            onMouseUp: function (e) {
+            passwordHide: function (e) {
+                this._button.setIconCls('hide-password');
                 this._input.attr('type', 'password');
-                this._btnElm.off('mouseup', this.onMouseUp);
+                if(this.options.repeatInput)
+                    this.options.repeatInput.attr('type', 'password');
+
+                if(this.options.showPwdOnClick)
+                {
+                    this._button.off('click', _.bind(this.passwordHide, this));
+                    this._button.on('click', _.bind(this.passwordShow, this));
+                }
+                else
+                    this._btnElm.off('mouseup', this.passwordHide);
             }
 
         }

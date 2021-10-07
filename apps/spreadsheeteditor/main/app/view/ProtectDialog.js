@@ -111,14 +111,7 @@ define([
 
             var me = this;
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            this.inputPwd = new Common.UI.InputField({
-                el: $('#id-password-txt'),
-                type: 'password',
-                allowBlank  : true,
-                style       : 'width: 100%;',
-                maxLength: 255,
-                validateOnBlur: false
-            });
+
             this.repeatPwd = new Common.UI.InputField({
                 el: $('#id-repeat-txt'),
                 type: 'password',
@@ -129,6 +122,15 @@ define([
                 validation  : function(value) {
                     return me.txtIncorrectPwd;
                 }
+            });
+            this.inputPwd = new Common.UI.InputFieldBtnPassword({
+                el: $('#id-password-txt'),
+                type: 'password',
+                allowBlank  : true,
+                style       : 'width: 100%;',
+                maxLength: 255,
+                validateOnBlur: false,
+                repeatInput: this.repeatPwd._input
             });
 
             if (this.type == 'sheet') {
