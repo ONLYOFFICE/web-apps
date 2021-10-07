@@ -31,7 +31,8 @@ import { StatusbarController } from "./Statusbar";
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeWorksheets"
     )
 class MainController extends Component {
     constructor(props) {
@@ -47,6 +48,9 @@ class MainController extends Component {
             licenseType: false,
             isDocModified: false
         };
+        
+        this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
+                'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
 
@@ -396,6 +400,42 @@ class MainController extends Component {
                 }
             }
         });
+
+        this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));
+    }
+
+    onChangeProtectSheet() {
+        const storeWorksheets = this.props.storeWorksheets;
+        let props = this.getWSProps(true);
+    
+        storeWorksheets.setWorksheetProtection(props);
+    }
+
+    getWSProps(update) {
+        const storeAppOptions = this.props.storeAppOptions;
+        let protection = {};
+        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
+
+        if (update) {
+            let wsProtected = !!this.api.asc_isProtectedSheet();
+            let arr = {};
+            if (wsProtected) {
+                // arr = [];
+                let props = this.api.asc_getProtectedSheet();
+                props && this.wsLockOptions.forEach(function(item){
+                    arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                });
+            } else {
+                this.wsLockOptions.forEach(function(item){
+                    arr[item] = false;
+                });
+            }
+
+            protection = {wsLock: wsProtected, wsProps: arr};
+        }
+
+        return protection;
     }
 
     _onLongActionEnd(type, id) {

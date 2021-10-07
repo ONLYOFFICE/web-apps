@@ -36,7 +36,10 @@ export class storeWorksheets {
             setWorksheetLocked: action,
 
             isProtectedWorkbook: observable,
-            setProtectedWorkbook: action
+            setProtectedWorkbook: action,
+
+            worksheetProtection: observable,
+            setWorksheetProtection: action
         });
         this.sheets = [];
     }
@@ -96,5 +99,10 @@ export class storeWorksheets {
     isProtectedWorkbook = false;
     setProtectedWorkbook(value) {
         this.isProtectedWorkbook = value;
+    }
+
+    worksheetProtection;
+    setWorksheetProtection(value) {
+        this.worksheetProtection = value;
     }
 }
