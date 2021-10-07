@@ -593,13 +593,13 @@ define([
             if (!this.rendered) {
                 var el = this.cmpEl;
 
-                this._button = this.cmpEl.find('button');
-                var button = new Common.UI.Button({
+                this._btnElm = this.cmpEl.find('button');
+                this._button = new Common.UI.Button({
                     el: this._button,
                     hint: this.options.btnHint || ''
                 });
-                button.on('click', _.bind(this.onButtonClick, this));
-                this._button.on('mousedown', _.bind(this.onMouseDown, this));
+                this._button.on('click', _.bind(this.onButtonClick, this));
+                this._btnElm.on('mousedown', _.bind(this.onMouseDown, this));
 
                 this._input = this.cmpEl.find('input').addBack().filter('input');
                 if (this.editable) {
@@ -632,13 +632,13 @@ define([
 
             onMouseDown: function (e) {
                 if ((this._input.val() == '')||(this.disabled)) return;
-                this._button.on('mouseup', _.bind(this.onMouseUp,this));
+                this._btnElm.on('mouseup', _.bind(this.onMouseUp,this));
                 this._input.attr('type', 'text');
             },
 
             onMouseUp: function (e) {
                 this._input.attr('type', 'password');
-                this._button.off('mouseup', this.onMouseUp);
+                this._btnElm.off('mouseup', this.onMouseUp);
             }
 
         }
