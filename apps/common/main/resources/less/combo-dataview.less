@@ -92,14 +92,17 @@
         .border-left-radius(0);
 
         .dataview {
+            @minus-px: calc(-1px / @pixel-ratio-factor);
             height: 46px;
             padding: 0;
-            margin: -1px 0 0 -1px;
+            margin: -1 0 0 -1;
+            margin: @minus-px 0 0 @minus-px;
         }
     }
 
     .item {
         padding: 2px;
+        padding: @scaled-two-px-value;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         .box-shadow(none);
@@ -111,6 +114,7 @@
         height: @combo-dataview-height;
         background-color: @background-normal-ie;
         background-color: @background-normal;
+        display: flex;
 
         &:hover {
             .box-inner-shadow(0 0 0 2px @border-preview-hover-ie);
