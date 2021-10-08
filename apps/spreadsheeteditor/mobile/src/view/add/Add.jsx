@@ -57,6 +57,7 @@ const routes = [
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
+
     return (
         <Navbar>
             {tabs.length > 1 ?
@@ -67,7 +68,7 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
                 </div> :
-                <NavTitle>{ tabs[0].caption }</NavTitle>
+                <NavTitle>{tabs[0].caption}</NavTitle>
             }
             { !inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
         </Navbar>
@@ -89,50 +90,54 @@ const AddLayoutContent = ({ tabs }) => {
 const AddTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const wsProps = props.wsProps;
     const showPanels = props.showPanels;
     const tabs = [];
     
-    if (!showPanels) {
-        tabs.push({
-            caption: _t.textChart,
-            id: 'add-chart',
-            icon: 'icon-add-chart',
-            component: <AddChartController/>
-        });
+    if(!wsProps.Objects) {
+        if (!showPanels) {
+            tabs.push({
+                caption: _t.textChart,
+                id: 'add-chart',
+                icon: 'icon-add-chart',
+                component: <AddChartController/>
+            });
+        }
+        if (!showPanels || showPanels === 'function') {
+            tabs.push({
+                caption: _t.textFunction,
+                id: 'add-function',
+                icon: 'icon-add-formula',
+                component: <AddFunctionController onOptionClick={props.onOptionClick}/>
+            });
+        }
+        if (!showPanels || showPanels.indexOf('shape') > 0) {
+            tabs.push({
+                caption: _t.textShape,
+                id: 'add-shape',
+                icon: 'icon-add-shape',
+                component: <AddShapeController/>
+            });
+        }
+        if (showPanels && showPanels.indexOf('image') !== -1) {
+            tabs.push({
+                caption: _t.textImage,
+                id: 'add-image',
+                icon: 'icon-add-image',
+                component: <AddImageController inTabs={true}/>
+            });
+        }
     }
-    if (!showPanels || showPanels === 'function') {
-        tabs.push({
-            caption: _t.textFunction,
-            id: 'add-function',
-            icon: 'icon-add-formula',
-            component: <AddFunctionController onOptionClick={props.onOptionClick}/>
-        });
-    }
-    if (!showPanels || showPanels.indexOf('shape') > 0) {
-        tabs.push({
-            caption: _t.textShape,
-            id: 'add-shape',
-            icon: 'icon-add-shape',
-            component: <AddShapeController/>
-        });
-    }
-    if (showPanels && showPanels.indexOf('image') !== -1) {
-        tabs.push({
-            caption: _t.textImage,
-            id: 'add-image',
-            icon: 'icon-add-image',
-            component: <AddImageController inTabs={true}/>
-        });
-    }
-    if (!showPanels) {
+    if (!showPanels && (!wsProps.InsertHyperlinks || !wsProps.Objects)) {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController/>
+            component: <AddOtherController wsPropsObjects={wsProps.Objects} 
+                wsPropsHyperlinks={wsProps.InsertHyperlinks}/>
         });
     }
-    if ((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) {
+    if (((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) && !wsProps.InsertHyperlinks) {
         tabs.push({
             caption: _t.textAddLink,
             id: 'add-link',
@@ -164,10 +169,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsProps={this.props.wsProps} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsProps={this.props.wsProps}  onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
                 </Popup>
         )
     }
@@ -186,6 +191,7 @@ const Add = props => {
             // component will unmount
         }
     });
+
     const onviewclosed = () => {
         if ( props.onclosed )
             props.onclosed();
@@ -221,6 +227,7 @@ const Add = props => {
                     onclosed={onviewclosed}
                     showPanels={options ? options.panels : undefined}
                     isAddShapeHyperlink = {isAddShapeHyperlink}
+                    wsProps={props.wsProps}
     />
 };
 

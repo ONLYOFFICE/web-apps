@@ -44,7 +44,7 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
-                {!wsLock || !wsProps.FormatCells && 
+                {(!wsLock || !wsProps.FormatCells) && 
                 <>
                     <List>
                         <ListItem className='buttons'>

@@ -15,6 +15,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const isDisconnected = props.users.isDisconnected;
 
     const storeFocusObjects = props.storeFocusObjects;
+    const focusOn = storeFocusObjects.focusOn;
     const isObjectLocked = storeFocusObjects.isLocked;
     const isEditCell = storeFocusObjects.isEditCell;
     const editFormulaMode = storeFocusObjects.editFormulaMode;
@@ -157,6 +158,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
                      worksheetProtection={worksheetProtection}
+                     focusOn={focusOn}
         />
     )
 }));

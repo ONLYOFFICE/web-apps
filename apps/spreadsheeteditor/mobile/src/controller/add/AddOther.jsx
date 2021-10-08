@@ -30,6 +30,8 @@ class AddOtherController extends Component {
         return (
             <AddOther closeModal={this.closeModal}
                       hideAddComment={this.hideAddComment}
+                      wsPropsHyperlinks={this.props.wsPropsHyperlinks}
+                      wsPropsObjects={this.props.wsPropsObjects}
             />
         )
     }
