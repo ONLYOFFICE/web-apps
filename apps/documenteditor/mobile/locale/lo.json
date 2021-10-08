@@ -581,7 +581,12 @@
     "textChooseEncoding": "Choose Encoding",
     "textChooseTxtOptions": "Choose TXT Options",
     "txtDownloadTxt": "Download TXT",
-    "txtOk": "Ok"
+    "txtOk": "Ok",
+    "textPages": "Pages",
+    "textParagraphs": "Paragraphs",
+    "textSpaces": "Spaces",
+    "textSymbols": "Symbols",
+    "textWords": "Words"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
