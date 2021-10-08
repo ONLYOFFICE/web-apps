@@ -195,7 +195,7 @@ define([
             if ( !this.rendered ) {
                 this.licData = data || true;
             } else {
-                if (data && typeof data == 'object' && typeof(data.customer)=='object') {
+                if (data && typeof data == 'object' && data.customer && typeof(data.customer)=='object') {
                     this.licData = data;
                     var customer = data.customer;
 
