@@ -125,7 +125,7 @@
         "txtStyle_Title": "Titlu",
         "txtStyle_Total": "Total",
         "txtStyle_Warning_Text": "Mesaj de avertisment",
-        "txtTab": "Fila",
+        "txtTab": "Tabulator",
         "txtTable": "Tabel",
         "txtTime": "Oră",
         "txtValues": "Valori",
@@ -150,9 +150,9 @@
       "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită.<br>Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori al %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori al %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de actualizare.",
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
@@ -169,6 +169,7 @@
     "errorAutoFilterHiddenRange": "Operațiunea nu poate fi efectuată deoarece zonă conține celule filtrate.<br>Reafișați elementele filtrate și încercați din nou.",
     "errorBadImageUrl": "URL-ul imaginii incorectă",
     "errorChangeArray": "Nu puteți modifica parte dintr-o matrice.",
+    "errorChangeOnProtectedSheet": "Celula sau diagrama pe care încercați să schimbați este din foaia de calcul protejată. Dezactivați protejarea foii de calcul dacă doriți s-o schimați.Este posibil să fie necesară introducerea parolei.",
     "errorConnectToServer": "Salvarea documentului nu este posibilă. Verificați configurarea conexeunii sau contactaţi administratorul dumneavoastră de reţea<br>Când faceți clic pe OK, vi se va solicita să descărcați documentul.",
     "errorCopyMultiselectArea": "Această comandă nu poate fi aplicată la selecții multiple<br>Selectați o singură zonă și încercați din nou.",
     "errorCountArg": "Eroare în formulă.<br>Număr incorect de argumente.",
@@ -649,7 +650,7 @@
       "txtScheme9": "Forjă",
       "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
-      "txtTab": "Fila",
+      "txtTab": "Tabulator",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }
