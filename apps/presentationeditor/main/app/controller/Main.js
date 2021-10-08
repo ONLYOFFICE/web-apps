@@ -54,7 +54,8 @@ define([
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
     'presentationeditor/main/app/collection/EquationGroups',
-    'common/main/lib/component/HintManager'
+    'common/main/lib/component/HintManager',
+    'common/main/lib/component/LayoutManager'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -1146,6 +1147,7 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
 
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
@@ -1696,6 +1698,7 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.UI.LayoutManager.applyCustomization();
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }

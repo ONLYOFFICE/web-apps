@@ -57,7 +57,8 @@ define([
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
-    'common/main/lib/component/HintManager'
+    'common/main/lib/component/HintManager',
+    'common/main/lib/component/LayoutManager'
 ], function () {
     'use strict';
 
@@ -1257,6 +1258,7 @@ define([
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -2051,6 +2053,7 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.UI.LayoutManager.applyCustomization();
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }

@@ -148,12 +148,8 @@
                             file: {
                                 close: false / true,
                                 advanced: false / true,
-                                info: {
-                                    application: false/true
-                                } / false / true
+                                info: false / true
                             } / false / true,
-                            home:  {} / false / true,
-                            insert:  {} / false / true,
                             layout:  {} / false / true,
                             references:  {} / false / true,
                             collaboration:  {} / false / true

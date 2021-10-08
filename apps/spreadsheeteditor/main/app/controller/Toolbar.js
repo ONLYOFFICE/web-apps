@@ -3746,13 +3746,13 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( config.canFeaturePivot ) {
-                        tab = {action: 'pivot', caption: me.textPivot, layoutname: 'toolbar-pivot'};
+                        tab = {action: 'pivot', caption: me.textPivot};
                         var pivottab = me.getApplication().getController('PivotTable');
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);
-                            me.toolbar.setVisible('pivot', Common.UI.LayoutManager.isElementVisible('toolbar-pivot'));
+                            me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
                     }
