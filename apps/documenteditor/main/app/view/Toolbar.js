@@ -109,11 +109,11 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'file', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', layoutname: 'home'},
-                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', layoutname: 'insert'},
-                                {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', layoutname: 'layout'},
-                                {caption: me.textTabLinks, action: 'links', extcls: 'canedit', layoutname: 'references'}
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false},
+                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', layoutname: 'toolbar-insert'},
+                                {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', layoutname: 'toolbar-layout'},
+                                {caption: me.textTabLinks, action: 'links', extcls: 'canedit', layoutname: 'toolbar-references'}
                             ]
                         }
                     );

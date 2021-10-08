@@ -53,7 +53,8 @@ define([
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups',
-    'common/main/lib/component/HintManager'
+    'common/main/lib/component/HintManager',
+    'common/main/lib/component/LayoutManager'
 ], function () {
     'use strict';
 
@@ -1459,6 +1460,7 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
+                this.appOptions.canBrandingExt && this.appOptions.customization && Common.UI.LayoutManager.init(this.appOptions.customization.layout);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -2047,6 +2049,7 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.UI.LayoutManager.applyCustomization();
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }

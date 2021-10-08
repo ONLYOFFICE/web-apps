@@ -646,7 +646,7 @@ define([
                     if (!me.btnHistory && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                    Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
 
                     setEvents.call(me);
                 });

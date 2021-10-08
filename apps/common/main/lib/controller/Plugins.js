@@ -63,7 +63,7 @@ define([
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
                         if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
-                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
+                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption, layoutname: 'toolbar-plugins'};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
@@ -219,7 +219,7 @@ define([
             });
             this.api.asc_pluginsRegister('', arr);
             if (storePlugins.hasVisible())
-                Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
+                Common.NotificationCenter.trigger('tab:visible', 'plugins', Common.UI.LayoutManager.isElementVisible('toolbar-plugins'));
             Common.Gateway.pluginsReady();
         },
 
