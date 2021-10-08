@@ -430,7 +430,10 @@ define([
                 disabled: false,
                 editable: true,
                 iconCls: 'btn-select-range',
-                btnHint: ''
+                btnHint: '',
+                repeatInput: null,
+                showPwdOnClick: false,
+                btnForPwdShow : false
             },
 
             template: _.template([
@@ -485,6 +488,16 @@ define([
                         hint: this.options.btnHint || ''
                     });
                     this._button.on('click', _.bind(this.onButtonClick, this));
+                    if((this.type == 'password')&&(this.options.btnForPwdShow))
+                    {
+                        this._btnElm = this._button.$el;
+                        this._button.setIconCls('hide-password');
+
+                        if(this.options.showPwdOnClick)
+                            this._button.on('click', _.bind(this.passwordShow, this));
+                        else
+                            this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
+                    }
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
 
@@ -538,108 +551,13 @@ define([
 
                 if (!this.rendered) return;
                 this._button.updateHint(this.options.hint);
-            }
-        }
-    })());
-
-    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend((function() {
-        return {
-            options : {
-                id          : null,
-                cls         : '',
-                style       : '',
-                value       : '',
-                name        : '',
-                validation  : null,
-                allowBlank  : true,
-                placeHolder : '',
-                blankError  : null,
-                spellcheck  : false,
-                maskExp     : '',
-                validateOnChange: false,
-                validateOnBlur: true,
-                disabled: false,
-                editable: true,
-                iconCls: 'hide-password',
-                btnHint: '',
-                repeatInput: null,
-                showPwdOnClick: false
-            },
-
-            render : function(parentEl) {
-
-                if (!this.rendered) {
-                    this.cmpEl = $(this.template({
-                        id          : this.id,
-                        cls         : this.cls,
-                        style       : this.style,
-                        value       : this.value,
-                        type        : 'password',
-                        name        : this.name,
-                        placeHolder : this.placeHolder,
-                        spellcheck  : this.spellcheck,
-                        iconCls     : 'hide-password',
-                        scope       : this
-                    }));
-
-                    if (parentEl) {
-                        this.setElement(parentEl, false);
-                        parentEl.html(this.cmpEl);
-                    } else {
-                        this.$el.html(this.cmpEl);
-                    }
-                } else {
-                    this.cmpEl = this.$el;
-                }
-
-                if (!this.rendered) {
-                    var el = this.cmpEl;
-
-                    this._btnElm = this.cmpEl.find('button');
-                    this._button = new Common.UI.Button({
-                        el: this._btnElm,
-                        hint: this.options.btnHint || ''
-                    });
-                    this._button.setIconCls('hide-password');
-                    this._button.on('click', _.bind(this.onButtonClick, this));
-                    if(this.options.showPwdOnClick)
-                        this._button.on('click', _.bind(this.passwordShow, this));
-                    else
-                        this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
-
-                    this._input = this.cmpEl.find('input').addBack().filter('input');
-                    if (this.editable) {
-                        this._input.on('blur',   _.bind(this.onInputChanged, this));
-                        this._input.on('keypress', _.bind(this.onKeyPress, this));
-                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
-                        this._input.on('keyup',    _.bind(this.onKeyUp, this));
-                        if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
-                        if (this.maxLength) this._input.attr('maxlength', this.maxLength);
-                    }
-
-
-                    this.setEditable(this.editable);
-
-                    if (this.disabled)
-                        this.setDisabled(this.disabled);
-
-                    if (this._input.closest('.asc-window').length>0)
-                        var onModalClose = function() {
-                            var errorTip = el.find('.input-error').data('bs.tooltip');
-                            if (errorTip) errorTip.tip().remove();
-                            Common.NotificationCenter.off({'modal:close': onModalClose});
-                        };
-                    Common.NotificationCenter.on({'modal:close': onModalClose});
-                }
-                this.rendered = true;
-
-                return this;
             },
 
             passwordShow: function (e) {
                 if (this.disabled) return;
                 this._button.setIconCls('btn-sheet-view');
                 this._input.attr('type', 'text');
+
                 if(this.options.repeatInput)
                     this.options.repeatInput.attr('type', 'text');
 
@@ -655,6 +573,7 @@ define([
             passwordHide: function (e) {
                 this._button.setIconCls('hide-password');
                 this._input.attr('type', 'password');
+                
                 if(this.options.repeatInput)
                     this.options.repeatInput.attr('type', 'password');
 
@@ -666,7 +585,6 @@ define([
                 else
                     this._btnElm.off('mouseup', this.passwordHide);
             }
-
         }
     })());
 });

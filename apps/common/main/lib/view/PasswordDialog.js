@@ -105,7 +105,7 @@ define([
                             return me.txtIncorrectPwd;
                         }
                     });
-                    this.inputPwd = new Common.UI.InputFieldBtnPassword({
+                    this.inputPwd = new Common.UI.InputFieldBtn({
                         el: $('#id-password-txt'),
                         type: 'password',
                         allowBlank  : false,
@@ -113,7 +113,8 @@ define([
                         maxLength: 255,
                         validateOnBlur: false,
                         repeatInput: this.repeatPwd._input,
-                        showPwdOnClick: true
+                        showPwdOnClick: true,
+                        btnForPwdShow: true
                     });
             }
         },
