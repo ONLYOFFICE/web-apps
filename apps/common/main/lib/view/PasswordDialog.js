@@ -112,7 +112,7 @@ define([
                         style       : 'width: 100%;',
                         maxLength: 255,
                         validateOnBlur: false,
-                        repeatInput: this.repeatPwd._input,
+                        repeatInput: this.repeatPwd,
                         showPwdOnClick: true,
                         btnForPwdShow: true
                     });

@@ -191,6 +191,7 @@ define([
             },
 
             checkPasswordType: function(){
+                if(this.type == 'text') return;
                 if (this._input.val() !== '') {
                     (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
                 } else {
@@ -439,7 +440,7 @@ define([
             template: _.template([
                 '<div class="input-field input-field-btn" style="<%= style %>">',
                     '<input ',
-                        'type="<%= type %>" ',
+                        'type="text" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -487,17 +488,7 @@ define([
                         el: this.cmpEl.find('button'),
                         hint: this.options.btnHint || ''
                     });
-                    this._button.on('click', _.bind(this.onButtonClick, this));
-                    if((this.type == 'password')&&(this.options.btnForPwdShow))
-                    {
-                        this._btnElm = this._button.$el;
-                        this._button.setIconCls('hide-password');
-
-                        if(this.options.showPwdOnClick)
-                            this._button.on('click', _.bind(this.passwordShow, this));
-                        else
-                            this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
-                    }
+                    (this.type === 'text') && this._button.on('click', _.bind(this.onButtonClick, this));
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
 
@@ -509,6 +500,21 @@ define([
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
                     }
+                    if((this.type == 'password')&&(this.options.btnForPwdShow))
+                    {
+                        this.hidePwd = true;
+                        this.repeatInput= this.options.repeatInput;
+                        this.currentType = 'password';
+                        this._btnElm = this._button.$el;
+                        this._button.setIconCls('btn-sheet-view');
+                        this._input.on('input', _.bind(this.checkPasswordType, this));
+                        this._button.updateHint(this.textHintShowPwd);
+                        if(this.options.showPwdOnClick)
+                            this._button.on('click', _.bind(this.passwordClick, this));
+                        else
+                            this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
+                    }
+
 
                     this.setEditable(this.editable);
 
@@ -525,6 +531,8 @@ define([
                 }
 
                 me.rendered = true;
+                if (me.value)
+                    me.setValue(me.value);
 
                 return this;
             },
@@ -553,38 +561,63 @@ define([
                 this._button.updateHint(this.options.hint);
             },
 
+            checkPasswordType: function(){
+                if (this._input.val() != '') {
+                    (this._input.attr('type') !== this.currentType) && this._input.attr('type', this.currentType);
+                } else {
+                    this._input.attr('type', 'text');
+                }
+            },
+
+
+            passwordClick: function (e)
+            {
+                if(this.hidePwd) {
+                    this.passwordShow(e);
+                    this.hidePwd = false;
+                }
+                else {
+                    this.passwordHide(e);
+                    this.hidePwd = true;
+                }
+            },
+
             passwordShow: function (e) {
                 if (this.disabled) return;
-                this._button.setIconCls('btn-sheet-view');
-                this._input.attr('type', 'text');
+                this._button.setIconCls('hide-password');
+                this.currentType = 'text';
 
-                if(this.options.repeatInput)
-                    this.options.repeatInput.attr('type', 'text');
+                this._input.attr('type', this.currentType);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.currentType;
+                    this.repeatInput._input.attr('type', this.currentType);
+                }
 
-                if(this.options.showPwdOnClick)
-                {
-                    this._button.off('click', _.bind(this.passwordShow, this));
-                    this._button.on('click', _.bind(this.passwordHide, this));
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintHidePwd);
                 }
                 else
                     this._btnElm.on('mouseup', _.bind(this.passwordHide,this));
             },
 
             passwordHide: function (e) {
-                this._button.setIconCls('hide-password');
-                this._input.attr('type', 'password');
-                
-                if(this.options.repeatInput)
-                    this.options.repeatInput.attr('type', 'password');
+                this._button.setIconCls('btn-sheet-view');
+                this.currentType = 'password';
 
-                if(this.options.showPwdOnClick)
-                {
-                    this._button.off('click', _.bind(this.passwordHide, this));
-                    this._button.on('click', _.bind(this.passwordShow, this));
+                (this._input.val() !== '') && this._input.attr('type', this.currentType);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.currentType;
+                    (this.repeatInput._input.val() !== '') && this.repeatInput._input.attr('type', this.currentType);
+                }
+
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintShowPwd);
                 }
                 else
                     this._btnElm.off('mouseup', this.passwordHide);
-            }
+            },
+            textHintShowPwd: 'show password',
+            textHintHidePwd: 'hide password'
         }
     })());
 });
