@@ -488,7 +488,7 @@ define([
                         el: this.cmpEl.find('button'),
                         hint: this.options.btnHint || ''
                     });
-                    (this.type === 'text') && this._button.on('click', _.bind(this.onButtonClick, this));
+                    this._button.on('click', _.bind(this.onButtonClick, this));
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
 
