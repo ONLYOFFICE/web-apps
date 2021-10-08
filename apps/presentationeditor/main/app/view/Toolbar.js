@@ -56,7 +56,8 @@ define([
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
-    ,'common/main/lib/component/Mixtbar'
+    ,'common/main/lib/component/Mixtbar',
+    'common/main/lib/component/ComboDataViewShape'
 ], function (Backbone, template, template_view) {
     'use strict';
 
@@ -1051,6 +1052,19 @@ define([
                         '</div>'
                     ].join(''));
 
+                    this.cmbInsertShape = new Common.UI.ComboDataViewShape({
+                        cls: 'combo-styles shapes',
+                        itemWidth: 20,
+                        itemHeight: 20,
+                        menuMaxHeight: 640,
+                        menuWidth: 362,
+                        enableKeyEvents: true,
+                        lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0'
+                    });
+
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
                         this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
@@ -1193,6 +1207,7 @@ define([
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
+                _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1711,6 +1726,7 @@ define([
                 menuShape.addItem(menuitem);
 
                 var recents = Common.localStorage.getItem('pe-recent-shapes');
+                recents = recents ? JSON.parse(recents) : null;
 
                 var shapePicker = new Common.UI.DataViewShape({
                     el: $('#id-toolbar-menu-insertshape-'+index),
@@ -1719,12 +1735,25 @@ define([
                     parentMenu: menuShape,
                     restoreHeight: 640,
                     textRecentlyUsed: me.textRecentlyUsed,
-                    recentShapes: recents ? JSON.parse(recents) : null
+                    recentShapes: recents
                 });
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                     if (record)
                         me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                });
+
+            },
+
+            updateComboAutoshapeMenu: function (collection) {
+                var me = this,
+                    recents = Common.localStorage.getItem('pe-recent-shapes');
+                recents = recents ? JSON.parse(recents) : null;
+                me.cmbInsertShape.setMenuPicker(collection, recents, me.textRecentlyUsed);
+                me.cmbInsertShape.on('click', function (btn, record) {
+                    if (record) {
+                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                    }
                 });
             },
 

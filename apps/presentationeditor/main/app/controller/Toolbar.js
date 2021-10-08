@@ -2034,14 +2034,21 @@ define([
         },
 
         onResetAutoshapes: function () {
-            var me = this;
+            var me = this,
+                collection = PE.getCollection('ShapeGroups');
             var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, PE.getCollection('ShapeGroups'));
+                me.toolbar.updateAutoshapeMenu(menu, collection);
                 menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnsInsertShape.forEach(function (btn, index) {
                 btn.menu.on('show:before', onShowBefore);
             });
+            var onComboShowBefore = function (menu) {
+                me.toolbar.updateComboAutoshapeMenu(collection);
+                menu.off('show:before', onComboShowBefore);
+            }
+            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
+            me.toolbar.cmbInsertShape.fillComboView(collection);
         },
 
         onResetSlides: function () {
