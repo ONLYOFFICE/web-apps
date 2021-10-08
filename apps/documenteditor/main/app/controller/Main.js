@@ -402,7 +402,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
-                this.appOptions.canFeatureForms = true;
+
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -478,6 +478,9 @@ define([
                     if (this.editorConfig.mode == 'view' || (this.permissions.edit === false && !this.permissions.review ))
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
+
+                var type = data.doc ? /^(?:(docxf))$/.exec(data.doc.fileType) : false;
+                this.appOptions.canFeatureForms = !!(type && typeof type[1] === 'string');
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
