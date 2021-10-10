@@ -200,11 +200,11 @@ define([
                 this.previewInner = this.previewScrolled.find('div:first-child');
 
                 if (this.type == Common.Utils.importTextType.DRM) {
-                    this.inputPwd = new Common.UI.InputFieldBtn({
+                    this.inputPwd = new Common.UI.InputFieldBtnPassword({
                         el: $('#id-password-txt'),
                         type: 'password',
                         validateOnBlur: false,
-                        btnForPwdShow: true,
+                        showPwdOnClick: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
