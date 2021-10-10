@@ -218,6 +218,9 @@ define([
                 if ( this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(false, true);
 
+                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
+                    this.toolbar.cmbInsertShape.setComboViewRecActive(false);
+
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
 
@@ -2049,6 +2052,13 @@ define([
             }
             me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
             me.toolbar.cmbInsertShape.fillComboView(collection);
+            me.toolbar.cmbInsertShape.on('click', function (btn, record) {
+                if (record) {
+                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.toolbar.cmbInsertShape.setComboViewRecActive(true);
+                    me.onInsertShape(record.get('data').shapeType);
+                }
+            });
         },
 
         onResetSlides: function () {

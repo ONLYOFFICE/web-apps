@@ -74,6 +74,9 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
             this.id          = this.options.id || Common.UI.getId();
             this.cls         = this.options.cls;
             this.style       = this.options.style;
@@ -122,9 +125,20 @@ define([
 
         fillComboView: function (collection) {
             var newStyles = [],
-                store = collection.at(0).get('groupStore');
-            for(var i = 0; i < 12; i ++) {
-                newStyles.push(store.at(i));
+                store = collection.at(0).get('groupStore').toJSON(),
+                recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
+            recents = recents ? JSON.parse(recents) : [];
+
+            if (recents.length > 0) {
+                for(var i = 0; i < recents.length && i < 12; i ++) {
+                    newStyles.push(recents[i]);
+                }
+            }
+
+            if (newStyles.length < 12) {
+                for(var j = newStyles.length; j < 12; j ++) {
+                    newStyles.push(store[j]);
+                }
             }
 
             this.fieldPicker.store.reset(newStyles);
@@ -217,6 +231,35 @@ define([
             }
 
             return this;
+        },
+
+        updateComboView: function (record) {
+            var store = this.fieldPicker.store,
+                type = record.get('data').shapeType,
+                model = null;
+            for (var i = 0; i < store.length; i++) {
+                if (store.at(i).get('data').shapeType === type) {
+                    model = store.at(i);
+                    break;
+                }
+            }
+            if (!model) {
+                store.pop();
+            } else {
+                store.remove([model]);
+            }
+            store.unshift([record]);
+        },
+
+        setComboViewRecActive: function (isActive) {
+            if (this.isRecordActive)
+                $(this.cmpEl.find('.field-picker .item')).removeClass('active');
+            $(this.cmpEl.find('.field-picker .item')[0])[isActive ? 'addClass' : 'removeClass']('active');
+            this.isRecordActive = isActive;
+        },
+
+        isComboViewRecActive: function () {
+            return this.isRecordActive;
         },
 
         checkSize: function() {
@@ -335,8 +378,6 @@ define([
                     tip.hide();
                 }
             }
-
-            this.fieldPicker.deselectAll();
         },
 
         onMenuPickerClick: function(dataView, itemView, record) {

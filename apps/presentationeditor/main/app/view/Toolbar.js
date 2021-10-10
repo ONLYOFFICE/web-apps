@@ -1739,8 +1739,10 @@ define([
                 });
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                    if (record)
+                    if (record) {
                         me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                        me.cmbInsertShape.updateComboView(record);
+                    }
                 });
 
             },
@@ -1750,11 +1752,6 @@ define([
                     recents = Common.localStorage.getItem('pe-recent-shapes');
                 recents = recents ? JSON.parse(recents) : null;
                 me.cmbInsertShape.setMenuPicker(collection, recents, me.textRecentlyUsed);
-                me.cmbInsertShape.on('click', function (btn, record) {
-                    if (record) {
-                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
-                    }
-                });
             },
 
             updateAddSlideMenu: function(collection) {
