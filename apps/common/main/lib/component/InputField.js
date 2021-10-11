@@ -191,6 +191,7 @@ define([
             },
 
             checkPasswordType: function(){
+                if(this.type == 'text') return;
                 if (this._input.val() !== '') {
                     (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
                 } else {
@@ -436,7 +437,7 @@ define([
             template: _.template([
                 '<div class="input-field input-field-btn" style="<%= style %>">',
                     '<input ',
-                        'type="<%= type %>" ',
+                        'type="text" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -482,6 +483,7 @@ define([
 
                     this._button = new Common.UI.Button({
                         el: this.cmpEl.find('button'),
+                        iconCls: this.options.iconCls,
                         hint: this.options.btnHint || ''
                     });
                     this._button.on('click', _.bind(this.onButtonClick, this));
@@ -512,6 +514,8 @@ define([
                 }
 
                 me.rendered = true;
+                if (me.value)
+                    me.setValue(me.value);
 
                 return this;
             },
@@ -541,4 +545,106 @@ define([
             }
         }
     })());
+
+    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend(_.extend((function() {
+        return {
+            options: {
+                id: null,
+                cls: '',
+                style: '',
+                value: '',
+                name: '',
+                validation: null,
+                allowBlank: true,
+                placeHolder: '',
+                blankError: null,
+                spellcheck: false,
+                maskExp: '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'btn-sheet-view',
+                btnHint: '',
+                repeatInput: null,
+                showPwdOnClick: true
+            },
+
+            initialize : function(options) {
+                options = options || {};
+                options.btnHint = options.btnHint || this.textHintShowPwd;
+
+                Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.hidePwd = true;
+                this.repeatInput= this.options.repeatInput;
+            },
+
+            render: function (parentEl) {
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+
+                this._btnElm = this._button.$el;
+                this._input.on('input', _.bind(this.checkPasswordType, this));
+                if(this.options.showPwdOnClick)
+                    this._button.on('click', _.bind(this.passwordClick, this));
+                else
+                    this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
+
+                return this;
+            },
+
+            passwordClick: function (e)
+            {
+                if(this.hidePwd) {
+                    this.passwordShow(e);
+                    this.hidePwd = false;
+                }
+                else {
+                    this.passwordHide(e);
+                    this.hidePwd = true;
+                }
+            },
+
+            passwordShow: function (e) {
+                if (this.disabled) return;
+                this._button.setIconCls('hide-password');
+                this.type = 'text';
+
+                this._input.attr('type', this.type);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.type;
+                    this.repeatInput._input.attr('type', this.type);
+                }
+
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintHidePwd);
+                }
+                else {
+                    this._btnElm.on('mouseup', _.bind(this.passwordHide, this));
+                    this._btnElm.on('mouseout', _.bind(this.passwordHide, this));
+                }
+            },
+
+            passwordHide: function (e) {
+                this._button.setIconCls('btn-sheet-view');
+                this.type = 'password';
+
+                (this._input.val() !== '') && this._input.attr('type', this.type);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.type;
+                    (this.repeatInput._input.val() !== '') && this.repeatInput._input.attr('type', this.type);
+                }
+
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintShowPwd);
+                }
+                else {
+                    this._btnElm.off('mouseup', this.passwordHide);
+                    this._btnElm.off('mouseout', this.passwordHide);
+                }
+            },
+            textHintShowPwd: 'Show password',
+            textHintHidePwd: 'Hide password'
+        }
+    })(), Common.UI.InputFieldBtnPassword || {}));
 });
