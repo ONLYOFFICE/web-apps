@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, NavRight, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
+import {Page, Navbar, NavRight, List, ListItem, ListButton, Row, BlockTitle,SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -173,22 +173,39 @@ const PageWrap = props => {
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,onReadyStyles, onGetTableStylesPreviews,storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick, storeTableSettings, onGetTableStylesPreviews,storeFocusObjects}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject && tableObject.get_TableStyle();
     const [stateId, setId] = useState(styleId);
+    const [stateLoaderSkeleton, setLoaderSkeleton] = useState(true);
     const styles =  storeTableSettings.arrayStyles;
-    
+
     useEffect(() => {
         if (storeTableSettings.isRenderStyles) {
             onGetTableStylesPreviews();
-            storeTableSettings.resetFlagRender(false);
-        } 
+            setTimeout(() => storeTableSettings.resetFlagRender(false), 0);
+        }
     }, []);
+
+    useEffect(() => {
+
+        storeTableSettings.isRenderStyles ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
+
+    }, [storeTableSettings.isRenderStyles]);
+    
     return (
         <div className="dataview table-styles">
             <ul className="row">
-                    {styles.map((style, index) => {
+                { stateLoaderSkeleton ?
+                    Array.from({ length: 31 }).map((item,index) => (
+                    <li className='skeleton-list' key={index}>    
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave'/>
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                    </li> 
+                )) :
+                    styles.map((style, index) => {
                         return (
                             <li key={index}
                                 className={style.templateId === stateId ? 'active' : ''}
@@ -196,9 +213,9 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
                                 <img src={style.imageUrl}/>
                             </li>
                         )
-                    })}
+                    })
+                }
             </ul>
-            {storeTableSettings.isRenderStyles && onReadyStyles()}
         </div>
     )
 }));
@@ -226,19 +243,13 @@ const PageStyleOptions = props => {
     useEffect(() => {
         prevStateRef.current = [...nextStateRef.current];
 
-        return () => {
-            if (!(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-                props.storeTableSettings.resetFlagRender(true);
-            } 
-        }
     }, []);
 
     const openIndicator = () => {
         if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-            $$('.table-styles').hide();
-            f7.preloader.showIn('.preload');
-            props.onGetTableStylesPreviews();
+           props.onGetTableStylesPreviews();
         }
+        setTimeout(() => props.storeTableSettings.resetFlagRender(false), 10);
     }
 
     return (
@@ -503,11 +514,6 @@ const PageStyle = props => {
         return null;
     }
 
-    const onReadyStyles = () => {
-        f7.preloader.hideIn('.preload');
-        $$('.table-styles').show();
-    }
-
     return (
         <Page>
             <Navbar backLink={_t.textBack}>
@@ -529,8 +535,7 @@ const PageStyle = props => {
                 <Tab key={"de-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
                     <List>
                         <ListItem>
-                            <div className="preload"></div>
-                            <StyleTemplates onReadyStyles={onReadyStyles} onGetTableStylesPreviews={props.onGetTableStylesPreviews} onStyleClick={props.onStyleClick}/>
+                            <StyleTemplates onGetTableStylesPreviews={props.onGetTableStylesPreviews} onStyleClick={props.onStyleClick}/>
                         </ListItem>
                     </List>
                     <List>

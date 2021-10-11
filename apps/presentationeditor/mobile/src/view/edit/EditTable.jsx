@@ -1,24 +1,33 @@
 import React, {Fragment, useState, useEffect, useRef} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle,SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick, onReadyStyles, onGetTableStylesPreviews, storeTableSettings,storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick, onGetTableStylesPreviews, storeTableSettings,storeFocusObjects}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
+    const [stateLoaderSkeleton, setLoaderSkeleton] = useState(true);
     const styles =  storeTableSettings.arrayStyles;
     
     useEffect(() => {
         if (storeTableSettings.isRenderStyles) {
-            onGetTableStylesPreviews();
-            storeTableSettings.resetFlagRender(false);
-        } 
+            setTimeout(() => { 
+                onGetTableStylesPreviews();
+                storeTableSettings.resetFlagRender(false);
+            },0);
+        }
     }, []);
+
+    useEffect(() => {
+
+        storeTableSettings.isRenderStyles ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
+
+    }, [storeTableSettings.isRenderStyles]);
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -28,7 +37,16 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     return (
         <div className="dataview table-styles">
             <ul className="row">
-                    {styles.map((style, index) => {
+            { stateLoaderSkeleton ?
+                    Array.from({ length: 31 }).map((item,index) => (
+                    <li className='skeleton-list' key={index}>    
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave'/>
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                    </li> 
+                )) :
+                    styles.map((style, index) => {
                         return (
                             <li key={index}
                                 className={style.templateId === stateId ? 'active' : ''}
@@ -38,7 +56,6 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
                         )
                     })}
                 </ul>
-            {storeTableSettings.isRenderStyles && onReadyStyles()}
         </div>
     )
 }));
@@ -65,20 +82,13 @@ const PageStyleOptions = props => {
 
     useEffect(() => {
         prevStateRef.current = [...nextStateRef.current];
-
-        return () => {
-            if (!(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-                props.storeTableSettings.resetFlagRender(true);
-            }
-        }
     }, []);
 
     const openIndicator = () => {
         if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-            $$('.table-styles').hide();
-            f7.preloader.showIn('.preload');
-            props.onGetTableStylesPreviews();
+            setTimeout (() => props.onGetTableStylesPreviews(),0);
         }
+        setTimeout(() => props.storeTableSettings.resetFlagRender(false), 0);
     }
 
     return (
@@ -343,11 +353,6 @@ const PageStyle = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const isAndroid = Device.android;
 
-    const onReadyStyles = () => {
-        f7.preloader.hideIn('.preload');
-        $$('.table-styles').show();
-    }
-
     return (
         <Page>
             <Navbar backLink={_t.textBack}>
@@ -370,7 +375,7 @@ const PageStyle = props => {
                     <List>
                         <ListItem>
                         <div className="preload"></div>
-                            <StyleTemplates onReadyStyles={onReadyStyles} onGetTableStylesPreviews={props.onGetTableStylesPreviews} onStyleClick={props.onStyleClick}/>
+                            <StyleTemplates onGetTableStylesPreviews={props.onGetTableStylesPreviews} onStyleClick={props.onStyleClick}/>
                         </ListItem>
                     </List>
                     <List>

@@ -97,15 +97,6 @@
     }
 }
 
-#edit-table-style, #add-table {
-    .preloader-modal {
-        background-color: transparent;
-        .preloader {
-            --f7-preloader-color: var(--f7-theme-color-shade);
-        }
-    }
-}
-
 .item-content {
     .preview{
         color: @gray;
@@ -120,6 +111,15 @@
 
 .swiper-pagination-bullet-active{
     background: @black;
+}
+
+// Skeleton table
+
+.table-styles .row div:not(:first-child) {
+    margin: 6px auto 0px;
+}
+.table-styles .row .skeleton-list{
+    display: block;
 }
 
 

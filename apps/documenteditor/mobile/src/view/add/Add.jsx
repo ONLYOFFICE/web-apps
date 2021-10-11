@@ -185,10 +185,10 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     const onGetTableStylesPreviews = () => {
         const api = Common.EditorApi.get();
         if(storeTableSettings.isRenderStyles) {
-            $$('.table-styles').hide();
-            f7.preloader.showIn('.preload');
-            setTimeout( () => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 10);
-            storeTableSettings.resetFlagRender(false);
+            setTimeout(() => { 
+                storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)); 
+                storeTableSettings.resetFlagRender(false);
+            },5);
         }
     }
 

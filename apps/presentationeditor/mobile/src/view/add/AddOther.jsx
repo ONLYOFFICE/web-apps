@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Icon,SkeletonBlock, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -10,28 +10,38 @@ const PageTable = props => {
     const _t = t('View.Add', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const styles = storeTableSettings.arrayStyles;
+    const [stateLoaderSkeleton, setLoaderSkeleton] = useState(true);
 
-    const onReadyStyles = () => {
-        f7.preloader.hideIn('.preload');
-        $$('.table-styles').show();
-    }
+    useEffect(() => {
+
+        if(!storeTableSettings.isRenderStyles) setLoaderSkeleton(false);
+
+    }, [storeTableSettings.isRenderStyles]);
 
     return (
         <Page id={'add-table'}>
             <Navbar title={_t.textTable} backLink={_t.textBack}/>
-            <div className="preload"></div>
             <div className={'table-styles dataview'}>
                 <ul className="row">
-                    {styles.map((style, index) => {
+                {stateLoaderSkeleton ?
+                    Array.from({ length: 31 }).map((item,index) => (
+                    <li className='skeleton-list' key={index}>    
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave'/>
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                        <SkeletonBlock  width='65px' height='10px'  effect='wave' />
+                    </li>
+                )) :
+                    styles.map((style, index) => {
                         return (
                             <li key={index}
                                 onClick={() => {props.onStyleClick(style.templateId)}}>
                                 <img src={style.imageUrl}/>
                             </li>
                         )
-                    })}
+                    })
+                }
                 </ul>
-                {onReadyStyles()}
             </div>
         </Page>
     )
