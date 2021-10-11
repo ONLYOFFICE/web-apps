@@ -483,6 +483,7 @@ define([
 
                     this._button = new Common.UI.Button({
                         el: this.cmpEl.find('button'),
+                        iconCls: this.options.iconCls,
                         hint: this.options.btnHint || ''
                     });
                     this._button.on('click', _.bind(this.onButtonClick, this));
@@ -545,7 +546,7 @@ define([
         }
     })());
 
-    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend((function() {
+    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend(_.extend((function() {
         return {
             options: {
                 id: null,
@@ -563,88 +564,31 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-select-range',
+                iconCls: 'btn-sheet-view',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
             },
+
+            initialize : function(options) {
+                options = options || {};
+                options.btnHint = options.btnHint || this.textHintShowPwd;
+
+                Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.hidePwd = true;
+                this.repeatInput= this.options.repeatInput;
+            },
+
             render: function (parentEl) {
-                var me = this;
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
 
-                if (!me.rendered) {
-                    this.cmpEl = $(this.template({
-                        id          : this.id,
-                        cls         : this.cls,
-                        style       : this.style,
-                        value       : this.value,
-                        type        : 'password',
-                        name        : this.name,
-                        placeHolder : this.placeHolder,
-                        spellcheck  : this.spellcheck,
-                        iconCls     : this.options.iconCls,
-                        scope       : me
-                    }));
-
-                    if (parentEl) {
-                        this.setElement(parentEl, false);
-                        parentEl.html(this.cmpEl);
-                    } else {
-                        this.$el.html(this.cmpEl);
-                    }
-                } else {
-                    this.cmpEl = this.$el;
-                }
-
-                if (!me.rendered) {
-                    var el = this.cmpEl;
-
-                    this._button = new Common.UI.Button({
-                        el: this.cmpEl.find('button'),
-                        hint: this.options.btnHint || ''
-                    });
-                    this._button.on('click', _.bind(this.onButtonClick, this));
-
-                    this._input = this.cmpEl.find('input').addBack().filter('input');
-
-                    if (this.editable) {
-                        this._input.on('blur',   _.bind(this.onInputChanged, this));
-                        this._input.on('keypress', _.bind(this.onKeyPress, this));
-                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
-                        this._input.on('keyup',    _.bind(this.onKeyUp, this));
-                        if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
-                        if (this.maxLength) this._input.attr('maxlength', this.maxLength);
-                    }
-
-                        this.hidePwd = true;
-                        this.repeatInput= this.options.repeatInput;
-                        this._btnElm = this._button.$el;
-                        this._button.setIconCls('btn-sheet-view');
-                        this._input.on('input', _.bind(this.checkPasswordType, this));
-                        this._button.updateHint(this.textHintShowPwd);
-                        if(this.options.showPwdOnClick)
-                            this._button.on('click', _.bind(this.passwordClick, this));
-                        else
-                            this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
-
-
-
-                    this.setEditable(this.editable);
-
-                    if (this.disabled)
-                        this.setDisabled(this.disabled);
-
-                    if (this._input.closest('.asc-window').length>0)
-                        var onModalClose = function() {
-                            var errorTip = el.find('.input-error').data('bs.tooltip');
-                            if (errorTip) errorTip.tip().remove();
-                            Common.NotificationCenter.off({'modal:close': onModalClose});
-                        };
-                    Common.NotificationCenter.on({'modal:close': onModalClose});
-                }
-
-                me.rendered = true;
-                if (me.value)
-                    me.setValue(me.value);
+                this._btnElm = this._button.$el;
+                this._input.on('input', _.bind(this.checkPasswordType, this));
+                if(this.options.showPwdOnClick)
+                    this._button.on('click', _.bind(this.passwordClick, this));
+                else
+                    this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
 
                 return this;
             },
@@ -698,5 +642,5 @@ define([
             textHintShowPwd: 'Show password',
             textHintHidePwd: 'Hide password'
         }
-    })());
+    })(), Common.UI.InputFieldBtnPassword || {}));
 });
