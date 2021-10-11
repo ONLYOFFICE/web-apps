@@ -198,9 +198,7 @@ const PageSpreadsheetSettings = props => {
     const _t = t('View.Settings', {returnObjects: true});
     const storeSpreadsheetSettings = props.storeSpreadsheetSettings;
     const storeWorksheets = props.storeWorksheets;
-    const worksheetProtection = storeWorksheets.worksheetProtection;
-    const wsLock = worksheetProtection.wsLock;
-    const wsProps = worksheetProtection.wsProps;
+    const wsProps = storeWorksheets.wsProps;
     const isPortrait = storeSpreadsheetSettings.isPortrait;
     const isHideHeadings = storeSpreadsheetSettings.isHideHeadings;
     const isHideGridlines = storeSpreadsheetSettings.isHideGridlines;
@@ -257,7 +255,7 @@ const PageSpreadsheetSettings = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem title={_t.textColorSchemes} className={wsLock && wsProps.FormatCells ? 'disabled' : ''} link="/color-schemes/" routeProps={{
+                <ListItem title={_t.textColorSchemes} className={wsProps.FormatCells ? 'disabled' : ''} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>

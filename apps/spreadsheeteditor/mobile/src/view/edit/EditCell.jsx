@@ -12,9 +12,7 @@ const EditCell = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const storeCellSettings = props.storeCellSettings;
     const storeWorksheets = props.storeWorksheets;
-    const worksheetProtection = storeWorksheets.worksheetProtection;
-    const wsLock = worksheetProtection.wsLock;
-    const wsProps = worksheetProtection.wsProps;
+    const wsProps = storeWorksheets.wsProps;
     const cellStyles = storeCellSettings.cellStyles;
     const styleName = storeCellSettings.styleName;
 
@@ -44,7 +42,7 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
-                {(!wsLock || !wsProps.FormatCells) && 
+                {!wsProps.FormatCells && 
                 <>
                     <List>
                         <ListItem className='buttons'>

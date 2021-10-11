@@ -5,7 +5,7 @@ import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
-    const worksheetProtection = props.worksheetProtection;
+    const wsProps = props.wsProps;
     const focusOn = props.focusOn;
     const undo_box = props.isEdit && EditorUIController.toolbarOptions ? EditorUIController.toolbarOptions.getUndoRedo({
             disabledUndo: !props.isCanUndo || isDisconnected,
@@ -28,7 +28,7 @@ const ToolbarView = props => {
                 }
                 {props.isEdit && EditorUIController.toolbarOptions && EditorUIController.toolbarOptions.getEditOptions({
                     disabled: props.disabledEditControls || props.disabledControls || isDisconnected,
-                    worksheetProtection,
+                    wsProps,
                     focusOn,
                     onEditClick: () => props.openOptions('edit'),
                     onAddClick: () => props.openOptions('add')

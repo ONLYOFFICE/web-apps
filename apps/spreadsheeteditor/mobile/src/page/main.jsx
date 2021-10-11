@@ -89,9 +89,7 @@ class MainPage extends Component {
   render() {
       const appOptions = this.props.storeAppOptions;
       const storeWorksheets = this.props.storeWorksheets;
-      const worksheetProtection = storeWorksheets.worksheetProtection;
-      const wsLock = worksheetProtection.wsLock;
-      const wsProps = worksheetProtection.wsProps;
+      const wsProps = storeWorksheets.wsProps;
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));

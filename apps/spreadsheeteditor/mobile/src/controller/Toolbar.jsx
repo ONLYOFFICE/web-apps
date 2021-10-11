@@ -9,7 +9,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const _t = t("Toolbar", { returnObjects: true });
 
     const storeWorksheets = props.storeWorksheets;
-    const worksheetProtection = storeWorksheets.worksheetProtection;
+    const wsProps = storeWorksheets.wsProps;
 
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
@@ -157,7 +157,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
-                     worksheetProtection={worksheetProtection}
+                     wsProps={wsProps}
                      focusOn={focusOn}
         />
     )

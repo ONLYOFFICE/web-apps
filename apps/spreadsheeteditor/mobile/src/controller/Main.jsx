@@ -409,33 +409,29 @@ class MainController extends Component {
         const storeWorksheets = this.props.storeWorksheets;
         let props = this.getWSProps(true);
     
-        storeWorksheets.setWorksheetProtection(props);
+        storeWorksheets.setWsProps(props);
     }
 
     getWSProps(update) {
         const storeAppOptions = this.props.storeAppOptions;
-        let protection = {};
+        let wsProps = {};
         if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
         if (update) {
             let wsProtected = !!this.api.asc_isProtectedSheet();
-            let arr = {};
             if (wsProtected) {
-                // arr = [];
                 let props = this.api.asc_getProtectedSheet();
                 props && this.wsLockOptions.forEach(function(item){
-                    arr[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                    wsProps[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
                 });
             } else {
                 this.wsLockOptions.forEach(function(item){
-                    arr[item] = false;
+                    wsProps[item] = false;
                 });
             }
-
-            protection = {wsLock: wsProtected, wsProps: arr};
         }
 
-        return protection;
+        return wsProps;
     }
 
     _onLongActionEnd(type, id) {
