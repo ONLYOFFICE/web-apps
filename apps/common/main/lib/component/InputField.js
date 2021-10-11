@@ -619,8 +619,10 @@ define([
                 if(this.options.showPwdOnClick) {
                     this._button.updateHint(this.textHintHidePwd);
                 }
-                else
-                    this._btnElm.on('mouseup', _.bind(this.passwordHide,this));
+                else {
+                    this._btnElm.on('mouseup', _.bind(this.passwordHide, this));
+                    this._btnElm.on('mouseout', _.bind(this.passwordHide, this));
+                }
             },
 
             passwordHide: function (e) {
@@ -636,8 +638,10 @@ define([
                 if(this.options.showPwdOnClick) {
                     this._button.updateHint(this.textHintShowPwd);
                 }
-                else
+                else {
                     this._btnElm.off('mouseup', this.passwordHide);
+                    this._btnElm.off('mouseout', this.passwordHide);
+                }
             },
             textHintShowPwd: 'Show password',
             textHintHidePwd: 'Hide password'

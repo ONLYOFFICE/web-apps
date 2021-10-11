@@ -131,7 +131,8 @@ define([
                 style       : 'width: 100%;',
                 maxLength: 255,
                 validateOnBlur: false,
-                repeatInput: this.repeatPwd
+                repeatInput: this.repeatPwd,
+                showPwdOnClick: true
             });
 
             if (this.type == 'sheet') {

@@ -168,6 +168,8 @@
   "Common.UI.ExtendedColorDialog.textNew": "New",
   "Common.UI.ExtendedColorDialog.textRGBErr": "The entered value is incorrect.<br>Please enter a numeric value between 0 and 255.",
   "Common.UI.HSBColorPicker.textNoColor": "No Color",
+  "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Hide password",
+  "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Show password",
   "Common.UI.SearchDialog.textHighlight": "Highlight results",
   "Common.UI.SearchDialog.textMatchCase": "Case sensitive",
   "Common.UI.SearchDialog.textReplaceDef": "Enter the replacement text",

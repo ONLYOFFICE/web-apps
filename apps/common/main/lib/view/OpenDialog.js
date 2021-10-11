@@ -204,7 +204,7 @@ define([
                         el: $('#id-password-txt'),
                         type: 'password',
                         validateOnBlur: false,
-                        showPwdOnClick: false,
+                        showPwdOnClick: true,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
