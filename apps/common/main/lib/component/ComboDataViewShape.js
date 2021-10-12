@@ -96,7 +96,7 @@ define([
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
                 allowScrollbar: false,
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>" data-shape="<%= data.shapeType %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 delayRenderTips: this.delayRenderTips
             });
 
@@ -124,24 +124,45 @@ define([
         },
 
         fillComboView: function (collection) {
-            var newStyles = [],
-                store = collection.at(0).get('groupStore').toJSON(),
+            var groups = collection.toJSON(),
                 recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
             recents = recents ? JSON.parse(recents) : [];
 
-            if (recents.length > 0) {
-                for(var i = 0; i < recents.length && i < 12; i ++) {
-                    newStyles.push(recents[i]);
+            if (recents.length < 12) {
+                var count = 12 - recents.length;
+
+                var addItem = function (rec) {
+                    var item = rec.toJSON(),
+                        model = {
+                            data: item.data,
+                            tip: item.tip,
+                            allowSelected: item.allowSelected,
+                            selected: false
+                        };
+                    recents.push(model);
+                };
+
+                for (var j = 0; j < groups.length && count > 0; j++) {
+                    var groupStore = groups[j].groupStore;
+                    if (j === 0) {
+                        addItem(groupStore.at(1));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(2));
+                            count--;
+                        }
+                    } else if (j !== 3 && j !== 6 && j !== 7) {
+                        addItem(groupStore.at(0));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(1));
+                            count--;
+                        }
+                    }
                 }
             }
 
-            if (newStyles.length < 12) {
-                for(var j = newStyles.length; j < 12; j ++) {
-                    newStyles.push(store[j]);
-                }
-            }
-
-            this.fieldPicker.store.reset(newStyles);
+            this.fieldPicker.store.reset(recents);
 
             this.fieldPicker.on('item:select', _.bind(this.onFieldPickerSelect, this));
             this.fieldPicker.on('item:click',  _.bind(this.onFieldPickerClick, this));
@@ -245,17 +266,20 @@ define([
             }
             if (!model) {
                 store.pop();
-            } else {
-                store.remove([model]);
+                store.unshift([record]);
             }
-            store.unshift([record]);
         },
 
-        setComboViewRecActive: function (isActive) {
+        activateRecord: function (record) {
+            var type = record.get('data').shapeType;
             if (this.isRecordActive)
-                $(this.cmpEl.find('.field-picker .item')).removeClass('active');
-            $(this.cmpEl.find('.field-picker .item')[0])[isActive ? 'addClass' : 'removeClass']('active');
-            this.isRecordActive = isActive;
+                this.deactivateRecords();
+            $(this.cmpEl.find("[data-shape='" + type + "']")).parent().addClass('active');
+            this.isRecordActive = true;
+        },
+
+        deactivateRecords: function () {
+            $(this.cmpEl.find('.field-picker .item')).removeClass('active');
         },
 
         isComboViewRecActive: function () {
@@ -364,11 +388,13 @@ define([
                 this.trigger('select', this, record);*/
         },
 
-        onFieldPickerClick: function(dataView, itemView, record) {
+        onFieldPickerClick: function(dataView, item, record) {
             if (this.disabled) return;
 
+            var isActive = item.$el.hasClass('active');
+
             if (!this.isSuspendEvents)
-                this.trigger('click', this, record);
+                this.trigger('click', this, record, isActive);
 
             if (this.options.hint) {
                 var tip = this.cmpEl.data('bs.tooltip');
@@ -378,6 +404,10 @@ define([
                     tip.hide();
                 }
             }
+
+            if (!isActive) {
+                this.activateRecord(record);
+            }
         },
 
         onMenuPickerClick: function(dataView, itemView, record) {
@@ -385,6 +415,8 @@ define([
 
             if (!this.isSuspendEvents)
                 this.trigger('click', this, record);
+
+            this.activateRecord(record);
         },
 
         onPickerItemContextMenu: function(dataView, itemView, record, e) {

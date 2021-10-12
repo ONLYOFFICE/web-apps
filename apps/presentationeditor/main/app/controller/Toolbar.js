@@ -188,16 +188,20 @@ define([
                     btn_id = cmp.closest('button').attr('id');
                 if (btn_id===undefined)
                     btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
+                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
                         me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
+                        me.toolbar.cmbInsertShape.deactivateRecords();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
                     if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
@@ -219,7 +223,7 @@ define([
                     this.toolbar.btnsInsertText.toggle(false, true);
 
                 if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
-                    this.toolbar.cmbInsertShape.setComboViewRecActive(false);
+                    this.toolbar.cmbInsertShape.deactivateRecords();
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -2052,10 +2056,13 @@ define([
             }
             me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
             me.toolbar.cmbInsertShape.fillComboView(collection);
-            me.toolbar.cmbInsertShape.on('click', function (btn, record) {
+            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
                 if (record) {
                     me.toolbar.cmbInsertShape.updateComboView(record);
-                    me.toolbar.cmbInsertShape.setComboViewRecActive(true);
                     me.onInsertShape(record.get('data').shapeType);
                 }
             });
