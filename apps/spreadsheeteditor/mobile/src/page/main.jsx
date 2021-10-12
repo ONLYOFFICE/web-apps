@@ -90,6 +90,7 @@ class MainPage extends Component {
       const appOptions = this.props.storeAppOptions;
       const storeWorksheets = this.props.storeWorksheets;
       const wsProps = storeWorksheets.wsProps;
+      const wsLock = storeWorksheets.wsLock;
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
@@ -117,11 +118,11 @@ class MainPage extends Component {
                 <SearchSettings useSuspense={false} />
                 {
                     !this.state.editOptionsVisible ? null :
-                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} wsProps={wsProps} />
+                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} wsLock={wsLock} wsProps={wsProps} />
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} wsProps={wsProps} showOptions={this.state.addShowOptions} />
+                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} wsLock={wsLock} wsProps={wsProps} showOptions={this.state.addShowOptions} />
                 }
                 {
                     !this.state.settingsVisible ? null :

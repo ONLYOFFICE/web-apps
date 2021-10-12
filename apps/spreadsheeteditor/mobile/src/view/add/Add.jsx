@@ -58,6 +58,8 @@ const routes = [
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
 
+    if(!tabs.length) return null;
+
     return (
         <Navbar>
             {tabs.length > 1 ?
@@ -67,8 +69,7 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
                             <Icon slot="media" icon={item.icon}></Icon>
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-                </div> :
-                <NavTitle>{tabs[0].caption}</NavTitle>
+                </div> : <NavTitle>{tabs[0].caption}</NavTitle>
             }
             { !inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
         </Navbar>
@@ -76,6 +77,8 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
 };
 
 const AddLayoutContent = ({ tabs }) => {
+    if(!tabs.length) return null;
+
     return (
         <Tabs animated>
             {tabs.map((item, index) =>
@@ -90,6 +93,7 @@ const AddLayoutContent = ({ tabs }) => {
 const AddTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const wsLock = props.wsLock;
     const wsProps = props.wsProps;
     const showPanels = props.showPanels;
     const tabs = [];
@@ -128,13 +132,12 @@ const AddTabs = props => {
             });
         }
     }
-    if (!showPanels && (!wsProps.InsertHyperlinks || !wsProps.Objects)) {
+    if (!showPanels && (!wsProps.InsertHyperlinks || !wsProps.Objects || !wsProps.Sort)) {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController wsPropsObjects={wsProps.Objects} 
-                wsPropsHyperlinks={wsProps.InsertHyperlinks}/>
+            component: <AddOtherController wsProps={wsProps} />
         });
     }
     if (((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) && !wsProps.InsertHyperlinks) {
@@ -145,6 +148,17 @@ const AddTabs = props => {
             component: <AddLinkController/>
         });
     }
+
+    if(!tabs.length) {
+        if (Device.phone) {
+            f7.popup.close('.add-popup', false);
+        } else {
+            f7.popover.close('#add-popover', false);
+        }
+
+        return null;
+    }
+
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
@@ -169,10 +183,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsProps={this.props.wsProps} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsLock={this.props.wsLock} wsProps={this.props.wsProps} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsProps={this.props.wsProps}  onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsLock={this.props.wsLock} wsProps={this.props.wsProps} onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
                 </Popup>
         )
     }
@@ -228,6 +242,7 @@ const Add = props => {
                     showPanels={options ? options.panels : undefined}
                     isAddShapeHyperlink = {isAddShapeHyperlink}
                     wsProps={props.wsProps}
+                    wsLock={props.wsLock}
     />
 };
 

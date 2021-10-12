@@ -402,24 +402,27 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
-        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));   
     }
 
     onChangeProtectSheet() {
         const storeWorksheets = this.props.storeWorksheets;
-        let props = this.getWSProps(true);
+        let {wsLock, wsProps} = this.getWSProps(true);
     
-        storeWorksheets.setWsProps(props);
+        storeWorksheets.setWsLock(wsLock);
+        storeWorksheets.setWsProps(wsProps);
     }
 
     getWSProps(update) {
         const storeAppOptions = this.props.storeAppOptions;
-        let wsProps = {};
+        let wsProtection = {};
         if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
         if (update) {
-            let wsProtected = !!this.api.asc_isProtectedSheet();
-            if (wsProtected) {
+            let wsLock = !!this.api.asc_isProtectedSheet();
+            let wsProps = {};
+
+            if (wsLock) {
                 let props = this.api.asc_getProtectedSheet();
                 props && this.wsLockOptions.forEach(function(item){
                     wsProps[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
@@ -429,9 +432,11 @@ class MainController extends Component {
                     wsProps[item] = false;
                 });
             }
+
+            wsProtection = {wsLock, wsProps};
         }
 
-        return wsProps;
+        return wsProtection;
     }
 
     _onLongActionEnd(type, id) {

@@ -93,7 +93,7 @@ export class storeWorksheets {
         let model = this.sheets[index];
         if(model && model.locked !== locked)
             model.locked = locked;
-        this.isWorkbookLocked = locked;
+        this.isWorksheetLocked = locked;
     }
 
     isProtectedWorkbook = false;
@@ -101,8 +101,13 @@ export class storeWorksheets {
         this.isProtectedWorkbook = value;
     }
 
-    wsProps;
+    wsProps = {};
     setWsProps(value) {
         this.wsProps = value;
+    }
+
+    wsLock;
+    setWsLock(value) {
+        this.wsLock = value;
     }
 }
