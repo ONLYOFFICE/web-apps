@@ -53,8 +53,11 @@ define([
 
         initialize: function() {
             this._sendUndoPoint = true;
+            this.firstShow = true;
             this.addListeners({
-                'PageThumbnails': {}
+                'PageThumbnails': {
+                    'show': _.bind(this.onAfterShow, this)
+                }
             });
         },
 
@@ -70,6 +73,8 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onViewerThumbnailsZoomUpdate', _.bind(this.updateSize, this));
+            this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', _.bind(this.updateBookmarks, this));
             return this;
         },
 
@@ -80,9 +85,21 @@ define([
 
         onAfterRender: function(panelThumbnails) {
             panelThumbnails.sldrThumbnailsSize.on('change', _.bind(this.onChangeSize, this));
-            panelThumbnails.sldrThumbnailsSize.on('changecomplete', _.bind(this.onSizeChangeComplete, this));
+            //panelThumbnails.sldrThumbnailsSize.on('changecomplete', _.bind(this.onSizeChangeComplete, this));
 
             panelThumbnails.buttonSettings.menu.on('item:click', this.onHighlightVisiblePart.bind(this));
+        },
+
+        onAfterShow: function() {
+            this.panelThumbnails.sldrThumbnailsSize.setValue(this.thumbnailsSize * 100);
+            if (this.firstShow) {
+                this.api.asc_setViewerThumbnailsZoom(this.thumbnailsSize);
+                this.firstShow = false;
+            }
+        },
+
+        updateSize: function (size) {
+            this.thumbnailsSize = size;
         },
 
         onHighlightVisiblePart: function(menu, item, e) {
@@ -92,31 +109,15 @@ define([
         },
 
         onChangeSize: function(field, newValue) {
-            this._sliderSizeChanged = newValue;
-
-            if (this._sendUndoPoint) {
-                this.api.setStartPointHistory();
-                this._sendUndoPoint = false;
-                this.updateslider = setInterval(_.bind(this._sizeApplyFunc, this), 100);
+            if (newValue!==undefined) {
+                this.api.asc_setViewerThumbnailsZoom(newValue / 100);
             }
         },
 
-        onSizeChangeComplete: function(field, newValue){
-            clearInterval(this.updateslider);
-            this._sliderChanged = newValue;
-            if (!this._sendUndoPoint) { // start point was added
-                this.api.setEndPointHistory();
-                this._sizeApplyFunc();
-            }
-            this._sendUndoPoint = true;
-        },
-
-        _sizeApplyFunc: function() {
-            if (this._sliderChanged!==undefined) {
-                // apply this._sliderChanged
-                this._sliderChanged = undefined;
-            }
-        },
+        updateBookmarks: function (t) {
+            var r = t;
+            console.log(t);
+        }
 
     }, DE.Controllers.PageThumbnails || {}));
 });
