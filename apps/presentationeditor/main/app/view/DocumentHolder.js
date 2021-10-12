@@ -2041,7 +2041,7 @@ define([
                     mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     mnuSlideHide.setVisible(value.isSlideSelect===true);
                     mnuSlideHide.setChecked(value.isSlideHidden===true);
-                    me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.slideMenu.items[7].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
