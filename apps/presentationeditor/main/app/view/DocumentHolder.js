@@ -2010,6 +2010,28 @@ define([
                 }
             });
 
+            var mnuMoveSlideToStart = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToStart
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToStart();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
+                }
+            });
+
+            var mnuMoveSlideToEnd = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToEnd
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToEnd();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
+                }
+            });
+
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value) {
@@ -2025,8 +2047,10 @@ define([
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
+                    mnuMoveSlideToEnd.setVisible(!me.api.asc_IsLastSlideSelected());
+                    mnuMoveSlideToStart.setVisible(!me.api.asc_IsFirstSlideSelected());
 
-                    for (var i = 10; i < 15; i++) {
+                    for (var i = 12; i < 17; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
                     mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
@@ -2086,6 +2110,8 @@ define([
                     }),
                     mnuDeleteSlide,
                     mnuSlideHide,
+                    mnuMoveSlideToStart,
+                    mnuMoveSlideToEnd,
                     {caption: '--'},
                     mnuChangeSlide,
                     mnuResetSlide,
@@ -3985,7 +4011,9 @@ define([
         mniCustomTable: 'Insert Custom Table',
         textFromStorage: 'From Storage',
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
-        textEditPoints: 'Edit Points'
+        textEditPoints: 'Edit Points',
+        txtMoveSlidesToEnd: 'Move Slide to End',
+        txtMoveSlidesToStart: 'Move Slide to Start'
 
     }, PE.Views.DocumentHolder || {}));
 });
