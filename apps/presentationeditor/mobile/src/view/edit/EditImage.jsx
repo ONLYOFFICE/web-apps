@@ -149,12 +149,12 @@ const PageReplace = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
-                    <Icon slot="media" icon="icon-link"></Icon>
+                    <Icon slot="media" icon="icon-image-library"></Icon>
                 </ListItem>
                 <ListItem title={_t.textPictureFromURL} link='/edit-image-link/' routeProps={{
                     onReplaceByUrl: props.onReplaceByUrl
                 }}>
-                    <Icon slot="media" icon="icon-image-library"></Icon>
+                    <Icon slot="media" icon="icon-link"></Icon>
                 </ListItem>
             </List>
         </Page>
