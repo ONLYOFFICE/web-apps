@@ -87,6 +87,7 @@ const CellEditorView = props => {
     const isPhone = Device.isPhone;
     const storeAppOptions = props.storeAppOptions;
     const storeFunctions = props.storeFunctions;
+    const {functionsDisable} = props.storeFocusObjects;
     const functions = storeFunctions.functions;
     const isEdit = storeAppOptions.isEdit;
     const funcArr = props.funcArr;
@@ -100,7 +101,7 @@ const CellEditorView = props => {
             <View id="idx-celleditor" style={viewStyle} routes={routes} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
-                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateCoauth} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
+                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateFunctions || functionsDisable} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
                         <i className="icon icon-function" />
                     </a>
                 </div>
@@ -154,4 +155,4 @@ const routes = [
 ];
 
 
-export default inject("storeAppOptions", "storeFunctions")(observer(CellEditorView));
+export default inject("storeAppOptions", "storeFunctions", "storeFocusObjects")(observer(CellEditorView));
