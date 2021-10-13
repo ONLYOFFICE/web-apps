@@ -56,7 +56,12 @@ define([
             this.firstShow = true;
             this.addListeners({
                 'PageThumbnails': {
-                    'show': _.bind(this.onAfterShow, this)
+                    'show': _.bind(function () {
+                        if (this.firstShow) {
+                            this.api.asc_viewerThumbnailsResize();
+                            this.firstShow = false;
+                        }
+                    }, this)
                 }
             });
         },
@@ -65,9 +70,7 @@ define([
         },
 
         onLaunch: function() {
-            this.panelThumbnails = this.createView('PageThumbnails', /*{
-                storeThumbnails: this.getApplication().getCollection('Thumbnails')
-            }*/);
+            this.panelThumbnails = this.createView('PageThumbnails');
             this.panelThumbnails.on('render:after', _.bind(this.onAfterRender, this));
         },
 
@@ -84,21 +87,19 @@ define([
 
         onAfterRender: function(panelThumbnails) {
             panelThumbnails.sldrThumbnailsSize.on('change', _.bind(this.onChangeSize, this));
-            //panelThumbnails.sldrThumbnailsSize.on('changecomplete', _.bind(this.onSizeChangeComplete, this));
 
-            panelThumbnails.buttonSettings.menu.on('item:click', this.onHighlightVisiblePart.bind(this));
-        },
+            panelThumbnails.buttonSettings.menu.on('item:click', _.bind(this.onHighlightVisiblePart, this));
+            panelThumbnails.buttonSettings.menu.on('show:before', _.bind(function () {
+                this.panelThumbnails.sldrThumbnailsSize.setValue(this.thumbnailsSize);
+            }, this));
 
-        onAfterShow: function() {
-            this.panelThumbnails.sldrThumbnailsSize.setValue(this.thumbnailsSize * 100);
-            if (this.firstShow) {
-                this.api.asc_setViewerThumbnailsZoom(this.thumbnailsSize);
-                this.firstShow = false;
-            }
-        },
 
-        updateSize: function (size) {
-            this.thumbnailsSize = size;
+            var viewport = DE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.on('layout:resizedrag',  _.bind(function () {
+                if (!this.firstShow) {
+                    this.api.asc_viewerThumbnailsResize();
+                }
+            }, this));
         },
 
         onHighlightVisiblePart: function(menu, item, e) {
@@ -107,8 +108,13 @@ define([
             }
         },
 
+        updateSize: function (size) {
+            this.thumbnailsSize = size * 100;
+        },
+
         onChangeSize: function(field, newValue) {
             if (newValue!==undefined) {
+                this.thumbnailsSize = newValue;
                 this.api.asc_setViewerThumbnailsZoom(newValue / 100);
             }
         },
