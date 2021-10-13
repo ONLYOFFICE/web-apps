@@ -1317,7 +1317,7 @@ define([
         template: _.template([
             '<div class="dataview inner" style="<%= style %>">',
                 '<% _.each(options.groupsWithRecent, function(group, index) { %>',
-                    '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" <% if (!options.recentShapes && index === 0) { %> style="display: none;" <% } %>>',
+                    '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
                         '<% if (!_.isEmpty(group.groupName)) { %>',
                             '<div class="group-description">',
                                 '<span><%= group.groupName %></span>',
@@ -1356,7 +1356,45 @@ define([
 
             me.recentShapes = recentArr;
 
-            recentStore.add(recentArr);
+            // Add default recent
+
+            if (me.recentShapes.length < 12) {
+                var count = 12 - me.recentShapes.length,
+                    defaultArr = [];
+
+                var addItem = function (rec) {
+                    var item = rec.toJSON(),
+                        model = {
+                            data: item.data,
+                            tip: item.tip,
+                            allowSelected: item.allowSelected,
+                            selected: false
+                        };
+                    defaultArr.push(model);
+                };
+
+                for (var i = 0; i < me.groups.length && count > 0; i++) {
+                    var groupStore = me.groups[i].groupStore;
+                    if (i === 0) {
+                        addItem(groupStore.at(1));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(2));
+                            count--;
+                        }
+                    } else if (i !== 3 && i !== 6 && i !== 7) {
+                        addItem(groupStore.at(0));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(1));
+                            count--;
+                        }
+                    }
+                }
+                me.recentShapes = me.recentShapes.concat(defaultArr);
+            }
+
+            recentStore.add(me.recentShapes);
             me.groups.unshift({
                 groupName   : options.textRecentlyUsed,
                 groupStore  : recentStore,
@@ -1377,9 +1415,6 @@ define([
             Common.UI.DataViewSimple.prototype.initialize.call(this, options);
 
             me.parentMenu.on('show:before', function() { me.updateRecents(); });
-            if (me.recentShapes.length > 0 && !me.cmpEl.find('.recent-group').is(':visible')) {
-                me.cmpEl.find('.recent-group').show();
-            }
         },
         onAfterShowMenu: function(e) {
             var me = this;
@@ -1490,8 +1525,8 @@ define([
                     selected: false
                 };
             me.recentShapes.unshift(model);
-            if (me.recentShapes.length > 14) {
-                me.recentShapes.splice(14, 1);
+            if (me.recentShapes.length > 12) {
+                me.recentShapes.splice(12, 1);
             }
             Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
             me.recentShapes = undefined;

@@ -98,7 +98,7 @@
         }
     }
 
-    .item {
+    &:not(.shapes) .item {
         padding: 2px;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
@@ -123,7 +123,7 @@
         }
     }
 
-    &.disabled {
+    &.disabled:not(.shapes) {
         .item {
             &:hover:not(.selected) {
                 .box-shadow(none);
@@ -135,7 +135,7 @@
         }
     }
 
-    .dropdown-menu {
+    &:not(.shapes) .dropdown-menu {
         box-sizing: content-box;
         padding: 0;
         border-top-left-radius: 0;

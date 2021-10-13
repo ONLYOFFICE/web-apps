@@ -188,16 +188,20 @@ define([
                     btn_id = cmp.closest('button').attr('id');
                 if (btn_id===undefined)
                     btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
+                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
                         me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
+                        me.toolbar.cmbInsertShape.deactivateRecords();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
                     if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
@@ -217,6 +221,9 @@ define([
 
                 if ( this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(false, true);
+
+                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
+                    this.toolbar.cmbInsertShape.deactivateRecords();
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -2036,13 +2043,30 @@ define([
         },
 
         onResetAutoshapes: function () {
-            var me = this;
+            var me = this,
+                collection = PE.getCollection('ShapeGroups');
             var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, PE.getCollection('ShapeGroups'));
+                me.toolbar.updateAutoshapeMenu(menu, collection);
                 menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnsInsertShape.forEach(function (btn, index) {
                 btn.menu.on('show:before', onShowBefore);
+            });
+            var onComboShowBefore = function (menu) {
+                me.toolbar.updateComboAutoshapeMenu(collection);
+                menu.off('show:before', onComboShowBefore);
+            }
+            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
+            me.toolbar.cmbInsertShape.fillComboView(collection);
+            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
+                if (record) {
+                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.onInsertShape(record.get('data').shapeType);
+                }
             });
         },
 

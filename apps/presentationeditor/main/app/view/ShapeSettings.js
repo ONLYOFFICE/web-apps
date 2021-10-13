@@ -1699,6 +1699,7 @@ define([
                 });
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
+                        PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
                         me.api.ChangeShapeType(record.get('data').shapeType);
                         me.fireEvent('editcomplete', me);
                     }
