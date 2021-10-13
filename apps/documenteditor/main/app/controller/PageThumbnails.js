@@ -74,7 +74,6 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onViewerThumbnailsZoomUpdate', _.bind(this.updateSize, this));
-            this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', _.bind(this.updateBookmarks, this));
             return this;
         },
 
@@ -113,11 +112,6 @@ define([
                 this.api.asc_setViewerThumbnailsZoom(newValue / 100);
             }
         },
-
-        updateBookmarks: function (t) {
-            var r = t;
-            console.log(t);
-        }
 
     }, DE.Controllers.PageThumbnails || {}));
 });

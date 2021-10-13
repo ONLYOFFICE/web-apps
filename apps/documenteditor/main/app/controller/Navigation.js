@@ -56,13 +56,17 @@ define([
             this.addListeners({
                 'Navigation': {
                     'show': function() {
-                        var obj = me.api.asc_ShowDocumentOutline();
-                        if (!me._navigationObject)
-                            me._navigationObject = obj;
-                        me.updateNavigation();
+                        if (!this.canUseViwerNavigation) {
+                            var obj = me.api.asc_ShowDocumentOutline();
+                            if (!me._navigationObject)
+                                me._navigationObject = obj;
+                            me.updateNavigation();
+                        }
                     },
                     'hide': function() {
-                        me.api && me.api.asc_HideDocumentOutline();
+                        if (!this.canUseViwerNavigation) {
+                            me.api && me.api.asc_HideDocumentOutline();
+                        }
                     }
                 }
             });
@@ -77,6 +81,7 @@ define([
             });
             this.panelNavigation.on('render:after', _.bind(this.onAfterRender, this));
             this._navigationObject = null;
+            this._viewerNavigationObject = null;
             this._isDisabled = false;
         },
 
@@ -87,11 +92,14 @@ define([
             this.api.asc_registerCallback('asc_onDocumentOutlineUpdateAdd', _.bind(this.updateNavigation, this));
             this.api.asc_registerCallback('asc_onDocumentOutlineUpdateChange', _.bind(this.updateChangeNavigation, this));
             this.api.asc_registerCallback('asc_onDocumentOutlineUpdateRemove', _.bind(this.updateNavigation, this));
+
+            this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', _.bind(this.updateViewerNavigation, this));
             return this;
         },
 
         setMode: function(mode) {
             this.mode = mode;
+            this.canUseViwerNavigation = this.mode.canUseViwerNavigation;
             return this;
         },
 
@@ -171,6 +179,9 @@ define([
                 menu.items[i].setVisible(this.mode.isEdit);
             }
 
+            menu.items[7].setVisible(!this.canUseViwerNavigation);
+            menu.items[8].setVisible(!this.canUseViwerNavigation);
+
             var isNotHeader = record.get('isNotHeader');
             menu.items[0].setDisabled(isNotHeader || this._isDisabled);
             menu.items[1].setDisabled(isNotHeader || this._isDisabled);
@@ -203,13 +214,16 @@ define([
         },
 
         onSelectItem: function(picker, item, record, e){
-            if (!this._navigationObject) return;
-            this._navigationObject.goto(record.get('index'));
+            if (this._navigationObject) {
+                this._navigationObject.goto(record.get('index'));
+            } else if (this._viewerNavigationObject) {
+                this.api.asc_viewerNavigateTo(record.get('index'));
+            }
             Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
         },
 
         onMenuItemClick: function (menu, item) {
-            if (!this._navigationObject) return;
+            if (!this._navigationObject && !this._viewerNavigationObject) return;
 
             var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
@@ -237,6 +251,43 @@ define([
 
         SetDisabled: function(state) {
             this._isDisabled = state;
+        },
+
+        updateViewerNavigation: function (bookmarks) {
+            this._viewerNavigationObject = bookmarks.length > 0 ? bookmarks : null;
+            if (this._viewerNavigationObject) {
+                var count = this._viewerNavigationObject.length,
+                    prev_level = -1,
+                    header_level = -1,
+                    first_header = true,//!this._navigationObject.isFirstItemNotHeader(),
+                    arr = [];
+                for (var i = 0; i < count; i++) {
+                    var level = this._viewerNavigationObject[i].level - 1,
+                        hasParent = true;
+                    if (level > prev_level && i > 0)
+                        arr[i - 1].set('hasSubItems', true);
+                    if (header_level < 0 || level <= header_level) {
+                        if (i > 0 || first_header)
+                            header_level = level;
+                        hasParent = false;
+                    }
+                    arr.push(new Common.UI.TreeViewModel({
+                        name: this._viewerNavigationObject[i].description,
+                        level: level,
+                        index: i,
+                        hasParent: hasParent,
+                        isEmptyItem: !this._viewerNavigationObject[i].description
+                    }));
+                    prev_level = level;
+                }
+                if (count > 0 && !first_header) {
+                    arr[0].set('hasSubItems', false);
+                    arr[0].set('isNotHeader', true);
+                    arr[0].set('name', this.txtBeginning);
+                    arr[0].set('tip', this.txtGotoBeginning);
+                }
+                this.getApplication().getCollection('Navigation').reset(arr);
+            }
         },
 
         txtBeginning: 'Beginning of document',
