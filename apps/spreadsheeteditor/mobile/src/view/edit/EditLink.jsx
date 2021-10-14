@@ -138,7 +138,7 @@ const EditLink = props => {
                                placeholder={_t.textRequired}
                                value={range}
                                onChange={(event) => {setRange(event.target.value)}}
-                               className={isIos ? 'list-input-right' : ''}
+                               className={[isIos ? 'list-input-right' : '', linkSheet === '' && 'disabled'].join(' ')}
                     />
                 }
                 <ListInput label={_t.textDisplay}
