@@ -59,6 +59,7 @@ define([
                     'show': _.bind(function () {
                         if (this.firstShow) {
                             this.api.asc_viewerThumbnailsResize();
+                            this.api.asc_setViewerThumbnailsUsePageRect(Common.localStorage.getBool("de-thumbnails-highlight", true));
                             this.firstShow = false;
                         }
                     }, this)
@@ -104,7 +105,9 @@ define([
 
         onHighlightVisiblePart: function(menu, item, e) {
             if (item.value === 'highlight') {
-                //console.log(item.isChecked());
+                var checked = item.isChecked();
+                this.api.asc_setViewerThumbnailsUsePageRect(checked);
+                Common.localStorage.setBool("de-thumbnails-highlight", checked);
             }
         },
 

@@ -110,7 +110,7 @@ define([
                                 caption: this.textHighlightVisiblePart,
                                 checkable: true,
                                 value: 'highlight',
-                                toggleGroup: 'menuThumbnails'
+                                checked: Common.localStorage.getBool("de-thumbnails-highlight", true)
                             }
                         ]
                     })
