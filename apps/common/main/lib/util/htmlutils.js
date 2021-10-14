@@ -56,13 +56,14 @@ if ( window.desktop && !!window.RendererProcessVariable ) {
     var theme = window.RendererProcessVariable.theme
 
     if ( theme ) {
+        if ( !theme.id && !!theme.type ) {
+            if ( theme.type == 'dark' ) theme.id = 'theme-dark'; else
+            if ( theme.type == 'light' ) theme.id = 'theme-classic-light';
+        }
+
         if ( theme.id ) {
             // params.uitheme = undefined;
             localStorage.setItem("ui-theme-id", theme.id);
-        } else
-        if ( !!theme.type ) {
-            if ( theme.type == 'dark' ) params.uitheme = 'default-dark'; else
-            if ( theme.type == 'light' ) params.uitheme = 'default-light';
         }
     }
 }
