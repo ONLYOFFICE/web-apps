@@ -94,12 +94,7 @@ class AddOtherController extends Component {
 
     onGetTableStylesPreviews = () => {
         const api = Common.EditorApi.get();
-        if(this.props.storeTableSettings.isRenderStyles) {
-            setTimeout(() => { 
-                this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)); 
-                this.props.storeTableSettings.resetFlagRender(false);
-            },5);
-        }
+        setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 5);
     }
 
     hideAddComment () {

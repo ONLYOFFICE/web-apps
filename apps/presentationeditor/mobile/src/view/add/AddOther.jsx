@@ -14,9 +14,9 @@ const PageTable = props => {
 
     useEffect(() => {
 
-        if(!storeTableSettings.isRenderStyles) setLoaderSkeleton(false);
+        !styles.length ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
 
-    }, [storeTableSettings.isRenderStyles]);
+    }, [styles]);
 
     return (
         <Page id={'add-table'}>
@@ -24,7 +24,7 @@ const PageTable = props => {
             <div className={'table-styles dataview'}>
                 <ul className="row">
                 {stateLoaderSkeleton ?
-                    Array.from({ length: 31 }).map((item,index) => (
+                    Array.from({ length: 41 }).map((item,index) => (
                     <li className='skeleton-list' key={index}>    
                         <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
                         <SkeletonBlock  width='70px' height='8px'  effect='wave' />

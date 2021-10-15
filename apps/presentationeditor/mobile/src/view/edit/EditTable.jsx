@@ -15,19 +15,14 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     const styles =  storeTableSettings.arrayStyles;
     
     useEffect(() => {
-        if (storeTableSettings.isRenderStyles) {
-            setTimeout(() => { 
-                onGetTableStylesPreviews();
-                storeTableSettings.resetFlagRender(false);
-            },0);
-        }
+        if(!styles.length) setTimeout(() => onGetTableStylesPreviews(), 1);
     }, []);
 
     useEffect(() => {
 
-        storeTableSettings.isRenderStyles ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
+        !styles.length ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
 
-    }, [storeTableSettings.isRenderStyles]);
+    }, [styles]);
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -65,8 +60,6 @@ const PageStyleOptions = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
-    const nextStateRef = useRef();
-    const prevStateRef = useRef();
 
     let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
     if (tableObject) {
@@ -79,18 +72,7 @@ const PageStyleOptions = props => {
         isBandVer = tableLook.get_BandVer();
     }
 
-    nextStateRef.current = [isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer];
-
-    useEffect(() => {
-        prevStateRef.current = [...nextStateRef.current];
-    }, []);
-
-    const openIndicator = () => {
-        if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-            setTimeout (() => props.onGetTableStylesPreviews(),0);
-        }
-        setTimeout(() => props.storeTableSettings.resetFlagRender(false), 0);
-    }
+    const openIndicator = () => setTimeout(() => props.onGetTableStylesPreviews(), 1);
 
     return (
         <Page>

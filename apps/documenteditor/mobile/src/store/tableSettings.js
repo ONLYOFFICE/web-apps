@@ -9,9 +9,7 @@ export class storeTableSettings {
             cellBorderWidth: observable,
             cellBorderColor: observable,
             arrayStyles: observable,
-            isRenderStyles:observable,
             initTableTemplates: action,
-            resetFlagRender: action,
             setStyles: action,
             updateCellBorderWidth: action,
             updateCellBorderColor: action,
@@ -20,14 +18,9 @@ export class storeTableSettings {
 
     _templates = [];
     arrayStyles = [];
-    isRenderStyles;
-
-    resetFlagRender (bool) {
-        this.isRenderStyles = bool;
-    }
     
     initTableTemplates () {
-        this.isRenderStyles = true;
+        this.arrayStyles = [];
     }
 
     setStyles (arrStyles) {

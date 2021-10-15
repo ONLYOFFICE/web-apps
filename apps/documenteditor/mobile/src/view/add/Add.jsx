@@ -184,12 +184,7 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
 
     const onGetTableStylesPreviews = () => {
         const api = Common.EditorApi.get();
-        if(storeTableSettings.isRenderStyles) {
-            setTimeout(() => { 
-                storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)); 
-                storeTableSettings.resetFlagRender(false);
-            },5);
-        }
+        setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 5);
     }
 
     return (

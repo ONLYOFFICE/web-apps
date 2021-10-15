@@ -181,17 +181,14 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     const styles =  storeTableSettings.arrayStyles;
 
     useEffect(() => {
-        if (storeTableSettings.isRenderStyles) {
-            onGetTableStylesPreviews();
-            setTimeout(() => storeTableSettings.resetFlagRender(false), 0);
-        }
+        if(!styles.length) onGetTableStylesPreviews();
     }, []);
 
     useEffect(() => {
 
-        storeTableSettings.isRenderStyles ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
+        !styles.length ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
 
-    }, [storeTableSettings.isRenderStyles]);
+    }, [styles]);
     
     return (
         <div className="dataview table-styles">
@@ -225,8 +222,6 @@ const PageStyleOptions = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
-    const nextStateRef = useRef();
-    const prevStateRef = useRef();
 
     let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
     if (tableObject) {
@@ -238,20 +233,8 @@ const PageStyleOptions = props => {
         isLastCol = tableLook.get_LastCol();
         isBandVer = tableLook.get_BandVer();
     }
-    
-    nextStateRef.current = [isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer];
 
-    useEffect(() => {
-        prevStateRef.current = [...nextStateRef.current];
-
-    }, []);
-
-    const openIndicator = () => {
-        if ( !(prevStateRef.current.every((item, index) => item === nextStateRef.current[index]))) {
-           props.onGetTableStylesPreviews();
-        }
-        setTimeout(() => props.storeTableSettings.resetFlagRender(false), 10);
-    }
+    const openIndicator = () => props.onGetTableStylesPreviews();
 
     return (
         <Page>
