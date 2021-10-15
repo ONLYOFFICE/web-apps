@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves"
+      "textWidow": "Contrôle des veuves",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -180,7 +181,15 @@
     "textColumns": "Colonnes",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "textRows": "Lignes"
+    "textRows": "Lignes",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",
@@ -314,6 +323,7 @@
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.  ",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorMailMergeLoadFile": "Échec du chargement",
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
@@ -522,6 +532,7 @@
     "textMarginsW": "Les marges gauche et droite sont trop larges pour une largeur de page donnée",
     "textNoCharacters": "Caractères non imprimables",
     "textNoTextFound": "Le texte est introuvable",
+    "textOk": "OK",
     "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
     "textOrientation": "Orientation",
     "textOwner": "Propriétaire",
@@ -566,7 +577,11 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie"
+    "txtScheme9": "Fonderie",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

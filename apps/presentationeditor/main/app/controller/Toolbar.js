@@ -129,6 +129,8 @@ define([
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
+                    'duplicate:slide'   : this.onDuplicateSlide.bind(this),
+                    'duplicate:check'   : this.onDuplicateCheck.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
                     'add:chart'         : this.onSelectChart
@@ -186,16 +188,20 @@ define([
                     btn_id = cmp.closest('button').attr('id');
                 if (btn_id===undefined)
                     btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
+                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
                         me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
+                        me.toolbar.cmbInsertShape.deactivateRecords();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
                     if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
@@ -215,6 +221,9 @@ define([
 
                 if ( this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(false, true);
+
+                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
+                    this.toolbar.cmbInsertShape.deactivateRecords();
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -887,6 +896,20 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
             }
+        },
+
+        onDuplicateSlide: function() {
+            if ( this.api) {
+                this.api.DublicateSlide();
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Duplicate Slide');
+            }
+        },
+
+        onDuplicateCheck: function(menu) {
+            if (this.api)
+                menu.items[2].setDisabled(this.api.getCountPages()<1);
         },
 
         onChangeSlide: function(type) {
@@ -1584,7 +1607,7 @@ define([
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -1612,20 +1635,34 @@ define([
                     fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
                     me.insertImage(file);
                 }).show();
             }
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && data._urls && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                (data._urls.length>0) && this.api.AddImageUrl(data._urls, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
         insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
@@ -2006,13 +2043,30 @@ define([
         },
 
         onResetAutoshapes: function () {
-            var me = this;
+            var me = this,
+                collection = PE.getCollection('ShapeGroups');
             var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, PE.getCollection('ShapeGroups'));
+                me.toolbar.updateAutoshapeMenu(menu, collection);
                 menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnsInsertShape.forEach(function (btn, index) {
                 btn.menu.on('show:before', onShowBefore);
+            });
+            var onComboShowBefore = function (menu) {
+                me.toolbar.updateComboAutoshapeMenu(collection);
+                menu.off('show:before', onComboShowBefore);
+            }
+            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
+            me.toolbar.cmbInsertShape.fillComboView(collection);
+            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
+                if (record) {
+                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.onInsertShape(record.get('data').shapeType);
+                }
             });
         },
 

@@ -17,6 +17,8 @@ import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import DropdownListController from "./DropdownList";
+import { Device } from '../../../../common/mobile/utils/device';
 @inject(
     "users",
     "storeAppOptions",
@@ -38,6 +40,7 @@ class MainController extends Component {
 
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
+        this.boxSdk = $$('#editor_sdk');
 
         this._state = {
             licenseType: false,
@@ -53,8 +56,8 @@ class MainController extends Component {
 
     initSdk() {
         const on_script_load = () => {
-            !window.sdk_scripts && (window.sdk_scripts = ['../../../../../../sdkjs/common/AllFonts.js',
-                                                            '../../../../../../sdkjs/word/sdk-all-min.js']);
+            !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
+                                                            '../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
                                 '../../../vendor/sockjs/sockjs.min.js',
                                 '../../../vendor/jszip/jszip.min.js',
@@ -127,13 +130,15 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                    const type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
@@ -277,7 +282,7 @@ class MainController extends Component {
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
+                    // Common.EditorApi = {get: () => this.api};
 
                     // Set font rendering mode
                     let value = LocalStorage.getItem("de-settings-fontrender");
@@ -403,7 +408,9 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
+
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -534,7 +541,30 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
-        //text settings
+        this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        let lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.api.asc_addImage(obj);
+                    setTimeout(() => {
+                        this.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        });
+
+        // text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
 
@@ -571,9 +601,14 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
             storeTextSettings.resetLineSpacing(vc);
         });
-        this.api.asc_registerCallback('asc_onTextShd', (shd) => {
-            let color = shd.get_Color();
-            storeTextSettings.resetBackgroundColor(color);
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            let textPr = this.api.get_TextProps().get_TextPr();
+
+            if(textPr) {
+                color = textPr.get_HighLight();
+                storeTextSettings.resetHighlightColor(color);
+            }
         });
 
         // link settings
@@ -641,6 +676,64 @@ class MainController extends Component {
         });
     }
 
+    onShowDateActions(obj, x, y) {
+        const { t } = this.props;
+        let props = obj.pr,
+            specProps = props.get_DateTimePr(),
+            isPhone = Device.isPhone;
+
+        this.controlsContainer = this.boxSdk.find('#calendar-target-element');
+        this._dateObj = props;
+
+        if (this.controlsContainer.length < 1) {
+            this.controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
+            this.boxSdk.append(this.controlsContainer);
+        }
+
+        this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
+
+        this.cmpCalendar = f7.calendar.create({
+            inputEl: '#calendar-target-element',
+            dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
+            monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
+            backdrop: isPhone ? false : true,
+            closeByBackdropClick: isPhone ? false : true,
+            value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+            openIn: isPhone ? 'sheet' : 'popover',
+            on: {
+                change: (calendar, value) => {
+                    if(calendar.initialized && value[0]) {
+                        let specProps = this._dateObj.get_DateTimePr();
+                        specProps.put_FullDate(new Date(value[0]));
+                        this.api.asc_SetContentControlDatePickerDate(specProps);
+                        calendar.close();
+                        this.api.asc_UncheckContentControlButtons();
+                    }
+                }
+            }
+        });
+
+        setTimeout(() => {
+            this.cmpCalendar.open();
+        }, 100)
+    }
+    
+        
+    onShowListActions(obj, x, y) {
+        if(!Device.isPhone) {
+            this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+        
+            if (this.dropdownListTarget.length < 1) {
+                this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                this.boxSdk.append(this.dropdownListTarget);
+            }
+        
+            this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+        }
+
+        Common.Notifications.trigger('openDropdownList', obj);
+    }
+
     onProcessSaveResult (data) {
         this.api.asc_OnSaveEnd(data.result);
 
@@ -680,7 +773,7 @@ class MainController extends Component {
         }
 
         this._state.isFromGatewayDownloadAs = true;
-        const type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
         if (type && typeof type[1] === 'string') {
             this.api.asc_DownloadOrigin(true);
@@ -844,11 +937,13 @@ class MainController extends Component {
                 <ViewCommentsController />
                 <PluginsController />
                 <EncodingController />
+                <DropdownListController />
             </Fragment>
             )
     }
 
     componentDidMount() {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

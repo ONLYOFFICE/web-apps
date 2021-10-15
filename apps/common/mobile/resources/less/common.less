@@ -257,6 +257,8 @@
         margin-top: 14px;
         background-image: url(../img/themes/themes.png);
         display: block;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     .item-theme.active:before {
         content: '';
@@ -531,28 +533,44 @@
         padding-left: 5px;
         padding-right: 5px;
         padding-top: 5px;
-    }
-    li {
-        border: 0.5px solid #c8c7cc;
-        padding: 2px;
-        background-repeat: no-repeat;
-        width: 106px;
-        height: 56px;
-        margin-bottom: 10px;
-        background-position: center;
-    }
-    .item-inner:after {
-        display: none;
-    }
-    .item-theme.active:before {
-        content: '';
-        position: absolute;
-        width: 22px;
-        height: 22px;
-        right: 2px;
-        bottom: 2px;
-        z-index: 1;
-        .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="#40865c"><g><circle fill="#fff" cx="11" cy="11" r="11"/><path d="M11,21A10,10,0,1,1,21,11,10,10,0,0,1,11,21h0ZM17.4,7.32L17.06,7a0.48,0.48,0,0,0-.67,0l-7,6.84L6.95,11.24a0.51,0.51,0,0,0-.59.08L6,11.66a0.58,0.58,0,0,0,0,.65l3.19,3.35a0.38,0.38,0,0,0,.39,0L17.4,8a0.48,0.48,0,0,0,0-.67h0Z"/></g></svg>');
+        li.item-theme {
+            border: 0.5px solid #c8c7cc;
+            padding: 2px;
+            background-repeat: no-repeat;
+            width: 106px;
+            height: 56px;
+            margin-bottom: 10px;
+            background-position: center;
+            .item-content {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                .item-inner {
+                    width: 100%;
+                    height: 100%;
+                    padding: 0;
+                    &:after {
+                        display: none;
+                    }
+                    .thumb {
+                        width: 100%;
+                        height: 100%;
+                        padding: 0;
+                        background-size: contain;
+                    }
+                }
+            }
+            &.active:before {
+                content: '';
+                position: absolute;
+                width: 22px;
+                height: 22px;
+                right: 2px;
+                bottom: 2px;
+                z-index: 1;
+                .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="#40865c"><g><circle fill="#fff" cx="11" cy="11" r="11"/><path d="M11,21A10,10,0,1,1,21,11,10,10,0,0,1,11,21h0ZM17.4,7.32L17.06,7a0.48,0.48,0,0,0-.67,0l-7,6.84L6.95,11.24a0.51,0.51,0,0,0-.59.08L6,11.66a0.58,0.58,0,0,0,0,.65l3.19,3.35a0.38,0.38,0,0,0,.39,0L17.4,8a0.48,0.48,0,0,0,0-.67h0Z"/></g></svg>');
+            }
+        }
     }
 }
 
@@ -840,6 +858,91 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .statusbar .statusbar--box-tabs > ul > .locked a {
     box-shadow: inset 0 2px red;
+}
+
+// Fonts List 
+
+.font-item {
+    .item-inner {
+        overflow: hidden;
+        &:after {
+            left: 16px;
+        }
+    }
+}
+
+// Functions List 
+
+.cell-editor {
+    overflow: initial;
+}
+
+.functions-list {
+    height: 175px;
+    width: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: @white;
+    &__mobile {
+        position: absolute;
+        top: 30px;
+        right: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.3);
+        .list {
+            margin: 0;
+            ul:before {
+                display: none;
+            }
+            .item-content {
+                padding-left: 0;
+            }
+            .item-inner {
+                padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+            }
+            .item-title {
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+// Highlight Colors
+
+.highlight-palette {
+    width: 100%;
+}
+
+.highlight-color {
+    min-width: 10px;
+    min-height: 34px;
+    margin: 1px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    position: relative;
+    flex-grow: 1;
+    &_active:after {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0 1px #ffffff, 0 0 0 4px #446995;
+        z-index: 1;
+        border-radius: 1px;
+    }
+}
+
+.popover__functions {
+    box-shadow: 0px 10px 100px rgba(0, 0, 0, 0.3);
+}
+
+.target-function-list {
+    position: absolute; 
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0; 
+    height: 100%;
 }
 
 

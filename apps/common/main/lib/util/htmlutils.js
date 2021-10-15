@@ -42,7 +42,28 @@ var params = (function() {
     return urlParams;
 })();
 
-if ( !!params.uitheme && !localStorage.getItem("ui-theme-id") ) {
+var checkLocalStorage = (function () {
+    try {
+        var storage = window['localStorage'];
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+})();
+
+if ( window.desktop && window.desktop.theme ) {
+    if ( window.desktop.theme.id ) {
+        // params.uitheme = undefined;
+        localStorage.setItem("ui-theme-id", window.desktop.theme.id);
+    } else
+    if ( window.desktop.theme.type ) {
+        if ( window.desktop.theme.type == 'dark' ) params.uitheme == 'default-dark'; else
+        if ( window.desktop.theme.type == 'light' ) params.uitheme == 'default-light';
+    }
+}
+
+if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id") ) {
     // const _t = params.uitheme.match(/([\w-]+)/g);
 
     if ( params.uitheme == 'default-dark' )
@@ -51,14 +72,14 @@ if ( !!params.uitheme && !localStorage.getItem("ui-theme-id") ) {
     if ( params.uitheme == 'default-light' )
         params.uitheme = 'theme-classic-light';
 
-    localStorage.setItem("ui-theme-id", params.uitheme);
+    localStorage.removeItem("ui-theme");
 }
 
-var ui_theme_name = localStorage.getItem("ui-theme-id");
+var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
 if ( !ui_theme_name ) {
     if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
         ui_theme_name = 'theme-dark';
-        localStorage.setItem("ui-theme-id", ui_theme_name);
+        checkLocalStorage && localStorage.removeItem("ui-theme");
     }
 }
 if ( !!ui_theme_name ) {

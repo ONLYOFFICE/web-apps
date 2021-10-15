@@ -121,6 +121,8 @@ SSE.ApplicationController = new(function(){
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
+            docInfo.put_Lang(config.lang);
+            docInfo.put_Mode(config.mode);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -203,7 +205,7 @@ SSE.ApplicationController = new(function(){
         if ( permissions.print === false)
             $('#idt-print').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false)
+        if ( !embedConfig.saveUrl || permissions.download === false)
             $('#idt-download').hide();
 
         if ( !embedConfig.shareUrl )
@@ -218,7 +220,7 @@ SSE.ApplicationController = new(function(){
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if ( (!embedConfig.saveUrl || permissions.download === false) && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
         else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
             $('#box-tools .divider').hide();
@@ -246,11 +248,8 @@ SSE.ApplicationController = new(function(){
 
         SSE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                if ( !!embedConfig.saveUrl ){
+                if ( !!embedConfig.saveUrl && permissions.download !== false){
                     common.utils.openLink(embedConfig.saveUrl);
-                } else
-                if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -356,13 +355,17 @@ SSE.ApplicationController = new(function(){
             config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
+            if (config.customization.logo.image || config.customization.logo.imageEmbedded) {
+                logo.html('<img src="'+(config.customization.logo.image || config.customization.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                config.customization.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
             }
 
             if (config.customization.logo.url) {
                 logo.attr('href', config.customization.logo.url);
+            } else if (config.customization.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
             }
         }
 
@@ -484,6 +487,10 @@ SSE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 message = me.errorForceSave;
+                break;
+
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
                 break;
 
             default:
@@ -669,6 +676,7 @@ SSE.ApplicationController = new(function(){
         errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
-        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+        errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();

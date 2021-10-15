@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import PresentationInfo from "../../view/settings/PresentationInfo";
+import { observer, inject } from "mobx-react";
 
 class PresentationInfoController extends Component {
     constructor(props) {
         super(props);
         this.docProps = this.getDocProps();
-        this.getModified = this.getModified();
-        this.getModifiedBy = this.getModifiedBy();
-        this.getCreators = this.getCreators();
-        this.title = this.getTitle();
-        this.subject = this.getSubject();
-        this.description = this.getDescription();
-        this.getCreated = this.getCreated();
+
+        if(this.docProps) {
+            this.modified = this.getModified();
+            this.modifiedBy = this.getModifiedBy();
+            this.creators = this.getCreators();
+            this.title = this.getTitle();
+            this.subject = this.getSubject();
+            this.description = this.getDescription();
+            this.created = this.getCreated();
+        }
     }
 
     getDocProps() {
@@ -30,17 +34,17 @@ class PresentationInfoController extends Component {
 
     getModified() {
         let valueModified = this.docProps.asc_getModified();
-        // const _lang = this.props.storeAppOptions.lang;
+        const _lang = this.props.storeAppOptions.lang;
 
         if (valueModified) {
             return (
-                valueModified.toLocaleString("en", {
+                valueModified.toLocaleString(_lang, {
                     year: "numeric",
                     month: "2-digit",
                     day: "2-digit",
                 }) +
                 " " +
-                valueModified.toLocaleTimeString("en", { timeStyle: "short" })
+                valueModified.toLocaleTimeString(_lang, { timeStyle: "short" })
             );
         }
     }
@@ -71,9 +75,10 @@ class PresentationInfoController extends Component {
 
     getCreated() {
         let value = this.docProps.asc_getCreated();
+        const _lang = this.props.storeAppOptions.lang;
 
         if(value) {
-            return value.toLocaleString("en", {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString("en", {timeStyle: 'short'});
+            return value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'});
         }
     }
 
@@ -81,10 +86,10 @@ class PresentationInfoController extends Component {
         return (
             <PresentationInfo
                 getAppProps={this.getAppProps}
-                getModified={this.getModified}
-                getModifiedBy={this.getModifiedBy}
-                getCreators={this.getCreators}
-                getCreated={this.getCreated}
+                modified={this.modified}
+                modifiedBy={this.modifiedBy}
+                creators={this.creators}
+                created={this.created}
                 title={this.title}
                 subject={this.subject}
                 description={this.description}
@@ -94,4 +99,4 @@ class PresentationInfoController extends Component {
 }
 
 
-export default PresentationInfoController;
+export default inject("storeAppOptions")(observer(PresentationInfoController));

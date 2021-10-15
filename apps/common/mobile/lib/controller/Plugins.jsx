@@ -31,10 +31,12 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         return () => {
             const api = Common.EditorApi.get();
 
-            api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
-            api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
-            api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
-            api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
+            if ( api ) {
+                api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
+                api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
+                api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
+                api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
+            }
         };
     });
 
@@ -214,40 +216,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
         plugins.forEach(item => {
             let plugin = new Asc.CPlugin();
-
-            plugin.set_Name(item['name']);
-            plugin.set_Guid(item['guid']);
-            plugin.set_BaseUrl(item['baseUrl']);
-            plugin.set_MinVersion && plugin.set_MinVersion(item['minVersion']);
-
-            let variations = item['variations'],
-                variationsArr = [];
-
-            variations.forEach(itemVar => {
-                let variation = new Asc.CPluginVariation();
-
-                variation.set_Description(itemVar['description']);
-                variation.set_Url(itemVar['url']);
-                variation.set_Icons(itemVar['icons']);
-                variation.set_Visual(itemVar['isVisual']);
-                variation.set_CustomWindow(itemVar['isCustomWindow']);
-                variation.set_System(itemVar['isSystem']);
-                variation.set_Viewer(itemVar['isViewer']);
-                variation.set_EditorsSupport(itemVar['EditorsSupport']);
-                variation.set_Modal(itemVar['isModal']);
-                variation.set_InsideMode(itemVar['isInsideMode']);
-                variation.set_InitDataType(itemVar['initDataType']);
-                variation.set_InitData(itemVar['initData']);
-                variation.set_UpdateOleOnResize(itemVar['isUpdateOleOnResize']);
-                variation.set_Buttons(itemVar['buttons']);
-                variation.set_Size(itemVar['size']);
-                variation.set_InitOnSelectionChanged(itemVar['initOnSelectionChanged']);
-                variation.set_Events(itemVar['events']);
-
-                variationsArr.push(variation);
-            });
-
-            plugin["set_Variations"](variationsArr);
+            plugin.deserialize(item);
             arr.push(plugin);
         });
 

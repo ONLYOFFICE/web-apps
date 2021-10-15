@@ -27,6 +27,7 @@
       "textMessageDeleteComment": "Do you really want to delete this comment?",
       "textMessageDeleteReply": "Do you really want to delete this reply?",
       "textNoComments": "This document doesn't contain comments",
+      "textOk": "Ok",
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
@@ -36,6 +37,9 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -139,6 +143,7 @@
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorKeyExpire": "Key descriptor expired",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -146,7 +151,7 @@
     "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file cannot be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
+    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
@@ -284,6 +289,7 @@
       "textDoubleStrikethrough": "Double Strikethrough",
       "textDuplicateSlide": "Duplicate Slide",
       "textDuration": "Duration",
+      "textDesign": "Design",
       "textEditLink": "Edit Link",
       "textEffect": "Effect",
       "textEffects": "Effects",

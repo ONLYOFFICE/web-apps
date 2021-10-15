@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -105,8 +105,9 @@ const EditCell = props => {
                 <List className="cell-styles-list">
                     {cellStyles.map((elem, index) => {
                         return (
-                            <ListItem key={index} style={{backgroundImage: `url(${elem.image})`}} 
+                            <ListItem key={index}
                                 className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
                             </ListItem>
                         )
                     })}
@@ -127,27 +128,56 @@ const PageFontsCell = props => {
     const displaySize = typeof size === 'undefined' ? _t.textAuto : size + ' ' + _t.textPt;
     const curFontName = fontInfo.name;
     const fonts = storeCellSettings.fontsArray;
-    const arrayFonts = storeTextSettings.arrayRecentFonts;
+    const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
+    const iconWidth = storeTextSettings.iconWidth;
+    const iconHeight = storeTextSettings.iconHeight;
+    const thumbs = storeTextSettings.thumbs;
+    const thumbIdx = storeTextSettings.thumbIdx;
+    const thumbCanvas = storeTextSettings.thumbCanvas;
+    const thumbContext = storeTextSettings.thumbContext;
+    const spriteCols = storeTextSettings.spriteCols;
+    const spriteThumbs = storeTextSettings.spriteThumbs;
+
+    useEffect(() => {
+        setRecent(getImageUri(arrayRecentFonts));
+
+        return () => {
+        }
+    }, []);
 
     const addRecentStorage = () => {
         let arr = [];
-        arrayFonts.forEach(item => arr.push(item));
-        arr = arr.join(';');
-        LocalStorage.setItem('sse-settings-recent-fonts', arr);
+        arrayRecentFonts.forEach(item => arr.push(item));
+        setRecent(getImageUri(arrayRecentFonts));
+        LocalStorage.setItem('sse-settings-recent-fonts', JSON.stringify(arr));
     }
 
+    const [stateRecent, setRecent] = useState([]);
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
         }
     });
 
+    const getImageUri = fonts => {
+        return fonts.map(font => {
+            thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+            thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
+
+            return thumbCanvas.toDataURL();
+        });
+    }; 
+
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
             let fonts = [...prevState.vlData.items];
             fonts.splice(vlData.fromIndex, vlData.toIndex, ...vlData.items);
+
+            let images = getImageUri(fonts);
+
             return {vlData: {
                 items: fonts,
+                images,
             }};
         });
     };
@@ -184,17 +214,14 @@ const PageFontsCell = props => {
                 </ListItem>
             </List>
             <BlockTitle>{_t.textFonts}</BlockTitle>
-            {!!arrayFonts.length &&
+            {!!arrayRecentFonts.length &&
                 <List>
-                    {arrayFonts.map((item,index) => (
-                        <ListItem
-                            key={index}
-                            radio
-                            checked={curFontName === item}
-                            title={item}
-                            style={{fontFamily: `${item}`}}
-                            onClick={() => {props.onFontClick(item)}}
-                        /> 
+                    {arrayRecentFonts.map((item,index) => (
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.onFontClick(item.name);
+                        }}> 
+                            <img src={stateRecent[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
                     ))}
                 </List>
             }
@@ -204,15 +231,13 @@ const PageFontsCell = props => {
             }}>
                 <ul>
                     {vlFonts.vlData.items.map((item, index) => (
-                        <ListItem
-                            key={index}
-                            radio
-                            checked={curFontName === item.name}
-                            title={item.name}
-                            style={{fontFamily: `${item.name}`}}
-                            onClick={() => {props.onFontClick(item.name); storeTextSettings.addFontToRecent(item.name);
-                                addRecentStorage()}}
-                        ></ListItem>
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.onFontClick(item.name);
+                            storeTextSettings.addFontToRecent(item); 
+                            addRecentStorage();
+                        }}>
+                            <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
                     ))}
                 </ul>
             </List>

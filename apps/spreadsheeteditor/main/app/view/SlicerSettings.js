@@ -692,7 +692,7 @@ define([
             if (!this.btnSlicerStyle) {
                 this.btnSlicerStyle = new Common.UI.ComboDataView({
                     itemWidth: 36,
-                    itemHeight: 49,
+                    itemHeight: 48,
                     menuMaxHeight: 235,
                     enableKeyEvents: true,
                     cls: 'combo-slicer-style',

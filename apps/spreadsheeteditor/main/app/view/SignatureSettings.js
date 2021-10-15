@@ -100,7 +100,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret img-commonctrl img-colored <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -397,7 +397,7 @@ define([
                     viewMode: disable,
                     allowSignature: true,
                     allowProtect: true,
-                    rightMenu: {clear: disable && (SSE.getController('RightMenu').rightmenu.GetActivePane() !== 'id-signature-settings'), disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: false,

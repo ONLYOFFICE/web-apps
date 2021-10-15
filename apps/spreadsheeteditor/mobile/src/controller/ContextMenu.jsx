@@ -25,7 +25,10 @@ class ContextMenu extends ContextMenuController {
         // console.log('context menu controller created');
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
+        this.isOpenWindowUser = false;
+        this.timer;
         this.getUserName = this.getUserName.bind(this);
+        this.onApiMouseMove = this.onApiMouseMove.bind(this);
     }
 
     static closeContextMenu() {
@@ -41,8 +44,11 @@ class ContextMenu extends ContextMenuController {
         super.componentWillUnmount();
 
         const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
-        api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+        if ( api ) {
+            api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
+            api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+            api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
+        }
     }
 
 
@@ -164,6 +170,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_registerCallback('asc_onMouseMove', this.onApiMouseMove);
     }
 
     initMenuItems() {
@@ -227,6 +234,58 @@ class ContextMenu extends ContextMenuController {
             }
 
             return itemsIcon.concat(itemsText);
+        }
+    }
+
+    onApiMouseMove(dataarray) {
+        let index_locked;
+
+        for (let i = dataarray.length; i > 0; i--) {
+            if (dataarray[i-1].asc_getType() === Asc.c_oAscMouseMoveType.LockedObject) index_locked = i;
+        }
+
+        if (!index_locked && this.isOpenWindowUser) {
+            this.timer = setTimeout(() => $$('.username-tip').remove(), 1500);
+            this.isOpenWindowUser = false;
+        } else {
+            clearTimeout(this.timer);
+            $$('.username-tip').remove();
+        }
+
+        if (index_locked ) {
+            const tipHeight = 20;
+            let editorOffset = $$("#editor_sdk").offset(),
+                XY = [ editorOffset.left -  $(window).scrollLeft(), editorOffset.top - $(window).scrollTop()],
+                data = dataarray[index_locked - 1],
+                X = data.asc_getX(),
+                Y = data.asc_getY(),
+                src = $$(`<div class="username-tip"></div>`);
+
+            src.css({
+                height      : tipHeight + 'px',
+                position    : 'absolute',
+                zIndex      : '5000',
+                visibility  : 'visible',
+            });
+
+            src.text(this.getUserName(data.asc_getUserId()));
+            src.addClass('active');
+            $$(document.body).append(src);
+
+            let showPoint = [ ($$(window).width() - (X + XY[0])), Y + XY[1] ];
+
+            if ( $$(window).width() - showPoint[0] < src.outerWidth() ) {
+                src.css({
+                    left:  '0px',
+                    top: (showPoint[1] - tipHeight)  + 'px',
+                });
+            } else {
+                src.css({
+                    right: showPoint[0] + 'px',
+                    top: showPoint[1] - 1 + 'px',
+                });
+            }
+            this.isOpenWindowUser = true;
         }
     }
 

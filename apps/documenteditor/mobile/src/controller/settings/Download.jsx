@@ -25,27 +25,33 @@ class DownloadController extends Component {
         const _t = t("Settings", { returnObjects: true });
 
         if(format) {
+            this.closeModal();
             if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
-                f7.dialog.confirm(
-                    (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
-                    _t.notcriticalErrorTitle,
-                    () => {
-                        if (format === Asc.c_oAscFileType.TXT) {
-                            const advOptions = api.asc_getAdvancedOptions();
-                            this.closeModal();
-                            Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));   
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => {
+                                if (format == Asc.c_oAscFileType.TXT) {
+                                    const advOptions = api.asc_getAdvancedOptions();
+                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));
+                                }
+                                else {
+                                    setTimeout(() => {
+                                        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                    }, 400);
+                                }
+                            }
                         }
-                        else {
-                            this.closeModal();
-                            setTimeout(() => {
-                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                            }, 400);
-                        }
-                    }
-                );
+                    ],
+                }).open();
             } 
             else {
-                this.closeModal();
                 setTimeout(() => {
                     api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 }, 400);

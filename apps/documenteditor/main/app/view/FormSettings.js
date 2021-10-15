@@ -711,8 +711,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='control') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
@@ -741,6 +741,26 @@ define([
                 this.fireEvent('editcomplete', this);
                 this._isFromFile = false;
             }
+        },
+
+        onColorBGSelect: function(btn, color) {
+            this.BackgroundColor = color;
+            this._state.BackgroundColor = undefined;
+
+            var props   = this._originalProps || new AscCommon.CContentControlPr();
+            var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+
+            if (this.api) {
+                if (color === 'transparent') {
+                    formPr.put_Shd(false);
+                } else {
+                    formPr.put_Shd(true, Common.Utils.ThemeColor.getRgbColor(color));
+                }
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+
+            this.fireEvent('editcomplete', this);
         },
 
         onColorPickerSelect: function(btn, color) {
@@ -831,9 +851,9 @@ define([
                             rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
                         }
                         if (rec) {
-                            this.list.selectRecord(rec);
+                            this.list.selectRecord(rec, this.txtNewValue._input.is(':focus'));
                             this.list.scrollToRecord(rec);
-                        } else {
+                        } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
                             this._state.listValue = this._state.listIndex = undefined;
                         }
@@ -947,6 +967,45 @@ define([
                         (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
                         this._state.BorderColor = this.BorderColor;
                     }
+
+                    var shd = formPr.get_Shd();
+                    if (shd) {
+                        var bgColor = shd.get_Color();
+                        if (bgColor) {
+                            if (bgColor.get_type() === Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.BackgroundColor = {color: Common.Utils.ThemeColor.getHexColor(bgColor.get_r(), bgColor.get_g(), bgColor.get_b()), effectValue: bgColor.get_value() };
+                            } else {
+                                this.BackgroundColor = Common.Utils.ThemeColor.getHexColor(bgColor.get_r(), bgColor.get_g(), bgColor.get_b());
+                            }
+                        } else
+                            this.BackgroundColor = 'transparent';
+                    } else {
+                        this.BackgroundColor = 'transparent';
+                    }
+
+                    type1 = typeof(this.BackgroundColor);
+                    type2 = typeof(this._state.BackgroundColor);
+                    if ( (type1 !== type2) || (type1 === 'object' &&
+                        (this.BackgroundColor.effectValue!==this._state.BackgroundColor.effectValue || this._state.BackgroundColor.color.indexOf(this.BackgroundColor.color)<0)) ||
+                        (type1 !== 'object' && this._state.BackgroundColor.indexOf(this.BackgroundColor)<0 )) {
+
+                        this.btnBGColor.setColor(this.BackgroundColor);
+                        if ( typeof(this.BackgroundColor) == 'object' ) {
+                            var isselected = false;
+                            for (i=0; i<10; i++) {
+                                if ( Common.Utils.ThemeColor.ThemeValues[i] === this.BackgroundColor.effectValue ) {
+                                    this.mnuBGColorPicker.select(this.BackgroundColor, true);
+                                    isselected = true;
+                                    break;
+                                }
+                            }
+                            if (!isselected) this.mnuBGColorPicker.clearSelection();
+                        } else
+                            this.mnuBGColorPicker.select(this.BackgroundColor,true);
+
+                        this._state.BackgroundColor = this.BackgroundColor;
+                    }
+
                 }
 
                 var pictPr = props.get_PictureFormPr();
@@ -1020,7 +1079,7 @@ define([
 
                     val = this.api.asc_GetTextFormAutoWidth();
                     if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
-                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.options.minValue);
+                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM((val+1) * 25.4 / 20 / 72.0) : this.spnWidth.getMinValue());
                         this._state.WidthPlaceholder=val;
                     }
 
@@ -1088,6 +1147,18 @@ define([
                 this.btnColor.setMenu();
                 this.mnuColorPicker = this.btnColor.getPicker();
             }
+            if (!this.btnBGColor) {
+                this.btnBGColor = new Common.UI.ColorButton({
+                    parentEl: $('#form-background-color-btn'),
+                    transparent: true,
+                    menu: true
+                });
+                this.lockedControls.push(this.btnBGColor);
+                this.btnBGColor.on('color:select', _.bind(this.onColorBGSelect, this));
+                this.btnBGColor.setMenu();
+                this.mnuBGColorPicker = this.btnBGColor.getPicker();
+            }
+            this.mnuBGColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
         
         onHideMenus: function(menu, e, isFromInputControl){
@@ -1253,7 +1324,8 @@ define([
         textNever: 'Never',
         textTooBig: 'Image is Too Big',
         textTooSmall: 'Image is Too Small',
-        textScale: 'When to scale'
+        textScale: 'When to scale',
+        textBackgroundColor: 'Background Color'
 
     }, DE.Views.FormSettings || {}));
 });

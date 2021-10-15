@@ -803,7 +803,7 @@ define([
                     enableToggle: true,
                     caption     : me.capInsertShape,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -880,7 +880,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 494px; height: 300px; margin: 0px 4px;"></div>') }
+                            { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 487px; height: 300px; margin: 0px 4px;"></div>') }
                         ]
                     }),
                     dataHint    : '1',
@@ -903,12 +903,12 @@ define([
                     cls             : 'combo-styles',
                     enableKeyEvents : true,
                     itemWidth       : 112,
-                    itemHeight      : 38,
+                    itemHeight      : 40,
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset  : '-16, 0',
+                    dataHintOffset  : '-16, -4',
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -1239,7 +1239,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pageorient',
                     caption: me.capBtnPageOrient,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -1279,7 +1279,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capBtnMargins,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -1327,7 +1327,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagesize',
                     caption: me.capBtnPageSize,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         restoreHeight: true,
                         items: [
@@ -1495,7 +1495,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-scale',
                     caption: me.capBtnScale,
-                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         items: [],
                         cls: 'scale-menu'}),
@@ -1561,7 +1561,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-print-titles',
                     caption: me.capBtnPrintTitles,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2047,7 +2047,7 @@ define([
                                     {
                                         id: 'id-toolbar-menu-auto-bordercolor',
                                         caption: this.textAutoColor,
-                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
                                         stopPropagation: true
                                     },
                                     {caption: '--'},

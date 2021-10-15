@@ -30,13 +30,11 @@ class SearchSettings extends SearchSettingsView {
                     </Navbar>
                     <List>
                         <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                        {isEdit ?
-                            <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
-                                onClick={e => this.onFindReplaceClick('replace')} />
-                        : null}
-                        {isEdit ?
-                            <ListItem radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
-                                onClick={() => this.onFindReplaceClick('replace-all')}></ListItem>
+                        {isEdit ? [
+                            <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
+                                onClick={e => this.onFindReplaceClick('replace')} />, 
+                            <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
+                                onClick={() => this.onFindReplaceClick('replace-all')}></ListItem>]
                         : null}
                     </List>
                     <List>

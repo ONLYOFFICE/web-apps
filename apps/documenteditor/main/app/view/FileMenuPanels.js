@@ -212,6 +212,10 @@ define([
                     '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
+                '<tr class="view-review">',
+                    '<td class="left"><label><%= scope.strReviewHover %></label></td>',
+                    '<td class="right"><span id="fms-cmb-review-hover"></span></td>',
+                '</tr>','<tr class="divider view-review"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
@@ -444,7 +448,7 @@ define([
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -522,6 +526,20 @@ define([
                 dataHintOffset: 'big'
             });
 
+            this.cmbReviewHover = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-review-hover'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: false, displayValue: this.txtChangesBalloons },
+                    { value: true, displayValue: this.txtChangesTip }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -587,6 +605,7 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -666,6 +685,12 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+
+            if (this.mode.canViewReview) {
+                value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
+                item = this.cmbReviewHover.store.findWhere({value: value});
+                this.cmbReviewHover.setValue(item ? item.get('value') : false);
+            }
         },
 
         applySettings: function() {
@@ -697,6 +722,13 @@ define([
 
             Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
+
+            if (this.mode.canViewReview) {
+                var val = this.cmbReviewHover.getValue();
+                Common.localStorage.setBool("de-settings-review-hover-mode", val);
+                Common.Utils.InternalSettings.set("de-settings-review-hover-mode", val);
+                this.mode.reviewHoverMode = val;
+            }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
@@ -794,7 +826,10 @@ define([
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
-        txtAutoCorrect: 'AutoCorrect options...'
+        txtAutoCorrect: 'AutoCorrect options...',
+        strReviewHover: 'Track Changes Display',
+        txtChangesTip: 'Show by hover in tooltips',
+        txtChangesBalloons: 'Show by click in balloons'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -867,31 +902,27 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',
-            '<h3><%= scope.fromTemplateText %></h3><hr noshade />',
+            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<% _.each(docs, function(item) { %>',
-                    '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                        '<% if (!_.isEmpty(item.image)) { %> ',
-                            ' style="background-image: url(<%= item.image %>);">',
-                        '<% } else { ' +
-                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                        ' } %>',
-                        '</div>',
-                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
+                '<% if (blank) { %> ',
+                '<div class="blank-document">',
+                    '<div class="blank-document-btn">',
+                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
+                    '<div class="title"><%= scope.txtBlank %></div>',
+                '</div>',
+                '<% } %>',
+                '<% _.each(docs, function(item, index) { %>',
+                '<div class="thumb-wrap" template="<%= item.url %>">',
+                    '<div class="thumb" ',
+                        '<% if (!_.isEmpty(item.image)) {%> ',
+                        ' style="background-image: url(<%= item.image %>);">',
+                        ' <%} else {' +
+                        'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
+                    '</div>',
+                    '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
+                '</div>',
                 '<% }) %>',
             '</div>'
         ].join('')),
@@ -900,13 +931,24 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.docs = options.docs;
+            this.blank = !!options.blank;
         },
 
         render: function() {
             this.$el.html(this.template({
                 scope: this,
-                docs: this.options[0].docs
+                docs: this.docs,
+                blank: this.blank
             }));
+            var docs = (this.blank ? [{title: this.txtBlank}] : []).concat(this.docs);
+            var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
+            _.each(thumbsElm, function (tmb, index){
+                $(tmb).find('.title').tooltip({
+                    title       : docs[index].title,
+                    placement   : 'cursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -934,11 +976,8 @@ define([
                 this.menu.fireEvent('create:new', [this.menu, e.currentTarget.attributes['template'].value]);
         },
 
-        fromBlankText       : 'From Blank',
-        newDocumentText     : 'New Text Document',
-        newDescriptionText  : 'Create a new blank text document which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.',
-        fromTemplateText    : 'From Template',
-        noTemplatesText     : 'There are no templates'
+        txtBlank: 'Blank document',
+        txtCreateNew: 'Create New'
     }, DE.Views.FileMenuPanels.CreateNew || {}));
 
     DE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({

@@ -12,29 +12,7 @@ const PageDocumentFormats = props => {
     const pageSizesIndex = storeSettings.pageSizesIndex;
     const pageSizes = storeSettings.getPageSizesList();
     const textMetric = Common.Utils.Metric.getCurrentMetricName();
-    const margins = props.getMargins();
-    const maxMarginsW = margins.maxMarginsW;
-    const maxMarginsH = margins.maxMarginsH;
-
-    // console.log(margins.left, margins.right, margins.top, margins.bottom);
-    // console.log(maxMarginsW, maxMarginsH);
-
-    const onFormatChange = (value) => {
-        let errorMsg;
-
-        if (margins.left + margins.right > maxMarginsW) {
-            errorMsg = _t.textMarginsW;
-        } else if (margins.top + margins.bottom > maxMarginsH) {
-            errorMsg = _t.textMarginsH;
-        }
-
-        if(errorMsg) {
-            f7.dialog.alert(errorMsg, _t.notcriticalErrorTitle);
-        } else {
-            props.onFormatChange(value);
-        }
-    }
-
+    
     return (
         <Page>
             <Navbar title={_t.textDocumentSettings} backLink={_t.textBack} />
@@ -45,7 +23,7 @@ const PageDocumentFormats = props => {
                                                           subtitle={parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) + ' ' + textMetric + ' x ' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) + ' ' + textMetric}
                                                           name="format-size-checkbox"
                                                           checked={pageSizesIndex === index}
-                                                          onClick={e => onFormatChange(item.value)}
+                                                          onClick={e => props.onFormatChange(item.value)}
                 ></ListItem>)}
             </List>
         </Page>
@@ -58,6 +36,8 @@ const PageDocumentMargins = props => {
     const _t = t('Settings', {returnObjects: true});
     const metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
     const margins = props.getMargins();
+    const maxMarginsW = margins.maxMarginsW;
+    const maxMarginsH = margins.maxMarginsH;
     const [stateTop, setTop] = useState(margins.top);
     const [stateBottom, setBottom] = useState(margins.bottom);
     const [stateLeft, setLeft] = useState(margins.left);
@@ -65,7 +45,7 @@ const PageDocumentMargins = props => {
 
     const onChangeMargins = (align, isDecrement) => {
         const step = Common.Utils.Metric.fnRecalcToMM(Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-        let marginValue;
+        let marginValue, errorMsg;
 
         switch (align) {
             case 'left': marginValue = stateLeft; break;
@@ -77,7 +57,21 @@ const PageDocumentMargins = props => {
         if (isDecrement) {
             marginValue = Math.max(0, marginValue - step);
         } else {
-            marginValue = Math.min((align == 'left' || align == 'right') ? margins.maxMarginsW : margins.maxMarginsH, marginValue + step);
+            if(align == 'left' || align == 'right') {
+                marginValue = Math.min(maxMarginsW, marginValue + step);
+                if(stateLeft + stateRight + step > maxMarginsW) 
+                    errorMsg = _t.textMarginsW;
+
+            } else {
+                marginValue = Math.min(maxMarginsH, marginValue + step);
+                if(stateTop + stateBottom + step > maxMarginsH)
+                    errorMsg = _t.textMarginsH;
+            }
+    
+            if(errorMsg) {
+                f7.dialog.alert(errorMsg, _t.notcriticalErrorTitle);
+                return;
+            }
         }
 
         switch (align) {

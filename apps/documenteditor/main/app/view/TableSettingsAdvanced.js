@@ -949,7 +949,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
                     style: 'margin-left: 5px; margin-bottom: 4px;',
-                    cls: 'btn-options large',
+                    cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
@@ -975,7 +975,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
                     style: 'margin-left: 5px; margin-bottom: 4px;',
-                    cls: 'btn-options large',
+                    cls: 'btn-options large border-off',
                     iconCls: item[2],
                     strCellId  :item[0],
                     strTableId :item[1],

@@ -104,7 +104,7 @@ class ContextMenuController extends Component {
     }
 
     onApiOpenContextMenu(x, y) {
-        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup').length < 1) {
+        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup, .actions-modal.modal-in').length < 1) {
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()
@@ -150,8 +150,8 @@ class ContextMenuController extends Component {
         this.setState({openedMore: false});
     }
 
-    onMenuItemClick(action) {
-        this.onApiHideContextMenu();
+    async onMenuItemClick(action) {
+        await this.onApiHideContextMenu();
 
         if (action === 'showActionSheet') {
             this.setState({openedMore: true});
@@ -206,10 +206,12 @@ class ContextMenuController extends Component {
         Common.Notifications.off('document:ready', this.onDocumentReady);
 
         const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
-        api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
-        api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
-        api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        if ( api ) {
+            api.asc_unregisterCallback('asc_onShowPopMenu', this.onApiOpenContextMenu);
+            api.asc_unregisterCallback('asc_onHidePopMenu', this.onApiHideContextMenu);
+            api.asc_unregisterCallback('asc_onShowForeignCursorLabel', this.onApiShowForeignCursorLabel);
+            api.asc_unregisterCallback('asc_onHideForeignCursorLabel', this.onApiHideForeignCursorLabel);
+        }
     }
 
     componentDidMount() {

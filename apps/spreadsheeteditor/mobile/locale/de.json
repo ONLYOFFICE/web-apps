@@ -30,7 +30,8 @@
       "textReopen": "Wiederöffnen",
       "textResolve": "Lösen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -60,7 +61,7 @@
     "notcriticalErrorTitle": "Warnung",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "warnMergeLostData": "Bei diesem Vorgang werden Daten in ausgewählten Zellen zerstört. Möchten Sie fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {
@@ -193,6 +194,7 @@
     "errorInvalidRef": "Geben Sie einen korrekten Namen oder einen gültigen Webverweis ein.",
     "errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
+    "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
     "errorLockedAll": "Die Operation kann nicht durchgeführt werden, weil das Blatt von einem anderen Benutzer gesperrt ist.",
     "errorLockedCellPivot": "Die Daten innerhalb einer Pivot-Tabelle können nicht geändert werden.",
     "errorLockedWorksheetRename": "Umbenennen des Blattes ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
@@ -272,6 +274,7 @@
     "textErrorRemoveSheet": "Arbeitsblatt kann nicht gelöscht werden. ",
     "textHide": "Ausblenden",
     "textMore": "Mehr",
+    "textOk": "OK",
     "textRename": "Umbenennen",
     "textRenameSheet": "Tabelle umbenennen",
     "textSheet": "Blatt",
@@ -326,6 +329,7 @@
       "textRange": "Bereich",
       "textRequired": "Erforderlich",
       "textScreenTip": "QuickInfo",
+      "textSelectedRange": "Ausgewählter Bereich",
       "textShape": "Form",
       "textSheet": "Blatt",
       "textSortAndFilter": "Sortieren und Filtern",
@@ -333,7 +337,10 @@
       "txtExpandSort": "Die Daten neben der Auswahl werden nicht sortiert. Möchten Sie die Auswahl um die angrenzenden Daten erweitern oder nur mit der Sortierung der aktuell ausgewählten Zellen fortfahren?",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
-      "txtSortSelected": "Ausgewählte sortieren"
+      "txtSortSelected": "Ausgewählte sortieren",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -549,6 +556,7 @@
       "textEmail": "E-Mail",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
+      "textExample": "Beispiel",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",
@@ -571,6 +579,7 @@
       "textMatchCase": "Groß-/Kleinschreibung beachten",
       "textMatchCell": "Zelle anpassen",
       "textNoTextFound": "Der Text wurde nicht gefunden",
+      "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOrientation": "Orientierung",
       "textOwner": "Besitzer",
@@ -631,7 +640,17 @@
       "txtScheme9": "Gießerei",
       "txtSpace": "Leerzeichen",
       "txtTab": "Tab",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

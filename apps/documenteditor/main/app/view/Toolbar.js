@@ -619,7 +619,7 @@ define([
                         iconCls: 'toolbar__icon btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -750,7 +750,7 @@ define([
                                 {
                                     caption: this.mniHighlightControls,
                                     value: 'highlight',
-                                    menu: new Common.UI.Menu({
+                                    menu: this.mnuHighlightControls = new Common.UI.Menu({
                                         menuAlign   : 'tl-tr',
                                         items: [
                                             this.mnuNoControlsColor = new Common.UI.MenuItem({
@@ -760,7 +760,10 @@ define([
                                             }),
                                             {caption: '--'},
                                             {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
-                                            {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                                            {
+                                                id: 'id-toolbar-menu-new-control-color',
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                            }
                                         ]
                                     })
                                 }
@@ -1146,7 +1149,14 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-mailmerge',
                         dataHint: '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniFromFile, value: 'file'},
+                                {caption: this.mniFromUrl, value: 'url'},
+                                {caption: this.mniFromStorage, value: 'storage'}
+                            ]
+                        })
                     });
 
                     me.btnImgAlign = new Common.UI.Button({
@@ -1234,6 +1244,7 @@ define([
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
                     this.mnuChangeCase = this.btnChangeCase.menu;
+                    this.mnuMailRecepients = this.btnMailRecepients.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -1275,21 +1286,19 @@ define([
                     this.paragraphControls.push(this.cmbFontName);
 
                     this.listStylesAdditionalMenuItem = new Common.UI.MenuItem({
-                        template: _.template(
-                            '<div id="id-save-style-container" class = "save-style-container">' +
-                            '<span id="id-save-style-plus" class="plus img-commonctrl"  ></span>' +
-                            '<label id="id-save-style-link" class="save-style-link" >' + me.textStyleMenuNew + '</label>' +
-                            '</div>')
+                        cls: 'save-style-container',
+                        iconCls: 'menu__icon btn-zoomup',
+                        caption: me.textStyleMenuNew
                     });
 
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         itemWidth: 104,
-                        itemHeight: 38,
+                        itemHeight: 40,
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0',
+                        dataHintOffset: '-16, -4',
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         beforeOpenHandler: function (e) {
@@ -1833,9 +1842,9 @@ define([
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
-                        style: 'min-width: 139px',
+                        style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -2003,66 +2012,77 @@ define([
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
+                    outerMenu:  {menu: this.btnMarkers.menu, index: 0},
                     restoreHeight: 138,
                     allowScrollbar: false,
+                    delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true, tip: this.tipMarkersDash}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
+                this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuNumbersPicker.conf;
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
+                    outerMenu:  {menu: this.btnNumbers.menu, index: 0},
                     restoreHeight: 92,
                     allowScrollbar: false,
+                    delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
+                this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
                 this.mnuMultilevelPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-multilevels'),
                     parentMenu: this.btnMultilevels.menu,
+                    outerMenu:  {menu: this.btnMultilevels.menu, index: 0},
                     restoreHeight: 92,
                     allowScrollbar: false,
+                    delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true, tip: this.tipMultiLevelVarious},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true, tip: this.tipMultiLevelNumbered},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true, tip: this.tipMultiLevelSymbols}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
+                this.btnMultilevels.menu.setInnerMenu([{menu: this.mnuMultilevelPicker, index: 0}]);
                 _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.conf : undefined;
                 this.mnuPageNumberPosPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-pageposition'),
                     allowScrollbar: false,
+                    parentMenu:  this.mnuInsertPageNum.menu,
+                    outerMenu:  {menu: this.mnuInsertPageNum.menu, index: 0},
+                    showLast: false,
                     store: new Common.UI.DataViewStore([
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2070,7 +2090,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2078,7 +2097,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-top-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
@@ -2086,7 +2104,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2094,7 +2111,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2102,7 +2118,6 @@ define([
                             }
                         },
                         {
-                            allowSelected: false,
                             iconname: 'page-number-bottom-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
@@ -2113,6 +2128,7 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
                 });
                 _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
+                this.mnuInsertPageNum.menu.setInnerMenu([{menu: this.mnuPageNumberPosPicker, index: 0}]);
 
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),
@@ -2160,8 +2176,10 @@ define([
                             '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
                             '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                             '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
-                        ]
+                        ],
+                        outerMenu: {menu: this.mnuHighlightControls, index: 2}
                     });
+                    this.mnuHighlightControls.setInnerMenu([{menu: this.mnuControlsColorPicker, index: 2}]);
                 }
             },
 
@@ -2602,7 +2620,28 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
             mniTextToTable: 'Convert Text to Table',
-            txtScheme22: 'New Office'
+            txtScheme22: 'New Office',
+            mniFromFile: 'From File',
+            mniFromUrl: 'From URL',
+            mniFromStorage: 'From Storage',
+            tipNumCapitalLetters: 'A. B. C.',
+            tipNumLettersParentheses: 'a) b) c)',
+            tipNumLettersPoints: 'a. b. c.',
+            tipNumNumbersPoint: '1. 2. 3.',
+            tipNumNumbersParentheses: '1) 2) 3)',
+            tipNumRoman: 'I. II. III.',
+            tipNumRomanSmall: 'i. ii. iii.',
+            tipMultiLevelVarious: 'Multi-level various numbered bullets',
+            tipMultiLevelNumbered: 'Multi-level numbered bullets',
+            tipMultiLevelSymbols: 'Multi-level symbols bullets',
+            tipMarkersFRound: 'Filled round bullets',
+            tipMarkersHRound: 'Hollow round bullets',
+            tipMarkersFSquare: 'Filled square bullets',
+            tipMarkersStar: 'Star bullets',
+            tipMarkersArrow: 'Arrow bullets',
+            tipMarkersCheckmark: 'Checkmark bullets',
+            tipMarkersFRhombus: 'Filled rhombus bullets',
+            tipMarkersDash: 'Dash bullets'
         }
     })(), DE.Views.Toolbar || {}));
 });

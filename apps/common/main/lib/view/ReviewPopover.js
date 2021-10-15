@@ -103,6 +103,7 @@ define([
             this.canRequestUsers = options.canRequestUsers;
             this.canRequestSendNotify = options.canRequestSendNotify;
             this.mentionShare = options.mentionShare;
+            this.api = options.api;
             this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
@@ -265,6 +266,11 @@ define([
                         });
                         btns = $(view.el).find('.comment-resolved');
                         btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.i-comment-resolved');
+                        btns.tooltip({title: me.textViewResolved, placement: 'cursor'});
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
@@ -737,7 +743,8 @@ define([
                         leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
                         leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
 
-                        arrowView.removeClass('right').addClass('left');
+                        arrowView.removeClass('right top bottom').addClass('left');
+                        arrowView.css({left: ''});
 
                         if (!_.isUndefined(leftX)) {
                             windowWidth = this.$window.outerWidth();
@@ -784,7 +791,7 @@ define([
                     }
                 }
             }
-            if (!retainContent)
+            if (!retainContent || this.isOverCursor())
                 this.calculateSizeOfContent();
         },
         calculateSizeOfContent: function (testVisible) {
@@ -804,6 +811,7 @@ define([
                 sdkPanelTop = '',
                 sdkPanelHeight = 0,
                 arrowPosY = 0,
+                arrowPosX = 0,
                 windowHeight = 0,
                 outerHeight = 0,
                 topPos = 0,
@@ -839,7 +847,46 @@ define([
 
                             outerHeight = Math.max(commentsView.outerHeight(), this.$window.outerHeight());
 
-                            if (sdkBoundsHeight <= outerHeight) {
+                            var movePos = this.isOverCursor();
+                            if (movePos) {
+                                var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
+                                    newTopDown = movePos[1][1] + sdkPanelHeight + this.arrow.width,// try move down
+                                    newTopUp = movePos[0][1] + sdkPanelHeight - this.arrow.width, // try move up
+                                    isMoveDown = false;
+                                if (newTopDown + outerHeight>sdkBoundsTop + sdkBoundsHeight) {
+                                    var diffDown = sdkBoundsTop + sdkBoundsHeight - newTopDown;
+                                    if (newTopUp - outerHeight<sdkBoundsTop) {
+                                        var diffUp = newTopUp - sdkBoundsTop;
+                                        if (diffDown < diffUp * 0.9) {// magic)
+                                            this.$window.css({
+                                                maxHeight: diffUp + 'px',
+                                                top: sdkBoundsTop + 'px'
+                                            });
+                                            commentsView.css({height: diffUp - 3 + 'px'});
+                                        } else {
+                                            this.$window.css({
+                                                maxHeight: diffDown + 'px',
+                                                top: newTopDown + 'px'
+                                            });
+                                            isMoveDown = true;
+                                            commentsView.css({height: diffDown - 3 + 'px'});
+                                        }
+                                    } else
+                                        this.$window.css('top', newTopUp - outerHeight + 'px'); // move up
+                                } else {
+                                    isMoveDown = true;
+                                    this.$window.css('top', newTopDown + 'px'); // move down
+                                }
+                                leftPos -= this.arrow.height;
+                                this.$window.css('left', leftPos + 'px');
+                                arrowPosX = movePos[isMoveDown ? 1 : 0][0];
+                                arrowPosX = Math.max(0, arrowPosX - leftPos - this.arrow.height/2);
+                                arrowPosX = Math.min(arrowPosX, this.$window.outerWidth() - this.arrow.height);
+                                arrowView.css({top: '', left: arrowPosX + 'px'});
+                                arrowView.toggleClass('top', isMoveDown);
+                                arrowView.toggleClass('bottom', !isMoveDown);
+                                arrowView.removeClass('left right');
+                            } else if (sdkBoundsHeight <= outerHeight) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'
@@ -850,7 +897,9 @@ define([
                                 // arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - sdkPanelHeight - this.arrow.width);
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
-                                arrowView.css({top: arrowPosY + 'px'});
+                                arrowView.css({top: arrowPosY + 'px', left: ''});
+                                arrowView.removeClass('top bottom right');
+                                arrowView.addClass('left');
                                 this.scroller.scrollTop(scrollPos);
                             } else {
 
@@ -868,7 +917,9 @@ define([
                                 arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
-                                arrowView.css({top: arrowPosY + 'px'});
+                                arrowView.css({top: arrowPosY + 'px', left: ''});
+                                arrowView.removeClass('top bottom right');
+                                arrowView.addClass('left');
                             }
                         }
                     }
@@ -880,6 +931,30 @@ define([
                 this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
             }
         },
+
+        isOverCursor: function() {
+            if (!this.api.asc_GetSelectionBounds) return;
+            
+            var p = this.api.asc_GetSelectionBounds(),
+                isCursor = Math.abs(p[0][0] - p[1][0])<0.1 && Math.abs(p[0][1] - p[1][1])<0.1 && Math.abs(p[2][0] - p[3][0])<0.1 && Math.abs(p[2][1] - p[3][1])<0.1,
+                sdkPanelLeft = $('#id_panel_left'),
+                sdkPanelLeftWidth = 0;
+            if (sdkPanelLeft.length)
+                sdkPanelLeftWidth = (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
+            var x0 = p[0][0] + sdkPanelLeftWidth, y0 = p[0][1],
+                x1 = p[isCursor ? 2 : 1][0] + sdkPanelLeftWidth, y1 = p[isCursor ? 2 : 1][1];
+            var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
+                windowWidth = this.$window.outerWidth() + this.arrow.width,
+                topPos = parseInt(this.$window.css('top')),
+                windowHeight = this.$window.outerHeight();
+            if (x0>leftPos && x0<leftPos+windowWidth && y0>topPos && y0<topPos+windowHeight ||
+                x1>leftPos && x1<leftPos+windowWidth && y1>topPos && y1<topPos+windowHeight) {
+                var newDown = (y0>y1) ? [x0, y0] : [x1, y1],// try move down
+                    newUp = (y0<y1) ? [x0, y0] : [x1, y1]; // try move up
+                return [newUp, newDown];
+            }
+        },
+
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
                 this.textVal = undefined;
@@ -1179,6 +1254,7 @@ define([
         textOpenAgain           : "Open Again",
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
-        textMentionNotify       : '+mention will notify the user via email'
+        textMentionNotify       : '+mention will notify the user via email',
+        textViewResolved        : 'You have not permission for reopen comment'
     }, Common.Views.ReviewPopover || {}))
 });

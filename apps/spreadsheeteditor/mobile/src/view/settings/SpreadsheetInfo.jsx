@@ -8,7 +8,7 @@ const PageSpreadsheetInfo = (props) => {
     const _t = t("View.Settings", { returnObjects: true });
     const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
     const dataDoc = storeSpreadsheetInfo.dataDoc;
-    const dataApp = props.dataApp;
+    const dataApp = props.getAppProps();
     const dataModified = props.modified;
     const dataModifiedBy = props.modifiedBy;
     const creators = props.creators;
@@ -88,11 +88,11 @@ const PageSpreadsheetInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {props.getCreated ? (
+            {props.created ? (
                 <Fragment>
                     <BlockTitle>{_t.textCreated}</BlockTitle>
                     <List>
-                        <ListItem title={props.getCreated}></ListItem>
+                        <ListItem title={props.created}></ListItem>
                     </List>
                 </Fragment>
             ) : null}

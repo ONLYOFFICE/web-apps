@@ -84,26 +84,22 @@
         margin: -3px 10px -2px;
         filter: @img-border-type-filter;
 
+        .pixel-ratio__1_25 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.25x.png)";
+        }
+
         .pixel-ratio__1_5 & {
             background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
             //background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
         }
 
+        .pixel-ratio__1_75 & {
+            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.75x.png)";
+        }
+
         .pixel-ratio__2 & {
             background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
         }
-    }
-}
-
-#id-toolbar-menu-auto-bordercolor > a.selected,
-#id-toolbar-menu-auto-bordercolor > a:hover,
-#id-toolbar-menu-auto-fontcolor > a.selected,
-#id-toolbar-menu-auto-fontcolor > a:hover {
-    span {
-        outline: @scaled-one-px-value-ie solid @border-regular-control-ie;
-        outline: @scaled-one-px-value solid @border-regular-control;
-        border: @scaled-one-px-value-ie solid @background-normal-ie;
-        border: @scaled-one-px-value solid @background-normal;
     }
 }
 
@@ -126,8 +122,8 @@
 }
 
 .item-markerlist {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
 }
 
 .item-multilevellist {
@@ -137,7 +133,7 @@
 
 #menu-list-number-group {
     .item {
-        margin-right: 9px;
+        margin-right: 10px;
         margin-bottom: 9px;
     }
     .group-items-container {
@@ -145,13 +141,13 @@
     }
 }
 
+#menu-list-bullet-group {
+    .item {
+        margin-right: 2px;
+    }
+}
+
 #slot-field-zoom {
     float: left;
     min-width: 46px;
-}
-
-.combo-styles {
-    .view, .dropdown-menu {
-        //background-color: @canvas-content-background;
-    }
 }

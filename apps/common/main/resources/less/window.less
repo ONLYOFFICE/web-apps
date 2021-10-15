@@ -172,26 +172,24 @@
 
     .icon {
         &.warn {
-            width: 35px;
-            height: 32px;
-            background-position: @alerts-offset-x @alerts-offset-y - 105px;
+            background: ~"url('@{common-image-const-path}/controls/warnings_s.svg#attention')" no-repeat center;
         }
 
-        &.error, &.info, &.confirm {
-            width: 35px;
-            height: 35px;
+        &.error, &.info, &.confirm, &.warn {
+            width: 40px;
+            height: 40px;
         }
 
         &.error {
-            background-position: @alerts-offset-x @alerts-offset-y - 0;
+            background: ~"url('@{common-image-const-path}/controls/warnings_s.svg#warning')" no-repeat center;
         }
 
         &.info {
-            background-position: @alerts-offset-x @alerts-offset-y - 35px;
+            background: ~"url('@{common-image-const-path}/controls/warnings_s.svg#info')" no-repeat center;
         }
 
         &.confirm {
-            background-position: @alerts-offset-x @alerts-offset-y - 70px;
+            background: ~"url('@{common-image-const-path}/controls/warnings_s.svg#done')" no-repeat center;
         }
     }
 

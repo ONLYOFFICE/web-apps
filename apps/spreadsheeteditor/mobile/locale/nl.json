@@ -30,7 +30,8 @@
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers"
+      "textUsers": "Gebruikers",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -60,7 +61,7 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "De bewerking kan gegevens in de geselecteerde cellen vernietigen. Doorgaan?"
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
   },
   "Controller": {
     "Main": {
@@ -222,7 +223,8 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -277,7 +279,8 @@
     "textSheet": "Blad",
     "textSheetName": "Bladnaam",
     "textUnhide": "Verbergen ongedaan maken",
-    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?"
+    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -333,7 +336,11 @@
       "txtExpandSort": "De gegevens naast de selectie worden niet gesorteerd. Wilt u de selectie uitbreiden en aangrenzende gegevens opnemen of wilt u doorgaan met sorteren van alleen de cellen die op dit moment zijn geselecteerd?",
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSorting": "Sorteren",
-      "txtSortSelected": "Geselecteerde sorteren"
+      "txtSortSelected": "Geselecteerde sorteren",
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -549,6 +556,7 @@
       "textEmail": "E-mail",
       "textEnableAll": "Alles inschakelen",
       "textEnableAllMacrosWithoutNotification": "Schakel alle macro's in zonder een notificatie",
+      "textExample": "Voorbeeld",
       "textFind": "Zoeken",
       "textFindAndReplace": "Zoeken en vervangen",
       "textFindAndReplaceAll": "Zoek en vervang alles",
@@ -631,7 +639,18 @@
       "txtScheme9": "Gieterij",
       "txtSpace": "Spatie",
       "txtTab": "Tab",
-      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?"
+      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "textOk": "Ok",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

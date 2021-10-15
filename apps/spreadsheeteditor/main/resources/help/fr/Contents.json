@@ -101,7 +101,7 @@
     {"src": "UsageInstructions/DataValidation.htm", "name": "Validation des données" },
   {
     "src": "UsageInstructions/InsertFunction.htm",
-    "name": "Insérer une fonction",
+    "name": "Insérer des fonctions",
     "headername": "Travailler avec les fonctions"
   },
   {
@@ -113,10 +113,12 @@
     "name": "Insérer des images",
     "headername": "Opérations sue les objets"
   },
-  {
-    "src": "UsageInstructions/InsertChart.htm",
-    "name": "Insérer un graphique"
-  },
+    {
+        "src": "UsageInstructions/InsertChart.htm",
+        "name": "Insérer des graphiques"
+    },
+    
+    {"src": "UsageInstructions/InsertSparklines.htm", "name": "Insérer des graphiques sparkline"},
   {
     "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "Insérer et mettre en forme des formes automatiques"
@@ -170,7 +172,8 @@
     },
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe" },
     { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
-    {"src": "HelpfulHints/Password.htm", "name": "Protéger un classeur avec un mot de passe"},
+    { "src": "HelpfulHints/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
+    {"src": "HelpfulHints/ImportData.htm", "name": "Obtenir des données à partir de fichiers Texte/CSV"},
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Spreadsheet Editor",

@@ -17,18 +17,20 @@
     top: 0;
     overflow: hidden;
     position: absolute;
+
+    //background: transparent repeat scroll 0 0;
+    .background-ximage-all('dimension-picker/dimension-highlighted.png', 18px);
+    background-repeat: repeat;
 }
 
 .dimension-picker-unhighlighted {
     //background: transparent repeat scroll 0 0;
-    .background-ximage-v2('dimension-picker/dimension-unhighlighted.png', 18px);
+    .background-ximage-all('dimension-picker/dimension-unhighlighted.png', 18px);
     background-repeat: repeat;
-}
 
-.dimension-picker div.dimension-picker-highlighted {
-    //background: transparent repeat scroll 0 0;
-    .background-ximage-v2('dimension-picker/dimension-highlighted.png', 18px);
-    background-repeat: repeat;
+    .pixel-ratio__1_25 &, .pixel-ratio__1_75 & {
+        image-rendering: pixelated;
+    }
 }
 
 .dimension-picker-status {

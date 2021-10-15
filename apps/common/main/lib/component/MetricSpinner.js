@@ -242,6 +242,14 @@ define([
             this.options.step = step;
         },
 
+        getMinValue: function(){
+            return this.options.minValue;
+        },
+
+        getMaxValue: function(){
+            return this.options.maxValue;
+        },
+
         getNumberValue: function(){
             return this.checkAutoText(this.value) ? -1 : parseFloat(this.value);
         },

@@ -13,6 +13,8 @@
   "SSE.ApplicationController.errorDefaultMessage": "Código de erro: %1",
   "SSE.ApplicationController.errorFilePassProtect": "O documento está protegido por senha e não pode ser aberto.",
   "SSE.ApplicationController.errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor. <br> Por favor, contate seu administrador de Servidor de Documentos para detalhes.",
+  "SSE.ApplicationController.errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Baixar como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",
+  "SSE.ApplicationController.errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "A conexão à internet foi restabelecida, e a versão do arquivo foi alterada. <br> Antes de continuar seu trabalho, transfira o arquivo ou copie seu conteúdo para assegurar que nada seja perdido, e recarregue esta página.",
   "SSE.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Aviso",

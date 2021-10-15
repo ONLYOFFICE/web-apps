@@ -68,7 +68,8 @@ define([
         initialize: function () {
             this._initSettings = true;
             this._noApply = true;
-
+            this._sendUndoPoint = true;
+            
             this._state = {
                 DisabledControls: true,
                 DisabledFillPanels: true,
@@ -91,6 +92,8 @@ define([
             this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
 
             this.fillControls = [];
+            this.gradientColorsStr="";
+            this.typeGradient = 90;
 
             this.render();
             this.createDelayedControls();
@@ -230,14 +233,14 @@ define([
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));*/
 
             this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1},
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3},
+                { offsetx: 100, offsety: 100, type:225, subtype:7}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -260,7 +263,7 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" ></div>')
                 });
             });
             this.btnDirection.render($('#cell-button-direction'));
@@ -910,9 +913,9 @@ define([
                                 var record = this.mnuDirectionPicker.store.findWhere({type: value});
                                 this.mnuDirectionPicker.selectRecord(record, true);
                                 if (record)
-                                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                    this.typeGradient = value + 90;
                                 else
-                                    this.btnDirection.setIconCls('');
+                                    this.typeGradient= -1;
                                 this.numGradientAngle.setValue(value, true);
                             }
                         }
@@ -934,10 +937,15 @@ define([
                                 Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()));
                             me.GradColor.values.push(position*100);
                         });
+
+                        var arrGrCollors=[];
                         for (var index=0; index<length; index++) {
                             me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                             me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                            arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index) +'%');
                         }
+                        this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
+
                         if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
                             me.GradColor.currentIdx = 0;
                         }
@@ -1067,6 +1075,27 @@ define([
                     this._noApply = false;
                 }
             }
+        },
+
+        btnDirectionRedraw: function(slider, gradientColorsStr) {
+
+            this.gradientColorsStr = gradientColorsStr;
+            if (this.mnuDirectionPicker.dataViewItems.length == 1)
+                this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
+            else
+                this.mnuDirectionPicker.dataViewItems.forEach(function (item) {
+                    var type = item.model.get('type') + 90;
+                    item.$el.children(0).css({'background': 'linear-gradient(' + type + 'deg, ' + gradientColorsStr + ')'});
+                });
+
+            if (this.typeGradient == -1)
+                this.btnDirection.$icon.css({'background': 'none'});
+            else if (this.typeGradient == 2)
+                this.btnDirection.$icon.css({'background': ('radial-gradient(' + gradientColorsStr + ')')});
+            else
+                this.btnDirection.$icon.css({
+                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + gradientColorsStr + ')')
+                });
         },
 
         UpdateThemeColors: function() {
@@ -1306,7 +1335,7 @@ define([
                 rawData = record;
             }
 
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
+            this.typeGradient = rawData.type + 90;
             this.GradLinearDirectionType = rawData.type;
             this.numGradientAngle.setValue(rawData.type, true);
 

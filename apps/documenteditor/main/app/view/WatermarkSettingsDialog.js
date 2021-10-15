@@ -411,8 +411,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.api.asc_registerCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
 
             var insertImageFromStorage = function(data) {
-                if (data && data.url && data.c=='watermark') {
-                    me.props.put_ImageUrl(data.url, data.token);
+                if (data && data._urls && data.c=='watermark') {
+                    me.props.put_ImageUrl(data._urls[0], data.token);
                 }
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);

@@ -459,7 +459,7 @@ define([
             }
         },
 
-        moveWorksheet: function(selectArr, cut, silent, index, destPos) {
+        moveWorksheet: function(selectArr, cut, silent, indTo) {
             var me = this;
             var wc = me.api.asc_getWorksheetsCount(), items = [], arrIndex = [], i = -1;
             while (++i < wc) {
@@ -477,19 +477,17 @@ define([
                     }
                 });
             }
+
             if (!_.isUndefined(silent)) {
-                if (_.isUndefined(selectArr)) {
-                    me.api.asc_showWorksheet(items[index].inindex);
-
-                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()]);
-
-                    if (!_.isUndefined(destPos)) {
-                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
-                    }
+                if (cut) {
+                    me.api.asc_moveWorksheet(indTo, arrIndex);
+                    me.api.asc_enableKeyEvents(true);
                 } else {
-                    if (!_.isUndefined(destPos)) {
-                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex, arrIndex);
-                    }
+                    var arrNames = [];
+                    arrIndex.forEach(function (item) {
+                        arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
+                    });
+                    me.api.asc_copyWorksheet(indTo, arrNames, arrIndex);
                 }
                 return;
             }

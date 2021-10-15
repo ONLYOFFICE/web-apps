@@ -442,6 +442,12 @@
             height: 4px;
         }
     }
+
+    &.no-caret {
+        .inner-box-caret {
+            display: none;
+        }
+    }
 }
 
 .btn-category {
@@ -535,7 +541,7 @@
 
     &:not(.split) {
         .btn-toolbar {
-                &.dropdown-toggle:not(.x-huge) {
+                &.dropdown-toggle:not(.x-huge):not(.no-caret) {
                     width: 100%;
                     min-width: 28px;
                 }
@@ -694,8 +700,8 @@
     li > a.selected,
     li > a:hover {
         span.color-auto {
-            outline: @scaled-one-px-value-ie solid @border-regular-control-ie;
-            outline: @scaled-one-px-value solid @border-regular-control;
+            outline: @scaled-one-px-value-ie solid @icon-normal-ie;
+            outline: @scaled-one-px-value solid @icon-normal;
             border: @scaled-one-px-value-ie solid @background-normal-ie;
             border: @scaled-one-px-value solid @background-normal;
         }
@@ -751,6 +757,10 @@
     &:focus:not(.disabled) {
         box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-control-focus-ie;
         box-shadow: inset 0 0 0 @scaled-one-px-value @border-control-focus;
+    }
+
+    &.border-off {
+        box-shadow: none;
     }
 }
 
@@ -1013,57 +1023,6 @@
     }
 }
 
-.cnt-lang {
-    color: @text-normal-ie;
-    color: @text-normal;
-    height: 20px;
-    line-height: 18px;
-    border: 0;
-    .border-radius(1px);
-    vertical-align: middle;
-
-    .dropdown-toggle {
-        margin: 0 6px 0 4px;
-    }
-
-    &:hover:not(.disabled) {
-        background-color: @highlight-button-hover-ie;
-        background-color: @highlight-button-hover;
-    }
-
-    &[disabled], &.disabled {
-        opacity: @component-disabled-opacity;
-    }
-
-    .caret {
-        width: 4px;
-        height: 4px;
-        border: solid 1px @icon-normal-ie;
-        border: solid 1px @icon-normal;
-        border-bottom: none;
-        border-right: none;
-        background-image: none;
-
-        transition: transform 0.2s ease;
-        transform: rotate(-135deg) translate(1px,1px);
-    }
-
-    &.open:not(.disabled){
-        &, .status-label {
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
-        }
-
-        background-color: @highlight-button-pressed-ie;
-        background-color: @highlight-button-pressed;
-
-        .caret {
-            transform: rotate(45deg);
-            border-color: @icon-normal-pressed-ie;
-            border-color: @icon-normal-pressed;
-        }
-    }
-}
 // Dialog buttons
 // ------------------------
 

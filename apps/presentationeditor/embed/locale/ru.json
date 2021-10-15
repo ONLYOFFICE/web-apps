@@ -13,6 +13,8 @@
   "PE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
   "PE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
   "PE.ApplicationController.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
+  "PE.ApplicationController.errorForceSave": "При сохранении файла произошла ошибка. Используйте опцию 'Скачать как', чтобы сохранить файл на жестком диске компьютера или повторите попытку позже.",
+  "PE.ApplicationController.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "PE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",

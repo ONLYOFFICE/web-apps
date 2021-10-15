@@ -9,7 +9,7 @@ class WrapDevice {
             isMobile = /Mobile(\/|\s|;)/.test(ua);
 
         this.isPhone = /(iPhone|iPod)/.test(ua) ||
-            (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
+            (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && !/Galaxy Tab S6|SCH-I800|Lenovo YT-X705X/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
             (/(BlackBerry|BB)/.test(ua) && isMobile) ||
             /(Windows Phone)/.test(ua);
 

@@ -99,7 +99,7 @@ define([
                     '<% if (type == Common.Utils.importTextType.DRM) { %>',
                         '<% if (warning) { %>',
                         '<div>',
-                            '<div class="icon img-commonctrl warn"></div>',
+                            '<div class="icon warn"></div>',
                             '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
@@ -162,10 +162,10 @@ define([
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
                     '<% } %>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -200,20 +200,13 @@ define([
                 this.previewInner = this.previewScrolled.find('div:first-child');
 
                 if (this.type == Common.Utils.importTextType.DRM) {
-                    this.inputPwd = new Common.UI.InputField({
+                    this.inputPwd = new Common.UI.InputFieldBtnPassword({
                         el: $('#id-password-txt'),
-                        type: 'text',
+                        type: 'password',
                         validateOnBlur: false,
+                        showPwdOnClick: true,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
-                        }
-                    });
-
-                    this.$window.find('input').on('input', function(){
-                        if ($(this).val() !== '') {
-                            ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
-                        } else {
-                            $(this).attr('type', 'text');
                         }
                     });
                 } else {
@@ -299,10 +292,12 @@ define([
                     }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
-                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined;
+                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
+                        qualifier = this.separatorOptions ? this.separatorOptions.qualifier : '"';
                     var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
                     decimal && options.asc_setNumberDecimalSeparator(decimal);
                     thousands && options.asc_setNumberGroupSeparator(thousands);
+                    qualifier && options.asc_setTextQualifier(qualifier);
                     this.handler.call(this, state, {
                         textOptions: options,
                         range: this.txtDestRange ? this.txtDestRange.getValue() : '',
@@ -428,29 +423,22 @@ define([
                 delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
             (delimiter == -1) && (delimiter = null);
 
+            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+            if (this.separatorOptions) {
+                options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
+                options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                options.asc_setTextQualifier(this.separatorOptions.qualifier);
+            }
+
             switch (this.type) {
                 case Common.Utils.importTextType.CSV:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this));
-                    break;
                 case Common.Utils.importTextType.TXT:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding), _.bind(this.previewCallback, this));
+                case Common.Utils.importTextType.Data:
+                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
                 case Common.Utils.importTextType.Paste:
                 case Common.Utils.importTextType.Columns:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                    }
                     this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
-                    break;
-                case Common.Utils.importTextType.Data:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                    }
-                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
             }
         },
@@ -543,19 +531,23 @@ define([
             if (!SSE) return;
 
             var me = this,
-                decimal = this.api.asc_getDecimalSeparator(),
-                thousands = this.api.asc_getGroupSeparator();
+                decimal = this.separatorOptions ? this.separatorOptions.decimal : this.api.asc_getDecimalSeparator(),
+                thousands = this.separatorOptions ? this.separatorOptions.thousands : this.api.asc_getGroupSeparator(),
+                qualifier = this.separatorOptions ? this.separatorOptions.qualifier : (this.settings || (new Asc.asc_CTextOptions())).asc_getTextQualifier();
             (new SSE.Views.AdvancedSeparatorDialog({
                 props: {
                     decimal: decimal,
-                    thousands: thousands
+                    thousands: thousands,
+                    qualifier: qualifier
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.separatorOptions = {
                             decimal: (value.decimal.length > 0) ? value.decimal : decimal,
-                            thousands: (value.thousands.length > 0) ? value.thousands : thousands
+                            thousands: (value.thousands.length > 0) ? value.thousands : thousands,
+                            qualifier: value.qualifier
                         };
+                        me.preview && me.updatePreview();
                     }
                 }
             })).show();

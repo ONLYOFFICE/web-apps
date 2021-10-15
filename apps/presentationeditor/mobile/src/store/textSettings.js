@@ -43,10 +43,29 @@ export class storeTextSettings {
             resetTextColor: action,
             changeCustomTextColors: action,
             resetLineSpacing: action,
-            addFontToRecent:action
+            iconWidth: observable,
+            iconHeight: observable,
+            thumbCanvas: observable,
+            thumbContext: observable,
+            thumbs: observable,
+            thumbIdx: observable,
+            listItemHeight: observable,
+            spriteCols: observable,
+            loadSprite: action,
+            addFontToRecent:action,
+            highlightColor: observable,
+            resetHighlightColor: action
         });
     }
 
+    iconWidth;
+    iconHeight;
+    thumbCanvas;
+    thumbContext;
+    thumbs;
+    thumbIdx = 0;
+    listItemHeight = 28;
+    spriteCols = 1;
     fontsArray = [];
     arrayRecentFonts = [];
     fontName = '';
@@ -64,6 +83,7 @@ export class storeTextSettings {
     canIncreaseIndent = undefined;
     canDecreaseIndent = undefined;
     textColor = undefined;
+    highlightColor = undefined;
     customTextColors = [];
     lineSpacing = undefined;
 
@@ -79,12 +99,43 @@ export class storeTextSettings {
                 type        : font.asc_getFontType()
             });
         }
-
-        array.sort(function(a, b) {
-            return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1;
-        });
-
         this.fontsArray = array;
+        this.iconWidth = 300;
+        this.iconHeight = Asc.FONT_THUMBNAIL_HEIGHT || 28;
+        this.thumbCanvas = document.createElement('canvas');
+        this.thumbContext = this.thumbCanvas.getContext('2d');
+        this.thumbs = [
+            {ratio: 1, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail.png', width: this.iconWidth, height: this.iconHeight},
+            {ratio: 1.25, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.25x.png', width: this.iconWidth * 1.25, height: this.iconHeight * 1.25},
+            {ratio: 1.5, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: this.iconWidth * 1.5, height: this.iconHeight * 1.5},
+            {ratio: 1.75, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@1.75x.png', width: this.iconWidth * 1.75, height: this.iconHeight * 1.75},
+            {ratio: 2, path: '../../../../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: this.iconWidth * 2, height: this.iconHeight * 2}
+        ];
+
+        const applicationPixelRatio = Common.Utils.applicationPixelRatio();
+
+        let bestDistance = Math.abs(applicationPixelRatio - this.thumbs[0].ratio);
+        let currentDistance = 0;
+
+        for (let i = 1; i < this.thumbs.length; i++) {
+            currentDistance = Math.abs(applicationPixelRatio - this.thumbs[i].ratio);
+            if (currentDistance < (bestDistance - 0.0001))
+            {
+                bestDistance = currentDistance;
+                this.thumbIdx = i;
+            }
+        }
+
+        this.thumbCanvas.height = this.thumbs[this.thumbIdx].height;
+        this.thumbCanvas.width = this.thumbs[this.thumbIdx].width;
+
+        this.loadSprite();
+    }
+
+    loadSprite() {
+        this.spriteThumbs = new Image();
+        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
     }
 
     resetFontName (font) {
@@ -94,7 +145,7 @@ export class storeTextSettings {
 
     resetFontsRecent(fonts) {
         this.arrayRecentFonts = fonts;
-        this.arrayRecentFonts = this.arrayRecentFonts ? this.arrayRecentFonts.split(';') : [];
+        this.arrayRecentFonts = this.arrayRecentFonts ? JSON.parse(this.arrayRecentFonts) : [];
     }
 
     resetFontSize (size) {
@@ -215,7 +266,7 @@ export class storeTextSettings {
 
     addFontToRecent (font) {
         this.arrayRecentFonts.forEach(item => {
-            if (item === font) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
+            if (item.name === font.name) this.arrayRecentFonts.splice(this.arrayRecentFonts.indexOf(item),1);
         })
         this.arrayRecentFonts.unshift(font);
 
@@ -227,4 +278,12 @@ export class storeTextSettings {
         this.lineSpacing = line;
     }
 
+    resetHighlightColor(color) {
+        if (color == -1) {
+            this.highlightColor = 'transparent';  
+        } else {
+            this.highlightColor = color.get_hex();
+        }
+        
+    }
 }

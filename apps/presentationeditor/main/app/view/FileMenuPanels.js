@@ -377,7 +377,7 @@ define([
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -765,46 +765,53 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',
-            '<h3><%= scope.fromTemplateText %></h3><hr noshade />',
+            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<% _.each(docs, function(item) { %>',
+                '<% if (blank) { %> ',
+                '<div class="blank-document">',
+                    '<div class="blank-document-btn">',
+                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                    '</div>',
+                    '<div class="title"><%= scope.txtBlank %></div>',
+                '</div>',
+                '<% } %>',
+                '<% _.each(docs, function(item, index) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.image)) { %> ',
+                        '<div class="thumb" ',
+                        '<%  if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
-                            '<% } else { ' +
-                                'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                            ' } %>',
+                        ' <%} else {' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
                         '</div>',
                         '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'
         ].join('')),
-
+        
         initialize: function(options) {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.docs = options.docs;
+            this.blank = !!options.blank;
         },
 
         render: function() {
             this.$el.html(this.template({
                 scope: this,
-                docs: this.options[0].docs
+                docs: this.docs,
+                blank: this.blank
             }));
+            var docs = (this.blank ? [{title: this.txtBlank}] : []).concat(this.docs);
+            var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
+            _.each(thumbsElm, function (tmb, index){
+                $(tmb).find('.title').tooltip({
+                    title       : docs[index].title,
+                    placement   : 'cursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -832,11 +839,8 @@ define([
                 this.menu.fireEvent('create:new', [this.menu, e.currentTarget.attributes['template'].value]);
         },
 
-        fromBlankText       : 'From Blank',
-        newDocumentText     : 'New Presentation',
-        newDescriptionText  : 'Create a new blank presentation which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.',
-        fromTemplateText    : 'From Template',
-        noTemplatesText     : 'There are no templates'
+        txtBlank: 'Blank presentation',
+        txtCreateNew: 'Create New'
     }, PE.Views.FileMenuPanels.CreateNew || {}));
 
     PE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({

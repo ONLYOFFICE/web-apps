@@ -500,7 +500,7 @@ define([
 
         onCreateNew: function(menu, type) {
             if ( !Common.Controllers.Desktop.process('create:new') ) {
-                if (this.mode.canRequestCreateNew)
+                if (type == 'blank' && this.mode.canRequestCreateNew)
                     Common.Gateway.requestCreateNew();
                 else {
                     var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
@@ -779,7 +779,7 @@ define([
         onApiAddComments: function(data) {
             var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data[i].asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

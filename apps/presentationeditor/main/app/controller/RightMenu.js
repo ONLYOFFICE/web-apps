@@ -106,8 +106,8 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
-            if (!this.editMode)
+        onFocusObject: function(SelectedObjects, forceSignature) {
+            if (!this.editMode && !forceSignature)
                 return;
 
             var open = this._initSettings ? !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
@@ -194,6 +194,7 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
                 else active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
@@ -226,8 +227,9 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
 
-                if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.btnSignature.setDisabled(disabled);
+                if (this.rightmenu.signatureSettings) {
+                    !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
+                    allowSignature && disabled && this.onFocusObject([], true); // force press signature button
                 }
 
                 if (disabled) {

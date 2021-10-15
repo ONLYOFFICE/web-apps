@@ -6,13 +6,16 @@ class DocumentInfoController extends Component {
     constructor(props) {
         super(props);
         this.docProps = this.getDocProps();
-        this.getModified = this.getModified();
-        this.getModifiedBy = this.getModifiedBy();
-        this.getCreators = this.getCreators();
-        this.title = this.getTitle();
-        this.subject = this.getSubject();
-        this.description = this.getDescription();
-        this.getCreated = this.getCreated();
+
+        if(this.docProps) {
+            this.modified = this.getModified();
+            this.modifiedBy = this.getModifiedBy();
+            this.creators = this.getCreators();
+            this.title = this.getTitle();
+            this.subject = this.getSubject();
+            this.description = this.getDescription();
+            this.created = this.getCreated();
+        }
     }
 
     getDocProps() {
@@ -76,6 +79,7 @@ class DocumentInfoController extends Component {
 
     getCreated() {
         let value = this.docProps.asc_getCreated();
+        const _lang = this.props.storeAppOptions.lang;
 
         if(value) {
             return value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'});
@@ -91,10 +95,10 @@ class DocumentInfoController extends Component {
         return (
             <DocumentInfo
                 getAppProps={this.getAppProps}
-                getModified={this.getModified}
-                getModifiedBy={this.getModifiedBy}
-                getCreators={this.getCreators}
-                getCreated={this.getCreated}
+                modified={this.modified}
+                modifiedBy={this.modifiedBy}
+                creators={this.creators}
+                created={this.created}
                 title={this.title}
                 subject={this.subject}
                 description={this.description}

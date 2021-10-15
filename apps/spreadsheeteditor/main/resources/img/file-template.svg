@@ -1,33 +1,27 @@
 <svg fill="none" height="96" viewBox="0 0 96 96" width="96" xmlns="http://www.w3.org/2000/svg">
     <symbol id="svg-file-template">
-    <clipPath id="a">
-        <path d="m0 0h96v96h-96z"/>
-    </clipPath>
-        <g clip-path="url(#a)">
-            <path d="m.499997 94 .000003-74c0-.8284.67157-1.5 1.5-1.5h92c.8284 0 1.5.6716 1.5 1.5v74c0 .8284-.6716 1.5-1.5 1.5h-92c-.82843 0-1.500003-.6716-1.500003-1.5z" fill="#fff" stroke="#bfbfbf"/>
-            <g fill="#444">
-                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="38"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="48"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="56"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="64"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="72"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="33" y="38"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="48"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="56"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="64"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="72"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="51" y="38"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="48"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="56"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="64"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="72"/>
-                <rect height="4" opacity=".4" rx="1" width="12" x="69" y="38"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="48"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="56"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="64"/>
-                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="72"/>
-                <path clip-rule="evenodd" d="m67 36h16v8h-16zm-2 0h-16v8h16zm-18 0h-16v8h16zm-18 0h-16v8h16zm-16 10v32h16v-32zm18 32h52v-32h-16-2-16-2-16zm-20-42c0-1.1046.8954-2 2-2h70c1.1046 0 2 .8954 2 2v42c0 1.1046-.8954 2-2 2h-70c-1.1046 0-2-.8954-2-2z" fill-rule="evenodd" opacity=".2"/>
-            </g>
-        </g>
+        <path d="M94 9.5C94.8284 9.5 95.5 10.1716 95.5 11L95.5 85C95.5 85.8284 94.8284 86.5 94 86.5L2 86.5C1.17157 86.5 0.499997 85.8284 0.499997 85L0.5 11C0.5 10.1716 1.17158 9.5 2 9.5L94 9.5Z" fill="white" stroke="#BFBFBF"/>
+        <rect opacity="0.4" x="15" y="29" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="15" y="39" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="15" y="47" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="15" y="55" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="15" y="63" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="33" y="29" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="33" y="39" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="33" y="47" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="33" y="55" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="33" y="63" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="51" y="29" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="51" y="39" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="51" y="47" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="51" y="55" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="51" y="63" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.4" x="69" y="29" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="69" y="39" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="69" y="47" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="69" y="55" width="12" height="4" rx="1" fill="#444444"/>
+        <rect opacity="0.2" x="69" y="63" width="12" height="4" rx="1" fill="#444444"/>
+        <path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M67 27H83V35H67V27ZM65 27H49V35L65 35V27ZM47 27H31V35H47V27ZM29 27H13V35L29 35V27ZM13 37L13 69H29V37H13ZM31 69H83V37L67 37H65H49H47H31V69ZM11 27C11 25.8954 11.8954 25 13 25H83C84.1046 25 85 25.8954 85 27V69C85 70.1046 84.1046 71 83 71H13C11.8954 71 11 70.1046 11 69V27Z" fill="#444444"/>
+
     </symbol>
 </svg>

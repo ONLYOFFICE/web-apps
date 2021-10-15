@@ -373,7 +373,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -458,6 +458,8 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -465,7 +467,7 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 //                    docInfo.put_Review(this.permissions.review);
 
-                    var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
@@ -528,7 +530,7 @@ define([
                 }
 
                 this._state.isFromGatewayDownloadAs = true;
-                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string')
                     this.api.asc_DownloadOrigin(true);
                 else {
@@ -765,7 +767,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormwMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect);
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormwMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -1410,12 +1412,12 @@ define([
 
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport();
+                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
-                this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
+                this.appOptions.canSubmitForms = false; // this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
                 this.appOptions.canFillForms   = this.appOptions.canLicense && ((this.permissions.fillForms===undefined) ? this.appOptions.isEdit : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
@@ -1431,10 +1433,11 @@ define([
                     this.appOptions.canChat = false;
                 }
 
-                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
                 this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps))$/.test(this.document.fileType);
+                this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1831,6 +1834,10 @@ define([
                         config.msg = this.errorSubmit;
                         break;
 
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1852,7 +1859,7 @@ define([
                                 Common.NotificationCenter.trigger('goback', true);
                         }
                     }
-                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                    if (id == Asc.c_oAscError.ID.DataEncrypted || id == Asc.c_oAscError.ID.ConvertationOpenLimitError) {
                         this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
@@ -2602,6 +2609,14 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
             },
 
             showRenameUserDialog: function() {
@@ -3027,7 +3042,8 @@ define([
             txtStyle_endnote_text: 'Endnote Text',
             txtTOCHeading: 'TOC Heading',
             textDisconnect: 'Connection is lost',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });

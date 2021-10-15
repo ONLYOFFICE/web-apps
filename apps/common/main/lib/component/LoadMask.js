@@ -104,22 +104,29 @@ define([
                 return this;
             },
 
-            internalShow: function() {
-                this.ownerEl.append(this.maskeEl);
+            internalShowLoader: function() {
                 this.ownerEl.append(this.loaderEl);
-
                 this.loaderEl.css('min-width', $('.asc-loadmask-title', this.loaderEl).width() + 105);
 
                 if (this.ownerEl && this.ownerEl.closest('.asc-window.modal').length==0)
                     Common.util.Shortcuts.suspendEvents();
             },
 
-            show: function(immediately){
-                // The owner is already masked
-                if (!!this.ownerEl.ismasked)
-                    return this;
+            internalShowMask: function() {
+                if (!!this.ownerEl.ismasked) return;
 
                 this.ownerEl.ismasked = true;
+                this.ownerEl.append(this.maskeEl);
+            },
+
+            show: function(immediately){
+                this.internalShowMask();
+
+                // The owner is already masked
+                if (!!this.ownerEl.hasloader)
+                    return this;
+
+                this.ownerEl.hasloader = true;
 
                 var me = this;
                 if (me.title != me.options.title) {
@@ -128,11 +135,11 @@ define([
                 }
 
                 if (immediately) {
-                    me.internalShow();
+                    me.internalShowLoader();
                 } else if (!me.timerId) {
                     // show mask after 500 ms if it wont be hided
                     me.timerId = setTimeout(function () {
-                        me.internalShow();
+                        me.internalShowLoader();
                     },500);
                 }
 
@@ -145,20 +152,23 @@ define([
                     clearTimeout(this.timerId);
                     this.timerId = 0;
                 }
-                if (ownerEl && ownerEl.ismasked) {
+
+                ownerEl && ownerEl.ismasked && this.maskeEl && this.maskeEl.remove();
+                delete ownerEl.ismasked;
+
+                if (ownerEl && ownerEl.hasloader) {
                     if (ownerEl.closest('.asc-window.modal').length==0 && !Common.Utils.ModalWindow.isVisible())
                         Common.util.Shortcuts.resumeEvents();
 
-                    this.maskeEl     && this.maskeEl.remove();
                     this.loaderEl    && this.loaderEl.remove();
                 }
-                delete ownerEl.ismasked;
+                delete ownerEl.hasloader;
             },
 
             setTitle: function(title) {
                 this.title = title;
 
-                if (this.ownerEl && this.ownerEl.ismasked && this.loaderEl){
+                if (this.ownerEl && this.ownerEl.hasloader && this.loaderEl){
                     var el = $('.asc-loadmask-title', this.loaderEl);
                     el.html(title);
                     this.loaderEl.css('min-width', el.width() + 105);
@@ -172,7 +182,7 @@ define([
             updatePosition: function() {
                 var ownerEl = this.ownerEl,
                     loaderEl = this.loaderEl;
-                if (ownerEl && ownerEl.ismasked && loaderEl){
+                if (ownerEl && ownerEl.hasloader && loaderEl){
                     loaderEl.css({
                         top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
                         left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'

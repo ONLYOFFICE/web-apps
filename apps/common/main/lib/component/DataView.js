@@ -262,6 +262,7 @@ define([
             me.multiSelect    = me.options.multiSelect;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
@@ -272,6 +273,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -454,14 +456,28 @@ define([
                     var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
-                    if (record.get('tip')) {
-                        var view_el = $(view.el);
-                        view_el.attr('data-toggle', 'tooltip');
-                        view_el.tooltip({
-                            title       : record.get('tip'),
-                            placement   : 'cursor',
-                            zIndex : this.tipZIndex
-                        });
+                    var me = this,
+                        view_el = $(view.el),
+                        tip = record.get('tip');
+                    if (tip) {
+                        if (this.delayRenderTips)
+                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                view_el.attr('data-toggle', 'tooltip');
+                                view_el.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                view_el.mouseenter();
+                            });
+                        else {
+                            view_el.attr('data-toggle', 'tooltip');
+                            view_el.tooltip({
+                                title       : tip,
+                                placement   : 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                        }
                     }
 
                     this.listenTo(view, 'change',      this.onChangeItem);
@@ -683,17 +699,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -805,8 +831,24 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
-            this.cmpEl && this.cmpEl.find('.dataview').focus();
+        focus: function(index) {
+            $(this.el).find('.inner').addBack().filter('.inner').focus();
+            var rec;
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    rec = this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -874,7 +916,8 @@ define([
                 this.cmpEl.html(this.template({
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
-                    style: me.style
+                    style: me.style,
+                    options: me.options
                 }));
             }
             var modalParents = this.cmpEl.closest('.asc-window');
@@ -1088,6 +1131,8 @@ define([
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
+                    if (this.canAddRecents) // only for DaraViewShape
+                        this.addRecentItem(rec);
                     this.trigger('item:click', this, this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
@@ -1131,17 +1176,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -1257,4 +1312,266 @@ define([
             }
         }, 100);
     });
+
+    Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
+        template: _.template([
+            '<div class="dataview inner" style="<%= style %>">',
+                '<% _.each(options.groupsWithRecent, function(group, index) { %>',
+                    '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
+                        '<% if (!_.isEmpty(group.groupName)) { %>',
+                            '<div class="group-description">',
+                                '<span><%= group.groupName %></span>',
+                            '</div>',
+                        '<% } %>',
+                        '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
+                            '<% _.each(group.groupStore.toJSON(), function(item) { %>',
+                                '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                '<% }); %>',
+                        '</div>',
+                    '</div>',
+                '<% }); %>',
+            '</div>'
+        ].join('')),
+        initialize : function(options) {
+            var me = this;
+            this.canAddRecents = true;
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            me.groups = options.groups.toJSON();
+            if (options.isFromImage) {
+                var store = me.groups[0].groupStore.clone();
+                store.shift();
+                me.groups[0].groupStore = store;
+            }
+
+            // add recent shapes to store
+            var recentStore = new Common.UI.DataViewGroupStore,
+                recentArr = options.recentShapes || [],
+                cols = (recentArr.length) > 18 ? 7 : 6,
+                height = Math.ceil(recentArr.length/cols) * 35 + 3,
+                width = 30 * cols;
+
+            me.recentShapes = recentArr;
+
+            // Add default recent
+
+            if (me.recentShapes.length < 12) {
+                var count = 12 - me.recentShapes.length,
+                    defaultArr = [];
+
+                var addItem = function (rec) {
+                    var item = rec.toJSON(),
+                        model = {
+                            data: item.data,
+                            tip: item.tip,
+                            allowSelected: item.allowSelected,
+                            selected: false
+                        };
+                    defaultArr.push(model);
+                };
+
+                for (var i = 0; i < me.groups.length && count > 0; i++) {
+                    var groupStore = me.groups[i].groupStore;
+                    if (i === 0) {
+                        addItem(groupStore.at(1));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(2));
+                            count--;
+                        }
+                    } else if (i !== 3 && i !== 6 && i !== 7) {
+                        addItem(groupStore.at(0));
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(1));
+                            count--;
+                        }
+                    }
+                }
+                me.recentShapes = me.recentShapes.concat(defaultArr);
+            }
+
+            recentStore.add(me.recentShapes);
+            me.groups.unshift({
+                groupName   : options.textRecentlyUsed,
+                groupStore  : recentStore,
+                groupWidth  : width,
+                groupHeight : height
+            });
+
+            me.options.groupsWithRecent = me.groups;
+
+            var store = new Common.UI.DataViewStore();
+
+            _.each(me.groups, function (group) {
+                store.add(group.groupStore.models);
+            });
+
+            options.store = store;
+
+            Common.UI.DataViewSimple.prototype.initialize.call(this, options);
+
+            me.parentMenu.on('show:before', function() { me.updateRecents(); });
+        },
+        onAfterShowMenu: function(e) {
+            var me = this;
+            if (!me.dataViewItems) {
+                me.dataViewItems = [];
+                _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
+                    _.each($(group).find('div.item'), function (item, index) {
+                        var $item = $(item),
+                            rec = me.groups[indexGroup].groupStore.at(index);
+                        me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
+                        var tip = rec.get('tip');
+                        if (tip) {
+                            $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                $item.attr('data-toggle', 'tooltip');
+                                $item.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                $item.mouseenter();
+                            });
+                        }
+                    });
+                });
+            }
+            if (me.updateDataViewItems && me.cmpEl.is(':visible')) {
+                // add recent item in dataViewItems
+                var recent = _.where(me.dataViewItems, {groupIndex: 0});
+                var len = recent ? recent.length : 0;
+                for (var i = 0; i < len; i++) {
+                    var tip = me.dataViewItems[i].el.data('bs.tooltip');
+                    if (tip) {
+                        if (tip.dontShow===undefined)
+                            tip.dontShow = true;
+                        (tip.tip()).remove();
+                    }
+                }
+                me.dataViewItems = me.dataViewItems.slice(len);
+                var recentViewItems = [];
+                _.each(me.cmpEl.find('.recent-group div.item'), function (item, index) {
+                    var $item = $(item),
+                        rec = me.recentShapes[index];
+                    recentViewItems.push({el: $item, groupIndex: 0, index: index});
+                    var tip = rec.tip;
+                    if (tip) {
+                        $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                            $item.attr('data-toggle', 'tooltip');
+                            $item.tooltip({
+                                title: tip,
+                                placement: 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                            $item.mouseenter();
+                        });
+                    }
+                });
+                me.dataViewItems = recentViewItems.concat(me.dataViewItems);
+                me.fillIndexesArray();
+
+                if (me.recentShapes.length === 1) {
+                    $('.recent-group').show();
+                }
+                me.updateDataViewItems = false;
+            }
+        },
+
+        onClickItem: function(e) {
+            if ( this.disabled ) return;
+
+            window._event = e;  //  for FireFox only
+
+            var groupIndex = $(e.currentTarget).closest('div.grouped-data').index(),
+                itemIndex = $(e.currentTarget).closest('div.item').index();
+            var index = _.findIndex(this.dataViewItems, function (item) {
+                    return (item.groupIndex === groupIndex && item.index === itemIndex);
+                });
+            var record = (index>=0) ? this.store.at(index) : null,
+                view = (index>=0) ? this.dataViewItems[index] : null;
+            if (!record || !view) return;
+
+            record.set({selected: true});
+            var tip = view.el.data('bs.tooltip');
+            if (tip) (tip.tip()).remove();
+
+            if (!this.isSuspendEvents) {
+                this.trigger('item:click', this, view.el, record, e);
+            }
+
+            this.addRecentItem(record);
+        },
+        addRecentItem: function (rec) {
+            var me = this,
+                exist = false,
+                type = rec.get('data').shapeType;
+            for (var i = 0; i < me.recentShapes.length; i++) {
+                if (me.recentShapes[i].data.shapeType === type) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) return;
+
+            var item = rec.toJSON(),
+                model = {
+                    data: item.data,
+                    tip: item.tip,
+                    allowSelected: item.allowSelected,
+                    selected: false
+                };
+            me.recentShapes.unshift(model);
+            if (me.recentShapes.length > 12) {
+                me.recentShapes.splice(12, 1);
+            }
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+            me.recentShapes = undefined;
+        },
+        updateRecents: function () {
+            var me = this,
+                recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
+            recents = recents ? JSON.parse(recents) : [];
+
+            var diff = false;
+            if (me.recentShapes) {
+                for (var i = 0; i < recents.length; i++) {
+                    if (!me.recentShapes[i] || (me.recentShapes[i] && recents[i].tip !== me.recentShapes[i].tip)) {
+                        diff = true;
+                    }
+                }
+            } else {
+                diff = true;
+            }
+
+            if (recents.length > 0 && diff) {
+                me.recentShapes = recents;
+                me.groups[0].groupStore.reset(me.recentShapes);
+
+                var store = new Common.UI.DataViewStore();
+                _.each(me.groups, function (group) {
+                    store.add(group.groupStore.models);
+                });
+                me.store = store;
+
+                var template = _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<% }) %>'
+                ].join(''));
+                me.cmpEl && me.cmpEl.find('.recent-items').html(template({
+                    items: me.recentShapes,
+                    itemTemplate: this.itemTemplate,
+                    style : this.style
+                }));
+
+                me.updateDataViewItems = true;
+            }
+        }
+    }));
+
 });

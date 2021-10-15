@@ -1022,7 +1022,7 @@ define([
             $border.removeClass('top');
 
 
-            this.$window.find('.btn').on('click', _.bind(this.onBtnClick, this));
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.btnOk = new Common.UI.Button({
                 cls: 'btn normal dlg-btn primary',
@@ -1622,7 +1622,7 @@ define([
                     }
                 }
 
-                if (isLabel || event.target.className.match('checkbox')) {
+                if (isLabel || event.target.className.match('checkbox') && event.target.localName!=='input') {
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {

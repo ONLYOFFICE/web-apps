@@ -122,6 +122,8 @@ define([
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
 
             this.fillControls = [];
+            this.gradientColorsStr="";
+            this.typeGradient = 90;
 
             this.render();
 
@@ -402,10 +404,10 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 174;
                 var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
                 this.mnuDirectionPicker.selectRecord(record, true);
-                if (record)
-                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                if(record)
+                    this.typeGradient = this.GradLinearDirectionType +90;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
@@ -414,9 +416,9 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 58;
                 this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
                 if (this.GradRadialDirectionIdx>=0)
-                    this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
+                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(0, true);
                 this.numGradientAngle.setDisabled(true);
             }
@@ -456,7 +458,7 @@ define([
                 rawData = record;
             }
 
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
+            this.typeGradient = rawData.type + 90;
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
@@ -679,8 +681,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='fill') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='fill') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
@@ -866,7 +868,7 @@ define([
                             this.onGradTypeSelect(this.cmbGradType, rec.attributes);
                         } else {
                             this.cmbGradType.setValue('');
-                            this.btnDirection.setIconCls('');
+                            this.typeGradient = -1;
                         }
                         this._state.GradFillType = this.GradFillType;
                     }
@@ -878,9 +880,9 @@ define([
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
                             this.mnuDirectionPicker.selectRecord(record, true);
                             if (record)
-                                this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                this.typeGradient = value + 90;
                             else
-                                this.btnDirection.setIconCls('');
+                                this.typeGradient= -1;
                             this.numGradientAngle.setValue(value, true);
                         }
                     } else
@@ -913,10 +915,15 @@ define([
                             me.GradColor.values[index] = position;
                         }
                     });
+                    var arrGrCollors=[];
+                    var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
                     for (var index=0; index<length; index++) {
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                        arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
+                    this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
+
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
                         me.GradColor.currentIdx = 0;
                     }
@@ -1131,6 +1138,26 @@ define([
             }
         },
 
+        btnDirectionRedraw: function(slider, gradientColorsStr) {
+            this.gradientColorsStr = gradientColorsStr;
+            if (this.mnuDirectionPicker.dataViewItems.length == 1)
+                this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
+            else
+                this.mnuDirectionPicker.dataViewItems.forEach(function (item) {
+                    var type = item.model.get('type') + 90;
+                    item.$el.children(0).css({'background': 'linear-gradient(' + type + 'deg, ' + gradientColorsStr + ')'});
+                });
+
+            if (this.typeGradient == -1)
+                this.btnDirection.$icon.css({'background': 'none'});
+            else if (this.typeGradient == 2)
+                this.btnDirection.$icon.css({'background': ('radial-gradient(' + gradientColorsStr + ')')});
+            else
+                this.btnDirection.$icon.css({
+                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + gradientColorsStr + ')')
+                });
+        },
+
         createDelayedControls: function() {
             var me = this;
 
@@ -1276,18 +1303,18 @@ define([
             this.fillControls.push(this.cmbGradType);
 
             this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+                { type:45,  subtype:-1},
+                { type:90,  subtype:4},
+                { type:135, subtype:5},
+                { type:0,   subtype:6,  cls: 'item-gradient-separator', selected: true},
+                { type:180, subtype:1},
+                { type:315, subtype:2},
+                { type:270, subtype:3},
+                { type:225, subtype:7}
             ];
 
             this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+                { type:2, subtype:5}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -1310,7 +1337,9 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
+                        +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg,#000, #fff)'
+                        +' <%} else {%> radial-gradient( #000 , #fff 70%) <%}%>;"></div>')
                 });
             });
             this.btnDirection.render($('#shape-button-direction'));
@@ -1463,7 +1492,7 @@ define([
                 iconCls: 'btn-change-shape',
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
-                    cls: 'menu-shapes',
+                    cls: 'menu-shapes menu-change-shape',
                     items: []
                 }),
                 dataHint: '1',
@@ -1658,47 +1687,33 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                shapesStore = this.application.getCollection('ShapeGroups'),
-                count = shapesStore.length;
+                recents = Common.localStorage.getItem('sse-recent-shapes');
 
-            var onShowAfter = function(menu) {
-                for (var i=-1; i<count-1 && count>0; i++) {
-                    var store = shapesStore.at(i > -1 ? i : 0).get('groupStore');
-                    if (i<0) {
-                        store = store.clone();
-                        store.shift();
-                    }
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-shape-menu-shapegroup' + (i+1), menu.items[i+1].$el),
-                        store: store,
-                        parentMenu: menu.items[i+1].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            me.api.asc_changeShapeType(record.get('data').shapeType);
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                        if (e.type !== 'click')
-                            me.btnChangeShape.menu.hide();
-                    });
-                }
-                menu.off('show:after', onShowAfter);
-            };
-            me.btnChangeShape.menu.on('show:after', onShowAfter);
-
-            for (var i=-1; i<count-1 && count>0; i++) {
-                var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tr-tl',
-                        items: [
-                            { template: _.template('<div id="id-shape-menu-shapegroup' + (i+1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
+            for (var i = 0; i < 2; i++) {
+                var menuitem = new Common.UI.MenuItem({
+                    template: _.template('<div id="id-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: i
                 });
-                me.btnChangeShape.menu.addItem(menuItem);
+                me.btnChangeShape.menu.addItem(menuitem);
+
+                var shapePicker = new Common.UI.DataViewShape({
+                    el: $('#id-change-shape-menu-' + i),
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                    groups: me.application.getCollection('ShapeGroups'),
+                    parentMenu: me.btnChangeShape.menu,
+                    restoreHeight: 640,
+                    textRecentlyUsed: me.textRecentlyUsed,
+                    recentShapes: recents ? JSON.parse(recents) : null,
+                    isFromImage: i === 0
+                });
+                shapePicker.on('item:click', function(picker, item, record, e) {
+                    if (me.api) {
+                        me.api.asc_changeShapeType(record.get('data').shapeType);
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                    if (e.type !== 'click')
+                        me.btnChangeShape.menu.hide();
+                });
             }
             me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
             me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
@@ -1986,6 +2001,7 @@ define([
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle'
+        textAngle: 'Angle',
+        textRecentlyUsed: 'Recently Used'
     }, SSE.Views.ShapeSettings || {}));
 });

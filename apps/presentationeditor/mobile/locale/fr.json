@@ -30,7 +30,8 @@
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs"
+      "textUsers": "Utilisateurs",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -139,6 +140,7 @@
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",

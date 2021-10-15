@@ -89,7 +89,34 @@
                 "cwd": "../apps/common/main/resources/alphabetletters",
                 "src": "*.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/alphabetletters"
+            },
+            "themes": {
+                "src": "../apps/common/main/resources/themes/themes.json",
+                "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
             }
+        },
+        "imagemin": {
+            "images-common": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/img/",
+                    "src": [
+                        "**/*.{png,jpg,gif}",
+                        "!toolbar/*x/**/*"
+                    ],
+                    "dest": "../deploy/web-apps/apps/common/main/resources/img/"
+                }
+            ]
+        },
+        "svgicons": {
+            "common": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/img",
+                    "src": "**/*_s.svg",
+                    "dest": "../deploy/web-apps/apps/common/main/resources/img"
+                }
+            ]
         }
     },
     "bootstrap": {

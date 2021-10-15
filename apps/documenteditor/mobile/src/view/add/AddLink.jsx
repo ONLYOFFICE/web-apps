@@ -13,8 +13,8 @@ const PageLink = props => {
     const [stateLink, setLink] = useState('');
     const [stateDisplay, setDisplay] = useState(display);
     const [stateTip, setTip] = useState('');
-    const [stateAutoUpdate, setAutoUpdate] = useState(true);
-
+    const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
+   
     return (
         <Page>
             {!props.noNavbar && <Navbar title={_t.textAddLink} backLink={_t.textBack}></Navbar>}
@@ -26,7 +26,7 @@ const PageLink = props => {
                     value={stateLink}
                     onChange={(event) => {
                         setLink(event.target.value); 
-                        if((!stateDisplay || stateDisplay === stateLink) && stateAutoUpdate) setDisplay(event.target.value); 
+                        if(stateAutoUpdate) setDisplay(event.target.value); 
                     }}
                 ></ListInput>
                 <ListInput

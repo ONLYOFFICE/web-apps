@@ -1,15 +1,15 @@
 {
 	"DATE": {
 		"a": "(année; mois; jour)",
-		"d": "Renvoie un numéro qui représente la date dans le code de date et d’heure de Microsoft Excel"
+		"d": "Renvoie un numéro qui représente la date dans le code de date et d’heure"
 	},
 	"DATEDIF": {
-		"a": "(date_début, date_fin, unité)",
-		"d": "Fonction de date et d’heure utilisée pour renvoyer la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
+		"a": "(date_début; date_fin; unité)",
+		"d": "Renvoie la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
 	},
 	"DATEVALUE": {
 		"a": "(date_texte)",
-		"d": "Convertit une date donnée sous forme de texte en un numéro représentant la date dans le code de date et d’heure de Microsoft Excel"
+		"d": "Convertit une date donnée sous forme de texte en un numéro représentant la date dans le code de date et d’heure"
 	},
 	"DAY": {
 		"a": "(numéro_de_série)",
@@ -65,7 +65,7 @@
 	},
 	"TIME": {
 		"a": "(heure; minute; seconde)",
-		"d": "Convertit les heures, minutes et secondes données sous forme de nombres en un numéro de série Excel , selon un format d'heure"
+		"d": "Convertit les heures, minutes et secondes données sous forme de nombres en un numéro de série, selon un format d'heure"
 	},
 	"TIMEVALUE": {
 		"a": "(heure_texte)",
@@ -396,8 +396,8 @@
 		"d": "Renvoie la position de départ d'une chaîne de texte à l'intérieur d'une autre chaîne de texte. TROUVE distingue les majuscules des minuscules"
 	},
 	"FINDB": {
-		"a": "(texte_cherché, texte [, no_départ])",
-		"d": "Fonction de texte et de données utilisée pour trouver la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(texte_cherché; texte; [no_départ])",
+		"d": "Recherche la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"FIXED": {
 		"a": "(nombre; [décimales]; [no_séparateur])",
@@ -408,8 +408,8 @@
 		"d": "Extrait le(s) premier(s) caractère(s) à l'extrême gauche d'une chaîne de texte"
 	},
 	"LEFTB": {
-		"a": "(texte [, no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(texte; [no_car])",
+		"d": "Extrait la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LEN": {
 		"a": "(texte)",
@@ -417,7 +417,7 @@
 	},
 	"LENB": {
 		"a": "(texte)",
-		"d": "Fonction de texte et de données utilisée pour analyser la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Analyse la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"LOWER": {
 		"a": "(texte)",
@@ -428,8 +428,8 @@
 		"d": "Renvoie un nombre déterminé de caractères d'une chaîne de texte à partir de la position que vous indiquez"
 	},
 	"MIDB": {
-		"a": "(texte, no_départ, no_car)",
-		"d": "Fonction de texte et de données utilisée pour extraire les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(texte; no_départ; no_car)",
+		"d": "Extrait les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(texte; [séparateur_décimal]; [séparateur_groupe])",
@@ -444,8 +444,8 @@
 		"d": "Remplace une chaîne de caractères par une autre"
 	},
 	"REPLACEB": {
-		"a": "(ancien_texte, no_départ, no_car, nouveau_texte)",
-		"d": "Fonction de texte et de données utilisée pour remplacer un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
+		"d": "Remplace un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"REPT": {
 		"a": "(texte; no_fois)",
@@ -456,16 +456,16 @@
 		"d": "Extrait les derniers caractères de la fin d'une chaîne de texte"
 	},
 	"RIGHTB": {
-		"a": "(texte [, no_car])",
-		"d": "Fonction de texte et de données utilisée pour extraire une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(texte; [no_car])",
+		"d": "Extrait une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SEARCH": {
 		"a": "(texte_cherché; texte; [no_départ])",
 		"d": "Renvoie le numéro du caractère au niveau duquel est trouvé un caractère ou le début d'une chaîne de caractères, en lisant de la gauche à droite (pas de distinction entre majuscules et minuscules)"
 	},
 	"SEARCHB": {
-		"a": "(texte_cherché, texte [, no_départ])",
-		"d": "Fonction de texte et de données utilisée pour renvoyer l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"a": "(texte_cherché; texte; [no_départ])",
+		"d": "Renvoie l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(texte; ancien_texte; nouveau_texte; [no_position])",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alpha; bêta; [A]; [B])",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire continue suivant une loi de probabilité Bêta"
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi de probabilité Bêta"
 	},
 	"BETAINV": {
 		"a": "(probabilité; alpha; bêta; [A]; [B])",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie l’inverse de la fonction de densité de distribution de la probabilité suivant une loi bêta cumulée (LOI.BÊTA)"
+		"d": "Renvoie l’inverse de la fonction de densité de distribution de la probabilité suivant une loi bêta cumulée (LOI.BÊTA)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alpha; bêta; cumulative; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(nombre_succès; tirages; probabilité_succès; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire discrète suivant la loi binomiale"
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant la loi binomiale"
 	},
 	"BINOM.DIST": {
 		"a": "(nombre_succès; tirages; probabilité_succès; cumulative)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; degrés_liberté)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité unilatérale à droite d’une variable aléatoire continue suivant une loi du Khi-deux"
+		"d": "Renvoie la probabilité unilatérale à droite d’une variable aléatoire continue suivant une loi du Khi-deux"
 	},
 	"CHIINV": {
 		"a": "(probabilité; degrés_liberté)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie, pour une probabilité unilatérale à droite donnée, la valeur d’une variable aléatoire suivant une loi du Khi-deux"
+		"d": "Renvoie, pour une probabilité unilatérale à droite donnée, la valeur d’une variable aléatoire suivant une loi du Khi-deux"
 	},
 	"CHITEST": {
 		"a": "(plage_réelle; plage_attendue)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le test d’indépendance : la valeur pour la statistique suivant la loi du Khi-deux et les degrés de liberté appropriés"
+		"d": "Renvoie le test d’indépendance : la valeur pour la statistique suivant la loi du Khi-deux et les degrés de liberté appropriés"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; degrés_liberté; cumulative)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alpha; écart_type; taille)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie l’intervalle de confiance pour la moyenne d’une population à l’aide d’une distribution normale. Consultez l’aide sur l’équation utilisée"
+		"d": "Renvoie l’intervalle de confiance pour la moyenne d’une population à l’aide d’une distribution normale. Consultez l’aide sur l’équation utilisée"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alpha; écart_type; taille)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matrice1; matrice2)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la covariance, moyenne du produit des écarts à la moyenne de chaque paire de points de deux séries"
+		"d": "Renvoie la covariance, moyenne du produit des écarts à la moyenne de chaque paire de points de deux séries"
 	},
 	"COVARIANCE.P": {
 		"a": "(matrice1; matrice2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(tirages; probabilité_succès; alpha)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la plus petite valeur pour laquelle la distribution binomiale cumulée est supérieure ou égale à une valeur critère"
+		"d": "Renvoie la plus petite valeur pour laquelle la distribution binomiale cumulée est supérieure ou égale à une valeur critère"
 	},
 	"DEVSQ": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire continue suivant une loi exponentielle. Consultez l’aide sur l’équation utilisée"
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi exponentielle. Consultez l’aide sur l’équation utilisée"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; cumulative)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; degrés_liberté1; degrés_liberté2)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire suivant une loi F pour deux séries de données"
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi F pour deux séries de données"
 	},
 	"FINV": {
 		"a": "(probabilité; degrés_liberté1; degrés_liberté2)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie l’inverse de la distribution de probabilité (unilatérale à droite) suivant une loi F : si p = LOI.F (x,...), alors INVERSE.LOI.F (p,...) = x"
+		"d": "Renvoie l’inverse de la distribution de probabilité (unilatérale à droite) suivant une loi F : si p = LOI.F (x,...), alors INVERSE.LOI.F (p,...) = x"
 	},
 	"FTEST": {
 		"a": "(matrice1; matrice2)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le résultat d’un test F, c’est-à-dire la probabilité d’une variable aléatoire continue que les variances dans Matrice1 et Matrice2 ne soient pas différentes de manière significative"
+		"d": "Renvoie le résultat d’un test F, c’est-à-dire la probabilité d’une variable aléatoire continue que les variances dans Matrice1 et Matrice2 ne soient pas différentes de manière significative"
 	},
 	"F.DIST": {
 		"a": "(x; degrés_liberté1; degrés_liberté2; cumulée)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; y_connus; x_connus)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2013 et version antérieures.\r\nCalcule, ou prédit, une valeur future suivant une tendance linéaire, en utilisant les valeurs existantes"
+		"d": "Calcule, ou prédit, une valeur future suivant une tendance linéaire, en utilisant les valeurs existantes"
 	},
 	"FORECAST.ETS": {
 		"a": "(date_cible; valeurs; chronologie; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valeurs; chronologie; [achèvement_données]; [agrégation])",
-		"d": "Renvoie la longueur du motif répétitif qu’Microsoft Excel détecte pour la série temporelle spécifiée."
+		"d": "Renvoie la longueur du motif répétitif détecté par l'application pour la série temporelle spécifiée."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valeurs; chronologie; type_statistique; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alpha; bêta; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire suivant une loi Gamma. Consultez l’aide sur l’équation utilisée"
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi Gamma. Consultez l’aide sur l’équation utilisée"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alpha; bêta; cumulative)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probabilité; alpha; bêta)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi Gamma : si p = LOI.GAMMA(x,...), alors LOI.GAMMA.INVERSE(p,...) = x"
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi Gamma : si p = LOI.GAMMA(x,...), alors LOI.GAMMA.INVERSE(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(probabilité; alpha; bêta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(succès_échantillon; nombre_échantillon; succès_population; nombre_population)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire discrète suivant une loi hypergéométrique"
+		"d": "Renvoie la probabilité d’une variable aléatoire discrète suivant une loi hypergéométrique"
 	},
 	"INTERCEPT": {
 		"a": "(y_connus; x_connus)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(probabilité; espérance; écart_type)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie l’inverse de la fonction de distribution de x suivant une loi lognormale cumulée, où In(x) est normalement distribué avec les paramètres Espérance et Écart_type"
+		"d": "Renvoie l’inverse de la fonction de distribution de x suivant une loi lognormale cumulée, où In(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; espérance; écart_type; cumulative)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; espérance; écart_type)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la distribution de x suivant une loi lognormale cumulée, où ln(x) est normalement distribué avec les paramètres Espérance et Écart_type"
+		"d": "Renvoie la distribution de x suivant une loi lognormale cumulée, où ln(x) est normalement distribué avec les paramètres Espérance et Écart_type"
 	},
 	"MAX": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(nombre1; [nombre2]; ...)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la valeur la plus fréquente d’une série de données"
+		"d": "Renvoie la valeur la plus fréquente d’une série de données"
 	},
 	"MODE.MULT": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(nombre_échecs; nombre_succès; probabilité_succès)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la distribution négative binomiale, probabilité d’obtenir un nombre d’échecs égal à Nombre_échecs avant le succès numéro Nombre_succès, avec une probabilité égale à Probabilité_succès"
+		"d": "Renvoie la distribution négative binomiale, probabilité d’obtenir un nombre d’échecs égal à Nombre_échecs avant le succès numéro Nombre_succès, avec une probabilité égale à Probabilité_succès"
 	},
 	"NORM.DIST": {
 		"a": "(x; espérance; écart_type; cumulative)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; espérance; écart_type; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire continue suivant une loi normale pour l’espérance arithmétique et l’écart-type spécifiés"
+		"d": "Renvoie la probabilité d’une variable aléatoire continue suivant une loi normale pour l’espérance arithmétique et l’écart-type spécifiés"
 	},
 	"NORM.INV": {
 		"a": "(probabilité; espérance; écart_type)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probabilité; espérance; écart_type)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale pour la moyenne et l’écart-type spécifiés"
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale pour la moyenne et l’écart-type spécifiés"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulative)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la distribution cumulée suivant une loi normale centrée réduite (d’espérance nulle et d’écart-type égal à 1)"
+		"d": "Renvoie la distribution cumulée suivant une loi normale centrée réduite (d’espérance nulle et d’écart-type égal à 1)"
 	},
 	"NORM.S.INV": {
 		"a": "(probabilité)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probabilité)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale standard (ou centrée réduite), c’est-à-dire ayant une moyenne de zéro et un écart-type de 1"
+		"d": "Renvoie, pour une probabilité donnée, la valeur d’une variable aléatoire suivant une loi normale standard (ou centrée réduite), c’est-à-dire ayant une moyenne de zéro et un écart-type de 1"
 	},
 	"PEARSON": {
 		"a": "(matrice1; matrice2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matrice; k)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le k-ième centile des valeurs d’une plage"
+		"d": "Renvoie le k-ième centile des valeurs d’une plage"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matrice; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matrice; x; [précision])",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le rang en pourcentage d’une valeur d’une série de données"
+		"d": "Renvoie le rang en pourcentage d’une valeur d’une série de données"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matrice; x; [précision])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; espérance; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire suivant une loi de Poisson"
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Poisson"
 	},
 	"POISSON.DIST": {
 		"a": "(x; espérance; cumulative)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matrice; quart)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le quartile d’une série de données"
+		"d": "Renvoie le quartile d’une série de données"
 	},
 	"QUARTILE.INC": {
 		"a": "(matrice; quart)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(nombre; référence; [ordre])",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie le rang d’un nombre dans une liste d’arguments : sa taille est relative aux autres valeurs de la liste"
+		"d": "Renvoie le rang d’un nombre dans une liste d’arguments : sa taille est relative aux autres valeurs de la liste"
 	},
 	"RANK.AVG": {
 		"a": "(nombre; référence; [ordre])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(nombre1; [nombre2]; ...)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nÉvalue l’écart-type d’une population en se basant sur un échantillon (ignore les valeurs logiques et le texte de l’échantillon)"
+		"d": "Évalue l’écart-type d’une population en se basant sur un échantillon (ignore les valeurs logiques et le texte de l’échantillon)"
 	},
 	"STDEV.P": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(nombre1; [nombre2]; ...)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nCalcule l’écart-type d’une population entière sous forme d’arguments (en ignorant les valeurs logiques et le texte)"
+		"d": "Calcule l’écart-type d’une population entière sous forme d’arguments (en ignorant les valeurs logiques et le texte)"
 	},
 	"STDEVPA": {
 		"a": "(valeur1; [valeur2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; degrés_liberté; uni/bilatéral)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire suivant une loi T de Student"
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi T de Student"
 	},
 	"TINV": {
 		"a": "(probabilité; degrés_liberté)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie, pour une probabilité donnée, la valeur inverse bilatérale d’une variable aléatoire suivant une loi T de Student"
+		"d": "Renvoie, pour une probabilité donnée, la valeur inverse bilatérale d’une variable aléatoire suivant une loi T de Student"
 	},
 	"T.DIST": {
 		"a": "(x; degrés_liberté; cumulative)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matrice1; matrice2; uni/bilatéral; type)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité associée à un test T de Student"
+		"d": "Renvoie la probabilité associée à un test T de Student"
 	},
 	"VAR": {
 		"a": "(nombre1; [nombre2]; ...)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nCalcule la variance en se basant sur un échantillon (en ignorant les valeurs logiques et le texte de l’échantillon)"
+		"d": "Calcule la variance en se basant sur un échantillon (en ignorant les valeurs logiques et le texte de l’échantillon)"
 	},
 	"VAR.P": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(nombre1; [nombre2]; ...)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nCalcule la variance d’une population entière (en ignorant les valeurs logiques et le texte de la population)"
+		"d": "Calcule la variance d’une population entière (en ignorant les valeurs logiques et le texte de la population)"
 	},
 	"VARPA": {
 		"a": "(valeur1; [valeur2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; bêta; cumulative)",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la probabilité d’une variable aléatoire suivant une loi de Weibull. Consultez l’aide sur l’équation utilisée"
+		"d": "Renvoie la probabilité d’une variable aléatoire suivant une loi de Weibull. Consultez l’aide sur l’équation utilisée"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alpha; bêta; cumulative)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matrice; x; [sigma])",
-		"d": "Cette fonction est disponible pour la compatibilité avec Excel 2007 et les versions antérieures.\r\nRenvoie la valeur unilatérale P du test Z"
+		"d": "Renvoie la valeur unilatérale P du test Z"
 	},
 	"ACCRINT": {
 		"a": "(émission; prem_coupon; règlement; taux; val_nominale; fréquence; [base]; [méth_calcul])",
@@ -1340,7 +1340,7 @@
 		"d": "Renvoie la cotangente hyperbolique inverse d'un nombre"
 	},
 	"AGGREGATE": {
-		"a": "(no_fonction; options; matrice; [k]!no_fonction; options; réf1; ...)",
+		"a": "(no_fonction; options; réf1; ...)",
 		"d": "Renvoie un agrégat dans une liste ou une base de données"
 	},
 	"ARABIC": {
@@ -1348,8 +1348,8 @@
 		"d": "Convertit un chiffre romain en un chiffre arabe"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(texte)",
+		"d": "En ce qui concerne les langues à jeu de caractères codés sur deux octets (DBCS, Double-byte Character Set), la fonction remplace les caractères à pleine chasse (codés sur deux octets) en caractères à demi-chasse (codés sur un octet)"
 	},
 	"ASIN": {
 		"a": "(nombre)",
@@ -1384,8 +1384,8 @@
 		"d": "Arrondit un nombre à l'entier ou au multiple le plus proche de l'argument précision en s'éloignant de zéro"
 	},
 	"CEILING.PRECISE": {
-		"a": "(x [, précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
+		"a": "(x; [précision])",
+		"d": "Arrondit le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
 	},
 	"COMBIN": {
 		"a": "(nombre_éléments; nb_éléments_choisis)",
@@ -1428,8 +1428,8 @@
 		"d": "Convertit des radians en degrés"
 	},
 	"ECMA.CEILING": {
-		"a": "(x, précision)",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre au multiple le plus proche de l'argument de précision."
+		"a": "(x; précision)",
+		"d": "Arrondit le nombre au multiple le plus proche de l'argument de précision."
 	},
 	"EVEN": {
 		"a": "(nombre)",
@@ -1452,8 +1452,8 @@
 		"d": "Arrondit un nombre à l’entier ou au multiple le plus proche de l’argument précision"
 	},
 	"FLOOR.PRECISE": {
-		"a": "(x [, précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre par défaut à l'entier ou au multiple significatif le plus proche."
+		"a": "(x; [précision])",
+		"d": "Arrondit le nombre par défaut à l'entier ou au multiple significatif le plus proche."
 	},
 	"FLOOR.MATH": {
 		"a": "(nombre; [précision]; [mode])",
@@ -1468,8 +1468,8 @@
 		"d": "Arrondit un nombre à l'entier immédiatement inférieur"
 	},
 	"ISO.CEILING": {
-		"a": "(nombre[, précision])",
-		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l'excès à l'entier ou au multiple significatif le plus proche sans tenir compte du signe de ce nombre. Cependant, si le nombre ou la valeur significative est zéro, zéro est renvoyé."
+		"a": "(nombre; [précision])",
+		"d": "Renvoie un nombre arrondi au nombre entier le plus proche ou au multiple le plus proche de l’argument précision en s’éloignant de zéro. Quel que soit son signe, ce nombre est arrondi à l’entier supérieur. Toutefois, si le nombre ou l’argument précision est égal à zéro, zéro est retourné."
 	},
 	"LCM": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Recherche une correspondance dans une plage ou un tableau et renvoie l’élément correspondant dans un deuxième tableau ou plage. Par défaut, une correspondance exacte est utilisée"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
-		"d": "Fonction d’information utilisée pour renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
+		"a": "(info_type; [reference])",
+		"d": "Renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
 	},
 	"ERROR.TYPE": {
 		"a": "(valeur)",

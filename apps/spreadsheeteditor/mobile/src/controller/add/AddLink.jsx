@@ -87,7 +87,10 @@ class AddLinkController extends Component {
             display = args.sheet + '!' + args.url;
         }
 
-        link.asc_setText(args.text == null ? null : !!args.text ? args.text : display);
+        if(this.displayText !== 'locked') {
+            link.asc_setText(args.text == null ? null : !!args.text ? args.text : display);
+        }
+
         link.asc_setTooltip(args.tooltip);
 
         api.asc_insertHyperlink(link);

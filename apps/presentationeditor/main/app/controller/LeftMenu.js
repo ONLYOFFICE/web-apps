@@ -384,7 +384,7 @@ define([
 
         onCreateNew: function(menu, type) {
             if ( !Common.Controllers.Desktop.process('create:new') ) {
-                if (this.mode.canRequestCreateNew)
+                if (type == 'blank' && this.mode.canRequestCreateNew)
                     Common.Gateway.requestCreateNew();
                 else {
                     var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");

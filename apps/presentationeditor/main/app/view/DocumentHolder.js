@@ -443,8 +443,18 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                    window.open(url);
+                if (url) {
+                    if (me.api.asc_getUrlType(url)>0)
+                        window.open(url);
+                    else
+                        Common.UI.warning({
+                            msg: me.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                (btn == 'yes') && window.open(url);
+                            }
+                        });
                 }
             };
 
@@ -3102,6 +3112,16 @@ define([
                 caption     : me.addToLayoutText
             }).on('click', _.bind(me.addToLayout, me));
 
+            var menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
+            }).on('click', function(item) {
+                me.api && me.api.asc_editPointsGeometry();
+            });
+
+            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -3503,6 +3523,11 @@ define([
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
 
+                    var canEditPoints = me.api && me.api.asc_canEditGeometry();
+                    menuImgEditPoints.setVisible(canEditPoints);
+                    menuImgEditPointsSeparator.setVisible(canEditPoints);
+                    canEditPoints && menuImgEditPoints.setDisabled(disabled);
+
                     menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
@@ -3526,12 +3551,16 @@ define([
 
                     menuImgCut.setDisabled(disabled);
                     menuImgPaste.setDisabled(disabled);
+                    menuImgShapeArrange.setDisabled(disabled);
+                    menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     menuImgCut,
                     menuImgCopy,
                     menuImgPaste,
                     { caption: '--' },
+                    menuImgEditPoints,
+                    menuImgEditPointsSeparator,
                     menuImgShapeArrange,
                     menuImgShapeAlign,
                     menuImgShapeRotate,
@@ -3633,7 +3662,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl, undefined, undefined, obj);
+                                    me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
@@ -3954,7 +3983,9 @@ define([
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
         mniCustomTable: 'Insert Custom Table',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        textEditPoints: 'Edit Points'
 
     }, PE.Views.DocumentHolder || {}));
 });

@@ -139,7 +139,8 @@ define([
                 cls: 'combo-chart-style',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: '-10, 0'
+                dataHintOffset: '-10, 0',
+                delayRenderTips: true
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
                 '<div class="item-icon-box" id="<%= id %>" style="">',
@@ -495,8 +496,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='change') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='change') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 

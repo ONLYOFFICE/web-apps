@@ -76,7 +76,6 @@ define([
             });
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('protect:sheet', _.bind(this.onSheetClick, this));
         },
         setConfig: function (data, api) {
@@ -93,22 +92,22 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorksheet',_.bind(this.onChangeProtectSheet, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged',   _.bind(this.onActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChanged, this));
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
 
         setMode: function(mode) {
             this.appConfig = mode;
 
-            this.view = this.createView('WBProtection', {
+            this.appConfig.isEdit && (this.view = this.createView('WBProtection', {
                 mode: mode
-            });
+            }));
 
             return this;
         },
 
         createToolbarPanel: function() {
-            return this.view.getPanel();
+            if (this.view)
+                return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -272,6 +271,8 @@ define([
         },
 
         onAppReady: function (config) {
+            if (!this.view) return;
+
             var me = this;
             (new Promise(function (resolve) {
                 resolve();
@@ -286,15 +287,17 @@ define([
         },
 
         onChangeProtectWorkbook: function() {
-            this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
+            this.view && this.view.btnProtectWB.toggle(this.api.asc_isProtectedWorkbook(), true);
         },
 
         onChangeProtectSheet: function() {
             var props = this.getWSProps(true);
 
-            this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
-            Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
-            Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});
+            if (this.view && props) {
+                this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
+                Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
+                Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});
+            }
             Common.NotificationCenter.trigger('protect:wslock', props);
         },
 
@@ -303,6 +306,8 @@ define([
         },
 
         getWSProps: function(update) {
+            if (!this.appConfig || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) return;
+
             if (update || !this._state.protection) {
                 var wsProtected = !!this.api.asc_isProtectedSheet();
                 var arr = [];
@@ -324,6 +329,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
+            if (!this.view) return;
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var selectionType = info.asc_getSelectionType();
@@ -352,10 +358,6 @@ define([
                     }
                 }
             }
-        },
-
-        onCoAuthoringDisconnect: function() {
-            this.SetDisabled(true);
         }
 
     }, SSE.Controllers.WBProtection || {}));

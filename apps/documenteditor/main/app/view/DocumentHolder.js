@@ -443,8 +443,18 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                    window.open(url);
+                if (url) {
+                    if (me.api.asc_getUrlType(url)>0)
+                        window.open(url);
+                    else
+                        Common.UI.warning({
+                            msg: me.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                (btn == 'yes') && window.open(url);
+                            }
+                        });
                 }
             };
 
@@ -494,7 +504,8 @@ define([
                     var showPoint, ToolTip,
                         type = moveData.get_Type();
 
-                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form) { // 1 - hyperlink, 3 - footnote
+                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
+                        type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode) {
                         if (isTooltipHiding) {
                             mouseMoveData = moveData;
                             return;
@@ -514,12 +525,22 @@ define([
                             ToolTip = moveData.get_FormHelpText();
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
+                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review && moveData.get_ReviewChange()) {
+                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
+                            if (changes && changes.length>0)
+                                changes = changes[0];
+                            if (changes) {
+                                ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
+                                ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                                ToolTip += changes.get('changetext');
+                            }
                         }
 
                         var recalc = false;
                         screenTip.isHidden = false;
 
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                        if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                         if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                             screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
@@ -1578,6 +1599,7 @@ define([
                     : Common.util.Shortcuts.resumeEvents(hkComments);
                 /** coauthoring end **/
                 this.editorConfig = {user: m.user};
+                this._fillFormwMode = !this.mode.isEdit && this.mode.canFillForms;
             };
 
             me.on('render:after', onAfterRender, me);
@@ -1969,6 +1991,18 @@ define([
                 value: 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuViewPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuViewCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
             var menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
@@ -2006,7 +2040,8 @@ define([
                         isInSign = !!signProps && me._canProtect,
                         control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false,
-                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock;
+                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock,
+                        canEditControl = false;
 
                     if (me.mode.compatibleFeatures)
                         canComment = canComment && !isInShape;
@@ -2015,6 +2050,8 @@ define([
                             spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
+
+                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox) && !control_lock;
                     }
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
@@ -2038,13 +2075,21 @@ define([
                     menuViewAddComment.setVisible(canComment);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
+                    var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
+                    menuViewCut.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewCut.setDisabled(disabled || !cancopy);
+                    menuViewPaste.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewPaste.setDisabled(disabled);
                     menuViewPrint.setVisible(me.mode.canPrint);
                     menuViewPrint.setDisabled(!cancopy);
+
                 },
                 items: [
+                    menuViewCut,
                     menuViewCopy,
+                    menuViewPaste,
                     menuViewUndo,
                     menuViewPrint,
                     menuViewCopySeparator,
@@ -2371,6 +2416,10 @@ define([
                 caption : me.editChartText
             }).on('click', _.bind(me.editChartClick, me));
 
+            var menuChartEditSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.menuOriginalSize = new Common.UI.MenuItem({
                 caption : me.originalSizeText
             }).on('click', function(item, e) {
@@ -2527,6 +2576,16 @@ define([
                 caption     : '--'
             });
 
+            var menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
+            }).on('click', function(item) {
+                me.api && me.api.asc_editPointsGeometry();
+            });
+
+            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -2633,7 +2692,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[22].setVisible(menuChartEdit.isVisible());
+                    menuChartEditSeparator.setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2672,6 +2731,11 @@ define([
                         menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
                         menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                     }
+
+                    var canEditPoints = me.api && me.api.asc_canEditGeometry();
+                    menuImgEditPoints.setVisible(canEditPoints);
+                    menuImgEditPointsSeparator.setVisible(canEditPoints);
+                    canEditPoints && menuImgEditPoints.setDisabled(islocked);
                 },
                 items: [
                     menuImgCut,
@@ -2685,6 +2749,8 @@ define([
                     menuImgRemoveControl,
                     menuImgControlSettings,
                     menuImgControlSeparator,
+                    menuImgEditPoints,
+                    menuImgEditPointsSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -2696,7 +2762,7 @@ define([
                     me.menuOriginalSize,
                     menuImgReplace,
                     menuChartEdit,
-                    { caption: '--' },
+                    menuChartEditSeparator,
                     menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -3954,6 +4020,7 @@ define([
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
@@ -4149,7 +4216,18 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_RemoveSignature(datavalue); //guid
+                    var me = this;
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.txtRemoveWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                me.api.asc_RemoveSignature(datavalue);
+                            }
+                        }
+                    });
                     break;
             }
         },
@@ -4405,9 +4483,10 @@ define([
             _.defer(function(){  me.cmpEl.focus(); }, 50);
         },
 
-        SetDisabled: function(state, canProtect) {
+        SetDisabled: function(state, canProtect, fillFormwMode) {
             this._isDisabled = state;
             this._canProtect = canProtect;
+            this._fillFormwMode = state ? fillFormwMode : false;
         },
 
         alignmentText           : 'Alignment',
@@ -4636,6 +4715,11 @@ define([
         textRemComboBox: 'Remove Combo Box',
         textRemDropdown: 'Remove Dropdown',
         textRemPicture: 'Remove Image',
-        textRemField: 'Remove Text Field'
+        textRemField: 'Remove Text Field',
+        txtRemoveWarning: 'Do you want to remove this signature?<br>It can\'t be undone.',
+        notcriticalErrorTitle: 'Warning',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        textEditPoints: 'Edit Points'
+
 }, DE.Views.DocumentHolder || {}));
 });

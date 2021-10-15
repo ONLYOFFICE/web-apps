@@ -103,6 +103,7 @@ define([
                     if (cfg.canReview) {
                         me.btnTurnReview = review.getButton('turn', 'statusbar');
                         me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
+                        me.statusbar.btnTurnReview = me.btnTurnReview;
                     } else {
                         me.statusbar.$el.find('.el-review').hide();
                     }

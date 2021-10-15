@@ -1,10 +1,11 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -16,6 +17,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
+    const highlightColor = storeTextSettings.highlightColor;
     const displaySize = typeof fontSize === 'undefined' || fontSize == '' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
@@ -34,10 +36,10 @@ const EditText = props => {
             previewList = '';
             break;
         case 0: 
-            previewList = 'Bullets';
+            previewList = t('View.Edit.textBullets');
             break;
         case 1: 
-            previewList = 'Numbers';
+            previewList = t('View.Edit.textNumbers');
             break;
     }
 
@@ -52,6 +54,10 @@ const EditText = props => {
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
+
+    const highlightColorPreview = highlightColor !== 'transparent' ?
+        <span className="color-preview" style={{ background: `#${(typeof highlightColor === "object" ? highlightColor.color : highlightColor)}`}}></span> :
+        <span className="color-preview"></span>;
 
     return (
         <Fragment>
@@ -74,6 +80,13 @@ const EditText = props => {
                     {!isAndroid ?
                         <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
                         fontColorPreview
+                    }
+                </ListItem>
+                <ListItem title={t("View.Edit.textHighlightColor")} link="/edit-text-highlight-color/" routeProps={{
+                    onHighlightColor: props.onHighlightColor
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-selection">{highlightColorPreview}</Icon> : highlightColorPreview
                     }
                 </ListItem>
                 <ListItem title={_t.textAdditionalFormatting} link="/edit-text-add-formatting/" routeProps={{
@@ -186,27 +199,56 @@ const PageFonts = props => {
     const displaySize = typeof size === 'undefined' || size == '' ? _t.textAuto : size + ' ' + _t.textPt;
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
-    const arrayFonts = storeTextSettings.arrayRecentFonts;
+    const iconWidth = storeTextSettings.iconWidth;
+    const iconHeight = storeTextSettings.iconHeight;
+    const thumbs = storeTextSettings.thumbs;
+    const thumbIdx = storeTextSettings.thumbIdx;
+    const thumbCanvas = storeTextSettings.thumbCanvas;
+    const thumbContext = storeTextSettings.thumbContext;
+    const spriteCols = storeTextSettings.spriteCols;
+    const spriteThumbs = storeTextSettings.spriteThumbs;
+    const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
+
+    useEffect(() => {
+        setRecent(getImageUri(arrayRecentFonts));
+
+        return () => {
+        }
+    }, []);
 
     const addRecentStorage = () => {
         let arr = [];
-        arrayFonts.forEach(item => arr.push(item));
-        arr = arr.join(';');
-        LocalStorage.setItem('ppe-settings-recent-fonts', arr);
+        arrayRecentFonts.forEach(item => arr.push(item));
+        setRecent(getImageUri(arrayRecentFonts));
+        LocalStorage.setItem('ppe-settings-recent-fonts', JSON.stringify(arr));
     }
 
+    const [stateRecent, setRecent] = useState([]);
     const [vlFonts, setVlFonts] = useState({
         vlData: {
             items: [],
         }
     });
 
+    const getImageUri = fonts => {
+        return fonts.map(font => {
+            thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
+            thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
+
+            return thumbCanvas.toDataURL();
+        });
+    };
+
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
             let fonts = [...prevState.vlData.items];
             fonts.splice(vlData.fromIndex, vlData.toIndex, ...vlData.items);
+
+            let images = getImageUri(fonts);
+
             return {vlData: {
                 items: fonts,
+                images,
             }};
         });
     };
@@ -245,17 +287,14 @@ const PageFonts = props => {
                 </ListItem>
             </List>
             <BlockTitle>{_t.textFonts}</BlockTitle>
-            {!!arrayFonts.length &&
+            {!!arrayRecentFonts.length &&
                 <List>
-                    {arrayFonts.map((item,index) => (
-                        <ListItem
-                            key={index}
-                            radio
-                            checked={curFontName === item}
-                            title={item}
-                            style={{fontFamily: `${item}`}}
-                            onClick={() => {props.changeFontFamily(item)}}
-                        /> 
+                    {arrayRecentFonts.map((item, index) => (
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.changeFontFamily(item.name);
+                        }}> 
+                            <img src={stateRecent[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
                     ))}
                 </List>
             }
@@ -265,15 +304,13 @@ const PageFonts = props => {
             }}>
                 <ul>
                     {vlFonts.vlData.items.map((item, index) => (
-                        <ListItem
-                            key={index}
-                            radio
-                            checked={curFontName === item.name}
-                            title={item.name}
-                            style={{fontFamily: `${item.name}`}}
-                            onClick={() => {props.changeFontFamily(item.name); storeTextSettings.addFontToRecent(item.name);
-                                addRecentStorage()}}
-                        ></ListItem>
+                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
+                            props.changeFontFamily(item.name);
+                            storeTextSettings.addFontToRecent(item);
+                            addRecentStorage();
+                        }}>
+                            <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                        </ListItem>
                     ))}
                 </ul>
             </List>
@@ -356,6 +393,37 @@ const PageCustomFontColor = props => {
                 }
             </Navbar>
             <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageHighlightColor = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const highlightColor = props.storeTextSettings.highlightColor;
+
+    const changeColor = (color, effectId) => {
+        if (color !== 'empty') {
+            if (effectId !== undefined ) {
+                props.onHighlightColor({color: color, effectId: effectId});
+            } else {
+                props.onHighlightColor(color);
+            }
+        }
+    };
+
+    return (
+        <Page>
+            <Navbar title={_t.textHighlightColor} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <HighlightColorPalette changeColor={changeColor} curColor={highlightColor} />
         </Page>
     )
 };
@@ -600,6 +668,7 @@ const PageLineSpacing = props => {
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextFontColor = inject("storeTextSettings", "storePalette", "storeFocusObjects")(observer(PageFontColor));
+const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 const PageTextBulletsAndNumbers = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletsAndNumbers));
@@ -609,6 +678,7 @@ export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
+    PageTextHighlightColor,
     PageTextCustomFontColor,
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,

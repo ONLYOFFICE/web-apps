@@ -216,6 +216,9 @@ define([
                         });
                     }
 
+                    if (this.cls)
+                        el.addClass(this.cls);
+
                     if (this.disabled)
                         el.toggleClass('disabled', this.disabled);
 

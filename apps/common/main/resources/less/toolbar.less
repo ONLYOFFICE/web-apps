@@ -551,6 +551,12 @@
         .icon {
             width: 22px;
             height: 22px;
+
+            .pixel-ratio__1_25 &,
+            .pixel-ratio__1_75 & {
+                width: 20px;
+                height: 20px;
+            }
         }
     }
 }
@@ -561,6 +567,43 @@
     }
 }
 
+#slot-combo-insertshape {
+    width: 150px;
+    height: 46px;
+    .view {
+        padding-right: 14px;
+    }
+    .dataview.field-picker {
+        height: 100%;
+        margin: 0;
+        padding: 2px;
+        .item {
+            margin: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+            &.active {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+
+                svg.icon {
+                    fill: @icon-normal-pressed-ie;
+                    fill: @icon-normal-pressed;
+                }
+            }
+        }
+    }
+    .button {
+        width: 14px;
+        .caret {
+            width: 4px;
+            height: 4px;
+        }
+    }
+}
 
 .item-shape {
     .icon {
@@ -584,7 +627,7 @@
     border: @scaled-one-px-value solid @border-regular-control;
 
     .equation-icon {
-        .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
+        .background-ximage-all('toolbar/math.png', 1500px, @commonimage: true);
         opacity: @component-normal-icon-opacity;
 
         .theme-dark & {

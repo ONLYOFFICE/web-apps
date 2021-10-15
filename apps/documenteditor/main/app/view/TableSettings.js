@@ -240,6 +240,8 @@ define([
         createDelayedControls: function() {
             var me = this;
 
+            this._tableTemplates && this._onInitTemplates(this._tableTemplates);
+
             this.chHeader = new Common.UI.CheckBox({
                 el: $('#table-checkbox-header'),
                 labelText: this.textHeader,
@@ -522,7 +524,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 50px'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
 
                     this._state.TemplateId = value;
                 }
@@ -729,6 +731,11 @@ define([
         },
 
         _onInitTemplates: function(Templates){
+            if (this._initSettings) {
+                this._tableTemplates = Templates;
+                return;
+            }
+
             var self = this;
             this._isTemplatesChanged = true;
 
@@ -737,7 +744,7 @@ define([
                     cls         : 'btn-large-dataview template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 575px;',
+                        style: 'width: 588px;',
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
@@ -753,8 +760,9 @@ define([
                         restoreHeight: 350,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>'),
-                        style: 'max-height: 350px;'
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
+                        style: 'max-height: 350px;',
+                        delayRenderTips: true
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));

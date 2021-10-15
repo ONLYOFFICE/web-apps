@@ -12,12 +12,7 @@
     </div>
     <div class="status-group" style="">
         <div class="separator short el-edit"></div>
-        <div class="cnt-lang el-edit">
-            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
-                <label id="status-label-lang" class="status-label">English (United States)</label>
-                <div class="caret"></div>
-            </div>
-        </div>
+        <span id="btn-cnt-lang" class="el-edit"></span>
         <span id="btn-doc-lang" class="el-edit"></span>
         <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>

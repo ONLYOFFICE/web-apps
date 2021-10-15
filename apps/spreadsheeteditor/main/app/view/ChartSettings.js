@@ -135,6 +135,11 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._isEditType) {
+                this._props = props;
+                return;
+            }
+
             this.ShowHideElem(!!(props && props.asc_getChartProperties && props.asc_getChartProperties()));
             this.disableControls(this._locked);
 
@@ -680,7 +685,8 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    delayRenderTips: true
                 });
             });
             this.btnSparkType.render($('#spark-button-type'));
@@ -950,12 +956,14 @@ define([
                             if (result == 'ok') {
                                 props.endEdit();
                                 me._isEditType = false;
+                                me._props && me.ChangeSettings(me._props);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     }).on('close', function() {
                         me._isEditType && props.cancelEdit();
                         me._isEditType = false;
+                        me._props = null;
                     });
                     win.show();
                 }
@@ -994,7 +1002,8 @@ define([
                     cls: 'combo-chart-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    delayRenderTips: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({
@@ -1046,7 +1055,8 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 272,
                     enableKeyEvents: true,
-                    cls: 'combo-spark-style'
+                    cls: 'combo-spark-style',
+                    delayRenderTips: true
                 });
                 this.cmbSparkStyle.render($('#spark-combo-style'));
                 this.cmbSparkStyle.openButton.menu.cmpEl.css({

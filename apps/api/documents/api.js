@@ -55,7 +55,8 @@
                          view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
-                    }
+                    },
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
                 }
             },
             editorConfig: {
@@ -104,7 +105,7 @@
                 customization: {
                     logo: {
                         image: url,
-                        imageEmbedded: url,
+                        imageEmbedded: url, // deprecated, use image instead
                         url: http://...
                     },
                     customer: {
@@ -136,9 +137,10 @@
                         label: string (default: "Guest") // postfix for user name
                     },
                     review: {
-                        hideReviewDisplay: false // hide button Review mode,
+                        hideReviewDisplay: false, // hide button Review mode
+                        hoverMode: false, // true - show review balloons on mouse move, not on click on text
                         showReviewChanges: false,
-                        reviewDisplay: 'original',
+                        reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
                     chat: true,
@@ -417,7 +419,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2|xml))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -429,7 +431,7 @@
                     }
                 }
 
-                var type = /^(?:(pdf|djvu|xps))$/.exec(_config.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(_config.document.fileType);
                 if (type && typeof type[1] === 'string') {
                     _config.editorConfig.canUseHistory = false;
                 }
@@ -837,9 +839,24 @@
         return extensionParams["url"] + "apps/";
     }
 
+
+    function getTestPath() {
+        var scripts = document.getElementsByTagName('script'),
+            match;
+
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            match = scripts[i].src.match(/(.*)apps\/api\/documents\/api.js/i);
+            if (match) {
+                return match[1] + "test/";
+            }
+        }
+
+        return "";
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
-            path = extensionPath ? extensionPath : getBasePath(),
+            path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
             appMap = {
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
@@ -867,23 +884,34 @@
             check = function(regex){ return regex.test(userAgent); },
             isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
             isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0);
+            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
+            path_type;
 
         path += app + "/";
-        path += (config.type === "mobile" || isSafari_mobile)
-            ? "mobile"
-            : (config.type === "embedded" || (app=='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
-                                                                       (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
-                ? "embed"
-                : "main";
+        if (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform') {
+            if (config.document.permissions) {
+                (config.document.permissions.fillForms===undefined) && (config.document.permissions.fillForms = (config.document.permissions.edit !== false));
+                config.document.permissions.edit = config.document.permissions.review = config.document.permissions.comment = false;
+            }
+            path_type = (config.type === "mobile" || isSafari_mobile)
+                        ? "mobile" : config.document.permissions && (config.document.permissions.fillForms === true) && (config.editorConfig.mode !== 'view')
+                        ? "forms" : "embed";
+        } else {
+            path_type = (config.type === "mobile" || isSafari_mobile)
+                        ? "mobile" : ((app==='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
+                                     (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
+                        ? "forms" : (config.type === "embedded")
+                        ? "embed" : "main";
+        }
 
+        path += path_type;
         var index = "/index.html";
-        if (config.editorConfig) {
+        if (config.editorConfig && path_type!=="forms") {
             var customization = config.editorConfig.customization;
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
                 index = "/index_internal.html";
 
         }
@@ -905,8 +933,8 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
-                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
+                if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
                 else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
                     params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
             }

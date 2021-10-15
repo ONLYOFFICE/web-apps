@@ -140,7 +140,7 @@ define([
                         var _file_type = _main.document.fileType,
                             _format;
                         if ( !!_file_type ) {
-                            if ( /^pdf|xps|djvu/i.test(_file_type) ) {
+                            if ( /^pdf|xps|oxps|djvu/i.test(_file_type) ) {
                                 _main.api.asc_DownloadOrigin();
                                 return;
                             } else {
@@ -338,7 +338,7 @@ define([
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
-            toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
+            toolbar.mnuMailRecepients.on('item:click',                  _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
@@ -357,8 +357,7 @@ define([
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
-
-            $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
+            toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
 
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -1584,7 +1583,7 @@ define([
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -1612,20 +1611,34 @@ define([
                     fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
                     me.insertImage(file);
                 }).show();
             }
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && data._urls && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                (data._urls.length>0) && this.api.AddImageUrl(data._urls, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
         insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
@@ -1676,12 +1689,18 @@ define([
         onPageSizeClick: function(menu, item, state) {
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
-                if (item.value !== 'advanced')
-                    this.api.change_DocSize(item.value[0], item.value[1]);
-                else {
+                if (item.value !== 'advanced') {
+                    if (this.checkPageSize(item.value[0], item.value[1])) {
+                        var section = this.api.asc_GetSectionProps();
+                        this.onApiPageSize(section.get_W(), section.get_H());
+                        return;
+                    } else
+                        this.api.change_DocSize(item.value[0], item.value[1]);
+                } else {
                     var win, props,
                         me = this;
                     win = new DE.Views.PageSizeDialog({
+                        checkPageSize: _.bind(this.checkPageSize, this),
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
@@ -1704,22 +1723,8 @@ define([
             if (this.api) {
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
-                    var section = this.api.asc_GetSectionProps(),
-                        errmsg = null,
-                        me = this;
-                    if (item.value[1] + item.value[3] > parseFloat(section.get_W().toFixed(4))-12.7 )
-                        errmsg = this.txtMarginsW;
-                    else if (item.value[0] + item.value[2] > parseFloat(section.get_H().toFixed(4))-2.6 )
-                        errmsg = this.txtMarginsH;
-                    if (errmsg) {
-                        Common.UI.warning({
-                            title: this.notcriticalErrorTitle,
-                            msg  : errmsg,
-                            callback: function() {
-                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                            }
-                        });
-                        this.onSectionProps(section);
+                    if (this.checkPageSize(undefined, undefined, item.value[1], item.value[3], item.value[0], item.value[2])) {
+                        this.onSectionProps(this.api.asc_GetSectionProps());
                         return;
                     } else {
                         var props = new Asc.CDocumentSectionProps();
@@ -1760,6 +1765,34 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        checkPageSize: function(width, height, left, right, top, bottom) {
+            var section = this.api.asc_GetSectionProps();
+            (width===undefined) && (width = parseFloat(section.get_W().toFixed(4)));
+            (height===undefined) && (height = parseFloat(section.get_H().toFixed(4)));
+            (left===undefined) && (left = parseFloat(section.get_LeftMargin().toFixed(4)));
+            (right===undefined) && (right = parseFloat(section.get_RightMargin().toFixed(4)));
+            (top===undefined) && (top = parseFloat(section.get_TopMargin().toFixed(4)));
+            (bottom===undefined) && (bottom = parseFloat(section.get_BottomMargin().toFixed(4)));
+            var gutterLeft = section.get_GutterAtTop() ? 0 : parseFloat(section.get_Gutter().toFixed(4)),
+                gutterTop = section.get_GutterAtTop() ? parseFloat(section.get_Gutter().toFixed(4)) : 0;
+
+            var errmsg = null;
+            if (left + right + gutterLeft > width-12.7 )
+                errmsg = this.txtMarginsW;
+            else if (top + bottom + gutterTop > height-2.6 )
+                errmsg = this.txtMarginsH;
+            if (errmsg) {
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : errmsg,
+                    callback: function() {
+                        Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                    }
+                });
+                return true;
+            }
         },
 
         onLineNumbersSelect: function(menu, item) {
@@ -2168,9 +2201,12 @@ define([
             }
         },
 
-        onInsertPageNumberClick: function(picker, item, record) {
+        onInsertPageNumberClick: function(picker, item, record, e) {
             if (this.api)
                 this.api.put_PageNum(record.get('data').type, record.get('data').subtype);
+
+            if (e.type !== 'click')
+                this.toolbar.btnEditHeader.menu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
@@ -2606,53 +2642,41 @@ define([
         },
 
         fillAutoShapes: function() {
-            var me = this,
-                shapesStore = this.getApplication().getCollection('ShapeGroups');
+            var me = this;
 
-            var onShowAfter = function(menu) {
-                for (var i = 0; i < shapesStore.length; i++) {
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
-                        store: shapesStore.at(i).get('groupStore'),
-                        parentMenu: menu.items[i].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            if (record) {
-                                me._addAutoshape(true, record.get('data').shapeType);
-                                me._isAddingShape = true;
-                            }
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
+            });
+            me.toolbar.btnInsertShape.menu.addItem(menuitem);
 
-                            if (me.toolbar.btnInsertText.pressed) {
-                                me.toolbar.btnInsertText.toggle(false, true);
-                            }
+            var recents = Common.localStorage.getItem('de-recent-shapes');
 
-                            if (e.type !== 'click')
-                                me.toolbar.btnInsertShape.menu.hide();
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                        }
-                    });
+            var shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-toolbar-menu-insertshape'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: me.getApplication().getCollection('ShapeGroups'),
+                parentMenu: me.toolbar.btnInsertShape.menu,
+                restoreHeight: 640,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null
+            });
+            shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me._addAutoshape(true, record.get('data').shapeType);
+                        me._isAddingShape = true;
+                    }
+
+                    if (me.toolbar.btnInsertText.pressed) {
+                        me.toolbar.btnInsertText.toggle(false, true);
+                    }
+
+                    if (e.type !== 'click')
+                        me.toolbar.btnInsertShape.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
                 }
-                menu.off('show:after', onShowAfter);
-            };
-            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
-
-            for (var i = 0; i < shapesStore.length; i++) {
-                var shapeGroup = shapesStore.at(i);
-
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tl-tr',
-                        items: [
-                            { template: _.template('<div id="id-toolbar-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
-                });
-                me.toolbar.btnInsertShape.menu.addItem(menuItem);
-            }
+            });
         },
 
         fillEquations: function() {
@@ -2872,8 +2896,10 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
+            if (!this._state.mmdisable) {
                 this.toolbar.btnMailRecepients.setDisabled(false);
+                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
+            }
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
@@ -3089,22 +3115,45 @@ define([
             disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
         },
 
-        onSelectRecepientsClick: function() {
+        onSelectRecepientsClick: function(menu, item, e) {
             if (this._mailMergeDlg) return;
 
-            if (this.toolbar.mode.canRequestMailMergeRecipients) {
-                Common.Gateway.requestMailMergeRecipients();
-            } else {
-                var me = this;
-                me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                });
-                me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                    me.setMailMergeRecipients(recepients);
-                }).on('close', function(obj){
-                    me._mailMergeDlg = undefined;
-                });
-                me._mailMergeDlg.show();
+            var me = this;
+            if (item.value === 'file') {
+                this.api && this.api.asc_StartMailMerge();
+            } else if (item.value === 'url') {
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_StartMailMerge({ fileType: "csv", url: checkUrl });
+                                } else {
+                                    Common.UI.warning({
+                                        msg: me.textEmptyMMergeUrl
+                                    });
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                })).show();
+            } else if (item.value === 'storage') {
+                if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                    Common.Gateway.requestMailMergeRecipients();
+                } else {
+                    me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                    });
+                    me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                        me.setMailMergeRecipients(recepients);
+                    }).on('close', function(obj){
+                        me._mailMergeDlg = undefined;
+                    });
+                    me._mailMergeDlg.show();
+                }
             }
         },
 
@@ -3612,7 +3661,9 @@ define([
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
         textInsert: 'Insert',
         textTabForms: 'Forms',
-        textGroup: 'Group'
+        textGroup: 'Group',
+        textEmptyMMergeUrl: 'You need to specify URL.',
+        textRecentlyUsed: 'Recently Used'
 
     }, DE.Controllers.Toolbar || {}));
 });

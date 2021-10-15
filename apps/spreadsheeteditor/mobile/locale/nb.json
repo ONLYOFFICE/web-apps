@@ -30,7 +30,8 @@
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users"
+      "textUsers": "Users",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -222,7 +223,8 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -277,7 +279,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
+    "textOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -333,7 +336,11 @@
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -631,7 +638,19 @@
       "txtScheme9": "Foundry",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textOk": "Ok",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon",
+      "textExample": "Example"
     }
   }
 }

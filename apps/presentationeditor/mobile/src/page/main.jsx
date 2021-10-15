@@ -28,7 +28,7 @@ class MainPage extends Component {
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
-        ContextMenu.closeContextMenu();
+        f7.popover.close('.document-menu.modal-in', false);
 
         setTimeout(() => {
             let opened = false;
@@ -89,6 +89,11 @@ class MainPage extends Component {
         });
     };
 
+    componentDidMount () {
+        if ( $$('.skl-container').length )
+            $$('.skl-container').remove();
+    }
+
     render() {
         const appOptions = this.props.storeAppOptions;
         const config = appOptions.config;
@@ -142,7 +147,8 @@ class MainPage extends Component {
                         !this.state.collaborationVisible ? null :
                             <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                     }
-                    <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                    {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}   
+                    
                 </Page>
             </Fragment>
         )

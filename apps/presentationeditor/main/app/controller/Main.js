@@ -333,7 +333,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -416,7 +416,9 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -1111,8 +1113,8 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport();
+                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
@@ -1480,7 +1482,11 @@ define([
                     case Asc.c_oAscError.ID.Password:
                         config.msg = this.errorSetPassword;
                         break;
-                    
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1504,7 +1510,7 @@ define([
                             }
                         }
                     }
-                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                    if (id == Asc.c_oAscError.ID.DataEncrypted || id == Asc.c_oAscError.ID.ConvertationOpenLimitError) {
                         this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
@@ -2223,6 +2229,14 @@ define([
                 value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
             },
 
             showRenameUserDialog: function() {
@@ -2821,6 +2835,7 @@ define([
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             txtNone: 'None',
             textDisconnect: 'Connection is lost',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More'

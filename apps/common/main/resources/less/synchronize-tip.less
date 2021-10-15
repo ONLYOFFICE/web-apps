@@ -1,12 +1,13 @@
 .synch-tip-root {
     position: absolute;
     z-index: @zindex-navbar + 2;
+    @tip-width: 300px;
 
     &:not(.simple) {
-        width: 300px;
+        width: @tip-width;
 
         .tip-text {
-            width: 260px;
+            width: @tip-width - 40px;
         }
     }
 

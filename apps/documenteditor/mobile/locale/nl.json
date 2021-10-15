@@ -154,7 +154,8 @@
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
       "textUnderline": "Onderstrepen",
       "textUsers": "Gebruikers",
-      "textWidow": "Zwevende regels voorkomen"
+      "textWidow": "Zwevende regels voorkomen",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -180,7 +181,15 @@
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "textRows": "Rijen"
+    "textRows": "Rijen",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "Waarschuwing",
@@ -334,7 +343,8 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -566,7 +576,12 @@
     "txtScheme6": "Concours",
     "txtScheme7": "Vermogen",
     "txtScheme8": "Stroom",
-    "txtScheme9": "Gieterij"
+    "txtScheme9": "Gieterij",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "textOk": "Ok",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

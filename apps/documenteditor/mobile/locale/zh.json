@@ -154,7 +154,8 @@
       "textTryUndoRedo": "快速共同编辑模式下，撤销/重做功能被禁用。",
       "textUnderline": "下划线",
       "textUsers": "用户",
-      "textWidow": "单独控制"
+      "textWidow": "单独控制",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "自定义颜色",
@@ -180,7 +181,15 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "textRows": "行"
+    "textRows": "行",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -334,7 +343,8 @@
     "unknownErrorText": "未知错误。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB."
+    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",
@@ -545,6 +555,11 @@
     "textUploaded": "已上传",
     "txtIncorrectPwd": "密码有误",
     "txtProtected": "输入密码并打开文件后，当前密码将会被重设。",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "textOk": "Ok",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok",
     "txtScheme1": "Office",
     "txtScheme10": "Median",
     "txtScheme11": "Metro",

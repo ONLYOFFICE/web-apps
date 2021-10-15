@@ -368,6 +368,7 @@
             "increment-build",
             "deploy-app-main",
             "deploy-app-mobile",
+            "deploy-app-forms",
             "deploy-app-embed"
         ]
     }

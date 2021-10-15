@@ -124,13 +124,15 @@ DE.ApplicationController = new(function(){
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
+            docInfo.put_Lang(config.lang);
+            docInfo.put_Mode(config.mode);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
+            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
                 permissions.edit = permissions.review = false;
             }
@@ -401,7 +403,7 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
+        if ( !embedConfig.saveUrl || permissions.download === false || appOptions.canFillForms) {
             $('#idt-download').hide();
             itemsCount--;
         }
@@ -437,7 +439,6 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
         if (itemsCount<1)
             $('#box-tools').addClass('hidden');
         else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
@@ -475,11 +476,8 @@ DE.ApplicationController = new(function(){
 
         DE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                    if ( !!embedConfig.saveUrl ){
+                    if ( !!embedConfig.saveUrl && permissions.download !== false){
                         common.utils.openLink(embedConfig.saveUrl);
-                    } else
-                    if (api && permissions.print!==false){
-                        api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                     }
 
                     Common.Analytics.trackEvent('Save');
@@ -603,13 +601,17 @@ DE.ApplicationController = new(function(){
              config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
+            if (config.customization.logo.image || config.customization.logo.imageEmbedded) {
+                logo.html('<img src="'+(config.customization.logo.image || config.customization.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                config.customization.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
             }
 
             if (config.customization.logo.url) {
                 logo.attr('href', config.customization.logo.url);
+            } else if (config.customization.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
             }
         }
         var licType = params.asc_getLicenseType();
@@ -627,7 +629,6 @@ DE.ApplicationController = new(function(){
             $('#id-btn-clear-fields').hide();
             btnSubmit.hide();
         } else {
-            $('#id-pages').hide();
             $('#id-btn-next-field .caption').text(me.textNext);
             $('#id-btn-clear-fields .caption').text(me.textClear);
 
@@ -741,6 +742,10 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 message = me.errorForceSave;
+                break;
+
+            case Asc.c_oAscError.ID.LoadingFontError:
+                message = me.errorLoadingFont;
                 break;
 
             default:
@@ -928,6 +933,7 @@ DE.ApplicationController = new(function(){
         textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         txtEmpty: '(Empty)',
-        txtPressLink: 'Press Ctrl and click link'
+        txtPressLink: 'Press Ctrl and click link',
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
     }
 })();

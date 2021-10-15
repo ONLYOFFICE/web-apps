@@ -426,9 +426,10 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
-            } else if (config.isRestrictedEdit)
+            } else if (config.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
-
+                Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
+            }
         },
 
         // onNewDocument: function(btn, e) {
@@ -865,7 +866,7 @@ define([
                                 var checkUrl = value.replace(/\s/g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.asc_addImageDrawingObject(checkUrl);
+                                    me.api.asc_addImageDrawingObject([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -893,20 +894,34 @@ define([
                     fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
                     me.insertImage(file);
                 }).show();
             }
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && data._urls && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
+                (data._urls.length>0) && this.api.asc_addImageDrawingObject(data._urls, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
         insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
@@ -2008,7 +2023,8 @@ define([
                     restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
-                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:61px;height:46px;"></div>')
+                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>'),
+                    delayRenderTips: true
                 });
 
                 picker.on('item:click', function(picker, item, record) {
@@ -2901,10 +2917,13 @@ define([
         },
 
         onApiSelectionChangedRestricted: function(info) {
+            if (!this.appConfig.isRestrictedEdit) return;
+
             var selectionType = info.asc_getSelectionType();
             this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                     this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                     { array: this.btnsComment });
+            this.toolbar.lockToolbar(SSE.enumLock['Objects'], !!this._state.wsProps['Objects'], { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -3138,53 +3157,40 @@ define([
         },
 
         fillAutoShapes: function() {
-            var me = this,
-                shapesStore = this.getApplication().getCollection('ShapeGroups');
+            var me = this;
 
-            var onShowAfter = function(menu) {
-                for (var i = 0; i < shapesStore.length; i++) {
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
-                        store: shapesStore.at(i).get('groupStore'),
-                        parentMenu: menu.items[i].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="21" height="21" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            if (record) {
-                                me._addAutoshape(true, record.get('data').shapeType);
-                                me._isAddingShape = true;
-                            }
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
+            });
+            me.toolbar.btnInsertShape.menu.addItem(menuitem);
 
-                            if (me.toolbar.btnInsertText.pressed) {
-                                me.toolbar.btnInsertText.toggle(false, true);
-                            }
-                            if (e.type !== 'click')
-                                me.toolbar.btnInsertShape.menu.hide();
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                        }
-                    });
+            var recents = Common.localStorage.getItem('sse-recent-shapes');
+
+            var shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-toolbar-menu-insertshape'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: me.getApplication().getCollection('ShapeGroups'),
+                parentMenu: me.toolbar.btnInsertShape.menu,
+                restoreHeight: 640,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null
+            });
+            shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me._addAutoshape(true, record.get('data').shapeType);
+                        me._isAddingShape = true;
+                    }
+
+                    if (me.toolbar.btnInsertText.pressed) {
+                        me.toolbar.btnInsertText.toggle(false, true);
+                    }
+                    if (e.type !== 'click')
+                        me.toolbar.btnInsertShape.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
                 }
-                menu.off('show:after', onShowAfter);
-            };
-            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
-
-            for (var i = 0; i < shapesStore.length; i++) {
-                var shapeGroup = shapesStore.at(i);
-
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tl-tr',
-                        items: [
-                            { template: _.template('<div id="id-toolbar-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
-                });
-
-                me.toolbar.btnInsertShape.menu.addItem(menuItem);
-            }
+            });
         },
 
         fillEquations: function() {
@@ -4053,7 +4059,7 @@ define([
                 
                 this.toolbar.lockToolbar(SSE.enumLock.wsLock, this._state.wsLock);
                 this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
-                this.onApiSelectionChanged(this.api.asc_getCellInfo());
+                this.appConfig && this.appConfig.isEdit ? this.onApiSelectionChanged(this.api.asc_getCellInfo()) : this.onApiSelectionChangedRestricted(this.api.asc_getCellInfo());
             }
         },
 
@@ -4424,7 +4430,8 @@ define([
         textShapes: 'Shapes',
         textIndicator: 'Indicators',
         textRating: 'Ratings',
-        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?'
+        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
+        textRecentlyUsed: 'Recently Used'
 
     }, SSE.Controllers.Toolbar || {}));
 });

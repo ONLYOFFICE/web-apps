@@ -372,7 +372,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -486,6 +486,8 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -1241,8 +1243,10 @@ define([
                     if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
                         this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
                 }
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false)
+                                                    && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false)
+                                                    && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
@@ -1389,11 +1393,13 @@ define([
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.Utils.InternalSettings.set("sse-settings-unit", value);
 
-                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
+                if (this.appOptions.isRestrictedEdit) {
                     var toolbarController   = application.getController('Toolbar');
                     toolbarController   && toolbarController.setApi(me.api);
-
-                    if (!this.appOptions.isEdit) return;
+                    application.getController('WBProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                } else if (this.appOptions.isEdit) { // set api events for toolbar in the Restricted Editing mode
+                    var toolbarController   = application.getController('Toolbar');
+                    toolbarController   && toolbarController.setApi(me.api);
 
                     var statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
@@ -1837,12 +1843,28 @@ define([
                         config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentSize:
+                        config.msg = this.uploadDocSizeMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
                         config.msg = this.errorDeleteColumnContainsLockedCell;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentExt:
+                        config.msg = this.uploadDocExtMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
                         config.msg = this.errorDeleteRowContainsLockedCell;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentFileCount:
+                        config.msg = this.uploadDocFileCountMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.LoadingFontError:
+                        config.msg = this.errorLoadingFont;
                         break;
 
                     default:
@@ -1865,7 +1887,7 @@ define([
                             }
                         }
                     }
-                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                    if (id == Asc.c_oAscError.ID.DataEncrypted || id == Asc.c_oAscError.ID.ConvertationOpenLimitError) {
                         this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
@@ -2715,7 +2737,7 @@ define([
 
                 value = Common.localStorage.getBool("sse-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("sse-settings-autoformat-hyperlink", value);
-                me.api.asc_setAutoCorrectHyperlinks(value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
             },
 
             showRenameUserDialog: function() {
@@ -3375,6 +3397,10 @@ define([
             errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
             errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
             errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
+            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
+            uploadDocExtMessage: 'Unknown document format.',
+            uploadDocFileCountMessage: 'No documents uploaded.',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textNeedSynchronize: 'You have an updates',
             textChangesSaved: 'All changes saved'
         }

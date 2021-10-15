@@ -138,7 +138,7 @@ class EditTextController extends Component {
         } else {
             typeof size === 'undefined' || size == '' ? api.FontSizeIn() : size = Math.min(300, ++size);
         }
-        if (typeof size !== 'undefined' || size == '') {
+        if (typeof size !== 'undefined' && size !== '') {
             api.put_TextPrFontSize(size);
         }
     };
@@ -153,6 +153,19 @@ class EditTextController extends Component {
     onTextColor(color) {
         const api = Common.EditorApi.get();
         api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+    }
+
+    onHighlightColor(strColor) {
+        const api = Common.EditorApi.get();
+
+        if (strColor == 'transparent') {
+            api.SetMarkerFormat(true, false);
+        } else {
+            let r = strColor[0] + strColor[1],
+                g = strColor[2] + strColor[3],
+                b = strColor[4] + strColor[5];
+            api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+        }
     }
 
     // Additional
@@ -243,6 +256,7 @@ class EditTextController extends Component {
                 changeFontSize={this.changeFontSize}
                 changeFontFamily={this.changeFontFamily}
                 onTextColor={this.onTextColor}
+                onHighlightColor={this.onHighlightColor}
                 onAdditionalStrikethrough={this.onAdditionalStrikethrough}
                 onAdditionalCaps={this.onAdditionalCaps}
                 onAdditionalScript={this.onAdditionalScript}

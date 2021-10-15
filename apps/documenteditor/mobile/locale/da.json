@@ -154,7 +154,8 @@
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUnderline": "Underline",
       "textUsers": "Users",
-      "textWidow": "Widow control"
+      "textWidow": "Widow control",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -180,7 +181,15 @@
     "textColumns": "Columns",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -334,7 +343,8 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -566,7 +576,12 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textOk": "Ok",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
@@ -91,6 +91,9 @@ class MainPage extends Component {
       const config = appOptions.config;
       const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+      if ( $$('.skl-container').length ) {
+          $$('.skl-container').remove();
+      }
 
       return (
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
@@ -103,7 +106,6 @@ class MainPage extends Component {
                     </Subnavbar>
                 </Navbar>
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
-                <FilterOptionsController/>
                 {/* Page content */}
                 <View id="editor_sdk" />
                 {showPlaceholder ?
@@ -131,12 +133,16 @@ class MainPage extends Component {
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
-                <FilterOptionsController />
+                {appOptions.isDocReady &&
+                    <Fragment key='filter-context'>
+                        <FilterOptionsController />
+                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                    </Fragment>
+                }
                 
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
-                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
             </Page>
       )
   }

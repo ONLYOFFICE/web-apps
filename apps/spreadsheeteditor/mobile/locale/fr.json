@@ -30,7 +30,8 @@
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs"
+      "textUsers": "Utilisateurs",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -60,7 +61,7 @@
     "notcriticalErrorTitle": "Avertissement",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "warnMergeLostData": "Cette procédure peut détruire les données dans les cellules sélectionnées. Voulez-vous quand même continuer?"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
     "Main": {
@@ -193,6 +194,7 @@
     "errorInvalidRef": "Entrez un nom correct pour la sélection ou une référence valable à laquelle aller.",
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
+    "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorLockedAll": "L'opération ne peut pas être réalisée car la feuille a été verrouillée par un autre utilisateur.",
     "errorLockedCellPivot": "Impossible de modifier les données d'un tableau croisé dynamique.",
     "errorLockedWorksheetRename": "La feuille ne peut pas être renommée pour le moment car elle est en train d'être renommée par un autre utilisateur",
@@ -272,6 +274,7 @@
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",
     "textHide": "Masquer",
     "textMore": "Plus",
+    "textOk": "OK",
     "textRename": "Renommer",
     "textRenameSheet": "Renommer la feuille",
     "textSheet": "Feuille",
@@ -326,6 +329,7 @@
       "textRange": "Plage",
       "textRequired": "Requis",
       "textScreenTip": "Info-bulle",
+      "textSelectedRange": "Plage sélectionnée",
       "textShape": "Forme",
       "textSheet": "Feuille",
       "textSortAndFilter": "Trier et filtrer",
@@ -333,7 +337,10 @@
       "txtExpandSort": "Les données situées à côté de la sélection ne seront pas triées. Souhaitez-vous développer la sélection pour inclure les données adjacentes ou souhaitez-vous continuer à trier iniquement les cellules sélectionnées ?",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
-      "txtSortSelected": "Trier l'objet sélectionné "
+      "txtSortSelected": "Trier l'objet sélectionné ",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -549,6 +556,7 @@
       "textEmail": "E-mail",
       "textEnableAll": "Activer tout",
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
+      "textExample": "Exemple",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
       "textFindAndReplaceAll": "Rechercher et remplacer tout",
@@ -571,6 +579,7 @@
       "textMatchCase": "Respecter la casse",
       "textMatchCell": "Respecter la cellule",
       "textNoTextFound": "Le texte est introuvable",
+      "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textOrientation": "Orientation",
       "textOwner": "Propriétaire",
@@ -631,7 +640,17 @@
       "txtScheme9": "Fonderie",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon"
     }
   }
 }

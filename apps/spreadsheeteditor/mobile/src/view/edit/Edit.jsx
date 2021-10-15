@@ -16,7 +16,7 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
-import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
+import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageTypeLink, PageSheet } from './EditLink';
 
 const routes = [
@@ -152,8 +152,24 @@ const routes = [
     // Chart 
 
     {
+        path: '/edit-chart-design/',
+        component: PageChartDesign,
+    },
+    {
+        path: '/edit-chart-type/',
+        component: PageChartDesignType
+    },
+    {
         path: '/edit-chart-style/',
-        component: PageChartStyle
+        component: PageChartDesignStyle
+    },
+    {
+        path: '/edit-chart-fill/',
+        component: PageChartDesignFill
+    },
+    {
+        path: '/edit-chart-border/',
+        component: PageChartDesignBorder
     },
     {
         path: '/edit-chart-border-color/',
@@ -328,7 +344,6 @@ const EditLayoutContent = ({ editors }) => {
 const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-
     const store = props.storeFocusObjects;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
@@ -374,7 +389,7 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
+        if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
             editors.push({
                 caption: _t.textHyperlink,
                 id: 'edit-link',
@@ -403,11 +418,11 @@ const EditView = props => {
     const show_popover = props.usePopover;
     return (
         show_popover ?
-            <Popover id="edit-popover" className="popover__titled" onPopoverClosed={() => props.onClosed()}>
-                <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
             <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
-                <EditTabsContainer onOptionClick={onOptionClick} />
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} />
             </Sheet>
     )
 };
@@ -428,8 +443,13 @@ const EditOptions = props => {
             props.onclosed();
     };
 
+    const api = Common.EditorApi.get();
+    const cellinfo = api.asc_getCellInfo();
+    const hyperinfo = cellinfo.asc_getHyperlink();
+    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
+
     return (
-        <EditView usePopover={!Device.phone} onClosed={onviewclosed} />
+        <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} />
     )
 };
 

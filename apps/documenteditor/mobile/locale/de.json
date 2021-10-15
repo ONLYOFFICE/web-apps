@@ -154,7 +154,8 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textOk": "Ok"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -180,7 +181,15 @@
     "textColumns": "Spalten",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "textRows": "Zeilen"
+    "textRows": "Zeilen",
+    "menuContinueNumbering": "Continue numbering",
+    "menuJoinList": "Join to previous list",
+    "menuSeparateList": "Separate list",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value",
+    "textOk": "OK"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
@@ -314,6 +323,7 @@
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
     "errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
+    "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
     "errorMailMergeLoadFile": "Fehler beim Laden",
     "errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
@@ -522,6 +532,7 @@
     "textMarginsW": "Linke und rechte Ränder sind zu hoch für gültige Seitenhöhe",
     "textNoCharacters": "Formatierungszeichen",
     "textNoTextFound": "Der Text wurde nicht gefunden",
+    "textOk": "OK",
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
     "textOrientation": "Orientierung",
     "textOwner": "Besitzer",
@@ -566,7 +577,11 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
