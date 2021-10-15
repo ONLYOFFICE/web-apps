@@ -85,47 +85,29 @@ class SearchView extends Component {
     constructor(props) {
         super(props);
 
+        const $$ = Dom7;
+
         this.state = {
             searchQuery: '',
             replaceQuery: ''
         };
-
-        const $$ = Dom7;
+        this.$editor = $$('#editor_sdk');
 
         $$(document).on('page:init', (e, page) => {
-            this.searchbar = f7.searchbar.create({
-                el: '.searchbar',
-                customSearch: true,
-                expandable: true,
-                backdrop: false,
-                on: {
-                        search: (bar, curval, prevval) => {
-                    },
-                    enable: this.onSearchbarShow.bind(this, true),
-                    disable: this.onSearchbarShow.bind(this, false)
-                }
-            });
-
-            // function iOSVersion() {
-            //     var ua = navigator.userAgent;
-            //     var m;
-            //     return (m = /(iPad|iPhone|iphone).*?(OS |os |OS\_)(\d+((_|\.)\d)?((_|\.)\d)?)/.exec(ua)) ? parseFloat(m[3]) : 0;
-            // }
-
-            const $editor = $$('#editor_sdk');
-            // const $replaceLink = $$('#replace-link');
-
-            if (false /* iOSVersion < 13 */) {
-                // $editor.on('mousedown touchstart', this.onEditorTouchStart.bind(this));
-                // $editor.on('mouseup touchend', this.onEditorTouchEnd.bind(this));
-            } else {
-                // $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-                // $editor.on('pointerup',   this.onEditorTouchEnd.bind(this));
+            if(!this.searchbar) {
+                this.searchbar = f7.searchbar.create({
+                    el: '.searchbar',
+                    customSearch: true,
+                    expandable: true,
+                    backdrop: false,
+                    on: {
+                            search: (bar, curval, prevval) => {
+                        },
+                        enable: this.onSearchbarShow.bind(this, true),
+                        disable: this.onSearchbarShow.bind(this, false)
+                    }
+                });
             }
-
-            $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-            $editor.on('pointerup',   this.onEditorTouchEnd.bind(this));
-            // $replaceLink.on('click', this.onReplaceHold.bind(this));
         });
 
         this.onSettingsClick = this.onSettingsClick.bind(this);
@@ -135,7 +117,15 @@ class SearchView extends Component {
 
     componentDidMount(){
         const $$ = Dom7;
+
         this.$replace = $$('#idx-replace-val');
+        this.$editor.on('pointerdown', this.onEditorTouchStart.bind(this));
+        this.$editor.on('pointerup', this.onEditorTouchEnd.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.$editor.off('pointerdown', this.onEditorTouchStart.bind(this));
+        this.$editor.off('pointerup', this.onEditorTouchEnd.bind(this));
     }
 
     onSettingsClick(e) {
@@ -304,7 +294,7 @@ class SearchView extends Component {
                 </div>
             </form>
         )
-    }
+    } 
 }
 
 const SearchViewWithObserver = observer(SearchView);
