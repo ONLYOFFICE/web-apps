@@ -178,6 +178,45 @@
                     </div>
                 </div>
             </section>
+            <section id="animation-panel" class="panel" data-tab="animate">
+                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
+
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
+                </div>
+                <div class="separator long"></div>
+                    <div class="group small">
+                        <div class="elset font-normal">
+                            <label id="animation-label-start"></label>
+                            <span class="btn-slot" style="float: right; width: 60px; margin-left: 2px;" id="animation-start"></span>
+                        </div>
+                        <div class="elset">
+                            <span class="btn-slot text " id="animation-button-pane"></span>
+                        </div>
+
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                         <label id="animation-delay"></label>
+                         <div id="animation-spin-delay" class="btn-slot text spinner" style="float: right;"></div>
+                    </div>
+                    <div class="elset font-normal">
+                        <label id="animation-duration"></label>
+                        <span id="animation-spin-duration" class="btn-slot text spinner" style="float: right;"></span>
+                    </div>
+
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                     <div class="elset">
+                        <span class="btn-slot text " id="animation-button-add-effect"></span>
+                    </div>
+                     <div class="elset">
+                        <span class="btn-slot text" id="animation-button-preview"></span>
+                    </div>
+                </div>
+            </section>
         </section>
     </section>
 </div>

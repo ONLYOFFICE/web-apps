@@ -132,7 +132,8 @@ define([
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'}
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'},
+                                {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit'}
                             ]
                         }
                     );
@@ -1962,6 +1963,7 @@ define([
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office',
             textTabTransitions: 'Transitions',
+            textTabAnimation: 'Animation',
             textRecentlyUsed: 'Recently Used',
             txtDuplicateSlide: 'Duplicate Slide',
             tipNumCapitalLetters: 'A. B. C.',

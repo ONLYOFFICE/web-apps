@@ -154,6 +154,7 @@ require([
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
             ,'Transitions'
+            ,'Animation'
         ]
     });
 
@@ -190,6 +191,7 @@ require([
             ,'common/main/lib/controller/Themes'
             ,'common/main/lib/controller/Desktop'
             ,'presentationeditor/main/app/controller/Transitions'
+            ,'presentationeditor/main/app/controller/Animation'
         ], function() {
             window.compareVersions = true;
             app.start();
