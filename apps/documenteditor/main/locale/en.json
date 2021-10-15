@@ -2812,5 +2812,10 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
+  "DE.Views.PageThumbnails.textPageThumbnails": "Page Thumbnails",
+  "DE.Views.PageThumbnails.textClosePanel": "Close page thumbnails",
+  "DE.Views.PageThumbnails.textThumbnailsSettings": "Thumbnails settings",
+  "DE.Views.PageThumbnails.textThumbnailsSize": "Thumbnails size",
+  "DE.Views.PageThumbnails.textHighlightVisiblePart": "Highlight visible part of page"
 }
