@@ -11,6 +11,8 @@ const EditCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeCellSettings = props.storeCellSettings;
+    const storeWorksheets = props.storeWorksheets;
+    const wsProps = storeWorksheets.wsProps;
     const cellStyles = storeCellSettings.cellStyles;
     const styleName = storeCellSettings.styleName;
 
@@ -40,79 +42,84 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
-                <ListItem className='buttons'>
-                    <Row>
-                        <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
-                        <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
-                        <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                    </Row>
-                </ListItem>
-                <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
-                    onTextColor: props.onTextColor
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
-                        fontColorPreview
-                    }
-                </ListItem>
-                <ListItem title={_t.textFillColor} link="/edit-cell-fill-color/" routeProps={{
-                    onFillColor: props.onFillColor
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-fill-color">{fillColorPreview}</Icon> :
-                        fillColorPreview
-                    }
-                </ListItem>
-                <ListItem title={_t.textTextFormat} link="/edit-cell-text-format/" routeProps={{
-                    onHAlignChange: props.onHAlignChange,
-                    onVAlignChange: props.onVAlignChange,
-                    onWrapTextChange: props.onWrapTextChange
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-align-left"></Icon> : null
-                    }
-                </ListItem>
-                <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
-                    onTextOrientationChange: props.onTextOrientationChange
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
-                    }
-                </ListItem>
-                <ListItem title={_t.textBorderStyle} link="/edit-cell-border-style/" routeProps={{
-                    onBorderStyle: props.onBorderStyle
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-table-borders-all"></Icon> : null
-                    }
-                </ListItem>
-            </List>
-            <List>
-                <ListItem title={_t.textFormat} link="/edit-format-cell/" routeProps={{
-                    onCellFormat: props.onCellFormat,
-                    onCurrencyCellFormat: props.onCurrencyCellFormat,
-                    onAccountingCellFormat: props.onAccountingCellFormat,
-                    dateFormats: props.dateFormats,
-                    timeFormats: props.timeFormats
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-format-general"></Icon> : null
-                    }
-                </ListItem>
-            </List>
-            <BlockTitle>{_t.textCellStyles}</BlockTitle>
-            {cellStyles.length ? (
-                <List className="cell-styles-list">
-                    {cellStyles.map((elem, index) => {
-                        return (
-                            <ListItem key={index}
-                                className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                            </ListItem>
-                        )
-                    })}
-                </List>
-            ) : null}    
+                {!wsProps.FormatCells && 
+                <>
+                    <List>
+                        <ListItem className='buttons'>
+                            <Row>
+                                <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
+                                <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
+                                <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
+                            </Row>
+                        </ListItem>
+                        <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
+                            onTextColor: props.onTextColor
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
+                                fontColorPreview
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textFillColor} link="/edit-cell-fill-color/" routeProps={{
+                            onFillColor: props.onFillColor
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-fill-color">{fillColorPreview}</Icon> :
+                                fillColorPreview
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textTextFormat} link="/edit-cell-text-format/" routeProps={{
+                            onHAlignChange: props.onHAlignChange,
+                            onVAlignChange: props.onVAlignChange,
+                            onWrapTextChange: props.onWrapTextChange
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-align-left"></Icon> : null
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
+                            onTextOrientationChange: props.onTextOrientationChange
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textBorderStyle} link="/edit-cell-border-style/" routeProps={{
+                            onBorderStyle: props.onBorderStyle
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-table-borders-all"></Icon> : null
+                            }
+                        </ListItem>
+                    </List>
+                    <List>
+                        <ListItem title={_t.textFormat} link="/edit-format-cell/" routeProps={{
+                            onCellFormat: props.onCellFormat,
+                            onCurrencyCellFormat: props.onCurrencyCellFormat,
+                            onAccountingCellFormat: props.onAccountingCellFormat,
+                            dateFormats: props.dateFormats,
+                            timeFormats: props.timeFormats
+                        }}>
+                            {!isAndroid ?
+                                <Icon slot="media" icon="icon-format-general"></Icon> : null
+                            }
+                        </ListItem>
+                    </List>
+                    <BlockTitle>{_t.textCellStyles}</BlockTitle>
+                    {cellStyles.length ? (
+                        <List className="cell-styles-list">
+                            {cellStyles.map((elem, index) => {
+                                return (
+                                    <ListItem key={index}
+                                        className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                        <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    ) : null}
+                </>}
+            </List>    
         </Fragment>
     )
 };
@@ -977,7 +984,7 @@ const PageTimeFormatCell = props => {
 }
 
 
-const PageEditCell = inject("storeCellSettings")(observer(EditCell));
+const PageEditCell = inject("storeCellSettings", "storeWorksheets")(observer(EditCell));
 const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageTextColorCell));
 const FillColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageFillColorCell));
 const CustomTextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageCustomTextColorCell));

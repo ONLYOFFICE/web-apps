@@ -290,6 +290,9 @@ const EditLayoutNavbar = ({ editors, inPopover }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+
+    if(!editors.length) return null;
+
     return (
         <Navbar>
             {
@@ -297,8 +300,7 @@ const EditLayoutNavbar = ({ editors, inPopover }) => {
                     <div className='tab-buttons tabbar'>
                         {editors.map((item, index) => <Link key={"sse-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
                         {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.length + '%'}}></span>}
-                    </div> :
-                    <NavTitle>{ editors[0].caption }</NavTitle>
+                    </div> : <NavTitle>{ editors[0].caption }</NavTitle>
             }
             { !inPopover && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight> }
         </Navbar>
@@ -306,6 +308,8 @@ const EditLayoutNavbar = ({ editors, inPopover }) => {
 };
 
 const EditLayoutContent = ({ editors }) => {
+    if(!editors.length) return null;
+
     if (editors.length > 1) {
         return (
             <Tabs animated>
@@ -329,6 +333,8 @@ const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const store = props.storeFocusObjects;
+    const wsLock = props.wsLock;
+    const wsProps = props.wsProps;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
 
@@ -345,41 +351,53 @@ const EditTabs = props => {
                 component: <EditCellController />
             })
         }
-        if (settings.indexOf('shape') > -1) {
-            editors.push({
-                caption: _t.textShape,
-                id: 'edit-shape',
-                component: <EditShapeController />
-            })
+        if(!wsProps.Objects) {
+            if (settings.indexOf('shape') > -1) {
+                editors.push({
+                    caption: _t.textShape,
+                    id: 'edit-shape',
+                    component: <EditShapeController />
+                })
+            }
+            if (settings.indexOf('image') > -1) {
+                editors.push({
+                    caption: _t.textImage,
+                    id: 'edit-image',
+                    component: <EditImageController />
+                })
+            }
+            if (settings.indexOf('text') > -1) {
+                editors.push({
+                    caption: _t.textText,
+                    id: 'edit-text',
+                    component: <EditTextController />
+                })
+            }
+            if (settings.indexOf('chart') > -1) {
+                editors.push({
+                    caption: _t.textChart,
+                    id: 'edit-chart',
+                    component: <EditChartController />
+                })
+            }
+            if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
+                editors.push({
+                    caption: _t.textHyperlink,
+                    id: 'edit-link',
+                    component: <EditLinkController />
+                })
+            }
+        }    
+    }
+
+    if(!editors.length) {
+        if (Device.phone) {
+            f7.sheet.close('#edit-sheet', false);
+        } else { 
+            f7.popover.close('#edit-popover', false);
         }
-        if (settings.indexOf('image') > -1) {
-            editors.push({
-                caption: _t.textImage,
-                id: 'edit-image',
-                component: <EditImageController />
-            })
-        }
-        if (settings.indexOf('text') > -1) {
-            editors.push({
-                caption: _t.textText,
-                id: 'edit-text',
-                component: <EditTextController />
-            })
-        }
-        if (settings.indexOf('chart') > -1) {
-            editors.push({
-                caption: _t.textChart,
-                id: 'edit-chart',
-                component: <EditChartController />
-            })
-        }
-        if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
-            editors.push({
-                caption: _t.textHyperlink,
-                id: 'edit-link',
-                component: <EditLinkController />
-            })
-        }
+
+        return null;
     }
 
     return (
@@ -403,10 +421,10 @@ const EditView = props => {
     return (
         show_popover ?
             <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
-                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} wsLock={props.wsLock} wsProps={props.wsProps} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
             <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
-                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} />
+                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} wsLock={props.wsLock} wsProps={props.wsProps} />
             </Sheet>
     )
 };
@@ -433,7 +451,7 @@ const EditOptions = props => {
     const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
 
     return (
-        <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} />
+        <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} wsLock={props.wsLock} wsProps={props.wsProps} />
     )
 };
 

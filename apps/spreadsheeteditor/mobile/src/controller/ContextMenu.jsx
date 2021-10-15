@@ -9,14 +9,16 @@ import { idContextMenuElement } from '../../../../common/mobile/lib/view/Context
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
-@inject ( stores => ({
+@inject (stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    storeSheets: stores.sheets
+    storeSheets: stores.sheets,
+    wsProps: stores.storeWorksheets.wsProps,
+    wsLock: stores.storeWorksheets.wsLock
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
