@@ -214,7 +214,7 @@
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
     "errorWrongBracketsCount": "An error in the formula.<br>Wrong number of brackets.",
-    "errorWrongOperator": "An error in the entered formula. The wrong operator is used.<br>Correct the error or use the Esc button to cancel the formula editing.",
+    "errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br> Please correct the error.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "pastInMergeAreaError": "Cannot change a part of a merged cell",
