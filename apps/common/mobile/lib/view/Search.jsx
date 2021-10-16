@@ -91,7 +91,6 @@ class SearchView extends Component {
             searchQuery: '',
             replaceQuery: ''
         };
-        this.$editor = $$('#editor_sdk');
 
         $$(document).on('page:init', (e, page) => {
             if(!this.searchbar) {
@@ -107,6 +106,11 @@ class SearchView extends Component {
                         disable: this.onSearchbarShow.bind(this, false)
                     }
                 });
+
+                const $editor = $$('#editor_sdk');
+
+                $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
+                $editor.on('pointerup', this.onEditorTouchEnd.bind(this));
             }
         });
 
@@ -117,15 +121,15 @@ class SearchView extends Component {
 
     componentDidMount(){
         const $$ = Dom7;
-
         this.$replace = $$('#idx-replace-val');
-        this.$editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-        this.$editor.on('pointerup', this.onEditorTouchEnd.bind(this));
     }
 
     componentWillUnmount() {
-        this.$editor.off('pointerdown', this.onEditorTouchStart.bind(this));
-        this.$editor.off('pointerup', this.onEditorTouchEnd.bind(this));
+        const $$ = Dom7;
+        const $editor = $$('#editor_sdk');
+
+        $editor.off('pointerdown', this.onEditorTouchStart.bind(this));
+        $editor.off('pointerup', this.onEditorTouchEnd.bind(this));
     }
 
     onSettingsClick(e) {
