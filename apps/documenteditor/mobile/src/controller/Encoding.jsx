@@ -32,24 +32,26 @@ class EncodingController extends Component {
             this.mode = mode;
             this.advOptions = advOptions;
             this.formatOptions = formatOptions;
-            this.pages = [];
-            this.pagesName = [];
+            this.encodeData = [];
         
             const recommendedSettings = this.advOptions.asc_getRecommendedSettings();
 
-            this.initPages();
+            this.initEncodeData();
             this.valueEncoding = recommendedSettings.asc_getCodePage();
         
             this.setState({
-                isOpen: true
+                isOpen: true 
             });
         }
     }
 
-    initPages() {
+    initEncodeData() {
         for (let page of this.advOptions.asc_getCodePages()) {
-            this.pages.push(page.asc_getCodePage());
-            this.pagesName.push(page.asc_getCodePageName());
+            this.encodeData.push({
+                value: page.asc_getCodePage(),
+                displayValue: page.asc_getCodePageName(),
+                lcid: page.asc_getLcid()
+            });
         }
     }
 
@@ -78,8 +80,7 @@ class EncodingController extends Component {
                     closeModal={this.closeModal}
                     mode={this.mode}  
                     onSaveFormat={this.onSaveFormat} 
-                    pages={this.pages}
-                    pagesName={this.pagesName}
+                    encodeData={this.encodeData}
                     valueEncoding={this.valueEncoding}
                 /> 
         );
