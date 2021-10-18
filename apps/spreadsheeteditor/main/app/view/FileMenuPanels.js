@@ -2678,4 +2678,220 @@ define([
 
     }, SSE.Views.FileMenuPanels.ProtectDoc || {}));
 
+    SSE.Views.FileMenuPanels.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-print',
+        menu: undefined,
+
+        template: _.template([
+            '<div style="width:100%; height:100%; position: relative;">',
+                '<div id="id-print-settings" style="position: absolute; width:280px; top: 0; bottom: 0;" class="no-padding">',
+                    '<div class="print-settings-top">',
+                        '<table>',
+                            '<tbody>',
+                                '<tr><td><label><%= scope.txtPrintRange %></label></td></tr>',
+                                '<tr><td class="padding-small"><div id="print-combo-range" style="width: 100%;"></div></td></tr>',
+                            '</tbody>',
+                        '</table>',
+                    '</div>',
+                    '<div class="print-settings-bottom">',
+                        '<div class="flex-settings ps-container oo">',
+                            '<table>',
+                                '<tbody>',
+                                    '<tr><td><label><%= scope.txtSettingsOfSheet %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-sheets" style="width: 100%;"></div></td></tr>',
+                                    '<tr><td><label><%= scope.txtPageSize %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-pages" style="width: 100%;"></div></td></tr>',
+                                    '<tr><td><label><%= scope.txtPageOrientation %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-orient" style="width: 100%;"></div></td></tr>',
+                                    '<tr><td><label><%= scope.txtScaling %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-layout" style="width: 100%;"></div></td></tr>',
+                                    '<tr><td><label><%= scope.txtPrintTitles %></label></td></tr>',
+                                    '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
+                                    '<tr>',
+                                        '<td class="padding-small"><div id="print-txt-top" style="width: 147px;"></div></td>',
+                                        '<td class="padding-small"><div id="print-presets-top" style="width: 85px;"></div></td>',
+                                    '</tr>',
+                                    '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
+                                    '<tr>',
+                                        '<td class="padding-small"><div id="print-txt-left" style="width: 147px;"></div></td>',
+                                        '<td class="padding-small"><div id="print-presets-left" style="width: 85px;"></div></td>',
+                                    '</tr>',
+                                '</tbody>',
+                            '</table>',
+                        '</div>',
+                        '<div class="fms-flex-apply hidden">',
+                            '<div class="footer justify">',
+                                '<button class="btn normal dlg-btn primary" result="print" style="width: 86px;"><%= scope.txtPrint %></button>',
+                                '<button class="btn normal dlg-btn" result="save" style="width: 86px;"><%= scope.txtSave %></button>',
+                            '</div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="id-print-preview" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+
+                '</div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function(node) {
+            var $markup = $(this.template({scope: this}));
+
+            this.cmbRange = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-range'),
+                menuStyle: 'min-width: 132px;max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentSheet },
+                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllSheets },
+                    { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection }
+                ]
+            });
+            this.cmbRange.on('selected', _.bind(this.onChangeComboRange, this));
+
+            this.cmbSheet = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-sheets'),
+                menuStyle: 'min-width: 242px;max-height: 280px;',
+                editable: false,
+                cls: 'input-group-nr',
+                data: [],
+                takeFocusOnClose: true
+            });
+
+            this.cmbPaperSize = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-pages'),
+                menuStyle: 'max-height: 280px; min-width: 242px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
+                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
+                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
+                ]
+            });
+
+            this.cmbPaperOrientation = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-orient'),
+                menuStyle   : 'min-width: 132px;',
+                editable    : false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                ]
+            });
+
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<%= scope.getDisplayValue(item) %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
+            this.cmbLayout = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-layout'),
+                menuStyle   : 'min-width: 242px;',
+                editable    : false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.txtActualSize },
+                    { value: 1, displayValue: this.txtFitPage },
+                    { value: 2, displayValue: this.txtFitCols },
+                    { value: 3, displayValue: this.txtFitRows },
+                    { value: 'customoptions', displayValue: this.txtCustomOptions }
+                ],
+                itemsTemplate: itemsTemplate
+            });
+
+            this.txtRangeTop = new Common.UI.InputFieldBtn({
+                el: $markup.findById('#print-txt-top'),
+                allowBlank: true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $markup.findById('#print-presets-top'),
+                cls: 'btn-text-menu-default',
+                caption: this.txtRepeat,
+                menu: true
+            });
+
+            this.txtRangeLeft = new Common.UI.InputFieldBtn({
+                el: $markup.findById('#print-txt-left'),
+                allowBlank: true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $markup.findById('#print-presets-left'),
+                cls: 'btn-text-menu-default',
+                caption: this.txtRepeat,
+                menu: true
+            });
+
+            this.$el = $(node).html($markup);
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        setApi: function(api) {
+
+        },
+
+        onChangeComboRange: function () {
+
+        },
+
+        txtPrint: 'Print',
+        txtSave: 'Save',
+        txtPrintRange: 'Print range',
+        txtCurrentSheet: 'Current sheet',
+        txtAllSheets: 'All sheets',
+        txtSelection: 'Selection',
+        txtSettingsOfSheet: 'Settings of sheet',
+        txtPageSize: 'Page size',
+        txtPageOrientation: 'Page orientation',
+        txtPortrait: 'Portrait',
+        txtLandscape: 'Landscape',
+        txtScaling: 'Scaling',
+        txtActualSize: 'Actual Size',
+        txtFitPage: 'Fit Sheet on One Page',
+        txtFitCols: 'Fit All Columns on One Page',
+        txtFitRows: 'Fit All Rows on One Pag',
+        txtCustomOptions: 'Custom Options',
+        txtPrintTitles: 'Print titles',
+        txtRepeatRowsAtTop: 'Repeat rows at top',
+        txtRepeatColumnsAtLeft: 'Repeat columns at left',
+        txtRepeat: 'Repeat...'
+    }, SSE.Views.FileMenuPanels.PrintWithPreview || {}));
+
 });

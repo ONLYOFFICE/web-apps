@@ -139,6 +139,16 @@ define([
                 dataHintOffset: [2, 14]
             });
 
+            this.miPrintWithPreview = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-print-with-preview'),
+                action  : 'print-with-preview',
+                caption : this.btnPrintCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
             this.miRename = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-rename'),
                 action  : 'rename',
@@ -244,6 +254,7 @@ define([
                 this.miSaveCopyAs,
                 this.miSaveAs,
                 this.miPrint,
+                this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
                 this.miRecent,
@@ -343,6 +354,7 @@ define([
             this.miSave[this.mode.isEdit?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint?'show':'hide']();
+            this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[this.mode.canProtect ?'show':'hide']();
             var isVisible = this.mode.canDownload || this.mode.isEdit || this.mode.canPrint || this.mode.canProtect ||
@@ -405,6 +417,10 @@ define([
             if ( this.mode.disableEditing != undefined ) {
                 this.panels['opts'].SetDisabled(this.mode.disableEditing);
                 delete this.mode.disableEditing;
+            }
+
+            if (this.mode.canPrint) {
+                this.panels['print-with-preview'] = ((new SSE.Views.FileMenuPanels.PrintWithPreview({menu:this})).render(this.$el.find('#panel-print')));
             }
         },
 
