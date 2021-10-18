@@ -296,7 +296,7 @@ const PageTransition = props => {
                                onRangeChanged={(value) => {props.onDelay(value)}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div slot='inner-end' style={{minWidth: '75px', textAlign: 'right'}}>
                         {stateRange + ' ' + _t.textSec}
                     </div>
                 </ListItem>
