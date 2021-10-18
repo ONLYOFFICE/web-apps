@@ -16,6 +16,7 @@ class EditTableController extends Component {
         this.onAddRowBelow = this.onAddRowBelow.bind(this);
         this.onRemoveColumn = this.onRemoveColumn.bind(this);
         this.onRemoveRow = this.onRemoveRow.bind(this);
+        this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
     }
 
     closeIfNeed () {
@@ -197,6 +198,11 @@ class EditTableController extends Component {
         }
     }
 
+    onGetTableStylesPreviews() {
+        const api = Common.EditorApi.get();
+        setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews()), 1);
+    }
+
     render () {
         return (
             <EditTable onRemoveTable={this.onRemoveTable}
@@ -213,9 +219,10 @@ class EditTableController extends Component {
                        onBorderTypeClick={this.onBorderTypeClick}
                        onReorder={this.onReorder}
                        onAlign={this.onAlign}
+                       onGetTableStylesPreviews={this.onGetTableStylesPreviews}
             />
         )
     }
 }
 
-export default inject("storeFocusObjects")(observer(EditTableController));
+export default inject("storeFocusObjects", "storeTableSettings")(observer(EditTableController));

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
+import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, SkeletonBlock, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -9,20 +9,32 @@ const PageTable = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
-    const styles = storeTableSettings.styles;
+    const styles = storeTableSettings.arrayStyles;
+
     return (
         <Page id={'add-table'}>
             <Navbar title={_t.textTable} backLink={_t.textBack}/>
             <div className={'table-styles dataview'}>
                 <ul className="row">
-                    {styles.map((style, index) => {
-                        return (
-                            <li key={index}
-                                onClick={() => {props.onStyleClick(style.templateId)}}>
-                                <img src={style.imageUrl}/>
-                            </li>
-                        )
-                    })}
+                    {!styles.length ?
+                        Array.from({ length: 70 }).map((item,index) => (
+                        <li className='skeleton-list' key={index}>    
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                        </li>
+                        )) :
+                            styles.map((style, index) => {
+                                return (
+                                    <li key={index}
+                                        onClick={() => {props.onStyleClick(style.templateId)}}>
+                                        <img src={style.imageUrl}/>
+                                    </li>
+                                )
+                            })
+                    }
                 </ul>
             </div>
         </Page>
@@ -36,7 +48,7 @@ const AddOther = props => {
     const hideAddComment = props.hideAddComment();
     return (
         <List>
-            <ListItem title={_t.textTable} link={'/add-table/'} routeProps={{
+            <ListItem title={_t.textTable} link={'/add-table/'} onClick = {() => props.onGetTableStylesPreviews()} routeProps={{
                 onStyleClick: props.onStyleClick,
                 initStyleTable: props.initStyleTable
             }}>

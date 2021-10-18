@@ -1,17 +1,21 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle,SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
 
 // Style
 
-const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects}) => {
+const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects,onGetTableStylesPreviews}) => {
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
-    const styles =  storeTableSettings.styles;
+    const styles =  storeTableSettings.arrayStyles;
+
+    useEffect(() => {
+        if(!styles.length) onGetTableStylesPreviews();
+    }, []);
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -21,16 +25,27 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     return (
         <div className="dataview table-styles">
             <ul className="row">
-                    {styles.map((style, index) => {
-                        return (
-                            <li key={index}
-                                className={style.templateId === stateId ? 'active' : ''}
-                                onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
-                                <img src={style.imageUrl}/>
-                            </li>
-                        )
-                    })}
-                </ul>
+                { !styles.length ?
+                        Array.from({ length: 34 }).map((item,index) => (
+                        <li className='skeleton-list' key={index}>    
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                        </li> 
+                    )) :
+                        styles.map((style, index) => {
+                            return (
+                                <li key={index}
+                                    className={style.templateId === stateId ? 'active' : ''}
+                                    onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
+                                    <img src={style.imageUrl}/>
+                                </li>
+                            )
+                        })
+                    }
+            </ul>
         </div>
     )
 }));
@@ -51,9 +66,11 @@ const PageStyleOptions = props => {
         isBandVer = tableLook.get_BandVer();
     }
 
+    const openIndicator = () => props.onGetTableStylesPreviews();
+
     return (
         <Page>
-            <Navbar title={_t.textOptions} backLink={_t.textBack}>
+            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={openIndicator}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -336,12 +353,13 @@ const PageStyle = props => {
                 <Tab key={"pe-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
                     <List>
                         <ListItem>
-                            <StyleTemplates templates={templates} onStyleClick={props.onStyleClick}/>
+                            <StyleTemplates onGetTableStylesPreviews={props.onGetTableStylesPreviews} templates={templates} onStyleClick={props.onStyleClick}/>
                         </ListItem>
                     </List>
                     <List>
                         <ListItem title={_t.textStyleOptions} link={'/edit-table-style-options/'} routeProps={{
-                            onCheckTemplateChange: props.onCheckTemplateChange
+                            onCheckTemplateChange: props.onCheckTemplateChange,
+                            onGetTableStylesPreviews: props.onGetTableStylesPreviews,
                         }}/>
                     </List>
                 </Tab>
@@ -495,6 +513,7 @@ const EditTable = props => {
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,
                     onCheckTemplateChange: props.onCheckTemplateChange,
+                    onGetTableStylesPreviews: props.onGetTableStylesPreviews,
                     onFillColor: props.onFillColor,
                     onBorderTypeClick: props.onBorderTypeClick
                 }}></ListItem>
