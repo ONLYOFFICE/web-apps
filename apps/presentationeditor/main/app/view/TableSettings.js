@@ -219,7 +219,7 @@ define([
         setApi: function(o) {
             this.api = o;
             if (o) {
-                this.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(this._onInitTemplates, this));
+                this.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(this.onInitTableTemplates, this));
             }
             return this;
         },
@@ -227,7 +227,7 @@ define([
         createDelayedControls: function() {
             var me = this;
 
-            this._tableTemplates && this._onInitTemplates(this._tableTemplates);
+            this._tableTemplates && this._onInitTemplates();
 
             this.chHeader = new Common.UI.CheckBox({
                 el: $('#table-checkbox-header'),
@@ -671,12 +671,16 @@ define([
             !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
-        _onInitTemplates: function(Templates){
+        onInitTableTemplates: function(){
             if (this._initSettings) {
-                this._tableTemplates = Templates;
+                this._tableTemplates = true;
                 return;
             }
+            this._onInitTemplates();
+        },
 
+        _onInitTemplates: function(){
+            var Templates = this.api.asc_getTableStylesPreviews();
             var self = this;
             this._isTemplatesChanged = true;
 
