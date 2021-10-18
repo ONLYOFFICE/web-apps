@@ -2684,51 +2684,85 @@ define([
 
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-print-settings" style="position: absolute; width:280px; top: 0; bottom: 0;" class="no-padding">',
-                    '<div class="print-settings-top">',
-                        '<table>',
-                            '<tbody>',
-                                '<tr><td><label><%= scope.txtPrintRange %></label></td></tr>',
-                                '<tr><td class="padding-small"><div id="print-combo-range" style="width: 100%;"></div></td></tr>',
-                            '</tbody>',
-                        '</table>',
-                    '</div>',
-                    '<div class="print-settings-bottom">',
-                        '<div class="flex-settings ps-container oo">',
-                            '<table>',
+                '<div id="id-print-settings" class="no-padding">',
+                    '<div class="print-settings">',
+                        '<div class="flex-settings ps-container oo settings-container">',
+                            '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr><td><label><%= scope.txtSettingsOfSheet %></label></td></tr>',
-                                    '<tr><td class="padding-small"><div id="print-combo-sheets" style="width: 100%;"></div></td></tr>',
-                                    '<tr><td><label><%= scope.txtPageSize %></label></td></tr>',
-                                    '<tr><td class="padding-small"><div id="print-combo-pages" style="width: 100%;"></div></td></tr>',
-                                    '<tr><td><label><%= scope.txtPageOrientation %></label></td></tr>',
-                                    '<tr><td class="padding-small"><div id="print-combo-orient" style="width: 100%;"></div></td></tr>',
-                                    '<tr><td><label><%= scope.txtScaling %></label></td></tr>',
-                                    '<tr><td class="padding-small"><div id="print-combo-layout" style="width: 100%;"></div></td></tr>',
-                                    '<tr><td><label><%= scope.txtPrintTitles %></label></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtSettingsOfSheet %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-sheets" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 134px;"></div></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtScaling %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-layout" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtPrintTitles %></label></td></tr>',
                                     '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
-                                    '<tr>',
-                                        '<td class="padding-small"><div id="print-txt-top" style="width: 147px;"></div></td>',
-                                        '<td class="padding-small"><div id="print-presets-top" style="width: 85px;"></div></td>',
-                                    '</tr>',
+                                    '<tr><td class="padding-small">',
+                                        '<table><tbody><tr>',
+                                            '<td><div id="print-txt-top" style="width: 163px; margin-right: 8px;"></div></td>',
+                                            '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
+                                        '</tr></tbody></table>',
+                                    '</td></tr>',
                                     '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
-                                    '<tr>',
-                                        '<td class="padding-small"><div id="print-txt-left" style="width: 147px;"></div></td>',
-                                        '<td class="padding-small"><div id="print-presets-left" style="width: 85px;"></div></td>',
-                                    '</tr>',
+                                    '<tr><td class="padding-large">',
+                                        '<table><tbody><tr>',
+                                            '<td><div id="print-txt-left" style="width: 163px; margin-right: 8px;"></div></td>',
+                                            '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
+                                        '</tr></tbody></table>',
+                                    '</td></tr>',
+                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtMargins %></label></td></tr>',
+                                    '<tr><td>',
+                                        '<table>',
+                                            '<tbody>',
+                                                '<tr>',
+                                                    '<td><label><%= scope.txtTop %></label></td>',
+                                                    '<td><label><%= scope.txtBottom %></label></td>',
+                                                '</tr>',
+                                                '<tr>',
+                                                    '<td class="padding-small"><div id="print-spin-margin-top" style="margin-right: 8px;"></div></td>',
+                                                    '<td class="padding-small"><div id="print-spin-margin-bottom" style="margin-right: 8px;"></div></td>',
+                                                '</tr>',
+                                                '<tr>',
+                                                    '<td><label><%= scope.txtLeft %></label></td>',
+                                                    '<td><label><%= scope.txtRight %></label></td>',
+                                                '</tr>',
+                                                '<tr>',
+                                                    '<td class="padding-large"><div id="print-spin-margin-left"></div></td>',
+                                                    '<td class="padding-large"><div id="print-spin-margin-right"></div></td>',
+                                                '</tr>',
+                                            '</tbody>',
+                                        '</table>',
+                                    '</td></tr>',
+                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
+                                    '<tr class="fms-btn-apply"><td>',
+                                        '<div class="footer justify">',
+                                            '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
+                                            '<button class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                        '</div>',
+                                    '</td></tr>',
                                 '</tbody>',
                             '</table>',
                         '</div>',
                         '<div class="fms-flex-apply hidden">',
                             '<div class="footer justify">',
-                                '<button class="btn normal dlg-btn primary" result="print" style="width: 86px;"><%= scope.txtPrint %></button>',
-                                '<button class="btn normal dlg-btn" result="save" style="width: 86px;"><%= scope.txtSave %></button>',
+                                '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
+                                '<button class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
                             '</div>',
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div id="id-print-preview" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
-
+                '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+                    '<div id="print-preview"></div>',
+                    '<div id="print-navigation"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -2737,14 +2771,18 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+
+            this.spinners = [];
         },
 
         render: function(node) {
+            var me = this;
+
             var $markup = $(this.template({scope: this}));
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
-                menuStyle: 'min-width: 132px;max-height: 280px;',
+                menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
@@ -2756,9 +2794,14 @@ define([
             });
             this.cmbRange.on('selected', _.bind(this.onChangeComboRange, this));
 
+            this.chIgnorePrintArea = new Common.UI.CheckBox({
+                el: $markup.findById('#print-chb-ignore'),
+                labelText: this.txtIgnore
+            });
+
             this.cmbSheet = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-sheets'),
-                menuStyle: 'min-width: 242px;max-height: 280px;',
+                menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 cls: 'input-group-nr',
                 data: [],
@@ -2767,7 +2810,7 @@ define([
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-pages'),
-                menuStyle: 'max-height: 280px; min-width: 242px;',
+                menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
@@ -2790,7 +2833,7 @@ define([
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-orient'),
-                menuStyle   : 'min-width: 132px;',
+                menuStyle   : 'min-width: 134px;',
                 editable    : false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
@@ -2810,7 +2853,7 @@ define([
                 ].join(''));
             this.cmbLayout = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-layout'),
-                menuStyle   : 'min-width: 242px;',
+                menuStyle   : 'min-width: 248px;',
                 editable    : false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
@@ -2834,6 +2877,7 @@ define([
                 parentEl: $markup.findById('#print-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
+                style: 'width: 77px;',
                 menu: true
             });
 
@@ -2847,16 +2891,109 @@ define([
                 parentEl: $markup.findById('#print-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
+                style: 'width: 77px;',
                 menu: true
             });
 
+            this.spnMarginTop = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-margin-top'),
+                step: .1,
+                width: 120,
+                defaultUnit : "cm",
+                value: '0 cm',
+                maxValue: 48.25,
+                minValue: 0
+            });
+            this.spinners.push(this.spnMarginTop);
+
+            this.spnMarginBottom = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-margin-bottom'),
+                step: .1,
+                width: 120,
+                defaultUnit : "cm",
+                value: '0 cm',
+                maxValue: 48.25,
+                minValue: 0
+            });
+            this.spinners.push(this.spnMarginBottom);
+
+            this.spnMarginLeft = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-margin-left'),
+                step: .1,
+                width: 120,
+                defaultUnit : "cm",
+                value: '0.19 cm',
+                maxValue: 48.25,
+                minValue: 0
+            });
+            this.spinners.push(this.spnMarginLeft);
+
+            this.spnMarginRight = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-margin-right'),
+                step: .1,
+                width: 120,
+                defaultUnit : "cm",
+                value: '0.19 cm',
+                maxValue: 48.25,
+                minValue: 0
+            });
+            this.spinners.push(this.spnMarginRight);
+
+            this.chPrintGrid = new Common.UI.CheckBox({
+                el: $markup.findById('#print-chb-grid'),
+                labelText: this.txtPrintGrid
+            });
+
+            this.chPrintRows = new Common.UI.CheckBox({
+                el: $markup.findById('#print-chb-rows'),
+                labelText: this.txtPrintHeadings
+            });
+
+            this.btnApplyAll = new Common.UI.Button({
+                el: $markup.findById('#print-apply-all')
+            });
+            this.btnApplyAll.on('click', _.bind(this.onApplyToAll, this));
+
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
+            this.pnlTable = $(this.pnlSettings.find('table')[0]);
+            this.trApply = $markup.find('.fms-btn-apply');
+
             this.$el = $(node).html($markup);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.pnlSettings,
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+            }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
+
+            this.updateScroller();
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                this.pnlApply.toggleClass('hidden', !scrolled);
+                this.trApply.toggleClass('hidden', scrolled);
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         setMode: function(mode) {
@@ -2868,6 +3005,10 @@ define([
         },
 
         onChangeComboRange: function () {
+
+        },
+
+        onApplyToAll: function () {
 
         },
 
@@ -2891,7 +3032,18 @@ define([
         txtPrintTitles: 'Print titles',
         txtRepeatRowsAtTop: 'Repeat rows at top',
         txtRepeatColumnsAtLeft: 'Repeat columns at left',
-        txtRepeat: 'Repeat...'
+        txtRepeat: 'Repeat...',
+        txtMargins: 'Margins',
+        txtTop: 'Top',
+        txtBottom: 'Bottom',
+        txtLeft: 'Left',
+        txtRight: 'Right',
+        txtGridlinesAndHeadings: 'Gridlines and headings',
+        txtPrintGrid: 'Print gridlines',
+        txtPrintHeadings: 'Print row and columns headings',
+        txtHeaderFooterSettings: 'Header/footer settings',
+        txtApplyToAllSheets: 'Apply to all sheets',
+        txtIgnore: 'Ignore print area'
     }, SSE.Views.FileMenuPanels.PrintWithPreview || {}));
 
 });
