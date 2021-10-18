@@ -10,20 +10,13 @@ const PageTable = props => {
     const _t = t('View.Add', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const styles = storeTableSettings.arrayStyles;
-    const [stateLoaderSkeleton, setLoaderSkeleton] = useState(true);
-
-    useEffect(() => {
-
-        !styles.length ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
-
-    }, [styles]);
 
     return (
         <Page id={'add-table'}>
             <Navbar title={_t.textTable} backLink={_t.textBack}/>
             <div className={'table-styles dataview'}>
                 <ul className="row">
-                {stateLoaderSkeleton ?
+                {!styles.length ?
                     Array.from({ length: 70 }).map((item,index) => (
                     <li className='skeleton-list' key={index}>    
                         <SkeletonBlock  width='70px' height='8px'  effect='wave'/>

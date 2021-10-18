@@ -11,18 +11,11 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     const tableObject = storeFocusObjects.tableObject;
     const styleId = tableObject ? tableObject.get_TableStyle() : null;
     const [stateId, setId] = useState(styleId);
-    const [stateLoaderSkeleton, setLoaderSkeleton] = useState(true);
     const styles =  storeTableSettings.arrayStyles;
     
     useEffect(() => {
         if(!styles.length) setTimeout(() => onGetTableStylesPreviews(), 1);
     }, []);
-
-    useEffect(() => {
-
-        !styles.length ? setLoaderSkeleton(true) : setLoaderSkeleton(false);
-
-    }, [styles]);
 
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -32,7 +25,7 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     return (
         <div className="dataview table-styles">
             <ul className="row">
-            { stateLoaderSkeleton ?
+            { !styles.length ?
                     Array.from({ length: 34 }).map((item,index) => (
                     <li className='skeleton-list' key={index}>    
                         <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
