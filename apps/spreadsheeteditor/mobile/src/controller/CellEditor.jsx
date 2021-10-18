@@ -14,7 +14,7 @@ const CellEditor = props => {
     }, []);
 
     const [cellName, setCellName] = useState('');
-    const [stateCoauth, setCoauthDisabled] = useState(null);
+    const [stateFunctions, setFunctionshDisabled] = useState(null);
     const [stateFuncArr, setFuncArr] = useState('');
 
     const onApiCellSelection = info => {
@@ -22,7 +22,17 @@ const CellEditor = props => {
     };
 
     const onApiSelectionChanged = info => {
-        setCoauthDisabled(info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true);
+        let seltype = info.asc_getSelectionType(),
+            coauth_disable = info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true;
+
+        let is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
+            is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
+            is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+            is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
+            is_image        = seltype == Asc.c_oAscSelectionType.RangeImage || seltype == Asc.c_oAscSelectionType.RangeSlicer,
+            is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
+
+        setFunctionshDisabled(is_image || is_mode_2 || coauth_disable);
     }
 
     const onFormulaCompleteMenu = funcArr => {
@@ -43,7 +53,7 @@ const CellEditor = props => {
     return (
         <CellEditorView 
             cellName={cellName}
-            stateCoauth={stateCoauth}
+            stateFunctions={stateFunctions}
             onClickToOpenAddOptions={props.onClickToOpenAddOptions} 
             funcArr={stateFuncArr}
             insertFormula={insertFormula}

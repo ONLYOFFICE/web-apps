@@ -144,7 +144,7 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td colspan="3" align="center">',
-                            '<label class="asc-about-desc"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></label>',
+                            '<a href="<%= publisherurl %>" target="_blank"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></a>',
                         '</td>',
                     '</tr>',
                 '</table>'
@@ -195,7 +195,7 @@ define([
             if ( !this.rendered ) {
                 this.licData = data || true;
             } else {
-                if (data && typeof data == 'object' && typeof(data.customer)=='object') {
+                if (data && typeof data == 'object' && data.customer && typeof(data.customer)=='object') {
                     this.licData = data;
                     var customer = data.customer;
 

@@ -536,13 +536,13 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big');
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
@@ -565,7 +565,9 @@ define([
                     if ( !!window.DE ) {
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
                         me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'), undefined, 'bottom', 'big');
-                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
+
+                        var document = window.DE.getController('Main').document;
+                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme() && !/^pdf|djvu|xps|oxps$/.test(document.fileType));
                     }
 
                     return $html;
@@ -757,7 +759,7 @@ define([
                 if ( alias == 'users' ) {
                     if ( lock )
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
-                        $btnUsers.removeClass('disabled').attr('disabled', '');
+                        $btnUsers.removeClass('disabled').removeAttr('disabled');
                 } else if ( alias == 'rename-user' ) {
                     if (me.labelUserName) {
                         if ( lock ) {

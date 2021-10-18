@@ -325,7 +325,8 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
-                if ( !Common.UI.Themes.isDarkTheme() ) {
+                var document = DE.getController('Main').document;
+                if ( !Common.UI.Themes.isDarkTheme() || /^pdf|djvu|xps|oxps$/.test(document.fileType) ) {
                     me.header.menuItemsDarkMode.hide();
                     me.header.menuItemsDarkMode.$el.prev('.divider').hide();
                 }
@@ -370,13 +371,16 @@ define([
         },
 
         onThemeChanged: function (id) {
-            var current_dark = Common.UI.Themes.isDarkTheme();
-            var menuItem = this.header.menuItemsDarkMode;
-            menuItem.setVisible(current_dark);
-            menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
+            var document = DE.getController('Main').document;
+            if ( !/^pdf|djvu|xps|oxps$/.test(document.fileType) ) {
+                var current_dark = Common.UI.Themes.isDarkTheme();
+                var menuItem = this.header.menuItemsDarkMode;
+                menuItem.setVisible(current_dark);
+                menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
 
-            menuItem.setChecked(current_dark);
-            this.header.btnContentMode.setVisible(current_dark);
+                menuItem.setChecked(current_dark);
+                this.header.btnContentMode.setVisible(current_dark);
+            }
         },
 
         onContentThemeChangedToDark: function (isdark) {

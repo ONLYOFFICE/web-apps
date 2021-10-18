@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Möchten Sie diesen Kommentar wirklich löschen?",
       "textMessageDeleteReply": "Möchten Sie diese Antwort wirklich löschen?",
       "textNoComments": "Dieses Dokument enthält keine Kommentare",
+      "textOk": "OK",
       "textReopen": "Wiederöffnen",
       "textResolve": "Lösen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer",
-      "textOk": "Ok"
+      "textUsers": "Benutzer"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
