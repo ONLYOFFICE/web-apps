@@ -4,33 +4,34 @@ import {f7} from 'framework7-react';
 export class storeTableSettings {
     constructor() {
         makeObservable(this, {
-            _templates: observable,
             cellBorders: observable,
             cellBorderWidth: observable,
             cellBorderColor: observable,
+            arrayStyles: observable,
             initTableTemplates: action,
-            styles: computed,
+            setStyles: action,
             updateCellBorderWidth: action,
             updateCellBorderColor: action,
         });
     }
 
-    _templates = [];
+    arrayStyles = [];
 
-    initTableTemplates (templates) {
-        this._templates = templates;
+    initTableTemplates () {
+        this.arrayStyles = [];
     }
 
-    get styles () {
+    setStyles (arrStyles) {
         let styles = [];
-        for (let template of this._templates) {
+        for (let template of arrStyles) {
             styles.push({
                 imageUrl    : template.asc_getImage(),
                 templateId  : template.asc_getId()
             });
         }
-        return styles;
+        return this.arrayStyles = styles;
     }
+
     getTableLook (tableObject) {
         return tableObject.get_TableLook()
     }
