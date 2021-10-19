@@ -101,7 +101,7 @@ export class storeWorksheets {
         this.isProtectedWorkbook = value;
     }
 
-    wsProps = {};
+    wsProps;
     setWsProps(value) {
         this.wsProps = value;
     }
