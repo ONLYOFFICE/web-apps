@@ -86,7 +86,12 @@ class MainPage extends Component {
   render() {
       const appOptions = this.props.storeAppOptions;
       const config = appOptions.config;
-      const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+
+      let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+      if ( !Object.keys(config).length ) {
+          showLogo = !/&(?:customer|logo)=/.test(window.location.search);
+      }
+
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
       return (
           <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
