@@ -63,10 +63,13 @@ define([
             this.addListeners({
                 'PE.Views.Animation': {
                     'animation:preview':      _.bind(this.onPreviewClick, this),
-                    'animation:parameters':    _.bind(this.onParameterClick, this),
+                    'animation:parameters':   _.bind(this.onParameterClick, this),
                     'animation:duration':     _.bind(this.onDurationChange, this),
                     'animation:selecteffect': _.bind(this.onEffectSelect, this),
                     'animation:delay':        _.bind(this.onDelayChange, this),
+                    'animation:animationpane':_.bind(this.onAnimationPane, this),
+                    'animation:addeffect':    _.bind(this.onAddEffect, this),
+                    'animation:startselect':    _.bind(this.onStartSelect, this),
                 },
                 'Toolbar': {
                     'tab:active':           _.bind(this.onActiveTab, this)
@@ -117,35 +120,39 @@ define([
         },
 
         onParameterClick: function (item) {
-            this.EffectType = item.value;
+            this._state.EffectType = item.value;
+
+        },
+
+        onAnimationPane: function() {
+
+        },
+
+        onAddEffect: function() {
 
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
-
+            this._state.Duration = field.getNumberValue()*1000;
         },
-
-
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-
+            this._state.Delay = field.getNumberValue()*1000;
         },
-
-        onCheckDelayChange: function(field, newValue, oldValue, eOpts) {
-
-        },
-
-
 
         onEffectSelect: function (combo, record) {
            var type = record.get('value');
 
-            if (this.Effect !== type) {
+            if (this._state.Effect !== type) {
                 var  parameter = this.view.setMenuParameters(type);
                 if (parameter)
                     this.onParameterClick(parameter);
             }
-            this.Effect = type;
+            this._state.Effect = type;
+
+        },
+
+        onStartSelect: function (combo, record) {
 
         },
 
@@ -160,7 +167,7 @@ define([
 
                 if (eltype == Asc.c_oAscTypeSelectElement.Slide) {
 
-                    //this.loadSettings(pr);
+                    this.loadSettings();
 
                     if (this._state.onactivetab) {
                         this.setLocked();
@@ -170,8 +177,25 @@ define([
             }
         },
 
-        loadSettings: function (props) {
+        loadSettings: function () {
+            this._state.Effect = !this._state.Effect ? 2 : this._state.Effect;
+            this._state.EffectType = !this._state.EffectType ? this.view.setMenuParameters(this._state.Effect): this._state.EffectType;
 
+            var value = 1000;
+            if (Math.abs(this._state.Duration - value) > 0.001 ||
+                (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
+                (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
+                this._state.Duration = value;
+            }
+
+            value = 1000;
+            if (Math.abs(this._state.Delay - value) > 0.001 ||
+                (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
+                (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
+                this._state.Delay = value;
+            }
+
+            this._state.StartSelect = 0;
         },
 
         onActiveTab: function(tab) {
@@ -194,6 +218,21 @@ define([
 
         setSettings: function () {
             var me = this.view;
+
+            if (this._state.Effect !== undefined) {
+                var item = me.listEffects.store.findWhere({value: this._state.Effect});
+                me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
+                this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
+            }
+
+            if (me.btnParameters.menu.items.length > 0 && this._state.EffectType !== undefined)
+                me.setMenuParameters(this._state.Effect, this._state.EffectType);
+
+            me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
+            me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
+            item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
+            me.cmbStart.selectRecord(item ? item : me.cmbStart.items[0]);
+
         }
 
     }, PE.Controllers.Animation || {}));

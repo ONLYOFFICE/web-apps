@@ -185,10 +185,10 @@
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>
                 <div class="separator long"></div>
-                    <div class="group small">
+                    <div class="group small"  style = "min-width: 130px;">
                         <div class="elset font-normal">
                             <label id="animation-label-start"></label>
-                            <span class="btn-slot" style="float: right; width: 60px; margin-left: 2px;" id="animation-start"></span>
+                            <div class="btn-slot" style="float: right; width: 76px; " id="animation-start"></div>
                         </div>
                         <div class="elset">
                             <span class="btn-slot text " id="animation-button-pane"></span>
@@ -196,17 +196,17 @@
 
                 </div>
                 <div class="separator long"></div>
-                <div class="group small">
+                <div class="group small" style = "min-width: 122px;">
                     <div class="elset font-normal">
                          <label id="animation-delay"></label>
-                         <div id="animation-spin-delay" class="btn-slot text spinner" style="float: right;"></div>
+                         <span id="animation-spin-delay" class="btn-slot text spinner" style="float: right"></span>
                     </div>
                     <div class="elset font-normal">
                         <label id="animation-duration"></label>
-                        <span id="animation-spin-duration" class="btn-slot text spinner" style="float: right;"></span>
+                        <span id="animation-spin-duration" class="btn-slot text spinner" style="float: right"></span>
                     </div>
-
                 </div>
+
                 <div class="separator long"></div>
                 <div class="group small">
                      <div class="elset">
