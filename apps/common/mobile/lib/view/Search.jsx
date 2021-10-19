@@ -85,34 +85,10 @@ class SearchView extends Component {
     constructor(props) {
         super(props);
 
-        const $$ = Dom7;
-
         this.state = {
             searchQuery: '',
             replaceQuery: ''
         };
-
-        $$(document).on('page:init', (e, page) => {
-            if(!this.searchbar) {
-                this.searchbar = f7.searchbar.create({
-                    el: '.searchbar',
-                    customSearch: true,
-                    expandable: true,
-                    backdrop: false,
-                    on: {
-                            search: (bar, curval, prevval) => {
-                        },
-                        enable: this.onSearchbarShow.bind(this, true),
-                        disable: this.onSearchbarShow.bind(this, false)
-                    }
-                });
-
-                const $editor = $$('#editor_sdk');
-
-                $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-                $editor.on('pointerup', this.onEditorTouchEnd.bind(this));
-            }
-        });
 
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onSearchClick = this.onSearchClick.bind(this);
@@ -120,8 +96,30 @@ class SearchView extends Component {
     }
 
     componentDidMount(){
-        const $$ = Dom7;
         this.$replace = $$('#idx-replace-val');
+
+        const $editor = $$('#editor_sdk');
+        $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
+        $editor.on('pointerup', this.onEditorTouchEnd.bind(this));
+
+        if( !this.searchbar ) {
+            this.searchbar = f7.searchbar.get('.searchbar');
+        }
+
+        if( !this.searchbar ) {
+            this.searchbar = f7.searchbar.create({
+                el: '.searchbar',
+                customSearch: true,
+                expandable: true,
+                backdrop: false,
+                on: {
+                    search: (bar, curval, prevval) => {
+                    },
+                    enable: this.onSearchbarShow.bind(this, true),
+                    disable: this.onSearchbarShow.bind(this, false)
+                }
+            });
+        }
     }
 
     componentWillUnmount() {
