@@ -161,6 +161,9 @@
       "textCustomColors": "Colori personalizzati",
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,7 +307,28 @@
     "textTopAndBottom": "Sopra e sotto",
     "textTotalRow": "Riga totale",
     "textType": "Tipo",
-    "textWrap": "Avvolgere"
+    "textWrap": "Avvolgere",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",

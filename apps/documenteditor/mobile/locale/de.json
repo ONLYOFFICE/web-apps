@@ -161,6 +161,9 @@
       "textCustomColors": "Benutzerdefinierte Farben",
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Designfarben"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,7 +307,28 @@
     "textTopAndBottom": "Oben und unten",
     "textTotalRow": "Ergebniszeile",
     "textType": "Typ",
-    "textWrap": "Umbrechen"
+    "textWrap": "Umbrechen",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",

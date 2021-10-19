@@ -161,6 +161,9 @@
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -305,7 +308,27 @@
     "textTopAndBottom": "Сверху и снизу",
     "textTotalRow": "Строка итогов",
     "textType": "Тип",
-    "textWrap": "Стиль обтекания"
+    "textWrap": "Стиль обтекания",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",

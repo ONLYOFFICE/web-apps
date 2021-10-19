@@ -37,6 +37,9 @@
       "textCustomColors": "사용자 정의 색상",
       "textStandartColors": "표준 색상",
       "textThemeColors": "테마 색"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -383,7 +386,8 @@
       "textZoomIn": "확대",
       "textZoomOut": "축소",
       "textZoomRotate": "확대 / 축소 및 회전",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",

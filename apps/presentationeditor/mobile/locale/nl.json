@@ -37,6 +37,9 @@
       "textCustomColors": "Aangepaste kleuren",
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -383,7 +386,8 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

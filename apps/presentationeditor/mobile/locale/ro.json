@@ -37,6 +37,9 @@
       "textCustomColors": "Culori particularizate",
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -383,7 +386,8 @@
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
       "textZoomRotate": "Zoom și rotire",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

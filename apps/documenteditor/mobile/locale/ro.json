@@ -161,6 +161,9 @@
       "textCustomColors": "Culori particularizate",
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,7 +307,28 @@
     "textTopAndBottom": "Sus și jos",
     "textTotalRow": "Rând total",
     "textType": "Tip",
-    "textWrap": "Încadrare"
+    "textWrap": "Încadrare",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",

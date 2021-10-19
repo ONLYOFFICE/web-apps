@@ -161,6 +161,9 @@
       "textCustomColors": "ユーザー設定の色",
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマの色"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,7 +307,28 @@
     "textTopAndBottom": "上と下",
     "textTotalRow": "合計行",
     "textType": "タイプ",
-    "textWrap": "折り返す"
+    "textWrap": "折り返す",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",

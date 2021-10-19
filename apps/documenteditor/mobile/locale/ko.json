@@ -161,6 +161,9 @@
       "textCustomColors": "사용자 정의 색상",
       "textStandartColors": "표준 색상",
       "textThemeColors": "테마 색"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -304,7 +307,28 @@
     "textTopAndBottom": "상단 및 하단",
     "textTotalRow": "합계",
     "textType": "유형",
-    "textWrap": "줄 바꾸기"
+    "textWrap": "줄 바꾸기",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",

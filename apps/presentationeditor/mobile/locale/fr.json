@@ -37,6 +37,9 @@
       "textCustomColors": "Couleurs personnalisées",
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -383,7 +386,8 @@
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
       "textZoomRotate": "Zoom et rotation",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
