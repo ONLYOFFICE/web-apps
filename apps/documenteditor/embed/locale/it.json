@@ -30,7 +30,7 @@
   "DE.ApplicationController.textOf": "di",
   "DE.ApplicationController.textRequired": "Compila tutti i campi richiesti per inviare il modulo.",
   "DE.ApplicationController.textSubmit": "‎Invia‎",
-  "DE.ApplicationController.textSubmited": "<b>Modulo inviato con successo</b><br>Fare click per chiudere la notifica</br>",
+  "DE.ApplicationController.textSubmited": "<b>Modulo è stato inviato con successo</b><br>Clicca su per chiudere la notifica</br>",
   "DE.ApplicationController.txtClose": "Chiudi",
   "DE.ApplicationController.txtEmpty": "(Vuoto)",
   "DE.ApplicationController.txtPressLink": "Premi CTRL e clicca sul collegamento",
