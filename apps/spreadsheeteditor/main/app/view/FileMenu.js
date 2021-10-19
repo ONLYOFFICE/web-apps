@@ -420,7 +420,9 @@ define([
             }
 
             if (this.mode.canPrint) {
-                this.panels['print-with-preview'] = ((new SSE.Views.FileMenuPanels.PrintWithPreview({menu:this})).render(this.$el.find('#panel-print')));
+                var printPanel = SSE.getController('Print').getView('PrintWithPreview');
+                printPanel.menu = this;
+                this.panels['print-with-preview'] = printPanel.render(this.$el.find('#panel-print'));
             }
         },
 

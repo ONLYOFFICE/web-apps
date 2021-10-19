@@ -210,9 +210,9 @@ define([
             this.generalSettings.options = {alias:'MainSettingsGeneral'};
             this.generalSettings.render($markup.findById('#panel-settings-general'));
 
-            this.printSettings = SSE.getController('Print').getView('MainSettingsPrint');
-            this.printSettings.menu = this.menu;
-            this.printSettings.render($markup.findById('#panel-settings-print'));
+            //this.printSettings = SSE.getController('Print').getView('MainSettingsPrint');
+            //this.printSettings.menu = this.menu;
+            //this.printSettings.render($markup.findById('#panel-settings-print'));
 
             this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
             this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
@@ -221,7 +221,7 @@ define([
                 el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', contentTarget: 'panel-settings-general', selected: true},
-                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print', contentTarget: 'panel-settings-print'},
+                    //{name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print', contentTarget: 'panel-settings-print'},
                     {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell', contentTarget: 'panel-settings-spellcheck'}
                 ]),
                 itemTemplate: _.template([
@@ -2678,7 +2678,7 @@ define([
 
     }, SSE.Views.FileMenuPanels.ProtectDoc || {}));
 
-    SSE.Views.FileMenuPanels.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
+    SSE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
         el: '#panel-print',
         menu: undefined,
 
@@ -2746,7 +2746,7 @@ define([
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                            '<button class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                            '<button id="print-button-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',
@@ -2755,7 +2755,7 @@ define([
                         '<div class="fms-flex-apply hidden">',
                             '<div class="footer justify">',
                                 '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                '<button class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                '<button id="print-button-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
                             '</div>',
                         '</div>',
                     '</div>',
@@ -2773,6 +2773,7 @@ define([
             this.menu = options.menu;
 
             this.spinners = [];
+            this._initSettings = true;
         },
 
         render: function(node) {
@@ -2792,7 +2793,6 @@ define([
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection }
                 ]
             });
-            this.cmbRange.on('selected', _.bind(this.onChangeComboRange, this));
 
             this.chIgnorePrintArea = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-ignore'),
@@ -2952,12 +2952,15 @@ define([
             this.btnApplyAll = new Common.UI.Button({
                 el: $markup.findById('#print-apply-all')
             });
-            this.btnApplyAll.on('click', _.bind(this.onApplyToAll, this));
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
+
+            this.btnSave = new Common.UI.Button({
+                el: $markup.findById('#print-button-save')
+            });
 
             this.$el = $(node).html($markup);
 
@@ -2975,13 +2978,21 @@ define([
                 }
             });
 
+            this.updateMetricUnit();
+
+            this.fireEvent('render:after', this);
+
             return this;
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
-
+            if (this._initSettings) {
+                this.updateMetricUnit();
+                this._initSettings = false;
+            }
             this.updateScroller();
+            this.fireEvent('show', this);
         },
 
         updateScroller: function() {
@@ -3004,12 +3015,56 @@ define([
 
         },
 
-        onChangeComboRange: function () {
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    value = item.get('value'),
+                    pagewidth = /^\d{3}\.?\d*/.exec(value),
+                    pageheight = /\d{3}\.?\d*$/.exec(value);
 
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            }
+            this.cmbPaperSize.onResetItems();
         },
 
-        onApplyToAll: function () {
+        addCustomScale: function (add) {
+            if (add) {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.txtActualSize },
+                    { value: 1, displayValue: this.txtFitPage },
+                    { value: 2, displayValue: this.txtFitCols },
+                    { value: 3, displayValue: this.txtFitRows },
+                    { value: 4, displayValue: this.txtCustom },
+                    { value: 'customoptions', displayValue: this.txtCustomOptions }
+                ]);
+            } else {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.txtActualSize },
+                    { value: 1, displayValue: this.txtFitPage },
+                    { value: 2, displayValue: this.txtFitCols },
+                    { value: 3, displayValue: this.txtFitRows },
+                    { value: 'customoptions', displayValue: this.txtCustomOptions }
+                ]);
+            }
+        },
 
+        applySettings: function() {
+            if (this.menu) {
+                this.menu.fireEvent('settings:apply', [this.menu]);
+            }
+        },
+
+        isVisible: function() {
+            return (this.$el || $(this.el)).is(":visible");
         },
 
         txtPrint: 'Print',
@@ -3028,6 +3083,7 @@ define([
         txtFitPage: 'Fit Sheet on One Page',
         txtFitCols: 'Fit All Columns on One Page',
         txtFitRows: 'Fit All Rows on One Pag',
+        txtCustom: 'Custom',
         txtCustomOptions: 'Custom Options',
         txtPrintTitles: 'Print titles',
         txtRepeatRowsAtTop: 'Repeat rows at top',

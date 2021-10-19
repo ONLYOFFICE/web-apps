@@ -39,7 +39,8 @@ define([
 
     SSE.Controllers.Print = Backbone.Controller.extend(_.extend({
         views: [
-            'MainSettingsPrint'
+            'MainSettingsPrint',
+            'PrintWithPreview'
         ],
 
         initialize: function() {
@@ -53,7 +54,11 @@ define([
             this._originalPageSettings = null;
 
             this.addListeners({
-                'MainSettingsPrint': {
+                /*'MainSettingsPrint': {
+                    'show': _.bind(this.onShowMainSettingsPrint, this),
+                    'render:after': _.bind(this.onAfterRender, this)
+                },*/
+                'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
                     'render:after': _.bind(this.onAfterRender, this)
                 },
@@ -66,12 +71,13 @@ define([
         },
 
         onLaunch: function() {
-            this.printSettings = this.createView('MainSettingsPrint');
+            //this.printSettings = this.createView('MainSettingsPrint');
+            this.printSettings = this.createView('PrintWithPreview');
         },
 
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
-            this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
+            this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this));
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
         },
