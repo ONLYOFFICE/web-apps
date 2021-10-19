@@ -19,7 +19,7 @@ const EditSlide = props => {
                 <ListItem title={_t.textLayout} link="/layout/" routeProps={{
                     onLayoutClick: props.onLayoutClick
                 }}></ListItem>
-                <ListItem title={_t.textTransition} link="/transition/" routeProps={{
+                <ListItem title={t('View.Edit.textTransitions')} link="/transition/" routeProps={{
                     onEffectClick: props.onEffectClick,
                     onEffectTypeClick: props.onEffectTypeClick,
                     changeDuration: props.changeDuration,
@@ -225,7 +225,7 @@ const PageTransition = props => {
 
     return (
         <Page className="slide-transition">
-            <Navbar title={_t.textTransition} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textTransitions')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -296,7 +296,7 @@ const PageTransition = props => {
                                onRangeChanged={(value) => {props.onDelay(value)}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div slot='inner-end' style={{minWidth: '75px', textAlign: 'right'}}>
                         {stateRange + ' ' + _t.textSec}
                     </div>
                 </ListItem>

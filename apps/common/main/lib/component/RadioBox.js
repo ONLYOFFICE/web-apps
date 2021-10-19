@@ -71,8 +71,13 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
-                                    '<label for="<%= id %>" class="radiobox__shape"></label><span></span></label>'),
+        template    : _.template('<div class="radiobox" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+                                    '<input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
+                                    '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                                        '<circle class="rb-circle" cx="8" cy="8" r="6.5" />' +
+                                        '<circle class="rb-check-mark" cx="8" cy="8" r="4" />' +
+                                    '</svg>' +
+                                    '<span></span></div>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -96,7 +101,6 @@ define([
             this.setCaption(this.options.labelText);
 
             // handle events
-            this.$radio.on('click', _.bind(this.onItemCheck, this));
         },
 
         render: function () {
@@ -111,9 +115,15 @@ define([
             }));
 
             this.$radio = el.find('input[type=radio]');
-            this.$label = el.find('label.radiobox');
+            this.$label = el.find('div.radiobox');
             this.$span = this.$label.find('span');
-            this.$label.on('keydown', this.onKeyDown.bind(this));
+            this.$label.on({
+                'keydown': this.onKeyDown.bind(this),
+                'click': function(e){
+                    if ( !this.disabled )
+                        this.setValue(true);
+                }.bind(this),});
+
             this.rendered = true;
 
             return this;

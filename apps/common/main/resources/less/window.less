@@ -22,6 +22,50 @@
         opacity: 0.6;
     }
 }
+.tool {
+    float: right;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0px;
+    margin: 4px 3px 0px 0px;
+
+    &.close {
+        position: relative;
+        opacity: 0.7;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.disabled {
+            cursor: default;
+        }
+
+        &:before, &:after {
+            content: ' ';
+            position: absolute;
+            left: 7px;
+            left: calc(7px / @pixel-ratio-factor);
+            top: @scaled-one-px-value-ie;
+            top: @scaled-one-px-value;
+            height: 14px;
+            width: @scaled-one-px-value-ie;
+            width: @scaled-one-px-value;
+            background-color: @icon-normal-ie;
+            background-color: @icon-normal;
+        }
+
+        &:before {
+            transform: rotate(45deg);
+        }
+
+        &:after {
+            transform: rotate(-45deg);
+        }
+    }
+}
 
 .asc-window {
     min-height: 50px;
@@ -73,70 +117,26 @@
             padding-right: 6px;
         }
 
-        .tool {
-            float: right;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-            overflow: hidden;
-            padding: 0px;
-            margin: 4px 3px 0px 0px;
+        .tool.help {
+            width: 20px;
+            margin-right:0;
+            line-height: 14px;
+            font-size: 14px;
+            font-weight: bold;
+            color: @text-normal-ie;
+            color: @text-normal;
+            opacity: 0.7;
 
-            &.close {
-                position: relative;
-                opacity: 0.7;
-
-                &:hover {
-                    opacity: 1;
-                }
-
-                &.disabled {
-                    cursor: default;
-                }
-
-                &:before, &:after {
-                    content: ' ';
-                    position: absolute;
-                    left: 7px;
-                    left: calc(7px/@pixel-ratio-factor);
-                    top: @scaled-one-px-value-ie;
-                    top: @scaled-one-px-value;
-                    height: 14px;
-                    width: @scaled-one-px-value-ie;
-                    width: @scaled-one-px-value;
-                    background-color: @icon-normal-ie;
-                    background-color: @icon-normal;
-                }
-
-                &:before {
-                    transform: rotate(45deg);
-                }
-
-                &:after {
-                    transform: rotate(-45deg);
-                }
+            &:hover {
+                opacity: 1;
             }
 
-            &.help {
-                width: 20px;
-                margin-right:0;
-                line-height: 14px;
-                font-size: 14px;
-                font-weight: bold;
-                color: @text-normal-ie;
-                color: @text-normal;
-                opacity: 0.7;
-
-                &:hover {
-                    opacity: 1;
-                }
-
-                &.disabled {
-                    opacity: @component-disabled-opacity;
-                    cursor: default;
-                }
+            &.disabled {
+                opacity: @component-disabled-opacity;
+                cursor: default;
             }
         }
+
 
         &.resizing {
             cursor: inherit !important;

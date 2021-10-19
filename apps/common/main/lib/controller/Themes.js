@@ -344,15 +344,15 @@ define([
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
-                    if ( this.api.asc_setContentDarkMode )
-                        if ( themes_map[id].type == 'light' ) {
-                            this.api.asc_setContentDarkMode(false);
-                        } else {
-                            this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                            Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
-                        }
-
                     if ( this.api ) {
+                        if ( this.api.asc_setContentDarkMode )
+                            if ( themes_map[id].type == 'light' ) {
+                                this.api.asc_setContentDarkMode(false);
+                            } else {
+                                this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                                Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
+                            }
+
                         var obj = get_current_theme_colors(name_colors);
                         obj.type = themes_map[id].type;
                         obj.name = id;

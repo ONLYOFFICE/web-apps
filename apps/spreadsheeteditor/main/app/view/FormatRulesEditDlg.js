@@ -320,11 +320,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         fontColor: preset[0],
                         fillColor: preset[1],
                         borderColor: preset[2],
-                        styleObj: {'background-color': preset[1] ? '#' + preset[1] : 'transparent', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' }
+                        styleObj: {'background-color': preset[1] ? '#' + preset[1] : '#ffffff', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' }
                     },
                     caption: preset[0] ? Common.define.conditionalData.exampleText : '',
                     template: presetTemplate,
-                    styleStr: 'background-color: ' + (preset[1] ? '#' + preset[1] : 'transparent') + ';color:'  + (preset[0] ? '#' + preset[0] : 'transparent') + ';' + (preset[2] ? 'border: 1px solid #' + preset[2] + ';' : '' + 'text-align: center;')
+                    styleStr: 'background-color: ' + (preset[1] ? '#' + preset[1] : '#ffffff') + ';color:'  + (preset[0] ? '#' + preset[0] : 'transparent') + ';' + (preset[2] ? 'border: 1px solid #' + preset[2] + ';' : '' + 'text-align: center;')
                 });
             });
 

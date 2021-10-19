@@ -29,10 +29,8 @@ const PageSpreadsheetColorSchemes = props => {
                     return (
                         <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={(index < 22) ? (SchemeNames[index] || name) : name} checked={stateScheme === index}
                             onChange={() => {
-                                if(index !== curScheme) {
-                                    setScheme(index);
-                                    props.onColorSchemeChange(index);
-                                };
+                                setScheme(index);
+                                setTimeout(() => props.onColorSchemeChange(index), 15);
                         }}>
                             <div slot="before-title">
                                 <span className="color-schema-block">
@@ -199,6 +197,8 @@ const PageSpreadsheetSettings = props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const storeSpreadsheetSettings = props.storeSpreadsheetSettings;
+    const storeWorksheets = props.storeWorksheets;
+    const wsProps = storeWorksheets.wsProps;
     const isPortrait = storeSpreadsheetSettings.isPortrait;
     const isHideHeadings = storeSpreadsheetSettings.isHideHeadings;
     const isHideGridlines = storeSpreadsheetSettings.isHideGridlines;
@@ -255,7 +255,7 @@ const PageSpreadsheetSettings = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
+                <ListItem title={_t.textColorSchemes} className={wsProps.FormatCells ? 'disabled' : ''} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>
@@ -266,7 +266,7 @@ const PageSpreadsheetSettings = props => {
 
 const SpreadsheetFormats = inject("storeSpreadsheetSettings")(observer(PageSpreadsheetFormats));
 const SpreadsheetMargins = inject("storeSpreadsheetSettings")(observer(PageSpreadsheetMargins));
-const SpreadsheetSettings = inject("storeSpreadsheetSettings")(observer(PageSpreadsheetSettings));
+const SpreadsheetSettings = inject("storeSpreadsheetSettings", "storeWorksheets")(observer(PageSpreadsheetSettings));
 const SpreadsheetColorSchemes = inject("storeSpreadsheetSettings")(observer(PageSpreadsheetColorSchemes));
 
 export {

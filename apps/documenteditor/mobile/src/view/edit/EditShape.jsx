@@ -508,7 +508,13 @@ const EditShape = props => {
     const canFill = props.storeFocusObjects.shapeObject.get_ShapeProperties().get_CanFill();
     const shapeObject = props.storeFocusObjects.shapeObject;
     const wrapType = props.storeShapeSettings.getWrapType(shapeObject);
-    
+
+    const shapeType = shapeObject.get_ShapeProperties().asc_getType();
+    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
+    || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
+    || shapeType=='straightConnector1';
+
     let disableRemove = !!props.storeFocusObjects.paragraphObject;
 
     return (
@@ -533,9 +539,11 @@ const EditShape = props => {
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
-                    onReplace: props.onReplace
-                }}></ListItem>
+                { !hideChangeType &&
+                    <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
+                        onReplace: props.onReplace
+                    }}></ListItem>
+                }
                 { wrapType !== 'inline' && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }

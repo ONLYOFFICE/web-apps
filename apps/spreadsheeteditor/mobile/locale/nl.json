@@ -214,7 +214,7 @@
     "errorUsersExceed": "Het onder het prijsplan toegestane aantal gebruikers is overschreden",
     "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
     "errorWrongBracketsCount": "Een fout in de formule.<br>Verkeerd aantal haakjes.",
-    "errorWrongOperator": "Een fout in de ingevoerde formule. De verkeerde operator is gebruikt.<br>Corrigeer de fout of gebruik de Esc-toets om het bewerken van de formule te annuleren.",
+    "errorWrongOperator": "Een fout in de ingevoerde formule. De verkeerde operator is gebruikt.<br>Corrigeer de fout.",
     "notcriticalErrorTitle": "Waarschuwing",
     "openErrorText": "Er is een fout opgetreden bij het openen van het bestand",
     "pastInMergeAreaError": "Kan een deel van een samengevoegde cel niet wijzigen",
@@ -224,6 +224,7 @@
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
+    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
     "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
   },
   "LongActions": {

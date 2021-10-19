@@ -19,7 +19,9 @@ export class storeFocusObjects {
             editFormulaMode: observable,
             setEditFormulaMode: action,
             isEditCell: observable,
-            setEditCell: action
+            setEditCell: action,
+            functionsDisable: observable,
+            setFunctionsDisabled: action,
         });
     }
 
@@ -120,6 +122,12 @@ export class storeFocusObjects {
 
     setEditCell(value) {
         this.isEditCell = value;
+    }
+
+    functionsDisable = false;
+
+    setFunctionsDisabled(value) {
+        this.functionsDisable = value;
     }
 
 }

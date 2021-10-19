@@ -580,6 +580,11 @@
     "textChooseEncoding": "Choose Encoding",
     "textChooseTxtOptions": "Choose TXT Options",
     "textOk": "Ok",
+    "textPages": "Pages",
+    "textParagraphs": "Paragraphs",
+    "textSpaces": "Spaces",
+    "textSymbols": "Symbols",
+    "textWords": "Words",
     "txtDownloadTxt": "Download TXT",
     "txtOk": "Ok"
   },

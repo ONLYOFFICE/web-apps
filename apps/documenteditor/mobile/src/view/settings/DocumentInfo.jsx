@@ -57,11 +57,11 @@ const PageDocumentInfo = (props) => {
             ) : null}
             <BlockTitle>{_t.textStatistic}</BlockTitle>
             <List> 
-                <ListItem title="Pages" after={isLoaded ? String(pageCount) : _t.textLoading}></ListItem>
-                <ListItem title="Paragraphs" after={isLoaded ? String(paragraphCount) : _t.textLoading}></ListItem>
-                <ListItem title="Words" after={isLoaded ? String(wordsCount) : _t.textLoading}></ListItem>
-                <ListItem title="Symbols" after={isLoaded ? String(symbolsCount) : _t.textLoading}></ListItem>
-                <ListItem title="Spaces" after={isLoaded ? String(symbolsWSCount) : _t.textLoading}></ListItem>
+                <ListItem title={t('Settings.textPages')} after={isLoaded ? String(pageCount) : _t.textLoading}></ListItem>
+                <ListItem title={t('Settings.textParagraphs')} after={isLoaded ? String(paragraphCount) : _t.textLoading}></ListItem>
+                <ListItem title={t('Settings.textWords')} after={isLoaded ? String(wordsCount) : _t.textLoading}></ListItem>
+                <ListItem title={t('Settings.textSymbols')} after={isLoaded ? String(symbolsCount) : _t.textLoading}></ListItem>
+                <ListItem title={t('Settings.textSpaces')} after={isLoaded ? String(symbolsWSCount) : _t.textLoading}></ListItem>
             </List>
             {props.title ? (
                 <Fragment>

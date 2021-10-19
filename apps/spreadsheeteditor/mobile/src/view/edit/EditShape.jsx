@@ -12,6 +12,12 @@ const EditShape = props => {
     const shapeObject = storeFocusObjects.shapeObject;
     const canFill = shapeObject && shapeObject.get_ShapeProperties().asc_getCanFill();
 
+    const shapeType = shapeObject.get_ShapeProperties().asc_getType();
+    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
+    || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
+    || shapeType=='straightConnector1';
+
     let disableRemove = storeFocusObjects.selections.indexOf('text') > -1;
 
     return (
@@ -30,9 +36,11 @@ const EditShape = props => {
                         onBorderColor: props.onBorderColor
                     }}></ListItem>
                 }
-                <ListItem title={_t.textReplace} link="/edit-replace-shape/" routeProps={{
-                    onReplace: props.onReplace
-                }}></ListItem>
+                { !hideChangeType &&
+                    <ListItem title={_t.textReplace} link="/edit-replace-shape/" routeProps={{
+                        onReplace: props.onReplace
+                    }}></ListItem>
+                }
                 <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>

@@ -513,7 +513,8 @@ define([
             setMode: function(mode) {
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
-                this.btnAddWorksheet.setVisible(this.mode.isEdit);
+                //this.btnAddWorksheet.setVisible(this.mode.isEdit);
+                $('#status-addtabs-box')[this.mode.isEdit ? 'show' : 'hide']();
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
@@ -600,7 +601,11 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.asc_isProtectedWorkbook() || me.api.isCellEdited);
-                    this.tabbar.addDataHint(_.findIndex(items, function (item) { return item.sheetindex === sindex; }));
+                    if (this.mode.isEdit) {
+                        this.tabbar.addDataHint(_.findIndex(items, function (item) {
+                            return item.sheetindex === sindex;
+                        }));
+                    }
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
@@ -687,7 +692,9 @@ define([
                     this.tabbar.setTabVisible(index);
                 }
 
-                this.tabbar.addDataHint(index);
+                if (this.mode.isEdit) {
+                    this.tabbar.addDataHint(index);
+                }
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);

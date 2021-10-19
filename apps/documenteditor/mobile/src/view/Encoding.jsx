@@ -6,10 +6,10 @@ import { Device } from '../../../../common/mobile/utils/device';
 const PageEncoding = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
-    const pagesName = props.pagesName;
-    const pages = props.pages;
+    const encodeData = props.encodeData;
     const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
-    const nameEncoding = pagesName[pages.indexOf(stateEncoding)];
+    const getIndexNameEncoding = () => encodeData.findIndex(encoding => encoding.value === stateEncoding);
+    const nameEncoding = encodeData[getIndexNameEncoding()].displayValue;
     const mode = props.mode;
 
     const changeStateEncoding = value => {
@@ -24,8 +24,7 @@ const PageEncoding = props => {
                 <List>
                     <ListItem title={nameEncoding} link="/encoding-list/" routeProps={{
                         stateEncoding,
-                        pages: props.pages,
-                        pagesName: props.pagesName,
+                        encodeData,
                         changeStateEncoding
                     }}></ListItem>
                 </List>
@@ -45,19 +44,18 @@ const PageEncodingList = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const [currentEncoding, changeCurrentEncoding] = useState(props.stateEncoding);
-    const pages = props.pages;
-    const pagesName = props.pagesName;
+    const encodeData = props.encodeData;
     
     return (
         <Page>
             <Navbar title={_t.txtDownloadTxt} backLink={_t.textBack} />
             <BlockTitle>{_t.textChooseEncoding}</BlockTitle>
             <List>
-                {pagesName.map((name, index) => {
+                {encodeData.map((encoding, index) => {
                     return (
-                        <ListItem radio checked={currentEncoding === pages[index]} title={name} key={index} value={pages[index]} onChange={() => {
-                            changeCurrentEncoding(pages[index]);
-                            props.changeStateEncoding(pages[index]);
+                        <ListItem radio checked={currentEncoding === encoding.value} title={encoding.displayValue} key={index} value={encoding.value} after={encoding.lcid} onChange={() => {
+                            changeCurrentEncoding(encoding.value);
+                            props.changeStateEncoding(encoding.value);
                             f7.views.current.router.back();
                         }}></ListItem>
                     )
@@ -79,8 +77,7 @@ class EncodingView extends Component {
                     onSaveFormat={this.props.onSaveFormat} 
                     closeModal={this.props.closeModal}
                     mode={this.props.mode}  
-                    pages={this.props.pages}
-                    pagesName={this.props.pagesName}
+                    encodeData={this.props.encodeData}
                     valueEncoding={this.props.valueEncoding}
                 />
             </Popup>
@@ -108,8 +105,7 @@ const Encoding = props => {
             closeModal={props.closeModal}
             onSaveFormat={props.onSaveFormat} 
             mode={props.mode}  
-            pages={props.pages}
-            pagesName={props.pagesName}
+            encodeData={props.encodeData}
             valueEncoding={props.valueEncoding}
         />
     )

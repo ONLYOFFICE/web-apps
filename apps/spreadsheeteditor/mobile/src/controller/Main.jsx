@@ -32,7 +32,8 @@ import { useTranslation } from 'react-i18next';
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeWorksheets"
     )
 class MainController extends Component {
     constructor(props) {
@@ -48,6 +49,9 @@ class MainController extends Component {
             licenseType: false,
             isDocModified: false
         };
+        
+        this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
+                'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
 
@@ -397,7 +401,46 @@ class MainController extends Component {
                     storeFocusObjects.setEditFormulaMode(isFormula);
                 }
             }
+
+            storeFocusObjects.setFunctionsDisabled(state === Asc.c_oAscCellEditorState.editText);
         });
+
+        this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));   
+    }
+
+    onChangeProtectSheet() {
+        const storeWorksheets = this.props.storeWorksheets;
+        let {wsLock, wsProps} = this.getWSProps(true);
+    
+        storeWorksheets.setWsLock(wsLock);
+        storeWorksheets.setWsProps(wsProps);
+    }
+
+    getWSProps(update) {
+        const storeAppOptions = this.props.storeAppOptions;
+        let wsProtection = {};
+        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
+
+        if (update) {
+            let wsLock = !!this.api.asc_isProtectedSheet();
+            let wsProps = {};
+
+            if (wsLock) {
+                let props = this.api.asc_getProtectedSheet();
+                props && this.wsLockOptions.forEach(function(item){
+                    wsProps[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                });
+            } else {
+                this.wsLockOptions.forEach(function(item){
+                    wsProps[item] = false;
+                });
+            }
+
+            wsProtection = {wsLock, wsProps};
+        }
+
+        return wsProtection;
     }
 
     _onLongActionEnd(type, id) {

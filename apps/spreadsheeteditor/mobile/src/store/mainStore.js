@@ -38,6 +38,7 @@ export const stores = {
     // storeImageSettings: new storeImageSettings(),
     // storeTableSettings: new storeTableSettings()
     storeComments: new storeComments(),
-    storeToolbarSettings: new storeToolbarSettings()
+    storeToolbarSettings: new storeToolbarSettings(),
+    storeWorksheets: new storeWorksheets()
 };
 

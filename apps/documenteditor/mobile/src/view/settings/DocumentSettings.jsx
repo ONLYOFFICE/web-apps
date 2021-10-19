@@ -174,10 +174,8 @@ const PageDocumentColorSchemes = props => {
                         return (
                             <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={(index < 22) ? (SchemeNames[index] || name) : name} checked={stateScheme === index}
                                 onChange={() => {
-                                    if(index !== curScheme) {
-                                        setScheme(index);
-                                        props.onColorSchemeChange(index);
-                                    };
+                                    setScheme(index);
+                                    setTimeout(() => props.onColorSchemeChange(index), 10);
                             }}>
                                 <div slot="before-title">
                                     <span className="color-schema-block">

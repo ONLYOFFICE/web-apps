@@ -465,6 +465,7 @@ define([
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
                 Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
             render: function (el, role) {
@@ -476,14 +477,14 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
                         disabled: disabled === true,
                         dataHint:'0',
-                        dataHintDirection: 'left',
-                        dataHintOffset: '10, 10'
+                        dataHintDirection: hintDirection ? hintDirection : 'left',
+                        dataHintOffset: hintOffset ? hintOffset : '10, 10'
                     })).render(slot);
                 }
 
@@ -491,8 +492,9 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
-                        this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
                         (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
@@ -534,19 +536,19 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big');
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big');
                         else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
@@ -562,8 +564,10 @@ define([
 
                     if ( !!window.DE ) {
                         var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
-                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'));
-                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme());
+                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'), undefined, 'bottom', 'big');
+
+                        var document = window.DE.getController('Main').document;
+                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme() && !/^pdf|djvu|xps|oxps$/.test(document.fileType));
                     }
 
                     return $html;
@@ -615,14 +619,23 @@ define([
                 this.branding = value;
 
                 if ( value ) {
-                    if ( value.logo && value.logo.image ) {
+                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                         element = $('#header-logo');
                         if (element) {
-                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
                             (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
+                }
+            },
+
+            changeLogo: function () {
+                var value = this.branding;
+                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    $('#header-logo img').attr('src', image);
                 }
             },
 
@@ -724,7 +737,7 @@ define([
                         this.btnUserName.updateHint(name);
                     } else if (this.elUserName) {
                         this.elUserName.tooltip({
-                            title: name,
+                            title: Common.Utils.String.htmlEncode(name),
                             placement: 'cursor',
                             html: true
                         });
@@ -746,7 +759,7 @@ define([
                 if ( alias == 'users' ) {
                     if ( lock )
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
-                        $btnUsers.removeClass('disabled').attr('disabled', '');
+                        $btnUsers.removeClass('disabled').removeAttr('disabled');
                 } else if ( alias == 'rename-user' ) {
                     if (me.labelUserName) {
                         if ( lock ) {

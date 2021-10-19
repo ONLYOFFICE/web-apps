@@ -62,7 +62,7 @@ define([
             '<div id="current-plugin-box" class="layout-ct vbox hidden">',
                 '<div id="current-plugin-header">',
                     '<label></label>',
-                    '<div id="id-plugin-close" class="plugin-close img-commonctrl"></div>',
+                    '<div id="id-plugin-close" class="tool close"></div>',
                 '</div>',
                 '<div id="current-plugin-frame" class="">',
                 '</div>',

@@ -16,15 +16,16 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
     const {sheets, storeAppOptions, users} = props;
     const allSheets = sheets.sheets;
     const hiddenSheets = sheets.hiddenWorksheets();
-    // const isWorkbookLocked = sheets.isWorkbookLocked;
+    const isWorkbookLocked = sheets.isWorkbookLocked;
+    const isProtectedWorkbook = sheets.isProtectedWorkbook;
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
 
     return (
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
-                <div id="idx-box-add-tab" className={`${isDisconnected ? 'disabled' : ''}`}>
-                    <Link href={false} id="idx-btn-addtab" className={`tab${isDisconnected ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
+                <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled' : ''}`}>
+                    <Link href={false} id="idx-btn-addtab" className={`tab${isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                         <Icon className="icon icon-plus" />
                     </Link>
                 </div>

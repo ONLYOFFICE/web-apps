@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
+import {observer, inject} from "mobx-react";
 
 import AddSortAndFilter from '../../view/add/AddFilter';
 
@@ -120,9 +121,10 @@ class AddFilterController extends Component {
                               onInsertSort={this.onInsertSort}
                               onInsertFilter={this.onInsertFilter}
                               isFilter={this.state.isFilter}
+                              wsLock={this.props.storeWorksheets.wsLock}
             />
         )
     }
 }
 
-export default  withTranslation()(AddFilterController);
+export default inject("storeWorksheets")(observer(withTranslation()(AddFilterController)));

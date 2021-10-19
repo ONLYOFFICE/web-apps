@@ -306,7 +306,7 @@ define([
                     me.header.mnuitemHideHeadings.hide();
                     me.header.mnuitemHideGridlines.hide();
                     me.header.mnuitemFreezePanes.hide();
-                    menu.items[5].hide();
+                    menu.items[6].hide();
                     if (!config.canViewComments) { // show advanced settings for editing and commenting mode
                         // mnuitemAdvSettings.hide();
                         // menu.items[9].hide();

@@ -304,7 +304,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 break;
             
             case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
-                config.msg = _t.errorChangeOnProtectedSheet;
+                config.msg = t('Error.errorChangeOnProtectedSheet');
                 break;
 
             case Asc.c_oAscError.ID.LoadingFontError:
