@@ -169,6 +169,7 @@
     "errorAutoFilterHiddenRange": "L'opération ne peut pas être effectuée car la zone contient des cellules filtrées.<br>Veuillez supprimer les filtres et réessayez.",
     "errorBadImageUrl": "L'URL de l'image est incorrecte",
     "errorChangeArray": "Impossible de modifier une partie de matrice.",
+    "errorChangeOnProtectedSheet": "La cellule ou le graphique que vous essayé de changer est sur une feuille protégée. Pour effectuer le changement, retirer al protection de la feuille. Un mot de passe pourrait vous être demandé.",
     "errorConnectToServer": "Impossible d'enregistrer ce document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
     "errorCopyMultiselectArea": "Impossible d'exécuter cette commande sur des sélections multiples.<br>Sélectionnez une seule plage et essayez à nouveau.",
     "errorCountArg": "Il y a une erreur dans la formule : nombre d'arguments incorrecte.",
@@ -215,7 +216,7 @@
     "errorUsersExceed": "Le nombre d'utilisateurs autorisés par le plan tarifaire a été dépassé",
     "errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie et que la page soit rafraichit.",
     "errorWrongBracketsCount": "Il y a une erreur dans la formule : Mauvais nombre de parenthèses.",
-    "errorWrongOperator": "Une erreur dans la formule. L'opérateur n'est pas valide. Corriger l'erreur ou presser Echap pour annuler l'édition de la formule.",
+    "errorWrongOperator": "Une erreur dans la formule entrée. Opérateur utilisé est incorrect.<br>Veuillez corriger l'erreur.",
     "notcriticalErrorTitle": "Avertissement",
     "openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier",
     "pastInMergeAreaError": "Impossible de modifier une partie d'une cellule fusionnée",
@@ -224,8 +225,7 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",

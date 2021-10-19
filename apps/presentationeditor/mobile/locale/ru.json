@@ -382,7 +382,8 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом"
+      "textZoomRotate": "Увеличение с поворотом",
+      "textTransitions": "Transitions"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

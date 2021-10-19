@@ -215,7 +215,7 @@
     "errorUsersExceed": "가격 책정 계획에서 허용 한 사용자 수가 초과되었습니다",
     "errorViewerDisconnect": "네트워크 연결에 실패했습니다. 이 문서는 계속 볼 수 있지만<br>연결이 복원되고 페이지가 새로 고쳐질 때까지 이 문서를 다운로드하거나 인쇄할 수 없습니다.",
     "errorWrongBracketsCount": "공식에 오류가 있습니다. <br>대괄호 수가 잘못되었습니다.",
-    "errorWrongOperator": "입력한 수식에 오류가 있습니다. 잘못된 연산자를 사용했습니다. <br>오류를 수정하거나 Esc 버튼을 눌러 수식 편집을 취소하십시오.",
+    "errorWrongOperator": "입력한 수식에 오류가 있습니다. 잘못된 연산자를 사용했습니다. <br> 오류를 수정하십시오.",
     "notcriticalErrorTitle": "경고",
     "openErrorText": "파일을 여는 동안 오류가 발생했습니다.",
     "pastInMergeAreaError": "병합된 셀의 일부는 수정할 수 없습니다.",

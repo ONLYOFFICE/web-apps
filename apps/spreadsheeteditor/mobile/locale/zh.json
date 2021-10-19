@@ -214,7 +214,7 @@
     "errorUsersExceed": "超过了定价计划允许的用户数",
     "errorViewerDisconnect": "网络连接失败。你仍然可以查看这个文档，<br>但在连接恢复并刷新该页之前，你将不能下载或打印这个文档。",
     "errorWrongBracketsCount": "公式中有错误。<br>括号数量不对。",
-    "errorWrongOperator": "输入的公式中有错误。你使用了错误的运算符。<br>请修正错误，或按下 Esc 按钮取消公式编辑。",
+    "errorWrongOperator": "输入的公式中有错误。你使用了错误的运算符。<br>请修正错误。",
     "notcriticalErrorTitle": "警告",
     "openErrorText": "打开文件时发生错误",
     "pastInMergeAreaError": "不能修改合并后的单元格的一部分",

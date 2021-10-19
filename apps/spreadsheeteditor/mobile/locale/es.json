@@ -215,7 +215,7 @@
     "errorUsersExceed": "Se superó la cantidad de usuarios permitidos por el plan de precios",
     "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo ni imprimirlo hasta que se restablezca la conexión y se recargue la página.",
     "errorWrongBracketsCount": "Un error en la fórmula.<br>Número de corchetes incorrecto.",
-    "errorWrongOperator": "Un error en la fórmula introducida. Se ha utilizado el operador incorrecto.<br>Corrija el error o utilice el botón Esc para cancelar la edición de la fórmula.",
+    "errorWrongOperator": "Un error en la fórmula introducida. Se ha utilizado el operador incorrecto.<br>Por favor, corrija el error.",
     "notcriticalErrorTitle": "Advertencia",
     "openErrorText": "Se ha producido un error al abrir el archivo ",
     "pastInMergeAreaError": "No se puede modificar una parte de una celda combinada",

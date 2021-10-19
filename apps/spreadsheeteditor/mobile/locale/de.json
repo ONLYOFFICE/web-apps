@@ -215,7 +215,7 @@
     "errorUsersExceed": "Die nach dem Zahlungsplan erlaubte Anzahl der Benutzer ist überschritten",
     "errorViewerDisconnect": "Die Verbindung wurde abgebrochen. Das Dokument wird angezeigt,<br>das Herunterladen wird aber nur verfügbar, wenn die Verbindung wiederhergestellt ist.",
     "errorWrongBracketsCount": "Die Formel enthält einen Fehler.<br>Falsche Anzahl von Klammern.",
-    "errorWrongOperator": "Die eingegebene Formel enthält einen Fehler. Falscher Operator wurde genutzt.<br>Bitte korrigieren Sie den Fehler oder brechen Sie die Formel mit Esc ab.",
+    "errorWrongOperator": "Die eingegebene Formel enthält einen Fehler. Falscher Operator wurde genutzt.<br>Bitte korrigieren Sie den Fehler.",
     "notcriticalErrorTitle": "Warnung",
     "openErrorText": "Beim Öffnen dieser Datei ist ein Fehler aufgetreten",
     "pastInMergeAreaError": "Teil einer verbundenen Zelle kann nicht geändert werden",

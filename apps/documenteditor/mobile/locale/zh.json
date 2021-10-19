@@ -391,6 +391,7 @@
     "leavePageText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",
     "notcriticalErrorTitle": "警告",
     "SDK": {
+      " -Section ": "-节",
       "above": "以上",
       "below": "以下",
       "Caption": "标题",
@@ -449,8 +450,7 @@
       "X Axis": "X 轴 XAS",
       "Y Axis": "Y 轴",
       "Your text here": "你的文本在此",
-      "Zero Divide": "除数为零",
-      " -Section ": " -Section "
+      "Zero Divide": "除数为零"
     },
     "textAnonymous": "匿名",
     "textBuyNow": "访问网站",

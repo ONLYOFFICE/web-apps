@@ -382,7 +382,8 @@
       "textZoom": "확대/축소",
       "textZoomIn": "확대",
       "textZoomOut": "축소",
-      "textZoomRotate": "확대 / 축소 및 회전"
+      "textZoomRotate": "확대 / 축소 및 회전",
+      "textTransitions": "Transitions"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
