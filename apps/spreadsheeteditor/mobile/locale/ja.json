@@ -215,7 +215,7 @@
     "errorUsersExceed": "料金プランで許可されているユーザー数を超えました。",
     "errorViewerDisconnect": "接続が失われました。あなたはまだ文書を見えるけど, <br>接続が復元されたしページが再読み込まれたまで文書をダウンロードと印刷できません。",
     "errorWrongBracketsCount": "数式でエラーがあります。<br> ブラケットの数が正しくありません。",
-    "errorWrongOperator": "入力した数式にエラーがあります。間違った演算子が使用されています。<br>エラーを修正するか、Escキーを使用して数式の編集をキャンセルしてください。",
+    "errorWrongOperator": "入力した数式にエラーがあります。間違った演算子が使用されています。<br>エラーを修正する。",
     "notcriticalErrorTitle": " 警告",
     "openErrorText": "ファイルを開く際にエラーが発生しました。",
     "pastInMergeAreaError": "結合したセルの一部は変更できません",

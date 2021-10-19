@@ -2078,7 +2078,7 @@
   "DE.Views.MailMergeSettings.textSendMsg": "Tots els missatges de correu electrònic són a punt i s'enviaran properament.<br>La velocitat de l'enviament dependrà del servei de correu.<br>Podeu continuar treballant amb el document o tancar-lo. Un cop finalitzada l’operació, s'enviarà la notificació a la vostra adreça de correu electrònic de registre.",
   "DE.Views.MailMergeSettings.textTo": "Per a",
   "DE.Views.MailMergeSettings.txtFirst": "Al primer registre",
-  "DE.Views.MailMergeSettings.txtFromToError": "El valor «De» ha de ser més petit que el valor «Fins»",
+  "DE.Views.MailMergeSettings.txtFromToError": "El valor «De» ha de ser més petit que el valor «Fins a»",
   "DE.Views.MailMergeSettings.txtLast": "A l'últim registre",
   "DE.Views.MailMergeSettings.txtNext": "Al registre següent",
   "DE.Views.MailMergeSettings.txtPrev": "Al registre anterior",

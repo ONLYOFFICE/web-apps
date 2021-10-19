@@ -382,7 +382,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro"
+      "textZoomRotate": "Zoom y giro",
+      "textTransitions": "Transitions"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

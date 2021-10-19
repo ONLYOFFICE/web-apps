@@ -216,7 +216,7 @@
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",
     "errorWrongBracketsCount": "Eroare în formulă.<br>Numărul de paranteze incorect.",
-    "errorWrongOperator": "Eroare în formulă. Operator necorespunzător.<br>Corectați eroarea sau apăsați Esc pentru anularea editărilor formulei.",
+    "errorWrongOperator": "Eroare în formulă. Operator necorespunzător.<br>Corectați eroarea.",
     "notcriticalErrorTitle": "Avertisment",
     "openErrorText": "Eroare la deschiderea fișierului",
     "pastInMergeAreaError": "O parte din celulă îmbinată nu poate fi modificată ",
