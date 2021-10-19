@@ -737,7 +737,7 @@ define([
                         this.btnUserName.updateHint(name);
                     } else if (this.elUserName) {
                         this.elUserName.tooltip({
-                            title: name,
+                            title: Common.Utils.String.htmlEncode(name),
                             placement: 'cursor',
                             html: true
                         });
