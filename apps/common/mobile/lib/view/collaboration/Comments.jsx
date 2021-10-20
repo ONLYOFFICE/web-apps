@@ -628,7 +628,8 @@ const pickLink = (message) => {
 }
 
 // View comments
-const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview}) => {
+// ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, storeWorksheets})
+const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, wsProps}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -736,9 +737,9 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
             <ReplyActions comment={clickComment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
         </Page>
     )
-};
+}));
 
-const _ViewComments = inject('storeComments', 'storeAppOptions', "storeReview")(observer(ViewComments));
+// const _ViewComments = inject('storeComments', 'storeAppOptions', "storeReview")(observer(ViewComments));
 
 
 const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview}) => {
@@ -925,12 +926,37 @@ const ViewCommentPopover = ({onCommentMenuClick, onResolveComment}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
     });
+
     return (
         <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
             <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )
 };
+
+const ViewCommentsPopover = ({wsProps, onCommentMenuClick, onResolveComment, showComment}) => {
+    useEffect(() => {
+        f7.popover.open('#view-comments-popover', '#btn-coauth');
+    });
+
+    return (
+        <Popover id='view-comments-popover' style={{height: '410px'}} closeByOutsideClick={false}>
+            <ViewComments wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment} />
+        </Popover>
+    )
+}
+
+const ViewCommentsSheet = ({wsProps, onCommentMenuClick, onResolveComment, showComment}) => {
+    useEffect(() => {
+        f7.sheet.open('#view-comments-sheet');
+    });
+
+    return (
+        <Sheet id='view-comments-sheet'>
+            <ViewComments wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment} />
+        </Sheet>
+    )
+}
 
 const ViewCurrentComments = props => {
     return (
@@ -940,11 +966,21 @@ const ViewCurrentComments = props => {
     )
 };
 
+const ViewAllComments = props => {
+    return (
+        Device.phone ?
+            <ViewCommentsSheet {...props}/> :
+            <ViewCommentsPopover {...props}/>
+    )
+}
+
 export {
     AddComment,
     EditComment,
     AddReply,
     EditReply,
-    _ViewComments as ViewComments,
-    ViewCurrentComments
+    ViewComments,
+    // _ViewComments as ViewComments,
+    ViewCurrentComments,
+    ViewAllComments
 };

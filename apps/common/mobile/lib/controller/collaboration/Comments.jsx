@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage';
 
-import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments, ViewAllComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -625,14 +625,36 @@ class ViewCommentsController extends Component {
     }
 }
 
+class ViewCommentsSheetsController extends ViewCommentsController {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return ( 
+            <Fragment>
+                {this.props.allComments && <ViewAllComments wsProps={this.props.storeWorksheets.wsProps} onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
+                    showComment={this.showComment} />}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
+                                                                          closeCurComments={this.closeViewCurComments}
+                                                                          onCommentMenuClick={this.onCommentMenuClick}
+                                                                          onResolveComment={this.onResolveComment}
+                />}
+            </Fragment>
+        )
+    }
+}
+
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users', "storeApplicationSettings")(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
 const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
-const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings")(observer(withTranslation()(ViewCommentsController)));
+const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsController)));
+const _ViewCommentsSheetsController = inject('storeComments', 'users', "storeApplicationSettings", "storeWorksheets", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsSheetsController)));
 
 export {
     _CommentsController as CommentsController,
     _AddCommentController as AddCommentController,
     _EditCommentController as EditCommentController,
-    _ViewCommentsController as ViewCommentsController
+    _ViewCommentsController as ViewCommentsController,
+    _ViewCommentsSheetsController as ViewCommentsSheetsController
 };

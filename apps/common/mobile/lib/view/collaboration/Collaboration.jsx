@@ -8,7 +8,7 @@ import {Device} from "../../../utils/device";
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
 
-import {ViewCommentsController} from "../../controller/collaboration/Comments";
+import {ViewCommentsController, ViewCommentsSheetsController} from "../../controller/collaboration/Comments";
 
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
@@ -76,7 +76,7 @@ const routes = [
     },
     {
         path: '/comments/',
-        component: ViewCommentsController,
+        component: ViewCommentsSheetsController,
         options: {
             props: {
                 allComments: true
