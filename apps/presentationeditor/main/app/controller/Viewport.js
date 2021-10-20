@@ -375,7 +375,7 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum, presenter) {
+        onPreviewStart: function(slidenum, presenter, fromApiEvent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
@@ -406,7 +406,7 @@ define([
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
-                    me.fullScreen(document.documentElement);
+                    !fromApiEvent && me.fullScreen(document.documentElement);
                     setTimeout(function(){
                         _onWindowResize();
                     }, 100);

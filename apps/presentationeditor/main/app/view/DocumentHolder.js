@@ -1483,7 +1483,7 @@ define([
 
             var onApiStartDemonstration = function() {
                 if (me.slidesCount>0) {
-                    Common.NotificationCenter.trigger('preview:start', 0);
+                    Common.NotificationCenter.trigger('preview:start', 0, null, true);
                 }
             };
 
