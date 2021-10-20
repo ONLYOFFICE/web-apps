@@ -327,6 +327,7 @@ define([
                         if (config.canEditContentControl) {
                             me.btnHighlight.setMenu();
                             me.mnuFormsColorPicker = me.btnHighlight.getPicker();
+                            me.btnHighlight.currentColor && me.mnuFormsColorPicker.selectByRGB(me.btnHighlight.currentColor, true);
                             me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
                             me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
                         } else {
