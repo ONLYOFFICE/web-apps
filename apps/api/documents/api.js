@@ -884,10 +884,11 @@
                         ? "mobile" : config.document.permissions && (config.document.permissions.fillForms === true) && (config.editorConfig.mode !== 'view')
                         ? "forms" : "embed";
         } else {
+            if (app==='documenteditor' && config.document && config.document.permissions && (config.document.permissions.edit === false) && (config.document.permissions.review !== true)) {
+                config.document.permissions.fillForms = false;
+            }
             path_type = (config.type === "mobile" || isSafari_mobile)
-                        ? "mobile" : ((app==='documenteditor') && config.document && config.document.permissions && (config.document.permissions.fillForms===true) &&
-                                     (config.document.permissions.edit === false) && (config.document.permissions.review !== true) && (config.editorConfig.mode !== 'view'))
-                        ? "forms" : (config.type === "embedded")
+                        ? "mobile" : (config.type === "embedded")
                         ? "embed" : "main";
         }
 

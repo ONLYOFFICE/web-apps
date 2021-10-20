@@ -64,6 +64,9 @@ define([
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
         ],[
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
+            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB}
@@ -137,6 +140,9 @@ define([
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
         ],[
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
+            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
