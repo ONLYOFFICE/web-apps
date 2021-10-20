@@ -430,7 +430,8 @@ define([
             textSubmited: 'Form submitted successfully',
             textRequired: 'Fill all required fields to send form.',
             capBtnSaveForm: 'Save as a Form',
-            tipSaveForm: 'Save a file as a fillable OFORM document'
+            tipSaveForm: 'Save a file as a fillable OFORM document',
+            txtUntitled: 'Untitled'
         }
     }()), DE.Views.FormsTab || {}));
 });
