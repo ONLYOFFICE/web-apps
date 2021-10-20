@@ -410,15 +410,18 @@ class MainController extends Component {
     onChangeProtectSheet() {
         const storeWorksheets = this.props.storeWorksheets;
         let {wsLock, wsProps} = this.getWSProps(true);
-    
-        storeWorksheets.setWsLock(wsLock);
-        storeWorksheets.setWsProps(wsProps);
+
+        if(wsProps) {
+            storeWorksheets.setWsLock(wsLock);
+            storeWorksheets.setWsProps(wsProps);
+        }
     }
 
     getWSProps(update) {
         const storeAppOptions = this.props.storeAppOptions;
         let wsProtection = {};
-        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
+        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) 
+            return wsProtection;
 
         if (update) {
             let wsLock = !!this.api.asc_isProtectedSheet();
@@ -436,9 +439,9 @@ class MainController extends Component {
             }
 
             wsProtection = {wsLock, wsProps};
+            
+            return wsProtection;
         }
-
-        return wsProtection;
     }
 
     _onLongActionEnd(type, id) {
