@@ -393,7 +393,7 @@ const PageFillColor = props => {
     const storePalette = props.storePalette;
     const storeSlideSettings = props.storeSlideSettings;
     const customColors = storePalette.customColors;
-    const fillColor =  storeSlideSettings.fillColor ? storeSlideSettings.fillColor : storeSlideSettings.getFillColor(slideObject);
+    const fillColor = storeSlideSettings.getFillColor(slideObject);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
