@@ -73,6 +73,7 @@ define([
                 this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
                 this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
+                this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -247,7 +248,43 @@ define([
         },
 
         onSaveFormClick: function() {
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM));
+            this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+        },
+
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromFormSaveAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.view.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.oform';
+
+                if (me.appConfig.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.appConfig.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            }
+            this.isFromFormSaveAs = false;
         },
 
         disableEditing: function(disable) {
