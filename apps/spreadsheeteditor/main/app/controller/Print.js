@@ -60,10 +60,11 @@ define([
                 },*/
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
-                    'render:after': _.bind(this.onAfterRender, this)
+                    'render:after': _.bind(this.onAfterRender, this),
+                    'changerange': _.bind(this.onChangeRange, this, false)
                 },
                 'PrintSettings': {
-                    'changerange': _.bind(this.onChangeRange,this)
+                    'changerange': _.bind(this.onChangeRange, this, true)
                 }
             });
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
@@ -193,22 +194,24 @@ define([
             panel.btnPresetsLeft.menu.items[panel.btnPresetsLeft.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, sheet));
         },
 
-        fillPrintOptions: function(props) {
-            this.printSettingsDlg.setRange(props.asc_getPrintType());
-            this.printSettingsDlg.setIgnorePrintArea(!!props.asc_getIgnorePrintArea());
-            this.onChangeRange();
+        fillPrintOptions: function(props, isDlg) {
+            var menu = isDlg ? this.printSettingsDlg : this.printSettings;
+            menu.setRange(props.asc_getPrintType());
+            menu.setIgnorePrintArea(!!props.asc_getIgnorePrintArea());
+            this.onChangeRange(isDlg);
         },
 
-        onChangeRange: function() {
-            var printtype = this.printSettingsDlg.getRange(),
-                store = this.printSettingsDlg.cmbSheet.store,
+        onChangeRange: function(isDlg) {
+            var menu = isDlg ? this.printSettingsDlg : this.printSettings;
+            var printtype = menu.getRange(),
+                store = menu.cmbSheet.store,
                 item = (printtype !== Asc.c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
             if (item) {
-                this.printSettingsDlg.cmbSheet.setValue(item.get('value'));
-                this.comboSheetsChange(this.printSettingsDlg, this.printSettingsDlg.cmbSheet, item.toJSON());
+                menu.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(menu, menu.cmbSheet, item.toJSON());
             }
-            this.printSettingsDlg.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
-            this.printSettingsDlg.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
+            menu.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
+            menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
         },
 
         getPageOptions: function(panel) {
@@ -270,11 +273,7 @@ define([
                 this.updateSettings(this.printSettings);
             }
 
-            var item = this.printSettings.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
-            if (item) {
-                this.printSettings.cmbSheet.setValue(item.get('value'));
-                this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
-            }
+            this.fillPrintOptions(this.adjPrintParams, false);
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -295,7 +294,7 @@ define([
                         this.updateSettings(this.printSettingsDlg);
                         this.printSettingsDlg.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettingsDlg));
                         this.fillComponents(this.printSettingsDlg, true);
-                        this.fillPrintOptions(this.adjPrintParams);
+                        this.fillPrintOptions(this.adjPrintParams, true);
                         this.registerControlEvents(this.printSettingsDlg);
                     },this)
                 }));

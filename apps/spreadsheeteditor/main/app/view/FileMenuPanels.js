@@ -2793,6 +2793,7 @@ define([
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection }
                 ]
             });
+            this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
 
             this.chIgnorePrintArea = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-ignore'),
@@ -2964,6 +2965,9 @@ define([
 
             this.$el = $(node).html($markup);
 
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            this.$headerSettings = $('#print-header-footer-settings');
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.pnlSettings,
@@ -3065,6 +3069,30 @@ define([
 
         isVisible: function() {
             return (this.$el || $(this.el)).is(":visible");
+        },
+
+        setRange: function(value) {
+            this.cmbRange.setValue(value);
+        },
+
+        getRange: function() {
+            return this.cmbRange.getValue();
+        },
+
+        setIgnorePrintArea: function(value) {
+            this.chIgnorePrintArea.setValue(value);
+        },
+
+        getIgnorePrintArea: function() {
+            return (this.chIgnorePrintArea.getValue()=='checked');
+        },
+
+        comboRangeChange: function(combo, record) {
+            this.fireEvent('changerange', this);
+        },
+
+        openHeaderSettings: function() {
+            SSE.getController('Toolbar').onEditHeaderClick();
         },
 
         txtPrint: 'Print',
