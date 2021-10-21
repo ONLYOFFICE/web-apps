@@ -144,12 +144,11 @@ define([
            var type = record.get('value');
 
             if (this._state.Effect !== type) {
+                this._state.Effect = type;
                 var  parameter = this.view.setMenuParameters(type);
                 if (parameter)
                     this.onParameterClick(parameter);
             }
-            this._state.Effect = type;
-
         },
 
         onStartSelect: function (combo, record) {
@@ -218,9 +217,9 @@ define([
 
         setSettings: function () {
             var me = this.view;
-
+            var item;
             if (this._state.Effect !== undefined) {
-                var item = me.listEffects.store.findWhere({value: this._state.Effect});
+                item = me.listEffects.store.findWhere({value: this._state.Effect});
                 me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
                 this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
             }
