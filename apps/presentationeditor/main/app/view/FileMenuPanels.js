@@ -62,9 +62,11 @@ define([
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP}
         ], [
-            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM},
+            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG},
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG}
+        ], [
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM}
         ]],
 
 
@@ -132,9 +134,11 @@ define([
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP,  ext: '.otp'}
         ], [
-            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'},
+            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX, ext: '.ppsx'},
             {name: 'PNG',   imgCls: 'png',   type: Asc.c_oAscFileType.PNG, ext: '.png'},
             {name: 'JPG',   imgCls: 'jpg',   type: Asc.c_oAscFileType.JPG, ext: '.jpg'}
+        ], [
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'}
         ]],
 
         template: _.template([
