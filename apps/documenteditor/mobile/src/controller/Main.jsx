@@ -133,10 +133,16 @@ class MainController extends Component {
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                    const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                    let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
+                }
+
+                let type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
+                if (type && typeof type[1] === 'string') {
+                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                    this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);

@@ -441,7 +441,9 @@ define([
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
-            this.appOptions.canFillForms   = this.appOptions.canLicense && (this.permissions.fillForms===true) && (this.editorConfig.mode !== 'view');
+
+            var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
+            this.appOptions.canFillForms   = this.appOptions.canLicense && !!(type && typeof type[1] === 'string') && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
