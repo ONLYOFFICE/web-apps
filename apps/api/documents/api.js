@@ -876,17 +876,13 @@
 
         path += app + "/";
         if (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform') {
-            if (config.document.permissions) {
-                (config.document.permissions.fillForms===undefined) && (config.document.permissions.fillForms = (config.document.permissions.edit !== false));
-                config.document.permissions.edit = config.document.permissions.review = config.document.permissions.comment = false;
-            }
+            var canFillForms =  !config.document.permissions
+                                ? true : (config.document.permissions.fillForms===undefined)
+                                ? (config.document.permissions.edit !== false) : config.document.permissions.fillForms;
             path_type = (config.type === "mobile" || isSafari_mobile)
-                        ? "mobile" : config.document.permissions && (config.document.permissions.fillForms === true) && (config.editorConfig.mode !== 'view')
-                        ? "forms" : "embed";
+                        ? "mobile" : (config.type === "embedded" || !canFillForms || config.editorConfig.mode === 'view')
+                        ? "embed" : "forms";
         } else {
-            if (app==='documenteditor' && config.document && config.document.permissions && (config.document.permissions.edit === false) && (config.document.permissions.review !== true)) {
-                config.document.permissions.fillForms = false;
-            }
             path_type = (config.type === "mobile" || isSafari_mobile)
                         ? "mobile" : (config.type === "embedded")
                         ? "embed" : "main";
