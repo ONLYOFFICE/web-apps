@@ -350,6 +350,7 @@
 
     <inline src="resources/img/header/buttons.svg" />
     <inline src="resources/img/doc-formats/pptx.svg" />
+    <inline src="resources/img/doc-formats/ppsx.svg" />
     <inline src="resources/img/doc-formats/potx.svg" />
     <inline src="resources/img/doc-formats/pdf.svg" />
     <inline src="resources/img/doc-formats/pdfa.svg" />
