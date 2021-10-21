@@ -40,10 +40,10 @@ const PageTableOptions = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textRepeatAsHeaderRow} className={isRepeat === null ? 'disabled' : ''}>
-                    <Toggle checked={isRepeat} onChange={() => {props.onOptionRepeat(!isRepeat)}}/>
+                    <Toggle checked={isRepeat} onToggleChange={() => {props.onOptionRepeat(!isRepeat)}}/>
                 </ListItem>
                 <ListItem title={_t.textResizeToFitContent}>
-                    <Toggle checked={isResize} onChange={() => {props.onOptionResize(!isResize)}}/>
+                    <Toggle checked={isResize} onToggleChange={() => {props.onOptionResize(!isResize)}}/>
                 </ListItem>
             </List>
             <BlockTitle>{_t.textCellMargins}</BlockTitle>
@@ -115,7 +115,7 @@ const PageWrap = props => {
             </List>
             <List>
                 <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
-                    <Toggle checked={moveText} onChange={() => {props.onWrapMoveText(!moveText)}}/>
+                    <Toggle checked={moveText} onToggleChange={() => {props.onWrapMoveText(!moveText)}}/>
                 </ListItem>
             </List>
             {
@@ -223,24 +223,24 @@ const PageStyleOptions = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textHeaderRow}>
-                    <Toggle checked={isFirstRow} onChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
+                    <Toggle checked={isFirstRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
                 </ListItem>
                 <ListItem title={_t.textTotalRow}>
-                    <Toggle checked={isLastRow} onChange={() => {props.onCheckTemplateChange(tableLook, 1, !isLastRow)}}/>
+                    <Toggle checked={isLastRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 1, !isLastRow)}}/>
                 </ListItem>
                 <ListItem title={_t.textBandedRow}>
-                    <Toggle checked={isBandHor} onChange={() => {props.onCheckTemplateChange(tableLook, 2, !isBandHor)}}/>
+                    <Toggle checked={isBandHor} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 2, !isBandHor)}}/>
                 </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textFirstColumn}>
-                    <Toggle checked={isFirstCol} onChange={() => {props.onCheckTemplateChange(tableLook, 3, !isFirstCol)}}/>
+                    <Toggle checked={isFirstCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 3, !isFirstCol)}}/>
                 </ListItem>
                 <ListItem title={_t.textLastColumn}>
-                    <Toggle checked={isLastCol} onChange={() => {props.onCheckTemplateChange(tableLook, 4, !isLastCol)}}/>
+                    <Toggle checked={isLastCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 4, !isLastCol)}}/>
                 </ListItem>
                 <ListItem title={_t.textBandedColumn}>
-                    <Toggle checked={isBandVer} onChange={() => {props.onCheckTemplateChange(tableLook, 5, !isBandVer)}}/>
+                    <Toggle checked={isBandVer} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 5, !isBandVer)}}/>
                 </ListItem>
             </List>
         </Page>

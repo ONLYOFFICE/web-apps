@@ -42,7 +42,7 @@ const PageApplicationSettings = props => {
                     <List>
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
-                                    onChange={() => {
+                                    onToggleChange={() => {
                                         store.changeSpellCheck(!isSpellChecking);
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}
@@ -52,7 +52,7 @@ const PageApplicationSettings = props => {
                     <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
-                                    onChange={() => {
+                                    onToggleChange={() => {
                                         store.changeNoCharacters(!isNonprintingCharacters);
                                         props.switchNoCharacters(!isNonprintingCharacters);
                                     }}
@@ -60,7 +60,7 @@ const PageApplicationSettings = props => {
                         </ListItem>
                         <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isHiddenTableBorders}
-                                    onChange={() => {
+                                    onToggleChange={() => {
                                         store.changeShowTableEmptyLine(!isHiddenTableBorders);
                                         props.switchShowTableEmptyLine(!isHiddenTableBorders);
                                     }}
@@ -73,7 +73,7 @@ const PageApplicationSettings = props => {
             <List>
                 <ListItem title={_t.textComments}>
                     <Toggle checked={isComments}
-                        onChange={() => {
+                        onToggleChange={() => {
                             store.changeDisplayComments(!isComments);
                             props.switchDisplayComments(!isComments);
                         }}
@@ -81,7 +81,7 @@ const PageApplicationSettings = props => {
                 </ListItem>
                 <ListItem title={_t.textResolvedComments}>
                     <Toggle checked={isResolvedComments} disabled={!isComments}
-                        onChange={() => {
+                        onToggleChange={() => {
                             store.changeDisplayResolved(!isResolvedComments);
                             props.switchDisplayResolved(!isResolvedComments);
                         }}
