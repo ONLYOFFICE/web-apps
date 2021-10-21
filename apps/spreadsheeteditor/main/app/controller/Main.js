@@ -2639,7 +2639,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
-                Common.NotificationCenter.trigger('print', this);
+                Common.NotificationCenter.trigger('file:print', this);
             },
 
             onPrintUrl: function(url) {
