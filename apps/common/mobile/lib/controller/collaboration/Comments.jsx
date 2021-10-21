@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage';
 
-import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments, ViewAllComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -613,9 +613,9 @@ class ViewCommentsController extends Component {
     render() {
         return(
             <Fragment>
-                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
+                {this.props.allComments && <ViewComments wsProps={this.props?.storeWorksheets?.wsProps} onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
                     showComment={this.showComment} />}
-                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments wsProps={this.props?.storeWorksheets?.wsProps} opened={this.state.isOpenViewCurComments}
                                                                           closeCurComments={this.closeViewCurComments}
                                                                           onCommentMenuClick={this.onCommentMenuClick}
                                                                           onResolveComment={this.onResolveComment}
@@ -628,20 +628,6 @@ class ViewCommentsController extends Component {
 class ViewCommentsSheetsController extends ViewCommentsController {
     constructor(props) {
         super(props);
-    }
-
-    render() {
-        return ( 
-            <Fragment>
-                {this.props.allComments && <ViewAllComments wsProps={this.props.storeWorksheets.wsProps} onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
-                    showComment={this.showComment} />}
-                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
-                                                                          closeCurComments={this.closeViewCurComments}
-                                                                          onCommentMenuClick={this.onCommentMenuClick}
-                                                                          onResolveComment={this.onResolveComment}
-                />}
-            </Fragment>
-        )
     }
 }
 
