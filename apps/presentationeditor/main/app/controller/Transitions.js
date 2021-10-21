@@ -76,8 +76,6 @@ define([
                 }
             });
 
-            this._noApply = false;
-
         },
 
         onLaunch: function () {
@@ -125,7 +123,7 @@ define([
 
         onParameterClick: function (item) {
             this._state.EffectType = item.value;
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_TransitionType(this._state.Effect);
@@ -136,7 +134,7 @@ define([
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_TransitionDuration(field.getNumberValue()*1000);
@@ -146,7 +144,7 @@ define([
         },
 
         onStartOnClickChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_SlideAdvanceOnMouseClick(field.getValue() == 'checked');
@@ -156,7 +154,7 @@ define([
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
@@ -167,7 +165,7 @@ define([
 
         onCheckDelayChange: function(field, newValue, oldValue, eOpts) {
             this.view.numDelay.setDisabled(field.getValue() !== 'checked');
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_SlideAdvanceAfter(field.getValue() == 'checked');
@@ -187,21 +185,11 @@ define([
                 !((this._state.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this._state.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this._state.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
                     (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover))) {
                 var  parameter = this.view.setMenuParameters(type);
+                this._state.Effect = type;
                 if (parameter)
                     this.onParameterClick(parameter);
             }
-            this._state.Effect = type;
 
-            if (this.api && !this._noApply) {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_TransitionType(type);
-                transition.put_TransitionOption(this._state.EffectType);
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-
-                this._state.Effect = type;
-            }
         },
 
         onFocusObject: function(selectedObjects) {
@@ -277,7 +265,6 @@ define([
 
         setSettings: function () {
             var me = this.view;
-
             if (this._state.Effect !== undefined) {
                 var item = me.listEffects.store.findWhere({value: this._state.Effect});
                 me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
