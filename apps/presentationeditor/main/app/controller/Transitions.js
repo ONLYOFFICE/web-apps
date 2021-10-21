@@ -76,6 +76,8 @@ define([
                 }
             });
 
+            this._noApply = false;
+
         },
 
         onLaunch: function () {
@@ -122,12 +124,12 @@ define([
         },
 
         onParameterClick: function (item) {
-            this.EffectType = item.value;
+            this._state.EffectType = item.value;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
-                transition.put_TransitionType(this.Effect);
-                transition.put_TransitionOption(this.EffectType);
+                transition.put_TransitionType(this._state.Effect);
+                transition.put_TransitionOption(this._state.EffectType);
                 props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
@@ -181,22 +183,24 @@ define([
         onEffectSelect: function (combo, record) {
             var type = record.get('value');
 
-            if (this.Effect !== type &&
-                !((this.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
+            if (this._state.Effect !== type &&
+                !((this._state.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this._state.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this._state.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
                     (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover))) {
                 var  parameter = this.view.setMenuParameters(type);
                 if (parameter)
                     this.onParameterClick(parameter);
             }
-            this.Effect = type;
+            this._state.Effect = type;
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
                 transition.put_TransitionType(type);
-                transition.put_TransitionOption(this.EffectType);
+                transition.put_TransitionOption(this._state.EffectType);
                 props.put_transition(transition);
                 this.api.SetSlideProps(props);
+
+                this._state.Effect = type;
             }
         },
 
