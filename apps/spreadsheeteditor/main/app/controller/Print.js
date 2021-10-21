@@ -78,7 +78,9 @@ define([
 
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
-            this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this));
+            this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this, false));
+            this.printSettings.btnPrint.on('click', _.bind(this.querySavePrintSettings, this, true));
+
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
         },
@@ -335,10 +337,23 @@ define([
             this.printSettingsDlg = null;
         },
 
-        querySavePrintSettings: function() {
+        querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
                 this.savePageOptions(this.printSettings);
                 this.printSettings.applySettings();
+
+                if (print) {
+                    var printType = this.printSettings.getRange();
+                    this.adjPrintParams.asc_setPrintType(printType);
+                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                    Common.localStorage.setItem("sse-print-settings-range", printType);
+
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_Print(opts);
+                    Common.NotificationCenter.trigger('edit:complete', view);
+                }
             }
         },
 

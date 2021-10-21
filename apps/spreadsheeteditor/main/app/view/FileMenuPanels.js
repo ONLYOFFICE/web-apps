@@ -2745,8 +2745,8 @@ define([
                                     '<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
-                                            '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                            '<button id="print-button-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',
@@ -2754,8 +2754,8 @@ define([
                         '</div>',
                         '<div class="fms-flex-apply hidden">',
                             '<div class="footer justify">',
-                                '<button class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                '<button id="print-button-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
+                                '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
                             '</div>',
                         '</div>',
                     '</div>',
@@ -2868,7 +2868,7 @@ define([
                 itemsTemplate: itemsTemplate
             });
 
-            this.txtRangeTop = new Common.UI.InputFieldBtn({
+            this.txtRangeTop = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-top'),
                 allowBlank: true,
                 validateOnChange: true
@@ -2882,7 +2882,7 @@ define([
                 menu: true
             });
 
-            this.txtRangeLeft = new Common.UI.InputFieldBtn({
+            this.txtRangeLeft = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-left'),
                 allowBlank: true,
                 validateOnChange: true
@@ -2960,7 +2960,11 @@ define([
             this.trApply = $markup.find('.fms-btn-apply');
 
             this.btnSave = new Common.UI.Button({
-                el: $markup.findById('#print-button-save')
+                el: $markup.findById('#print-btn-save')
+            });
+
+            this.btnPrint = new Common.UI.Button({
+                el: $markup.findById('#print-btn-print')
             });
 
             this.$el = $(node).html($markup);
