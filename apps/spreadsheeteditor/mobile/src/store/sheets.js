@@ -39,7 +39,10 @@ export class storeWorksheets {
             setProtectedWorkbook: action,
 
             wsProps: observable,
-            setWsProps: action
+            setWsProps: action,
+
+            isDisabledEditSheet: observable,
+            setDisabledEditSheet: action
         });
         this.sheets = [];
     }
@@ -109,5 +112,10 @@ export class storeWorksheets {
     wsLock;
     setWsLock(value) {
         this.wsLock = value;
+    }
+
+    isDisabledEditSheet;
+    setDisabledEditSheet(value) {
+        this.isDisabledEditSheet = value;
     }
 }
