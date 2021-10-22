@@ -373,6 +373,7 @@
       "textTopRight": "오른쪽 위",
       "textTotalRow": "합계",
       "textTransition": "전환",
+      "textTransitions": "전환",
       "textType": "유형",
       "textUnCover": "당기기",
       "textVerticalIn": "덮기",
@@ -382,8 +383,7 @@
       "textZoom": "확대/축소",
       "textZoomIn": "확대",
       "textZoomOut": "축소",
-      "textZoomRotate": "확대 / 축소 및 회전",
-      "textTransitions": "Transitions"
+      "textZoomRotate": "확대 / 축소 및 회전"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
