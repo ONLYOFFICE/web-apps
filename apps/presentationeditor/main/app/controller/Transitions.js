@@ -187,7 +187,7 @@ define([
                     var parameter = this.view.setMenuParameters(type);
 
             this._state.Effect = type;
-            if (parameter)
+            if (parameter!=undefined)
                 this.onParameterClick(parameter);
             else
                 this.onParameterClick(this._state.EffectType);
