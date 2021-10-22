@@ -188,7 +188,7 @@ define([
                     parameter = this.view.setMenuParameters(type);
 
             this._state.Effect = type;
-            this.onParameterClick(this._state.EffectType);
+            this.onParameterClick(parameter);
         },
 
         onFocusObject: function(selectedObjects) {
