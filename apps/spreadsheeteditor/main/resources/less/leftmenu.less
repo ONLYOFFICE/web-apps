@@ -580,6 +580,42 @@
             }
             #print-navigation {
                 height: 50px;
+                padding-left: 20px;
+                padding-top: 10px;
+                .btn-prev-page, .btn-next-page {
+                    background-color: transparent;
+                    padding: 0;
+                    height: 20px;
+                    width: 20px;
+                    i.arrow {
+                        display: inline-block;
+                        width: 10px;
+                        height: 10px;
+
+                        border: solid @scaled-one-px-value-ie @icon-normal-ie;
+                        border: solid @scaled-one-px-value @icon-normal;
+                        border-bottom: none;
+                        border-right: none;
+                    }
+                    &.disabled {
+                        opacity: @component-disabled-opacity;
+                    }
+
+                    &:hover:not(:disabled):not(.disabled) {
+                        background-color: @highlight-button-hover-ie;
+                        background-color: @highlight-button-hover;
+                    }
+                }
+                .btn-prev-page {
+                    i {
+                        transform: rotate(-45deg) translate(-1px, 3px);
+                    }
+                }
+                .btn-next-page {
+                    i {
+                        transform: rotate(135deg) translate(4px, 0px);
+                    }
+                }
             }
             #print-preview {
                 height: calc(100% - 50px);

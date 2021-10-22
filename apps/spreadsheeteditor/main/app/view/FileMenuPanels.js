@@ -2742,11 +2742,11 @@ define([
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
-                                    '<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
+                                    //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
-                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                            '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',
@@ -2754,15 +2754,18 @@ define([
                         '</div>',
                         '<div class="fms-flex-apply hidden">',
                             '<div class="footer justify">',
-                                '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;"><%= scope.txtPrint %></button>',
-                                '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;"><%= scope.txtSave %></button>',
+                                '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
                             '</div>',
                         '</div>',
                     '</div>',
                 '</div>',
                 '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
                     '<div id="print-preview"></div>',
-                    '<div id="print-navigation"></div>',
+                    '<div id="print-navigation">',
+                        '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
+                        '<div id="print-next-page" style="display: inline-block;"></div>',
+                    '</div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -2791,13 +2794,19 @@ define([
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentSheet },
                     { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllSheets },
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
 
             this.chIgnorePrintArea = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-ignore'),
-                labelText: this.txtIgnore
+                labelText: this.txtIgnore,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
@@ -2806,7 +2815,10 @@ define([
                 editable: false,
                 cls: 'input-group-nr',
                 data: [],
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbPaperSize = new Common.UI.ComboBox({
@@ -2829,7 +2841,10 @@ define([
                     {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
                     {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
                     {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
@@ -2841,7 +2856,10 @@ define([
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
                     { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             var itemsTemplate =
@@ -2865,13 +2883,19 @@ define([
                     { value: 3, displayValue: this.txtFitRows },
                     { value: 'customoptions', displayValue: this.txtCustomOptions }
                 ],
-                itemsTemplate: itemsTemplate
+                itemsTemplate: itemsTemplate,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.txtRangeTop = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-top'),
                 allowBlank: true,
-                validateOnChange: true
+                validateOnChange: true,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.btnPresetsTop = new Common.UI.Button({
@@ -2879,13 +2903,19 @@ define([
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
                 style: 'width: 77px;',
-                menu: true
+                menu: true,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.txtRangeLeft = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-left'),
                 allowBlank: true,
-                validateOnChange: true
+                validateOnChange: true,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.btnPresetsLeft = new Common.UI.Button({
@@ -2893,7 +2923,10 @@ define([
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
                 style: 'width: 77px;',
-                menu: true
+                menu: true,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.spnMarginTop = new Common.UI.MetricSpinner({
@@ -2903,7 +2936,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
-                minValue: 0
+                minValue: 0,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnMarginTop);
 
@@ -2914,7 +2950,10 @@ define([
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
-                minValue: 0
+                minValue: 0,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnMarginBottom);
 
@@ -2925,7 +2964,10 @@ define([
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
-                minValue: 0
+                minValue: 0,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnMarginLeft);
 
@@ -2936,23 +2978,32 @@ define([
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
-                minValue: 0
+                minValue: 0,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnMarginRight);
 
             this.chPrintGrid = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-grid'),
-                labelText: this.txtPrintGrid
+                labelText: this.txtPrintGrid,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chPrintRows = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-rows'),
-                labelText: this.txtPrintHeadings
+                labelText: this.txtPrintHeadings,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
-            this.btnApplyAll = new Common.UI.Button({
+            /*this.btnApplyAll = new Common.UI.Button({
                 el: $markup.findById('#print-apply-all')
-            });
+            });*/
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
@@ -2965,6 +3016,22 @@ define([
 
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print')
+            });
+
+            this.btnPrevPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-prev-page'),
+                cls: 'btn-prev-page',
+                iconCls: 'arrow',
+                dataHint: '2',
+                dataHintDirection: 'top'
+            });
+
+            this.btnNextPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-next-page'),
+                cls: 'btn-next-page',
+                iconCls: 'arrow',
+                dataHint: '2',
+                dataHintDirection: 'top'
             });
 
             this.$el = $(node).html($markup);
