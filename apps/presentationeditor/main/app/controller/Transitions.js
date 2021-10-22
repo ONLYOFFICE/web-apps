@@ -180,17 +180,15 @@ define([
 
         onEffectSelect: function (combo, record) {
             var type = record.get('value');
+            var parameter = this._state.EffectType;
 
             if (this._state.Effect !== type &&
                 !((this._state.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this._state.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this._state.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
                     (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover)))
-                    var parameter = this.view.setMenuParameters(type);
+                    parameter = this.view.setMenuParameters(type);
 
             this._state.Effect = type;
-            if (parameter!=undefined)
-                this.onParameterClick(parameter);
-            else
-                this.onParameterClick(this._state.EffectType);
+            this.onParameterClick(this._state.EffectType);
         },
 
         onFocusObject: function(selectedObjects) {
