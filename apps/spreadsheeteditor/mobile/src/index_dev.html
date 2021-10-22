@@ -60,7 +60,7 @@
         }
 
         let params = getUrlParams(),
-            lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+            lang = (params["lang"] || <%= htmlWebpackPlugin.options.system.env.defaultLang %>).split(/[\-\_]/)[0];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];

@@ -204,6 +204,11 @@ module.exports = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       } : false,
+      system: {
+          env: {
+              defaultLang: JSON.stringify(process.env.DEFAULT_LANG || "en"),
+          }
+      },
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
