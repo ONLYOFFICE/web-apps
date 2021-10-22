@@ -628,7 +628,7 @@ const pickLink = (message) => {
 }
 
 // View comments
-// ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, storeWorksheets})
+
 const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, wsProps}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
@@ -738,8 +738,6 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
         </Page>
     )
 }));
-
-// const _ViewComments = inject('storeComments', 'storeAppOptions', "storeReview")(observer(ViewComments));
 
 const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps}) => {
     const { t } = useTranslation();
@@ -947,6 +945,5 @@ export {
     AddReply,
     EditReply,
     ViewComments,
-    // _ViewComments as ViewComments,
     ViewCurrentComments
 };

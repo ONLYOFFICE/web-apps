@@ -76,7 +76,7 @@ const routes = [
     },
     {
         path: '/comments/',
-        component: ViewCommentsSheetsController,
+        asyncComponent: () => window.editorType == 'sse' ? ViewCommentsSheetsController : ViewCommentsController,
         options: {
             props: {
                 allComments: true
@@ -123,7 +123,6 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     )
 
 }));
-
 class CollaborationView extends Component {
     constructor(props) {
         super(props);

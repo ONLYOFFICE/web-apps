@@ -10,7 +10,6 @@ import {
     AddCommentController,
     CommentsController,
     EditCommentController,
-    ViewCommentsController,
     ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
@@ -889,7 +888,6 @@ class MainController extends Component {
                 <AddCommentController />
                 <EditCommentController />
                 <ViewCommentsSheetsController />
-                {/* <ViewCommentsController /> */}
                 <PluginsController />
                 <EncodingController />
             </Fragment>
