@@ -118,14 +118,13 @@ export class storeAppOptions {
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
-        let type = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
-        this.canFillForms = this.canLicense && (!!type && typeof type[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.canFillForms = this.canLicense && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms);
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
         this.trialMode = params.asc_getLicenseMode();
 
-        type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
         this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
         this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
         this.canReader = (!type || typeof type[1] !== 'string');
