@@ -373,6 +373,7 @@
       "textTopRight": "Parte superior direita",
       "textTotalRow": "Linha total",
       "textTransition": "Transição",
+      "textTransitions": "Transições",
       "textType": "Tipo",
       "textUnCover": "Descobrir",
       "textVerticalIn": "Vertical para dentro",
@@ -382,8 +383,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação",
-      "textTransitions": "Transitions"
+      "textZoomRotate": "Zoom e Rotação"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

@@ -373,6 +373,7 @@
       "textTopRight": "Сверху справа",
       "textTotalRow": "Строка итогов",
       "textTransition": "Переход",
+      "textTransitions": "Переходы",
       "textType": "Тип",
       "textUnCover": "Открывание",
       "textVerticalIn": "По вертикали внутрь",
@@ -382,8 +383,7 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом",
-      "textTransitions": "Transitions"
+      "textZoomRotate": "Увеличение с поворотом"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",
