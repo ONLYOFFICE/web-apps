@@ -293,6 +293,12 @@
                     "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/img/about",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/about"
                 }
             ],
             "assets": [

@@ -116,7 +116,7 @@ module.exports = {
               publicPath: '../'
             }
           }),
-            'css-loader',
+            'css-loader?url=false',
             {
                 loader: 'postcss-loader',
                 options: {
@@ -129,7 +129,11 @@ module.exports = {
               loader: "less-loader",
               options: {
                 lessOptions: {
-                  javascriptEnabled: true
+                  javascriptEnabled: true,
+                  globalVars: {
+                      "common-image-header-path": env === 'production' ? `../../../${editor}/mobile/resources/img/header` : '../../common/mobile/resources/img/header',
+                      "common-image-about-path": env === 'production' ? `../../../${editor}/mobile/resources/img/about` : '../../common/main/resources/img/about',
+                  }
                 }
               }
             },

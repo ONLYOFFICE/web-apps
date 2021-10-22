@@ -1,4 +1,5 @@
 @text-normal: #000;
+// @common-image-about-path - defined in webpack config
 
 .about {
     .page-content {
@@ -36,6 +37,6 @@
           display: inline-block;
           width: 100%;
           height: 55px;
-          background: url('../../../../common/main/resources/img/about/logo_s.svg') no-repeat center;
+          background: ~"url(@{common-image-about-path}/logo_s.svg) no-repeat center";
     }
 }
