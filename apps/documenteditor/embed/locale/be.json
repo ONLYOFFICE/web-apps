@@ -20,6 +20,7 @@
   "DE.ApplicationController.textLoadingDocument": "Загрузка дакумента",
   "DE.ApplicationController.textOf": "з",
   "DE.ApplicationController.txtClose": "Закрыць",
+  "DE.ApplicationController.txtEmpty": "(Пуста)",
   "DE.ApplicationController.unknownErrorText": "Невядомая памылка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браўзер не падтрымліваецца.",
   "DE.ApplicationController.waitText": "Калі ласка, пачакайце...",
