@@ -376,6 +376,7 @@
       "textTopRight": "Dreapta sus",
       "textTotalRow": "Rând total",
       "textTransition": "Tranziții",
+      "textTransitions": "Tranziții",
       "textType": "Tip",
       "textUnCover": "Descoperire",
       "textVerticalIn": "Vertical în interior",
@@ -386,7 +387,6 @@
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
       "textZoomRotate": "Zoom și rotire",
-      "textTransitions": "Transitions",
       "textDesign": "Design"
     },
     "Settings": {

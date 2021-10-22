@@ -376,6 +376,7 @@
       "textTopRight": "右上",
       "textTotalRow": "总行",
       "textTransition": "过渡",
+      "textTransitions": "转换",
       "textType": "类型",
       "textUnCover": "揭露",
       "textVerticalIn": "铅直进入",
@@ -386,7 +387,6 @@
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
       "textZoomRotate": "缩放并旋转",
-      "textTransitions": "Transitions",
       "textDesign": "Design"
     },
     "Settings": {

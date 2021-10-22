@@ -376,6 +376,7 @@
       "textTopRight": "Arriba a la derecha",
       "textTotalRow": "Fila de totales",
       "textTransition": "Transición",
+      "textTransitions": "Transiciones",
       "textType": "Tipo",
       "textUnCover": "Revelar",
       "textVerticalIn": "Vertical entrante",
@@ -386,7 +387,6 @@
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
       "textZoomRotate": "Zoom y giro",
-      "textTransitions": "Transitions",
       "textDesign": "Design"
     },
     "Settings": {

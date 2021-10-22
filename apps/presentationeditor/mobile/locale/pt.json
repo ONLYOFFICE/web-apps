@@ -376,6 +376,7 @@
       "textTopRight": "Parte superior direita",
       "textTotalRow": "Linha total",
       "textTransition": "Transição",
+      "textTransitions": "Transições",
       "textType": "Tipo",
       "textUnCover": "Descobrir",
       "textVerticalIn": "Vertical para dentro",
@@ -386,7 +387,6 @@
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
       "textZoomRotate": "Zoom e Rotação",
-      "textTransitions": "Transitions",
       "textDesign": "Design"
     },
     "Settings": {

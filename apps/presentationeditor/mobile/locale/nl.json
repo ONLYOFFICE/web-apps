@@ -386,8 +386,8 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
-      "textTransitions": "Transitions",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textTransitions": "Transitions"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

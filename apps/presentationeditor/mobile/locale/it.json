@@ -217,6 +217,7 @@
       "textAllCaps": "Tutto maiuscolo",
       "textApplyAll": "Applica a tutte le diapositive",
       "textAuto": "Auto",
+      "textTransitions": "Transizioni",
       "notcriticalErrorTitle": "Warning",
       "textActualSize": "Actual Size",
       "textAdditional": "Additional",
@@ -252,6 +253,7 @@
       "textDoubleStrikethrough": "Double Strikethrough",
       "textDuplicateSlide": "Duplicate Slide",
       "textDuration": "Duration",
+      "textDesign": "Design",
       "textEditLink": "Edit Link",
       "textEffect": "Effect",
       "textEffects": "Effects",
@@ -338,7 +340,6 @@
       "textTopLeft": "Top-Left",
       "textTopRight": "Top-Right",
       "textTotalRow": "Total Row",
-      "textTransitions": "Transitions",
       "textType": "Type",
       "textUnCover": "UnCover",
       "textVerticalIn": "Vertical In",
@@ -348,8 +349,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate",
-      "textDesign": "Design"
+      "textZoomRotate": "Zoom and Rotate"
     },
     "Settings": {
       "textAddress": "indirizzo: ",

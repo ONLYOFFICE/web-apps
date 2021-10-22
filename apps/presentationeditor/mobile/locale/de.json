@@ -376,6 +376,7 @@
       "textTopRight": "Oben rechts",
       "textTotalRow": "Ergebniszeile",
       "textTransition": "Übergang",
+      "textTransitions": "Übergänge",
       "textType": "Typ",
       "textUnCover": "Aufdecken",
       "textVerticalIn": "Vertikal nach innen",
@@ -386,7 +387,6 @@
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
       "textZoomRotate": "Vergrößern und drehen",
-      "textTransitions": "Transitions",
       "textDesign": "Design"
     },
     "Settings": {
