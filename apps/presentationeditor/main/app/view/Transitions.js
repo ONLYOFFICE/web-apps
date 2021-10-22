@@ -393,12 +393,11 @@ define([
                 }
 
                 var selectedElement;
-                _.each(this.btnParameters.menu.items, function (element, index) {
-                    if (((index < minMax[0])||(index > minMax[1])))
-                        element.$el.css('display', 'none');
-                    else {
-                        element.$el.css('display', '');
 
+                _.each(this.btnParameters.menu.items, function (element, index) {
+                    element.setVisible(((index >= minMax[0])&&(index <= minMax[1])));
+
+                    if ((index >= minMax[0])&&(index <= minMax[1])) {
                         if (value != undefined) {
                             if (value == element.value) selectedElement = element;
                         }
