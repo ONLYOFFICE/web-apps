@@ -10,7 +10,7 @@ import {
     AddCommentController,
     CommentsController,
     EditCommentController,
-    ViewCommentsController
+    ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import LongActionsController from "./LongActions";
@@ -887,7 +887,7 @@ class MainController extends Component {
                 <CommentsController />
                 <AddCommentController />
                 <EditCommentController />
-                <ViewCommentsController />
+                <ViewCommentsSheetsController />
                 <PluginsController />
                 <EncodingController />
             </Fragment>

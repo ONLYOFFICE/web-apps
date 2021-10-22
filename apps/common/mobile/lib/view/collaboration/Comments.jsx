@@ -628,7 +628,8 @@ const pickLink = (message) => {
 }
 
 // View comments
-const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview}) => {
+
+const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, wsProps}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -673,8 +674,8 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     </div>
                                     {!viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup') && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            {displayMode === 'markup' && 
+                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
+                                            {(displayMode === 'markup' && !wsProps?.Objects) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     <Icon icon='icon-menu-comment'/>
@@ -736,12 +737,9 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
             <ReplyActions comment={clickComment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
         </Page>
     )
-};
+}));
 
-const _ViewComments = inject('storeComments', 'storeAppOptions', "storeReview")(observer(ViewComments));
-
-
-const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview}) => {
+const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -784,8 +782,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                {!viewMode &&
-                    <Link className='btn-add-reply' href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                {!viewMode && 
+                    <Link className={`btn-add-reply${wsProps?.Objects ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
                 <div className='comment-navigation row'>
                     <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
@@ -806,8 +804,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 </div>
                                 {!viewMode &&
                                 <div className='right'>
-                                    {(comment.editable && displayMode === 'markup') && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
-                                    {displayMode === 'markup' &&
+                                    {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                    {(displayMode === 'markup' && !wsProps?.Objects) &&
                                         <div className='comment-menu'
                                             onClick={() => {openActionComment(true);}}>
                                             <Icon icon='icon-menu-comment'/>
@@ -870,7 +868,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
 
 }));
 
-const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment}) => {
+const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
     });
@@ -916,18 +914,19 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
-            <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
         </Sheet>
     )
 };
 
-const ViewCommentPopover = ({onCommentMenuClick, onResolveComment}) => {
+const ViewCommentPopover = ({onCommentMenuClick, onResolveComment, wsProps}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
     });
+
     return (
         <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
-            <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )
 };
@@ -945,6 +944,6 @@ export {
     EditComment,
     AddReply,
     EditReply,
-    _ViewComments as ViewComments,
+    ViewComments,
     ViewCurrentComments
 };
