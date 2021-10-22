@@ -483,9 +483,10 @@ define([
                 this.appOptions.canFeatureForms = !!(type && typeof type[1] === 'string');
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
-                if (type && typeof type[1] === 'string') // open oform files in forms editor or in viewer
-                    this.permissions.edit = this.permissions.review = this.permissions.comment = this.permissions.fillForms = false;
-
+                if (type && typeof type[1] === 'string') {
+                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                    this.permissions.edit = this.permissions.review = this.permissions.comment = false;
+                }
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
