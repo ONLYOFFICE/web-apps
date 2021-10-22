@@ -121,8 +121,8 @@ define([
             }
         },
 
-        onParameterClick: function (item) {
-            this._state.EffectType = item.value;
+        onParameterClick: function (value) {
+            this._state.EffectType = value;
             if (this.api) {
                 var props = new Asc.CAscSlideProps();
                 var transition = new Asc.CAscSlideTransition();
@@ -183,13 +183,14 @@ define([
 
             if (this._state.Effect !== type &&
                 !((this._state.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this._state.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this._state.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
-                    (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover))) {
-                var  parameter = this.view.setMenuParameters(type);
-                this._state.Effect = type;
-                if (parameter)
-                    this.onParameterClick(parameter);
-            }
+                    (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover)))
+                    var parameter = this.view.setMenuParameters(type);
 
+            this._state.Effect = type;
+            if (parameter)
+                this.onParameterClick(parameter);
+            else
+                this.onParameterClick(this._state.EffectType);
         },
 
         onFocusObject: function(selectedObjects) {
