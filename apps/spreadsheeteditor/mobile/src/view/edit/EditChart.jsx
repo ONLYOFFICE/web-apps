@@ -862,7 +862,7 @@ const PageVerticalAxis = props => {
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
-                            onChange={() => {
+                            onToggleChange={() => {
                                 toggleValuesReverseOrder(!valuesReverseOrder);
                                 props.onVerAxisReverse(!valuesReverseOrder);
                             }} />
@@ -1170,7 +1170,7 @@ const PageHorizontalAxis = props => {
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
-                            onChange={() => {
+                            onToggleChange={() => {
                                 toggleValuesReverseOrder(!valuesReverseOrder);
                                 props.onHorAxisReverse(!valuesReverseOrder);
                             }} />

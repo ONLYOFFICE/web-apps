@@ -241,14 +241,14 @@ const PageSpreadsheetSettings = props => {
             <List simpleList>
                 <ListItem>
                     <span>{_t.textHideHeadings}</span>
-                    <Toggle checked={isHideHeadings} onChange={() => {
+                    <Toggle checked={isHideHeadings} onToggleChange={() => {
                         storeSpreadsheetSettings.changeHideHeadings(!isHideHeadings);
                         props.clickCheckboxHideHeadings(!isHideHeadings)
                     }} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textHideGridlines}</span>
-                    <Toggle checked={isHideGridlines} onChange={() => {
+                    <Toggle checked={isHideGridlines} onToggleChange={() => {
                         storeSpreadsheetSettings.changeHideGridlines(!isHideGridlines);
                         props.clickCheckboxHideGridlines(!isHideGridlines)
                     }} />

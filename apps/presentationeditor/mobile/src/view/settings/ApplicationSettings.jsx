@@ -38,7 +38,7 @@ const PageApplicationSettings = props => {
                         <ListItem>
                             <span>{_t.textSpellcheck}</span>
                             <Toggle checked={isSpellChecking}
-                                    onChange={() => {
+                                    onToggleChange={() => {
                                         store.changeSpellCheck(!isSpellChecking);
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}

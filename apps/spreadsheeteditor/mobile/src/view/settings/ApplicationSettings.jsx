@@ -66,7 +66,7 @@ const PageApplicationSettings = props => {
                     <ListItem>
                         <span>{_t.textComments}</span>
                         <Toggle checked={isComments}
-                                onChange={() => {
+                                onToggleChange={() => {
                                     storeApplicationSettings.changeDisplayComments(!isComments);
                                     props.onChangeDisplayComments(!isComments);
                                 }}
@@ -75,7 +75,7 @@ const PageApplicationSettings = props => {
                     <ListItem>
                         <span>{_t.textResolvedComments}</span>
                         <Toggle checked={isResolvedComments} disabled={!isComments}
-                                onChange={() => {
+                                onToggleChange={() => {
                                     storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
                                     props.onChangeDisplayResolved(!isResolvedComments);
                                 }}
@@ -86,7 +86,7 @@ const PageApplicationSettings = props => {
                     <ListItem>
                         <span>{_t.textR1C1Style}</span>
                         <Toggle checked={isRefStyle}
-                                onChange={() => {
+                                onToggleChange={() => {
                                     storeApplicationSettings.changeRefStyle(!isRefStyle);
                                     props.clickR1C1Style(!isRefStyle);
                                 }}

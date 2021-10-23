@@ -281,11 +281,11 @@ const PageTransition = props => {
             <List>
                 <ListItem>
                     <span>{_t.textStartOnClick}</span>
-                    <Toggle checked={isStartOnClick} onChange={() => {props.onStartClick(!isStartOnClick)}} />
+                    <Toggle checked={isStartOnClick} onToggleChange={() => {props.onStartClick(!isStartOnClick)}} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textDelay}</span>
-                    <Toggle checked={isDelay} onChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
+                    <Toggle checked={isDelay} onToggleChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
                 </ListItem>
                 <ListItem>
                     <div slot='inner' style={{width: '100%'}}>

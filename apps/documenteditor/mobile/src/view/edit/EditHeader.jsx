@@ -22,19 +22,19 @@ const EditHeader = props => {
         <Fragment>
             <List>
                 <ListItem title={_t.textDifferentFirstPage}>
-                    <Toggle checked={isDiffFirst} onChange={() => {props.onDiffFirst(!isDiffFirst)}}/>
+                    <Toggle checked={isDiffFirst} onToggleChange={() => {props.onDiffFirst(!isDiffFirst)}}/>
                 </ListItem>
                 <ListItem title={_t.textDifferentOddAndEvenPages}>
-                    <Toggle checked={isDiffOdd} onChange={() => {props.onDiffOdd(!isDiffOdd)}}/>
+                    <Toggle checked={isDiffOdd} onToggleChange={() => {props.onDiffOdd(!isDiffOdd)}}/>
                 </ListItem>
                 <ListItem title={_t.textLinkToPrevious} className={linkToPrev===null ? 'disabled' : ''}>
-                    <Toggle checked={boolLinkToPrev} onChange={() => {props.onSameAs(!boolLinkToPrev)}}/>
+                    <Toggle checked={boolLinkToPrev} onToggleChange={() => {props.onSameAs(!boolLinkToPrev)}}/>
                 </ListItem>
             </List>
             <BlockTitle>{_t.textPageNumbering}</BlockTitle>
             <List>
                 <ListItem title={_t.textContinueFromPreviousSection}>
-                    <Toggle checked={startPageNumber<0} onChange={() => {props.onNumberingContinue(!(startPageNumber<0), _startAt)}}/>
+                    <Toggle checked={startPageNumber<0} onToggleChange={() => {props.onNumberingContinue(!(startPageNumber<0), _startAt)}}/>
                 </ListItem>
                 <ListItem title={_t.textStartAt} className={startPageNumber<0 ? 'disabled' : ''}>
                     {!isAndroid && <div slot='after-start'>{_startAt}</div>}
