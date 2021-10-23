@@ -18,7 +18,8 @@ const PageAbout = props => {
     const logoCustomer = customer ? customer.logo : null;
 
     const publisherUrl = __PUBLISHER_URL__,
-        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/,"");
+        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/g,"");
+    const publisherName = __PUBLISHER_NAME__.replace(/\\"/g, '"');
     
     const editors = {
         de: 'DOCUMENT EDITOR',
