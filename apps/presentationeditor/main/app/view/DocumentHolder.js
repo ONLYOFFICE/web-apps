@@ -1983,6 +1983,28 @@ define([
                 }
             });
 
+            var mnuMoveSlideToStart = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToStart
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToStart();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
+                }
+            });
+
+            var mnuMoveSlideToEnd = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToEnd
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToEnd();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
+                }
+            });
+
             var menuSlidePaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
@@ -2010,27 +2032,7 @@ define([
                 }
             });
 
-            var mnuMoveSlideToStart = new  Common.UI.MenuItem({
-                caption: me.txtMoveSlidesToStart
-            }).on('click', function(item){
-                if (me.api) {
-                    me.api.asc_moveSelectedSlidesToStart();
 
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
-                }
-            });
-
-            var mnuMoveSlideToEnd = new  Common.UI.MenuItem({
-                caption: me.txtMoveSlidesToEnd
-            }).on('click', function(item){
-                if (me.api) {
-                    me.api.asc_moveSelectedSlidesToEnd();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
-                }
-            });
 
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
@@ -2041,18 +2043,21 @@ define([
                     mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     mnuSlideHide.setVisible(value.isSlideSelect===true);
                     mnuSlideHide.setChecked(value.isSlideHidden===true);
-                    me.slideMenu.items[7].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
-                    mnuMoveSlideToEnd.setVisible(!me.api.asc_IsLastSlideSelected());
-                    mnuMoveSlideToStart.setVisible(!me.api.asc_IsFirstSlideSelected());
-
-                    for (var i = 12; i < 17; i++) {
+                    me.slideMenu.items[13].setVisible((!me.api.asc_IsLastSlideSelected() || !me.api.asc_IsFirstSlideSelected()) && value.isSlideSelect===true);
+                    mnuMoveSlideToEnd.setVisible(!me.api.asc_IsLastSlideSelected() && value.isSlideSelect===true);
+                    mnuMoveSlideToStart.setVisible(!me.api.asc_IsFirstSlideSelected() && value.isSlideSelect===true);
+                    me.slideMenu.items[16].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
+                    for (var i = 10; i < 13; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
+
                     mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
@@ -2110,8 +2115,6 @@ define([
                     }),
                     mnuDeleteSlide,
                     mnuSlideHide,
-                    mnuMoveSlideToStart,
-                    mnuMoveSlideToEnd,
                     {caption: '--'},
                     mnuChangeSlide,
                     mnuResetSlide,
@@ -2120,6 +2123,9 @@ define([
                     {caption: '--'},
                     mnuSelectAll,
                     mnuPrintSelection,
+                    {caption: '--'},
+                    mnuMoveSlideToStart,
+                    mnuMoveSlideToEnd,
                     {caption: '--'},
                     mnuPreview
                 ]
@@ -4013,7 +4019,7 @@ define([
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
         textEditPoints: 'Edit Points',
         txtMoveSlidesToEnd: 'Move Slide to End',
-        txtMoveSlidesToStart: 'Move Slide to Start'
+        txtMoveSlidesToStart: 'Move Slide to Beginning'
 
     }, PE.Views.DocumentHolder || {}));
 });
