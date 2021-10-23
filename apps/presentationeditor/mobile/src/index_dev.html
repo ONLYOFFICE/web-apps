@@ -59,8 +59,9 @@
             return urlParams;
         }
 
+        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
         let params = getUrlParams(),
-            lang = (params["lang"] || <%= htmlWebpackPlugin.options.system.env.defaultLang %>).split(/[\-\_]/)[0];
+            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
