@@ -68,7 +68,7 @@ define([
                     'animation:selecteffect': _.bind(this.onEffectSelect, this),
                     'animation:delay':        _.bind(this.onDelayChange, this),
                     'animation:animationpane':_.bind(this.onAnimationPane, this),
-                    'animation:addeffect':    _.bind(this.onAddEffect, this),
+                    'animation:addanimation':    _.bind(this.onAddAnimation, this),
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                 },
                 'Toolbar': {
@@ -119,16 +119,15 @@ define([
 
         },
 
-        onParameterClick: function (item) {
-            this._state.EffectType = item.value;
-
+        onParameterClick: function (value) {
+            this._state.EffectType = value;
         },
 
         onAnimationPane: function() {
 
         },
 
-        onAddEffect: function() {
+        onAddAnimation: function() {
 
         },
 
@@ -142,13 +141,16 @@ define([
 
         onEffectSelect: function (combo, record) {
            var type = record.get('value');
+           var parameter = this._state.EffectType;
 
-            if (this._state.Effect !== type) {
-                this._state.Effect = type;
-                var  parameter = this.view.setMenuParameters(type);
-                if (parameter)
-                    this.onParameterClick(parameter);
-            }
+            if (this.Effect !== type &&
+                !((this.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
+                    (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover)))
+                parameter = this.view.setMenuParameters(type);
+
+            this._state.Effect = type;
+            this.onParameterClick(parameter);
+
         },
 
         onStartSelect: function (combo, record) {

@@ -70,12 +70,8 @@ define([
             }
 
             if (me.btnParameters) {
-                me.btnParameters.on('click', function (e) {
-                    me.fireEvent('animation:parameters', ['current']);
-                });
-
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('animation:parameters', [item]);
+                    me.fireEvent('animation:parameters', [item.value]);
                 });
             }
 
@@ -84,9 +80,9 @@ define([
                     me.fireEvent('animation:animationpane', [me.btnAnimationPane]);
                 }, me));
             }
-            if (me.btnAddEffect) {
-                me.btnAddEffect.on('click', _.bind(function(btn) {
-                    me.fireEvent('animation:addeffect', [me.btnAddEffect]);
+            if (me.btnAddAnimation) {
+                me.btnAddAnimation.on('click', _.bind(function(btn) {
+                    me.fireEvent('animation:addanimation', [me.btnAddAnimation]);
                 }, me));
             }
 
@@ -107,6 +103,12 @@ define([
                 {
                     me.fireEvent('animation:startselect',[combo, record])
                 })
+            }
+
+            if (me.numRepeat) {
+                me.numRepeat.on('change', function(bth) {
+                    me.fireEvent('animation:repeat', [me.numRepeat]);
+                }, me);
             }
 
         }
@@ -218,7 +220,7 @@ define([
                 });
                 this.lockedControls.push(this.btnAnimationPane);
 
-                this.btnAddEffect = new Common.UI.Button({
+                this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtAddEffect,
                     split: true,
@@ -228,7 +230,7 @@ define([
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
                 });
-                this.lockedControls.push(this.btnAddEffect);
+                this.lockedControls.push(this.btnAddAnimation);
 
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-duration'),
@@ -274,11 +276,35 @@ define([
                 });
                 this.lockedControls.push(this.cmbStart);
 
+                this.chRewind = new Common.UI.CheckBox({
+                    el: this.$el.find('#animation-checkbox-rewind'),
+                    labelText: this.strRewind,
+                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chRewind);
+
+                this.numRepeat = new Common.UI.MetricSpinner({
+                    el: this.$el.find('#animation-spin-repeat'),
+                    step: 1,
+                    width: 52,
+                    value: '',
+                    maxValue: 300,
+                    minValue: 0,
+                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+
                 Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#animation-duration').text(this.strDuration);
                 this.$el.find('#animation-delay').text(this.strDelay);
                 this.$el.find('#animation-label-start').text(this.strStart);
+                this.$el.find('#animation-repeat').text(this.strRepeat);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -340,13 +366,15 @@ define([
                 this.btnPreview && this.btnPreview.render(this.$el.find('#animation-button-preview'));
                 this.btnParameters && this.btnParameters.render(this.$el.find('#animation-button-parameters'));
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
-                this.btnAddEffect && this.btnAddEffect.render(this.$el.find('#animation-button-add-effect'));
+                this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'))
                 this.renderComponent('#animation-spin-duration', this.numDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
+                this.renderComponent('#animation-spin-repeat', this.numRepeat);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
+                this.$el.find("#animation-repeat").innerText = this.strRepeat;
                 return this.$el;
             },
 
@@ -406,9 +434,9 @@ define([
                 var selectedElement;
                 _.each(this.btnParameters.menu.items, function (element, index) {
                     if (((index < minMax[0])||(index > minMax[1])))
-                        element.$el.css('display', 'none');
+                        element.setVisible(false);
                     else {
-                        element.$el.css('display', '');
+                        element.setVisible(true);
 
                         if (value != undefined) {
                             if (value == element.value) selectedElement = element;
@@ -427,7 +455,7 @@ define([
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
-                return selectedElement;
+                return (selectedElement)?selectedElement.value:-1;
             },
 
 
@@ -435,10 +463,12 @@ define([
             txtPreview: 'Preview',
             txtParameters: 'Parameters',
             txtAnimationPane: 'Animation Pane',
-            txtAddEffect: 'Add effect',
+            txtAddEffect: 'Add animation',
             strDuration: 'Duration',
             strDelay: 'Delay',
             strStart: 'Start',
+            strRewind: 'Rewind',
+            strRepeat: 'Repeat',
 
             textStartOnClick: 'On Click',
             textStartBeforePrevious: 'Before Previous',
