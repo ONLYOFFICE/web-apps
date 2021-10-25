@@ -95,6 +95,8 @@ const Search = withTranslation()(props => {
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
 
+        f7.popover.close('.document-menu.modal-in', false);
+
         if (params.find && params.find.length) {
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
                 f7.dialog.alert(null, _t.textNoTextFound);
