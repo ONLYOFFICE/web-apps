@@ -582,6 +582,7 @@
                 height: 50px;
                 padding-left: 20px;
                 padding-top: 10px;
+                display: flex;
                 .btn-prev-page, .btn-next-page {
                     background-color: transparent;
                     padding: 0;
@@ -615,6 +616,23 @@
                     i {
                         transform: rotate(135deg) translate(4px, 0px);
                     }
+                }
+                .page-number {
+                    display: flex;
+                    align-items: center;
+                    height: 20px;
+                    margin-left: 10px;
+                    label {
+                        font-weight: bold;
+                    }
+                    #print-count-page, #print-number-page {
+                        margin-left: 4px;
+                    }
+                }
+                #print-active-sheet {
+                    margin-left: 12px;
+                    height: 20px;
+                    line-height: 20px;
                 }
             }
             #print-preview {

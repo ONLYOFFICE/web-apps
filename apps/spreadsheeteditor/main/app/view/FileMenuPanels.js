@@ -2765,6 +2765,12 @@ define([
                     '<div id="print-navigation">',
                         '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
                         '<div id="print-next-page" style="display: inline-block;"></div>',
+                        '<div class="page-number">',
+                            '<label><%= scope.txtPage %></label>',
+                            '<div id="print-number-page"></div>',
+                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                        '</div>',
+                        '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
                 '</div>',
             '</div>'
@@ -3034,6 +3040,20 @@ define([
                 dataHintDirection: 'top'
             });
 
+            this.countOfPages = $markup.findById('#print-count-page');
+
+            this.txtNumberPage = new Common.UI.InputField({
+                el: $markup.findById('#print-number-page'),
+                allowBlank: true,
+                validateOnChange: true,
+                style: 'width: 32px;',
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.txtActiveSheet = $markup.findById('#print-active-sheet');
+
             this.$el = $(node).html($markup);
 
             this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
@@ -3166,6 +3186,18 @@ define([
             SSE.getController('Toolbar').onEditHeaderClick();
         },
 
+        updateCountOfPages: function (count) {
+            this.countOfPages.text(
+                Common.Utils.String.format(this.txtOf, count)
+            );
+        },
+
+        updateActiveSheet: function (name) {
+            this.txtActiveSheet.text(
+                Common.Utils.String.format(this.txtSheet, name)
+            );
+        },
+
         txtPrint: 'Print',
         txtSave: 'Save',
         txtPrintRange: 'Print range',
@@ -3198,7 +3230,10 @@ define([
         txtPrintHeadings: 'Print row and columns headings',
         txtHeaderFooterSettings: 'Header/footer settings',
         txtApplyToAllSheets: 'Apply to all sheets',
-        txtIgnore: 'Ignore print area'
+        txtIgnore: 'Ignore print area',
+        txtPage: 'Page',
+        txtOf: 'of {0}',
+        txtSheet: 'Sheet: {0}'
     }, SSE.Views.FileMenuPanels.PrintWithPreview || {}));
 
 });
