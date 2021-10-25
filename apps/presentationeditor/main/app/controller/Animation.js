@@ -143,9 +143,7 @@ define([
            var type = record.get('value');
            var parameter = this._state.EffectType;
 
-            if (this.Effect !== type &&
-                !((this.Effect === Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect === Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect === Asc.c_oAscSlideTransitionTypes.Cover)&&
-                    (type === Asc.c_oAscSlideTransitionTypes.Wipe || type === Asc.c_oAscSlideTransitionTypes.UnCover || type === Asc.c_oAscSlideTransitionTypes.Cover)))
+            if (this.Effect !== type)
                 parameter = this.view.setMenuParameters(type);
 
             this._state.Effect = type;
