@@ -28,7 +28,7 @@ class SearchSettings extends SearchSettingsView {
 
         const markup = (
                 <Page>
-                    <Navbar title={_t.textFindAndReplace}>
+                    <Navbar title={isEdit ? _t.textFindAndReplace : _t.textFind}>
                         {!show_popover &&
                             <NavRight>
                                 <Link popupClose=".search-settings-popup">{_t.textDone}</Link>
