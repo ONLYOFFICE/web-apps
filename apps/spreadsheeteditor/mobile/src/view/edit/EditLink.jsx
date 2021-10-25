@@ -107,7 +107,7 @@ const EditLink = props => {
     };
 
     const valueRange = linkInfo.asc_getRange();
-    const [range, setRange] = useState(valueRange || '');
+    const [range, setRange] = useState(valueRange || 'A1');
 
     return (
         <Fragment>
@@ -138,7 +138,7 @@ const EditLink = props => {
                                placeholder={_t.textRequired}
                                value={range}
                                onChange={(event) => {setRange(event.target.value)}}
-                               className={isIos ? 'list-input-right' : ''}
+                               className={[isIos ? 'list-input-right' : '', curSheet === '' && 'disabled'].join(' ')}
                     />
                 }
                 <ListInput label={_t.textDisplay}

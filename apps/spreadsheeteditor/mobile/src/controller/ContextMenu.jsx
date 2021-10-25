@@ -28,6 +28,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.getUserName = this.getUserName.bind(this);
+        this.onApiHyperlinkClick = this.onApiHyperlinkClick.bind(this);
     }
 
     static closeContextMenu() {
@@ -45,6 +46,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_unregisterCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
     }
 
 
@@ -59,6 +61,20 @@ class ContextMenu extends ContextMenuController {
     // onMenuClosed() {
     //     super.onMenuClosed();
     // }
+
+    onApiHyperlinkClick(url) {
+        const { t } = this.props;
+
+        if(!url) {
+            f7.dialog.create({
+                title: t('ContextMenu.notcriticalErrorTitle'),
+                text: t('ContextMenu.errorInvalidLink'),
+                buttons:[
+                    {text: 'OK'}
+                ] 
+            }).open();
+        }
+    }
 
     onMenuItemClick(action) {
         const { t } = this.props;
@@ -177,6 +193,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_registerCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
     }
 
     initMenuItems() {
