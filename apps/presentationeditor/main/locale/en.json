@@ -1255,6 +1255,8 @@
   "PE.Views.DocumentHolder.txtLimitUnder": "Limit under text",
   "PE.Views.DocumentHolder.txtMatchBrackets": "Match brackets to argument height",
   "PE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
+  "PE.Views.DocumentHolder.txtMoveSlidesToEnd": "Move Slide to End",
+  "PE.Views.DocumentHolder.txtMoveSlidesToStart": "Move Slide to Beginning",
   "PE.Views.DocumentHolder.txtNewSlide": "New Slide",
   "PE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Use destination theme",

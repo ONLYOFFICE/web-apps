@@ -1983,6 +1983,28 @@ define([
                 }
             });
 
+            var mnuMoveSlideToStart = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToStart
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToStart();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
+                }
+            });
+
+            var mnuMoveSlideToEnd = new  Common.UI.MenuItem({
+                caption: me.txtMoveSlidesToEnd
+            }).on('click', function(item){
+                if (me.api) {
+                    me.api.asc_moveSelectedSlidesToEnd();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
+                }
+            });
+
             var menuSlidePaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
@@ -2010,9 +2032,13 @@ define([
                 }
             });
 
+
+
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value) {
+                    var selectedLast = me.api.asc_IsLastSlideSelected(),
+                        selectedFirst = me.api.asc_IsFirstSlideSelected();
                     menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
                     me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
@@ -2025,10 +2051,16 @@ define([
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
-
-                    for (var i = 10; i < 15; i++) {
+                    me.slideMenu.items[13].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
+                    mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
+                    me.slideMenu.items[16].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
+                    
+                    for (var i = 10; i < 13; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
+
                     mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
@@ -2094,6 +2126,9 @@ define([
                     {caption: '--'},
                     mnuSelectAll,
                     mnuPrintSelection,
+                    {caption: '--'},
+                    mnuMoveSlideToStart,
+                    mnuMoveSlideToEnd,
                     {caption: '--'},
                     mnuPreview
                 ]
@@ -3985,7 +4020,9 @@ define([
         mniCustomTable: 'Insert Custom Table',
         textFromStorage: 'From Storage',
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
-        textEditPoints: 'Edit Points'
+        textEditPoints: 'Edit Points',
+        txtMoveSlidesToEnd: 'Move Slide to End',
+        txtMoveSlidesToStart: 'Move Slide to Beginning'
 
     }, PE.Views.DocumentHolder || {}));
 });
