@@ -105,7 +105,7 @@ Common.UI.HintManager = new(function() {
         _arrEnAlphabet = [],
         _arrQwerty = [],
         _arrEnQwerty = [],
-        _isAlt = false,
+        _needShow = false,
         _hintVisible = false,
         _currentLevel = 0,
         _currentSection = document,
@@ -381,7 +381,7 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _isAlt) {
+            if (e.keyCode == Common.UI.Keys.ALT && _needShow) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
@@ -399,7 +399,7 @@ Common.UI.HintManager = new(function() {
             } else if (_hintVisible) {
                 e.preventDefault();
             }
-            _isAlt = false;
+            _needShow = false;
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
@@ -490,7 +490,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _isAlt = (e.keyCode == Common.UI.Keys.ALT);
+            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible());
         });
     };
 
