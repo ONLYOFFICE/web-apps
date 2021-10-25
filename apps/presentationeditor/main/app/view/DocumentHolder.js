@@ -2037,6 +2037,8 @@ define([
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value) {
+                    var selectedLast = me.api.asc_IsLastSlideSelected(),
+                        selectedFirst = me.api.asc_IsFirstSlideSelected();
                     menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
                     me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
@@ -2049,11 +2051,12 @@ define([
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
-                    me.slideMenu.items[13].setVisible((!me.api.asc_IsLastSlideSelected() || !me.api.asc_IsFirstSlideSelected()) && value.isSlideSelect===true);
-                    mnuMoveSlideToEnd.setVisible(!me.api.asc_IsLastSlideSelected() && value.isSlideSelect===true);
-                    mnuMoveSlideToStart.setVisible(!me.api.asc_IsFirstSlideSelected() && value.isSlideSelect===true);
+                    me.slideMenu.items[13].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
+                    mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
                     me.slideMenu.items[16].setVisible(value.fromThumbs===true);
                     me.slideMenu.items[17].setVisible(value.fromThumbs===true);
+                    
                     for (var i = 10; i < 13; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
