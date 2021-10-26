@@ -77,6 +77,7 @@ define([
         },
 
         onAfterRender: function(view) {
+            this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this, false));
             this.printSettings.btnPrint.on('click', _.bind(this.querySavePrintSettings, this, true));
@@ -276,6 +277,8 @@ define([
             }
 
             this.fillPrintOptions(this.adjPrintParams, false);
+
+            this._pagePreviewCount = this.api.asc_initPrintPreview('print-preview');
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -340,6 +343,7 @@ define([
         querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
                 this.savePageOptions(this.printSettings);
+                this._isPrint = print;
                 this.printSettings.applySettings();
 
                 if (print) {
@@ -353,6 +357,8 @@ define([
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
                     Common.NotificationCenter.trigger('edit:complete', view);
+
+                    this._isPrint = false;
                 }
             }
         },
@@ -571,6 +577,10 @@ define([
                     txtRange.focus();
                 },1);
             }
+        },
+
+        onHidePrintMenu: function () {
+            this.api.asc_closePrintPreview(this._isPrint);
         },
 
         warnCheckMargings:      'Margins are incorrect',
