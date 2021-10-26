@@ -177,7 +177,7 @@ define([
                             lockDrag = true;
                         }
                     });
-                    if (this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1 || this.bar.isEditFormula) {
+                    if (((this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) && !(e.ctrlKey || e.metaKey)) || this.bar.isEditFormula) {
                         lockDrag = true;
                     }
                     this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
