@@ -213,11 +213,7 @@ class AddView extends Component {
 }
 
 const Add = props => {
-    const api = Common.EditorApi.get();
-
     useEffect(() => {
-        api.asc_enableKeyEvents(false);
-
         if ( Device.phone )
             f7.popup.open('.add-popup');
         else f7.popover.open('#add-popover', '#btn-add');
@@ -230,7 +226,6 @@ const Add = props => {
     });
     const onviewclosed = () => {
         if ( props.onclosed ) {
-            api.asc_enableKeyEvents(true);
             props.onclosed();
         }
     };

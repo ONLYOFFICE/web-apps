@@ -147,11 +147,7 @@ class CollaborationView extends Component {
 }
 
 const Collaboration = props => {
-    const api = Common.EditorApi.get();
-
     useEffect(() => {
-        api.asc_enableKeyEvents(false);
-
         if ( Device.phone ) {
             f7.sheet.open('.coauth__sheet');
         } else {
@@ -165,7 +161,6 @@ const Collaboration = props => {
 
     const onviewclosed = () => {
         if ( props.onclosed ) { 
-            api.asc_enableKeyEvents(true);
             props.onclosed();
         }
     };

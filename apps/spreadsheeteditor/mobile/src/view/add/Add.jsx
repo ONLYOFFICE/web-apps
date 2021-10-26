@@ -202,8 +202,6 @@ const Add = props => {
     let options;
     
     useEffect(() => {
-        api.asc_enableKeyEvents(false);
-
         if ( Device.phone ) {
             f7.popup.open('.add-popup');
         } else {
@@ -218,7 +216,6 @@ const Add = props => {
 
     const onviewclosed = () => {
         if ( props.onclosed ) {
-            api.asc_enableKeyEvents(true);
             props.onclosed();
         }
     };

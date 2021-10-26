@@ -60,7 +60,6 @@ const routes = [
 const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
-    const api = Common.EditorApi.get();
     const storeReview = props.storeReview;
     const displayMode = storeReview.displayMode;
     const navbar = <Navbar title={_t.textSettings}>
@@ -73,8 +72,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     };
 
     const closeModal = () => {
-        api.asc_enableKeyEvents(true);
-
         if (Device.phone) {
             f7.sheet.close('.settings-popup', false);
         } else {
@@ -86,10 +83,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         await closeModal();
         await props.openOptions('coauth');
     }
-
-    useEffect(() => {
-        api.asc_enableKeyEvents(false);
-    });
 
     // set mode
     const appOptions = props.storeAppOptions;

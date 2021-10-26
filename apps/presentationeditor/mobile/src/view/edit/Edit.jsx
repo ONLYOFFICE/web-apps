@@ -349,11 +349,7 @@ const EditView = props => {
 };
 
 const EditOptions = props => {
-    const api = Common.EditorApi.get();
-
     useEffect(() => {
-        api.asc_enableKeyEvents(false);
-
         if ( Device.phone )
             f7.sheet.open('#edit-sheet');
         else f7.popover.open('#edit-popover', '#btn-edit');
@@ -365,7 +361,6 @@ const EditOptions = props => {
 
     const onviewclosed = () => {
         if ( props.onclosed ) {
-            api.asc_enableKeyEvents(true);
             props.onclosed();
         }
     };

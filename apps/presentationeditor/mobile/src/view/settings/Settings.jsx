@@ -189,11 +189,7 @@ class SettingsView extends Component {
 }
 
 const Settings = props => {
-    const api = Common.EditorApi.get();
-
     useEffect(() => {
-        api.asc_enableKeyEvents(false);
-
         if ( Device.phone )
             f7.popup.open('.settings-popup');
         else f7.popover.open('#settings-popover', '#btn-settings');
@@ -204,7 +200,6 @@ const Settings = props => {
 
     const onviewclosed = () => {
         if (props.onclosed) {
-            api.asc_enableKeyEvents(true);
             props.onclosed();
         }
     };
