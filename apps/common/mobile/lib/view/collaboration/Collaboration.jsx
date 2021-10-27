@@ -160,7 +160,9 @@ const Collaboration = props => {
     });
 
     const onviewclosed = () => {
-        if ( props.onclosed ) props.onclosed();
+        if ( props.onclosed ) { 
+            props.onclosed();
+        }
     };
 
     return (

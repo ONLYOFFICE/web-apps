@@ -84,9 +84,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         await props.openOptions('coauth');
     }
 
-    useEffect(() => {
-    });
-
     // set mode
     const appOptions = props.storeAppOptions;
     let _isEdit = false,
