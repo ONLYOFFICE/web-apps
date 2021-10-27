@@ -351,10 +351,6 @@ define([
 
             if ( me.btnOptions )
                 me.btnOptions.updateHint(me.tipViewSettings);
-
-            if ( me.btnContentMode ) {
-                me.btnContentMode.on('click', function (e) { Common.UI.Themes.toggleContentTheme(); });
-            }
         }
 
         function onDocNameKeyDown(e) {
@@ -392,9 +388,6 @@ define([
         }
 
         function onContentThemeChangedToDark(isdark) {
-            if ( this.btnContentMode ) {
-                this.btnContentMode.changeIcon(!isdark ? {curr: 'btn-mode-light', next: 'btn-mode-dark'} : {curr: 'btn-mode-dark', next: 'btn-mode-light'});
-            }
         }
 
         return {
@@ -561,15 +554,6 @@ define([
                     $btnUsers = $html.find('.btn-users');
 
                     $panelUsers.hide();
-
-                    if ( !!window.DE ) {
-                        var mode_cls = Common.UI.Themes.isContentThemeDark() ? 'btn-mode-light' : 'btn-mode-dark';
-                        me.btnContentMode = createTitleButton('toolbar__icon icon--inverse ' + mode_cls, $html.findById('#slot-btn-mode'), undefined, 'bottom', 'big');
-
-                        var document = window.DE.getController('Main').document;
-                        me.btnContentMode.setVisible(Common.UI.Themes.isDarkTheme() && !/^pdf|djvu|xps|oxps$/.test(document.fileType));
-                    }
-
                     return $html;
                 } else
                 if ( role == 'title' ) {
