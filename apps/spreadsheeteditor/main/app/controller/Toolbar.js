@@ -2252,6 +2252,8 @@ define([
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
             this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
+            this.onApiGridLines(props.asc_getGridLines());
+            this.onApiHeadings(props.asc_getHeadings());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -2260,6 +2262,14 @@ define([
         onUpdateDocumentProps: function(nIndex) {
             if (nIndex == this.api.asc_getActiveWorksheetIndex())
                 this.onApiSheetChanged();
+        },
+
+        onApiGridLines: function (checked) {
+            this.toolbar.chPrintGridlines.setValue(checked, true);
+        },
+
+        onApiHeadings: function (checked) {
+            this.toolbar.chPrintHeadings.setValue(checked, true);
         },
 
         onApiPageSize: function(w, h) {
@@ -4065,13 +4075,13 @@ define([
             }
         },
 
-        onPrintGridlinesChange: function (field, value) { // To Do
-            console.log(value);
+        onPrintGridlinesChange: function (field, value) {
+            this.api.asc_SetPrintGridlines(value === 'checked');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onPrintHeadingsChange: function (field, value) { // To Do
-            console.log(value);
+        onPrintHeadingsChange: function (field, value) {
+            this.api.asc_SetPrintHeadings(value === 'checked');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
