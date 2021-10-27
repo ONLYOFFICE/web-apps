@@ -3046,7 +3046,17 @@ define([
                 el: $markup.findById('#print-number-page'),
                 allowBlank: true,
                 validateOnChange: true,
-                style: 'width: 32px;',
+                style: 'width: 50px;',
+                maskExp: /[0-9]/,
+                validation: function(value) {
+                    if (/(^[0-9]+$)/.test(value)) {
+                        value = parseInt(value);
+                        if (undefined !== value && value > 0 && value <= me.pageCount)
+                            return true;
+                    }
+
+                    return me.txtPageNumInvalid;
+                },
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -3190,12 +3200,17 @@ define([
             this.countOfPages.text(
                 Common.Utils.String.format(this.txtOf, count)
             );
+            this.pageCount = count;
         },
 
         updateActiveSheet: function (name) {
             this.txtActiveSheet.text(
                 Common.Utils.String.format(this.txtSheet, name)
             );
+        },
+
+        updateCurrentPage: function (index) {
+            this.txtNumberPage.setValue(index + 1);
         },
 
         txtPrint: 'Print',
@@ -3233,7 +3248,8 @@ define([
         txtIgnore: 'Ignore print area',
         txtPage: 'Page',
         txtOf: 'of {0}',
-        txtSheet: 'Sheet: {0}'
+        txtSheet: 'Sheet: {0}',
+        txtPageNumInvalid: 'Page number invalid'
     }, SSE.Views.FileMenuPanels.PrintWithPreview || {}));
 
 });

@@ -53,6 +53,11 @@ define([
             this._changedProps = null;
             this._originalPageSettings = null;
 
+            this._navigationPreview = {
+                pageCount: false,
+                currentPage: 0
+            };
+
             this.addListeners({
                 /*'MainSettingsPrint': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
@@ -81,6 +86,12 @@ define([
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this, false));
             this.printSettings.btnPrint.on('click', _.bind(this.querySavePrintSettings, this, true));
+            this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
+            this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
+            this.printSettings.txtNumberPage.on({
+                'keypress:after':  _.bind(this.onKeypressPageNumber, this),
+                'keyup:after': _.bind(this.onKeyupPageNumber, this)
+            });
 
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
@@ -278,7 +289,9 @@ define([
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            this._pagePreviewCount = this.api.asc_initPrintPreview('print-preview');
+            this._navigationPreview.pageCount = this.api.asc_initPrintPreview('print-preview');
+            this.printSettings.updateCountOfPages(this._navigationPreview.pageCount);
+            this.printSettings.updateCurrentPage(0);
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -581,6 +594,48 @@ define([
 
         onHidePrintMenu: function () {
             this.api.asc_closePrintPreview(this._isPrint);
+        },
+
+        onChangePreviewPage: function (next) {
+            var index = this._navigationPreview.currentPage;
+            if (next) {
+                index++;
+                index = Math.min(index, this._navigationPreview.pageCount - 1);
+            } else {
+                index--;
+                index = Math.max(index, 0);
+            }
+            this.api.asc_drawPrintPreview(index);
+
+            this.printSettings.updateCurrentPage(index);
+            this._navigationPreview.currentPage = index;
+        },
+
+        onKeypressPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.RETURN) {
+                var box = this.$el.find('#print-number-page'),
+                    edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                if (!page || page-- > this._navigationPreview.pageCount || page < 0) {
+                    edit.select();
+                    return false;
+                }
+
+                box.focus(); // for IE
+
+                this.api.asc_drawPrintPreview(page-1);
+                this.api.asc_enableKeyEvents(true);
+
+                return false;
+            }
+        },
+
+        onKeyupPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.ESC) {
+                var box = this.$el.find('#print-number-page');
+                box.focus(); // for IE
+                this.api.asc_enableKeyEvents(true);
+                return false;
+            }
         },
 
         warnCheckMargings:      'Margins are incorrect',
