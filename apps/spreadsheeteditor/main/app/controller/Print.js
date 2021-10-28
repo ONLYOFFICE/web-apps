@@ -58,6 +58,8 @@ define([
                 currentPage: 0
             };
 
+            this._isPreviewVisible = false;
+
             this.addListeners({
                 /*'MainSettingsPrint': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
@@ -92,6 +94,7 @@ define([
                 'keypress:after':  _.bind(this.onKeypressPageNumber, this),
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
             });
+            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this));
 
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
@@ -226,6 +229,10 @@ define([
             }
             menu.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
             menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
+
+            if (!isDlg) {
+                this.updatePreview();
+            }
         },
 
         getPageOptions: function(panel) {
@@ -292,6 +299,8 @@ define([
             this._navigationPreview.pageCount = this.api.asc_initPrintPreview('print-preview');
             this.printSettings.updateCountOfPages(this._navigationPreview.pageCount);
             this.printSettings.updateCurrentPage(0);
+
+            this._isPreviewVisible = true;
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -452,6 +461,7 @@ define([
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
                                 if (me._changedProps) {
                                     me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                    me.updatePreview();
                                 }
                             }
                         } else {
@@ -469,6 +479,7 @@ define([
             } else {
                 if (this._changedProps) {
                     this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                    this.updatePreview();
                 }
             }
         },
@@ -593,7 +604,10 @@ define([
         },
 
         onHidePrintMenu: function () {
-            this.api.asc_closePrintPreview(this._isPrint);
+            if (this._isPreviewVisible) {
+                this.api.asc_closePrintPreview(this._isPrint);
+                this._isPreviewVisible = false;
+            }
         },
 
         onChangePreviewPage: function (next) {
@@ -635,6 +649,20 @@ define([
                 box.focus(); // for IE
                 this.api.asc_enableKeyEvents(true);
                 return false;
+            }
+        },
+
+        updatePreview: function () {
+            if (this._isPreviewVisible) {
+                var adjPrintParams = new Asc.asc_CAdjustPrint();
+                adjPrintParams.asc_setPrintType(this.printSettings.getRange());
+                adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                opts.asc_setAdvancedOptions(adjPrintParams);
+                this._navigationPreview.pageCount = this.api.asc_updatePrintPreview(opts);
+                this.printSettings.updateCountOfPages(this._navigationPreview.pageCount);
             }
         },
 
