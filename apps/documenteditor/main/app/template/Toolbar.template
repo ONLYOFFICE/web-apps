@@ -80,7 +80,7 @@
                 </div>
                 <div class="group small" id="slot-field-styles"></div>
             </section>
-            <section class="panel" data-tab="ins" data-layout-name="toolbar-insert">
+            <section class="panel" data-tab="ins">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-blankpage"></span>
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
