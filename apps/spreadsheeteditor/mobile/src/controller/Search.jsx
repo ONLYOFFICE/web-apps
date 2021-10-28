@@ -126,7 +126,7 @@ class SESearchView extends SearchView {
         super.onSearchbarShow(isshowed, bar);
 
         const api = Common.EditorApi.get();
-        if ( isshowed ) {
+        if ( isshowed && this.state.searchQuery.length ) {
             const checkboxMarkResults = f7.toggle.get('.toggle-mark-results');
             api.asc_selectSearchingResults(checkboxMarkResults.checked);
         } else api.asc_selectSearchingResults(false);
@@ -155,11 +155,19 @@ const Search = withTranslation()(props => {
             options.asc_setScanByRows(searchBy);
             options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
+            api.asc_selectSearchingResults(true);
+
             if (!api.asc_findText(options)) {
                 f7.dialog.alert(null, _t.textNoTextFound);
             }
         }
     };
+
+    const onchangeSearchQuery = params => {
+        const api = Common.EditorApi.get();
+        
+        if(params.length === 0) api.asc_selectSearchingResults(false);
+    }
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
@@ -209,7 +217,7 @@ const Search = withTranslation()(props => {
         }
     }
 
-    return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+    return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
 const SearchSettingsWithTranslation = inject("storeAppOptions")(observer(withTranslation()(SearchSettings)));
