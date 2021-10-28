@@ -28,7 +28,7 @@ class SearchSettings extends SearchSettingsView {
 
         const markup = (
                 <Page>
-                    <Navbar title={_t.textFindAndReplace}>
+                    <Navbar title={isEdit ? _t.textFindAndReplace : _t.textFind}>
                         {!show_popover &&
                             <NavRight>
                                 <Link popupClose=".search-settings-popup">{_t.textDone}</Link>
@@ -94,6 +94,8 @@ const Search = withTranslation()(props => {
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
+
+        f7.popover.close('.document-menu.modal-in', false);
 
         if (params.find && params.find.length) {
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
