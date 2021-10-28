@@ -33,7 +33,7 @@ class EditParagraphController extends Component {
                 newDistance = Math.min(maxValue, distance + step);
             }
 
-            api.put_LineSpacingBeforeAfter(0, (newDistance < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(newDistance));
+            api.put_LineSpacingBeforeAfter(0, (isDecrement && newDistance < 0) ? -1 : (!isDecrement && newDistance > -1 && newDistance < 0) ? 0 : Common.Utils.Metric.fnRecalcToMM(newDistance));
         }
     }
 
@@ -56,7 +56,7 @@ class EditParagraphController extends Component {
                 newDistance = Math.min(maxValue, distance + step);
             }
 
-            api.put_LineSpacingBeforeAfter(1, (newDistance < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(newDistance));
+            api.put_LineSpacingBeforeAfter(1, (isDecrement && newDistance < 0) ? -1 : (!isDecrement && newDistance > -1 && newDistance < 0) ? 0 : Common.Utils.Metric.fnRecalcToMM(newDistance));
         }
     }
 
