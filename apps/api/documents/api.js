@@ -157,8 +157,7 @@
                         leftMenu: {
                             navigation: false/true
                         },
-                        rightMenu: {
-                        },
+                        rightMenu: false/true,
                         statusBar: {
                             textLang: false/true
                             docLang: false/true
@@ -174,8 +173,8 @@
                     comments: true,
                     zoom: 100,
                     compactToolbar: false,
-                    leftMenu: true,
-                    rightMenu: true,
+                    leftMenu: true, // must be deprecated. use layout.leftMenu instead
+                    rightMenu: true, // must be deprecated. use layout.rightMenu instead
                     hideRightMenu: false, // hide or show right panel on first loading
                     toolbar: true,
                     statusBar: true,
