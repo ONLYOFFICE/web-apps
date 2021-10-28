@@ -86,6 +86,12 @@ const Search = withTranslation()(props => {
         }
     };
 
+    const onchangeSearchQuery = params => {
+        const api = Common.EditorApi.get();
+        
+        if(params.length === 0) api.asc_selectSearchingResults(false);
+    }
+
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
 
@@ -102,7 +108,7 @@ const Search = withTranslation()(props => {
         }
     }
 
-    return <PESearchView _t={_t} onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+    return <PESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
 const SearchSettingsWithTranslation = inject("storeAppOptions")(observer(withTranslation()(SearchSettings)));

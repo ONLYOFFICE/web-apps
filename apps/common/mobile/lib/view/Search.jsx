@@ -227,6 +227,8 @@ class SearchView extends Component {
         this.setState({
             searchQuery: value
         });
+
+        this.props.onchangeSearchQuery(value);
     }
 
     changeReplaceQuery(value) {
@@ -240,7 +242,7 @@ class SearchView extends Component {
         const isReplaceAll = searchOptions.isReplaceAll;
         const hidden = {display: "none"};
         const searchQuery = this.state.searchQuery;
-        // const replaceQuery = this.state.replaceQuery;
+        const replaceQuery = this.state.replaceQuery;
         const isIos = Device.ios;
         const { _t } = this.props;
 
@@ -259,7 +261,7 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input placeholder={_t.textSearch} type="search" maxLength="255"
+                            <input value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
@@ -267,7 +269,7 @@ class SearchView extends Component {
                         {/* {usereplace || isReplaceAll ?  */}
                             <div className="searchbar-input-wrap" style={usereplace || isReplaceAll ? null : hidden}>
                                 {/* style={!usereplace ? hidden: null} */}
-                                <input placeholder={_t.textReplace} type="search" maxLength="255" id="idx-replace-val"
+                                <input value={replaceQuery} placeholder={_t.textReplace} type="search" maxLength="255" id="idx-replace-val"
                                     onChange={e => {this.changeReplaceQuery(e.target.value)}} />
                                 {isIos ? <i className="searchbar-icon" /> : null}
                                 <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
