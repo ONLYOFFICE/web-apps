@@ -102,7 +102,9 @@ define([
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
                 HideChangeTypeSettings: false,
-                isFromImage: false
+                HideRotationSettings: false,
+                isFromImage: false,
+                isFromSmartArtInternal: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -144,6 +146,7 @@ define([
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
+            this.RotationSettings = $('.shape-rotation');
         },
 
         setApi: function(api) {
@@ -804,16 +807,18 @@ define([
 
                 this.disableControls(this._locked, !shapeprops.get_CanFill());
                 this.hideShapeOnlySettings(shapeprops.get_FromChart() || shapeprops.get_FromImage());
+                this.hideRotationSettings(shapeprops.get_FromSmartArt());
 
-                var hidechangetype = shapeprops.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                var hidechangetype = shapeprops.get_FromChart() || shapeprops.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
                 this._state.isFromImage = !!shapeprops.get_FromImage();
+                this._state.isFromSmartArtInternal = !!shapeprops.get_FromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
-                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
+                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage() || shapeprops.get_FromSmartArtInternal());
+                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage() && !shapeprops.get_FromSmartArtInternal());
                 }
 
                 var value = props.get_WrappingStyle();
@@ -1845,8 +1850,8 @@ define([
                         me.btnChangeShape.menu.hide();
                 });
             }
-            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
-            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
+            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage || me._state.isFromSmartArtInternal);
+            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage && !me._state.isFromSmartArtInternal);
         },
 
         UpdateThemeColors: function() {
@@ -1973,6 +1978,13 @@ define([
             if (this._state.HideChangeTypeSettings !== value) {
                 this._state.HideChangeTypeSettings = value;
                 this.CanChangeType.toggleClass('hidden', value==true);
+            }
+        },
+
+        hideRotationSettings: function(value) {
+            if (this._state.HideRotationSettings !== value) {
+                this._state.HideRotationSettings = value;
+                this.RotationSettings.toggleClass('hidden', value==true);
             }
         },
 
