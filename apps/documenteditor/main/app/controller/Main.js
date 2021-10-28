@@ -480,7 +480,8 @@ define([
                 }
 
                 var type = data.doc ? /^(?:(docxf))$/.exec(data.doc.fileType) : false;
-                this.appOptions.canFeatureForms = !!(type && typeof type[1] === 'string');
+                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string');
+                this.appOptions.canFeatureForms = this.appOptions.isFormCreator; // show forms only for docxf
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
                 if (type && typeof type[1] === 'string') {

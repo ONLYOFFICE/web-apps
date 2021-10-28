@@ -3224,11 +3224,8 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        if (config.isEdit && config.canFeatureContentControl) {
-                            Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
-                        } else if (!compactview) {
-                            me.toolbar.setTab('forms');
-                        }
+                        config.isEdit && config.canFeatureContentControl && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
             }

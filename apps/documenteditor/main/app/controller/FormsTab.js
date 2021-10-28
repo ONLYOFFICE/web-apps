@@ -360,7 +360,31 @@ define([
                     clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
                     me.view.btnHighlight.currentColor = clr;
                 }
+                config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
             });
+        },
+
+        showCreateFormTip: function() {
+            if (!Common.localStorage.getItem("de-hide-createform-tip")) {
+                var target = $('.toolbar').find('.ribtab [data-tab=forms]').parent();
+                var tip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: 'bottom-right',
+                    target: target,
+                    text: this.view.textCreateForm,
+                    showLink: true
+                });
+                tip.on({
+                    'dontshowclick': function() {
+                        Common.localStorage.setItem("de-hide-createform-tip", 1);
+                        tip.close();
+                    },
+                    'closeclick': function() {
+                        tip.close();
+                    }
+                });
+                tip.show();
+            }
         }
 
     }, DE.Controllers.FormsTab || {}));
