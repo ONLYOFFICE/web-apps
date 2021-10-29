@@ -221,14 +221,15 @@ define([
                 this.lockedControls.push(this.btnAnimationPane);
 
                 this.btnAddAnimation = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
                     split: true,
-                    iconCls: 'toolbar__icon btn-zoomup',
+                    iconCls: 'toolbar__icon icon btn-addslide',
+                    menu: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAddAnimation);
 
@@ -246,6 +247,20 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.numDuration);
+
+                this.cmbTrigger = new Common.UI.ComboBox({
+                    cls: 'input-group-nr',
+                    menuStyle: 'width: 150px;',
+                    //lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                    data: [
+                        {value: 0, displayValue: '1-1'},
+                        {value: 1, displayValue: '2-2'},
+                        {value: 2, displayValue: '3-3'}
+                    ],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.lockedControls.push(this.cmbTrigger);
 
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-delay'),
@@ -265,7 +280,7 @@ define([
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'width: 150px;',
-                    lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                    //lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                     data: [
                         {value: 0, displayValue: this.textStartOnClick},
                         {value: 1, displayValue: this.textStartBeforePrevious},
@@ -289,15 +304,30 @@ define([
                 this.numRepeat = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-repeat'),
                     step: 1,
-                    width: 52,
+                    width: 88,
                     value: '',
-                    maxValue: 300,
+                    maxValue: 1000,
                     minValue: 0,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
+                this.lockedControls.push(this.numRepeat);
+
+                this.numRepeat2 = new Common.UI.MetricSpinner({
+                    el: this.$el.find('#animation-spin-repeat2'),
+                    step: 1,
+                    width: 88,
+                    value: '',
+                    maxValue: 1000,
+                    minValue: 0,
+                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.lockedControls.push(this.numRepeat2);
 
                 Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
 
@@ -305,6 +335,8 @@ define([
                 this.$el.find('#animation-delay').text(this.strDelay);
                 this.$el.find('#animation-label-start').text(this.strStart);
                 this.$el.find('#animation-repeat').text(this.strRepeat);
+                this.$el.find('#animation-repeat2').text(this.strRepeat);
+                this.$el.find('#animation-label-trigger').text(this.strTrigger);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -367,21 +399,40 @@ define([
                 this.btnParameters && this.btnParameters.render(this.$el.find('#animation-button-parameters'));
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
                 this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
-                this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'))
+                this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
+                this.cmbTrigger && this.cmbTrigger.render(this.$el.find('#animation-trigger'));
                 this.renderComponent('#animation-spin-duration', this.numDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
                 this.renderComponent('#animation-spin-repeat', this.numRepeat);
+                this.renderComponent('#animation-spin-repeat2', this.numRepeat2);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
+                this.$el.find("#animation-label-trigger").innerText = this.strTrigger;
                 this.$el.find("#animation-repeat").innerText = this.strRepeat;
+                this.$el.find("#animation-repeat2").innerText = this.strRepeat;
+                this.widthRow(this.$el.find("#animation-label-start"), this.$el.find("#animation-delay"));
                 return this.$el;
             },
 
-            renderComponent: function (compid, obj)
-            {
+            renderComponent: function (compid, obj) {
                 var element = this.$el.find(compid);
                 element.parent().append(obj.el);
+            },
+
+            widthRow: function (obj1, obj2, wd) {
+                if(wd) return wd;
+                var w1 = obj1.width(),
+                    w2 = obj2.width();
+               if(!w1 || !w2) return  0;
+                if(w1>w2) {
+                    obj2.css('width', w1);
+                    return w1;
+                }
+                else {
+                    obj1.css('width', w2);
+                    return w2;
+                }
             },
 
             show: function () {
@@ -399,6 +450,11 @@ define([
                 this.lockedControls && this.lockedControls.forEach(function (button) {
                         button.setDisabled(state);
                 }, this);
+            },
+
+            setWidthRow: function () {
+                this.widthStart = this.widthRow(this.$el.find("#animation-label-start"), this.$el.find("#animation-delay"),this.widthStart);
+                this.widthDuration = this.widthRow(this.$el.find("#animation-duration"), this.$el.find("#animation-label-trigger"),this.widthDuration);
             },
 
             setMenuParameters: function (effect, value)
@@ -469,6 +525,7 @@ define([
             strStart: 'Start',
             strRewind: 'Rewind',
             strRepeat: 'Repeat',
+            strTrigger: 'Trigger',
 
             textStartOnClick: 'On Click',
             textStartBeforePrevious: 'Before Previous',

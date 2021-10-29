@@ -157,7 +157,6 @@ define([
 
         onFocusObject: function(selectedObjects) {
             var me = this;
-
             for (var i = 0; i<selectedObjects.length; i++) {
                 var eltype = selectedObjects[i].get_ObjectType();
 
@@ -231,6 +230,10 @@ define([
             me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
             me.cmbStart.selectRecord(item ? item : me.cmbStart.items[0]);
+
+
+            this.view.setWidthRow();
+
 
         }
 
