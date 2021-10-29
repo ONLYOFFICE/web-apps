@@ -68,6 +68,13 @@ define([
             });
             this.btnSubmit.render($('#id-submit-group'));
 
+            this.btnDownload = new Common.UI.Button({
+                cls: 'btn-text-default colored margin-left-small margin-right-small',
+                caption: this.txtDownload,
+                hint: this.txtDownloadPdf
+            });
+            this.btnDownload.render($('#id-download-group'));
+
             this.txtGoToPage = new Common.UI.InputField({
                 el: $('#page-number'),
                 cls: 'masked',
