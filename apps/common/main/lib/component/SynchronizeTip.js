@@ -45,7 +45,8 @@ define([
                 text    : '',
                 placement: 'right-bottom',
                 showLink: true,
-                showButton: false
+                showButton: false,
+                closable: true
             },
 
             template: _.template([
@@ -54,7 +55,9 @@ define([
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
                             '<div class="tip-text"><%= scope.text %></div>',
+                            '<% if ( scope.closable ) { %>',
                             '<div class="close"></div>',
+                            '<% } %>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
                         '<div class="show-link"><label><%= scope.textLink %></label></div>',

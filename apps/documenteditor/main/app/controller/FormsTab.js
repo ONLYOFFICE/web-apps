@@ -373,6 +373,7 @@ define([
                     target: target,
                     text: this.view.textCreateForm,
                     showLink: true
+                    closable: false,
                 });
                 tip.on({
                     'dontshowclick': function() {

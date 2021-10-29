@@ -1250,6 +1250,7 @@ define([
                         target: this.view.btnSubmit.$el,
                         text: this.textRequired,
                         showLink: false,
+                        closable: false,
                         showButton: true,
                         textButton: this.textGotIt
                     });
