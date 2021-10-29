@@ -210,7 +210,7 @@ define([
                             parentView.autoScrollToEditButtons();
                         }
 
-                        if (textBox && textBox.length) {
+                        if (textBox && textBox.length && parentView.scroller) {
                             domTextBox = textBox.get(0);
 
                             if (domTextBox) {
