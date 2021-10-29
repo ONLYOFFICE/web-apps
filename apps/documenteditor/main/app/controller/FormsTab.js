@@ -372,15 +372,14 @@ define([
                     placement: 'bottom-right',
                     target: target,
                     text: this.view.textCreateForm,
-                    showLink: true
+                    showLink: false,
                     closable: false,
+                    showButton: true,
+                    textButton: this.view.textGotIt
                 });
                 tip.on({
-                    'dontshowclick': function() {
+                    'buttonclick': function() {
                         Common.localStorage.setItem("de-hide-createform-tip", 1);
-                        tip.close();
-                    },
-                    'closeclick': function() {
                         tip.close();
                     }
                 });

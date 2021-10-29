@@ -432,7 +432,8 @@ define([
             capBtnSaveForm: 'Save as a Form',
             tipSaveForm: 'Save a file as a fillable OFORM document',
             txtUntitled: 'Untitled',
-            textCreateForm: 'Add fields and create a fillable OFORM document'
+            textCreateForm: 'Add fields and create a fillable OFORM document',
+            textGotIt: 'Got it'
         }
     }()), DE.Views.FormsTab || {}));
 });
