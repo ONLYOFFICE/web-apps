@@ -68,6 +68,12 @@
     }
 
     &.colored {
+        @tip-width: 270px;
+        width: @tip-width;
+        .tip-text {
+            width: @tip-width - 40px;
+        }
+
         .asc-synchronizetip {
             background-color: @background-contrast-popover;
             color: @text-contrast-background;

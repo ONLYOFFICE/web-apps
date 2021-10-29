@@ -594,39 +594,6 @@
     font-size: 11px;
 }
 
-.synch-tip-root {
-    &.colored {
-        @tip-width: 240px;
-        width: @tip-width;
-        .tip-text {
-            width: @tip-width - 40px;
-        }
-
-        .asc-synchronizetip {
-            background-color: @background-contrast-popover;
-            color: @text-contrast-background;
-            .close {
-                &:before, &:after {
-                    background-color: @text-contrast-background;
-                }
-            }
-        }
-
-        .tip-arrow:after {
-            background-color: @background-contrast-popover;
-        }
-
-        .btn-div {
-            display: inline-block;
-            border: 1px solid @border-regular-control-ie;
-            border: 1px solid @border-regular-control;
-            border-radius: 2px;
-            padding: 3px 12px;
-            margin-top: 10px;
-        }
-    }
-}
-
 .font-size-small {
     .fontsize(@font-size-small);
 }
