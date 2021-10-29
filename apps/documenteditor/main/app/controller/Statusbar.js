@@ -112,6 +112,10 @@ define([
                     me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
                     me.btnDocLang = review.getButton('doclang', 'statusbar');
                     me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
+
+                    var isVisible = Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang');
+                    me.btnDocLang.$el.find('+.separator.space')[isVisible?'show':'hide']();
+
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
