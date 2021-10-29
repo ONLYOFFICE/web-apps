@@ -9,7 +9,7 @@ define([
 ], function ($, _, Backbone) {
     'use strict';
 
-    DE.Views.ApplicationView = Backbone.View.extend({
+    DE.Views.ApplicationView = Backbone.View.extend(_.extend({
         // Render layout
         render: function() {
             this.btnOptions = new Common.UI.Button({
@@ -99,5 +99,5 @@ define([
         textClear: 'Clear All Fields',
         textSubmit: 'Submit',
         txtTheme: 'Interface theme'
-    });
+    }, DE.Views.ApplicationView || {}));
 });
