@@ -459,6 +459,7 @@ define([
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
+            me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
@@ -475,6 +476,9 @@ define([
                 });
                 me.view.btnSubmit.on('click', function(){
                     me.api.asc_SendForm();
+                });
+                me.view.btnDownload.on('click', function(){
+                    me.appOptions.canDownload && me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -1250,6 +1254,7 @@ define([
                         target: this.view.btnSubmit.$el,
                         text: this.textRequired,
                         showLink: false,
+                        closable: false,
                         showButton: true,
                         textButton: this.textGotIt
                     });

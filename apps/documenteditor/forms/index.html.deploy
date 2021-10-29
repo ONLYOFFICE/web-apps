@@ -210,6 +210,7 @@
                   <div id="page-number" style="display: inline-block; vertical-align: middle;"></div><span class="text" id="pages" tabindex="-1">of 1</span>
               </div>
               <div id="id-submit-group" style="display: inline-block;"></div>
+              <div id="id-download-group" style="display: inline-block;"></div>
               <span id="box-tools"></span>
           </div>
       </div>

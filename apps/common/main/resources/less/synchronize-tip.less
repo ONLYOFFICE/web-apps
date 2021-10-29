@@ -67,6 +67,54 @@
         }
     }
 
+    &.colored {
+        @tip-width: 270px;
+        width: @tip-width;
+        .tip-text {
+            width: @tip-width - 40px;
+        }
+
+        .asc-synchronizetip {
+            background-color: @background-contrast-popover;
+            color: @text-contrast-background;
+            .close {
+                &:before, &:after {
+                    background-color: @text-contrast-background;
+                }
+            }
+        }
+
+        .tip-arrow:after {
+            background-color: @background-contrast-popover;
+        }
+
+        .btn-div {
+            display: inline-block;
+            border: 1px solid @border-regular-control-ie;
+            border: 1px solid @border-regular-control;
+            border-radius: 2px;
+            padding: 3px 12px;
+            margin-top: 10px;
+        }
+
+        .show-link label {
+            border-bottom: @scaled-one-px-value-ie dotted @text-contrast-background-ie;
+            border-bottom: @scaled-one-px-value dotted @text-contrast-background;
+            color: @text-contrast-background-ie;
+            color: @text-contrast-background;
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                color: @text-contrast-background;
+                border-bottom-color: dotted @text-contrast-background;
+            }
+
+            &:active {
+                color: @text-contrast-background;
+                border-bottom-color: dotted @text-contrast-background;
+            }
+        }
+    }
 
     &.inc-index {
         z-index: @zindex-navbar + 4;
