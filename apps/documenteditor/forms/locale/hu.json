@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Másolás vágólapra",
-  "common.view.modals.txtEmbed": "Beágyazás",
-  "common.view.modals.txtHeight": "Magasság",
-  "common.view.modals.txtShare": "Hivatkozás megosztása",
-  "common.view.modals.txtWidth": "Szélesség",
   "DE.Controllers.ApplicationController.convertationErrorText": "Az átalakítás nem sikerült.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Időtúllépés az átalakítás során.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Hiba",

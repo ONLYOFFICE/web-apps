@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copiar al portapapeles",
-  "common.view.modals.txtEmbed": "Incorporar",
-  "common.view.modals.txtHeight": "Altura",
-  "common.view.modals.txtShare": "Compartir enlace",
-  "common.view.modals.txtWidth": "Ancho",
   "DE.Controllers.ApplicationController.convertationErrorText": "Fallo de conversión.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Se superó el tiempo de espera de conversión.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Error",

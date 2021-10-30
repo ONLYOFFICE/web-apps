@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copiar para a área de trabalho",
-  "common.view.modals.txtEmbed": "Incorporar",
-  "common.view.modals.txtHeight": "Altura",
-  "common.view.modals.txtShare": "Compartilhar link",
-  "common.view.modals.txtWidth": "Largura",
   "DE.Controllers.ApplicationController.convertationErrorText": "Conversão falhou.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Tempo limite de conversão excedido.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Erro",

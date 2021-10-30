@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "复制到剪贴板",
-  "common.view.modals.txtEmbed": "嵌入",
-  "common.view.modals.txtHeight": "高度",
-  "common.view.modals.txtShare": "分享链接",
-  "common.view.modals.txtWidth": "宽度",
   "DE.Controllers.ApplicationController.convertationErrorText": "转换失败",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "转换超时",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "错误",

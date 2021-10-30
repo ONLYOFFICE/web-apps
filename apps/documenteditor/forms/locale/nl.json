@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Kopieer naar klembord",
-  "common.view.modals.txtEmbed": "Invoegen",
-  "common.view.modals.txtHeight": "Hoogte",
-  "common.view.modals.txtShare": "Link delen",
-  "common.view.modals.txtWidth": "Breedte",
   "DE.Controllers.ApplicationController.convertationErrorText": "Conversie is mislukt",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Time-out voor conversie overschreden.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Fout",

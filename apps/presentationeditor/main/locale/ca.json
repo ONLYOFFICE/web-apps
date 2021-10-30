@@ -312,6 +312,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Torna-ho a obrir",
   "Common.Views.ReviewPopover.textReply": "Respon",
   "Common.Views.ReviewPopover.textResolve": "Resol",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Suprimeix",
+  "Common.Views.ReviewPopover.txtEditTip": "Edita",
   "Common.Views.SaveAsDlg.textLoading": "S'està carregant",
   "Common.Views.SaveAsDlg.textTitle": "Carpeta per desar",
   "Common.Views.SelectFileDlg.textLoading": "S'està carregant",

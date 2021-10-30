@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copia al porta-retalls",
-  "common.view.modals.txtEmbed": "Incrusta",
-  "common.view.modals.txtHeight": "Alçada",
-  "common.view.modals.txtShare": "Comparteix l'enllaç",
-  "common.view.modals.txtWidth": "Amplada",
   "DE.Controllers.ApplicationController.convertationErrorText": "No s'ha pogut convertir",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "S'ha superat el temps de conversió.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Error",

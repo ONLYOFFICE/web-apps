@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Копіювати в буфер обміну",
-  "common.view.modals.txtEmbed": "Вставити",
-  "common.view.modals.txtHeight": "Висота",
-  "common.view.modals.txtShare": "Поділитися посиланням",
-  "common.view.modals.txtWidth": "Ширина",
   "DE.Controllers.ApplicationController.convertationErrorText": "Не вдалося поспілкуватися.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Термін переходу перевищено.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Помилка",

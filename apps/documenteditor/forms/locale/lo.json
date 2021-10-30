@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "ເກັບໄວ້ໃນຄຣິບບອດ",
-  "common.view.modals.txtEmbed": "ຝັງໄວ້",
-  "common.view.modals.txtHeight": "ລວງສູງ",
-  "common.view.modals.txtShare": "ແບ່ງປັນລິ້ງ",
-  "common.view.modals.txtWidth": "ລວງກວ້າງ",
   "DE.Controllers.ApplicationController.convertationErrorText": " ການປ່ຽນແປງບໍ່ສຳເລັດ.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "ຂໍ້ຜິດພາດ",

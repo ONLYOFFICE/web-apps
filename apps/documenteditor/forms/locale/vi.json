@@ -1,7 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Sao chép vào khay nhớ tạm",
-  "common.view.modals.txtHeight": "Chiều cao",
-  "common.view.modals.txtWidth": "Chiều rộng",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Đã quá thời gian chờ chuyển đổi.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Lỗi",
   "DE.Controllers.ApplicationController.downloadErrorText": "Tải về không thành công.",

@@ -1,7 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Nokopēts starpliktuvē",
-  "common.view.modals.txtHeight": "Augstums",
-  "common.view.modals.txtWidth": "Platums",
   "DE.Controllers.ApplicationController.convertationErrorText": "Konversija neizdevās.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Konversijas taimauts pārsniegts.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Kļūda",
