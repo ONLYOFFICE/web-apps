@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "警告",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。<br>您确定要继续吗？"
+    "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。<br>您确定要继续吗？",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {

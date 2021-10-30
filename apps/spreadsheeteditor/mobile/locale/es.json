@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {
@@ -169,6 +170,7 @@
     "errorAutoFilterHiddenRange": "La operación no puede realizarse porque el área contiene celdas filtradas.<br>Por favor, desoculte los elementos filtrados e inténtelo de nuevo.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
     "errorChangeArray": "No se puede cambiar parte de una matriz.",
+    "errorChangeOnProtectedSheet": "La celda o el gráfico que usted está intentando cambiar está en una hoja protegida. Para hacer un cambio, desproteja la hoja. Es posible que le pidan que introduzca una contraseña.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorCopyMultiselectArea": "No se puede usar este comando con varias selecciones.<br>Seleccione un solo rango e inténtelo de nuevo.",
     "errorCountArg": "Un error en la fórmula.<br>Número de argumentos no válido.",
@@ -224,8 +226,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
