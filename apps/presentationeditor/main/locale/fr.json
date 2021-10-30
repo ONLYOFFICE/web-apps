@@ -312,6 +312,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Ouvrir à nouveau",
   "Common.Views.ReviewPopover.textReply": "Répondre",
   "Common.Views.ReviewPopover.textResolve": "Résoudre",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Supprimer",
+  "Common.Views.ReviewPopover.txtEditTip": "Modifier",
   "Common.Views.SaveAsDlg.textLoading": "Chargement",
   "Common.Views.SaveAsDlg.textTitle": "Dossier pour enregistrement",
   "Common.Views.SelectFileDlg.textLoading": "Chargement",

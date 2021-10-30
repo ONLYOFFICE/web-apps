@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Αντιγραφή στο πρόχειρο",
-  "common.view.modals.txtEmbed": "Ενσωμάτωση",
-  "common.view.modals.txtHeight": "Ύψος",
-  "common.view.modals.txtShare": "Διαμοιρασμός συνδέσμου",
-  "common.view.modals.txtWidth": "Πλάτος",
   "DE.Controllers.ApplicationController.convertationErrorText": "Αποτυχία μετατροπής.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Σφάλμα",

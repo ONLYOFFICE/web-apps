@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Внимание",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
     "textDoNotShowAgain": "Больше не показывать",
-    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?"
+    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {

@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Kopier til udklipsholder",
-  "common.view.modals.txtEmbed": "Indlejre",
-  "common.view.modals.txtHeight": "Højde",
-  "common.view.modals.txtShare": "Del link",
-  "common.view.modals.txtWidth": "Bredde",
   "DE.Controllers.ApplicationController.convertationErrorText": "Konvertering fejlede.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Konverteringstidsfrist er overskredet",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Fejl",

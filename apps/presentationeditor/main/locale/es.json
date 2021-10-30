@@ -312,6 +312,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Abrir de nuevo",
   "Common.Views.ReviewPopover.textReply": "Responder",
   "Common.Views.ReviewPopover.textResolve": "Resolver",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Eliminar",
+  "Common.Views.ReviewPopover.txtEditTip": "Editar",
   "Common.Views.SaveAsDlg.textLoading": "Cargando",
   "Common.Views.SaveAsDlg.textTitle": "Carpeta para guardar",
   "Common.Views.SelectFileDlg.textLoading": "Cargando",

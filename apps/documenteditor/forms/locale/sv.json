@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Kopiera till klippbord",
-  "common.view.modals.txtEmbed": "Inbädda",
-  "common.view.modals.txtHeight": "Höjd",
-  "common.view.modals.txtShare": "Delningslänk",
-  "common.view.modals.txtWidth": "Bredd",
   "DE.Controllers.ApplicationController.convertationErrorText": "Fel vid konvertering",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Konverteringstiden har överskridits.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Fel",

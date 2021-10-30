@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Kopiraj v odložišče",
-  "common.view.modals.txtEmbed": "Vdelano",
-  "common.view.modals.txtHeight": "Višina",
-  "common.view.modals.txtShare": "Deli povezavo",
-  "common.view.modals.txtWidth": "Širina",
   "DE.Controllers.ApplicationController.convertationErrorText": "Pogovor ni uspel.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Pretvorbena prekinitev presežena.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Napaka",

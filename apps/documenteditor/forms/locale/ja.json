@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "クリップボードにコピー",
-  "common.view.modals.txtEmbed": "埋め込み",
-  "common.view.modals.txtHeight": "高さ",
-  "common.view.modals.txtShare": "共有リンク",
-  "common.view.modals.txtWidth": "幅",
   "DE.Controllers.ApplicationController.convertationErrorText": "変換に失敗しました",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "変換のタイムアウトを超過しました。",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "エラー",

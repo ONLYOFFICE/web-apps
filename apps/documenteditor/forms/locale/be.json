@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Скапіяваць у буфер абмену",
-  "common.view.modals.txtEmbed": "Убудаваць",
-  "common.view.modals.txtHeight": "Вышыня",
-  "common.view.modals.txtShare": "Падзяліцца спасылкай",
-  "common.view.modals.txtWidth": "Шырыня",
   "DE.Controllers.ApplicationController.convertationErrorText": "Пераўтварыць не атрымалася.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Час чакання пераўтварэння сышоў.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Памылка",

@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copier dans le Presse-papiers",
-  "common.view.modals.txtEmbed": "Incorporer",
-  "common.view.modals.txtHeight": "Hauteur",
-  "common.view.modals.txtShare": "Partager un lien",
-  "common.view.modals.txtWidth": "Largeur",
   "DE.Controllers.ApplicationController.convertationErrorText": "Échec de la conversion.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Délai d'attente de la conversion dépassé ",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Erreur",

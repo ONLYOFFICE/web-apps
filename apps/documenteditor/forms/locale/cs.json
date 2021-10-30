@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Zkopírovat do schránky",
-  "common.view.modals.txtEmbed": "Vestavěný",
-  "common.view.modals.txtHeight": "Výška",
-  "common.view.modals.txtShare": "Odkaz pro sdílení",
-  "common.view.modals.txtWidth": "Šířka",
   "DE.Controllers.ApplicationController.convertationErrorText": "Převod se nezdařil.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Chyba",

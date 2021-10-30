@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Копиране в клипборда",
-  "common.view.modals.txtEmbed": "Вграждане",
-  "common.view.modals.txtHeight": "Височина",
-  "common.view.modals.txtShare": "Споделяне на връзка",
-  "common.view.modals.txtWidth": "Широчина",
   "DE.Controllers.ApplicationController.convertationErrorText": "Конвертирането е неуспешно.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Превишава се времето на изтичане на реализациите.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Грешка",

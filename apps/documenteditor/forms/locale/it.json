@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copia negli appunti",
-  "common.view.modals.txtEmbed": "Incorpora",
-  "common.view.modals.txtHeight": "Altezza",
-  "common.view.modals.txtShare": "Condividi collegamento",
-  "common.view.modals.txtWidth": "Larghezza",
   "DE.Controllers.ApplicationController.convertationErrorText": "Conversione fallita.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "È stato superato il tempo limite della conversione.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Errore",

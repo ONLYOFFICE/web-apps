@@ -1,9 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Copiere cu clipbiard",
-  "common.view.modals.txtEmbed": "Încorporare",
-  "common.view.modals.txtHeight": "Înălțime",
-  "common.view.modals.txtShare": "Partajare link",
-  "common.view.modals.txtWidth": "Lățime",
   "DE.Controllers.ApplicationController.convertationErrorText": "Conversia nu a reușit.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Eroare",
