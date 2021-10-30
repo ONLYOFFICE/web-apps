@@ -443,7 +443,9 @@ define([
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
-            this.appOptions.canFillForms   = this.appOptions.canLicense && (this.permissions.fillForms===true) && (this.editorConfig.mode !== 'view');
+
+            var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
+            this.appOptions.canFillForms   = this.appOptions.canLicense && !!(type && typeof type[1] === 'string') && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -459,6 +461,7 @@ define([
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
+            me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
@@ -475,6 +478,9 @@ define([
                 });
                 me.view.btnSubmit.on('click', function(){
                     me.api.asc_SendForm();
+                });
+                me.view.btnDownload.on('click', function(){
+                    me.appOptions.canDownload && me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -646,6 +652,10 @@ define([
                     this.submitedTooltip.show();
                 }
             }
+             if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
+                 !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
+                 this.api.asc_enableKeyEvents(true);
+             }
         },
 
         onDocMouseMoveStart: function() {
@@ -1246,6 +1256,7 @@ define([
                         target: this.view.btnSubmit.$el,
                         text: this.textRequired,
                         showLink: false,
+                        closable: false,
                         showButton: true,
                         textButton: this.textGotIt
                     });

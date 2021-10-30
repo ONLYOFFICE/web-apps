@@ -193,6 +193,14 @@ class AddView extends Component {
 }
 
 const Add = props => {
+    const api = Common.EditorApi.get();
+    const cellinfo = api.asc_getCellInfo();
+    const seltype = cellinfo.asc_getSelectionType();
+    const iscelllocked = cellinfo.asc_getLocked();
+    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
+
+    let options;
+    
     useEffect(() => {
         if ( Device.phone ) {
             f7.popup.open('.add-popup');
@@ -207,16 +215,10 @@ const Add = props => {
     });
 
     const onviewclosed = () => {
-        if ( props.onclosed )
+        if ( props.onclosed ) {
             props.onclosed();
+        }
     };
-
-    const api = Common.EditorApi.get();
-    const cellinfo = api.asc_getCellInfo();
-    const seltype = cellinfo.asc_getSelectionType();
-    const iscelllocked = cellinfo.asc_getLocked();
-    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
-    let options;
 
     if ( !iscelllocked ) {
         options = props.showOptions;

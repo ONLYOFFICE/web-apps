@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {

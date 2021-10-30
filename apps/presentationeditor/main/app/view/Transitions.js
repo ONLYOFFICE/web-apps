@@ -70,12 +70,9 @@ define([
             }
 
             if (me.btnParameters) {
-                me.btnParameters.on('click', function (e) {
-                    me.fireEvent('transit:parameters', ['current']);
-                });
 
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('transit:parameters', [item]);
+                    me.fireEvent('transit:parameters', [item.value]);
                 });
             }
 
@@ -393,16 +390,16 @@ define([
                 }
 
                 var selectedElement;
-                _.each(this.btnParameters.menu.items, function (element, index) {
-                    if (((index < minMax[0])||(index > minMax[1])))
-                        element.$el.css('display', 'none');
-                    else {
-                        element.$el.css('display', '');
 
+                _.each(this.btnParameters.menu.items, function (element, index) {
+                    if ((index >= minMax[0])&&(index <= minMax[1])) {
+                        element.setVisible(true);
                         if (value != undefined) {
                             if (value == element.value) selectedElement = element;
                         }
                     }
+                    else
+                        element.setVisible(false);
                 });
 
                 if (selectedElement == undefined)
@@ -417,7 +414,7 @@ define([
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
-                return selectedElement;
+                return (selectedElement)?selectedElement.value:-1;
             },
 
 

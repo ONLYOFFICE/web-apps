@@ -159,7 +159,9 @@ define([
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
                             Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM
+                            Asc.c_oAscFileType.DOCM,
+                            Asc.c_oAscFileType.DOCXF,
+                            Asc.c_oAscFileType.OFORM
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -3230,11 +3232,8 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        if (config.isEdit && config.canFeatureContentControl) {
-                            Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
-                        } else if (!compactview) {
-                            me.toolbar.setTab('forms');
-                        }
+                        config.isEdit && config.canFeatureContentControl && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
             }

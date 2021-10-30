@@ -177,8 +177,13 @@ define([
                             lockDrag = true;
                         }
                     });
-                    if (this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1 || this.bar.isEditFormula) {
+                    if (((this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) && !(e.ctrlKey || e.metaKey)) || this.bar.isEditFormula) {
                         lockDrag = true;
+                    }
+                    // move last selected sheet if all sheets are selected
+                    if (this.bar.selectTabs.length === this.bar.tabs.length && this.bar.tabs.length > 1 && !e.ctrlKey && !e.metaKey) {
+                        lockDrag = false;
+                        this.bar.$el.find('ul > li.selected').removeClass('selected');
                     }
                     this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
                     if (!lockDrag && !e.ctrlKey && !e.metaKey) {

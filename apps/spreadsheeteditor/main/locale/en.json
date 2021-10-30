@@ -368,6 +368,8 @@
   "Common.Views.ReviewPopover.textReply": "Reply",
   "Common.Views.ReviewPopover.textResolve": "Resolve",
   "Common.Views.ReviewPopover.textViewResolved": "You have not permission for reopen comment",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Delete",
+  "Common.Views.ReviewPopover.txtEditTip": "Edit",
   "Common.Views.SaveAsDlg.textLoading": "Loading",
   "Common.Views.SaveAsDlg.textTitle": "Folder for save",
   "Common.Views.SelectFileDlg.textLoading": "Loading",

@@ -366,6 +366,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Открыть снова",
   "Common.Views.ReviewPopover.textReply": "Ответить",
   "Common.Views.ReviewPopover.textResolve": "Решить",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Удалить",
+  "Common.Views.ReviewPopover.txtEditTip": "Редактировать",
   "Common.Views.SaveAsDlg.textLoading": "Загрузка",
   "Common.Views.SaveAsDlg.textTitle": "Папка для сохранения",
   "Common.Views.SelectFileDlg.textLoading": "Загрузка",

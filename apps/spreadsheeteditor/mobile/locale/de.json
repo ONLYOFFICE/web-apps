@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Warnung",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {

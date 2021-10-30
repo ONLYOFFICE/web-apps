@@ -162,8 +162,9 @@ const Add = props => {
         }
     });
     const onviewclosed = () => {
-        if ( props.onclosed )
+        if ( props.onclosed ) {
             props.onclosed();
+        }
     };
     return <AddView usePopover={!Device.phone} onclosed={onviewclosed} showPanels={props.showOptions} />
 };

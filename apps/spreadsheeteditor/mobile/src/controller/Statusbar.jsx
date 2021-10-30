@@ -22,6 +22,7 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
             api.asc_registerCallback('asc_onChangeProtectWorkbook', () => {
                 sheets.setProtectedWorkbook(api.asc_isProtectedWorkbook());
             });
+            api.asc_registerCallback('asc_onEditCell', onApiEditCell);
             api.asc_registerCallback('asc_onSheetsChanged', onApiSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged', onApiActiveSheetChanged);
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
@@ -31,6 +32,11 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
         Common.Notifications.on('document:ready', onApiSheetsChanged);
         Common.Notifications.on('api:disconnect', onApiDisconnect);
     });
+
+    const onApiEditCell = state => {
+        let isDisable = state !== Asc.c_oAscCellEditorState.editEnd;
+        sheets.setDisabledEditSheet(isDisable);
+    }
 
     const onApiDisconnect = () => {
         users.resetDisconnected(true);
@@ -127,6 +133,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
     const isProtectedWorkbook = sheets.isProtectedWorkbook;
+    const isDisabledEditSheet = sheets.isDisabledEditSheet;
 
     useEffect(() => {
         const on_main_view_click = e => {
@@ -184,7 +191,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
         if (index == api.asc_getActiveWorksheetIndex()) {
             if (!opened) {
-                if (isEdit && !isDisconnected && !model.locked && !isProtectedWorkbook) {
+                if (isEdit && !isDisconnected && !model.locked && !isProtectedWorkbook && !isDisabledEditSheet) {
                     api.asc_closeCellEditor();
                     f7.popover.open('#idx-tab-context-menu-popover', target);
                 }

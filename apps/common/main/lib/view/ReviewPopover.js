@@ -210,7 +210,7 @@ define([
                             parentView.autoScrollToEditButtons();
                         }
 
-                        if (textBox && textBox.length) {
+                        if (textBox && textBox.length && parentView.scroller) {
                             domTextBox = textBox.get(0);
 
                             if (domTextBox) {
@@ -237,7 +237,6 @@ define([
                 } else {
                     this.commentsView = new CommentsPopoverDataView({
                         el: $('#id-comments-popover'),
-                        store: me.commentsStore,
                         itemTemplate: _.template(replaceWords(commentsTemplate, {
                                 textAddReply: me.textAddReply,
                                 textAdd: me.textAdd,
@@ -274,6 +273,16 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
+                        btns = $(view.el).find('.btn-edit');
+                        btns.tooltip({title: me.txtEditTip, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.btn-delete');
+                        btns.tooltip({title: me.txtDeleteTip, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
                         view.tipsArray = arr;
                         this.autoHeightTextBox();
                     };
@@ -290,6 +299,9 @@ define([
                     this.commentsView.on('item:remove', addtooltip);
                     this.commentsView.on('item:change', addtooltip);
                     this.commentsView.cmpEl.on('mouseover', onCommentsViewMouseOver).on('mouseout', onCommentsViewMouseOut);
+
+                    this.commentsView.setStore(me.commentsStore);
+                    this.commentsView.onResetItems();
 
                     this.commentsView.on('item:click', function (picker, item, record, e) {
                         var btn, showEditBox, showReplyBox, commentId, replyId, hideAddReply;
@@ -312,6 +324,9 @@ define([
                             }
 
                             if (btn.hasClass('btn-edit')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 if (!_.isUndefined(replyId)) {
                                     me.fireEvent('comment:closeEditing', [commentId]);
                                     me.fireEvent('comment:editReply', [commentId, replyId, true]);
@@ -352,6 +367,9 @@ define([
                                     }
                                 }
                             } else if (btn.hasClass('btn-delete')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 if (!_.isUndefined(replyId)) {
                                     me.fireEvent('comment:removeReply', [commentId, replyId]);
 
@@ -523,7 +541,6 @@ define([
                 } else {
                     this.reviewChangesView = new ReviewPopoverDataView({
                         el: $('#id-review-popover'),
-                        store: me.reviewStore,
                         itemTemplate: _.template(reviewTemplate)
                     });
 
@@ -540,6 +557,16 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
+                        btns = $(view.el).find('.btn-accept');
+                        btns.tooltip({title: me.txtAccept, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.btn-reject');
+                        btns.tooltip({title: me.txtReject, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
                         view.tipsArray = arr;
                     };
 
@@ -551,8 +578,14 @@ define([
                         var btn = $(e.target);
                         if (btn) {
                             if (btn.hasClass('btn-accept')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 me.fireEvent('reviewchange:accept', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-reject')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 me.fireEvent('reviewchange:reject', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
@@ -564,6 +597,9 @@ define([
                             }
                         }
                     });
+
+                    this.reviewChangesView.setStore(me.reviewStore);
+                    this.reviewChangesView.onResetItems();
                 }
             }
 
@@ -1255,6 +1291,10 @@ define([
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
         textMentionNotify       : '+mention will notify the user via email',
-        textViewResolved        : 'You have not permission for reopen comment'
+        textViewResolved        : 'You have not permission for reopen comment',
+        txtAccept: 'Accept',
+        txtReject: 'Reject',
+        txtEditTip: 'Edit',
+        txtDeleteTip: 'Delete'
     }, Common.Views.ReviewPopover || {}))
 });

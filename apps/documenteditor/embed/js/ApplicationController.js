@@ -599,7 +599,7 @@ DE.ApplicationController = new(function(){
     function onEditorPermissions(params) {
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canFillForms   = false; // use forms editor for filling forms
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);

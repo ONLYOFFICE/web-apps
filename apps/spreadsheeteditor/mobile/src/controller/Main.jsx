@@ -10,7 +10,7 @@ import {
     AddCommentController,
     CommentsController,
     EditCommentController,
-    ViewCommentsController
+    ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import LongActionsController from "./LongActions";
@@ -338,6 +338,14 @@ class MainController extends Component {
             this.api.asc_Resize();
         });
 
+        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+            this.api.asc_enableKeyEvents(false);
+        });
+
+        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
+            this.api.asc_enableKeyEvents(true);
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
@@ -412,15 +420,18 @@ class MainController extends Component {
     onChangeProtectSheet() {
         const storeWorksheets = this.props.storeWorksheets;
         let {wsLock, wsProps} = this.getWSProps(true);
-    
-        storeWorksheets.setWsLock(wsLock);
-        storeWorksheets.setWsProps(wsProps);
+
+        if(wsProps) {
+            storeWorksheets.setWsLock(wsLock);
+            storeWorksheets.setWsProps(wsProps);
+        }
     }
 
     getWSProps(update) {
         const storeAppOptions = this.props.storeAppOptions;
         let wsProtection = {};
-        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
+        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) 
+            return wsProtection;
 
         if (update) {
             let wsLock = !!this.api.asc_isProtectedSheet();
@@ -438,9 +449,9 @@ class MainController extends Component {
             }
 
             wsProtection = {wsLock, wsProps};
+            
+            return wsProtection;
         }
-
-        return wsProtection;
     }
 
     _onLongActionEnd(type, id) {
@@ -888,7 +899,7 @@ class MainController extends Component {
                 <CommentsController />
                 <AddCommentController />
                 <EditCommentController />
-                <ViewCommentsController />
+                <ViewCommentsSheetsController />
                 <PluginsController />
                 <EncodingController />
             </Fragment>

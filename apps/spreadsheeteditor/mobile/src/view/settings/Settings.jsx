@@ -204,8 +204,9 @@ const Settings = props => {
 
 
     const onviewclosed = () => {
-        if ( props.onclosed )
+        if ( props.onclosed ) {
             props.onclosed();
+        }
     };
 
     return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} />

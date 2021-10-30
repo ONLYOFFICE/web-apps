@@ -9,7 +9,7 @@ define([
 ], function ($, _, Backbone) {
     'use strict';
 
-    DE.Views.ApplicationView = Backbone.View.extend({
+    DE.Views.ApplicationView = Backbone.View.extend(_.extend({
         // Render layout
         render: function() {
             this.btnOptions = new Common.UI.Button({
@@ -68,6 +68,13 @@ define([
             });
             this.btnSubmit.render($('#id-submit-group'));
 
+            this.btnDownload = new Common.UI.Button({
+                cls: 'btn-text-default colored margin-left-small margin-right-small',
+                caption: this.txtDownload,
+                hint: this.txtDownloadPdf
+            });
+            this.btnDownload.render($('#id-download-group'));
+
             this.txtGoToPage = new Common.UI.InputField({
                 el: $('#page-number'),
                 cls: 'masked',
@@ -92,5 +99,5 @@ define([
         textClear: 'Clear All Fields',
         textSubmit: 'Submit',
         txtTheme: 'Interface theme'
-    });
+    }, DE.Views.ApplicationView || {}));
 });

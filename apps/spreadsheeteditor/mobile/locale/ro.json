@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Avertisment",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {

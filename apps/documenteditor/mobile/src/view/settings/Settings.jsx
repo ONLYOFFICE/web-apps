@@ -84,9 +84,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         await props.openOptions('coauth');
     }
 
-    useEffect(() => {
-    });
-
     // set mode
     const appOptions = props.storeAppOptions;
     let _isEdit = false,
@@ -132,7 +129,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     {_canReader &&
                         <ListItem title={_t.textReaderMode}> {/*ToDo*/}
                             <Icon slot="media" icon="icon-reader"></Icon>
-                            <Toggle checked={appOptions.readerMode} onChange={() => {props.onReaderMode()}}/>
+                            <Toggle checked={appOptions.readerMode} onToggleChange={() => {props.onReaderMode()}}/>
                         </ListItem>
                     }
                     {Device.sailfish && _isEdit &&

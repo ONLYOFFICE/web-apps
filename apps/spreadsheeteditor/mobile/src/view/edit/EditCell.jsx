@@ -486,7 +486,7 @@ const PageTextFormatCell = props => {
             <List>
                 <ListItem title={_t.textWrapText}>
                     {!isAndroid ? <Icon slot="media" icon="icon-cell-wrap"></Icon> : null}
-                    <Toggle checked={isWrapText} onChange={() => {props.onWrapTextChange(!isWrapText)}} />
+                    <Toggle checked={isWrapText} onToggleChange={() => {props.onWrapTextChange(!isWrapText)}} />
                 </ListItem>
             </List>
         </Page>

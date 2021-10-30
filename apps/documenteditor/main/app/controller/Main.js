@@ -402,7 +402,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
-                this.appOptions.canFeatureForms = true;
+
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -481,6 +481,15 @@ define([
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
 
+                var type = data.doc ? /^(?:(docxf))$/.exec(data.doc.fileType) : false;
+                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string');
+                this.appOptions.canFeatureForms = this.appOptions.isFormCreator; // show forms only for docxf
+
+                type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
+                if (type && typeof type[1] === 'string') {
+                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                    this.permissions.edit = this.permissions.review = this.permissions.comment = false;
+                }
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
@@ -547,7 +556,9 @@ define([
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
                             Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM
+                            Asc.c_oAscFileType.DOCM,
+                            Asc.c_oAscFileType.DOCXF,
+                            Asc.c_oAscFileType.OFORM
                         ];
 
                     if ( !_format || _supported.indexOf(_format) < 0 )

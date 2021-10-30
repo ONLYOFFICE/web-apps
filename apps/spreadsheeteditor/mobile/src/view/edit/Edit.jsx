@@ -446,6 +446,11 @@ const EditView = props => {
 };
 
 const EditOptions = props => {
+    const api = Common.EditorApi.get();
+    const cellinfo = api.asc_getCellInfo();
+    const hyperinfo = cellinfo.asc_getHyperlink();
+    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
+
     useEffect(() => {
         if ( Device.phone )
             f7.sheet.open('#edit-sheet');
@@ -457,14 +462,10 @@ const EditOptions = props => {
     });
 
     const onviewclosed = () => {
-        if ( props.onclosed )
+        if ( props.onclosed ) {
             props.onclosed();
+        }
     };
-
-    const api = Common.EditorApi.get();
-    const cellinfo = api.asc_getCellInfo();
-    const hyperinfo = cellinfo.asc_getHyperlink();
-    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
 
     return (
         <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} wsLock={props.wsLock} wsProps={props.wsProps} />

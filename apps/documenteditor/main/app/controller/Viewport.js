@@ -379,7 +379,6 @@ define([
                 menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
 
                 menuItem.setChecked(current_dark);
-                this.header.btnContentMode.setVisible(current_dark);
             }
         },
 

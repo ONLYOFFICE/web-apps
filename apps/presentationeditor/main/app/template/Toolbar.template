@@ -143,7 +143,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 140px;" data-group-width="900px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
