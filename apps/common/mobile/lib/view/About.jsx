@@ -18,7 +18,8 @@ const PageAbout = props => {
     const logoCustomer = customer ? customer.logo : null;
 
     const publisherUrl = __PUBLISHER_URL__,
-        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/,"");
+        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/g,"");
+    const publisherName = __PUBLISHER_NAME__.replace(/\\"/g, '"');
     
     const editors = {
         de: 'DOCUMENT EDITOR',
@@ -79,7 +80,7 @@ const PageAbout = props => {
                         <p>
                             <label>{_t.textPoweredBy}</label>
                         </p>
-                        <h3 className="vendor">{__PUBLISHER_NAME__}</h3>
+                        <h3 className="vendor">{publisherName}</h3>
                         <p>
                             <Link className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
@@ -95,7 +96,7 @@ const PageAbout = props => {
                         <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
                     </div>
                     <div className="content-block">
-                        <h3 id="settings-about-name" className="vendor">{__PUBLISHER_NAME__}</h3>
+                        <h3 id="settings-about-name" className="vendor">{publisherName}</h3>
                         <p>
                             <label>{_t.textAddress}:</label>
                             <a id="settings-about-address" className="external">{__PUBLISHER_ADDRESS__}</a>

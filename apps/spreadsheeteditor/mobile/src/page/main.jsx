@@ -92,7 +92,12 @@ class MainPage extends Component {
       const wsProps = storeWorksheets.wsProps;
       const wsLock = storeWorksheets.wsLock;
       const config = appOptions.config;
-      const showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+
+      let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+      if ( !Object.keys(config).length ) {
+          showLogo = !/&(?:logo)=/.test(window.location.search);
+      }
+
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
       return (
