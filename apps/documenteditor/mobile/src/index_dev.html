@@ -59,12 +59,13 @@
             return urlParams;
         };
 
+        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
         let params = getUrlParams(),
-            lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
 
+        window.Common.Locale.currentLang = lang;
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-        window.Common = {Locale: {currentLang: lang}};
     </script>
 
     <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

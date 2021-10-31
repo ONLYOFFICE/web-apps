@@ -319,7 +319,13 @@
             "images-common": [
                 {
                     "expand": true,
-                    "cwd": "../apps/common/mobile/resources/img/about",
+                    "cwd": "../apps/common/mobile/resources/img/",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/img/about",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/about"
                 }
@@ -369,7 +375,7 @@
             "index-page": {
                 "../deploy/web-apps/apps/spreadsheeteditor/embed/index.html": "../apps/spreadsheeteditor/embed/index.html.deploy",
                 "../deploy/web-apps/apps/spreadsheeteditor/embed/index_loader.html": "../apps/spreadsheeteditor/embed/index_loader.html.deploy"
-           },
+            },
             "images-app": [
                 {
                     "expand": true,

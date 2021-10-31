@@ -284,6 +284,7 @@ module.exports = function(grunt) {
     doRegisterTask('es6-promise');
     doRegisterTask('jszip');
     doRegisterTask('jsziputils');
+    doRegisterTask('common-embed');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             uglify: {
@@ -655,6 +656,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
                                                             'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
