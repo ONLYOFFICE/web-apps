@@ -267,6 +267,17 @@
             "dest": "../deploy/web-apps/vendor/requirejs/require.js"
         }
     },
+    "common-embed": {
+        "clean": [
+            "../deploy/web-apps/apps/common/embed"
+        ],
+        "copy": {
+            "app-logo": {
+                "dest": "../deploy/web-apps/apps/common/embed/resources/img/logo.svg",
+                "src": "../apps/common/embed/resources/img/logo.svg"
+            }
+        }
+    },
     "tasks": {
         "deploy": [
             "increment-build",
@@ -284,7 +295,8 @@
             "deploy-fetch",
             "deploy-jszip",
             "deploy-jsziputils",
-            "deploy-es6-promise"
+            "deploy-es6-promise",
+            "deploy-common-embed"
         ]
     }
 }
