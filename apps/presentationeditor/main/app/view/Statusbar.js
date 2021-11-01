@@ -269,7 +269,6 @@ define([
                     caption     : 'English (United States)',
                     hint: this.tipSetLang,
                     hintAnchor  : 'top-left',
-                    style       : 'margin-left: 6px;',
                     disabled: true,
                     dataHint    : '0',
                     dataHintDirection: 'top',
