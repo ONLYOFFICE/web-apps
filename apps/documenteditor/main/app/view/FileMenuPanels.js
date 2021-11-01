@@ -216,10 +216,10 @@ define([
                     '<td class="left"><label><%= scope.strReviewHover %></label></td>',
                     '<td class="right"><span id="fms-cmb-review-hover"></span></td>',
                 '</tr>','<tr class="divider view-review"></tr>',
-                '<tr class="edit">',
+                '<tr class="edit spellcheck">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider edit spellcheck"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtProofing %></label></td>',
                     '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
@@ -606,6 +606,7 @@ define([
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
+            $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -665,7 +666,8 @@ define([
             if (this.mode.canForcesave)
                 this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+                this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
 
@@ -715,7 +717,8 @@ define([
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+                Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());

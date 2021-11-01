@@ -16,7 +16,7 @@
         <span id="btn-doc-lang" class="el-edit" data-layout-name="statusBar-docLang"></span>
         <div class="separator short el-edit space"></div>
         <span id="btn-doc-spell" class="el-edit"></span>
-        <div class="separator short el-edit"></div>
+        <div class="separator short el-edit el-lang"></div>
         <div id="btn-doc-review" class="el-edit el-review" style="display: inline-block;"></div>
         <div class="separator short el-edit el-review"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><span class="icon toolbar__icon btn-ic-zoomtopage">&nbsp;</span></button>

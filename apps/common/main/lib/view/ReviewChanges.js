@@ -736,7 +736,8 @@ define([
                         enableToggle: true,
                         dataHint: '0',
                         dataHintDirection: 'top',
-                        dataHintOffset: 'small'
+                        dataHintOffset: 'small',
+                        visible:  Common.UI.FeaturesManager.canChange('spellcheck')
                     });
                     this.btnsSpelling.push(button);
 
@@ -786,7 +787,7 @@ define([
             },
 
             turnSpelling: function (state) {
-                this.btnsSpelling.forEach(function(button) {
+                this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button && button.pressed != state ) {
                         button.toggle(state, true);
                     }

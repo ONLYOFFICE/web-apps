@@ -1107,9 +1107,17 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getBool("de-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
-                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                // spellcheck
+                value = Common.UI.FeaturesManager.getInitValue('spellcheck');
+                value = (value !== undefined) ? value : !(this.appOptions.customization && this.appOptions.customization.spellcheck===false);
+                if (this.appOptions.customization && this.appOptions.customization.spellcheck!==undefined)
+                    console.log("Obsolete: The 'spellcheck' parameter of the 'customization' section is deprecated. Please use 'spellcheck' parameter in the 'customization.features' section instead.");
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get from local storage
+                    value = Common.localStorage.getBool("de-settings-spellcheck", value);
+                    Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                }
                 me.api.asc_setSpellCheck(value);
+                Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
                 value = Common.localStorage.getBool("de-settings-compatible", false);
                 Common.Utils.InternalSettings.set("de-settings-compatible", value);
@@ -1461,6 +1469,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
