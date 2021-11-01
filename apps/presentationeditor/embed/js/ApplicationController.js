@@ -566,6 +566,10 @@ PE.ApplicationController = new(function(){
                 message = me.errorLoadingFont;
                 break;
 
+            case Asc.c_oAscError.ID.KeyExpire:
+                message = me.errorTokenExpire;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -730,6 +734,7 @@ PE.ApplicationController = new(function(){
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.'
     }
 })();

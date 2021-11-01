@@ -17,6 +17,7 @@
   "SSE.ApplicationController.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "SSE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
+  "SSE.ApplicationController.errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Warning",
   "SSE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "SSE.ApplicationController.textAnonymous": "Anonymous",
