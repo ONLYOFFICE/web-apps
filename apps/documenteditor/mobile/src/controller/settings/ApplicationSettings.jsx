@@ -24,6 +24,20 @@ class ApplicationSettingsController extends Component {
         Common.EditorApi.get().asc_setSpellCheck(value);
     }
 
+    switchDarkTheme(value) {
+        const theme = value ? {id:'theme-dark', type:'dark'} : {id:'theme-light', type:'light'};
+        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+
+        const $body = $$('body');
+        $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
+        $body.addClass(`theme-type-${theme.type}`);
+    }
+
+    isThemeDark() {
+        const obj = LocalStorage.getItem("ui-theme");
+        return !!obj ? JSON.parse(obj).type === 'dark' : false;
+    }
+
     switchNoCharacters(value) {
         LocalStorage.setBool("de-mobile-no-characters", value);
         Common.EditorApi.get().put_ShowParaMarks(value);
@@ -67,11 +81,13 @@ class ApplicationSettingsController extends Component {
             <ApplicationSettings 
                 setUnitMeasurement={this.setUnitMeasurement}
                 switchSpellCheck={this.switchSpellCheck}
+                switchDarkTheme={this.switchDarkTheme}
                 switchNoCharacters={this.switchNoCharacters}
                 switchShowTableEmptyLine={this.switchShowTableEmptyLine}
                 switchDisplayComments={this.switchDisplayComments}
                 switchDisplayResolved={this.switchDisplayResolved}  
                 setMacrosSettings={this.setMacrosSettings}               
+                isThemeDark={this.isThemeDark}
             />
         )
     }
