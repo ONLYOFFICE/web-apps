@@ -315,27 +315,12 @@ define([
                 });
                 this.lockedControls.push(this.numRepeat);
 
-                this.numRepeat2 = new Common.UI.MetricSpinner({
-                    el: this.$el.find('#animation-spin-repeat2'),
-                    step: 1,
-                    width: 88,
-                    value: '',
-                    maxValue: 1000,
-                    minValue: 0,
-                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
-                });
-                this.lockedControls.push(this.numRepeat2);
-
                 Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#animation-duration').text(this.strDuration);
                 this.$el.find('#animation-delay').text(this.strDelay);
                 this.$el.find('#animation-label-start').text(this.strStart);
                 this.$el.find('#animation-repeat').text(this.strRepeat);
-                this.$el.find('#animation-repeat2').text(this.strRepeat);
                 this.$el.find('#animation-label-trigger').text(this.strTrigger);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -404,13 +389,11 @@ define([
                 this.renderComponent('#animation-spin-duration', this.numDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
                 this.renderComponent('#animation-spin-repeat', this.numRepeat);
-                this.renderComponent('#animation-spin-repeat2', this.numRepeat2);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
                 this.$el.find("#animation-label-trigger").innerText = this.strTrigger;
                 this.$el.find("#animation-repeat").innerText = this.strRepeat;
-                this.$el.find("#animation-repeat2").innerText = this.strRepeat;
                 this.widthRow(this.$el.find("#animation-label-start"), this.$el.find("#animation-delay"));
                 return this.$el;
             },

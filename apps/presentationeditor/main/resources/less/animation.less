@@ -36,14 +36,31 @@
     }
   }
 
-  /*.spinner
-  {
-    margin-left: 10px;
-  }*/
   label {
     margin-right: 10px;
   }
 
+}
+.a-table{
+  display: table;
+  width: 100%;
+}
+.a-tr{
+  display: table-row;
+  height: 20px;
+  border-top: 2px solid transparent;
+  &.bottom {
+    border-top: 4px solid transparent;
+  }
+  .a-td
+  {
+    display: table-cell;
+  }
+}
+
+.caption{
+  line-height: 18px;
+  font-size: 11px;
 }
 .btn_item {
   color: @text-normal-ie;
@@ -59,8 +76,4 @@
     margin-top: -2px;
   }
 
-  .caption{
-    line-height: 18px;
-    font-size: 11px;
-  }
 }

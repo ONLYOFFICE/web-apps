@@ -232,7 +232,7 @@ define([
             me.cmbStart.selectRecord(item ? item : me.cmbStart.items[0]);
 
 
-            this.view.setWidthRow();
+            //this.view.setWidthRow();
 
 
         }
