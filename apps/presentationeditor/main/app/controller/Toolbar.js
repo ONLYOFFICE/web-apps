@@ -696,7 +696,9 @@ define([
                 in_equation = false,
                 in_chart = false,
                 layout_index = -1,
-                no_columns = false;
+                no_columns = false,
+                in_smartart = false,
+                in_smartart_internal = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -731,6 +733,10 @@ define([
                             || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                             || shapetype=='straightConnector1')
                             no_columns = true;
+                        if (pr.get_FromSmartArt())
+                            in_smartart = true;
+                        if (pr.get_FromSmartArtInternal())
+                            in_smartart_internal = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Table)
                         no_columns = true;
@@ -797,6 +803,16 @@ define([
                     this.toolbar.btnChangeSlide.mnuSlidePicker.options.layout_index = layout_index;
                 else
                     this.toolbar.btnChangeSlide.mnuSlidePicker = {options: {layout_index: layout_index}};
+            }
+
+            if (this._state.in_smartart !== in_smartart) {
+                this.toolbar.lockToolbar(PE.enumLock.inSmartart, in_smartart, {array: me.toolbar.paragraphControls});
+                this._state.in_smartart = in_smartart;
+            }
+
+            if (this._state.in_smartart_internal !== in_smartart_internal) {
+                this.toolbar.lockToolbar(PE.enumLock.inSmartartInternal, in_smartart_internal, {array: me.toolbar.paragraphControls});
+                this._state.in_smartart_internal = in_smartart_internal;
             }
         },
 
