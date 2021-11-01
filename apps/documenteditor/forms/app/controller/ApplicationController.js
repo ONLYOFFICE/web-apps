@@ -224,6 +224,15 @@ define([
                     config.msg = this.errorLoadingFont;
                     break;
 
+                case Asc.c_oAscError.ID.Warning:
+                    config.msg = this.errorConnectToServer;
+                    config.closable = false;
+                    break;
+
+                case Asc.c_oAscError.ID.KeyExpire:
+                    config.msg = this.errorTokenExpire;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -253,7 +262,14 @@ define([
                 config.iconCls  = 'warn';
                 config.buttons  = ['ok'];
                 config.callback = _.bind(function(btn){
-                    if (id == Asc.c_oAscError.ID.EditingError) {
+                    if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
+                        Common.UI.Menu.Manager.hideAll();
+                        var me = this;
+                        setTimeout(function() {
+                            $('button', me.view.btnOptions.cmpEl).click();
+                        }, 10);
+
+                    } else if (id == Asc.c_oAscError.ID.EditingError) {
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
                 }, this);
@@ -1347,7 +1363,9 @@ define([
         textBuyNow: 'Visit website',
         textNoLicenseTitle: 'License limit reached',
         textContactUs: 'Contact sales',
-        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+        errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.'
 
     }, DE.Controllers.ApplicationController));
 });

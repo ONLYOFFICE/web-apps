@@ -75,6 +75,8 @@
   "DE.Controllers.ApplicationController.errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "DE.Controllers.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
+  "DE.Controllers.ApplicationController.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
+  "DE.Controllers.ApplicationController.errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
   "DE.Controllers.ApplicationController.notcriticalErrorTitle": "Warning",
   "DE.Controllers.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "DE.Controllers.ApplicationController.textAnonymous": "Anonymous",
