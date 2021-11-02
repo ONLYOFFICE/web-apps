@@ -378,7 +378,7 @@ define([
                 menuItem.setVisible(current_dark);
                 menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
 
-                menuItem.setChecked(current_dark);
+                menuItem.setChecked(Common.UI.Themes.isContentThemeDark());
             }
         },
 
