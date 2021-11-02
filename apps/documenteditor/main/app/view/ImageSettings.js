@@ -261,7 +261,7 @@ define([
                         {
                             caption:  this.textCropToShape,
                             menu: new Common.UI.Menu({
-                                menuAlign: 'tr-br',
+                                menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
                                 items: []
                             }),
