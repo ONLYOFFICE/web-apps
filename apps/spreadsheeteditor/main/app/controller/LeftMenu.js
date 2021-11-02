@@ -240,7 +240,7 @@ define([
             }
 
             if (this.mode.isEdit) {
-                this.leftMenu.btnSpellcheck.show();
+                Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
             }
             if (this.mode.canUseHistory)
