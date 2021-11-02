@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { EditCell } from '../../view/edit/EditCell';
+import {observer, inject} from "mobx-react";
 
 class EditCellController extends Component {
     constructor (props) {
         super(props);
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
+        this.onBorderStyle = this.onBorderStyle.bind(this);
     }
 
     initFormats(type, exampleVal) {
@@ -152,10 +154,17 @@ class EditCellController extends Component {
     }
 
     onBorderStyle(type, borderInfo) {
-        const api = Common.EditorApi.get();  
+        const api = Common.EditorApi.get();
         let newBorders = [],
             bordersWidth = borderInfo.width,
+            bordersColor;
+            
+        if (this.props.storeCellSettings.colorAuto === 'auto') {
+            bordersColor = new Asc.asc_CColor();
+            bordersColor.put_auto(true);
+        } else {
             bordersColor = Common.Utils.ThemeColor.getRgbColor(borderInfo.color);
+        }
 
         if (type == 'inner') {
             newBorders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
@@ -180,6 +189,13 @@ class EditCellController extends Component {
         api.asc_setCellBorders(newBorders);
     }
 
+    onTextColorAuto() {
+        const api = Common.EditorApi.get();
+        const color = new Asc.asc_CColor();
+        color.put_auto(true);
+        api.asc_setCellTextColor(color);
+    }
+
     render () {
         return (
             <EditCell 
@@ -200,9 +216,10 @@ class EditCellController extends Component {
                 onAccountingCellFormat={this.onAccountingCellFormat}
                 dateFormats={this.dateFormats}
                 timeFormats={this.timeFormats}
+                onTextColorAuto={this.onTextColorAuto}
             />
         )
     }
 }
 
-export default EditCellController;
+export default inject("storeCellSettings")(observer(EditCellController));

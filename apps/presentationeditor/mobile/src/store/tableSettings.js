@@ -12,10 +12,17 @@ export class storeTableSettings {
             setStyles: action,
             updateCellBorderWidth: action,
             updateCellBorderColor: action,
+            setAutoColor: action,
+            colorAuto: observable,
         });
     }
 
     arrayStyles = [];
+    colorAuto = 'auto';
+
+    setAutoColor(value) {
+        this.colorAuto = value;
+    }
 
     initTableTemplates () {
         this.arrayStyles = [];
@@ -146,7 +153,13 @@ export class storeTableSettings {
             const size = parseFloat(this.cellBorderWidth);
             border.put_Value(1);
             border.put_Size(size * 25.4 / 72.0);
-            const color = Common.Utils.ThemeColor.getRgbColor(this.cellBorderColor);
+            let color;
+            if(this.colorAuto === 'auto') {
+                color = new Asc.asc_CColor();
+                color.put_auto(true);
+            } else {
+                color = Common.Utils.ThemeColor.getRgbColor(this.cellBorderColor);
+            }
             border.put_Color(color);
         }
         else {
