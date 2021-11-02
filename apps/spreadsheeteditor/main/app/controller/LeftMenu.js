@@ -239,7 +239,7 @@ define([
                 this.leftMenu.btnComments.hide();
             }
 
-            if (this.mode.isEdit) {
+            if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
             }
@@ -482,7 +482,7 @@ define([
         },
 
         applySpellcheckSettings: function(menu) {
-            if (this.mode.isEdit && this.api) {
+            if (this.mode.isEdit && this.api && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 var value = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words");
                 this.api.asc_ignoreUppercase(value);
                 value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");

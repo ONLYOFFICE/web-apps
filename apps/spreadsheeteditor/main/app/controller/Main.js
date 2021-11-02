@@ -858,14 +858,17 @@ define([
                 this.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("sse-settings-autosave"));
                 /** coauthoring end **/
 
-                /** spellcheck settings begin **/
-                var ignoreUppercase = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words", true);
-                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", ignoreUppercase);
-                this.api.asc_ignoreUppercase(ignoreUppercase);
-                var ignoreNumbers = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words", true);
-                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", ignoreNumbers);
-                this.api.asc_ignoreNumbers(ignoreNumbers);
-                /** spellcheck settings end **/
+                // spellcheck
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get from local storage
+                    /** spellcheck settings begin **/
+                    var ignoreUppercase = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", ignoreUppercase);
+                    this.api.asc_ignoreUppercase(ignoreUppercase);
+                    var ignoreNumbers = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", ignoreNumbers);
+                    this.api.asc_ignoreNumbers(ignoreNumbers);
+                    /** spellcheck settings end **/
+                }
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
@@ -917,7 +920,7 @@ define([
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
                 if (me.appOptions.isEdit) {
-                    spellcheckController.setApi(me.api).setMode(me.appOptions);
+                    Common.UI.FeaturesManager.canChange('spellcheck') && spellcheckController.setApi(me.api).setMode(me.appOptions);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", me.appOptions.canForcesave);
@@ -1259,6 +1262,7 @@ define([
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                    this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
