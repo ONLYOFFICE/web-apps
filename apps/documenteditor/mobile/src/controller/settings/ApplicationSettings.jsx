@@ -29,7 +29,7 @@ class ApplicationSettingsController extends Component {
         LocalStorage.setItem("ui-theme", JSON.stringify(theme));
 
         const $body = $$('body');
-        $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
+        $body.attr('class') && $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
     }
 
