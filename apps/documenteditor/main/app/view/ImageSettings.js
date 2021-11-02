@@ -338,23 +338,22 @@ define([
         fillAutoShapes: function() {
             var me = this,
                 recents = Common.localStorage.getItem('de-recent-shapes');
-
-            for (var i = 0; i < 2; i++) {
-                var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
-                    index: i
+            
+             var menuitem = new Common.UI.MenuItem({
+                    template: _.template('<div id="id-img-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: 0
                 });
                 me.btnChangeShape.menu.addItem(menuitem);
 
                 var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-change-shape-menu-' + i),
+                    el: $('#id-img-change-shape-menu-' + 0),
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: me.application.getCollection('ShapeGroups'),
                     parentMenu: me.btnChangeShape.menu,
                     restoreHeight: 640,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents ? JSON.parse(recents) : null,
-                    isFromImage: i === 0
+                    isFromImage: true
                 });
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
@@ -364,9 +363,6 @@ define([
                     if (e.type !== 'click')
                         me.btnChangeShape.menu.hide();
                 });
-            }
-            /*me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
-            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);*/
         },
 
         ChangeSettings: function(props) {
@@ -376,6 +372,7 @@ define([
             this.disableControls(this._locked);
 
             if (props ){
+
                 this._originalProps = new Asc.asc_CImgProperty(props);
 
                 var value = props.get_WrappingStyle();
