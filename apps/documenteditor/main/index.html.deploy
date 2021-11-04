@@ -11,6 +11,12 @@
     <!-- splash -->
 
     <style type="text/css">
+        .content-theme-dark {
+            --skeleton-canvas-content-background: #3a3a3a;
+            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-line: rgba(255,255,255,.05);
+        }
+
         .loadmask {
             left: 0;
             top: 0;
@@ -108,12 +114,12 @@
 
         .loadmask > .placeholder {
             background: #fff;
-            background: var(--canvas-content-background, #fff);
+            background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
             width: 794px;
             margin: 46px auto;
             height: 100%;
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
+            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
             padding-top: 50px;
         }
 
@@ -121,6 +127,7 @@
             height: 15px;
             margin: 30px 80px;
             background: rgba(0,0,0,.05);
+            background: var(--skeleton-canvas-line, rgba(0,0,0,.05));
             overflow: hidden;
             position: relative;
 
