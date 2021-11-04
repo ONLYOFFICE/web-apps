@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ const PageApplicationSettings = props => {
     const store = props.storeApplicationSettings;
     const unitMeasurement = store.unitMeasurement;
     const isSpellChecking = store.isSpellChecking;
+    const [isThemeDark, setIsThemeDark] = useState(props.isThemeDark);
 
     const changeMeasureSettings = value => {
         store.changeUnitMeasurement(value);
@@ -43,6 +44,11 @@ const PageApplicationSettings = props => {
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}
                             />
+                        </ListItem>
+                        <ListItem title={'Dark theme'}>
+                            <Toggle checked={isThemeDark}
+                                onToggleChange={toggle => {props.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                            </Toggle>
                         </ListItem>
                     </List>
                 </Fragment>
