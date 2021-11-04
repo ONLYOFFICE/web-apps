@@ -90,3 +90,13 @@ if ( !ui_theme_name ) {
 if ( !!ui_theme_name ) {
     document.body.classList.add(ui_theme_name);
 }
+
+if ( checkLocalStorage ) {
+    var content_theme = localStorage.getItem("content-theme");
+    if ( content_theme == 'dark' ) {
+        var current_theme = localStorage.getItem("ui-theme");
+        if ( !!current_theme && /type":\s*"dark/.test(current_theme) ) {
+            document.body.classList.add("content-theme-dark");
+        }
+    }
+}
