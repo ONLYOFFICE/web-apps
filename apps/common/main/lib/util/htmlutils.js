@@ -64,6 +64,7 @@ if ( window.desktop && !!window.RendererProcessVariable ) {
         if ( theme.id ) {
             // params.uitheme = undefined;
             localStorage.setItem("ui-theme-id", theme.id);
+            localStorage.removeItem("ui-theme");
         }
     }
 }
