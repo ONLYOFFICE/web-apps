@@ -283,7 +283,6 @@ define([
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
-
             this.btnChangeShape= this.btnCrop.menu.items[1];
 
             this.btnSelectImage = new Common.UI.Button({
@@ -335,18 +334,19 @@ define([
             };
             me.btnChangeShape.menu.on('show:before', onShowBefore);
         },
+
         fillAutoShapes: function() {
             var me = this,
                 recents = Common.localStorage.getItem('de-recent-shapes');
             
              var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-img-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
+                    template: _.template('<div id="id-img-change-shape-menu" class="menu-insertshape"></div>'),
                     index: 0
                 });
                 me.btnChangeShape.menu.addItem(menuitem);
 
                 var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-img-change-shape-menu-' + 0),
+                    el: $('#id-img-change-shape-menu'),
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: me.application.getCollection('ShapeGroups'),
                     parentMenu: me.btnChangeShape.menu,
@@ -422,7 +422,6 @@ define([
                     this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
-
 
                 if (this._state.isOleObject) {
                     var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});

@@ -240,6 +240,15 @@ define([
                             value: 0
                         },
                         {
+                            caption:  this.textCropToShape,
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tl',
+                                cls: 'menu-shapes menu-change-shape',
+                                items: []
+                            }),
+                            value: 3
+                        },
+                        {
                             caption: this.textCropFill,
                             value: 1
                         },
@@ -255,6 +264,7 @@ define([
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
+            this.btnChangeShape= this.btnCrop.menu.items[1];
 
             this.btnRotate270 = new Common.UI.Button({
                 parentEl: $('#image-button-270', me.$el),
@@ -314,6 +324,7 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.updateMetricUnit();
+            this.onApiAutoShapes();
             this._initSettings = false;
         },
 
@@ -349,6 +360,45 @@ define([
                     }
                 }
             }
+        },
+
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.btnChangeShape.menu.on('show:before', onShowBefore);
+        },
+
+        fillAutoShapes: function() {
+            var me = this,
+                recents = Common.localStorage.getItem('de-recent-shapes');
+
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-img-change-shape-menu" class="menu-insertshape"></div>'),
+                index: 0
+            });
+            me.btnChangeShape.menu.addItem(menuitem);
+
+            var shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-img-change-shape-menu'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: me.application.getCollection('ShapeGroups'),
+                parentMenu: me.btnChangeShape.menu,
+                restoreHeight: 640,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null,
+                isFromImage: true
+            });
+            shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    me.api.asc_changeShapeType(record.get('data').shapeType);
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+                if (e.type !== 'click')
+                    me.btnChangeShape.menu.hide();
+            });
         },
 
         ChangeSettings: function(props) {
@@ -583,6 +633,8 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        textFromStorage: 'From Storage'
+        textCropToShape: 'Crop to shape',
+        textFromStorage: 'From Storage',
+        textRecentlyUsed: 'Recently Used'
     }, SSE.Views.ImageSettings || {}));
 });
