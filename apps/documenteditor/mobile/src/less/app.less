@@ -1,10 +1,11 @@
-@themeColor: #446995;
 
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
 
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@brandColor: var(--brand-word);
+@toolbar-background: var(--toolbar-de-background);
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';
@@ -48,7 +49,7 @@
 
 // Review
 .page-review {
-    --f7-toolbar-link-color: @themeColor;
+    --f7-toolbar-link-color: @brandColor;
     .toolbar {
         background-color: @white;
         box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);

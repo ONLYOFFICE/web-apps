@@ -1,5 +1,5 @@
 
-.device-android {
+.device-android, .device-android .theme-type-dark{
     @tabLinkColor: rgba(255,255,255,.7);
     @red: #f44336;
     @white: #fff;
@@ -10,22 +10,22 @@
 
     --f7-navbar-shadow-image: none;
 
-    --f7-theme-color: @themeColor;
+    --f7-theme-color: @brandColor;
 
-    --f7-navbar-bg-color: @themeColor;
+    --f7-navbar-bg-color: @toolbar-background;
     --f7-navbar-link-color: @navBarIconColor;
     --f7-navbar-text-color: @navBarIconColor;
     --f7-navbar-height: 56px;
 
-    --f7-subnavbar-bg-color: @themeColor;
+    --f7-subnavbar-bg-color: @toolbar-background;
     --f7-subnavbar-link-color: @navBarIconColor;
     --f7-subnavbar-text-color: @navBarIconColor;
     --f7-subnavbar-height: 56px;
 
-    --f7-radio-active-color: @themeColor;
-    --f7-toggle-active-color: @themeColor;
-    --f7-range-bar-active-bg-color: @themeColor;
-    --f7-range-knob-color: @themeColor;
+    --f7-radio-active-color: @brandColor;
+    --f7-toggle-active-color: @brandColor;
+    --f7-range-bar-active-bg-color: @brandColor;
+    --f7-range-knob-color: @brandColor;
     --f7-range-knob-size: 16px;
 
     --f7-link-highlight-color: transparent;
@@ -41,10 +41,10 @@
         }
     }
 
-    --f7-input-focused-border-color: @themeColor;
-    --f7-label-focused-text-color: @themeColor;
+    --f7-input-focused-border-color: @brandColor;
+    --f7-label-focused-text-color: @brandColor;
 
-    --f7-dialog-button-text-color: @themeColor;
+    --f7-dialog-button-text-color: @brandColor;
 
     .navbar {
         --f7-touch-ripple-color: @touchColor;
@@ -102,8 +102,8 @@
         }
     }
     .button {
-        --f7-button-text-color: @themeColor;
-        color: @themeColor;
+        --f7-button-text-color: @brandColor;
+        color: @brandColor;
         text-align: center;
         display: block;
         border-radius: 2px;
@@ -132,7 +132,7 @@
 
     .button-fill {
         color: @white;
-        // background-color: @themeColor;
+        // background-color: @brandColor;
         background-color: transparent;
     }
 
@@ -142,7 +142,7 @@
 
     .button-red {
         color: @white;
-        background-color: @red;
+        background-color:@text-error;
     }
 
     .buttons-list {
@@ -168,8 +168,8 @@
         }
     }
     .button-fill .list-button {
-        background-color: @themeColor;
-        color: @white;
+        background-color: @brandColor;
+        color: @brand-text-on-brand;
         height: 36px;
         text-align: center;
         line-height: 36px;
@@ -184,7 +184,7 @@
         box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
     }
     .button-red .list-button {
-        background-color: @red;
+        background-color: @text-error;
     }
     // Tabs
     .tab-buttons {
@@ -281,7 +281,7 @@
                             }
                             &.active {
                                 color: @white;
-                                background-color: @themeColor;
+                                background-color: @brandColor;
                                 i.icon {
                                     background-color: @white;
                                 }
@@ -377,7 +377,7 @@
     #color-picker {
         .right-block {
             .button-round {
-                background-color: @themeColor;
+                background-color: @brandColor;
             }
         }
     }

@@ -5,8 +5,8 @@
     --f7-list-item-border-color: @item-border-color;
     @darkGreen: #40865c;
 
-    --f7-navbar-link-color: @themeColor;
-    --f7-subnavbar-link-color: @themeColor;
+    --f7-navbar-link-color: @brandColor;
+    --f7-subnavbar-link-color: @brandColor;
     --f7-navbar-text-color: @black;
     --f7-navbar-title-line-height: 44px;
     --f7-navbar-link-line-height: 44px;
@@ -15,15 +15,15 @@
     --f7-list-bg-color: @white;
     --f7-navbar-bg-color: #f7f7f8;
 
-    --f7-tabbar-link-inactive-color: @themeColor;
+    --f7-tabbar-link-inactive-color: @brandColor;
 
-    --f7-radio-active-color: @themeColor;
-    --f7-toggle-active-color: @themeColor;
-    --f7-range-bar-active-bg-color: @themeColor;
+    --f7-radio-active-color: @brandColor;
+    --f7-toggle-active-color: @brandColor;
+    --f7-range-bar-active-bg-color: @brandColor;
 
-    --f7-list-button-text-color: @themeColor;
+    --f7-list-button-text-color: @brandColor;
 
-    --f7-dialog-button-text-color: @themeColor;
+    --f7-dialog-button-text-color: @brandColor;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -289,7 +289,7 @@
             position: relative;
             overflow: hidden;
             -webkit-box-flex: 1;
-            border: 1px solid @themeColor;
+            border: 1px solid @brandColor;
             text-decoration: none;
             text-align: center;
             margin: 0;
@@ -311,15 +311,15 @@
                 border-radius: 0 5px 5px 0;
             }
             &.tab-link-active {
-                background: @themeColor;
+                background: @brandColor;
                 color: @white;
             }
         }
     }
 
     .button {
-        border: 1px solid @themeColor;
-        color: @themeColor;
+        border: 1px solid @brandColor;
+        color: @brandColor;
         text-decoration: none;
         text-align: center;
         display: block;
@@ -339,7 +339,7 @@
         cursor: pointer;
         outline: 0;
         &.active {
-            background: @themeColor;
+            background: @brandColor;
             color: @white;
             i.icon {
                 background-color: @white;
@@ -348,7 +348,7 @@
     }
 
     .button-fill {
-        color: @themeColor;
+        color: @brandColor;
         background-color: @white;
     }
 
@@ -466,7 +466,7 @@
             height: 28px;
         }
         .buttons-row-replace a {
-            color: @themeColor;
+            color: @brandColor;
         }
     }
 
@@ -556,7 +556,7 @@
         height: 57px;
         line-height: 57px;
         font-size: 20px;
-        color: @themeColor;
+        color: @brandColor;
         white-space: normal;
         text-overflow: ellipsis;
     }
