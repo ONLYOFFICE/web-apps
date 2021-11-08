@@ -57,8 +57,9 @@ define([
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
-    'common/main/lib/component/HintManager',
-    'common/main/lib/component/LayoutManager'
+    'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/HintManager',
+    'common/main/lib/controller/LayoutManager'
 ], function () {
     'use strict';
 
