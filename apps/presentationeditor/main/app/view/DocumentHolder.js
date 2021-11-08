@@ -1869,7 +1869,7 @@ define([
                 if (me.api){
                     var printopt = new Asc.asc_CAdjustPrint();
                     printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
                     opts.asc_setAdvancedOptions(printopt);
                     me.api.asc_Print(opts);
                     me.fireEvent('editcomplete', me);
@@ -1975,7 +1975,7 @@ define([
                 if (me.api){
                     var printopt = new Asc.asc_CAdjustPrint();
                     printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
                     opts.asc_setAdvancedOptions(printopt);
                     me.api.asc_Print(opts);
                     me.fireEvent('editcomplete', me);
