@@ -206,7 +206,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                         scopeName: (scope===null) ? this.textWorkbook: this.sheetNames[scope],
                         range: (type===Asc.c_oAscDefNameType.slicer) ? '' : this.ranges[i].asc_getRef(),
                         lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? this.getUserName(id) : this.guestText,
+                        lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText,
                         type: type,
                         isTable: type===Asc.c_oAscDefNameType.table,
                         isSlicer: type===Asc.c_oAscDefNameType.slicer
@@ -386,6 +386,16 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             return this.guestText;
         },
 
+        isUserVisible: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return !rec.get('hidden');
+            }
+            return true;
+        },
+
         onSelectRangeItem: function(lisvView, itemView, record) {
             if (!record) return;
 
@@ -451,7 +461,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         textWorkbook: 'Workbook',
         guestText: 'Guest',
         tipIsLocked: 'This element is being edited by another user.',
-        warnDelete: 'Are you sure you want to delete the name {0}?'
+        warnDelete: 'Are you sure you want to delete the name {0}?',
+        lockText: 'Locked'
 
     }, SSE.Views.NameManagerDlg || {}));
 });

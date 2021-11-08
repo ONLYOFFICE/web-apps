@@ -1327,7 +1327,7 @@ define([
                 }
 
                 if (me.permissions.isEdit) {
-                    if (index_locked) {
+                    if (index_locked && me.isUserVisible(dataarray[index_locked-1].asc_getUserId())) {
                         data = dataarray[index_locked-1];
 
                         if (!coAuthTip.XY)
@@ -1377,7 +1377,7 @@ define([
                             }
                         }
                     }
-                    if (index_foreign) {
+                    if (index_foreign && me.isUserVisible(dataarray[index_foreign-1].asc_getUserId())) {
                         data = dataarray[index_foreign-1];
 
                         if (!coAuthTip.XY)
@@ -3807,6 +3807,8 @@ define([
         },
 
         onShowForeignCursorLabel: function(UserId, X, Y, color) {
+            if (!this.isUserVisible(UserId)) return;
+
             /** coauthoring begin **/
             var src;
             var me = this;
@@ -3861,6 +3863,16 @@ define([
                     return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
+        },
+
+        isUserVisible: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return !rec.get('hidden');
+            }
+            return true;
         },
 
         SetDisabled: function(state, canProtect) {

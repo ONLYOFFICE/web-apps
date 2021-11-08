@@ -370,6 +370,14 @@ define([
                 }
                 return me.guestText;
             };
+            var isUserVisible = function(id){
+                if (usersStore){
+                    var rec = usersStore.findUser(id);
+                    if (rec)
+                        return !rec.get('hidden');
+                }
+                return true;
+            };
             /** coauthoring end **/
 
             var screenTip = {
@@ -534,7 +542,7 @@ define([
                         }
                     }
                     /** coauthoring begin **/
-                    else if (moveData.get_Type()==2 && me.mode.isEdit) { // 2 - locked object
+                    else if (moveData.get_Type()==2 && me.mode.isEdit && isUserVisible(moveData.get_UserId())) { // 2 - locked object
                         var src;
                         if (me.usertipcount >= me.usertips.length) {
                             src = $(document.createElement("div"));
@@ -568,6 +576,8 @@ define([
             };
 
             var onShowForeignCursorLabel = function(UserId, X, Y, color) {
+                if (!isUserVisible(UserId)) return;
+
                 /** coauthoring begin **/
                 var src;
                 for (var i=0; i<me.fastcoauthtips.length; i++) {
