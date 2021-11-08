@@ -185,11 +185,12 @@ define([
 
                         function updateTextBoxHeight() {
                             scrollPos = parentView.scroller.getScrollTop();
-
                             if (domTextBox.scrollHeight > domTextBox.clientHeight) {
-                                textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
+                                if (domTextBox.clientHeight + 2 < parseInt($(domTextBox).css('max-height'))) { // 2 = border of textarea
+                                    textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
 
-                                parentView.calculateSizeOfContent();
+                                    parentView.calculateSizeOfContent();
+                                }
                             } else {
                                 oldHeight = domTextBox.clientHeight;
                                 if (oldHeight >= minHeight) {
