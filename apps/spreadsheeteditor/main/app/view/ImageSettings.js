@@ -245,8 +245,7 @@ define([
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
                                 items: []
-                            }),
-                            value: 3
+                            })
                         },
                         {
                             caption: this.textCropFill,
