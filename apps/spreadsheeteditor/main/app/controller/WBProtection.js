@@ -116,6 +116,7 @@ define([
         },
 
         onWorkbookClick: function(state) {
+            this.view.btnProtectWB.toggle(!state, true);
             if (state) {
                 var me = this,
                     btn,
@@ -172,6 +173,7 @@ define([
         },
 
         onSheetClick: function(state) {
+            this.view.btnProtectSheet.toggle(!state, true);
             if (state) {
                 var me = this,
                     btn,
