@@ -184,9 +184,7 @@ define([
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                props.asc_setSheet(true);
-                                value && props.asc_setPassword(value);
-                                me.api.asc_setProtectedSheet(props);
+                                props.asc_setSheet(value, _.bind(me.onSetProtectedSheet, me));
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -211,8 +209,7 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    props.asc_setSheet(false, value);
-                                    me.api.asc_setProtectedSheet(props);
+                                    props.asc_setSheet(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined, _.bind(me.onSetProtectedSheet, me));
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -224,10 +221,13 @@ define([
 
                     win.show();
                 } else {
-                    props.asc_setSheet(false);
-                    me.api.asc_setProtectedSheet(props);
+                    props.asc_setSheet(undefined, _.bind(me.onSetProtectedSheet, me));
                 }
             }
+        },
+
+        onSetProtectedSheet: function(props) {
+            this.api.asc_setProtectedSheet(props);
         },
 
         onRangesClick: function() {
