@@ -125,9 +125,7 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 var props = me.api.asc_getProtectedWorkbook();
-                                props.asc_setLockStructure(true);
-                                value && props.asc_setPassword(value);
-                                me.api.asc_setProtectedWorkbook(props);
+                                props.asc_setLockStructure(value, _.bind(me.onSetProtectedWorkbook, me));
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -152,8 +150,7 @@ define([
                                 btn = result;
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        props.asc_setLockStructure(false, value);
-                                        me.api.asc_setProtectedWorkbook(props);
+                                        props.asc_setLockStructure(value, _.bind(me.onSetProtectedWorkbook, me));
                                     }
                                     Common.NotificationCenter.trigger('edit:complete');
                                 }
@@ -165,10 +162,13 @@ define([
 
                     win.show();
                 } else {
-                    props.asc_setLockStructure(false);
-                    me.api.asc_setProtectedWorkbook(props);
+                    props.asc_setLockStructure(undefined, _.bind(me.onSetProtectedWorkbook, me));
                 }
             }
+        },
+
+        onSetProtectedWorkbook: function(props) {
+            this.api.asc_setProtectedWorkbook(props);
         },
 
         onSheetClick: function(state) {
