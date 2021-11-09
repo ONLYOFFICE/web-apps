@@ -129,7 +129,8 @@ define([
                 for (var i in objects) {
                     type = objects[i].get_ObjectType();
                     if ( type === Asc.c_oAscTypeSelectElement.Image ) {
-                        var props = objects[i].get_ObjectValue();
+                        var props = objects[i].get_ObjectValue(),
+                            shapeProps = props.get_ShapeProperties();
                         var islocked = props.get_Locked();
                         var notflow = !props.get_CanBeFlow();
 
@@ -147,7 +148,7 @@ define([
 
                         disable.align       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
                         disable.group       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
-                        disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup() || content_locked;
+                        disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup() || shapeProps && shapeProps.asc_getFromSmartArtInternal() || content_locked;
                         disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) || content_locked || (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture);
 
                         if ( !disable.group ) {

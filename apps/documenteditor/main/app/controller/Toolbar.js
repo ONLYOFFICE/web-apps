@@ -744,6 +744,7 @@ define([
                 enable_dropcap = undefined,
                 disable_dropcapadv = true,
                 frame_pr = undefined,
+                shape_pr = undefined,
                 toolbar = this.toolbar,
                 in_header = false,
                 in_chart = false,
@@ -772,6 +773,8 @@ define([
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
+                    if (pr && pr.get_ShapeProperties())
+                        shape_pr = pr.get_ShapeProperties();
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                     if (Asc.c_oAscMathInterfaceType.Common === pr.get_Type())
@@ -819,7 +822,7 @@ define([
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
-            var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
+            var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock || shape_pr && (shape_pr.asc_getFromSmartArt() || shape_pr.asc_getFromSmartArtInternal());
             if (this._state.textonlycontrolsdisable != need_text_disable) {
                 if (this._state.activated) this._state.textonlycontrolsdisable = need_text_disable;
                 if (!need_disable) {
