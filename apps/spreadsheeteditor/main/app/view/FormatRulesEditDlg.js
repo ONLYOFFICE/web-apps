@@ -1267,7 +1267,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
         setColor: function(color, control, picker) {
             picker = control ? control.colorPicker : picker;
-            if (color) {
+            if (color && !color.get_auto()) {
                 if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                 } else {
