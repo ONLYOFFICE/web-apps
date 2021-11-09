@@ -133,6 +133,7 @@ module.exports = {
                   globalVars: {
                       "common-image-header-path": env === 'production' ? `../../../${editor}/mobile/resources/img/header` : '../../common/mobile/resources/img/header',
                       "common-image-about-path": env === 'production' ? `../../../${editor}/mobile/resources/img/about` : '../../common/main/resources/img/about',
+                      "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                   }
                 }
               }
