@@ -372,7 +372,7 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                recents = Common.localStorage.getItem('de-recent-shapes');
+                recents = Common.localStorage.getItem('sse-recent-shapes');
 
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-img-change-shape-menu" class="menu-insertshape"></div>'),
@@ -396,7 +396,7 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
                 if (e.type !== 'click')
-                    me.btnChangeShape.menu.hide();
+                    me.btnCrop.menu.hide();
             });
         },
 

@@ -360,7 +360,7 @@ define([
                         me.fireEvent('editcomplete', me);
                     }
                     if (e.type !== 'click')
-                        me.btnChangeShape.menu.hide();
+                        me.btnCrop.menu.hide();
                 });
         },
 

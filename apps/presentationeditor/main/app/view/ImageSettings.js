@@ -282,7 +282,7 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                recents = Common.localStorage.getItem('de-recent-shapes');
+                recents = Common.localStorage.getItem('pe-recent-shapes');
 
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-img-change-shape-menu" class="menu-insertshape"></div>'),
@@ -302,11 +302,12 @@ define([
             });
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
+                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
                 if (e.type !== 'click')
-                    me.btnChangeShape.menu.hide();
+                    me.btnCrop.menu.hide();
             });
         },
 
