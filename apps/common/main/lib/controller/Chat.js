@@ -89,6 +89,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            this.currentUserId = mode.user.id;
 
             if (this.api) {
                 if (this.mode.canCoAuthoring && this.mode.canChat)
@@ -142,7 +143,8 @@ define([
                                 username    : user.asc_getUserName(),
                                 online      : true,
                                 color       : user.asc_getColor(),
-                                view        : user.asc_getView()
+                                view        : user.asc_getView(),
+                                hidden      : !(user.asc_getIdOriginal()===this.currentUserId || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName()))
                             });
                             arrUsers[(user.asc_getId() == currentUserId ) ? 'unshift' : 'push'](usermodel);
                         }
@@ -165,7 +167,8 @@ define([
                         username    : change.asc_getUserName(),
                         online      : change.asc_getState(),
                         color       : change.asc_getColor(),
-                        view        : change.asc_getView()
+                        view        : change.asc_getView(),
+                        hidden      : !(change.asc_getIdOriginal()===this.currentUserId || AscCommon.UserInfoParser.isUserVisible(change.asc_getUserName()))
                     }));
                 } else {
                     user.set({online: change.asc_getState()});

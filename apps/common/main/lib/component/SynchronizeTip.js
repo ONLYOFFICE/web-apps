@@ -79,6 +79,7 @@ define([
                 this.placement = this.options.placement;
                 this.showLink = this.options.showLink;
                 this.showButton = this.options.showButton;
+                this.closable = this.options.closable;
                 this.textButton = this.options.textButton || '';
             },
 

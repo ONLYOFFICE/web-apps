@@ -192,7 +192,7 @@ define([
                         active: view.asc_getIsActive(),
                         view: view,
                         lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? this.getUserName(id) : this.guestText
+                        lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
                     view.asc_getIsActive() && (active = i);
                 }
@@ -315,6 +315,16 @@ define([
             return this.guestText;
         },
 
+        isUserVisible: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return !rec.get('hidden');
+            }
+            return true;
+        },
+
         onSelectItem: function(lisvView, itemView, record) {
             if (!record) return;
 
@@ -374,7 +384,8 @@ define([
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
         warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
-        textLongName: 'Enter a name that is less than 128 characters.'
+        textLongName: 'Enter a name that is less than 128 characters.',
+        lockText: 'Locked'
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
