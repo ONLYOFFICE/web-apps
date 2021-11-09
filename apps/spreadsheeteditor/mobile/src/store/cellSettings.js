@@ -18,7 +18,8 @@ export class storeCellSettings {
             hAlignStr: observable, 
             vAlignStr: observable, 
             isWrapText: observable, 
-            orientationStr: observable, 
+            orientationStr: observable,
+            colorAuto: observable,
             initCellSettings: action, 
             initTextFormat: action, 
             initTextOrientation: action, 
@@ -30,7 +31,8 @@ export class storeCellSettings {
             changeFillColor: action, 
             changeBorderColor: action, 
             changeBorderSize: action, 
-            changeBorderStyle: action
+            changeBorderStyle: action,
+            setAutoColor: action,
         });
     }
 
@@ -63,6 +65,12 @@ export class storeCellSettings {
     isWrapText;
 
     orientationStr = 'horizontal';
+
+    colorAuto = 'auto';
+
+    setAutoColor(value) {
+        this.colorAuto = value;
+    }
 
     initCellSettings(cellInfo) {
 

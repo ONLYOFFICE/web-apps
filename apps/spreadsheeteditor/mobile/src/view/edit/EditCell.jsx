@@ -29,7 +29,7 @@ const EditCell = props => {
 
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
-        <span className="color-preview"></span>;
+        <span className="color-preview auto"></span>;
     
     const fillColorPreview = fillColor !== 'transparent' ?
         <span className="color-preview" style={{ background: `#${(typeof fillColor === "object" ? fillColor.color : fillColor)}`}}></span> :
@@ -53,7 +53,8 @@ const EditCell = props => {
                             </Row>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
-                            onTextColor: props.onTextColor
+                            onTextColor: props.onTextColor,
+                            onTextColorAuto: props.onTextColorAuto,
                         }}>
                             {!isAndroid ?
                                 <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
@@ -284,16 +285,25 @@ const PageTextColorCell = props => {
   
     return (
         <Page>
-            <Navbar title={_t.textTextColor} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textTextColor')} backLink={t('View.Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-expand-down' sheetClose></Link>
                     </NavRight>
                 }
             </Navbar>
+            <List>
+                <ListItem  className={'item-color-auto' + (fontColor === 'auto' ? ' active' : '')} title={t('View.Edit.textAutomatic')} onClick={() => {
+                   props.onTextColorAuto();
+                }}>
+                    <div slot="media">
+                        <div id='font-color-auto' className={'color-auto'}></div>
+                    </div>
+                </ListItem>
+            </List>
             <ThemeColorPalette changeColor={changeColor} curColor={fontColor} customColors={customColors} />
             <List>
-                <ListItem title={_t.textAddCustomColor} link={'/edit-cell-text-custom-color/'} routeProps={{
+                <ListItem title={t('View.Edit.textAddCustomColor')} link={'/edit-cell-text-custom-color/'} routeProps={{
                     onTextColor: props.onTextColor
                 }}></ListItem>
             </List>
@@ -360,13 +370,13 @@ const PageCustomTextColorCell = props => {
         fontColor = fontColor.color;
     }
 
+    const autoColor = fontColor === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
     const onAddNewColor = (colors, color) => {
         props.storePalette.changeCustomColors(colors);
         props.onTextColor(color);
         props.storeCellSettings.changeFontColor(color);
         props.f7router.back();
     };
-
     return (
         <Page>
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
@@ -376,7 +386,7 @@ const PageCustomTextColorCell = props => {
                     </NavRight>
                 }
             </Navbar>
-            <CustomColorPicker currentColor={fontColor} onAddNewColor={onAddNewColor} />
+            <CustomColorPicker autoColor={autoColor} currentColor={fontColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
 };
@@ -586,7 +596,8 @@ const PageBorderStyleCell = props => {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
-
+    
+    const displayBorderColor = `#${(typeof borderInfo.color === "object" ? borderInfo.color.color : borderInfo.color)}`;
     return (
         <Page>
             <Navbar title={_t.textBorderStyle} backLink={_t.textBack}>
@@ -676,7 +687,7 @@ const PageBorderStyleCell = props => {
                 }}>
                     <span className="color-preview"
                         slot="after"
-                        style={{background:`#${(typeof borderInfo.color === "object" ? borderInfo.color.color : borderInfo.color)}`}}
+                        style={{background: storeCellSettings.colorAuto === 'auto' ? '#000' : displayBorderColor}}
                     ></span>
                 </ListItem>
                 <ListItem title={_t.textSize} link='/edit-border-size-cell/' after={borderSizes[borderInfo.width]} routeProps={{
@@ -690,16 +701,15 @@ const PageBorderStyleCell = props => {
 
 const PageBorderColorCell = props => {
     const { t } = useTranslation();
-    const _t = t("View.Edit", { returnObjects: true });
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const borderInfo = storeCellSettings.borderInfo;
     const borderColor = borderInfo.color;
     const borderStyle = storeCellSettings.borderStyle;
     const customColors = storePalette.customColors;
-
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
+            storeCellSettings.setAutoColor(null);
             if (effectId !== undefined ) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
                 storeCellSettings.changeBorderColor(newColor);
@@ -716,16 +726,25 @@ const PageBorderColorCell = props => {
   
     return (
         <Page>
-            <Navbar backLink={_t.textBack}>
+            <Navbar backLink={t('View.Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-expand-down' sheetClose></Link>
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors} />
             <List>
-                <ListItem title={_t.textAddCustomColor} link={'/edit-border-custom-color-cell/'} routeProps={{
+                <ListItem className={'item-color-auto' + (storeCellSettings.colorAuto === 'auto' ? ' active' : '')} title={t('View.Edit.textAutomatic')} onClick={() => {
+                   storeCellSettings.setAutoColor('auto');
+                }}>
+                    <div slot="media">
+                        <div id='font-color-auto' className={'color-auto'}></div>
+                    </div>
+                </ListItem>
+            </List>
+            <ThemeColorPalette changeColor={changeColor} curColor={storeCellSettings.colorAuto || borderColor} customColors={customColors} />
+            <List>
+                <ListItem title={t('View.Edit.textAddCustomColor')} link={'/edit-border-custom-color-cell/'} routeProps={{
                     onBorderStyle: props.onBorderStyle
                 }}></ListItem>
             </List>
@@ -746,7 +765,7 @@ const PageCustomBorderColorCell = props => {
     }
 
     const borderStyle = storeCellSettings.borderStyle;
-    
+    const autoColor = storeCellSettings.colorAuto === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
     const onAddNewColor = (colors, color) => {
         storePalette.changeCustomColors(colors);
         storeCellSettings.changeBorderColor(color);
@@ -763,7 +782,7 @@ const PageCustomBorderColorCell = props => {
                     </NavRight>
                 }
             </Navbar>
-            <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor} />
+            <CustomColorPicker autoColor={autoColor} currentColor={borderColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
 };

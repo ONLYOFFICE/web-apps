@@ -184,7 +184,7 @@ const PageCustomBorderColor = props => {
         props.storeTableSettings.updateCellBorderColor(color);
         props.f7router.back();
     };
-
+    const autoColor = props.storeTableSettings.colorAuto === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
     return (
         <Page>
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
@@ -196,20 +196,20 @@ const PageCustomBorderColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
+            <CustomColorPicker autoColor={autoColor} currentColor={borderColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
 };
 
 const PageBorderColor = props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const borderColor = storeTableSettings.cellBorderColor;
     const customColors = props.storePalette.customColors;
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
+            storeTableSettings.setAutoColor(null);
             if (effectId !==undefined ) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
                 storeTableSettings.updateCellBorderColor(newColor);
@@ -224,7 +224,7 @@ const PageBorderColor = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textColor} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textColor')} backLink={t('View.Edit.textBack')}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -233,9 +233,18 @@ const PageBorderColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
             <List>
-                <ListItem title={_t.textAddCustomColor} link={'/edit-table-custom-border-color/'}></ListItem>
+                <ListItem className={'item-color-auto' + (storeTableSettings.colorAuto === 'auto' ? ' active' : '')} title={t('View.Edit.textAutomatic')} onClick={() => {
+                   storeTableSettings.setAutoColor('auto');
+                }}>
+                    <div slot="media">
+                        <div id='font-color-auto' className={'color-auto'}></div>
+                    </div>
+                </ListItem>
+            </List>
+            <ThemeColorPalette changeColor={changeColor} curColor={storeTableSettings.colorAuto || borderColor} customColors={customColors}/>
+            <List>
+                <ListItem title={t('View.Edit.textAddCustomColor')} link={'/edit-table-custom-border-color/'}></ListItem>
             </List>
         </Page>
     )
@@ -280,7 +289,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
             <ListItem title={_t.textColor} link='/edit-table-border-color/'>
                 <span className="color-preview"
                       slot="after"
-                      style={{ background: displayBorderColor}}
+                      style={{ background: storeTableSettings.colorAuto === 'auto' ? '#000' : displayBorderColor}}
                 ></span>
             </ListItem>
             <ListItem className='buttons table-presets'>
