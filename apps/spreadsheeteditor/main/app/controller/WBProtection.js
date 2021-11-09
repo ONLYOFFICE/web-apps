@@ -150,7 +150,7 @@ define([
                                 btn = result;
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        props.asc_setLockStructure(value, _.bind(me.onSetProtectedWorkbook, me));
+                                        props.asc_setLockStructure(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined, _.bind(me.onSetProtectedWorkbook, me));
                                     }
                                     Common.NotificationCenter.trigger('edit:complete');
                                 }
