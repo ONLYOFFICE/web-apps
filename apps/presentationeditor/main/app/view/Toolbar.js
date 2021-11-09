@@ -597,7 +597,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart],
+                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -607,7 +607,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart],
+                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -925,26 +925,26 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
-                                {
+                                me.mnuArrangeFront = new Common.UI.MenuItem({
                                     caption: me.textArrangeFront,
                                     iconCls: 'menu__icon arrange-front',
                                     value: 1
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBack = new Common.UI.MenuItem({
                                     caption: me.textArrangeBack,
                                     iconCls: 'menu__icon arrange-back',
                                     value: 2
-                                },
-                                {
+                                }),
+                                me.mnuArrangeForward = new Common.UI.MenuItem({
                                     caption: me.textArrangeForward,
                                     iconCls: 'menu__icon arrange-forward',
                                     value: 3
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBackward = new Common.UI.MenuItem({
                                     caption: me.textArrangeBackward,
                                     iconCls: 'menu__icon arrange-backward',
                                     value: 4
-                                },
+                                }),
                                 {caption: '--'},
                                 me.mnuGroupShapes = new Common.UI.MenuItem({
                                     caption: me.txtGroup,

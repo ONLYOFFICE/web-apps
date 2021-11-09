@@ -3457,7 +3457,8 @@ define([
                 is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
                 is_slicer       = seltype == Asc.c_oAscSelectionType.RangeSlicer,
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart || is_slicer,
-                is_objLocked    = false;
+                is_objLocked    = false,
+                is_smartart_internal = false;
 
             if (!(is_mode_2 || is_image) && this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===Asc.c_oAscSelectionType.RangeImage);
 
@@ -3465,8 +3466,14 @@ define([
                 var SelectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i=0; i<SelectedObjects.length; ++i)
                 {
-                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
+                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
                         is_objLocked = is_objLocked || SelectedObjects[i].asc_getObjectValue().asc_getLocked();
+                        var value = SelectedObjects[i].asc_getObjectValue(),
+                            shapeProps = value ? value.asc_getShapeProperties() : null;
+                        if (shapeProps) {
+                            is_smartart_internal = shapeProps.asc_getFromSmartArtInternal();
+                        }
+                    }
                 }
             }
 
@@ -3498,6 +3505,7 @@ define([
 
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
+                toolbar.lockToolbar(SSE.enumLock.inSmartartInternal, is_smartart_internal);
             }
 
             this._state.controlsdisabled.filters = is_image || is_mode_2 || coauth_disable;

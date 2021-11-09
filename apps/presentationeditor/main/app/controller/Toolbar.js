@@ -813,6 +813,11 @@ define([
             if (this._state.in_smartart_internal !== in_smartart_internal) {
                 this.toolbar.lockToolbar(PE.enumLock.inSmartartInternal, in_smartart_internal, {array: me.toolbar.paragraphControls});
                 this._state.in_smartart_internal = in_smartart_internal;
+
+                this.toolbar.mnuArrangeFront.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeBack.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
             }
         },
 
