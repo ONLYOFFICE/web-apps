@@ -804,6 +804,8 @@ define([
                     item.setDisabled(need_disable);
                 }, this);
             }
+            toolbar.btnDecLeftOffset.setDisabled(need_disable || shape_pr && shape_pr.asc_getFromSmartArtInternal());
+            toolbar.btnIncLeftOffset.setDisabled(need_disable || shape_pr && shape_pr.asc_getFromSmartArtInternal());
 
             in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
