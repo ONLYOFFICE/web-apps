@@ -5,8 +5,21 @@
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
 
 @brandColor: var(--brand-slide);
-@toolbar-background: var(--toolbar-pe-background);
 // @navBarIconColor: var(--toolbar-pe-icons);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #fff);
+    --toolbar-icons: var(--brand-slide, #aa5252);
+}
+.device-android {
+    --toolbar-background: var(--brand-slide, #aa5252);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-slide, #aa5252);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
 
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
