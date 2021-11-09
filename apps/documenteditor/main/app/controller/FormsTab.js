@@ -98,6 +98,9 @@ define([
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick
+                },
+                'Toolbar': {
+                    'tab:active': this.onActiveTab
                 }
             });
         },
@@ -188,6 +191,11 @@ define([
                 oPr = new AscCommon.CSdtTextFormPr();
                 this.api.asc_AddContentControlTextForm(oPr, oFormPr);
             }
+
+            var me = this;
+            setTimeout(function() {
+                me.showSaveFormTip();
+            }, 500);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -384,6 +392,35 @@ define([
                     }
                 });
                 tip.show();
+            }
+        },
+
+        showSaveFormTip: function() {
+            if (!Common.localStorage.getItem("de-hide-saveform-tip") && !this.tipSaveForm) {
+                var me = this;
+                me.tipSaveForm = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: 'bottom-right',
+                    target: this.view.btnSaveForm.$el,
+                    text: this.view.tipSaveForm,
+                    showLink: false,
+                    closable: false,
+                    showButton: true,
+                    textButton: this.view.textGotIt
+                });
+                me.tipSaveForm.on({
+                    'buttonclick': function() {
+                        Common.localStorage.setItem("de-hide-saveform-tip", 1);
+                        me.tipSaveForm.close();
+                    }
+                });
+                me.tipSaveForm.show();
+            }
+        },
+
+        onActiveTab: function(tab) {
+            if (tab !== 'forms') {
+                this.tipSaveForm && this.tipSaveForm.close();
             }
         }
 
