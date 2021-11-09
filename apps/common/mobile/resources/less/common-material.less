@@ -9,17 +9,20 @@
     @touchColor: rgba(255,255,255,0.1);
 
     --f7-navbar-shadow-image: none;
-
     --f7-theme-color: @brandColor;
 
     --f7-navbar-bg-color: @toolbar-background;
-    --f7-navbar-link-color: @navBarIconColor;
-    --f7-navbar-text-color: @navBarIconColor;
+    // --f7-navbar-link-color: @navBarIconColor;
+    // --f7-navbar-text-color: @navBarIconColor;
+    --f7-navbar-link-color: @fill-white;
+    --f7-navbar-text-color: @fill-white;
     --f7-navbar-height: 56px;
 
     --f7-subnavbar-bg-color: @toolbar-background;
-    --f7-subnavbar-link-color: @navBarIconColor;
-    --f7-subnavbar-text-color: @navBarIconColor;
+    // --f7-subnavbar-link-color: @navBarIconColor;
+    // --f7-subnavbar-text-color: @navBarIconColor;
+    --f7-subnavbar-link-color: @fill-white;
+    --f7-subnavbar-text-color: @fill-white;
     --f7-subnavbar-height: 56px;
 
     --f7-radio-active-color: @brandColor;
@@ -30,6 +33,15 @@
 
     --f7-link-highlight-color: transparent;
     --f7-link-touch-ripple-color: @touchColor;
+
+    --f7-text-color: var(--text-normal);
+    --f7-list-item-title-text-color: var(--text-normal);
+    --f7-list-item-text-text-color: var(--text-normal);
+    --f7-block-title-text-color: @text-secondary;
+    --f7-label-text-color: var(--text-normal);
+    --f7-page-bg-color: @background-tertiary;
+    --f7-list-bg-color: @background-primary;
+    --f7-list-chevron-icon-color: @text-tertiary;
 
     .button {
         --f7-touch-ripple-color: transparent;
@@ -43,7 +55,6 @@
 
     --f7-input-focused-border-color: @brandColor;
     --f7-label-focused-text-color: @brandColor;
-
     --f7-dialog-button-text-color: @brandColor;
 
     .navbar {
@@ -96,7 +107,7 @@
             height: 32px;
         }
         label {
-            color: @black;
+            color: var(--text-normal);
             margin: 0 5px;
             line-height: 32px;
         }
@@ -215,7 +226,8 @@
             }
         }
         .tab-link-highlight {
-            --f7-tabbar-link-active-border-color: rgba(255,255,255,0.5);
+            // --f7-tabbar-link-active-border-color: rgba(255,255,255,0.5);
+            --f7-tabbar-link-active-border-color: @toolbar-icons;
             position: absolute;
             left: 0;
             bottom: 0;
@@ -224,6 +236,9 @@
     }
     // List
     .list {
+        .item-inner {
+            color: var(--text-normal);
+        }
         li.no-indicator {
             .item-link {
                 .item-inner{
@@ -237,7 +252,7 @@
         .item-link {
             .item-inner {
                 .item-after {
-                    color: @black;
+                    color: var(--text-normal);
                 }
             }
         }
