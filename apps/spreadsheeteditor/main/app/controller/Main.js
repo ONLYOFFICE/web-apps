@@ -754,19 +754,9 @@ define([
                         text    = this.uploadImageTextText;
                         break;
 
-                    case Asc.c_oAscAsyncAction.Recalc:
-                        title   = this.titleRecalcFormulas;
-                        text    = this.textRecalcFormulas;
-                        break;
-
                     case Asc.c_oAscAsyncAction.SlowOperation:
                         title   = this.textPleaseWait;
                         text    = this.textPleaseWait;
-                        break;
-
-                    case Asc.c_oAscAsyncAction['PrepareToSave']:
-                        title   = this.savePreparingText;
-                        text    = this.savePreparingTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['Waiting']:
@@ -3000,8 +2990,6 @@ define([
             printTextText: 'Printing document...',
             uploadImageTitleText: 'Uploading Image',
             uploadImageTextText: 'Uploading image...',
-            savePreparingText: 'Preparing to save',
-            savePreparingTitle: 'Preparing to save. Please wait...',
             loadingDocumentTitleText: 'Loading spreadsheet',
             uploadImageSizeMessage: 'Maximium image size limit exceeded.',
             uploadImageExtMessage: 'Unknown image format.',
@@ -3016,8 +3004,6 @@ define([
             warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
             warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
             pastInMergeAreaError: 'Cannot change part of a merged cell',
-            titleRecalcFormulas: 'Calculating formulas...',
-            textRecalcFormulas: 'Calculating formulas...',
             textPleaseWait: 'It\'s working hard. Please wait...',
             errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
             errorWrongOperator: 'An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.',

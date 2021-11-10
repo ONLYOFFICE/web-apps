@@ -690,11 +690,6 @@ define([
                         text    = this.applyChangesTextText;
                         break;
 
-                    case Asc.c_oAscAsyncAction['PrepareToSave']:
-                        title   = this.savePreparingText;
-                        text    = this.savePreparingTitle;
-                        break;
-
                     case Asc.c_oAscAsyncAction['Waiting']:
                         title   = this.waitText;
                         text    = this.waitText;
@@ -2555,8 +2550,6 @@ define([
             txtNeedSynchronize: 'You have an updates',
             applyChangesTitleText: 'Loading Data',
             applyChangesTextText: 'Loading data...',
-            savePreparingText: 'Preparing to save',
-            savePreparingTitle: 'Preparing to save. Please wait...',
             loadingDocumentTitleText: 'Loading presentation',
             loadingDocumentTextText: 'Loading presentation...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
