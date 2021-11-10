@@ -5,7 +5,23 @@
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
 @brandColor: var(--brand-word);
-@toolbar-background: var(--toolbar-de-background);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #FFF);
+}
+
+.device-android {
+    --toolbar-background: var(--brand-word, #446995);
+    --button-active: fade(#446995, 30%);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-word, #446995);
+        --button-active: fade(#446995, 20%);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';
