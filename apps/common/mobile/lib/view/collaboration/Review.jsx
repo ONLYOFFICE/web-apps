@@ -26,11 +26,7 @@ const PageReview = props => {
            <List>
                {canReview &&
                     <ListItem title={_t.textTrackChanges} className={isDisableAllSettings ? 'disabled' : ''}>
-                        <Toggle checked={props.trackChanges} onToggleChange={
-                            (prev) => {
-                                props.onTrackChanges(!prev);
-                            }
-                        }/>
+                        <Toggle checked={props.trackChanges} onToggleChange={() => props.onTrackChanges(!props.trackChanges)}/>
                     </ListItem>
                }
                {!props.isRestrictedEdit &&
