@@ -87,6 +87,17 @@ define([
             return this;
         },
 
+        getContextMenu: function() {
+            return new Common.UI.Menu({
+                items: [
+                    { caption: this.textCut, value: 'cut' },
+                    { caption: this.textCopy, value: 'copy' },
+                    { caption: this.textPaste, value: 'paste' },
+                    { caption: this.textPrintSel, value: 'print' }
+                ]
+            });
+        },
+
         txtDownload: 'Download',
         txtPrint: 'Print',
         txtShare: 'Share',
@@ -98,6 +109,11 @@ define([
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
         textSubmit: 'Submit',
-        txtTheme: 'Interface theme'
+        txtTheme: 'Interface theme',
+        textCut: 'Cut',
+        textCopy: 'Copy',
+        textPaste: 'Paste',
+        textPrintSel: 'Print Selection'
+
     }, DE.Views.ApplicationView || {}));
 });

@@ -58,6 +58,12 @@
   "Common.Views.ShareDialog.textTitle": "Share Link",
   "Common.Views.ShareDialog.txtCopy": "Copy to clipboard",
   "Common.Views.ShareDialog.warnCopy": "Browser's error! Use keyboard shortcut [Ctrl] + [C]",
+  "Common.Views.CopyWarningDialog.textDontShow": "Don't show this message again",
+  "Common.Views.CopyWarningDialog.textMsg": "Copy, cut and paste actions using context menu actions will be performed within this editor tab only.<br><br>To copy or paste to or from applications outside the editor tab use the following keyboard combinations:",
+  "Common.Views.CopyWarningDialog.textTitle": "Copy, Cut and Paste Actions",
+  "Common.Views.CopyWarningDialog.textToCopy": "for Copy",
+  "Common.Views.CopyWarningDialog.textToCut": "for Cut",
+  "Common.Views.CopyWarningDialog.textToPaste": "for Paste",
   "DE.Controllers.ApplicationController.convertationErrorText": "Conversion failed.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Conversion timeout exceeded.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Error",
@@ -115,5 +121,9 @@
   "DE.Views.ApplicationView.txtFullScreen": "Full Screen",
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme",
+  "DE.Views.ApplicationView.textCut": "Cut",
+  "DE.Views.ApplicationView.textCopy": "Copy",
+  "DE.Views.ApplicationView.textPaste": "Paste",
+  "DE.Views.ApplicationView.textPrintSel": "Print Selection"
 }
