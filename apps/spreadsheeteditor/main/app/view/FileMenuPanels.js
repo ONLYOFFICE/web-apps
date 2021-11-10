@@ -1491,18 +1491,18 @@ define([
 
         template: _.template([
             '<table class="main" style="margin: 30px 0;"><tbody>',
-            '<tr>',
+            '<tr class="spellcheck">',
                 '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
                 '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language"></span></td>',
             '</tr>',
-            '<tr>',
+            '<tr class="spellcheck">',
                 '<td class="left" style="padding-bottom: 8px;"></td>',
                 '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words"></span></td>',
             '</tr>',
-            '<tr>',
+            '<tr class="spellcheck">',
                 '<td class="left"></td>',
                 '<td class="right"><span id="fms-chb-ignore-numbers-words"></span></td>',
-            '</tr>','<tr class="divider"></tr>',
+            '</tr>','<tr class="divider spellcheck"></tr>',
             '<tr>',
                 '<td class="left"><label><%= scope.txtProofing %></label></td>',
                 '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
@@ -1584,6 +1584,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -1591,6 +1592,8 @@ define([
         },
 
         updateSettings: function() {
+            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
+
             var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                 allLangs = arrLang[0],
                 langs = arrLang[1],
@@ -1627,6 +1630,8 @@ define([
         },
 
         applySettings: function() {
+            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
+
             var value = this.chIgnoreUppercase.isChecked();
             Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
             Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);

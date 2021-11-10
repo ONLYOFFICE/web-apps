@@ -54,7 +54,9 @@ define([
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
     'presentationeditor/main/app/collection/EquationGroups',
-    'common/main/lib/component/HintManager'
+    'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/HintManager',
+    'common/main/lib/controller/LayoutManager'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -774,9 +776,17 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = Common.localStorage.getBool("pe-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
-                Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                // spellcheck
+                value = Common.UI.FeaturesManager.getInitValue('spellcheck');
+                value = (value !== undefined) ? value : !(this.appOptions.customization && this.appOptions.customization.spellcheck===false);
+                if (this.appOptions.customization && this.appOptions.customization.spellcheck!==undefined)
+                    console.log("Obsolete: The 'spellcheck' parameter of the 'customization' section is deprecated. Please use 'spellcheck' parameter in the 'customization.features' section instead.");
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get from local storage
+                    value = Common.localStorage.getBool("pe-settings-spellcheck", value);
+                    Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                }
                 me.api.asc_setSpellCheck(value);
+                Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
                 value = Common.localStorage.getBool('pe-hidden-notes', this.appOptions.customization && this.appOptions.customization.hideNotes===true);
                 me.api.asc_ShowNotes(!value);
@@ -1146,6 +1156,8 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
 
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
@@ -1696,6 +1708,13 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.UI.LayoutManager.applyCustomization();
+                        if (this.appOptions.customization && (typeof (this.appOptions.customization) == 'object')) {
+                            if (this.appOptions.customization.leftMenu!==undefined)
+                                console.log("Obsolete: The 'leftMenu' parameter of the 'customization' section is deprecated. Please use 'leftMenu' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.rightMenu!==undefined)
+                                console.log("Obsolete: The 'rightMenu' parameter of the 'customization' section is deprecated. Please use 'rightMenu' parameter in the 'customization.layout' section instead.");
+                        }
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }

@@ -2479,11 +2479,11 @@ define([
             }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 4);
-                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
             }
 
             if ( config.isEdit ) {
@@ -2510,7 +2510,7 @@ define([
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
                             me.toolbar.addTab(tab, $panel, 4);

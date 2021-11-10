@@ -27,10 +27,11 @@
         <label id="status-label-action" class="status-label"></label>
     </div>
     <div class="status-group" style="">
-        <span id="btn-cnt-lang" class="el-edit"></span>
-        <span id="btn-doc-lang" class="el-edit"></span>
+        <span id="btn-cnt-lang" class="el-edit" data-layout-name="statusBar-textLang"></span>
+        <span id="btn-doc-lang" class="el-edit" data-layout-name="statusBar-docLang"></span>
+        <div class="separator short el-edit space"></div>
         <span id="btn-doc-spell" class="el-edit"></span>
-        <div class="separator short el-edit"></div>
+        <div class="separator short el-edit el-lang"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide"></i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth"></i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown"></i></button>

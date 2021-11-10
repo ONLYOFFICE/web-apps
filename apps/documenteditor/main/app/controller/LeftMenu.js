@@ -503,9 +503,11 @@ define([
                     this.api.asc_setAutoSaveGap(value);
                 }
 
-                value = Common.localStorage.getBool("de-settings-spellcheck", true);
-                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
-                this.api.asc_setSpellCheck(value);
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+                    value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                    Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                    this.api.asc_setSpellCheck(value);
+                }
 
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
                 Common.Utils.InternalSettings.set("de-settings-paste-button", value);

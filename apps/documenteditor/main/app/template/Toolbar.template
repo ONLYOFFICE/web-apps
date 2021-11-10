@@ -124,7 +124,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-controls"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="layout">
+            <section class="panel" data-tab="layout" data-layout-name="toolbar-layout">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
@@ -146,7 +146,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="links">
+            <section class="panel" data-tab="links" data-layout-name="toolbar-references">
                 <div class="group">
                     <span class="btn-slot text x-huge btn-contents"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-contents-update"></span>

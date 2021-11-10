@@ -8,10 +8,10 @@
         <div id="toolbar" class="layout-item hint-section"></div>
         <div class="layout-item middle">
             <div id="viewport-hbox-layout" class="layout-ct hbox">
-                <div id="left-menu" class="layout-item hint-section" style="width: 40px;"></div>
+                <div id="left-menu" class="layout-item hint-section" data-layout-name="leftMenu" style="width: 40px;"></div>
                 <div id="about-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
                 <div id="editor-container" class="layout-item"><div id="editor_sdk"></div></div>
-                <div id="right-menu" class="layout-item hint-section"></div>
+                <div id="right-menu" class="layout-item hint-section" data-layout-name="rightMenu"></div>
                 <div id="left-panel-history" class="layout-item"></div>
             </div>
         </div>

@@ -145,12 +145,43 @@
                         reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
+                    layout: { // hide elements, but don't disable feature
+                        toolbar: {
+                            file: { // menu file
+                                close: false / true, // close menu button
+                                settings: false / true, // advanced settings
+                                info: false / true // document info
+                            } / false / true,
+                            layout:  false / true, // layout tab
+                            references:  false / true, // de references tab
+                            collaboration:  false / true // collaboration tab
+                            protect:  false / true, // protect tab
+                            plugins:  false / true // plugins tab
+                        },
+                        header: {
+                            users: false/true // users list button
+                        },
+                        leftMenu: {
+                            navigation: false/true
+                        } / false / true, // use instead of customization.leftMenu
+                        rightMenu: false/true, // use instead of customization.rightMenu
+                        statusBar: {
+                            textLang: false/true // text language button in de/pe
+                            docLang: false/true // document language button in de/pe
+                        }
+                    },
+                    features: { // disable feature
+                        spellcheck: {
+                            mode: false/true // init value
+                            change: false/true // hide/show feature
+                        } / false / true // if false/true - use as init value. use instead of customization.spellcheck parameter
+                    },
                     chat: true,
                     comments: true,
                     zoom: 100,
                     compactToolbar: false,
-                    leftMenu: true,
-                    rightMenu: true,
+                    leftMenu: true, // must be deprecated. use layout.leftMenu instead
+                    rightMenu: true, // must be deprecated. use layout.rightMenu instead
                     hideRightMenu: false, // hide or show right panel on first loading
                     toolbar: true,
                     statusBar: true,
@@ -163,7 +194,7 @@
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
-                    spellcheck: true,
+                    spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
                     mentionShare : true // customize tooltip for mention,

@@ -353,10 +353,10 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false},
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', layoutname: 'toolbar-layout'},
                         {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
                         {caption: me.textTabData, action: 'data', extcls: 'canedit'},
                         undefined, undefined, undefined,
@@ -1616,7 +1616,7 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                         template: _.template(template_view),
                         tabs: [
-                            {caption: me.textTabFile, action: 'file', haspanel:false}
+                            {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel:false}
                         ]
                     }
                 );

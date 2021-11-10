@@ -53,7 +53,9 @@ define([
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups',
-    'common/main/lib/component/HintManager'
+    'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/HintManager',
+    'common/main/lib/controller/LayoutManager'
 ], function () {
     'use strict';
 
@@ -1117,9 +1119,17 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getBool("de-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
-                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                // spellcheck
+                value = Common.UI.FeaturesManager.getInitValue('spellcheck');
+                value = (value !== undefined) ? value : !(this.appOptions.customization && this.appOptions.customization.spellcheck===false);
+                if (this.appOptions.customization && this.appOptions.customization.spellcheck!==undefined)
+                    console.log("Obsolete: The 'spellcheck' parameter of the 'customization' section is deprecated. Please use 'spellcheck' parameter in the 'customization.features' section instead.");
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get from local storage
+                    value = Common.localStorage.getBool("de-settings-spellcheck", value);
+                    Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                }
                 me.api.asc_setSpellCheck(value);
+                Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
                 value = Common.localStorage.getBool("de-settings-compatible", false);
                 Common.Utils.InternalSettings.set("de-settings-compatible", value);
@@ -1471,6 +1481,8 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -2059,6 +2071,13 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.UI.LayoutManager.applyCustomization();
+                        if (this.appOptions.customization && (typeof (this.appOptions.customization) == 'object')) {
+                            if (this.appOptions.customization.leftMenu!==undefined)
+                                console.warn("Obsolete: The 'leftMenu' parameter of the 'customization' section is deprecated. Please use 'leftMenu' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.rightMenu!==undefined)
+                                console.warn("Obsolete: The 'rightMenu' parameter of the 'customization' section is deprecated. Please use 'rightMenu' parameter in the 'customization.layout' section instead.");
+                        }
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }

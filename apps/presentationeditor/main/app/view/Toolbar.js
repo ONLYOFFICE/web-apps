@@ -131,7 +131,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                                 {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit'}
@@ -1089,7 +1089,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template_view),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', haspanel:false}
+                                {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel:false}
                             ]
                         }
                     );

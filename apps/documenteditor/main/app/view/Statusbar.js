@@ -207,7 +207,6 @@ define([
                     cls         : 'btn-toolbar',
                     caption     : 'English (United States)',
                     hintAnchor  : 'top-left',
-                    style       : 'margin-left: 6px;',
                     disabled: true,
                     dataHint    : '0',
                     dataHintDirection: 'top',
