@@ -126,7 +126,8 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 var props = me.api.asc_getProtectedWorkbook();
-                                props.asc_setLockStructure(value, _.bind(me.onSetProtectedWorkbook, me));
+                                props.asc_setLockStructure(value);
+                                me.api.asc_setProtectedWorkbook(props);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -151,7 +152,8 @@ define([
                                 btn = result;
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        props.asc_setLockStructure(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined, _.bind(me.onSetProtectedWorkbook, me));
+                                        props.asc_setLockStructure(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
+                                        me.api.asc_setProtectedWorkbook(props);
                                     }
                                     Common.NotificationCenter.trigger('edit:complete');
                                 }
@@ -163,13 +165,10 @@ define([
 
                     win.show();
                 } else {
-                    props.asc_setLockStructure(undefined, _.bind(me.onSetProtectedWorkbook, me));
+                    props.asc_setLockStructure();
+                    me.api.asc_setProtectedWorkbook(props);
                 }
             }
-        },
-
-        onSetProtectedWorkbook: function(props) {
-            this.api.asc_setProtectedWorkbook(props);
         },
 
         onSheetClick: function(state) {
@@ -184,7 +183,8 @@ define([
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                props.asc_setSheet(value, _.bind(me.onSetProtectedSheet, me));
+                                props.asc_setSheet(value);
+                                me.api.asc_setProtectedSheet(props);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -209,7 +209,8 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    props.asc_setSheet(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined, _.bind(me.onSetProtectedSheet, me));
+                                    props.asc_setSheet(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
+                                    me.api.asc_setProtectedSheet(props);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -221,13 +222,10 @@ define([
 
                     win.show();
                 } else {
-                    props.asc_setSheet(undefined, _.bind(me.onSetProtectedSheet, me));
+                    props.asc_setSheet();
+                    me.api.asc_setProtectedSheet(props);
                 }
             }
-        },
-
-        onSetProtectedSheet: function(props) {
-            this.api.asc_setProtectedSheet(props);
         },
 
         onRangesClick: function() {
