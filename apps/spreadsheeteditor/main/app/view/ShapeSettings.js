@@ -98,7 +98,9 @@ define([
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
                 HideChangeTypeSettings: false,
-                isFromImage: false
+                HideRotationSettings: false,
+                isFromImage: false,
+                isFromSmartArtInternal: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -134,6 +136,7 @@ define([
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
+            this.RotationSettings = $('.shape-rotation');
         },
 
         render: function () {
@@ -759,16 +762,18 @@ define([
 
                 this.disableControls(this._locked, !shapeprops.asc_getCanFill());
                 this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || shapeprops.asc_getFromImage());
+                this.hideRotationSettings(shapeprops.asc_getFromSmartArt());
 
-                var hidechangetype = shapeprops.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                var hidechangetype = shapeprops.get_FromChart() || shapeprops.asc_getFromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
                 this._state.isFromImage = !!shapeprops.get_FromImage();
+                this._state.isFromSmartArtInternal = !!shapeprops.asc_getFromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
-                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
+                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage() || shapeprops.asc_getFromSmartArtInternal());
+                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage() && !shapeprops.asc_getFromSmartArtInternal());
                 }
 
                 // background colors
@@ -1715,8 +1720,8 @@ define([
                         me.btnChangeShape.menu.hide();
                 });
             }
-            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
-            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
+            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage || me._state.isFromSmartArtInternal);
+            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage && !me._state.isFromSmartArtInternal);
         },
 
         onBtnRotateClick: function(btn) {
@@ -1871,6 +1876,13 @@ define([
             if (this._state.HideChangeTypeSettings !== value) {
                 this._state.HideChangeTypeSettings = value;
                 this.CanChangeType.toggleClass('hidden', value==true);
+            }
+        },
+
+        hideRotationSettings: function(value) {
+            if (this._state.HideRotationSettings !== value) {
+                this._state.HideRotationSettings = value;
+                this.RotationSettings.toggleClass('hidden', value==true);
             }
         },
 

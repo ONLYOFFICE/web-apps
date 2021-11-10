@@ -2699,56 +2699,64 @@ define([
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Ungroup Image');
             });
 
+            var mnuArrangeFront = new Common.UI.MenuItem({
+                caption     : this.textArrangeFront,
+                iconCls     : 'menu__icon arrange-front'
+            }).on('click', function(item) {
+                if (me.api) {
+                    me.api.shapes_bringToFront();
+                }
+
+                me.fireEvent('editcomplete', me);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
+            });
+
+            var mnuArrangeBack = new Common.UI.MenuItem({
+                caption     : this.textArrangeBack,
+                iconCls     : 'menu__icon arrange-back'
+            }).on('click', function(item) {
+                if (me.api) {
+                    me.api.shapes_bringToBack();
+                }
+
+                me.fireEvent('editcomplete', me);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
+            });
+
+            var mnuArrangeForward = new Common.UI.MenuItem({
+                caption     : this.textArrangeForward,
+                iconCls     : 'menu__icon arrange-forward'
+            }).on('click', function(item) {
+                if (me.api) {
+                    me.api.shapes_bringForward();
+                }
+
+                me.fireEvent('editcomplete', me);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
+            });
+
+            var mnuArrangeBackward = new Common.UI.MenuItem({
+                caption     : this.textArrangeBackward,
+                iconCls     : 'menu__icon arrange-backward'
+            }).on('click', function(item) {
+                if (me.api) {
+                    me.api.shapes_bringBackward();
+                }
+
+                me.fireEvent('editcomplete', me);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
+            });
+
             var menuImgShapeArrange = new Common.UI.MenuItem({
                 caption     : me.txtArrange,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
-                        new Common.UI.MenuItem({
-                            caption     : this.textArrangeFront,
-                            iconCls     : 'menu__icon arrange-front'
-                        }).on('click', function(item) {
-                            if (me.api) {
-                                me.api.shapes_bringToFront();
-                            }
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : this.textArrangeBack,
-                            iconCls     : 'menu__icon arrange-back'
-                        }).on('click', function(item) {
-                            if (me.api) {
-                                me.api.shapes_bringToBack();
-                            }
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : this.textArrangeForward,
-                            iconCls     : 'menu__icon arrange-forward'
-                        }).on('click', function(item) {
-                            if (me.api) {
-                                me.api.shapes_bringForward();
-                            }
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : this.textArrangeBackward,
-                            iconCls     : 'menu__icon arrange-backward'
-                        }).on('click', function(item) {
-                            if (me.api) {
-                                me.api.shapes_bringBackward();
-                            }
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
-                        }),
+                        mnuArrangeFront,
+                        mnuArrangeBack,
+                        mnuArrangeForward,
+                        mnuArrangeBackward,
                         {caption: '--'},
                         mnuGroupImg,
                         mnuUnGroupImg
@@ -3548,11 +3556,17 @@ define([
                         shapedisabled = (value.shapeProps!==undefined && value.shapeProps.locked),
                         chartdisabled = (value.chartProps!==undefined && value.chartProps.locked),
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
-                        pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
+                        pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
+                        inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
+
+                    mnuArrangeFront.setDisabled(inSmartartInternal);
+                    mnuArrangeBack.setDisabled(inSmartartInternal);
+                    mnuArrangeForward.setDisabled(inSmartartInternal);
+                    mnuArrangeBackward.setDisabled(inSmartartInternal);
 
                     menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgShapeRotate.isVisible())
-                        menuImgShapeRotate.setDisabled(disabled);
+                        menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
 
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);

@@ -1831,7 +1831,9 @@ define([
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
-                xfs = cellinfo.asc_getXfs();
+                xfs = cellinfo.asc_getXfs(),
+                isSmartArt = false,
+                isSmartArtInternal = false;
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:    iscellmenu = true; break;
@@ -1871,6 +1873,10 @@ define([
                             else {
                                 documentHolder.mnuShapeAdvanced.shapeInfo = elValue;
                                 isshapemenu = true;
+                                if (shapeprops.asc_getFromSmartArt())
+                                    isSmartArt = true;
+                                if (shapeprops.asc_getFromSmartArtInternal())
+                                    isSmartArtInternal = true;
                             }
                         } else if ( elValue.asc_getChartProperties() ) {
                             documentHolder.mnuChartEdit.chartInfo = elValue;
@@ -1887,6 +1893,11 @@ define([
                             signGuid = elValue.asc_getSignatureId();
                     }
                 }
+
+                documentHolder.mnuBringToFront.setDisabled(isSmartArtInternal);
+                documentHolder.mnuSendToBack.setDisabled(isSmartArtInternal);
+                documentHolder.mnuBringForward.setDisabled(isSmartArtInternal);
+                documentHolder.mnuSendBackward.setDisabled(isSmartArtInternal);
 
                 var cangroup = this.api.asc_canGroupGraphicsObjects();
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
@@ -1919,7 +1930,7 @@ define([
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
-                documentHolder.menuImgRotate.setDisabled(isObjLocked);
+                documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);
@@ -1957,8 +1968,11 @@ define([
                         var value = selectedObjects[i].asc_getObjectValue(),
                             align = value.asc_getVerticalTextAlign(),
                             direct = value.asc_getVert(),
-                            listtype = this.api.asc_getCurrentListType();
+                            listtype = this.api.asc_getCurrentListType(),
+                            shapeProps = value ? value.asc_getShapeProperties() : null;
                         isObjLocked = isObjLocked || value.asc_getLocked();
+                        isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
+                        isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;
                         var cls = '';
                         switch (align) {
                             case Asc.c_oAscVAlign.Top:
@@ -2033,6 +2047,8 @@ define([
                     this.clearEquationMenu(4);
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
+
+                documentHolder.menuParagraphBullets.setDisabled(isSmartArt || isSmartArtInternal);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;

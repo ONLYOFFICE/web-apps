@@ -569,6 +569,15 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
         _setDefaults: function(props) {
             if (props ){
+                if (props.get_FromSmartArt()) {
+                    this.btnsCategory[1].setDisabled(true);
+                }
+                if (props.get_FromSmartArtInternal()) {
+                    this.radioNofit.setDisabled(true);
+                    this.radioShrink.setDisabled(true);
+                    this.radioFit.setDisabled(true);
+                }
+
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
 
@@ -606,7 +615,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[4].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                this.btnsCategory[4].setDisabled(props.get_FromSmartArtInternal()
+                    || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1');

@@ -84,7 +84,9 @@ define([
         inEquation: 'in-equation',
         commentLock: 'can-comment',
         noColumns: 'no-columns',
-        transitLock: 'transit-lock'
+        transitLock: 'transit-lock',
+        inSmartart: 'in-smartart',
+        inSmartartInternal: 'in-smartart-internal'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -376,7 +378,7 @@ define([
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inSmartart, _set.inSmartartInternal],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
                             items: [
@@ -453,7 +455,7 @@ define([
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-setmarkers',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -468,7 +470,7 @@ define([
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-numbering',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -595,7 +597,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -605,7 +607,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -923,26 +925,26 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
-                                {
+                                me.mnuArrangeFront = new Common.UI.MenuItem({
                                     caption: me.textArrangeFront,
                                     iconCls: 'menu__icon arrange-front',
                                     value: 1
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBack = new Common.UI.MenuItem({
                                     caption: me.textArrangeBack,
                                     iconCls: 'menu__icon arrange-back',
                                     value: 2
-                                },
-                                {
+                                }),
+                                me.mnuArrangeForward = new Common.UI.MenuItem({
                                     caption: me.textArrangeForward,
                                     iconCls: 'menu__icon arrange-forward',
                                     value: 3
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBackward = new Common.UI.MenuItem({
                                     caption: me.textArrangeBackward,
                                     iconCls: 'menu__icon arrange-backward',
                                     value: 4
-                                },
+                                }),
                                 {caption: '--'},
                                 me.mnuGroupShapes = new Common.UI.MenuItem({
                                     caption: me.txtGroup,

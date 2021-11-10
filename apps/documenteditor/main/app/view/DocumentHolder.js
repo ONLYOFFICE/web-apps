@@ -143,8 +143,13 @@ define([
                                 menu_props.imgProps.isChart = true;
                             else if (shapeprops.get_FromImage())
                                 menu_props.imgProps.isOnlyImg = true;
-                            else
+                            else {
+                                if (shapeprops.get_FromSmartArt())
+                                    menu_props.imgProps.isSmartArt = true;
+                                if (shapeprops.get_FromSmartArtInternal())
+                                    menu_props.imgProps.isSmartArtInternal = true;
                                 menu_props.imgProps.isShape = true;
+                            }
                         } else if ( chartprops )
                             menu_props.imgProps.isChart = true;
                         else
@@ -2693,7 +2698,7 @@ define([
 
                     menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgRotate.isVisible())
-                        menuImgRotate.setDisabled(islocked);
+                        menuImgRotate.setDisabled(islocked || value.imgProps.isSmartArt);
 
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
@@ -2713,7 +2718,12 @@ define([
                         menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
                     }
-                    menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked);
+                    menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked ||
+                        (me.api && !me.api.CanUnGroup() && !me.api.CanGroup() && value.imgProps.isSmartArtInternal));
+                    menuImageArrange.menu.items[0].setDisabled(value.imgProps.isSmartArtInternal);
+                    menuImageArrange.menu.items[1].setDisabled(value.imgProps.isSmartArtInternal);
+                    menuImageArrange.menu.items[2].setDisabled(value.imgProps.isSmartArtInternal);
+                    menuImageArrange.menu.items[3].setDisabled(value.imgProps.isSmartArtInternal);
 
                     if (me.api) {
                         mnuUnGroup.setDisabled(islocked || !me.api.CanUnGroup());

@@ -104,7 +104,8 @@ define([
         itemsDisabled: 'all-items-disabled',
         wsLockText: 'worksheet-lock-text',
         wsLockShape: 'worksheet-lock-shape',
-        wsLockFormat: 'worksheet-lock-format'
+        wsLockFormat: 'worksheet-lock-format',
+        inSmartartInternal: 'in-smartart-internal'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1593,7 +1594,7 @@ define([
                     iconCls: 'toolbar__icon btn-img-frwd',
                     caption: me.capImgForward,
                     split: true,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -1603,7 +1604,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-bkwd',
                     caption: me.capImgBackward,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     split: true,
                     menu: true,
                     dataHint: '1',

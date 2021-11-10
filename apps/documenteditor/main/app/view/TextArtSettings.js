@@ -90,7 +90,9 @@ define([
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 FormId: null,
                 DisabledControls: false,
-                applicationPixelRatio: Common.Utils.applicationPixelRatio()
+                applicationPixelRatio: Common.Utils.applicationPixelRatio(),
+                isFromSmartArtInternal: false,
+                HideTransformSettings: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -122,6 +124,8 @@ define([
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
+
+            this.TransformSettings = $('.textart-transform');
 
             $(window).on('resize', _.bind(this.onWindowResize, this));
         },
@@ -546,6 +550,9 @@ define([
 
             if (this._initSettings)
                 this.createDelayedElements();
+
+            this._state.isFromSmartArtInternal = props.get_ShapeProperties() && props.get_ShapeProperties().get_FromSmartArtInternal();
+            this.hideTransformSettings(this._state.isFromSmartArtInternal);
 
             if (props && props.get_ShapeProperties() && props.get_ShapeProperties().get_TextArtProperties())
             {
@@ -1342,6 +1349,13 @@ define([
                 this.fillTransform(this.api.asc_getPropertyEditorTextArts());
 
             this._state.applicationPixelRatio = Common.Utils.applicationPixelRatio();
+        },
+
+        hideTransformSettings: function(value) {
+            if (this._state.HideTransformSettings !== value) {
+                this._state.HideTransformSettings = value;
+                this.TransformSettings.toggleClass('hidden', value === true);
+            }
         },
 
         txtNoBorders            : 'No Line',
