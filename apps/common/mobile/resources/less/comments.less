@@ -36,7 +36,7 @@
         }
         .wrap-textarea {
           textarea {
-            color: @black;
+            color: @fill-black;
             width: 100%;
           }
         }
@@ -75,14 +75,14 @@
   .user-name {
     font-size: 16px;
     line-height: 22px;
-    color: @black;
+    color: @text-normal;
     margin: 0;
     font-weight: 700;
   }
   .comment-date, .reply-date {
     font-size: 12px;
     line-height: 18px;
-    color: @comment-date;
+    color: @text-secondary;
     margin: 0;
   }
   .comment-quote {
@@ -94,7 +94,7 @@
     font-size: 14px;
   }
   .comment-text, .reply-text {
-    color: @black;
+    color: @text-normal;
     font-size: 14px;
     line-height: 25px;
     margin: 0;
@@ -130,11 +130,13 @@
     display: flex;
     justify-content: center;
     height: 40px;
+    background-color: @background-primary;
     .icon-swipe {
       margin-top: 8px;
       width: 40px;
       height: 4px;
-      background: @swipe-icon;
+      // background: @swipe-icon;
+      background: @background-menu-divider;
       border-radius: 2px;
     }
   }
@@ -143,7 +145,7 @@
 #view-comment-popover, #view-comment-sheet {
   .toolbar {
     position: fixed;
-    background-color: @white;
+    background-color: @background-primary;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
     .link {
       --f7-toolbar-link-color: @brandColor;
@@ -168,7 +170,7 @@
 }
 
 #view-comment-popover {
-  background-color: @white;
+  background-color: @background-primary;
   .pages {
     position: absolute;
   }
@@ -197,7 +199,8 @@
 .page-current-comment {
   position: relative;
   .page-content {
-    background-color: @white;
+    // background-color: @fill-white;
+    background-color: @background-primary;
   }
   .comment-list {
     ul {
@@ -227,7 +230,7 @@
 .no-comments {
   text-align: center;
   margin-top: 35px;
-  color: var(--text-normal);
+  color: @text-normal;
 }
 
 .actions-modal.modal-in {

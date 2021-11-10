@@ -5,6 +5,8 @@
     @white: #fff;
     @darkGreen: #40865c;
     @darkGrey: #757575;
+    @text-normal: var(--text-normal);
+    @text-on-brand: var(--text-on-brand);
 
     @touchColor: rgba(255,255,255,0.1);
 
@@ -12,15 +14,11 @@
     --f7-theme-color: @brandColor;
 
     --f7-navbar-bg-color: @toolbar-background;
-    // --f7-navbar-link-color: @navBarIconColor;
-    // --f7-navbar-text-color: @navBarIconColor;
     --f7-navbar-link-color: @fill-white;
     --f7-navbar-text-color: @fill-white;
     --f7-navbar-height: 56px;
 
     --f7-subnavbar-bg-color: @toolbar-background;
-    // --f7-subnavbar-link-color: @navBarIconColor;
-    // --f7-subnavbar-text-color: @navBarIconColor;
     --f7-subnavbar-link-color: @fill-white;
     --f7-subnavbar-text-color: @fill-white;
     --f7-subnavbar-height: 56px;
@@ -33,15 +31,6 @@
 
     --f7-link-highlight-color: transparent;
     --f7-link-touch-ripple-color: @touchColor;
-
-    --f7-text-color: var(--text-normal);
-    --f7-list-item-title-text-color: var(--text-normal);
-    --f7-list-item-text-text-color: var(--text-normal);
-    --f7-block-title-text-color: @text-secondary;
-    --f7-label-text-color: var(--text-normal);
-    --f7-page-bg-color: @background-tertiary;
-    --f7-list-bg-color: @background-primary;
-    --f7-list-chevron-icon-color: @text-tertiary;
 
     .button {
         --f7-touch-ripple-color: transparent;
@@ -78,6 +67,20 @@
         }
     }
 
+    .page {
+        --f7-text-color: @text-normal;
+        --f7-list-item-title-text-color: @text-normal;
+        --f7-list-item-text-text-color: @text-normal;
+        --f7-block-title-text-color: @text-secondary;
+        --f7-input-placeholder-color: @text-secondary;
+        --f7-label-text-color: @text-normal;
+        --f7-page-bg-color: @background-tertiary;
+        --f7-list-bg-color: @background-primary;
+        --f7-list-item-border-color: @background-menu-divider;
+        --f7-list-chevron-icon-color: @text-tertiary;
+        --f7-toggle-inactive-color: @background-menu-divider;
+    }
+
     .add-popup {
         .view{
             .block-title{
@@ -107,7 +110,7 @@
             height: 32px;
         }
         label {
-            color: var(--text-normal);
+            color: @text-normal;
             margin: 0 5px;
             line-height: 32px;
         }
@@ -142,7 +145,7 @@
     }
 
     .button-fill {
-        color: @white;
+        color: @text-on-brand;
         // background-color: @brandColor;
         background-color: transparent;
     }
@@ -152,18 +155,19 @@
     }
 
     .button-red {
-        color: @white;
-        background-color: @red;
+        color: @text-on-brand;
+        background-color: @text-error;
     }
 
     .buttons-list {
         ul {
+            background-color: @background-tertiary;
             &::before, &::after {
                 display: none;
             }
             li {
                 margin: 20px 16px;
-                color: @white;
+                color: @fill-white;
                 border-radius: 2px;
                 text-transform: uppercase;
                 height: 36px;
@@ -180,7 +184,7 @@
     }
     .button-fill .list-button {
         background-color: @brandColor;
-        color: @white;
+        color: @text-on-brand;
         height: 36px;
         text-align: center;
         line-height: 36px;
@@ -195,7 +199,7 @@
         box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
     }
     .button-red .list-button {
-        background-color: @red;
+        background-color: @text-error;
     }
     // Tabs
     .tab-buttons {
@@ -219,9 +223,10 @@
                 opacity: 0.5;
             }
             &.tab-link-active {
-                color: @white;
+                color: @fill-white;
                 i.icon {
                     opacity: 1;
+                    background-color: @fill-white;
                 }
             }
         }
@@ -237,7 +242,7 @@
     // List
     .list {
         .item-inner {
-            color: var(--text-normal);
+            color: @text-normal;
         }
         li.no-indicator {
             .item-link {
@@ -252,7 +257,7 @@
         .item-link {
             .item-inner {
                 .item-after {
-                    color: var(--text-normal);
+                    color: @text-normal;
                 }
             }
         }
@@ -295,10 +300,11 @@
                                 margin-left: 0;
                             }
                             &.active {
-                                color: @white;
+                                color: @fill-white;
                                 background-color: @brandColor;
+                                // background-color: fade(@brandColor, 20%);
                                 i.icon {
-                                    background-color: @white;
+                                    background-color: @fill-white;
                                 }
                             }
                         }
@@ -365,7 +371,7 @@
             .thumb {
                 width: 100%;
                 height: 100%;
-                background-color: @white;
+                background-color: @fill-white;
                 background-size: cover;
 
                 label {
@@ -444,7 +450,7 @@
         height: 18px;
         margin-top: -8px;
         &:after {
-            color: @white;
+            color: @fill-white;
             font-size: 19px;
             line-height: 19px;
         }
@@ -452,7 +458,7 @@
 
     .searchbar-icon {
         &:after {
-            color: @white;
+            color: @fill-white;
             font-size: 19px;
         }
     }
@@ -465,11 +471,11 @@
         appearance: none;
         border-radius: 0;
         font-family: inherit;
-        color: @white;
+        color: @fill-white;
         font-size: 16px;
         font-weight: 400;
         padding: 0;
-        border-bottom: 1px solid @white;
+        border-bottom: 1px solid @fill-white;
         height: 100%;
         padding: 0 36px 0 24px;
         background-color: transparent;
@@ -478,11 +484,11 @@
         opacity: 1;
         background-size: 24px 24px;
         transition-duration: .3s;
-        .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+        .encoded-svg-mask('<svg xmlns="http://www.w3.org/2000/svg" fill="@{fill-white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z"/></svg>', @fill-white);
     }
 
     .searchbar input[type=search]::placeholder {
-        color: @white;
+        color: @fill-white;
     }
 
     .navbar {
@@ -510,7 +516,7 @@
             height: 56px;
         }
         .buttons-row-replace a {
-            color: @white;
+            color: @fill-white;
             padding: 0;
         }
         .searchbar .buttons-row {
