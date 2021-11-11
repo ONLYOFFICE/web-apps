@@ -776,8 +776,7 @@ define([
                 this._state.isFromImage = !!props.get_FromImage();
                 this._state.isFromSmartArtInternal = !!props.get_FromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.menu.items[0].setVisible(props.get_FromImage() || props.get_FromSmartArtInternal());
-                    this.btnChangeShape.menu.items[1].setVisible(!props.get_FromImage() && !props.get_FromSmartArtInternal());
+                    this.btnChangeShape.shapePicker.hideTextRect(props.get_FromImage() || props.get_FromSmartArtInternal());
                 }
 
                 // background colors
@@ -1685,36 +1684,31 @@ define([
             var me = this,
                 recents = Common.localStorage.getItem('pe-recent-shapes');
 
-            for (var i = 0; i < 2; i++) {
-                var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-change-shape-menu-<%= options.index %>" class="menu-insertshape"></div>'),
-                    index: i
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-change-shape-menu" class="menu-insertshape"></div>'),
                 });
-                me.btnChangeShape.menu.addItem(menuitem);
+            me.btnChangeShape.menu.addItem(menuitem);
 
-                var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-change-shape-menu-' + i),
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                    groups: me.application.getCollection('ShapeGroups'),
-                    parentMenu: me.btnChangeShape.menu,
-                    restoreHeight: 640,
-                    textRecentlyUsed: me.textRecentlyUsed,
-                    recentShapes: recents ? JSON.parse(recents) : null,
-                    isFromImage: i === 0
-                });
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
-                        me.api.ChangeShapeType(record.get('data').shapeType);
-                        me.fireEvent('editcomplete', me);
-                    }
-                    if (e.type !== 'click')
-                        me.btnChangeShape.menu.hide();
-                });
-            }
-
-            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage || me._state.isFromSmartArtInternal);
-            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage && !me._state.isFromSmartArtInternal);
+            me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-change-shape-menu'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: me.application.getCollection('ShapeGroups'),
+                parentMenu: me.btnChangeShape.menu,
+                restoreHeight: 640,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null,
+                hideTextRect: me._state.isFromImage || me._state.isFromSmartArtInternal,
+                hideLines: true
+            });
+            me.btnChangeShape.shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    me.api.ChangeShapeType(record.get('data').shapeType);
+                    me.fireEvent('editcomplete', me);
+                }
+                if (e.type !== 'click')
+                    me.btnChangeShape.menu.hide();
+            });
         },
 
         UpdateThemeColors: function() {
