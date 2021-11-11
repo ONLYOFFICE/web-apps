@@ -553,10 +553,9 @@ define([
                             iconTitle     : name,
                             iconVisible   : name!==''
                         };
-
-                        this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
-
-                        allItems.push(tab);
+                        var hidden = this.api.asc_isWorksheetHidden(i);
+                        hidden ? hidentems.push(tab) : items.push(tab);
+                        (!hidden || !wbprotected) && allItems.push(tab);
                     }
 
                     if (hidentems.length) {
@@ -600,7 +599,7 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.asc_isProtectedWorkbook() || me.api.isCellEdited);
+                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited);
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
