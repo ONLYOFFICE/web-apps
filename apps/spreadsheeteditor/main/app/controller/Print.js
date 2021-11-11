@@ -46,6 +46,7 @@ define([
         initialize: function() {
             var value = Common.localStorage.getItem("sse-print-settings-range");
             value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
+            this._currentPrintType = value;
 
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
@@ -654,15 +655,33 @@ define([
 
         updatePreview: function () {
             if (this._isPreviewVisible) {
-                var adjPrintParams = new Asc.asc_CAdjustPrint();
-                adjPrintParams.asc_setPrintType(this.printSettings.getRange());
+                var adjPrintParams = new Asc.asc_CAdjustPrint(),
+                    printType = this.printSettings.getRange();
+                adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
 
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);
-                this._navigationPreview.pageCount = this.api.asc_updatePrintPreview(opts);
-                this.printSettings.updateCountOfPages(this._navigationPreview.pageCount);
+
+                var pageCount = this.api.asc_updatePrintPreview(opts);
+
+                var newPage;
+                if (this._currentPrintType !== printType) {
+                    newPage = 0;
+                    this._currentPrintType = printType;
+                } else if (this._navigationPreview.pageCount > pageCount) {
+                    newPage = pageCount - 1;
+                } else {
+                    newPage = this._navigationPreview.currentPage;
+                }
+
+                this.api.asc_drawPrintPreview(newPage);
+
+                this._navigationPreview.currentPage = newPage;
+                this.printSettings.updateCurrentPage(newPage);
+                this._navigationPreview.pageCount = pageCount;
+                this.printSettings.updateCountOfPages(pageCount);
             }
         },
 
