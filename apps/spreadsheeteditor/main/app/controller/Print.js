@@ -627,9 +627,9 @@ define([
 
         onKeypressPageNumber: function (input, e) {
             if (e.keyCode === Common.UI.Keys.RETURN) {
-                var box = this.$el.find('#print-number-page'),
+                var box = this.printSettings.$el.find('#print-number-page'),
                     edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                if (!page || page-- > this._navigationPreview.pageCount || page < 0) {
+                if (!page || page > this._navigationPreview.pageCount || page < 0) {
                     edit.select();
                     return false;
                 }
@@ -645,7 +645,7 @@ define([
 
         onKeyupPageNumber: function (input, e) {
             if (e.keyCode === Common.UI.Keys.ESC) {
-                var box = this.$el.find('#print-number-page');
+                var box = this.printSettings.$el.find('#print-number-page');
                 box.focus(); // for IE
                 this.api.asc_enableKeyEvents(true);
                 return false;
