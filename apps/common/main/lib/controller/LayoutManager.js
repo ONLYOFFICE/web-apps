@@ -59,7 +59,7 @@ Common.UI.LayoutManager = new(function() {
         for (var name in config) {
             if(config.hasOwnProperty(name)) {
                 if(typeof config[name] === 'object')
-                    _applyCustomization(config[name], el, name + '-');
+                    _applyCustomization(config[name], el, (prefix || '') + name + '-');
                 else if (config[name] === false) {
                     var selector = '[data-layout-name=' + (prefix || '') + name + ']',
                         cmp = el ? el.find(selector) : $(selector);
