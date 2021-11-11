@@ -597,4 +597,140 @@ define(function(){ 'use strict';
             textValue: 'Value is'
         }
     })(), Common.define.conditionalData || {});
+
+    Common.define.effectData = _.extend(new(function (){
+        return {
+            textEntrance: 'Entrance',
+            textEmphasis: 'Emphasis',
+            textExit: 'Exit',
+            textAppear: 'Appear',
+            textFade: 'Fade',
+            textFlyIn: 'Fly in',
+            textFloatIn: 'Float In',
+            textSplit: 'Split',
+            textWipe: 'Wipe',
+            textShape: 'Shape',
+            textWheel: 'Wheel',
+            textRandomBars: 'Random Bars ',
+            textGrowTurn: 'Grow & Turn',
+            textZoom: 'Zoom',
+            textSwivel: 'Swivel',
+            textBounce: 'Bounce',
+            textPulse: 'Pulse',
+            textColorPulse: 'Color Pulse',
+            textTeeter: 'Teeter',
+            textSpin: 'Spin',
+            textGrowShrink: 'Grow/Shrink',
+            textDesaturate: 'Desaturate',
+            textDarken: 'Darken',
+            textLighten: 'Lighten',
+            textTransparency: 'Transparency',
+            textObjectColor: 'Object Color',
+            textComplementaryColor: 'Complementary Color',
+            textLineColor: 'Line Color',
+            textFillColor: 'Fill Color',
+            textBrushColor: 'Brush Color',
+            textFontColor: 'Font Color',
+            textUnderline: 'Underline',
+            textBoldFlash: 'Bold Flash',
+            textBoldReveal: 'Bold Reveal',
+            textWave: 'Wave',
+            textDisappear: 'Disappear',
+            textFlyOut: 'Fly Out',
+            textFloatOut: 'Float Out',
+            textBasic: 'Basic',
+            textSubtle: 'Subtle',
+            textModerate: 'Moderate',
+            textExciting: 'Exciting',
+            textBox: 'Box',
+            textCircle: 'Circle',
+            textDissolveIn: 'Dissolve In',
+            textBlinds: 'Blinds',
+            textCheckerboard: 'Checkerboard',
+            textDiamond: 'Diamond',
+            textPeekIn: 'Peek In',
+            textStrips: 'Strips',
+            textExpand: 'Expand',
+            textBasicZoom: 'Basic Zoom',
+            textCompress: 'Compress',
+            textFloatUp: 'Float Up',
+            textRiseUp: 'Rise Up',
+            textStretch: 'Stretch',
+            textCenterRevolve: 'Center Revolve',
+            textFloatDown: 'Float Down',
+            textSpinner: 'Spinner',
+
+            getEffectGroupData: function (){
+                return[
+                    {id: 'menu-effect-group-entrance', type: Asc.AscFormat.PRESET_CLASS_ENTR, caption: this.textEntrance},
+                    {id: 'menu-effect-group-emphasis', type: Asc.AscFormat.PRESET_CLASS_EMPH, caption: this.textEmphasis},
+                    {id: 'menu-effect-group-exit',     type: Asc.AscFormat.PRESET_CLASS_EXIT, caption: this.textExit},
+                    {id: 'menu-effect-group-path',     type: Asc.AscFormat.PRESET_CLASS_PATH, caption: this.textPath}
+
+                ];
+            },
+
+            getEffectData: function (){
+                return[
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_APPEAR,        iconCls: 'column-normal', caption: this.textAppear},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FADE,          iconCls: 'column-normal', caption: this.textFade},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FLY_IN_FROM,   iconCls: 'column-normal', caption: this.textFlyIn},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FLOAT,         iconCls: 'column-normal', caption: this.textFloatIn},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_SPLIT,         iconCls: 'column-normal', caption: this.textSplit},
+                    {group: 'menu-effect-group-entrance',   type: ?,    iconCls: 'column-normal', caption: this.textWipe},
+                    {group: 'menu-effect-group-entrance',   type: ?,                                    iconCls: 'column-normal', caption: this.textShape},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_WHEEL,         iconCls: 'column-normal', caption: this.textWheel},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_RANDOM_BARS,   iconCls: 'column-normal', caption: this.textRandomBars},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_GROW_AND_TURN, iconCls: 'column-normal', caption: this.textGrowTurn},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_ZOOM,          iconCls: 'column-normal', caption: this.textZoom},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_SWIVEL,        iconCls: 'column-normal', caption: this.textSwivel},
+                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_BOUNCE,        iconCls: 'column-normal', caption: this.textBounce},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_PULSE,         iconCls: 'column-normal', caption: this.textPulse},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_COLOR_PULSE,   iconCls: 'column-normal', caption: this.textColorPulse},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_TEETER,        iconCls: 'column-normal', caption: this.textTeeter},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_SPIN,          iconCls: 'column-normal', caption: this.textSplit},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_GROW_SHRINK,   iconCls: 'column-normal', caption: this.textGrowShrink},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_DESATURATE,    iconCls: 'column-normal', caption: this.textDesaturate},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_CONTRASTING_DARKEN, iconCls: 'column-normal', caption: this.textDarken},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_LIGHTEN,       iconCls: 'column-normal', caption: this.textLighten},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_TRANSPARENCY,  iconCls: 'column-normal', caption: this.textTransparency},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_OBJECT_COLOR,  iconCls: 'column-normal', caption: this.textObjectColor},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,  iconCls: 'column-normal', caption: this.textComplementaryColor},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_LINE_COLOR,    iconCls: 'column-normal', caption: this.textLineColor},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_FILL_COLOR,    iconCls: 'column-normal', caption: this.textFillColor},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_BRUSH_COLOR,   iconCls: 'column-normal', caption: this.textBrushColor},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_UNDERLINE,     iconCls: 'column-normal', caption: this.textUnderline},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_BOLD_FLASH,    iconCls: 'column-normal', caption: this.textBoldFlash},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_BOLD_REVEAL,   iconCls: 'column-normal', caption: this.textBoldReveal},
+                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_WAVE,          iconCls: 'column-normal', caption: this.textWave},
+                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_DISAPPEAR,         iconCls: 'column-normal', caption: this.textDisappear},
+                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FADE,              iconCls: 'column-normal', caption: this.textFade},
+                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FLY_OUT_TO,        iconCls: 'column-normal', caption: this.textFlyOut},
+                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FLOAT,             iconCls: 'column-normal', caption: this.textFloatOut},
+                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_SPLIT,             iconCls: 'column-normal', caption: this.textSplit},
+                    {group: 'menu-effect-group-exit',       type: ?,                                    iconCls: 'column-normal', caption: x},
+                    {group: 'menu-effect-group-exit',       type: ?,                                    iconCls: 'column-normal', caption: this.textWipe},
+                    {group: 'menu-effect-group-exit',       type: ?,                                    iconCls: 'column-normal', caption: this.textShape}
+                ];
+            },
+
+            getLevelEffect: function (){
+                return[
+                    {id: 'menu-effect-level-basic', caption:this.textBasic},
+                    {id: 'menu-effect-level-subtle', caption:this.textSubtle},
+                    {id: 'menu-effect-level-moderate', caption:this.textModerate},
+                    {id: 'menu-effect-level-exciting', caption:this.textExciting}
+                ];
+            },
+
+            getEffectFullData: function (){
+                return[
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic', type: Asc.AscFormat.ENTRANCE_APPEAR, caption: this.textAppear },
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic', type: Asc.AscFormat.ENTRANCE_BOX, caption: this.textBox },
+                ];
+            }
+
+        }
+
+    })(),Common.define.effectData || {});
 });
