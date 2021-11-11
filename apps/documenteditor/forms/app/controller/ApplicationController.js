@@ -10,6 +10,7 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/CopyWarningDialog',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -1030,6 +1031,7 @@ define([
             this.api.asc_registerCallback('asc_onPrint',                 _.bind(this.onPrint, this));
             this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
+            this.api.asc_registerCallback('asc_onContextMenu',           _.bind(this.onContextMenu, this));
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
@@ -1318,6 +1320,128 @@ define([
                     }, 2000);
                 }
             });
+        },
+
+        onContextMenu: function(event){
+            var me = this;
+            _.delay(function(){
+                if (event.get_Type() == 0) {
+                    me.api && me.appOptions.canFillForms && me.fillMenuProps(me.api.getSelectedElements(), event);
+                }
+            },10);
+        },
+
+        showPopupMenu: function(menu, value, event){
+            if (!_.isUndefined(menu)  && menu !== null){
+                Common.UI.Menu.Manager.hideAll();
+
+                var showPoint = [event.get_X(), event.get_Y()],
+                    menuContainer = this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        this.boxSdk.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                }
+
+                menuContainer.css({
+                    left: showPoint[0],
+                    top : showPoint[1]
+                });
+
+                menu.show();
+
+                if (_.isFunction(menu.options.initMenu)) {
+                    menu.options.initMenu(value);
+                    menu.alignPosition();
+                }
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+
+                this.currentMenu = menu;
+            }
+        },
+
+        fillMenuProps: function(selectedElements, event) {
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            if (!this.textMenu) {
+                this.textMenu = this.view.getContextMenu();
+                this.textMenu.on('item:click', _.bind(this.onContextMenuClick, this));
+            }
+
+            var menu_props = {},
+                noobject = true;
+            for (var i = 0; i <selectedElements.length; i++) {
+                var elType = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    //image
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
+                    menu_props.headerProps = {};
+                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
+            }
+            if (this.textMenu && !noobject) {
+                var cancopy = this.api.can_CopyCut(),
+                    disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
+                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked);
+                this.textMenu.items[0].setDisabled(!cancopy); // copy
+                this.textMenu.items[1].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[2].setDisabled(disabled) // paste;
+                this.textMenu.items[3].setVisible(this.appOptions.canPrint);
+                this.textMenu.items[3].setDisabled(!cancopy);
+
+                this.showPopupMenu(this.textMenu, {}, event);
+            }
+        },
+
+        onContextMenuClick: function(menu, item, e) {
+            switch (item.value) {
+                case 'copy':
+                case 'cut':
+                case 'paste':
+                    if (this.api) {
+                        var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
+                        if (!res) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                                (new Common.Views.CopyWarningDialog({
+                                    handler: function(dontshow) {
+                                        if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
+                                    }
+                                })).show();
+                            }
+                        }
+                    }
+                    break;
+                case 'print':
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    this.api.asc_Print(opts);
+                    break;
+            }
         },
 
         errorDefaultMessage     : 'Error code: %1',
