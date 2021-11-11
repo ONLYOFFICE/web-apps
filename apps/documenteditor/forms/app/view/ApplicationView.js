@@ -89,11 +89,12 @@ define([
 
         getContextMenu: function() {
             return new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
-                    { caption: this.textCut, value: 'cut' },
-                    { caption: this.textCopy, value: 'copy' },
-                    { caption: this.textPaste, value: 'paste' },
-                    { caption: this.textPrintSel, value: 'print' }
+                    { caption: this.textCut, value: 'cut', iconCls: 'mi-icon svg-icon cut' },
+                    { caption: this.textCopy, value: 'copy', iconCls: 'mi-icon svg-icon copy' },
+                    { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' },
+                    { caption: this.textPrintSel, value: 'print', iconCls: 'mi-icon svg-icon print' }
                 ]
             });
         },
