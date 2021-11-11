@@ -186,6 +186,14 @@ define([
                     config.msg = this.downloadErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.UplImageSize:
+                    config.msg = this.uploadImageSizeMessage;
+                    break;
+
+                case Asc.c_oAscError.ID.UplImageExt:
+                    config.msg = this.uploadImageExtMessage;
+                    break;
+
                 case Asc.c_oAscError.ID.ConvertationPassword:
                     config.msg = this.errorFilePassProtect;
                     break;
@@ -232,6 +240,10 @@ define([
 
                 case Asc.c_oAscError.ID.KeyExpire:
                     config.msg = this.errorTokenExpire;
+                    break;
+
+                case Asc.c_oAscError.ID.CoAuthoringDisconnect:
+                    config.msg = this.errorViewerDisconnect;
                     break;
 
                 default:
@@ -1489,7 +1501,10 @@ define([
         textContactUs: 'Contact sales',
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
         errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
-        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.'
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
+        uploadImageSizeMessage: 'Maximum image size limit exceeded.',
+        uploadImageExtMessage: 'Unknown image format.'
 
     }, DE.Controllers.ApplicationController));
 });
