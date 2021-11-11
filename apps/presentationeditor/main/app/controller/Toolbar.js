@@ -2418,7 +2418,7 @@ define([
             }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 4);
@@ -2449,7 +2449,7 @@ define([
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
                             me.toolbar.addTab(tab, $panel, 4);

@@ -3715,7 +3715,7 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 6);
@@ -3755,7 +3755,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( config.canFeaturePivot ) {
-                        tab = {action: 'pivot', caption: me.textPivot};
+                        tab = {action: 'pivot', caption: me.textPivot, dataHintTitle: 'B'};
                         var pivottab = me.getApplication().getController('PivotTable');
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
@@ -3778,7 +3778,7 @@ define([
                         me.toolbar.btnCopy.$el.removeClass('split');
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T'};
                     var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
                         config.canProtect && $panel.append($('<div class="separator long"></div>'));

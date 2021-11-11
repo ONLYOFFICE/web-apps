@@ -352,14 +352,14 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
-                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
-                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
-                        {caption: me.textTabData, action: 'data', extcls: 'canedit'},
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false, dataHintTitle: 'F'},
+                        { caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', dataHintTitle: 'L'},
+                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit', dataHintTitle: 'O'},
+                        {caption: me.textTabData, action: 'data', extcls: 'canedit', dataHintTitle: 'D'},
                         undefined, undefined, undefined,
-                        {caption: me.textTabView, action: 'view', extcls: 'canedit'}
+                        {caption: me.textTabView, action: 'view', extcls: 'canedit', dataHintTitle: 'W'}
                     ]}
                 );
 
@@ -1615,7 +1615,7 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                         template: _.template(template_view),
                         tabs: [
-                            {caption: me.textTabFile, action: 'file', haspanel:false}
+                            {caption: me.textTabFile, action: 'file', haspanel:false, dataHintTitle: 'F'}
                         ]
                     }
                 );

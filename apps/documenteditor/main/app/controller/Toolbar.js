@@ -3178,7 +3178,7 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
@@ -3204,7 +3204,7 @@ define([
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
                         if ($panel) me.toolbar.addTab(tab, $panel, 6);
@@ -3217,7 +3217,7 @@ define([
             }
             if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.canFeatureForms) {
-                    tab = {caption: me.textTabForms, action: 'forms'};
+                    tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
