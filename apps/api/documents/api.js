@@ -152,6 +152,9 @@
                                 settings: false / true, // advanced settings
                                 info: false / true // document info
                             } / false / true,
+                            home:  {
+                                mailmerge: false/true // mail merge button
+                            },
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  false / true // collaboration tab
@@ -162,7 +165,8 @@
                             users: false/true // users list button
                         },
                         leftMenu: {
-                            navigation: false/true
+                            navigation: false/true,
+                            spellcheck: false/true // spellcheck button in sse
                         } / false / true, // use instead of customization.leftMenu
                         rightMenu: false/true, // use instead of customization.rightMenu
                         statusBar: {
@@ -172,9 +176,9 @@
                     },
                     features: { // disable feature
                         spellcheck: {
-                            mode: false/true // init value
-                            change: false/true // hide/show feature
-                        } / false / true // if false/true - use as init value. use instead of customization.spellcheck parameter
+                            mode: false/true // init value in de/pe
+                            change: false/true // hide/show feature in de/pe/sse
+                        } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                     },
                     chat: true,
                     comments: true,
