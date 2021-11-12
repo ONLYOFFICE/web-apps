@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Les accions copia, talla i enganxa que utilitzen el menú contextual només s'executaran en el fitxer actual.",
+    "errorInvalidLink": "La referència d'enllaç no existeix. Corregiu l'enllaç o suprimiu-lo.",
     "menuAddComment": "Afegeix un comentari",
     "menuAddLink": "Afegeix un enllaç",
     "menuCancel": "Cancel·la",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Advertiment",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada.<br>Esteu segur que voleu continuar?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada.<br>Esteu segur que voleu continuar?"
   },
   "Controller": {
     "Main": {

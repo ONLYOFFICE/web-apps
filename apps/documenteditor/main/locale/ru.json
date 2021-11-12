@@ -1813,6 +1813,8 @@
   "DE.Views.FormsTab.capBtnView": "Просмотреть форму",
   "DE.Views.FormsTab.textClear": "Очистить поля",
   "DE.Views.FormsTab.textClearFields": "Очистить все поля",
+  "DE.Views.FormsTab.textCreateForm": "Добавьте поля и создайте заполняемый документ OFORM",
+  "DE.Views.FormsTab.textGotIt": "ОК",
   "DE.Views.FormsTab.textHighlight": "Цвет подсветки",
   "DE.Views.FormsTab.textNoHighlight": "Без подсветки",
   "DE.Views.FormsTab.textRequired": "Заполните все обязательные поля для отправки формы.",

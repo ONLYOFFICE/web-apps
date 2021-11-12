@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Actions de copie, de coupe et de collage du menu contextuel seront appliquées seulement dans le fichier actuel.",
+    "errorInvalidLink": "La référence du lien n'existe pas. Veuillez corriger le lien ou le supprimer.",
     "menuAddComment": "Ajouter un commentaire",
     "menuAddLink": "Ajouter un lien",
     "menuCancel": "Annuler",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Avertissement",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
     "Main": {

@@ -1813,6 +1813,8 @@
   "DE.Views.FormsTab.capBtnView": "Voir le formulaire",
   "DE.Views.FormsTab.textClear": "Effacer les champs",
   "DE.Views.FormsTab.textClearFields": "Effacer tous les champs",
+  "DE.Views.FormsTab.textCreateForm": "Ajoutez des champs et créer un document OFORM remplissable",
+  "DE.Views.FormsTab.textGotIt": "OK",
   "DE.Views.FormsTab.textHighlight": "Paramètres de surbrillance",
   "DE.Views.FormsTab.textNoHighlight": "Pas de surbrillance ",
   "DE.Views.FormsTab.textRequired": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire.",
