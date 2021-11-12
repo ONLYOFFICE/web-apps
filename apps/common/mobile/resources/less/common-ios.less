@@ -68,6 +68,12 @@
         }
     }
 
+    .subnavbar {
+        .icon-back {
+            color: @brandColor;
+        }
+    }
+
     .popover__titled {
         .list {
             ul {
@@ -324,6 +330,7 @@
             cursor: pointer;
             outline: 0;
             font-weight: 600;
+            color: @brandColor;
             &:first-child {
                 border-radius: 5px 0 0 5px;
                 border-left-width: 1px;
@@ -334,7 +341,7 @@
             }
             &.tab-link-active {
                 background: @brandColor;
-                color: @fill-white;
+                color: @brand-text-on-brand;
             }
         }
     }
