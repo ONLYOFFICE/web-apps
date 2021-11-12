@@ -387,7 +387,8 @@
       "textZoomOut": "Zoom Out",
       "textZoomRotate": "Zoom and Rotate",
       "textTransitions": "Transitions",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

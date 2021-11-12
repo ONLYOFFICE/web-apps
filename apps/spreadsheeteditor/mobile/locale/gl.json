@@ -522,7 +522,8 @@
       "textYen": "Ien",
       "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de maior a menor",
-      "txtSortLow2High": "Ordenar de menor a maior "
+      "txtSortLow2High": "Ordenar de menor a maior ",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",

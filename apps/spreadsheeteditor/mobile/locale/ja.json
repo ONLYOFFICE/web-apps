@@ -78,7 +78,7 @@
         "txtAll": "すべて",
         "txtArt": "テキストを入力…",
         "txtBlank": "（空白）",
-        "txtByField": "％2分の％1",
+        "txtByField": "%2分の%1",
         "txtClearFilter": "フィルターをクリア(Alt+C)",
         "txtColLbls": "列ラベル",
         "txtColumn": "列",
@@ -522,7 +522,8 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",

@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Операции копирования, вырезания и вставки с помощью контекстного меню будут выполняться только в текущем файле.",
+    "errorInvalidLink": "Ссылка указывает на несуществующую ячейку. Исправьте или удалите ссылку.",
     "menuAddComment": "Добавить комментарий",
     "menuAddLink": "Добавить ссылку",
     "menuCancel": "Отмена",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Внимание",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
     "textDoNotShowAgain": "Больше не показывать",
-    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?"
   },
   "Controller": {
     "Main": {
@@ -522,7 +522,8 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию"
+      "txtSortLow2High": "Сортировка по возрастанию",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",

@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "As ações de copiar, recortar e colar usando o menu de contexto serão executadas apenas no arquivo atual.",
+    "errorInvalidLink": "A referência de link não existe. Corrija o link ou o exclua.",
     "menuAddComment": "Adicionar comentário",
     "menuAddLink": "Adicionar Link",
     "menuCancel": "Cancelar",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
   },
   "Controller": {
     "Main": {
@@ -522,7 +522,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

@@ -372,7 +372,6 @@
       "textText": "Текст",
       "textTheme": "Тема",
       "textTop": "Сверху",
-      "textDesign": "Вид",
       "textTopLeft": "Сверху слева",
       "textTopRight": "Сверху справа",
       "textTotalRow": "Строка итогов",
@@ -387,7 +386,9 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом"
+      "textZoomRotate": "Увеличение с поворотом",
+      "textAutomatic": "Automatic",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

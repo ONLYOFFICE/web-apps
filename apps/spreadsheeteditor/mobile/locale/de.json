@@ -522,7 +522,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "textAutomatic": "Automatic"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
