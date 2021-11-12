@@ -1,6 +1,13 @@
 // @common-image-header-path - defined in webpack config
 
 .device-ios {
+    .theme-type-dark {
+        i.icon {
+            &.icon-logo {
+                background: ~"url(@{common-image-header-path}/logo-android.svg)" no-repeat center;
+            }
+        }
+    }
     i.icon {
         &.icon_mask {
             background-color: white;

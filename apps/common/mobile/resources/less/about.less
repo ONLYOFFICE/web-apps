@@ -1,4 +1,4 @@
-@text-normal: #000;
+// @text-normal: #000;
 // @common-image-about-path - defined in webpack config
 
 .about {
@@ -14,13 +14,14 @@
         margin: 0 auto 15px;
 
         a {
-            color: @text-normal;
+            // color: @text-normal;
         }
     }
 
     h3 {
         font-weight: normal;
         margin: 0;
+        color: @text-secondary;
 
         &.vendor {
             color: @text-normal;
@@ -31,6 +32,7 @@
 
     p > label {
         margin-right: 5px;
+        color: @text-secondary;
     }
 
     .logo {

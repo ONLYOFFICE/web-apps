@@ -130,9 +130,12 @@
         --f7-list-item-title-text-color: @text-normal;
         --f7-label-text-color: @text-normal;
         --f7-list-item-after-text-color: @text-normal;
-        --f7-input-text-color: @text-normal;
+
+        --f7-input-text-color: @text-secondary;
         --f7-block-title-text-color: @text-secondary;
         --f7-input-placeholder-color: @text-secondary;
+        --f7-list-item-text-text-color: @text-secondary;
+        --f7-list-item-subtitle-text-color: @text-secondary;
 
         --f7-list-chevron-icon-color: @text-tertiary;
 
@@ -189,7 +192,7 @@
             .thumb {
                 width: 100%;
                 height: 100%;
-                background-color: @white;
+                background-color: @fill-white;
                 background-size: cover;
 
                 label {
@@ -329,7 +332,9 @@
                 border-radius: 0 5px 5px 0;
             }
             &.tab-link-active {
-                background-color: @toolbar-segment;
+                // background: @brandColor;
+                // color: @fill-white;
+                background: @toolbar-segment;
                 color: @brand-text-on-brand;
                 i.icon {
                     background-color: @brand-text-on-brand;
@@ -361,21 +366,21 @@
         outline: 0;
         &.active {
             background: @brandColor;
-            color: @white;
+            color: @fill-white;
             i.icon {
-                background-color: @white;
+                background-color: @fill-white;
             }
         }
     }
 
     .button-fill {
         color: @brandColor;
-        background-color: @white;
+        background-color: @fill-white;
     }
 
     .button-red {
-        color: @red;
-        background-color: @text-error;
+        color: @text-error;
+        background-color: @fill-white;
     }
 
     .buttons-list {
@@ -392,7 +397,7 @@
     }
 
     .button-red .list-button {
-        color: red;
+        color: @text-error;
     }
 
     .list-button {
@@ -414,7 +419,7 @@
 
     .shapes {
         .page-content {
-            background: @white;
+            background: @fill-white;
         }
     }
 
@@ -445,7 +450,7 @@
 
     .dataview, #add-table, #add-shape, #add-slide, #add-chart {
         &.page-content, .page-content {
-            background-color: @white;
+            background-color: @background-tertiary;
         }
     }
 
@@ -500,11 +505,11 @@
         appearance: none;
         border-radius: 5px;
         font-family: inherit;
-        color: @black;
+        color: @fill-black;
         font-size: 14px;
         font-weight: 400;
         padding: 0 8px;
-        background-color: @white;
+        background-color: @fill-white;
         padding: 0 28px;
     }
 
@@ -571,13 +576,14 @@
 
     .actions-button {
         background: @background-secondary;
+        --f7-actions-button-border-color: @background-menu-divider;
     }
     
     .actions-button-text {
         height: 57px;
         line-height: 57px;
         font-size: 20px;
-        color: @brandColor;
+        // color: @brandColor;
         white-space: normal;
         text-overflow: ellipsis;
     }
