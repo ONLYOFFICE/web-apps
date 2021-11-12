@@ -86,7 +86,7 @@ define([
                         '<div class="user-version">' + this.textVer + '<%=version%></div>',
                         '<% } %>',
                         '<% if (isRevision && hasChanges) { %>',
-                            '<div class="revision-expand img-commonctrl ' + '<% if (isExpanded) { %>' + 'up' + '<% } %>' + '"></div>',
+                            '<div class="revision-expand  ' + '<% if (isExpanded) { %>' + 'up' + '<% } %>' + '"></div>',
                         '<% } %>',
                         '<div class="user-name">',
                             '<div class="color" style="display: inline-block; background-color:' + '<%=usercolor%>;' + '" >',
