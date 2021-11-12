@@ -470,14 +470,15 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
                         disabled: disabled === true,
                         dataHint:'0',
                         dataHintDirection: hintDirection ? hintDirection : 'left',
-                        dataHintOffset: hintOffset ? hintOffset : '10, 10'
+                        dataHintOffset: hintOffset ? hintOffset : '10, 10',
+                        dataHintTitle: hintTitle
                     })).render(slot);
                 }
 
@@ -532,7 +533,7 @@ define([
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big');
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
 
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
@@ -541,7 +542,7 @@ define([
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big');
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big' );
                         else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
@@ -567,12 +568,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true);
+                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
 
-                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true);
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true);
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true);
+                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save btn-save');

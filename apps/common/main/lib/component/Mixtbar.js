@@ -100,7 +100,7 @@ define([
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>">' +
-                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small"><%= items[i].caption %></a>' +
+                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
                                 '</li>' +
                                 '<% } %>' +
                             '<% } %>' +
@@ -316,7 +316,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);
