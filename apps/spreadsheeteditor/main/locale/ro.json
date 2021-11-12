@@ -364,6 +364,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Deschidere din nou",
   "Common.Views.ReviewPopover.textReply": "Răspunde",
   "Common.Views.ReviewPopover.textResolve": "Rezolvare",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Ștergere",
+  "Common.Views.ReviewPopover.txtEditTip": "Editare",
   "Common.Views.SaveAsDlg.textLoading": "Încărcare",
   "Common.Views.SaveAsDlg.textTitle": "Folderul de salvare",
   "Common.Views.SelectFileDlg.textLoading": "Încărcare",

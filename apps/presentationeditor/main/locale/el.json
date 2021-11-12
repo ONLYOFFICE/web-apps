@@ -312,6 +312,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Άνοιγμα Ξανά",
   "Common.Views.ReviewPopover.textReply": "Απάντηση",
   "Common.Views.ReviewPopover.textResolve": "Επίλυση",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Διαγραφή",
+  "Common.Views.ReviewPopover.txtEditTip": "Επεξεργασία",
   "Common.Views.SaveAsDlg.textLoading": "Γίνεται φόρτωση",
   "Common.Views.SaveAsDlg.textTitle": "Φάκελος για αποθήκευση",
   "Common.Views.SelectFileDlg.textLoading": "Γίνεται φόρτωση",

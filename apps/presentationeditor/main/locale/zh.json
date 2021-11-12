@@ -312,6 +312,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "再次打开",
   "Common.Views.ReviewPopover.textReply": "回复",
   "Common.Views.ReviewPopover.textResolve": "解决",
+  "Common.Views.ReviewPopover.txtDeleteTip": "删除",
+  "Common.Views.ReviewPopover.txtEditTip": "编辑",
   "Common.Views.SaveAsDlg.textLoading": "载入中",
   "Common.Views.SaveAsDlg.textTitle": "保存文件夹",
   "Common.Views.SelectFileDlg.textLoading": "载入中",

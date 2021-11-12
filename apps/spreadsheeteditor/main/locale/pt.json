@@ -364,6 +364,8 @@
   "Common.Views.ReviewPopover.textOpenAgain": "Abra novamente",
   "Common.Views.ReviewPopover.textReply": "Responder",
   "Common.Views.ReviewPopover.textResolve": "Resolver",
+  "Common.Views.ReviewPopover.txtDeleteTip": "Excluir",
+  "Common.Views.ReviewPopover.txtEditTip": "Editar",
   "Common.Views.SaveAsDlg.textLoading": "Carregando",
   "Common.Views.SaveAsDlg.textTitle": "Pasta para salvar",
   "Common.Views.SelectFileDlg.textLoading": "Carregando",
