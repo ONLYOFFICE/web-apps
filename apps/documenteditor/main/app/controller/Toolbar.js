@@ -3199,6 +3199,7 @@ define([
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
                 }
 

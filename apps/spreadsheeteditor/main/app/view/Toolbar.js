@@ -196,9 +196,9 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintTitle: 'P'
+                dataHint    : '1',
+                dataHintDirection: 'top',
+                dataHintTitle: 'V'
             });
 
             me.btnUndo = new Common.UI.Button({
@@ -207,7 +207,10 @@ define([
                 iconCls     : 'toolbar__icon btn-undo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
-                signals     : ['disabled']
+                signals     : ['disabled'],
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintTitle: 'Z'
             });
 
             me.btnRedo = new Common.UI.Button({
@@ -216,7 +219,10 @@ define([
                 iconCls     : 'toolbar__icon btn-redo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
-                signals     : ['disabled']
+                signals     : ['disabled'],
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintTitle: 'Y'
             });
 
             if ( config.isEditDiagram ) {
@@ -407,7 +413,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
-                    signals: ['disabled']
+                    signals: ['disabled'],
+                    dataHint    : '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'P'
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -415,7 +424,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
                     lock        : [_set.lostConnect],
-                    signals     : ['disabled']
+                    signals     : ['disabled'],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'S'
                 });
                 me.btnCollabChanges = me.btnSave;
 

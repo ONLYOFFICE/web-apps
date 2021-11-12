@@ -186,7 +186,10 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-print no-mask',
                         lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart],
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'P'
                     });
                     me.slideOnlyControls.push(me.btnPrint);
 
@@ -195,7 +198,10 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + me.btnSaveCls,
                         lock: [_set.lostConnect],
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'S'
                     });
                     me.btnCollabChanges = me.btnSave;
 
@@ -204,7 +210,10 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-undo',
                         lock: [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'Z'
                     });
                     me.slideOnlyControls.push(me.btnUndo);
 
@@ -213,7 +222,10 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-redo',
                         lock: [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'Y'
                     });
                     me.slideOnlyControls.push(me.btnRedo);
 
@@ -234,8 +246,8 @@ define([
                         iconCls: 'toolbar__icon btn-paste',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintTitle: 'P'
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'V'
                     });
                     me.paragraphControls.push(me.btnPaste);
 

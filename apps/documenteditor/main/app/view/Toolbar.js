@@ -125,7 +125,10 @@ define([
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-print no-mask',
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'P'
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -133,7 +136,10 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'S'
                     });
                     this.toolbarControls.push(this.btnSave);
                     this.btnCollabChanges = this.btnSave;
@@ -142,7 +148,10 @@ define([
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-undo',
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'Z'
                     });
                     this.toolbarControls.push(this.btnUndo);
 
@@ -150,7 +159,10 @@ define([
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-redo',
-                        signals: ['disabled']
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'Y'
                     });
                     this.toolbarControls.push(this.btnRedo);
 
@@ -169,8 +181,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintTitle: 'P'
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'V'
                     });
                     this.paragraphControls.push(this.btnPaste);
 
