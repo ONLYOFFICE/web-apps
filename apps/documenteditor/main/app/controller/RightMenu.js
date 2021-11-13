@@ -205,6 +205,8 @@ define([
                     this._settings[settingsType].props = control_props;
                     this._settings[settingsType].locked = control_lock;
                     this._settings[settingsType].hidden = 0;
+                    if (control_props.get_FormPr().get_Fixed())
+                        this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 1;
                 }
             }
 

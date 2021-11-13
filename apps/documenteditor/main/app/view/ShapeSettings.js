@@ -102,7 +102,8 @@ define([
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
                 HideChangeTypeSettings: false,
-                isFromImage: false
+                isFromImage: false,
+                isFixedForm: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -143,6 +144,8 @@ define([
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
+            this.NoFormSettings = $('.no-form');
+            this.ShapeOnlySeparator = $('.shape-only-separator');
         },
 
         setApi: function(api) {
@@ -764,6 +767,7 @@ define([
                             (new DE.Views.ImageSettingsAdvanced(
                                 {
                                     imageProps: elValue,
+                                    api: me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
@@ -790,6 +794,15 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+            if (control_props) {
+                var spectype = control_props.get_SpecificType();
+                control_props = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
+                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) &&
+                                control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
+            } else
+                control_props = false;
+
             if (props && props.get_ShapeProperties())
             {
                 var shapeprops = props.get_ShapeProperties(),
@@ -805,7 +818,7 @@ define([
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
-                this.hideChangeTypeSettings(hidechangetype);
+                this.hideChangeTypeSettings(hidechangetype || control_props);
                 this._state.isFromImage = !!shapeprops.get_FromImage();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
                     this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
@@ -1189,6 +1202,8 @@ define([
 
                 this._noApply = false;
             }
+            this.hideNoFormSettings(control_props);
+            this.ShapeOnlySeparator.toggleClass('hidden', (control_props || this._state.HideShapeOnlySettings)==true);
         },
 
         createDelayedControls: function() {
@@ -1956,6 +1971,13 @@ define([
             if (this._state.HideChangeTypeSettings !== value) {
                 this._state.HideChangeTypeSettings = value;
                 this.CanChangeType.toggleClass('hidden', value==true);
+            }
+        },
+
+        hideNoFormSettings: function(value) {
+            if (this._state.isFixedForm !== value) {
+                this._state.isFixedForm = value;
+                this.NoFormSettings.toggleClass('hidden', value==true);
             }
         },
 

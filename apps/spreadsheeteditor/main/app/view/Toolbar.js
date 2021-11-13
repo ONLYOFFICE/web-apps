@@ -1488,11 +1488,11 @@ define([
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div class="checkable custom-scale" style="padding: 5px 20px;font-weight: normal;line-height: 1.42857143;font-size: 11px;height: 32px;"',
+                        '<div class="checkable custom-scale" style="padding: 5px 5px 5px 20px;font-weight: normal;line-height: 1.42857143;font-size: 11px;height: 32px;"',
                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                         'data-stopPropagation="true"',
                         '<% } %>', '>',
-                        '<label class="title" style="padding-top: 3px;">' + me.textScale + '</label>',
+                        '<label class="title" style="padding-top: 3px;padding-right: 5px;">' + me.textScale + '</label>',
                         '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
                         '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
                         '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
