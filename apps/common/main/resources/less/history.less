@@ -84,8 +84,8 @@
             }
 
             .revision-expand {
-                border-color: @highlight-button-hover-ie;
-                border-color: @highlight-button-hover;
+                border-color: @background-normal-ie;
+                border-color: @background-normal;
             }
         }
     }
@@ -146,17 +146,17 @@
         .revision-expand {
             width: 8px;
             height: 8px;
-            border: solid 2px @highlight-button-pressed-ie;
-            border: solid 2px @highlight-button-pressed;
+            border: solid 2px @icon-normal-ie;
+            border: solid 2px @icon-normal;
             border-bottom: none;
             border-right: none;
             background-image: none;
             display: inline-block;
             position: absolute;
-            right: 18px;
-            top: 28px;
+            right: 2px;
+            margin: 15px;
             //transition: transform 0.2s ease;
-            transform: rotate(-135deg) translate(2px,2px);
+            transform: rotate(-135deg) ;
 
             &.up {
                 transform: rotate(45deg);
