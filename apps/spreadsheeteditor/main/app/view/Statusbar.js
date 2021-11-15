@@ -380,12 +380,11 @@ define([
 
                 var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                     '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 85px;"><%= caption %></div>' +
-                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 85px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div class="item-caption"><%= caption %></div>' +
+                    '<label class="item-value"><%= options.exampleval ? options.exampleval : "" %></label>' +
                     '</div></a>');
 
                 this.customizeStatusBarMenu = new Common.UI.Menu({
-                    style: 'margin-top: 0px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
                     menuAlignEl: $(this.el),
                     items: [
