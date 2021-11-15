@@ -1227,6 +1227,7 @@
   "DE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
   "DE.Controllers.Viewport.textFitPage": "Fit to Page",
   "DE.Controllers.Viewport.textFitWidth": "Fit to Width",
+  "DE.Controllers.Viewport.txtDarkMode": "Dark mode",
   "DE.Views.AddNewCaptionLabelDialog.textLabel": "Label:",
   "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty.",
   "DE.Views.BookmarksDialog.textAdd": "Add",

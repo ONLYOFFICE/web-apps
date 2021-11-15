@@ -251,7 +251,7 @@ define([
                     mnuitemHideRulers.hide();
 
                 me.header.menuItemsDarkMode = new Common.UI.MenuItem({
-                    caption: 'Dark mode',
+                    caption: me.txtDarkMode,
                     checkable: true,
                     checked: Common.UI.Themes.isContentThemeDark(),
                     value: 'mode:dark'
@@ -453,6 +453,7 @@ define([
         },
 
         textFitPage: 'Fit to Page',
-        textFitWidth: 'Fit to Width'
+        textFitWidth: 'Fit to Width',
+        txtDarkMode: 'Dark mode'
     }, DE.Controllers.Viewport));
 });
