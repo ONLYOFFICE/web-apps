@@ -226,7 +226,8 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -262,7 +263,12 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "textErrorWrongPassword": "The password you supplied is not correct.",
+    "textUnlockRange": "Unlock Range",
+    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
