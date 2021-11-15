@@ -396,7 +396,7 @@ define([
         },
 
         showSaveFormTip: function() {
-            if (!Common.localStorage.getItem("de-hide-saveform-tip") && !this.tipSaveForm) {
+            if (this.view.btnSaveForm && !Common.localStorage.getItem("de-hide-saveform-tip") && !this.tipSaveForm) {
                 var me = this;
                 me.tipSaveForm = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
