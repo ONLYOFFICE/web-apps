@@ -113,6 +113,14 @@
     .swiper-pagination-bullet-active{
         background: @black;
     }
+    .multilevels {
+        li:not(:first-child){ 
+            border:none;
+            .item-content {
+                min-height: 70px;
+            }
+        }
+    }
 }
 
 

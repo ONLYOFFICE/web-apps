@@ -27,9 +27,7 @@ const AddSortAndFilter = props => {
                 <List>
                     <ListItem title={_t.textFilter}>
                         <Toggle checked={isFilter}
-                                onToggleChange={(prev) => {
-                                    props.onInsertFilter(!prev);
-                                }}/>
+                                onToggleChange={() => props.onInsertFilter(!isFilter)}/>
                     </ListItem>
                 </List>
             }
