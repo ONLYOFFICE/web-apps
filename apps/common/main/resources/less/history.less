@@ -84,7 +84,8 @@
             }
 
             .revision-expand {
-                background-position: -70px -145px;
+                border-color: @icon-normal-pressed-ie;
+                border-color: @icon-normal-pressed;
             }
         }
     }
@@ -143,16 +144,22 @@
         }
 
         .revision-expand {
-            width: 23px;
-            height: 23px;
-            background-position: -43px -145px;
-            margin: 10px 10px;
+            width: 8px;
+            height: 8px;
+            border: solid 2px @icon-normal-ie;
+            border: solid 2px @icon-normal;
+            border-bottom: none;
+            border-right: none;
+            background-image: none;
             display: inline-block;
             position: absolute;
-            right: 0;
+            right: 2px;
+            margin: 15px;
+            //transition: transform 0.2s ease;
+            transform: rotate(-135deg) ;
 
             &.up {
-                transform: rotate(180deg);
+                transform: rotate(45deg);
             }
         }
 
