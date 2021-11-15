@@ -222,7 +222,8 @@ define([
         }
 
         var on_document_ready = function (el) {
-            get_themes_config('../../common/main/resources/themes/themes.json');
+            // get_themes_config('../../common/main/resources/themes/themes.json');
+            get_themes_config('../../../../themes.json');
         }
 
         var get_ui_theme_name = function (objtheme) {
