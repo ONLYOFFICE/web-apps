@@ -19,7 +19,7 @@
     --f7-navbar-height: 56px;
 
     --f7-subnavbar-bg-color: @toolbar-background;
-    --f7-subnavbar-link-color: @fill-white;
+    --f7-subnavbar-link-color: @toolbar-icons;
     --f7-subnavbar-text-color: @fill-white;
     --f7-subnavbar-height: 56px;
 
@@ -151,7 +151,7 @@
     }
 
     .button-fill {
-        color: @white;
+        color: @brand-text-on-brand;
         // background-color: @brandColor;
         background-color: transparent;
     }
@@ -161,7 +161,7 @@
     }
 
     .button-red {
-        color: @white;
+        color: @brand-text-on-brand;
         background-color:@text-error;
     }
 
@@ -303,7 +303,7 @@
                             }
                             &.active {
                                 // color: @white;
-                                background-color: var(--button-active);
+                                background-color: var(--button-active-opacity);
                                 // i.icon {
                                 //     background-color: @white;
                                 // }
@@ -320,6 +320,7 @@
                 border-radius: 4px;
                 margin-top: -3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
+                background: @fill-white;
                 &.auto {
                     background-color: @autoColor;
                 }
