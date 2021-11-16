@@ -127,7 +127,7 @@ Common.Locale = new(function() {
                 l10n = json || {};
                 apply && _applyLocalization();
             }).catch(function(e) {
-                if ( currentLang != defLang && defLang && defLang.length < 3 ) {
+                if ( !/loaded/.test(e) && currentLang != defLang && defLang && defLang.length < 3 ) {
                     return setTimeout(function(){
                         _requireLang(defLang)
                     }, 0);
