@@ -140,7 +140,7 @@ class MainPage extends Component {
 
                 {appOptions.isDocReady &&
                     <Fragment key='filter-context'>
-                        <FilterOptionsController />
+                        <FilterOptionsController wsProps={wsProps} />
                         <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
                     </Fragment>
                 }
