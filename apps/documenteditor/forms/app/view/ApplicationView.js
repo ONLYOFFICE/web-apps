@@ -27,7 +27,6 @@ define([
                             menu        : this.mnuThemes = new Common.UI.Menu({
                                 cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
-                                restoreHeight: true,
                                 items: []
                             })
                         },
