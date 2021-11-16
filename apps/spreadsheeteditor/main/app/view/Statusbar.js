@@ -552,9 +552,8 @@ define([
                             iconTitle     : name,
                             iconVisible   : name!==''
                         };
-                        var hidden = this.api.asc_isWorksheetHidden(i);
-                        hidden ? hidentems.push(tab) : items.push(tab);
-                        (!hidden || !wbprotected) && allItems.push(tab);
+                        this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
+                        allItems.push(tab);
                     }
 
                     if (hidentems.length) {
@@ -571,13 +570,15 @@ define([
                     this.tabbar.add(items);
 
                     allItems.forEach(function(item){
+                        var hidden = me.api.asc_isWorksheetHidden(item.sheetindex);
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
                             style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
                             value: item.sheetindex,
                             checkable: true,
                             checked: item.active,
-                            hidden: me.api.asc_isWorksheetHidden(item.sheetindex),
+                            hidden: hidden,
+                            visible: !hidden || !wbprotected,
                             textHidden: me.itemHidden,
                             template: _.template([
                                 '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',

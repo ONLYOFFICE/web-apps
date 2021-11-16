@@ -98,6 +98,7 @@ define([
             checked     : false,
             allowDepress: false,
             disabled    : false,
+            visible     : true,
             value       : null,
             toggleGroup : null,
             iconCls     : '',
@@ -134,6 +135,7 @@ define([
             this.checked        = me.options.checked;
             me.allowDepress     = me.options.allowDepress;
             this.disabled       = me.options.disabled;
+            this.visible        = me.options.visible;
             this.value          = me.options.value;
             this.toggleGroup    = me.options.toggleGroup;
             this.template       = me.options.template || this.template;
@@ -229,6 +231,8 @@ define([
                     Common.UI.ToggleManager.register(me);
                 }
             }
+            if (!this.visible)
+                this.setVisible(this.visible);
 
             me.cmpEl = el;
             me.rendered = true;
