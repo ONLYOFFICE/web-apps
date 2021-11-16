@@ -555,8 +555,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             if (this.btnColor.isAutoColor()) {
                 props.put_Color(null);
             } else {
-                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                var color = this.colors.getColor() || this.btnColor.color;
+                if (color) {
+                    color = Common.Utils.ThemeColor.getRgbColor(color);
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
             }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
@@ -665,8 +668,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 if (this.btnColor.isAutoColor()) {
                     props.put_Color(null);
                 } else {
-                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    var color = this.colors.getColor() || this.btnColor.color;
+                    if (color) {
+                        color = Common.Utils.ThemeColor.getRgbColor(color);
+                        props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    }
                 }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }
