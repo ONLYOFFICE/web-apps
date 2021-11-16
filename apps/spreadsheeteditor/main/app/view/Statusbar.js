@@ -380,12 +380,11 @@ define([
 
                 var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                     '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 85px;"><%= caption %></div>' +
-                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 85px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div class="item-caption"><%= caption %></div>' +
+                    '<label class="item-value"><%= options.exampleval ? options.exampleval : "" %></label>' +
                     '</div></a>');
 
                 this.customizeStatusBarMenu = new Common.UI.Menu({
-                    style: 'margin-top: 0px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
                     menuAlignEl: $(this.el),
                     items: [
@@ -858,6 +857,13 @@ define([
                     this.tabBarBox.css('right', '0px');
                 }
                 this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
+
+                if (this.statusMessage) {
+                    var status = this.getStatusMessage(this.statusMessage);
+                    if (status !== this.boxAction.text().trim()) {
+                        this.labelAction.text(status);
+                    }
+                }
             },
 
             updateVisibleItemsBoxMath: function () {
@@ -962,8 +968,19 @@ define([
                 );
             },
 
+            getStatusMessage: function (message) {
+                var _message;
+                if (this.isCompact && message.length > 17 && this.boxAction.width() < 180) {
+                    _message = message.substr(0, 17) + '...'
+                } else {
+                    _message = message;
+                }
+                return _message;
+            },
+
             showStatusMessage: function(message) {
-                this.labelAction.text(message);
+                this.statusMessage = message;
+                this.labelAction.text(this.getStatusMessage(message));
                 this.customizeStatusBarMenu.items.forEach(function (item) {
                     if (item.options.id === 'saved-status') {
                         item.options.exampleval = message;
@@ -982,6 +999,7 @@ define([
 
             clearStatusMessage: function() {
                 this.labelAction.text('');
+                this.statusMessage = undefined;
             },
 
             sheetIndexText      : 'Sheet {0} of {1}',
