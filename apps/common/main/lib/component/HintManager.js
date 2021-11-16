@@ -455,13 +455,16 @@ Common.UI.HintManager = new(function() {
                                     _resetToDefault();
                                     return;
                                 }
-                                if (!curr.attr('content-target') || (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'))) { // need to open panel
+                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'));
+                                if (!curr.attr('content-target') || needOpenPanel) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
                                         if (curr.attr('for')) { // to trigger event in checkbox
                                             $('#' + curr.attr('for')).trigger(jQuery.Event('click', {which: 1}));
                                         } else {
                                             curr.trigger(jQuery.Event('click', {which: 1}));
+                                            if (needOpenPanel)
+                                                _isComplete = false; // to show next level of hints
                                         }
                                     }
                                 }
