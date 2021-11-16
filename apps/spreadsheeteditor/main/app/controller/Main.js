@@ -2212,7 +2212,12 @@ define([
                         validatePwd: false,
                         handler: function (result, value) {
                             if (me.api && apiCallback)  {
-                                apiCallback((result == 'ok') ? me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data) : false, result !== 'ok');
+                                if (result == 'ok') {
+                                    me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
+                                        apiCallback(res, false);
+                                    });
+                                } else
+                                    apiCallback(false, true);
                             }
                             me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }
