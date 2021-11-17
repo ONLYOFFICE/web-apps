@@ -85,7 +85,7 @@ const EditText = props => {
                     {!isAndroid && <Icon slot="media" icon="icon-text-additional"></Icon>}
                 </ListItem>
             </List>
-            {paragraphObj ? (
+            {paragraphObj || storeFocusObjects.settings.includes('text') ? (
                 <Fragment>
                     <List>
                         <ListItem className='buttons'>
@@ -476,7 +476,8 @@ const PageBullets = props => {
     const typeBullets = storeTextSettings.typeBullets;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -531,7 +532,8 @@ const PageNumbers = props => {
     const typeNumbers = storeTextSettings.typeNumbers;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -596,7 +598,8 @@ const PageLineSpacing = props => {
     const lineSpacing = storeTextSettings.lineSpacing;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
