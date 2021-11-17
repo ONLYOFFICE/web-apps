@@ -66,6 +66,7 @@ define([
             lockuserid          : '',
             unattached          : false,
             userdata            : '',
+            position            : 0,
 
             id                  : Common.UI.getId(),        //  internal
             time                : 0,

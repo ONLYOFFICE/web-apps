@@ -194,6 +194,8 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateCommentPosition', _.bind(this.onApiUpdateCommentPosition, this));
                 this.api.asc_registerCallback('asc_onDocumentPlaceChanged', _.bind(this.onDocumentPlaceChanged, this));
                 this.api.asc_registerCallback('asc_onDeleteComment', _.bind(this.onDeleteComment, this)); // only for PE, when del or ctrl+x pressed
+                this.api.asc_registerCallback('asc_onChangePosition', _.bind(this.onApiChangePosition, this)); // change comment position in document
+                this.api.asc_registerCallback('asc_onChangePositions', _.bind(this.onApiChangePositions, this)); // change comments position in document
             }
         },
 
@@ -215,7 +217,11 @@ define([
                 Common.localStorage.setItem(this.appPrefix + "comments-sort", type);
                 Common.Utils.InternalSettings.set(this.appPrefix + "comments-sort", type);
 
-                if (type=='position') {
+                if (type=='position-asc' || type=='position-desc') {
+                    var direction = (type=='position-asc') ? 1 : -1;
+                    this.collection.comparator = function (collection) {
+                        return direction * collection.get('position');
+                    };
                 } else if (type=='author-asc' || type=='author-desc') {
                     var direction = (type=='author-asc') ? 1 : -1;
                     this.collection.comparator = function(item1, item2) {
@@ -819,6 +825,7 @@ define([
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
+                comment.set('position', data.asc_getPosition());
                 comment.set('time',     date.getTime());
                 comment.set('date',     t.dateToLocaleTimeString(date));
                 comment.set('editable', (t.mode.canEditComments || (data.asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName()));
@@ -1102,6 +1109,27 @@ define([
             }
         },
 
+        onApiChangePosition: function (id, data) {
+            var comment = this.findComment(id) || this.findCommentInGroup(id);
+            if (comment) {
+                var needSort = (this.getComparator() == 'position-asc' || this.getComparator() == 'position-desc') && (data.asc_getPosition() !== comment.get('position'));
+                comment.set('position', data.asc_getPosition());
+                needSort && this.updateComments(true);
+            }
+        },
+
+        onApiChangePositions: function (comments) {
+            var needSort = false;
+            for (var i = 0; i < comments.length; ++i) {
+                var comment = this.findComment(comments[i].Id) || this.findCommentInGroup(comments[i].Id);
+                if (comment) {
+                    needSort = needSort || (comments[i].Comment.asc_getPosition() !== comment.get('position'));
+                    comment.set('position', comments[i].Comment.asc_getPosition());
+                }
+            }
+            needSort && (this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc') && this.updateComments(true);
+        },
+
         // internal
 
         updateComments: function (needRender, disableSort, loadText) {
@@ -1299,6 +1327,7 @@ define([
                 resolved            : data.asc_getSolved(),
                 unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
                 userdata            : data.asc_getUserData(),
+                position            : data.asc_getPosition(),
                 id                  : Common.UI.getId(),
                 time                : date.getTime(),
                 showReply           : false,
