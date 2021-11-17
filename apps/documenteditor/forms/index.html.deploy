@@ -200,14 +200,19 @@
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
-            var elem = document.querySelector('.loading-logo');
-            if (elem && (logo || logoDark)) {
-                elem.style.backgroundImage= 'none';
-                elem.style.width = 'auto';
-                elem.style.height = 'auto';
-                var img = document.querySelector('.loading-logo img');
-                img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
-                img.style.opacity = 1;
+
+            if (stopLoading) {
+               document.body.removeChild(document.getElementById('loading-mask'));
+            } else {
+               var elem = document.querySelector('.loading-logo');
+               if (elem && (logo || logoDark)) {
+                   elem.style.backgroundImage= 'none';
+                   elem.style.width = 'auto';
+                   elem.style.height = 'auto';
+                   var img = document.querySelector('.loading-logo img');
+                   img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                   img.style.opacity = 1;
+               }
             }
         </script>
 
@@ -239,17 +244,6 @@
               <span id="box-tools"></span>
           </div>
       </div>
-      <script>
-        if (stopLoading) {
-            document.body.removeChild(document.getElementById('loading-mask'));
-        } else {
-            var elem = document.querySelector('.loading-logo img');
-            if (elem) {
-                logo && (elem.setAttribute('src', logo));
-                elem.style.opacity = 1;
-            }
-        }
-      </script>
       <script>
           window.requireTimeourError = function(){
               var reqerr;

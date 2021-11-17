@@ -513,6 +513,7 @@ define([
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
+                this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             }
 
             var $parent = labelDocName.parent();
