@@ -305,7 +305,7 @@ define([
                                 {caption: '--'},
                                 new Common.UI.MenuItem({
                                     template: _.template([
-                                        '<div class="menu-zoom" style="height: 25px;" ',
+                                        '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
@@ -318,7 +318,7 @@ define([
                                 }),
                                 new Common.UI.MenuItem({
                                     template: _.template([
-                                        '<div class="menu-zoom" style="height: 25px;" ',
+                                        '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
