@@ -7,7 +7,6 @@
     @darkGrey: #757575;
     @text-normal: var(--text-normal);
     @brand-text-on-brand: var(--brand-text-on-brand);
-
     @touchColor: rgba(255,255,255,0.1);
 
     --f7-navbar-shadow-image: none;
@@ -19,7 +18,7 @@
     --f7-navbar-height: 56px;
 
     --f7-subnavbar-bg-color: @toolbar-background;
-    --f7-subnavbar-link-color: @fill-white;
+    --f7-subnavbar-link-color: @toolbar-icons;
     --f7-subnavbar-text-color: @fill-white;
     --f7-subnavbar-height: 56px;
 
@@ -31,6 +30,13 @@
 
     --f7-link-highlight-color: transparent;
     --f7-link-touch-ripple-color: @touchColor;
+
+    --f7-actions-bg-color: @background-secondary;
+    --f7-popover-bg-color: @background-secondary;
+
+    --f7-dialog-bg-color: @background-secondary;
+    --f7-dialog-text-color: @text-secondary;
+    --f7-dialog-title-text-color: @text-normal;
 
     .button {
         --f7-touch-ripple-color: transparent;
@@ -79,6 +85,8 @@
         --f7-list-item-border-color: @background-menu-divider;
         --f7-list-chevron-icon-color: @text-tertiary;
         --f7-toggle-inactive-color: @background-menu-divider;
+        --f7-actions-button-text-color: @text-normal;
+        --f7-input-text-color: @text-normal;
     }
 
     .add-popup {
@@ -146,7 +154,6 @@
 
     .button-fill {
         color: @brand-text-on-brand;
-        // background-color: @brandColor;
         background-color: transparent;
     }
 
@@ -226,12 +233,11 @@
                 color: @fill-white;
                 i.icon {
                     opacity: 1;
-                    background-color: @fill-white;
+                    // background-color: @fill-white;
                 }
             }
         }
         .tab-link-highlight {
-            // --f7-tabbar-link-active-border-color: rgba(255,255,255,0.5);
             --f7-tabbar-link-active-border-color: @toolbar-icons;
             position: absolute;
             left: 0;
@@ -302,7 +308,6 @@
                             &.active {
                                 color: @fill-white;
                                 background-color: @brandColor;
-                                // background-color: fade(@brandColor, 20%);
                                 i.icon {
                                     background-color: @fill-white;
                                 }
@@ -538,7 +543,9 @@
         cursor: pointer;
         line-height: 48px;
         font-size: 16px;
-        color: rgba(0,0,0,.87);
+        // color: rgba(0,0,0,.87);
+        color: @text-normal;
+        // color: var(--f7-actions-button-text-color, );
     }
 
     @media (min-width: 496px) {

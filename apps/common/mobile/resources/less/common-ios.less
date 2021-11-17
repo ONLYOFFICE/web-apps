@@ -41,6 +41,10 @@
     --f7-toggle-inactive-color: @background-menu-divider;
     --f7-actions-button-border-color: @background-menu-divider;
     --f7-popover-bg-color: @background-primary;
+    --f7-dialog-bg-color-rgb: @background-secondary;
+    --f7-dialog-title-text-color: @text-normal;
+    --f7-dialog-text-color: @text-normal;
+    --f7-dialog-border-divider-color: @background-menu-divider;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -378,12 +382,12 @@
 
     .button-fill {
         color: @brandColor;
-        background-color: @fill-white;
+        background-color: @background-primary;
     }
 
     .button-red {
         color: @text-error;
-        background-color: @fill-white;
+        background-color: @background-primary;
     }
 
     .buttons-list {
@@ -427,7 +431,8 @@
     }
 
     .dialog {
-        background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
+        // background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
+        background-color: var(--f7-dialog-bg-color-rgb);
     }
 
     #color-picker {
@@ -586,7 +591,7 @@
         height: 57px;
         line-height: 57px;
         font-size: 20px;
-        color: @brandColor;
+        color: @text-normal;
         white-space: normal;
         text-overflow: ellipsis;
     }
