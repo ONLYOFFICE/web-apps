@@ -51,6 +51,7 @@ define([
             "background-notification-badge",
             "background-scrim",
             "background-loader",
+            "background-contrast-popover",
 
             "highlight-button-hover",
             "highlight-button-pressed",
@@ -70,6 +71,7 @@ define([
             "border-control-focus",
             "border-color-shading",
             "border-error",
+            "border-contrast-popover",
 
             "text-normal",
             "text-normal-pressed",
