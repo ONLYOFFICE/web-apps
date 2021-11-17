@@ -51,6 +51,7 @@ define([
             "background-notification-badge",
             "background-scrim",
             "background-loader",
+            "background-accent-button",
             "background-contrast-popover",
 
             "highlight-button-hover",
@@ -61,6 +62,8 @@ define([
             "highlight-header-button-pressed",
             "highlight-toolbar-tab-underline",
             "highlight-text-select",
+            "highlight-accent-button-hover",
+            "highlight-accent-button-pressed",
 
             "border-toolbar",
             "border-divider",
