@@ -254,6 +254,11 @@ define([
             this.statusbar.$el.css('z-index', '');
             this.statusbar.tabMenu.on('item:click', _.bind(this.onTabMenu, this));
             this.statusbar.btnAddWorksheet.on('click', _.bind(this.onAddWorksheetClick, this));
+            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus')) {
+                this.statusbar.customizeStatusBarMenu.items[0].setVisible(false);
+                this.statusbar.customizeStatusBarMenu.items[1].setVisible(false);
+                this.statusbar.boxAction.addClass('hide');
+            }
 
             Common.NotificationCenter.on('window:resize', _.bind(this.onWindowResize, this));
             Common.NotificationCenter.on('cells:range',   _.bind(this.onRangeDialogMode, this));
