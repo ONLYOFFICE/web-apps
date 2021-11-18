@@ -425,6 +425,12 @@ define([
                 }
             }
 
+            labelDocName = $('#title-doc-name');
+            if (data.doc) {
+                labelDocName.text(data.doc.title || '');
+                this.embedConfig.docTitle = data.doc.title;
+            }
+
             this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
             this.api.asc_setDocInfo(docInfo);
@@ -432,12 +438,6 @@ define([
             this.api.asc_enableKeyEvents(true);
 
             Common.Analytics.trackEvent('Load', 'Start');
-
-            labelDocName = $('#title-doc-name');
-            if (data.doc) {
-                labelDocName.text(data.doc.title || '');
-                this.embedConfig.docTitle = data.doc.title;
-            }
         },
 
         onRunAutostartMacroses: function() {
