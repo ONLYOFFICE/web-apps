@@ -816,7 +816,8 @@ define([
                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
                 var user = this.userCollection.findOriginalUser(data.asc_getUserId());
-                var needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username'));
+                var needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username')) ||
+                                this.getComparator() == 'position-asc' || this.getComparator() == 'position-desc';
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
@@ -825,7 +826,7 @@ define([
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
-                comment.set('position', data.asc_getPosition());
+                comment.set('position', t.api.asc_GetCommentLogicPosition(id));
                 comment.set('time',     date.getTime());
                 comment.set('date',     t.dateToLocaleTimeString(date));
                 comment.set('editable', (t.mode.canEditComments || (data.asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName()));
@@ -1327,7 +1328,7 @@ define([
                 resolved            : data.asc_getSolved(),
                 unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
                 userdata            : data.asc_getUserData(),
-                position            : data.asc_getPosition(),
+                position            : this.api.asc_GetCommentLogicPosition(id),
                 id                  : Common.UI.getId(),
                 time                : date.getTime(),
                 showReply           : false,
