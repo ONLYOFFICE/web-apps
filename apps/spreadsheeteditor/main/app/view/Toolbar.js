@@ -187,7 +187,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-copy',
                 dataHint: '1',
-                dataHintDirection: 'top',
+                dataHintDirection: config.isEditDiagram ? 'bottom' : 'top',
                 dataHintTitle: 'C'
             });
 
@@ -197,7 +197,7 @@ define([
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
                 dataHint    : '1',
-                dataHintDirection: 'top',
+                dataHintDirection: config.isEditDiagram ? 'bottom' : 'top',
                 dataHintTitle: 'V'
             });
 
@@ -249,21 +249,28 @@ define([
                                 hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
-                    })
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.btnDecDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-decdecimal',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-decdecimal',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom'
                 });
 
                 me.btnIncDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incdecimal',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-incdecimal',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom'
                 });
 
                 var formatTemplate =
@@ -287,7 +294,8 @@ define([
                     editable    : false,
                     data        : me.numFormatData,
                     dataHint    : '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: config.isEditDiagram ? 'bottom' : 'top',
+                    dataHintOffset: config.isEditDiagram ? 'big' : undefined
                 });
 
                 me.btnEditChart = new Common.UI.Button({
@@ -295,7 +303,10 @@ define([
                     cls         : 'btn-toolbar btn-text-default auto',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'min-width: 120px;'
+                    style       : 'min-width: 120px;',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
@@ -303,7 +314,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-select-range',
                     caption     : me.tipEditChartData,
-                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect]
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
 
                 me.btnEditChartType = new Common.UI.Button({
@@ -312,7 +326,10 @@ define([
                     iconCls     : 'toolbar__icon btn-menu-chart',
                     caption     : me.tipEditChartType,
                     lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'min-width: 120px;'
+                    style       : 'min-width: 120px;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
             } else
             if ( config.isEditMailMerge ) {

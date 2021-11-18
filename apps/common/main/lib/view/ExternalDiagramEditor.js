@@ -62,8 +62,8 @@ define([
                 '</div>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok">' + this.textSave + '</button>',
-                    '<button id="id-btn-diagram-editor-cancel" class="btn normal dlg-btn" result="cancel">' + this.textClose + '</button>',
+                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
+                    '<button id="id-btn-diagram-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
                 '</div>'
             ].join('');
 
