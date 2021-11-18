@@ -31,7 +31,7 @@
  *
 */
 if (Common === undefined) {
-    var Common = {};
+    var Common = {;
 }
 
 if (Common.define === undefined) {
@@ -598,7 +598,7 @@ define(function(){ 'use strict';
         }
     })(), Common.define.conditionalData || {});
 
-    Common.define.effectData = _.extend(new(function (){
+    Common.define.effectData = _.extend( new(function (){
         return {
             textEntrance: 'Entrance',
             textEmphasis: 'Emphasis',
@@ -644,6 +644,8 @@ define(function(){ 'use strict';
             textSubtle: 'Subtle',
             textModerate: 'Moderate',
             textExciting: 'Exciting',
+            textLinesCurves: 'Lines Curves',
+            textSpecial: 'Special',
             textBox: 'Box',
             textCircle: 'Circle',
             textPlus: 'Plus',
@@ -682,182 +684,596 @@ define(function(){ 'use strict';
             textCurveDown: 'CurveDown',
             textSpiralOut: 'Spiral Out',
             textContrastingColor: 'Contrasting Color',
+            textPointStar4: '4 Point Star',
+            textPointStar5: '5 Point Star',
+            textPointStar6: '6 Point Star',
+            textPointStar8: '8 Point Star',
+            textCrescentMoon: 'Crescent Moon',
+            textEqualTriangle: 'Equal Triangle',
+            textFootball: 'Football',
+            textHeart: 'Heart',
+            textHexagon: 'Hexagon',
+            textOctagon: 'Octagon',
+            textParallelogram: 'Parallelogram',
+            textPentagon: 'Pentagon',
+            textSquare: 'Square',
+            textTeardrop: 'Teardrop',
+            textTrapezoid: 'Trapezoid',
+            textArcDown: 'Arc Down',
+            textArcLeft: 'Arc Left',
+            textArcRight: 'Arc Right',
+            textArcUp: 'Arc Up',
+            textBounceLeft: 'Bounce Left',
+            textBounceRight: 'Bounce Right',
+            textCurvyLeft: 'Curvy Left',
+            textCurvyRight: 'Curvy Right',
+            textDecayingWave: 'Decaying Wave',
+            textDiagonalDownRight: 'Diagonal Down Right',
+            textDiagonalUpRight: 'Diagonal Up Right',
+            textDown: 'Down',
+            textFunnel: 'Funnel',
+            textHeartbeat: 'Heartbeat',
+            textLeft: 'Left',
+            textRight: 'Right',
+            textSCurve1: 'S Curve 1',
+            textSCurve2: 'S Curve 2',
+            textSineWave: 'Sine Wave',
+            textSpiralLeft: 'Spiral Left',
+            textSpiralRight: 'Spiral Right',
+            textSpring: 'Spring:',
+            textStairsDown: 'Stairs Down',
+            textTurnDown: 'Turn Down',
+            textTurnDownRight: 'Turn Down Right',
+            textTurnUp: 'Turn Up',
+            textTurnUpRight: 'Turn Up Right',
+            textUp: 'Up',
+            textZigzag: 'Zigzag',
+            textBean: 'Bean',
+            textCurvedSquare: 'CurvedSquare',
+            textCurvedX:'Curved X',
+            textCurvyStar: 'Curvy Star',
+            textFigureFour: 'Figure 8 Four',
+            textHorizontalFigure: 'Horizontal Figure 8',
+            textInvertedSquare: 'Inverted Square',
+            textInvertedTriangle: 'Inverted Triangle',
+            textLoopDeLoop: 'Loop de Loop',
+            textNeutron: 'Neutron',
+            textPeanut: 'Peanut',
+            textPointStar: 'Point Star',
+            textSwoosh: 'Swoosh',
+            textVerticalFigure: 'Vertical Figure 8',
+            textRightTriangle: 'Right Triangle',
+            textAcross: 'Across',
+            textFromBottom: 'From Bottom',
+            textFromBottomLeft: 'From Bottom-Left',
+            textFromLeft: 'From Left',
+            textFromTopLeft: 'From Top-Left',
+            textFromTop: 'From Top',
+            textFromTopRight: 'From Top-Right',
+            textFromRight: 'From Right',
+            textFromBottomRight: 'From Bottom-Right',
+            textLeftDown: ' Left Down',
+            textLeftUp: ' Left Up',
+            textRightDown: ' Right Down',
+            textRightUp: ' Right Up',
+            textObjectCenter: 'Object Center',
+            textSlideCenter: 'Slide Center',
+            textInFromScreenCenter: 'In From Screen Center',
+            textInToScreenCenter: 'In To Screen Center',
+            textInSlightly: 'In Slightly',
+            textOutFromScreenBottom: 'Out From Screen Bottom',
+            textToFromScreenBottom: 'Out To Screen Bottom',
+            textOutSlightly: 'Out Slightly',
+            textToBottom: 'To Bottom',
+            textToBottomLeft: 'To Bottom-Left',
+            textToLeft: 'To Left',
+            textToTopLeft: 'To Top-Left',
+            textToTop: 'To Top',
+            textToTopRight: 'To Top-Right',
+            textToRight: 'To Right',
+            textToBottomRight: 'To Bottom-Right',
+            textSpoke1: '1 Spoke',
+            textSpoke2: '2 Spoke',
+            textSpoke3: '3 Spoke',
+            textSpoke4: '4 Spoke',
+            textSpoke8: '8 Spoke',
 
             getEffectGroupData: function (){
                 return[
-                    {id: 'menu-effect-group-entrance', type: Asc.AscFormat.PRESET_CLASS_ENTR, caption: this.textEntrance},
-                    {id: 'menu-effect-group-emphasis', type: Asc.AscFormat.PRESET_CLASS_EMPH, caption: this.textEmphasis},
-                    {id: 'menu-effect-group-exit',     type: Asc.AscFormat.PRESET_CLASS_EXIT, caption: this.textExit},
-                    {id: 'menu-effect-group-path',     type: Asc.AscFormat.PRESET_CLASS_PATH, caption: this.textPath}
+                    {id: 'menu-effect-group-entrance', value: Asc.AscFormat.PRESET_CLASS_ENTR, caption: this.textEntrance},
+                    {id: 'menu-effect-group-emphasis', value: Asc.AscFormat.PRESET_CLASS_EMPH, caption: this.textEmphasis},
+                    {id: 'menu-effect-group-exit',     value: Asc.AscFormat.PRESET_CLASS_EXIT, caption: this.textExit},
+                    {id: 'menu-effect-group-path',     value: Asc.AscFormat.PRESET_CLASS_PATH, caption: this.textPath}
 
                 ];
             },
 
             getEffectData: function (){
                 return[
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_APPEAR,        iconCls: 'transition-push', caption: this.textAppear},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FADE,          iconCls: 'transition-push', caption: this.textFade},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FLY_IN_FROM,   iconCls: 'transition-push', caption: this.textFlyIn},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_FLOAT,         iconCls: 'transition-push', caption: this.textFloatIn},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_SPLIT,         iconCls: 'transition-push', caption: this.textSplit},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_WIPE_FROM,     iconCls: 'transition-wipe', caption: this.textWipe},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_BOX,           iconCls: 'transition-push', caption: this.textBox},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_CIRCLE,        iconCls: 'transition-push', caption: this.textCircle},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_PLUS,          iconCls: 'transition-push', caption: this.textPlus},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_DIAMOND,       iconCls: 'transition-push', caption: this.textDiamond},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_WHEEL,         iconCls: 'transition-push', caption: this.textWheel},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_RANDOM_BARS,   iconCls: 'transition-push', caption: this.textRandomBars},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_GROW_AND_TURN, iconCls: 'transition-push', caption: this.textGrowTurn},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_ZOOM,          iconCls: 'transition-zoom', caption: this.textZoom},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_SWIVEL,        iconCls: 'transition-push', caption: this.textSwivel},
-                    {group: 'menu-effect-group-entrance',   type: Asc.AscFormat.ENTRANCE_BOUNCE,        iconCls: 'transition-push', caption: this.textBounce},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_PULSE,         iconCls: 'transition-push', caption: this.textPulse},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_COLOR_PULSE,   iconCls: 'transition-push', caption: this.textColorPulse},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_TEETER,        iconCls: 'transition-push', caption: this.textTeeter},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_SPIN,          iconCls: 'transition-split', caption: this.textSplit},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_GROW_SHRINK,   iconCls: 'transition-push', caption: this.textGrowShrink},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_DESATURATE,    iconCls: 'transition-push', caption: this.textDesaturate},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_CONTRASTING_DARKEN, iconCls: 'transition-push', caption: this.textDarken},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_LIGHTEN,       iconCls: 'transition-push', caption: this.textLighten},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_TRANSPARENCY,  iconCls: 'transition-push', caption: this.textTransparency},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_OBJECT_COLOR,  iconCls: 'transition-push', caption: this.textObjectColor},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,  iconCls: 'transition-push', caption: this.textComplementaryColor},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_LINE_COLOR,    iconCls: 'transition-push', caption: this.textLineColor},
-                    {group: 'menu-effect-group-emphasis',   type: Asc.AscFormat.EMPHASIS_FILL_COLOR,    iconCls: 'transition-push', caption: this.textFillColor},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_DISAPPEAR,         iconCls: 'transition-push', caption: this.textDisappear},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FADE,              iconCls: 'transition-push', caption: this.textFade},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FLY_OUT_TO,        iconCls: 'transition-push', caption: this.textFlyOut},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_FLOAT,             iconCls: 'transition-push', caption: this.textFloatOut},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_SPLIT,             iconCls: 'transition-split', caption: this.textSplit},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_WIPE_FROM,         iconCls: 'transition-wipe', caption: this.textWipe},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_BOX,               iconCls: 'transition-push', caption: this.textBox},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_CIRCLE,            iconCls: 'transition-push', caption: this.textCircle},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_PLUS,              iconCls: 'transition-push', caption: this.textPlus},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_DIAMOND,           iconCls: 'transition-push', caption: this.textDiamond},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_WHEEL,             iconCls: 'transition-push', caption: this.textWheel},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_RANDOM_BARS,       iconCls: 'transition-push', caption: this.textRandomBars},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_SHRINK_AND_TURN,   iconCls: 'transition-push', caption: this.textShrinkTurn},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_ZOOM,              iconCls: 'transition-push', caption: this.textZoom},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_BASIC_SWIVEL,      iconCls: 'transition-push', caption: this.textSwivel},
-                    {group: 'menu-effect-group-exit',       type: Asc.AscFormat.EXIT_BOUNCE,            iconCls: 'transition-push', caption: this.textBounce}
-                   // {group: 'menu-effect-group-motion',     type: Asc.AscFormat.EXIT_BOUNCE,            iconCls: 'transition-push', caption: this.textBounce},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_APPEAR,        iconCls: 'transition-push', caption: this.textAppear},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_FADE,          iconCls: 'transition-push', caption: this.textFade},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM,   iconCls: 'transition-push', caption: this.textFlyIn},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_FLOAT,         iconCls: 'transition-push', caption: this.textFloatIn},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_SPLIT,         iconCls: 'transition-push', caption: this.textSplit},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_WIPE_FROM,     iconCls: 'transition-wipe', caption: this.textWipe},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_BOX,           iconCls: 'transition-push', caption: this.textBox},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_CIRCLE,        iconCls: 'transition-push', caption: this.textCircle},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_PLUS,          iconCls: 'transition-push', caption: this.textPlus},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_DIAMOND,       iconCls: 'transition-push', caption: this.textDiamond},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_WHEEL,         iconCls: 'transition-push', caption: this.textWheel},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_RANDOM_BARS,   iconCls: 'transition-push', caption: this.textRandomBars},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_GROW_AND_TURN, iconCls: 'transition-push', caption: this.textGrowTurn},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_ZOOM,          iconCls: 'transition-zoom', caption: this.textZoom},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_SWIVEL,        iconCls: 'transition-push', caption: this.textSwivel},
+                    {group: 'menu-effect-group-entrance',   value: Asc.AscFormat.ENTRANCE_BOUNCE,        iconCls: 'transition-push', caption: this.textBounce},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_PULSE,         iconCls: 'transition-push', caption: this.textPulse},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_COLOR_PULSE,   iconCls: 'transition-push', caption: this.textColorPulse},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_TEETER,        iconCls: 'transition-push', caption: this.textTeeter},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_SPIN,          iconCls: 'transition-split', caption: this.textSplit},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_GROW_SHRINK,   iconCls: 'transition-push', caption: this.textGrowShrink},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_DESATURATE,    iconCls: 'transition-push', caption: this.textDesaturate},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_CONTRASTING_DARKEN, iconCls: 'transition-push', caption: this.textDarken},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_LIGHTEN,       iconCls: 'transition-push', caption: this.textLighten},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_TRANSPARENCY,  iconCls: 'transition-push', caption: this.textTransparency},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_OBJECT_COLOR,  iconCls: 'transition-push', caption: this.textObjectColor},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,  iconCls: 'transition-push', caption: this.textComplementaryColor},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_LINE_COLOR,    iconCls: 'transition-push', caption: this.textLineColor},
+                    {group: 'menu-effect-group-emphasis',   value: Asc.AscFormat.EMPHASIS_FILL_COLOR,    iconCls: 'transition-push', caption: this.textFillColor},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_DISAPPEAR,         iconCls: 'transition-push', caption: this.textDisappear},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_FADE,              iconCls: 'transition-push', caption: this.textFade},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_FLY_OUT_TO,        iconCls: 'transition-push', caption: this.textFlyOut},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_FLOAT,             iconCls: 'transition-push', caption: this.textFloatOut},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_SPLIT,             iconCls: 'transition-split', caption: this.textSplit},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_WIPE_FROM,         iconCls: 'transition-wipe', caption: this.textWipe},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_BOX,               iconCls: 'transition-push', caption: this.textBox},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_CIRCLE,            iconCls: 'transition-push', caption: this.textCircle},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_PLUS,              iconCls: 'transition-push', caption: this.textPlus},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_DIAMOND,           iconCls: 'transition-push', caption: this.textDiamond},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_WHEEL,             iconCls: 'transition-push', caption: this.textWheel},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_RANDOM_BARS,       iconCls: 'transition-push', caption: this.textRandomBars},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_SHRINK_AND_TURN,   iconCls: 'transition-push', caption: this.textShrinkTurn},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_ZOOM,              iconCls: 'transition-push', caption: this.textZoom},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_BASIC_SWIVEL,      iconCls: 'transition-push', caption: this.textSwivel},
+                    {group: 'menu-effect-group-exit',       value: Asc.AscFormat.EXIT_BOUNCE,            iconCls: 'transition-push', caption: this.textBounce}
+                   // {group: 'menu-effect-group-motion',     value: Asc.AscFormat.EXIT_BOUNCE,            iconCls: 'transition-push', caption: this.textBounce},
                 ];
             },
 
-            getLevelEffect: function (){
-                return[
-                    {id: 'menu-effect-level-basic', caption:this.textBasic},
-                    {id: 'menu-effect-level-subtle', caption:this.textSubtle},
-                    {id: 'menu-effect-level-moderate', caption:this.textModerate},
-                    {id: 'menu-effect-level-exciting', caption:this.textExciting}
-                ];
+            getLevelEffect: function (isPath){
+
+                if(!isPath)
+                    return [
+                        {id: 'menu-effect-level-basic', caption:this.textBasic},
+                        {id: 'menu-effect-level-subtle', caption:this.textSubtle},
+                        {id: 'menu-effect-level-moderate', caption:this.textModerate},
+                        {id: 'menu-effect-level-exciting', caption:this.textExciting}
+                    ];
+                else
+                    return [
+                        {id: 'menu-effect-level-basic', caption:this.textBasic},
+                        {id: 'menu-effect-level-lines_curves', caption:this.textSubtle},
+                        {id: 'menu-effect-level-special', caption:this.textModerate}
+                    ];
             },
 
             getEffectFullData: function (){
-                return[
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_APPEAR,        caption: this.textAppear},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_BLINDS,        caption: this.textBlinds},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_BOX,           caption: this.textBox},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_CHECKERBOARD,  caption: this.textCheckerboard},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_CIRCLE,        caption: this.textCircle},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_DIAMOND,       caption: this.textDiamond},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_DISSOLVE_IN,   caption: this.textDissolveIn},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_FLY_IN_FROM,   caption: this.textFlyIn},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM,  caption: this.textPeekIn},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_PLUS,          caption: this.textPlus},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_RANDOM_BARS,   caption: this.textRandomBars},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_SPLIT,         caption: this.textSplit},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_STRIPS,        caption: this.textStrips},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_WEDGE,         caption: this.textWedge},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_WHEEL,         caption: this.textWheel},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     type: Asc.AscFormat.ENTRANCE_WIPE_FROM,     caption: this.textWipe},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    type: Asc.AscFormat.ENTRANCE_EXPAND,        caption: this.textExpand},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    type: Asc.AscFormat.ENTRANCE_FADE,          caption: this.textFade},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    type: Asc.AscFormat.ENTRANCE_SWIVEL,        caption: this.textSwivel},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    type: Asc.AscFormat.ENTRANCE_ZOOM,          caption: this.textZoom},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_BASIC_ZOOM,  caption: this.textBasicZoom},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_CENTER_REVOLVE, caption: this.textCenterRevolve},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_CENTER_COMPRESS , caption: this.textCompress},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_FLOAT_DOWN,  caption: this.textFloatDown},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_FLOAT_UP,    caption: this.textFloatUp},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_GROW_AND_TURN, caption: this.textGrowTurn},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_RISE_UP,     caption: this.textRiseUp},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_SPINNER,     caption: this.textSpinner},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  type: Asc.AscFormat.ENTRANCE_STRETCH,     caption: this.textStretch},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_BASIC_SWIVEL, caption: this.textBasicSwivel},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_BOOMERANG,   caption: this.textBoomerang},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_BOUNCE,      caption: this.textBounce},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_CREDITS,     caption: this.textCredits},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_CURVE_UP,    caption: this.textCuverUp},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_DROP,        caption: this.textDrop},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_FLIP,        caption: this.textFlip},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_FLOAT,       caption: this.textFloat},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_PINWHEEL,    caption: this.textPinwheel},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_SPIRAL_IN,   caption: this.textSpiralIn},
-                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  type: Asc.AscFormat.ENTRANCE_WHIP,        caption: this.textWhip},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     type: Asc.AscFormat.EMPHASIS_FILL_COLOR,  caption: this.textFillColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     type: Asc.AscFormat.EMPHASIS_GROW_SHRINK, caption: this.textGrowShrink},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     type: Asc.AscFormat.EMPHASIS_LINE_COLOR,  caption: this.textLineColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     type: Asc.AscFormat.EMPHASIS_SPIN,        caption: this.textSpin},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     type: Asc.AscFormat.EMPHASIS_TRANSPARENCY, caption: this.textTransparency},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR, caption: this.textComplementaryColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR_2, caption: this.textComplementaryColor2},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_CONTRASTING_COLOR, caption: this.textContrastingColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_CONTRASTING_DARKEN, caption: this.textDarken},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_DESATURAT,  caption: this.textDesaturate},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_LIGHTEN,    caption: this.textLighten},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_OBJECT_COLOR,    caption: this.textObjectColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    type: Asc.AscFormat.EMPHASIS_PULSE,      caption: this.textPulse},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  type: Asc.AscFormat.EMPHASIS_COLOR_PULSE, caption: this.textColorPulse},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  type: Asc.AscFormat.EMPHASIS_GROW_WITH_COLOR, caption: this.textGrowWithColor},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  type: Asc.AscFormat.EMPHASIS_SHIMMER,    caption: this.textShimmer},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  type: Asc.AscFormat.EMPHASIS_TEETER,     caption: this.textTeeter},
-                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-exciting',  type: Asc.AscFormat.EMPHASIS_BLINK,      caption: this.textBlink},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_BLINDS,         caption: this.textBlinds},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_BOX,            caption: this.textBox},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_CHECKERBOARD,   caption: this.textCheckerboard},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_CIRCLE,         caption: this.textCircle},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_DIAMOND,        caption: this.textDiamond},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_DISAPPEAR,      caption: this.textDisappear},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_DISSOLVE_OUT,   caption: this.textDissolveOut},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_FLY_OUT_TO,     caption: this.textFlyOut},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_PEEK_OUT_TO,    caption: this.textPeekOut},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_PLUS,           caption: this.textPlus},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_RANDOM_BARS,    caption: this.textRandomBars},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_SPLIT,          caption: this.textSplit},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_STRIPS,         caption: this.textStrips},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_WEDGE,          caption: this.textWedge},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_WHEEL,          caption: this.textWheel},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     type: Asc.AscFormat.EXIT_WIPE_FROM,      caption: this.textWipe},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    type: Asc.AscFormat.EXIT_CONTRACT,       caption: this.textContrast},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    type: Asc.AscFormat.EXIT_FADE,           caption: this.textFade},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    type: Asc.AscFormat.EXIT_SWIVEL,         caption: this.textSwivel},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    type: Asc.AscFormat.EXIT_ZOOM,           caption: this.textZoom},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_BASIC_ZOOM,     caption: this.textBasicZoom},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_CENTER_REVOLVE, caption: this.textCenterRevolve},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_COLLAPSE,       caption: this.textCollapse},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_FLOAT_DOWN,     caption: this.textFloatDown},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_FLOAT_UP,       caption: this.textFloatUp},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_SHRINK_AND_TURN, caption: this.textShrinkTurn},
+                return [
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_APPEAR,        caption: this.textAppear},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_BLINDS,        caption: this.textBlinds},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_BOX,           caption: this.textBox},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_CHECKERBOARD,  caption: this.textCheckerboard},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_CIRCLE,        caption: this.textCircle},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_DIAMOND,       caption: this.textDiamond},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_DISSOLVE_IN,   caption: this.textDissolveIn},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM,   caption: this.textFlyIn},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM,  caption: this.textPeekIn},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_PLUS,          caption: this.textPlus},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_RANDOM_BARS,   caption: this.textRandomBars},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_SPLIT,         caption: this.textSplit},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_STRIPS,        caption: this.textStrips},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_WEDGE,         caption: this.textWedge},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_WHEEL,         caption: this.textWheel},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-basic',     value: Asc.AscFormat.ENTRANCE_WIPE_FROM,     caption: this.textWipe},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    value: Asc.AscFormat.ENTRANCE_EXPAND,        caption: this.textExpand},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    value: Asc.AscFormat.ENTRANCE_FADE,          caption: this.textFade},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    value: Asc.AscFormat.ENTRANCE_SWIVEL,        caption: this.textSwivel},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-subtle',    value: Asc.AscFormat.ENTRANCE_ZOOM,          caption: this.textZoom},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM,  caption: this.textBasicZoom},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_CENTER_REVOLVE, caption: this.textCenterRevolve},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_CENTER_COMPRESS , caption: this.textCompress},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_FLOAT_DOWN,  caption: this.textFloatDown},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_FLOAT_UP,    caption: this.textFloatUp},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_GROW_AND_TURN, caption: this.textGrowTurn},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_RISE_UP,     caption: this.textRiseUp},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_SPINNER,     caption: this.textSpinner},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-moderate',  value: Asc.AscFormat.ENTRANCE_STRETCH,     caption: this.textStretch},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_BASIC_SWIVEL, caption: this.textBasicSwivel},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_BOOMERANG,   caption: this.textBoomerang},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_BOUNCE,      caption: this.textBounce},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_CREDITS,     caption: this.textCredits},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_CURVE_UP,    caption: this.textCuverUp},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_DROP,        caption: this.textDrop},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_FLIP,        caption: this.textFlip},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_FLOAT,       caption: this.textFloat},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_PINWHEEL,    caption: this.textPinwheel},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_SPIRAL_IN,   caption: this.textSpiralIn},
+                    {group: 'menu-effect-group-entrance', level:'menu-effect-level-exciting',  value: Asc.AscFormat.ENTRANCE_WHIP,        caption: this.textWhip},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     value: Asc.AscFormat.EMPHASIS_FILL_COLOR,  caption: this.textFillColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     value: Asc.AscFormat.EMPHASIS_GROW_SHRINK, caption: this.textGrowShrink},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     value: Asc.AscFormat.EMPHASIS_LINE_COLOR,  caption: this.textLineColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     value: Asc.AscFormat.EMPHASIS_SPIN,        caption: this.textSpin},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-basic',     value: Asc.AscFormat.EMPHASIS_TRANSPARENCY, caption: this.textTransparency},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR, caption: this.textComplementaryColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_COMPLEMENTARY_COLOR_2, caption: this.textComplementaryColor2},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_CONTRASTING_COLOR, caption: this.textContrastingColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_CONTRASTING_DARKEN, caption: this.textDarken},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_DESATURAT,  caption: this.textDesaturate},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_LIGHTEN,    caption: this.textLighten},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_OBJECT_COLOR,    caption: this.textObjectColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-subtle',    value: Asc.AscFormat.EMPHASIS_PULSE,      caption: this.textPulse},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  value: Asc.AscFormat.EMPHASIS_COLOR_PULSE, caption: this.textColorPulse},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  value: Asc.AscFormat.EMPHASIS_GROW_WITH_COLOR, caption: this.textGrowWithColor},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  value: Asc.AscFormat.EMPHASIS_SHIMMER,    caption: this.textShimmer},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-moderate',  value: Asc.AscFormat.EMPHASIS_TEETER,     caption: this.textTeeter},
+                    {group: 'menu-effect-group-emphasis', level:'menu-effect-level-exciting',  value: Asc.AscFormat.EMPHASIS_BLINK,      caption: this.textBlink},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_BLINDS,         caption: this.textBlinds},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_BOX,            caption: this.textBox},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_CHECKERBOARD,   caption: this.textCheckerboard},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_CIRCLE,         caption: this.textCircle},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_DIAMOND,        caption: this.textDiamond},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_DISAPPEAR,      caption: this.textDisappear},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_DISSOLVE_OUT,   caption: this.textDissolveOut},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_FLY_OUT_TO,     caption: this.textFlyOut},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_PEEK_OUT_TO,    caption: this.textPeekOut},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_PLUS,           caption: this.textPlus},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_RANDOM_BARS,    caption: this.textRandomBars},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_SPLIT,          caption: this.textSplit},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_STRIPS,         caption: this.textStrips},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_WEDGE,          caption: this.textWedge},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_WHEEL,          caption: this.textWheel},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-basic',     value: Asc.AscFormat.EXIT_WIPE_FROM,      caption: this.textWipe},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    value: Asc.AscFormat.EXIT_CONTRACT,       caption: this.textContrast},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    value: Asc.AscFormat.EXIT_FADE,           caption: this.textFade},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    value: Asc.AscFormat.EXIT_SWIVEL,         caption: this.textSwivel},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-subtle',    value: Asc.AscFormat.EXIT_ZOOM,           caption: this.textZoom},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_BASIC_ZOOM,     caption: this.textBasicZoom},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_CENTER_REVOLVE, caption: this.textCenterRevolve},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_COLLAPSE,       caption: this.textCollapse},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_FLOAT_DOWN,     caption: this.textFloatDown},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_FLOAT_UP,       caption: this.textFloatUp},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_SHRINK_AND_TURN, caption: this.textShrinkTurn},
                     //sink down- EXIT_SHRINK_DOWN?
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_SPINNER,        caption: this.textSpinner},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  type: Asc.AscFormat.EXIT_STRETCHY,       caption: this.textStretch},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_BASIC_SWIVEL,   caption: this.textBasicSwivel},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_BOOMERANG,      caption: this.textBoomerang},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_BOUNCE,         caption: this.textBounce},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_CREDITS,        caption: this.textCredits},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_CURVE_DOWN,     caption: this.textCurveDown},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_DROP,           caption: this.textDrop},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_FLIP,           caption: this.textFlip},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_FLOAT,          caption: this.textFloat},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_PINWHEEL,       caption: this.textPinwheel},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_SPIRAL_OUT,     caption: this.textSpiralOut},
-                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  type: Asc.AscFormat.EXIT_WHIP,           caption: this.textWhip},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_SPINNER,        caption: this.textSpinner},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-moderate',  value: Asc.AscFormat.EXIT_STRETCHY,       caption: this.textStretch},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_BASIC_SWIVEL,   caption: this.textBasicSwivel},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_BOOMERANG,      caption: this.textBoomerang},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_BOUNCE,         caption: this.textBounce},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_CREDITS,        caption: this.textCredits},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_CURVE_DOWN,     caption: this.textCurveDown},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_DROP,           caption: this.textDrop},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_FLIP,           caption: this.textFlip},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_FLOAT,          caption: this.textFloat},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_PINWHEEL,       caption: this.textPinwheel},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_SPIRAL_OUT,     caption: this.textSpiralOut},
+                    {group: 'menu-effect-group-exit',     level:'menu-effect-level-exciting',  value: Asc.AscFormat.EXIT_WHIP,           caption: this.textWhip},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PATH_4_POINT_STAR, caption: this.textPointStar4},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PATH_5_POINT_STAR, caption: this.textPointStar5},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PATH_6_POINT_STAR, caption: this.textPointStar6},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PATH_8_POINT_STAR, caption: this.textPointStar8},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_CIRCLE,       caption: this.textCircle},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_CRESCENT_MOON, caption: this.textCrescentMoon},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_DIAMOND,      caption: this.textDiamond},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_EQUAL_TRIANGLE, caption: this.textEqualTriangle},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_FOOTBALL,     caption: this.textFootball},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_HEART,        caption: this.textHeart},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_HEXAGON,      caption: this.textHexagon},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_OCTAGON,      caption: this.textOctagon},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PARALLELOGRAM, caption: this.textParallelogram},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_PENTAGON,     caption: this.textPentagon},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_RIGHT_TRIANGLE, caption: this.textRightTriangle},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_SQUARE,       caption: this.textSquare},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_TEARDROP,     caption: this.textTeardrop},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-basic',     value: Asc.AscFormat.MOTION_TRAPEZOID,    caption: this.textTrapezoid},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_ARC_DOWN,  caption: this.textArcDown},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_ARC_LEFT,  caption: this.textArcLeft},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_ARC_RIGHT, caption: this.textArcRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_ARC_UP,    caption: this.textArcUp},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_BOUNCE_LEFT, caption: this.textBounceLeft},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_BOUNCE_RIGHT, caption: this.textBounceRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_CURVY_LEFT, caption: this.textCurvyLeft},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_CURVY_RIGHT, caption: this.textCurvyRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_DECAYING_WAVE, caption: this.textDecayingWave},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_DIAGONAL_DOWN_RIGHT, caption: this.textDiagonalDownRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_DIAGONAL_UP_RIGHT, caption: this.textDiagonalUpRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_DOWN,      caption: this.textDown},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_FUNNEL,    caption: this.textFunnel},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_HEARTBEAT, caption: this.textHeartbeat},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_LEFT,      caption: this.textLeft},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_S_CURVE_1, caption: this.textSCurve1},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_S_CURVE_2, caption: this.textSCurve2},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_SINE_WAVE, caption: this.textSineWave},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_SINE_SPIRAL_LEFT, caption: this.textSpiralLeft},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_SINE_SPIRAL_RIGHT, caption: this.textSpiralRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_SPRING,    caption: this.textSpring},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_STAIRS_DOWN, caption: this.textStairsDown},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_TURN_DOWN, caption: this.textTurnDown},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_TURN_DOWN_RIGHT, caption: this.textTurnDownRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_TURN_UP,   caption: this.textTurnUp},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_TURN_UP_RIGHT, caption: this.textTurnUpRight},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_UP,        caption: this.textUp},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_WAVE,      caption: this.textWave},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-lines_curves', value: Asc.AscFormat.MOTION_ZIGZAG,    caption: this.textZigzag},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_BEAN,      caption: this.textBean},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_CURVED_SQUARE, caption: this.textCurvedSquare},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_CURVED_X,  caption: this.textCurvedX},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_CURVY_STAR, caption: this.textCurvyStar},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_FIGURE_8_FOUR, caption: this.textFigureFour},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR, caption: this.textHorizontalFigure},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_INVERTED_SQUARE, caption: this.textInvertedSquare},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_INVERTED_TRIANGLE, caption: this.textInvertedTriangle},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_LOOP_DE_LOOP, caption: this.textLoopDeLoop},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_NEUTRON,   caption: this.textNeutron},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_PEANUT,    caption: this.textPeanut},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_POINTY_STAR, caption: this.textPointStar},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_SWOOSH,    caption: this.textSwoosh},
+                    {group: 'menu-effect-group-path',     level:'menu-effect-level-special',      value: Asc.AscFormat.MOTION_VERTICAL_FIGURE_8, caption: this.textVerticalFigure}
 
                 ];
+            },
+
+            getEffectOptionsData: function (group){
+                var arr=[];
+                switch (group) {
+                    case 'menu-effect-group-entrance':
+                        arr[Asc.AscFormat.ENTRANCE_APPEAR] = [];
+                        arr[Asc.AscFormat.ENTRANCE_BLINDS] = [
+                            {value: Asc.AscFormat.ENTRANCE_BLINDS_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.ENTRANCE_BLINDS_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_BOX] = [
+                            {value: Asc.AscFormat.ENTRANCE_BOX_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.ENTRANCE_BOX_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_CHECKERBOARD] = [
+                            {value: Asc.AscFormat.ENTRANCE_CHECKERBOARD_ACROSS, caption: this.textAcross},
+                            {value: Asc.AscFormat.ENTRANCE_CHECKERBOARD_DOWN, caption: this.textDown}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_CIRCLE] = [
+                            {value: Asc.AscFormat.ENTRANCE_CIRCLE_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.ENTRANCE_CIRCLE_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_DIAMOND] = [
+                            {value: Asc.AscFormat.ENTRANCE_DIAMOND_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.ENTRANCE_DIAMOND_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_DISSOLVE_IN] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FLY_IN_FROM] = [
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM, caption: this.textFromBottom},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM_LEFT, caption: this.textFromBottomLeft},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_LEFT, caption: this.textFromLeft},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_TOP_LEFT, caption: this.textFromTopLeft},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_TOP, caption: this.textFromTop},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_TOP_RIGHT, caption: this.textFromTopRight},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_RIGHT, caption: this.textFromRight},
+                            {value: Asc.AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM_RIGHT, caption: this.textFromBottomRight}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_PEEK_IN_FROM] = [
+                            {value: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM_BOTTOM, caption: this.textFromBottom},
+                            {value: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM_LEFT, caption: this.textFromLeft},
+                            {value: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM_RIGHT, caption: this.textFromRight},
+                            {value: Asc.AscFormat.ENTRANCE_PEEK_IN_FROM_TOP, caption: this.textFromTop}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_PLUS] = [
+                            {value: Asc.AscFormat.ENTRANCE_PLUS_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.ENTRANCE_PLUS_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_RANDOM_BARS] = [
+                            {value: Asc.AscFormat.ENTRANCE_RANDOM_BARS_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.ENTRANCE_RANDOM_BARS_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_SPLIT] = [
+                            {value: Asc.AscFormat.ENTRANCE_SPLIT_HORIZONTAL_IN, caption: this.textHorizontalIn},
+                            {value: Asc.AscFormat.ENTRANCE_SPLIT_HORIZONTAL_OUT, caption: this.textHorizontalOut},
+                            {value: Asc.AscFormat.ENTRANCE_SPLIT_VERTICAL_IN, caption: this.textVerticalIn},
+                            {value: Asc.AscFormat.ENTRANCE_SPLIT_VERTICAL_OUT, caption: this.textVerticalOut}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_STRIPS] = [
+                            {value: Asc.AscFormat.ENTRANCE_STRIPS_LEFT_DOWN, caption: this.textLeftDown},
+                            {value: Asc.AscFormat.ENTRANCE_STRIPS_LEFT_UP, caption: this.textLeftUp},
+                            {value: Asc.AscFormat.ENTRANCE_STRIPS_RIGHT_DOWN, caption: this.textRightDown},
+                            {value: Asc.AscFormat.ENTRANCE_STRIPS_RIGHT_UP, caption: this.textRightUp}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_WEDGE] = [];
+                        arr[Asc.AscFormat.ENTRANCE_WHEEL] = [
+                            {value: Asc.AscFormat.ENTRANCE_WHEEL_1_SPOKE, caption: this.textSpoke1},
+                            {value: Asc.AscFormat.ENTRANCE_WHEEL_2_SPOKE, caption: this.textSpoke2},
+                            {value: Asc.AscFormat.ENTRANCE_WHEEL_3_SPOKE, caption: this.textSpoke3},
+                            {value: Asc.AscFormat.ENTRANCE_WHEEL_4_SPOKE, caption: this.textSpoke4},
+                            {value: Asc.AscFormat.ENTRANCE_WHEEL_8_SPOKE, caption: this.textSpoke8}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_WIPE_FROM] = [
+                            {value: Asc.AscFormat.ENTRANCE_WIPE_FROM_BOTTOM, caption: this.textFromBottom},
+                            {value: Asc.AscFormat.ENTRANCE_WIPE_FROM_LEFT, caption: this.textFromLeft},
+                            {value: Asc.AscFormat.ENTRANCE_WIPE_FROM_RIGHT, caption: this.textFromRight},
+                            {value: Asc.AscFormat.ENTRANCE_WIPE_FROM_FROM_TOP, caption: this.textFromTop}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_EXPAND] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FADE] = [];
+                        arr[Asc.AscFormat.ENTRANCE_SWIVEL] = [];
+                        arr[Asc.AscFormat.ENTRANCE_ZOOM] = [
+                            {value: Asc.AscFormat.ENTRANCE_ZOOM_OBJECT_CENTER, caption: this.textObjectCenter},
+                            {value: Asc.AscFormat.ENTRANCE_ZOOM_SLIDE_CENTER, caption: this.textSlideCenter}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_BASIC_ZOOM] = [
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_IN, caption: this.textIn},
+                            {
+                                value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_IN_FROM_SCREEN_CENTER,
+                                caption: this.textInFromScreenCenter
+                            },
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_IN_SLIGHTLY, caption: this.textInSlightly},
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_OUT, caption: this.textOut},
+                            {
+                                value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_OUT_FROM_SCREEN_BOTTOM,
+                                caption: this.textOutFromScreenBottom
+                            },
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_ZOOM_OUT_SLIGHTLY, caption: this.textOutSlightly}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_CENTER_REVOLVE] = [];
+                        arr[Asc.AscFormat.ENTRANCE_CENTER_COMPRESS] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FLOAT_DOWN] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FLOAT_UP] = [];
+                        arr[Asc.AscFormat.ENTRANCE_GROW_AND_TURN] = [];
+                        arr[Asc.AscFormat.ENTRANCE_RISE_UP] = [];
+                        arr[Asc.AscFormat.ENTRANCE_SPINNER] = [];
+                        arr[Asc.AscFormat.ENTRANCE_STRETCH] = [
+                            {value: Asc.AscFormat.ENTRANCE_STRETCH_ACROSS, caption: this.textAcross},
+                            {value: Asc.AscFormat.ENTRANCE_STRETCH_FROM_BOTTOM, caption: this.textFromBottom},
+                            {value: Asc.AscFormat.ENTRANCE_STRETCH_FROM_LEFT, caption: this.textFromLeft},
+                            {value: Asc.AscFormat.ENTRANCE_STRETCH_FROM_RIGHT, caption: this.textFromRight},
+                            {value: Asc.AscFormat.ENTRANCE_STRETCH_FROM_TOP, caption: this.textFromTop}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_BASIC_SWIVEL] = [
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.ENTRANCE_BASIC_SWIVEL_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.ENTRANCE_BOOMERANG] = [];
+                        arr[Asc.AscFormat.ENTRANCE_BOUNCE] = [];
+                        arr[Asc.AscFormat.ENTRANCE_CREDITS] = [];
+                        arr[Asc.AscFormat.ENTRANCE_CURVE_UP] = [];
+                        arr[Asc.AscFormat.ENTRANCE_DROP] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FLIP] = [];
+                        arr[Asc.AscFormat.ENTRANCE_FLOAT] = [];
+                        arr[Asc.AscFormat.ENTRANCE_PINWHEEL] = [];
+                        arr[Asc.AscFormat.ENTRANCE_SPIRAL_IN] = [];
+                        arr[Asc.AscFormat.ENTRANCE_WHIP] = [];
+
+                        return arr;
+                    case 'menu-effect-group-exit':
+                        arr[Asc.AscFormat.EXIT_BLINDS] = [
+                            {value: Asc.AscFormat.EXIT_BLINDS_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.EXIT_BLINDS_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.EXIT_BOX] = [
+                            {value: Asc.AscFormat.EXIT_BOX_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.EXIT_BOX_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.EXIT_CHECKERBOARD] = [
+                            {value: Asc.AscFormat.EXIT_CHECKERBOARD_ACROSS, caption: this.textAcross},
+                            {value: Asc.AscFormat.EXIT_CIRCLE_OUT, caption: this.textUp}
+                        ];
+                        arr[Asc.AscFormat.EXIT_CIRCLE] = [
+                            {value: Asc.AscFormat.EXIT_CIRCLE_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.EXIT_BOX_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.EXIT_DIAMOND] = [
+                            {value: Asc.AscFormat.EXIT_DIAMOND_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.EXIT_DIAMOND_IN, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.EXIT_DISAPPEAR] = [];
+                        arr[Asc.AscFormat.EXIT_DISSOLVE_OUT] = [];
+                        arr[Asc.AscFormat.EXIT_FLY_OUT_TO] = [
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_BOTTOM, caption: this.textToBottom},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_BOTTOM_LEFT, caption: this.textToBottomLeft},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_LEFT, caption: this.textToLeft},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_TOP_LEFT, caption: this.textToTopLeft},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_TOP, caption: this.textToTop},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_TOP_RIGHT, caption: this.textToTopRight},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_RIGHT, caption: this.textToRight},
+                            {value: Asc.AscFormat.EXIT_FLY_OUT_TO_BOTTOM_RIGHT, caption: this.textToBottomRight}
+                        ];
+                        arr[Asc.AscFormat.EXIT_PEEK_OUT_TO] = [
+                            {value: Asc.AscFormat.EXIT_PEEK_OUT_TO_BOTTOM, caption: this.textToBottom},
+                            {value: Asc.AscFormat.EXIT_PEEK_OUT_TO_LEFT, caption: this.textToLeft},
+                            {value: Asc.AscFormat.EXIT_PEEK_OUT_TO_RIGHT, caption: this.textToRight},
+                            {value: Asc.AscFormat.EXIT_PEEK_OUT_TO_TOP, caption: this.textToTop}
+                        ];
+                        arr[Asc.AscFormat.EXIT_PLUS] = [
+                            {value: Asc.AscFormat.EXIT_PLUS_IN, caption: this.textIn},
+                            {value: Asc.AscFormat.EXIT_PLUS_OUT, caption: this.textOut}
+                        ];
+                        arr[Asc.AscFormat.EXIT_RANDOM_BARS] = [
+                            {value: Asc.AscFormat.EXIT_RANDOM_BARS_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.EXIT_RANDOM_BARS_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.EXIT_SPLIT] = [
+                            {value: Asc.AscFormat.EXIT_SPLIT_HORIZONTAL_IN, caption: this.textHorizontalIn},
+                            {value: Asc.AscFormat.EXIT_SPLIT_HORIZONTAL_OUT, caption: this.textHorizontalOut},
+                            {value: Asc.AscFormat.EXIT_SPLIT_VERTICAL_IN, caption: this.textVerticalIn},
+                            {value: Asc.AscFormat.EXIT_SPLIT_VERTICAL_OUT, caption: this.textVerticalOut}
+                        ];
+                        arr[Asc.AscFormat.EXIT_STRIPS] = [
+                            {value: Asc.AscFormat.EXIT_STRIPS_LEFT_DOWN, caption: this.textLeftDown},
+                            {value: Asc.AscFormat.EXIT_STRIPS_LEFT_UP, caption: this.textLeftUp},
+                            {value: Asc.AscFormat.EXIT_STRIPS_RIGHT_DOWN, caption: this.textRightDown},
+                            {value: Asc.AscFormat.EXIT_STRIPS_RIGHT_UP, caption: this.textRightUp}
+                        ];
+                        arr[Asc.AscFormat.EXIT_WEDGE] = [];
+                        arr[Asc.AscFormat.EXIT_WHEEL] = [
+                            {value: Asc.AscFormat.EXIT_WHEEL_1_SPOKE, caption: this.textSpoke1},
+                            {value: Asc.AscFormat.EXIT_WHEEL_2_SPOKE, caption: this.textSpoke2},
+                            {value: Asc.AscFormat.EXIT_WHEEL_3_SPOKE, caption: this.textSpoke3},
+                            {value: Asc.AscFormat.EXIT_WHEEL_4_SPOKE, caption: this.textSpoke4},
+                            {value: Asc.AscFormat.EXIT_WHEEL_8_SPOKE, caption: this.textSpoke8}
+                        ];
+                        arr[Asc.AscFormat.EXIT_WIPE_FROM] = [
+                            {value: Asc.AscFormat.EXIT_WIPE_FROM_BOTTOM, caption: this.textFromBottom},
+                            {value: Asc.AscFormat.EXIT_WIPE_FROM_LEFT, caption: this.textFromLeft},
+                            {value: Asc.AscFormat.EXIT_WIPE_FROM_RIGHT, caption: this.textFromRight},
+                            {value: Asc.AscFormat.EXIT_WIPE_FROM_TOP, caption: this.textFromTop}
+                        ];
+                        arr[Asc.AscFormat.EXIT_CONTRACT] = [];
+                        arr[Asc.AscFormat.EXIT_FADE] = [];
+                        arr[Asc.AscFormat.EXIT_SWIVEL] = [];
+                        arr[Asc.AscFormat.EXIT_ZOOM] = [
+                            {value: Asc.AscFormat.ENTRANCE_ZOOM_OBJECT_CENTER, caption: this.textObjectCenter},
+                            {value: Asc.AscFormat.ENTRANCE_ZOOM_SLIDE_CENTER, caption: this.textSlideCenter}
+                        ];
+                        arr[Asc.AscFormat.EXIT_BASIC_ZOOM] = [
+                            {value: Asc.AscFormat.EXIT_BASIC_ZOOM_IN, caption: this.textIn},
+                            {
+                                value: Asc.AscFormat.EXIT_BASIC_ZOOM_IN_TO_SCREEN_BOTTOM,
+                                caption: this.textInToScreenCenter
+                            },
+                            {value: Asc.AscFormat.EXIT_BASIC_ZOOM_IN_SLIGHTLY, caption: this.textInSlightly},
+                            {value: Asc.AscFormat.EXIT_BASIC_ZOOM_OUT, caption: this.textOut},
+                            {
+                                value: Asc.AscFormat.EXIT_BASIC_ZOOM_OUT_TO_SCREEN_CENTER,
+                                caption: this.textOutToScreenBottom
+                            },
+                            {value: Asc.AscFormat.EXIT_BASIC_ZOOM_OUT_SLIGHTLY, caption: this.textOutSlightly}
+                        ];
+                        arr[Asc.AscFormat.EXIT_CENTER_REVOLVE] = [];
+                        arr[Asc.AscFormat.EXIT_COLLAPSE] = [
+                            {value: Asc.AscFormat.EXIT_COLLAPSE_ACROSS, caption: this.textAcross},
+                            {value: Asc.AscFormat.EXIT_COLLAPSE_TO_BOTTOM, caption: this.textToBottom},
+                            {value: Asc.AscFormat.EXIT_COLLAPSE_TO_LEFT, caption: this.textToLeft},
+                            {value: Asc.AscFormat.EXIT_COLLAPSE_TO_RIGHT, caption: this.textToRight},
+                            {value: Asc.AscFormat.EXIT_COLLAPSE_TO_TOP, caption: this.textToTop}
+                        ];
+                        arr[Asc.AscFormat.EXIT_FLOAT_DOWN] = [];
+                        arr[Asc.AscFormat.EXIT_FLOAT_UP] = [];
+                        arr[Asc.AscFormat.EXIT_SHRINK_AND_TURN] = [];
+                        //sink down- EXIT_SHRINK_DOWN?
+                        arr[Asc.AscFormat.EXIT_SPINNER] = [];
+                        arr[Asc.AscFormat.EXIT_STRETCHY] = [];
+                        arr[Asc.AscFormat.EXIT_BASIC_SWIVEL] = [
+                            {value: Asc.AscFormat.EXIT_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal},
+                            {value: Asc.AscFormat.EXIT_BASIC_SWIVEL_VERTICAL, caption: this.textVertical}
+                        ];
+                        arr[Asc.AscFormat.EXIT_BOOMERANG] = [];
+                        arr[Asc.AscFormat.EXIT_BOUNCE] = [];
+                        arr[Asc.AscFormat.EXIT_CREDITS] = [];
+                        arr[Asc.AscFormat.EXIT_CURVE_DOWN] = [];
+                        arr[Asc.AscFormat.EXIT_DROP] = [];
+                        arr[Asc.AscFormat.EXIT_FLIP] = [];
+                        arr[Asc.AscFormat.EXIT_FLOAT] = [];
+                        arr[Asc.AscFormat.EXIT_PINWHEEL] = [];
+                        arr[Asc.AscFormat.EXIT_SPIRAL_OUT] = [];
+                        arr[Asc.AscFormat.EXIT_WHIP] = [];
+
+                        return arr;
+                }
             }
-
         }
-
     })(),Common.define.effectData || {});
 });
