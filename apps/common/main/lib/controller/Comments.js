@@ -194,7 +194,7 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateCommentPosition', _.bind(this.onApiUpdateCommentPosition, this));
                 this.api.asc_registerCallback('asc_onDocumentPlaceChanged', _.bind(this.onDocumentPlaceChanged, this));
                 this.api.asc_registerCallback('asc_onDeleteComment', _.bind(this.onDeleteComment, this)); // only for PE, when del or ctrl+x pressed
-                this.api.asc_registerCallback('asc_onChangePositions', _.bind(this.onApiChangePositions, this)); // change comments position in document
+                this.api.asc_registerCallback('asc_onChangeCommentLogicalPosition', _.bind(this.onApiChangeCommentLogicalPosition, this)); // change comments position in document
             }
         },
 
@@ -1107,11 +1107,12 @@ define([
             }
         },
 
-        onApiChangePositions: function (uids) {
-            for (var i = 0; i < uids.length; ++i) {
-                var id = uids[i],
-                    comment = this.findComment(id) || this.findCommentInGroup(id);
-                comment && comment.set('position', this.api.asc_GetCommentLogicPosition(id));
+        onApiChangeCommentLogicalPosition: function (comments) {
+            for (var uid in comments) {
+                if (comments.hasOwnProperty(uid)) {
+                    var comment = this.findComment(uid) || this.findCommentInGroup(uid);
+                    comment && comment.set('position', comments[uid]);
+                }
             }
             (this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc') && this.updateComments(true);
         },
@@ -1121,12 +1122,13 @@ define([
         updateComments: function (needRender, disableSort, loadText) {
             var me = this;
             me.updateCommentsTime = new Date();
+            me.disableSort = !!disableSort;
             if (me.timerUpdateComments===undefined)
                 me.timerUpdateComments = setInterval(function(){
                     if ((new Date()) - me.updateCommentsTime>100) {
                         clearInterval(me.timerUpdateComments);
                         me.timerUpdateComments = undefined;
-                        me.updateCommentsView(needRender, disableSort, loadText);
+                        me.updateCommentsView(needRender, me.disableSort, loadText);
                     }
                }, 25);
         },
