@@ -151,6 +151,7 @@
                                 close: false / true, // close menu button
                                 settings: false / true, // advanced settings
                                 info: false / true // document info
+                                save: false/true // save button
                             } / false / true,
                             home:  {
                                 mailmerge: false/true // mail merge button
@@ -160,9 +161,11 @@
                             collaboration:  false / true // collaboration tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
+                            save: false/true // save button on toolbar in 
                         },
                         header: {
                             users: false/true // users list button
+                            save: false/true // save button
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -172,6 +175,7 @@
                         statusBar: {
                             textLang: false/true // text language button in de/pe
                             docLang: false/true // document language button in de/pe
+                            actionStatus: false/true // status of operation
                         }
                     },
                     features: { // disable feature

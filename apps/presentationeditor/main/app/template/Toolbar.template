@@ -11,7 +11,7 @@
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
             </div>
             <div class="separator long"></div>

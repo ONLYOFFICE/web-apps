@@ -24,7 +24,7 @@
         <div class="separator short" style="margin-left: 10px;"></div>
     </div>
     <div class="status-group" style="width:100%; text-align:center;">
-        <label id="status-label-action" class="status-label"></label>
+        <label id="status-label-action" class="status-label" data-layout-name="statusBar-actionStatus"></label>
     </div>
     <div class="status-group" style="">
         <span id="btn-cnt-lang" class="el-edit" data-layout-name="statusBar-textLang"></span>
