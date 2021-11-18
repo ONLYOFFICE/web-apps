@@ -24,7 +24,11 @@
 
     --f7-list-button-text-color: @brandColor;
 
+    --f7-dialog-bg-color-rgb: @background-secondary;
+    --f7-dialog-title-text-color: @text-normal;
+    --f7-dialog-text-color: @text-normal;
     --f7-dialog-button-text-color: @brandColor;
+    --f7-dialog-border-divider-color: @background-menu-divider;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -290,6 +294,7 @@
                         align-items: center;
                         justify-content: center;
                         &.active {
+                            color: @brandColor;
                             background-color: var(--button-active-opacity);
                         }
                     }
@@ -377,13 +382,13 @@
     }
 
     .button-fill {
-        color: @brandColor;
-        background-color: @fill-white;
+        color: @text-normal;
+        background-color: @background-primary;
     }
 
     .button-red {
         color: @text-error;
-        background-color: @fill-white;
+        background-color: @background-primary;
     }
 
     .buttons-list {
@@ -427,7 +432,7 @@
     }
 
     .dialog {
-        background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
+        background-color: var(--f7-dialog-bg-color-rgb);
     }
 
     #color-picker {
@@ -512,8 +517,12 @@
         font-size: 14px;
         font-weight: 400;
         padding: 0 8px;
-        background-color: @fill-white;
+        background-color: @background-primary;
         padding: 0 28px;
+    }
+
+    .searchbar input[type=search]::placeholder {
+        color: @text-tertiary;
     }
 
     .searchbar-inner {
@@ -586,7 +595,7 @@
         height: 57px;
         line-height: 57px;
         font-size: 20px;
-        // color: @brandColor;
+        color: @text-normal;
         white-space: normal;
         text-overflow: ellipsis;
     }
