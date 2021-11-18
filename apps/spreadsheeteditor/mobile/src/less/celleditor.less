@@ -28,7 +28,8 @@
     &:after {
         content: '';
         position: absolute;
-        background-color: @border-regular-control;
+        // background-color: @border-regular-control;
+        background-color: @background-menu-divider;
         display: block;
         z-index: 15;
         top: auto;
@@ -43,11 +44,12 @@
 
     #box-cell-name {
         display: inline-flex;
-        background-color: var(--f7-navbar-bg-color);
+        // background-color: var(--f7-navbar-bg-color);
+        // background-color: @fill-white;
 
-        .md & {
-            background-color: @gray-light;
-        }
+        // .md & {
+        //     background-color: @gray-light;
+        // }
     }
 
     #idx-cell-name {
@@ -80,9 +82,10 @@
     #idx-cell-content {
         padding: 3px 3px;
         line-height: 1.428571429;
-        color: #000;
+        // color: #000;
+        color: @text-normal;
         vertical-align: middle;
-        background-color: @contentBackColor;
+        // background-color: @contentBackColor;
         min-height: @cellEditorHeight;
         height: 100%;
         width: 100%;
@@ -97,7 +100,8 @@
             width: 8px;
             height: 8px;
             background-color: transparent;
-            border: solid 1px black;
+            // border: solid 1px black;
+            border: solid 1px @brandColor;
             border-bottom: none;
             border-right: none;
 
@@ -117,8 +121,12 @@
         }
     }
 
+    .ce-group {
+        background-color: @background-secondary;
+    }
+
     .group--content {
         position: relative;
-        .hairline(left, @statusBarBorderColor);
+        .hairline(left, @background-menu-divider);
     }
 }

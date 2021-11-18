@@ -6,9 +6,9 @@
 
 
 .device-android {
-    --f7-navbar-bg-color: @themeColor;
-    --f7-navbar-link-color: @navBarIconColor;
-    --f7-navbar-text-color: @navBarIconColor;
+    --f7-navbar-bg-color: @brandColor;
+    --f7-navbar-link-color: @text-link;
+    --f7-navbar-text-color: @text-normal;
     --f7-list-button-border-color: @listButtonBorderColor;
 
     // Main Toolbar
@@ -33,7 +33,7 @@
             border: 2px solid var(--f7-checkbox-inactive-color);
         }
         label.item-checkbox input[type='checkbox']:checked ~ .icon-checkbox {
-            border-color: @themeColor;
+            border-color: @brandColor;
             background-color: transparent;
         }
         label.item-content i.icon.icon-checkbox:after {
@@ -45,7 +45,7 @@
             top: 50%;
             margin-left: -5px;
             margin-top: -5px;
-            background-color: @themeColor;
+            background-color: @brandColor;
             border-radius: 100%;
         }
     }

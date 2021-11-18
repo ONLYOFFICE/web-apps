@@ -1,12 +1,26 @@
-
-@themeColor: #40865c;
-
 @import '../../../../common/mobile/resources/less/variables.less';
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
-
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+
+// @themeColor: #40865c;
+@brandColor: var(--brand-cell);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #fff);
+    --toolbar-icons: var(--brand-cell, #40865C);
+}
+.device-android {
+    --toolbar-background: var(--brand-cell, #40865C);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-cell, #40865C);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';

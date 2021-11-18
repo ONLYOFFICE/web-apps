@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,7 @@ const PageApplicationSettings = props => {
     const isRefStyle = storeApplicationSettings.isRefStyle;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
+    const [isThemeDark, setIsThemeDark] = useState(props.isThemeDark);
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -91,6 +92,11 @@ const PageApplicationSettings = props => {
                                     props.clickR1C1Style(!isRefStyle);
                                 }}
                         />
+                    </ListItem>
+                    <ListItem title={'Dark theme'}>
+                        <Toggle checked={isThemeDark}
+                            onToggleChange={toggle => {props.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                        </Toggle>
                     </ListItem>
                 </List>
             {/* } */}
