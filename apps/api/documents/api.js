@@ -175,6 +175,7 @@
                         statusBar: {
                             textLang: false/true // text language button in de/pe
                             docLang: false/true // document language button in de/pe
+                            actionStatus: false/true // status of operation
                         }
                     },
                     features: { // disable feature
