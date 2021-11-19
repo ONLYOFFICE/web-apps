@@ -23,8 +23,6 @@
 
     --f7-list-button-text-color: @brandColor;
 
-    --f7-dialog-button-text-color: @brandColor;
-
     --f7-list-item-border-color: @background-menu-divider;
 
     --f7-page-bg-color: @background-tertiary;
@@ -37,6 +35,8 @@
     --f7-input-placeholder-color: @text-secondary;
 
     --f7-list-chevron-icon-color: @text-tertiary;
+    --f7-searchbar-search-icon-color: @text-tertiary;
+    --f7-searchbar-input-clear-button-color: @text-tertiary;
 
     --f7-toggle-inactive-color: @background-menu-divider;
     --f7-toggle-border-color: @background-menu-divider;
@@ -45,6 +45,7 @@
     --f7-dialog-bg-color-rgb: @background-secondary;
     --f7-dialog-title-text-color: @text-normal;
     --f7-dialog-text-color: @text-normal;
+    --f7-dialog-button-text-color: @brandColor;
     --f7-dialog-border-divider-color: @background-menu-divider;
 
     --f7-subnavbar-border-color: @background-menu-divider;
@@ -435,7 +436,6 @@
     }
 
     .dialog {
-        // background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
         background-color: var(--f7-dialog-bg-color-rgb);
     }
 
@@ -517,12 +517,15 @@
         appearance: none;
         border-radius: 5px;
         font-family: inherit;
-        color: @fill-black;
+        color: @text-normal;
         font-size: 14px;
         font-weight: 400;
         padding: 0 8px;
-        background-color: @fill-white;
+        background-color: @background-button;
         padding: 0 28px;
+        &::placeholder {
+            color: @text-tertiary;
+        }
     }
 
     .searchbar-inner {

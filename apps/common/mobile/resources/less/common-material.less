@@ -32,11 +32,13 @@
     --f7-link-touch-ripple-color: @touchColor;
 
     --f7-actions-bg-color: @background-secondary;
+    --f7-actions-button-border-color: @background-menu-divider;
     --f7-popover-bg-color: @background-secondary;
 
     --f7-dialog-bg-color: @background-secondary;
     --f7-dialog-text-color: @text-secondary;
     --f7-dialog-title-text-color: @text-normal;
+    --f7-dialog-button-text-color: @brandColor;
 
     .button {
         --f7-touch-ripple-color: transparent;
@@ -50,7 +52,6 @@
 
     --f7-input-focused-border-color: @brandColor;
     --f7-label-focused-text-color: @brandColor;
-    --f7-dialog-button-text-color: @brandColor;
 
     .navbar {
         --f7-touch-ripple-color: @touchColor;
@@ -521,6 +522,11 @@
         }
         a.link {
             padding: 0 16px;
+        }
+        a.link.searchbar-enable {
+            i.icon-search {
+                background-color: @toolbar-icons;
+            }
         }
         a.icon-only {
             width: auto;
