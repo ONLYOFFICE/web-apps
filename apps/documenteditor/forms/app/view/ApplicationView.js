@@ -113,7 +113,8 @@ define([
         textCut: 'Cut',
         textCopy: 'Copy',
         textPaste: 'Paste',
-        textPrintSel: 'Print Selection'
+        textPrintSel: 'Print Selection',
+        txtDarkMode: 'Dark mode'
 
     }, DE.Views.ApplicationView || {}));
 });

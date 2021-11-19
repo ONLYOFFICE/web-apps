@@ -123,5 +123,6 @@
   "DE.Views.ApplicationView.txtFullScreen": "Во весь экран",
   "DE.Views.ApplicationView.txtPrint": "Печать",
   "DE.Views.ApplicationView.txtShare": "Поделиться",
-  "DE.Views.ApplicationView.txtTheme": "Тема интерфейса"
+  "DE.Views.ApplicationView.txtTheme": "Тема интерфейса",
+  "DE.Views.ApplicationView.txtDarkMode": "Темный режим"
 }
