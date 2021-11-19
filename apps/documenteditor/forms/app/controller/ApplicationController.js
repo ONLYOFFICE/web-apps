@@ -1531,4 +1531,40 @@ define([
         uploadImageExtMessage: 'Unknown image format.'
 
     }, DE.Controllers.ApplicationController));
+
+    var Desktop = function () {
+        var features = {
+            version: '{{PRODUCT_VERSION}}',
+            // eventloading: true,
+            uithemes: true
+        };
+
+        var native = window.desktop || window.AscDesktopEditor;
+        !!native && native.execCommand('webapps:features', JSON.stringify(features));
+
+        if ( !!native ) {
+            $('#header-logo, .brand-logo').hide();
+
+            window.on_native_message = function (cmd, param) {
+                if (/theme:changed/.test(cmd)) {
+                    Common.UI.Themes.setTheme(param);
+                }
+            };
+
+            Common.NotificationCenter.on({
+                'uitheme:changed' : function (name) {
+                    var theme = Common.UI.Themes.get(name);
+                    if ( theme )
+                        native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                },
+            });
+        }
+
+        return {
+            isActive: function () {
+                return !!native;
+            },
+        }
+    };
+    DE.Controllers.Desktop = new Desktop();
 });
