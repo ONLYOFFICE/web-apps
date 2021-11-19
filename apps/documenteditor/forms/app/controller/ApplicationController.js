@@ -1111,7 +1111,11 @@ define([
         },
 
         onThemeClick: function(menu, item) {
-            Common.UI.Themes.setTheme(item.value);
+            (item.value!==null) && Common.UI.Themes.setTheme(item.value);
+        },
+
+        onDarkModeClick: function(item) {
+            Common.UI.Themes.toggleContentTheme();
         },
 
         onThemeChange: function() {
@@ -1119,6 +1123,11 @@ define([
             _.each(this.view.mnuThemes.items, function(item){
                 item.setChecked(current===item.value, true);
             });
+            if (this.view.menuItemsDarkMode) {
+                this.view.menuItemsDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+                this.view.menuItemsDarkMode.setChecked(Common.UI.Themes.isContentThemeDark());
+            }
+
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
                 if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
@@ -1126,6 +1135,10 @@ define([
                     $('#header-logo img').attr('src', image);
                 }
             }
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            this.view.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         createDelayedElements: function() {
@@ -1197,8 +1210,18 @@ define([
                 menuItems[6].setVisible(false);
                 itemsCount--;
             } else {
+                this.view.menuItemsDarkMode = new Common.UI.MenuItem({
+                    caption: this.view.txtDarkMode,
+                    checkable: true,
+                    checked: Common.UI.Themes.isContentThemeDark(),
+                    disabled: !Common.UI.Themes.isDarkTheme()
+                });
+                this.view.mnuThemes.addItem(new Common.UI.MenuItem({caption     :  '--'}));
+                this.view.mnuThemes.addItem(this.view.menuItemsDarkMode);
                 this.view.mnuThemes.on('item:click', _.bind(this.onThemeClick, this));
+                this.view.menuItemsDarkMode.on('click', _.bind(this.onDarkModeClick, this));
                 Common.NotificationCenter.on('uitheme:changed', this.onThemeChange.bind(this));
+                Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {

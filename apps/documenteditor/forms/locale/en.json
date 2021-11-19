@@ -123,5 +123,6 @@
   "DE.Views.ApplicationView.txtFullScreen": "Full Screen",
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme",
+  "DE.Views.ApplicationView.txtDarkMode": "Dark mode"
 }
