@@ -559,8 +559,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Ingen behörighet",
   "DE.Controllers.Main.saveErrorText": "Ett fel uppstod när filen skulle sparas",
   "DE.Controllers.Main.saveErrorTextDesktop": "Den här filen kan inte sparas eller skapas. <br> Möjliga orsaker är: <br> 1. Filen är skrivskyddad. <br> 2. Filen redigeras av andra användare. <br> 3. Disken är full eller skadad.",
-  "DE.Controllers.Main.savePreparingText": "Förbereder att spara",
-  "DE.Controllers.Main.savePreparingTitle": "Förbereder att spara. Vänta...",
   "DE.Controllers.Main.saveTextText": "Sparar dokument...",
   "DE.Controllers.Main.saveTitleText": "Sparar dokument",
   "DE.Controllers.Main.scriptLoadError": "Anslutningen är för långsam, vissa av komponenterna kunde inte laddas. Vänligen ladda om sidan.",

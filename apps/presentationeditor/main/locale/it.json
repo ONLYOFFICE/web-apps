@@ -444,8 +444,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Accesso negato",
   "PE.Controllers.Main.saveErrorText": "Si è verificato un errore durante il salvataggio del file",
   "PE.Controllers.Main.saveErrorTextDesktop": "Questo file non può essere salvato o creato. <br>I possibili motivi sono: <br>1. Il file è di sola lettura. <br>2. Il file è in fase di modifica da parte di altri utenti. <br>3. Il disco è pieno oppure è danneggiato.",
-  "PE.Controllers.Main.savePreparingText": "Preparazione al salvataggio ",
-  "PE.Controllers.Main.savePreparingTitle": "Preparazione al salvataggio. Si prega di attendere...",
   "PE.Controllers.Main.saveTextText": "Salvataggio della presentazione in corso...",
   "PE.Controllers.Main.saveTitleText": "Salvataggio della presentazione",
   "PE.Controllers.Main.scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Si prega di ricaricare la pagina.",

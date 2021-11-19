@@ -372,8 +372,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Прэзентацыя зараз рэдагуецца. Калі ласка, паспрабуйце пазней.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Доступ забаронены",
   "PE.Controllers.Main.saveErrorText": "Падчас захавання файла адбылася памылка.",
-  "PE.Controllers.Main.savePreparingText": "Падрыхтоўка да захавання",
-  "PE.Controllers.Main.savePreparingTitle": "Падрыхтоўка да захавання. Калі ласка, пачакайце…",
   "PE.Controllers.Main.saveTextText": "Захаванне прэзентацыі…",
   "PE.Controllers.Main.saveTitleText": "Захаванне прэзентацыі",
   "PE.Controllers.Main.scriptLoadError": "Занадта павольнае злучэнне, не ўсе кампаненты атрымалася загрузіць. Калі ласка, абнавіце старонку.",

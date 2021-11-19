@@ -125,8 +125,6 @@
   "PE.Controllers.Main.reloadButtonText": "Reload Page",
   "PE.Controllers.Main.requestEditFailedMessageText": "Someone is editing this presentation right now. Please try again later.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Access denied",
-  "PE.Controllers.Main.savePreparingText": "Preparing to save",
-  "PE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "PE.Controllers.Main.splitDividerErrorText": "The number of rows must be a divisor of %1.",
   "PE.Controllers.Main.splitMaxColsErrorText": "The number of columns must be less than %1.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "The number of rows must be less than %1.",

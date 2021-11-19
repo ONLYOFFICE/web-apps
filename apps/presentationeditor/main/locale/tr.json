@@ -191,8 +191,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Birisi şu anda bu sunumu düzenliyor. Lütfen daha sonra tekrar deneyin.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Erişim reddedildi",
   "PE.Controllers.Main.saveErrorText": "Dosya kaydedilirken bir hata oluştu",
-  "PE.Controllers.Main.savePreparingText": "Kaydetmeye hazırlanıyor",
-  "PE.Controllers.Main.savePreparingTitle": "Kaydetmeye hazırlanıyor. Lütfen bekleyin...",
   "PE.Controllers.Main.saveTextText": "Sunum kaydediliyor...",
   "PE.Controllers.Main.saveTitleText": "Sunum Kaydediliyor",
   "PE.Controllers.Main.splitDividerErrorText": "Satır sayısı %1'in böleni olmalıdır.",

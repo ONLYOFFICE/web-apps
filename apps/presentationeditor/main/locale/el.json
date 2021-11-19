@@ -446,8 +446,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Δεν επιτρέπεται η πρόσβαση",
   "PE.Controllers.Main.saveErrorText": "Παρουσιάστηκε σφάλμα κατά την αποθήκευση του αρχείου.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Δεν είναι δυνατή η αποθήκευση ή η δημιουργία αυτού του αρχείου.<br>Πιθανοί λόγοι είναι:<br>1. Το αρχείο είναι μόνο για ανάγνωση.<br>2. Το αρχείο τελεί υπό επεξεργασία από άλλους χρήστες.<br>3. Ο δίσκος είναι γεμάτος ή κατεστραμμένος.",
-  "PE.Controllers.Main.savePreparingText": "Προετοιμασία για αποθήκευση",
-  "PE.Controllers.Main.savePreparingTitle": "Προετοιμασία για αποθήκευση. Παρακαλούμε περιμένετε...",
   "PE.Controllers.Main.saveTextText": "Αποθήκευση παρουσίασης...",
   "PE.Controllers.Main.saveTitleText": "Αποθήκευση Παρουσίασης",
   "PE.Controllers.Main.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Παρακαλούμε φορτώστε ξανά τη σελίδα.",

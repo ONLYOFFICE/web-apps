@@ -287,8 +287,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Hiện có ai đó đang chỉnh sửa tài liệu này. Vui lòng thử lại sau.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Truy cập bị từ chối",
   "DE.Controllers.Main.saveErrorText": "Xảy ra lỗi khi lưu file",
-  "DE.Controllers.Main.savePreparingText": "Chuẩn bị lưu",
-  "DE.Controllers.Main.savePreparingTitle": "Chuẩn bị lưu. Vui lòng chờ...",
   "DE.Controllers.Main.saveTextText": "Đang lưu tài liệu...",
   "DE.Controllers.Main.saveTitleText": "Đang lưu tài liệu...",
   "DE.Controllers.Main.sendMergeText": "Đang gửi Trộn...",

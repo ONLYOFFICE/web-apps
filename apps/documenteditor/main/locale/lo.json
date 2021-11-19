@@ -559,8 +559,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "ປະ​ຕິ​ເສດ​ການ​ເຂົ້າ​ເຖິງ",
   "DE.Controllers.Main.saveErrorText": "ພົບບັນຫາຕອນບັນທຶກຟາຍ.",
   "DE.Controllers.Main.saveErrorTextDesktop": "ບໍ່ສາມາດສ້າງ ຫຼື້ບັນທຶກຟາຍນີ້ໄດ້. <br>ເຫດຜົນ: <br>1. ເປັນຟາຍສະເພາະອ່ານ. <br>2. ຜູ້ໃຊ້ຄົນອື່ນກຳລັງດັດແກ້ຟາຍຢູ່. <br>3. ດິດສເຕັມ ຫຼືເພ.",
-  "DE.Controllers.Main.savePreparingText": "ກະກຽມບັນທືກ",
-  "DE.Controllers.Main.savePreparingTitle": "ກຳລັງກະກຽມບັນທືກ, ກະລຸນາລໍຖ້າ",
   "DE.Controllers.Main.saveTextText": "ກໍາລັງບັນທຶກເອກະສານ...",
   "DE.Controllers.Main.saveTitleText": "ບັນທືກເອກະສານ",
   "DE.Controllers.Main.scriptLoadError": "ການເຊື່ອມຕໍ່ອິນເຕີເນັດຊ້າເກີນໄປ, ບາງອົງປະກອບບໍ່ສາມາດໂຫຼດໄດ້. ກະລຸນາໂຫຼດໜ້ານີ້ຄືນໃໝ່",

@@ -415,8 +415,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Hozzáférés megtagadva",
   "PE.Controllers.Main.saveErrorText": "Hiba történt a fájl mentése során.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Ezt a fájlt nem lehet menteni vagy létrehozni.<br>Lehetséges okok:<br>1. A fájl csak olvasható.<br>2. A fájlt más felhasználók szerkesztik.<br>3. A lemez megtelt vagy sérült.",
-  "PE.Controllers.Main.savePreparingText": "Felkészülés mentésre",
-  "PE.Controllers.Main.savePreparingTitle": "Felkészülés a mentésre. Kérem várjon...",
   "PE.Controllers.Main.saveTextText": "Prezentáció mentése...",
   "PE.Controllers.Main.saveTitleText": "Prezentáció mentése",
   "PE.Controllers.Main.scriptLoadError": "A kapcsolat túl lassú, néhány komponens nem töltődött be. Frissítse az oldalt.",

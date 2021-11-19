@@ -205,8 +205,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Хтось редагує цю презентацію прямо зараз. Будь-ласка спробуйте пізніше.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Доступ заборонено",
   "PE.Controllers.Main.saveErrorText": "Під час збереження файлу сталася помилка",
-  "PE.Controllers.Main.savePreparingText": "Підготовка до зберігання",
-  "PE.Controllers.Main.savePreparingTitle": "Підготовка до зберігання. Будь ласка, зачекайте...",
   "PE.Controllers.Main.saveTextText": "Збереження презентації...",
   "PE.Controllers.Main.saveTitleText": "Збереження презентації",
   "PE.Controllers.Main.splitDividerErrorText": "Кількість рядків повинна бути дільником% 1.",

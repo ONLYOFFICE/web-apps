@@ -321,8 +321,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Joku on paraikaa muokkaamassa tätä asiakirjaa. Ole hyvä ja yritä myöhemmin uudelleen.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Pääsy kielletty",
   "DE.Controllers.Main.saveErrorText": "Virhe tapahtui tallennettaessa tiedostoa",
-  "DE.Controllers.Main.savePreparingText": "Valmistetaan tallennusta",
-  "DE.Controllers.Main.savePreparingTitle": "Valmistellaan talletusta. Ole hyvä ja odota...",
   "DE.Controllers.Main.saveTextText": "Tallennetaan asiakirjaa...",
   "DE.Controllers.Main.saveTitleText": "Tallennetaan asiakirjaa",
   "DE.Controllers.Main.scriptLoadError": "Yhteys on liian hidas, joitakin komponentteja ei voitu ladata. Lataa sivu uudelleen.",

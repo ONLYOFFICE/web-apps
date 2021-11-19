@@ -546,8 +546,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Hozzáférés megtagadva",
   "DE.Controllers.Main.saveErrorText": "Hiba történt a fájl mentése során.",
   "DE.Controllers.Main.saveErrorTextDesktop": "Ezt a fájlt nem lehet menteni vagy létrehozni.<br>Lehetséges okok:<br>1. A fájl csak olvasható.<br>2. A fájlt más felhasználók szerkesztik.<br>3. A lemez megtelt vagy sérült.",
-  "DE.Controllers.Main.savePreparingText": "Felkészülés mentésre",
-  "DE.Controllers.Main.savePreparingTitle": "Felkészülés a mentésre. Kérem várjon...",
   "DE.Controllers.Main.saveTextText": "Dokumentum mentése...",
   "DE.Controllers.Main.saveTitleText": "Dokumentum mentése",
   "DE.Controllers.Main.scriptLoadError": "A kapcsolat túl lassú, néhány komponens nem töltődött be. Frissítse az oldalt.",
