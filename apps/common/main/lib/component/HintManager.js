@@ -491,7 +491,7 @@ Common.UI.HintManager = new(function() {
                                 }
                                 if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
-                                    curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll')) {
+                                    curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about') {
                                     _resetToDefault();
                                     return;
                                 }
