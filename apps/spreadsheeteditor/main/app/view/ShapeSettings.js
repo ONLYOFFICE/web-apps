@@ -761,8 +761,8 @@ define([
                 this._noApply = true;
 
                 this.disableControls(this._locked, !shapeprops.asc_getCanFill());
-                this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || shapeprops.asc_getFromImage());
-                this.hideRotationSettings(shapeprops.asc_getFromSmartArt());
+                this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || !!shapeprops.asc_getFromImage());
+                this.hideRotationSettings(shapeprops.asc_getFromChart() || !!shapeprops.asc_getFromImage() || shapeprops.asc_getFromSmartArt());
 
                 var hidechangetype = shapeprops.get_FromChart() || shapeprops.asc_getFromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'

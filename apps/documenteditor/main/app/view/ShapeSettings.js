@@ -819,8 +819,8 @@ define([
                 this._noApply = true;
 
                 this.disableControls(this._locked, !shapeprops.get_CanFill());
-                this.hideShapeOnlySettings(shapeprops.get_FromChart() || shapeprops.get_FromImage());
-                this.hideRotationSettings(shapeprops.get_FromSmartArt());
+                this.hideShapeOnlySettings(shapeprops.get_FromChart() || !!shapeprops.get_FromImage());
+                this.hideRotationSettings(shapeprops.get_FromChart() || !!shapeprops.get_FromImage() || shapeprops.get_FromSmartArt());
 
                 var hidechangetype = shapeprops.get_FromChart() || shapeprops.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
@@ -1216,7 +1216,7 @@ define([
                 this._noApply = false;
             }
             this.hideNoFormSettings(control_props);
-            this.ShapeOnlySeparator.toggleClass('hidden', (control_props || this._state.HideShapeOnlySettings || this._state.HideRotationSettings)==true);
+            this.ShapeOnlySeparator.toggleClass('hidden', (control_props || this._state.HideShapeOnlySettings || this._state.HideRotationSettings)===true);
         },
 
         btnDirectionRedraw: function(slider, gradientColorsStr) {
