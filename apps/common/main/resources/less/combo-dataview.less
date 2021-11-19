@@ -82,8 +82,10 @@
 .combo-styles {
     @combo-dataview-button-width: 30px;
     @combo-dataview-height: 46px;
+    @combo-dataview-height-calc: calc(40px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
 
     height: @combo-dataview-height;
+    height: @combo-dataview-height-calc;
 
     .view {
         margin-right: -@combo-dataview-button-width;
@@ -93,7 +95,8 @@
 
         .dataview {
             @minus-px: calc(-1px / @pixel-ratio-factor);
-            height: 46px;
+            height: @combo-dataview-height;
+            height: @combo-dataview-height-calc;
             padding: 0;
             margin: -1 0 0 -1;
             margin: @minus-px 0 0 @minus-px;
@@ -112,6 +115,7 @@
         margin: 0 @minus-px-ie @minus-px-ie 0;
         margin: 0 @minus-px @minus-px 0;
         height: @combo-dataview-height;
+        height: @combo-dataview-height-calc;
         background-color: @background-normal-ie;
         background-color: @background-normal;
         display: flex;
@@ -147,6 +151,7 @@
 
         .dataview {
             margin-top: -1px;
+            margin-top: calc(-1 * @scaled-one-px-value);
         }
     }
 
@@ -167,6 +172,7 @@
     .button {
         width: @combo-dataview-button-width;
         height: @combo-dataview-height;
+        height: @combo-dataview-height-calc;
 
         .btn-group, button {
             width: 100%;

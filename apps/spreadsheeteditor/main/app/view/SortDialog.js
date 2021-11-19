@@ -274,14 +274,18 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         if (levelProps) {
                             var levelColors = (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
                             levelColors.forEach(function(item, index) {
-                                if (item)
+                                if (item) {
+                                    var value = Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase();
                                     color_data.push({
-                                        value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        value: value,
                                         displayValue: '',
-                                        color: item
+                                        color: item,
+                                        styleObj: {'background-color': '#' + value},
+                                        styleStr: 'background-color: #' + value + ';'
                                     });
-                                else
-                                    color_data.unshift({ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto , color: null});
+                                } else
+                                    color_data.unshift({ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto , color: null,
+                                                                styleObj: {'background-color': 'transparent' }, styleStr: 'background-color:transparent;'});
                             });
                         }
                     }

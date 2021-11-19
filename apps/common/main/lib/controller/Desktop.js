@@ -251,6 +251,17 @@ define([
                                 native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                         }
                     });
+
+                    webapp.addListeners({
+                        'FileMenu': {
+                            'item:click': function (menu, action, isopts) {
+                                if ( action == 'app:exit' ) {
+                                    native.execCommand('editor:event', JSON.stringify({action: 'close'}));
+                                    menu.hide();
+                                }
+                            },
+                        },
+                    }, {id: 'desktop'});
                 }
             },
             process: function (opts) {
@@ -278,7 +289,14 @@ define([
                 if ( config.isDesktopApp && !!native ) {
                     native.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
                 }
-            }
+            },
+            isActive: function () {
+                return !!native;
+            },
+            isOffline: function () {
+                // return webapp.getController('Main').api.asc_isOffline();
+                return webapp.getController('Main').appOptions.isOffline;
+            },
         };
     };
 

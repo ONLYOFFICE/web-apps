@@ -105,7 +105,8 @@ define([
                 disabled: true,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'S'
             });
             if ( !!this.options.miSave ) {
                 this.miSave.setDisabled(this.options.miSave.isDisabled());
@@ -159,7 +160,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'P'
             });
 
             this.miRename = new Common.UI.MenuItem({

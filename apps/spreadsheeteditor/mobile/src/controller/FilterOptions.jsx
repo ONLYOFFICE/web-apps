@@ -4,8 +4,9 @@ import { f7,Sheet,Popover } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 
-const FilterOptionsController = memo( () => {
+const FilterOptionsController = memo(props => {
     const { t } = useTranslation();
+    const wsProps = props.wsProps;
     const _t = t('View.Edit', {returnObjects: true});
     const configRef = useRef();
 
@@ -34,9 +35,12 @@ const FilterOptionsController = memo( () => {
         }
     }, []);
 
-    const onApiFilterOptions= (config) => {
+    const onApiFilterOptions = (config) => {
         setDataFilterCells(config);
         configRef.current = config;
+
+        if (wsProps.PivotTables && config.asc_getPivotObj() || 
+            wsProps.AutoFilter && !config.asc_getPivotObj()) return;
         
         setCheckSort((config.asc_getSortState() === Asc.c_oAscSortOptions.Ascending ? 'down' : '') || 
         (config.asc_getSortState() === Asc.c_oAscSortOptions.Descending ? 'up' : ''));

@@ -104,7 +104,8 @@ define([
                 HideChangeTypeSettings: false,
                 HideRotationSettings: false,
                 isFromImage: false,
-                isFromSmartArtInternal: false
+                isFromSmartArtInternal: false,
+                isFixedForm: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -147,6 +148,8 @@ define([
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
             this.RotationSettings = $('.shape-rotation');
+            this.NoFormSettings = $('.no-form');
+            this.ShapeOnlySeparator = $('.shape-only-separator');
         },
 
         setApi: function(api) {
@@ -771,6 +774,7 @@ define([
                             (new DE.Views.ImageSettingsAdvanced(
                                 {
                                     imageProps: elValue,
+                                    api: me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
@@ -797,6 +801,15 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+            if (control_props) {
+                var spectype = control_props.get_SpecificType();
+                control_props = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
+                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) &&
+                                control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
+            } else
+                control_props = false;
+
             if (props && props.get_ShapeProperties())
             {
                 var shapeprops = props.get_ShapeProperties(),
@@ -813,7 +826,7 @@ define([
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
-                this.hideChangeTypeSettings(hidechangetype);
+                this.hideChangeTypeSettings(hidechangetype || control_props);
                 this._state.isFromImage = !!shapeprops.get_FromImage();
                 this._state.isFromSmartArtInternal = !!shapeprops.get_FromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
@@ -1202,6 +1215,8 @@ define([
 
                 this._noApply = false;
             }
+            this.hideNoFormSettings(control_props);
+            this.ShapeOnlySeparator.toggleClass('hidden', (control_props || this._state.HideShapeOnlySettings || this._state.HideRotationSettings)==true);
         },
 
         btnDirectionRedraw: function(slider, gradientColorsStr) {
@@ -1980,6 +1995,13 @@ define([
             if (this._state.HideRotationSettings !== value) {
                 this._state.HideRotationSettings = value;
                 this.RotationSettings.toggleClass('hidden', value==true);
+            }
+        },
+
+        hideNoFormSettings: function(value) {
+            if (this._state.isFixedForm !== value) {
+                this._state.isFixedForm = value;
+                this.NoFormSettings.toggleClass('hidden', value==true);
             }
         },
 

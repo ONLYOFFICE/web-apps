@@ -3191,7 +3191,7 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration'};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
@@ -3212,12 +3212,13 @@ define([
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
                 }
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect'};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
                         if ($panel) me.toolbar.addTab(tab, $panel, 6);
@@ -3230,7 +3231,7 @@ define([
             }
             if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.canFeatureForms) {
-                    tab = {caption: me.textTabForms, action: 'forms'};
+                    tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();

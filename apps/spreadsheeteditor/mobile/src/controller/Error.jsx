@@ -311,6 +311,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = _t.errorLoadingFont;
                 break;
 
+            case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                config.msg = t('Error.textErrorPasswordIsNotCorrect');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

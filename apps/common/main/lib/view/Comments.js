@@ -361,21 +361,23 @@ define([
                                 checkable: true,
                                 checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'author-desc',
                                 toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniPositionAsc,
+                                value: 'position-asc',
+                                checkable: true,
+                                visible: this.appPrefix==='de-',
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-asc',
+                                toggleGroup: 'sortcomments'
+                            },
+                            {
+                                caption: this.mniPositionDesc,
+                                value: 'position-desc',
+                                checkable: true,
+                                visible: this.appPrefix==='de-',
+                                checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
+                                toggleGroup: 'sortcomments'
                             }
-                            // {
-                            //     caption: this.mniPositionAsc,
-                            //     value: 'position-asc',
-                            //     checkable: true,
-                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-asc',
-                            //     toggleGroup: 'sortcomments'
-                            // }
-                            // {
-                            //     caption: this.mniPositionDesc,
-                            //     value: 'position-desc',
-                            //     checkable: true,
-                            //     checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
-                            //     toggleGroup: 'sortcomments'
-                            // }
                         ]
                     })
                 });

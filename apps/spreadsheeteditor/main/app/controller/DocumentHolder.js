@@ -1071,6 +1071,7 @@ define([
             if (this.tooltips.foreignSelect.ref) {
                 $(this.tooltips.foreignSelect.ref).remove();
                 this.tooltips.foreignSelect.ref = undefined;
+                this.tooltips.foreignSelect.userId = undefined;
                 this.tooltips.foreignSelect.x_point = undefined;
                 this.tooltips.foreignSelect.y_point = undefined;
             }
@@ -1392,6 +1393,7 @@ define([
                             var src = $(document.createElement("div")),
                                 color = data.asc_getColor();
                             foreignSelect.ref = src;
+                            foreignSelect.userId = data.asc_getUserId();
 
                             src.addClass('username-tip');
                             src.css({
@@ -3828,6 +3830,9 @@ define([
             /** coauthoring begin **/
             var src;
             var me = this;
+            if (me.tooltips && me.tooltips.foreignSelect && (me.tooltips.foreignSelect.userId == UserId)) {
+                me.hideForeignSelectTips();
+            }
             for (var i=0; i<me.fastcoauthtips.length; i++) {
                 if (me.fastcoauthtips[i].attr('userid') == UserId) {
                     src = me.fastcoauthtips[i];

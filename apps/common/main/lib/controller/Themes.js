@@ -51,6 +51,8 @@ define([
             "background-notification-badge",
             "background-scrim",
             "background-loader",
+            "background-accent-button",
+            "background-contrast-popover",
 
             "highlight-button-hover",
             "highlight-button-pressed",
@@ -60,6 +62,8 @@ define([
             "highlight-header-button-pressed",
             "highlight-toolbar-tab-underline",
             "highlight-text-select",
+            "highlight-accent-button-hover",
+            "highlight-accent-button-pressed",
 
             "border-toolbar",
             "border-divider",
@@ -70,6 +74,7 @@ define([
             "border-control-focus",
             "border-color-shading",
             "border-error",
+            "border-contrast-popover",
 
             "text-normal",
             "text-normal-pressed",
@@ -222,7 +227,8 @@ define([
         }
 
         var on_document_ready = function (el) {
-            get_themes_config('../../common/main/resources/themes/themes.json');
+            // get_themes_config('../../common/main/resources/themes/themes.json');
+            get_themes_config('../../../../themes.json');
         }
 
         var get_ui_theme_name = function (objtheme) {

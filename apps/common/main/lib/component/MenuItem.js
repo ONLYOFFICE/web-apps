@@ -98,6 +98,7 @@ define([
             checked     : false,
             allowDepress: false,
             disabled    : false,
+            visible     : true,
             value       : null,
             toggleGroup : null,
             iconCls     : '',
@@ -105,13 +106,14 @@ define([
             canFocused  : true,
             dataHint    : '',
             dataHintDirection: '',
-            dataHintOffset: ''
+            dataHintOffset: '',
+            dataHintTitle: ''
         },
 
         tagName : 'li',
 
         template: _.template([
-            '<a id="<%= id %>" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; %> >',
+            '<a id="<%= id %>" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
                 '<% } %>',
@@ -133,6 +135,7 @@ define([
             this.checked        = me.options.checked;
             me.allowDepress     = me.options.allowDepress;
             this.disabled       = me.options.disabled;
+            this.visible        = me.options.visible;
             this.value          = me.options.value;
             this.toggleGroup    = me.options.toggleGroup;
             this.template       = me.options.template || this.template;
@@ -228,6 +231,8 @@ define([
                     Common.UI.ToggleManager.register(me);
                 }
             }
+            if (!this.visible)
+                this.setVisible(this.visible);
 
             me.cmpEl = el;
             me.rendered = true;

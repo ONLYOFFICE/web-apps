@@ -114,7 +114,8 @@ Common.UI.HintManager = new(function() {
         _inputLetters = '',
         _isComplete = false,
         _isLockedKeyEvents = false,
-        _inputTimer;
+        _inputTimer,
+        _isDocReady = false;
 
     var _api;
 
@@ -370,6 +371,7 @@ Common.UI.HintManager = new(function() {
             'app:ready': function (mode) {
                 var lang = mode.lang ? mode.lang.toLowerCase() : 'en';
                 _getAlphabetLetters(lang);
+                _isDocReady = true;
             },
             'hints:clear': _clearHints,
             'window:resize': _clearHints
@@ -453,13 +455,16 @@ Common.UI.HintManager = new(function() {
                                     _resetToDefault();
                                     return;
                                 }
-                                if (!curr.attr('content-target') || (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'))) { // need to open panel
+                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'));
+                                if (!curr.attr('content-target') || needOpenPanel) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
                                         if (curr.attr('for')) { // to trigger event in checkbox
                                             $('#' + curr.attr('for')).trigger(jQuery.Event('click', {which: 1}));
                                         } else {
                                             curr.trigger(jQuery.Event('click', {which: 1}));
+                                            if (needOpenPanel)
+                                                _isComplete = false; // to show next level of hints
                                         }
                                     }
                                 }
@@ -490,12 +495,13 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible());
+            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady);
         });
     };
 
     var _getAlphabetLetters = function (lng) {
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/alphabetletters.json', function (langsJson) {
+            _arrEnAlphabet = langsJson['en'];
             var _setAlphabet = function (lang) {
                 _lang = lang;
                 _arrAlphabet = langsJson[lang];

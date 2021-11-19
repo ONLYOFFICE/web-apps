@@ -1,15 +1,15 @@
 
 <div class="statusbar">
     <div id="status-tabs-scroll" class="status-group">
-        <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="F"><i class="icon toolbar__icon btn-firstitem">&nbsp;</i></button>
-        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="B"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
-        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>
-        <button id="status-btn-tablast" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="L"><i class="icon toolbar__icon btn-lastitem">&nbsp;</i></button>
+        <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="Q"><i class="icon toolbar__icon btn-firstitem">&nbsp;</i></button>
+        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
+        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>
+        <button id="status-btn-tablast" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="K"><i class="icon toolbar__icon btn-lastitem">&nbsp;</i></button>
     </div>
     <div id="status-addtabs-box" class="status-group">
-        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="P"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
         <div class="cnt-tabslist">
-            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="S"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
+            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="V"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
         </div>
     </div>
     <div id="status-zoom-box" class="status-group">

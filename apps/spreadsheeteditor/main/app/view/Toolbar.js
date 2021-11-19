@@ -197,9 +197,9 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintTitle: 'P'
+                dataHint    : '1',
+                dataHintDirection: 'top',
+                dataHintTitle: 'V'
             });
 
             me.btnUndo = new Common.UI.Button({
@@ -208,7 +208,10 @@ define([
                 iconCls     : 'toolbar__icon btn-undo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
-                signals     : ['disabled']
+                signals     : ['disabled'],
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintTitle: 'Z'
             });
 
             me.btnRedo = new Common.UI.Button({
@@ -217,7 +220,10 @@ define([
                 iconCls     : 'toolbar__icon btn-redo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
-                signals     : ['disabled']
+                signals     : ['disabled'],
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintTitle: 'Y'
             });
 
             if ( config.isEditDiagram ) {
@@ -353,14 +359,14 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false},
-                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', layoutname: 'toolbar-layout'},
-                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
-                        {caption: me.textTabData, action: 'data', extcls: 'canedit'},
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
+                        { caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit', layoutname: 'toolbar-layout', dataHintTitle: 'L'},
+                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit', dataHintTitle: 'O'},
+                        {caption: me.textTabData, action: 'data', extcls: 'canedit', dataHintTitle: 'D'},
                         undefined, undefined, undefined,
-                        {caption: me.textTabView, action: 'view', extcls: 'canedit'}
+                        {caption: me.textTabView, action: 'view', extcls: 'canedit', dataHintTitle: 'W'}
                     ]}
                 );
 
@@ -408,7 +414,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
-                    signals: ['disabled']
+                    signals: ['disabled'],
+                    dataHint    : '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'P'
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -416,7 +425,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
                     lock        : [_set.lostConnect],
-                    signals     : ['disabled']
+                    signals     : ['disabled'],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintTitle: 'S'
                 });
                 me.btnCollabChanges = me.btnSave;
 
@@ -1477,11 +1489,11 @@ define([
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div class="checkable custom-scale" style="padding: 5px 20px;font-weight: normal;line-height: 1.42857143;font-size: 11px;height: 32px;"',
+                        '<div class="checkable custom-scale" style="padding: 5px 5px 5px 20px;font-weight: normal;line-height: 1.42857143;font-size: 11px;height: 32px;"',
                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                         'data-stopPropagation="true"',
                         '<% } %>', '>',
-                        '<label class="title" style="padding-top: 3px;">' + me.textScale + '</label>',
+                        '<label class="title" style="padding-top: 3px;padding-right: 5px;">' + me.textScale + '</label>',
                         '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
                         '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
                         '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
@@ -1616,7 +1628,7 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                         template: _.template(template_view),
                         tabs: [
-                            {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel:false}
+                            {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'}
                         ]
                     }
                 );

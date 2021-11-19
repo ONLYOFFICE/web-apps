@@ -26,7 +26,7 @@ class ContextMenuView extends Component {
                      onPopoverClosed={e => this.props.onMenuClosed()}
             >
                 <List className="list-block">
-                    {buttons.map((b, index) =>
+                    {buttons.length && buttons.map((b, index) =>
                         !b.icon ?
                             <ListButton title={b.caption} key={index} onClick={e => this.props.onMenuItemClick(b.event)} /> :
                             <ListButton key={index} onClick={e => this.props.onMenuItemClick(b.event)}>

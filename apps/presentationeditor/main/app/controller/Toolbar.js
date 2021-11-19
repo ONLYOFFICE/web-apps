@@ -2479,7 +2479,7 @@ define([
             }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration'};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 4);
@@ -2505,12 +2505,13 @@ define([
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
                 }
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect'};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
                             me.toolbar.addTab(tab, $panel, 4);

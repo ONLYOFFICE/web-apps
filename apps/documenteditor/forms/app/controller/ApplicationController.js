@@ -10,6 +10,7 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/CopyWarningDialog',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -185,6 +186,14 @@ define([
                     config.msg = this.downloadErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.UplImageSize:
+                    config.msg = this.uploadImageSizeMessage;
+                    break;
+
+                case Asc.c_oAscError.ID.UplImageExt:
+                    config.msg = this.uploadImageExtMessage;
+                    break;
+
                 case Asc.c_oAscError.ID.ConvertationPassword:
                     config.msg = this.errorFilePassProtect;
                     break;
@@ -224,6 +233,19 @@ define([
                     config.msg = this.errorLoadingFont;
                     break;
 
+                case Asc.c_oAscError.ID.Warning:
+                    config.msg = this.errorConnectToServer;
+                    config.closable = false;
+                    break;
+
+                case Asc.c_oAscError.ID.KeyExpire:
+                    config.msg = this.errorTokenExpire;
+                    break;
+
+                case Asc.c_oAscError.ID.CoAuthoringDisconnect:
+                    config.msg = this.errorViewerDisconnect;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -253,7 +275,14 @@ define([
                 config.iconCls  = 'warn';
                 config.buttons  = ['ok'];
                 config.callback = _.bind(function(btn){
-                    if (id == Asc.c_oAscError.ID.EditingError) {
+                    if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
+                        Common.UI.Menu.Manager.hideAll();
+                        var me = this;
+                        setTimeout(function() {
+                            $('button', me.view.btnOptions.cmpEl).click();
+                        }, 10);
+
+                    } else if (id == Asc.c_oAscError.ID.EditingError) {
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
                 }, this);
@@ -398,6 +427,12 @@ define([
                 }
             }
 
+            labelDocName = $('#title-doc-name');
+            if (data.doc) {
+                labelDocName.text(data.doc.title || '');
+                this.embedConfig.docTitle = data.doc.title;
+            }
+
             this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
             this.api.asc_setDocInfo(docInfo);
@@ -405,12 +440,6 @@ define([
             this.api.asc_enableKeyEvents(true);
 
             Common.Analytics.trackEvent('Load', 'Start');
-
-            labelDocName = $('#title-doc-name');
-            if (data.doc) {
-                labelDocName.text(data.doc.title || '');
-                this.embedConfig.docTitle = data.doc.title;
-            }
         },
 
         onRunAutostartMacroses: function() {
@@ -486,6 +515,7 @@ define([
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
+                this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             }
 
             var $parent = labelDocName.parent();
@@ -1001,7 +1031,7 @@ define([
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-            var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -2);
+            var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
             this.createDelayedElements();
@@ -1016,6 +1046,7 @@ define([
             this.api.asc_registerCallback('asc_onPrint',                 _.bind(this.onPrint, this));
             this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
+            this.api.asc_registerCallback('asc_onContextMenu',           _.bind(this.onContextMenu, this));
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
@@ -1306,6 +1337,128 @@ define([
             });
         },
 
+        onContextMenu: function(event){
+            var me = this;
+            _.delay(function(){
+                if (event.get_Type() == 0) {
+                    me.api && me.appOptions.canFillForms && me.fillMenuProps(me.api.getSelectedElements(), event);
+                }
+            },10);
+        },
+
+        showPopupMenu: function(menu, value, event){
+            if (!_.isUndefined(menu)  && menu !== null){
+                Common.UI.Menu.Manager.hideAll();
+
+                var showPoint = [event.get_X(), event.get_Y()],
+                    menuContainer = this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        this.boxSdk.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                }
+
+                menuContainer.css({
+                    left: showPoint[0],
+                    top : showPoint[1]
+                });
+
+                menu.show();
+
+                if (_.isFunction(menu.options.initMenu)) {
+                    menu.options.initMenu(value);
+                    menu.alignPosition();
+                }
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+
+                this.currentMenu = menu;
+            }
+        },
+
+        fillMenuProps: function(selectedElements, event) {
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            if (!this.textMenu) {
+                this.textMenu = this.view.getContextMenu();
+                this.textMenu.on('item:click', _.bind(this.onContextMenuClick, this));
+            }
+
+            var menu_props = {},
+                noobject = true;
+            for (var i = 0; i <selectedElements.length; i++) {
+                var elType = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    //image
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
+                    menu_props.headerProps = {};
+                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
+            }
+            if (this.textMenu && !noobject) {
+                var cancopy = this.api.can_CopyCut(),
+                    disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
+                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked);
+                this.textMenu.items[0].setDisabled(!cancopy); // copy
+                this.textMenu.items[1].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[2].setDisabled(disabled) // paste;
+                this.textMenu.items[3].setVisible(this.appOptions.canPrint);
+                this.textMenu.items[3].setDisabled(!cancopy);
+
+                this.showPopupMenu(this.textMenu, {}, event);
+            }
+        },
+
+        onContextMenuClick: function(menu, item, e) {
+            switch (item.value) {
+                case 'copy':
+                case 'cut':
+                case 'paste':
+                    if (this.api) {
+                        var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
+                        if (!res) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                                (new Common.Views.CopyWarningDialog({
+                                    handler: function(dontshow) {
+                                        if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
+                                    }
+                                })).show();
+                            }
+                        }
+                    }
+                    break;
+                case 'print':
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    this.api.asc_Print(opts);
+                    break;
+            }
+        },
+
         errorDefaultMessage     : 'Error code: %1',
         unknownErrorText        : 'Unknown error.',
         convertationTimeoutText : 'Conversion timeout exceeded.',
@@ -1349,7 +1502,12 @@ define([
         textBuyNow: 'Visit website',
         textNoLicenseTitle: 'License limit reached',
         textContactUs: 'Contact sales',
-        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+        errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
+        uploadImageSizeMessage: 'Maximum image size limit exceeded.',
+        uploadImageExtMessage: 'Unknown image format.'
 
     }, DE.Controllers.ApplicationController));
 });

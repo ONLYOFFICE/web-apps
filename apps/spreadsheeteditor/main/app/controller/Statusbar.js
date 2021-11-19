@@ -193,15 +193,16 @@ define([
         },
 
         onChangeProtectWorkbook: function() {
-            this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || this.statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
-            var count = this.statusbar.tabbar.getCount(), tab;
             var wbprotected = this.api.asc_isProtectedWorkbook();
+            this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || wbprotected || this.statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+            var count = this.statusbar.tabbar.getCount(), tab;
             for (var i = count; i-- > 0; ) {
                 tab = this.statusbar.tabbar.getAt(i);
                 var islocked = tab.hasClass('coauth-locked');
                 tab.isLockTheDrag = islocked || wbprotected || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable) || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
                 tab.$el.children(':first-child').attr('draggable', tab.isLockTheDrag?'false':'true');
             }
+            this.statusbar.update();
         },
 
         /** coauthoring end **/

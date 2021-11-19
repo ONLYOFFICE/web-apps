@@ -182,6 +182,7 @@ define([
             },
 
             onInputKeyUp: function(e) {
+                if (!this._isKeyDown) return;
                 if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode !== Common.UI.Keys.SHIFT &&
                     e.keyCode !== Common.UI.Keys.CTRL && e.keyCode !== Common.UI.Keys.ALT &&
                     e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT &&
@@ -213,9 +214,11 @@ define([
                             }, 10);
                     }
                 }
+                this._isKeyDown = false;
             },
 
             onInputKeyDown: function(e) {
+                this._isKeyDown = true;
                 this._inInputKeyDown = (new Date());
                 var me = this;
 

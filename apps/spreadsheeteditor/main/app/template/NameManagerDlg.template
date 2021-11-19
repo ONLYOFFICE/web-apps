@@ -10,10 +10,10 @@
             <tr>
                 <td colspan=2>
                     <div style="width: 169px;display: inline-block;"><span id="name-manager-sort-name" class="header-sorted">
-                        <label class="header"><%= scope.textRanges %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-name-span" class="sort-direction img-commonctrl"></span>
+                        <label class="header"><%= scope.textRanges %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-name-span" class="sort-direction  caret"></span>
                     </span></div>
                     <div style="width: 115px;display: inline-block;"><span id="name-manager-sort-scope" class="header-sorted">
-                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction img-commonctrl"></span>
+                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction  caret"></span>
                     </span></div>
                     <label class="header" style=""><%= scope.textDataRange %></label>
                 </td>

@@ -604,39 +604,35 @@ define([
         },
 
         onTextColor: function() {
-            this.toolbar.mnuTextColorPicker.trigger('select', this.toolbar.mnuTextColorPicker, this.toolbar.mnuTextColorPicker.currentColor, true);
+            this.toolbar.mnuTextColorPicker.trigger('select', this.toolbar.mnuTextColorPicker, this.toolbar.mnuTextColorPicker.currentColor);
         },
 
         onBackColor: function() {
-            this.toolbar.mnuBackColorPicker.trigger('select', this.toolbar.mnuBackColorPicker, this.toolbar.mnuBackColorPicker.currentColor, true);
+            this.toolbar.mnuBackColorPicker.trigger('select', this.toolbar.mnuBackColorPicker, this.toolbar.mnuBackColorPicker.currentColor);
         },
 
-        onTextColorSelect: function(btn, color, fromBtn) {
+        onTextColorSelect: function(btn, color) {
             this._state.clrtext_asccolor = this._state.clrtext = undefined;
 
             this.toolbar.btnTextColor.currentColor = color;
 
             this.toolbar.mnuTextColorPicker.currentColor = color;
             if (this.api) {
-                this.toolbar.btnTextColor.ischanged = (fromBtn!==true);
                 this.api.asc_setCellTextColor(color.isAuto ? color.color : Common.Utils.ThemeColor.getRgbColor(color));
-                this.toolbar.btnTextColor.ischanged = false;
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
-        onBackColorSelect: function(btn, color, fromBtn) {
+        onBackColorSelect: function(btn, color) {
             this._state.clrshd_asccolor = this._state.clrback = undefined;
 
             this.toolbar.btnBackColor.currentColor = color;
 
             this.toolbar.mnuBackColorPicker.currentColor = color;
             if (this.api) {
-                this.toolbar.btnBackColor.ischanged = (fromBtn!==true);
                 this.api.asc_setCellBackgroundColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
-                this.toolbar.btnBackColor.ischanged = false;
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Background Color');
@@ -2446,7 +2442,7 @@ define([
                 color,
                 fontColorPicker      = this.toolbar.mnuTextColorPicker;
 
-            if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
+            if (!fontColorPicker.isDummy) {
                 color = fontobj.asc_getFontColor();
                 if (color) {
                     if (color.get_auto()) {
@@ -2608,7 +2604,7 @@ define([
                 fontColorPicker      = this.toolbar.mnuTextColorPicker,
                 paragraphColorPicker = this.toolbar.mnuBackColorPicker;
 
-            if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
+            if (!fontColorPicker.isDummy) {
                 color = xfs.asc_getFontColor();
                 if (color) {
                     if (color.get_auto()) {
@@ -2651,9 +2647,9 @@ define([
             }
 
             /* read cell background color */
-            if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
+            if (!paragraphColorPicker.isDummy) {
                 color = xfs.asc_getFillColor();
-                if (color) {
+                if (color && !color.get_auto()) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
@@ -3714,7 +3710,7 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration'};
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 6);
@@ -3754,7 +3750,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( config.canFeaturePivot ) {
-                        tab = {action: 'pivot', caption: me.textPivot};
+                        tab = {action: 'pivot', caption: me.textPivot, dataHintTitle: 'B'};
                         var pivottab = me.getApplication().getController('PivotTable');
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
@@ -3774,10 +3770,11 @@ define([
 
                         // move 'paste' button to the container instead of 'undo' and 'redo'
                         me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                         me.toolbar.btnCopy.$el.removeClass('split');
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect'};
+                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
                         config.canProtect && $panel.append($('<div class="separator long"></div>'));

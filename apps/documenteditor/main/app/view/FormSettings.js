@@ -638,12 +638,15 @@ define([
         },
 
         onGroupKeyChanged: function(combo, record) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && record.value!=='') {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
                 specProps.put_GroupKey(record.value);
                 props.put_CheckBoxPr(specProps);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            } else {
+                this.cmbGroupKey.setValue(this._state.groupKey ? this._state.groupKey : '');
                 this.fireEvent('editcomplete', this);
             }
         },

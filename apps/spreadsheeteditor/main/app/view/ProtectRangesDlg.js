@@ -152,6 +152,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
 
         _setDefaults: function (props) {
             this.refreshRangeList(props, 0);
+            this.currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.api.asc_registerCallback('asc_onLockProtectedRangeManager', this.wrapEvents.onLockProtectedRangeManager);
             this.api.asc_registerCallback('asc_onUnLockProtectedRangeManager', this.wrapEvents.onUnLockProtectedRangeManager);
             this.api.asc_registerCallback('asc_onLockProtectedRange', this.wrapEvents.onLockProtectedRange);
@@ -167,6 +168,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                         name: ranges[i].asc_getName() || '',
                         pwd: ranges[i].asc_isPassword(),
                         range: ranges[i].asc_getSqref() || '',
+                        rangeId: ranges[i].asc_getId(),
                         props: ranges[i],
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
@@ -344,7 +346,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             return true;
         },
 
-        onSelectRangeItem: function(lisvView, itemView, record) {
+        onSelectRangeItem: function(listView, itemView, record) {
             if (!record) return;
 
             this.userTipHide();
@@ -390,8 +392,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             if (this.currentSheet !== index) return;
             this.locked = true;
             this.updateButtons();
-            if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
-                this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
+            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
+                this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
         onUnLockProtectedRangeManager: function(index) {
@@ -400,23 +402,23 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             this.updateButtons();
         },
 
-        onLockProtectedRange: function(index, ruleId, userId) {
+        onLockProtectedRange: function(index, rangeId, userId) {
             if (this.currentSheet !== index) return;
-            var store = this.rulesList.store,
-                rec = store.findWhere({ruleId: ruleId});
+            var store = this.rangeList.store,
+                rec = store.findWhere({rangeId: rangeId});
             if (rec) {
                 rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
                 rec.set('lock', true);
                 this.updateButtons();
             }
-            if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
-                this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
+            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
+                this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
-        onUnLockProtectedRange: function(index, ruleId) {
+        onUnLockProtectedRange: function(index, rangeId) {
             if (this.currentSheet !== index) return;
-            var store = this.rulesList.store,
-                rec = store.findWhere({ruleId: ruleId});
+            var store = this.rangeList.store,
+                rec = store.findWhere({rangeId: rangeId});
             if (rec) {
                 rec.set('lockuser', '');
                 rec.set('lock', false);

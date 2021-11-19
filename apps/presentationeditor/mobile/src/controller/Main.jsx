@@ -298,11 +298,11 @@ class MainController extends Component {
             this.api.Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+        $$(window).on('popup:open sheet:open actions:open', () => {
             this.api.asc_enableKeyEvents(false);
         });
 
-        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
+        $$(window).on('popup:close sheet:close actions:close', () => {
             this.api.asc_enableKeyEvents(true);
         });
 

@@ -251,7 +251,7 @@ define([
                     mnuitemHideRulers.hide();
 
                 me.header.menuItemsDarkMode = new Common.UI.MenuItem({
-                    caption: 'Dark mode',
+                    caption: me.txtDarkMode,
                     checkable: true,
                     checked: Common.UI.Themes.isContentThemeDark(),
                     value: 'mode:dark'
@@ -273,7 +273,7 @@ define([
 
                 me.header.mnuZoom = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 26px;" ',
                             '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                 'data-stopPropagation="true"',
                             '<% } %>', '>',
@@ -378,7 +378,7 @@ define([
                 menuItem.setVisible(current_dark);
                 menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
 
-                menuItem.setChecked(current_dark);
+                menuItem.setChecked(Common.UI.Themes.isContentThemeDark());
             }
         },
 
@@ -453,6 +453,7 @@ define([
         },
 
         textFitPage: 'Fit to Page',
-        textFitWidth: 'Fit to Width'
+        textFitWidth: 'Fit to Width',
+        txtDarkMode: 'Dark mode'
     }, DE.Controllers.Viewport));
 });
