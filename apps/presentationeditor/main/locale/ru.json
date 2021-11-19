@@ -446,8 +446,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Доступ запрещён",
   "PE.Controllers.Main.saveErrorText": "При сохранении файла произошла ошибка.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Нельзя сохранить или создать этот файл.<br>Возможные причины: <br>1. Файл доступен только для чтения. <br>2. Файл редактируется другими пользователями. <br>3. Диск заполнен или поврежден.",
-  "PE.Controllers.Main.savePreparingText": "Подготовка к сохранению",
-  "PE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "PE.Controllers.Main.saveTextText": "Сохранение презентации...",
   "PE.Controllers.Main.saveTitleText": "Сохранение презентации",
   "PE.Controllers.Main.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",

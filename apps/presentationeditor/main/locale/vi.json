@@ -178,8 +178,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Hiện tại có ai đó đang chỉnh sửa bản trình chiếu này. Vui lòng thử lại sau.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Truy cập bị từ chối",
   "PE.Controllers.Main.saveErrorText": "Xảy ra lỗi khi lưu file",
-  "PE.Controllers.Main.savePreparingText": "Chuẩn bị lưu",
-  "PE.Controllers.Main.savePreparingTitle": "Chuẩn bị lưu. Vui lòng chờ...",
   "PE.Controllers.Main.saveTextText": "Đang lưu bản trình chiếu...",
   "PE.Controllers.Main.saveTitleText": "Đang lưu bản trình chiếu",
   "PE.Controllers.Main.splitDividerErrorText": "Số hàng phải là ước của %1.",

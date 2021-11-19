@@ -446,8 +446,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Accés denegat",
   "PE.Controllers.Main.saveErrorText": "S'ha produït un error en desar el fitxer.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Aquest fitxer no es pot desar o crear.<br>Les possibles raons són:<br>1. El fitxer és només de lectura. <br>2. El fitxer és en aquests moments obert per altres usuaris. <br>3. El disc és ple o s'ha fet malbé.",
-  "PE.Controllers.Main.savePreparingText": "S'està preparant per desar",
-  "PE.Controllers.Main.savePreparingTitle": "S'està preparant per desar. Espereu...",
   "PE.Controllers.Main.saveTextText": "S'està desant la presentació...",
   "PE.Controllers.Main.saveTitleText": "S'està desant la presentació",
   "PE.Controllers.Main.scriptLoadError": "La connexió és massa lenta, alguns dels components no s’han pogut carregar. Torneu a carregar la pàgina.",

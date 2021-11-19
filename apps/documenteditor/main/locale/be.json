@@ -495,8 +495,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Дакумент зараз рэдагуецца. Калі ласка, паспрабуйце пазней.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Доступ забаронены",
   "DE.Controllers.Main.saveErrorText": "Падчас захавання файла адбылася памылка.",
-  "DE.Controllers.Main.savePreparingText": "Падрыхтоўка да захавання",
-  "DE.Controllers.Main.savePreparingTitle": "Падрыхтоўка да захавання. Калі ласка, пачакайце…",
   "DE.Controllers.Main.saveTextText": "Захаванне дакумента…",
   "DE.Controllers.Main.saveTitleText": "Захаванне дакумента",
   "DE.Controllers.Main.scriptLoadError": "Занадта павольнае злучэнне, не ўсе кампаненты атрымалася загрузіць. Калі ласка, абнавіце старонку.",

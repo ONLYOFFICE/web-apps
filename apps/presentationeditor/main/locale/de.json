@@ -444,8 +444,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Zugriff verweigert",
   "PE.Controllers.Main.saveErrorText": "Beim Speichern dieser Datei ist ein Fehler aufgetreten.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Diese Datei kann nicht erstellt oder gespeichert werden.<br>Dies ist möglicherweise davon verursacht: <br>1. Die Datei ist schreibgeschützt. <br>2. Die Datei wird von anderen Benutzern bearbeitet. <br>3. Die Festplatte ist voll oder beschädigt.",
-  "PE.Controllers.Main.savePreparingText": "Speichervorbereitung",
-  "PE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "PE.Controllers.Main.saveTextText": "Präsentation wird gespeichert...",
   "PE.Controllers.Main.saveTitleText": "Präsentation wird gespeichert",
   "PE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",

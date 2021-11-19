@@ -391,8 +391,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Nekdo v tem trenutku ureja ta dokument. Prosim ponovno poskusite kasneje.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Dostop zavrnjen",
   "DE.Controllers.Main.saveErrorText": "Prišlo je do težave med shranjevanjem datoteke.",
-  "DE.Controllers.Main.savePreparingText": "Priprava za shranjevanje",
-  "DE.Controllers.Main.savePreparingTitle": "Priprava za shranjevanje. Prosim počakajte...",
   "DE.Controllers.Main.saveTextText": "Shranjevanje dokumenta...",
   "DE.Controllers.Main.saveTitleText": "Shranjevanje dokumenta",
   "DE.Controllers.Main.sendMergeText": "Sending Merge...",

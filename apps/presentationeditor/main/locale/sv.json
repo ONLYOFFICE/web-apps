@@ -433,8 +433,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Ingen behörighet",
   "PE.Controllers.Main.saveErrorText": "Ett fel uppstod när filen skulle sparas",
   "PE.Controllers.Main.saveErrorTextDesktop": "Den här filen kan inte sparas eller skapas. <br> Möjliga orsaker är: <br> 1. Filen är skrivskyddad. <br> 2. Filen redigeras av andra användare. <br> 3. Disken är full eller skadad.",
-  "PE.Controllers.Main.savePreparingText": "Förbereder att spara",
-  "PE.Controllers.Main.savePreparingTitle": "Förbereder att spara. Vänta...",
   "PE.Controllers.Main.saveTextText": "Sparar presentationen...",
   "PE.Controllers.Main.saveTitleText": "Sparar presentationen",
   "PE.Controllers.Main.scriptLoadError": "Anslutningen är för långsam, vissa av komponenterna kunde inte laddas. Vänligen ladda om sidan.",

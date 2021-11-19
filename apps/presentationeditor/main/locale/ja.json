@@ -444,8 +444,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "アクセスが拒否されました",
   "PE.Controllers.Main.saveErrorText": "ファイルを保存中にエラーが発生しました。",
   "PE.Controllers.Main.saveErrorTextDesktop": "このファイルは作成または保存できません。<br>考えられる理由は次のとおりです：<br>1. ファイルが読み取り専用です。<br>2. ファイルが他のユーザーによって編集されています。<br>3. ディスクがいっぱいか破損しています。",
-  "PE.Controllers.Main.savePreparingText": "保存の準備中",
-  "PE.Controllers.Main.savePreparingTitle": "保存の準備中です。お待ちください。",
   "PE.Controllers.Main.saveTextText": "プレゼンテーションの保存中...",
   "PE.Controllers.Main.saveTitleText": "プレゼンテーションの保存中",
   "PE.Controllers.Main.scriptLoadError": "インターネット接続が遅いため、一部のコンポーネントをロードできませんでした。ページを再度お読み込みください。",

@@ -444,8 +444,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Acesso denegado",
   "PE.Controllers.Main.saveErrorText": "Ocorreu un erro ao gardar o ficheiro.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Este ficheiro non se pode gardar nin crear. <br> Os motivos posibles son: <br> 1. O ficheiro é de só lectura. <br> 2. O ficheiro está a ser editado por outros usuarios. <br> 3. O disco está cheo ou corrompido.",
-  "PE.Controllers.Main.savePreparingText": "Preparando para gardar",
-  "PE.Controllers.Main.savePreparingTitle": "Preparando para gardar. Agarde...",
   "PE.Controllers.Main.saveTextText": "Gardando presentación...",
   "PE.Controllers.Main.saveTitleText": "Gardando presentación",
   "PE.Controllers.Main.scriptLoadError": "A conexión é lenta e algúns dos compoñentes non foron cargados. Debe recargar a páxina.",

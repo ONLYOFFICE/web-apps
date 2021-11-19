@@ -495,8 +495,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Niekto tento dokument práve upravuje. Skúste neskôr prosím.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Prístup zamietnutý",
   "DE.Controllers.Main.saveErrorText": "Pri ukladaní súboru sa vyskytla chyba",
-  "DE.Controllers.Main.savePreparingText": "Príprava na uloženie",
-  "DE.Controllers.Main.savePreparingTitle": "Príprava na uloženie. Prosím čakajte...",
   "DE.Controllers.Main.saveTextText": "Ukladanie dokumentu...",
   "DE.Controllers.Main.saveTitleText": "Ukladanie dokumentu",
   "DE.Controllers.Main.scriptLoadError": "Spojenie je príliš pomalé, niektoré komponenty nemožno nahrať. Obnovte prosím stránku.",

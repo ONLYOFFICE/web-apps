@@ -340,8 +340,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Kāds rediģē šo dokumentu. Lūdzu, mēģiniet vēlreiz vēlāk.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Piekļuve liegta",
   "DE.Controllers.Main.saveErrorText": "Faila noglabāšanas laikā radās kļūda",
-  "DE.Controllers.Main.savePreparingText": "Preparing to save",
-  "DE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "DE.Controllers.Main.saveTextText": "Saglabā Dokumentu...",
   "DE.Controllers.Main.saveTitleText": "Saglabā Dokumentu",
   "DE.Controllers.Main.sendMergeText": "Sending Merge...",

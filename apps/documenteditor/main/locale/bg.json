@@ -405,8 +405,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Някой редактира този документ в момента. Моля, опитайте отново по-късно.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Достъп отказан",
   "DE.Controllers.Main.saveErrorText": "Възникна грешка при запазването на файла",
-  "DE.Controllers.Main.savePreparingText": "Подготовка за запазване",
-  "DE.Controllers.Main.savePreparingTitle": "Подготовка за запазване. Моля Изчакай...",
   "DE.Controllers.Main.saveTextText": "Документът се запазва ...",
   "DE.Controllers.Main.saveTitleText": "Запазване на документ",
   "DE.Controllers.Main.scriptLoadError": "Връзката е твърде бавна, някои от компонентите не могат да бъдат заредени. Моля, презаредете страницата.",

@@ -17,6 +17,7 @@
   "DE.ApplicationController.errorForceSave": "Dosya kaydedilirken bir hata oluştu. Dosyayı bilgisayarınıza kaydetmek için lütfen 'Farklı İndir' seçeneğini kullanın veya daha sonra tekrar deneyin.",
   "DE.ApplicationController.errorLoadingFont": "Fontlar yüklenmedi.<br>Lütfen Sistem Yöneticinizle iletişime geçin.",
   "DE.ApplicationController.errorSubmit": "Kaydetme başarısız oldu.",
+  "DE.ApplicationController.errorTokenExpire": "Belge güvenlik belirtecinin süresi doldu.<br>Lütfen Belge Sunucusu yöneticinize başvurun.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "İnternet bağlantısı tekrar sağlandı, ve dosya versiyon değişti.<br>Çalışmanıza devam etmeden önce, veri kaybını önlemeniz için dosyasının bir kopyasını indirmeniz ya da dosya içeriğini kopyalamanız ve sonrasında sayfayı yenilemeniz gerekmektedir.",
   "DE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "DE.ApplicationController.notcriticalErrorTitle": "Uyarı",

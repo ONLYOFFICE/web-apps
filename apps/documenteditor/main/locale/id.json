@@ -207,8 +207,6 @@
   "DE.Controllers.Main.reloadButtonText": "Muat Ulang Halaman",
   "DE.Controllers.Main.requestEditFailedMessageText": "Saat ini dokumen sedang diedit. Silakan coba beberapa saat lagi.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Akses ditolak",
-  "DE.Controllers.Main.savePreparingText": "Bersiap untuk menyimpan",
-  "DE.Controllers.Main.savePreparingTitle": "Bersiap untuk menyimpan. Silakan tunggu...",
   "DE.Controllers.Main.saveTextText": "Menyimpan dokumen...",
   "DE.Controllers.Main.saveTitleText": "Menyimpan Dokumen",
   "DE.Controllers.Main.sendMergeText": "Sending Merge...",

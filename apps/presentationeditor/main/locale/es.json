@@ -446,8 +446,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Acceso negado",
   "PE.Controllers.Main.saveErrorText": "Se ha producido un error al guardar el archivo ",
   "PE.Controllers.Main.saveErrorTextDesktop": "Este archivo no se puede guardar o crear.<br>Las razones posibles son: <br>1. El archivo es sólo para leer. <br>2. El archivo está siendo editado por otros usuarios. <br>3. El disco está lleno o corrupto.",
-  "PE.Controllers.Main.savePreparingText": "Preparando para guardar",
-  "PE.Controllers.Main.savePreparingTitle": "Preparando para guardar. Espere por favor...",
   "PE.Controllers.Main.saveTextText": "Guardando presentación...",
   "PE.Controllers.Main.saveTitleText": "Guardando presentación",
   "PE.Controllers.Main.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",

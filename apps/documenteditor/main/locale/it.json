@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Accesso negato",
   "DE.Controllers.Main.saveErrorText": "Si è verificato un errore durante il salvataggio del file",
   "DE.Controllers.Main.saveErrorTextDesktop": "Questo file non può essere salvato o creato. <br>I possibili motivi sono: <br>1. Il file è di sola lettura. <br>2. Il file è in fase di modifica da parte di altri utenti. <br>3. Il disco è pieno oppure è danneggiato.",
-  "DE.Controllers.Main.savePreparingText": "Preparazione al salvataggio ",
-  "DE.Controllers.Main.savePreparingTitle": "Preparazione al salvataggio. Si prega di attendere...",
   "DE.Controllers.Main.saveTextText": "Salvataggio del documento in corso...",
   "DE.Controllers.Main.saveTitleText": "Salvataggio del documento",
   "DE.Controllers.Main.scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Si prega di ricaricare la pagina.",

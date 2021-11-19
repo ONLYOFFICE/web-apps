@@ -328,8 +328,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Niekto momentálne upravuje túto prezentáciu. Skúste neskôr prosím.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Prístup zamietnutý",
   "PE.Controllers.Main.saveErrorText": "Pri ukladaní súboru sa vyskytla chyba",
-  "PE.Controllers.Main.savePreparingText": "Príprava na uloženie",
-  "PE.Controllers.Main.savePreparingTitle": "Príprava na uloženie. Prosím čakajte...",
   "PE.Controllers.Main.saveTextText": "Ukladanie prezentácie...",
   "PE.Controllers.Main.saveTitleText": "Ukladanie prezentácie",
   "PE.Controllers.Main.splitDividerErrorText": "Počet riadkov musí byť deliteľný %1.",

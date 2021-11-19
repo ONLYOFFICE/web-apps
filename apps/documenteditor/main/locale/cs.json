@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Přístup odepřen",
   "DE.Controllers.Main.saveErrorText": "Při ukládání souboru došlo k chybě.",
   "DE.Controllers.Main.saveErrorTextDesktop": "Soubor nemohl být uložen nebo vytvořen.<br>Možné důvody: <br>1. Soubor je pouze pro čtení. <br>2. Soubor je editován jinými uživateli. <br>3. Úložiště je plně zaplněno nebo poškozeno.",
-  "DE.Controllers.Main.savePreparingText": "Příprava na ukládání",
-  "DE.Controllers.Main.savePreparingTitle": "Příprava ukládání. Čekejte…",
   "DE.Controllers.Main.saveTextText": "Ukládání dokumentu…",
   "DE.Controllers.Main.saveTitleText": "Ukládání dokumentu",
   "DE.Controllers.Main.scriptLoadError": "Připojení je příliš pomalé, některé součásti se nepodařilo načíst. Načtěte stránku znovu.",

@@ -327,8 +327,6 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "Хтось редагує цей документ прямо зараз. Будь-ласка спробуйте пізніше.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Доступ заборонено",
   "DE.Controllers.Main.saveErrorText": "Під час збереження файлу сталася помилка",
-  "DE.Controllers.Main.savePreparingText": "Підготовка до зберігання",
-  "DE.Controllers.Main.savePreparingTitle": "Підготовка до зберігання. Будь ласка, зачекайте...",
   "DE.Controllers.Main.saveTextText": "Збереження документа...",
   "DE.Controllers.Main.saveTitleText": "Збереження документа",
   "DE.Controllers.Main.sendMergeText": "Відправлення злиття...",

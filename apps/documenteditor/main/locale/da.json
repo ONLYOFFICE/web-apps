@@ -546,8 +546,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Adgang nægtet",
   "DE.Controllers.Main.saveErrorText": "Der skete en fejl da filen blev forsøgt gemt.",
   "DE.Controllers.Main.saveErrorTextDesktop": "Filen kan ikke gemmes eller oprettes.<br>Mulige årsager kan være:<br>1. Filen er read-only. <br>2. Filen redigeres and en anden bruger.<br>3. Disken er fuld eller beskadiget.",
-  "DE.Controllers.Main.savePreparingText": "Forbereder at gemme",
-  "DE.Controllers.Main.savePreparingTitle": "Forbereder at gemme. Vent venligst...",
   "DE.Controllers.Main.saveTextText": "Gemmer dokument...",
   "DE.Controllers.Main.saveTitleText": "Gemmer dokument",
   "DE.Controllers.Main.scriptLoadError": "Forbindelsen er for langsom, nogle af komponenterne kunne ikke indlæses. Venligst genindlæs siden.",

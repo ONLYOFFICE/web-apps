@@ -414,8 +414,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Adgang nægtet",
   "PE.Controllers.Main.saveErrorText": "Der skete en fejl da filen blev forsøgt gemt.",
   "PE.Controllers.Main.saveErrorTextDesktop": "Filen kan ikke gemmes eller oprettes.<br>Mulige årsager kan være:<br>1. Filen er read-only. <br>2. Filen redigeres and en anden bruger.<br>3. Disken er fuld eller beskadiget.",
-  "PE.Controllers.Main.savePreparingText": "Forbereder at gemme",
-  "PE.Controllers.Main.savePreparingTitle": "Forbereder at gemme. Vent venligst...",
   "PE.Controllers.Main.saveTextText": "Gemmer præsentation...",
   "PE.Controllers.Main.saveTitleText": "Gemmer præsentation",
   "PE.Controllers.Main.scriptLoadError": "Forbindelsen er for langsom, nogle af komponenterne kunne ikke indlæses. Venligst genindlæs siden.",

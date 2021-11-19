@@ -451,8 +451,6 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Access denied",
   "PE.Controllers.Main.saveErrorText": "An error has occurred while saving the file.",
   "PE.Controllers.Main.saveErrorTextDesktop": "This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.",
-  "del_PE.Controllers.Main.savePreparingText": "Preparing to save",
-  "del_PE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "PE.Controllers.Main.saveTextText": "Saving presentation...",
   "PE.Controllers.Main.saveTitleText": "Saving Presentation",
   "PE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
