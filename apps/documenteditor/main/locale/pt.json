@@ -577,8 +577,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Acesso negado",
   "DE.Controllers.Main.saveErrorText": "Ocorreu um erro ao gravar o arquivo",
   "DE.Controllers.Main.saveErrorTextDesktop": "Este arquivo não pode ser salvo ou criado.<br>Possíveis razões são: <br>1. O arquivo é somente leitura. <br>2. O arquivo está sendo editado por outros usuários. <br>3. O disco está cheio ou corrompido.",
-  "DE.Controllers.Main.savePreparingText": "Preparando para salvar",
-  "DE.Controllers.Main.savePreparingTitle": "Preparando para salvar. Aguarde...",
   "DE.Controllers.Main.saveTextText": "Salvando documento...",
   "DE.Controllers.Main.saveTitleText": "Salvando documento",
   "DE.Controllers.Main.scriptLoadError": "A conexão está muito lenta, e alguns dos componentes não puderam ser carregados. Por favor, recarregue a página.",

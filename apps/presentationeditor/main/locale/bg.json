@@ -289,8 +289,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Някой редактира тази презентация точно сега. Моля, опитайте отново по-късно.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Отказан достъп",
   "PE.Controllers.Main.saveErrorText": "Възникна грешка при запазването на файла",
-  "PE.Controllers.Main.savePreparingText": "Подготовка за запазване",
-  "PE.Controllers.Main.savePreparingTitle": "Подготовка за запазване. Моля изчакай...",
   "PE.Controllers.Main.saveTextText": "Представянето се запазва ...",
   "PE.Controllers.Main.saveTitleText": "Запазване на презентацията",
   "PE.Controllers.Main.scriptLoadError": "Връзката е твърде бавна, някои от компонентите не могат да бъдат заредени. Моля, презаредете страницата.",

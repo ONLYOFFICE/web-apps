@@ -220,8 +220,6 @@
   "PE.Controllers.Main.reloadButtonText": "Osveži stran",
   "PE.Controllers.Main.requestEditFailedMessageText": "Nekdo v tem trenutku ureja to predstavitev. Prosim ponovno poskusite kasneje.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Dostop zavrnjen",
-  "PE.Controllers.Main.savePreparingText": "Priprava za shranjevanje",
-  "PE.Controllers.Main.savePreparingTitle": "Priprava za shranjevanje. Prosim počakajte...",
   "PE.Controllers.Main.saveTextText": "Shranjevanje predstavitve...",
   "PE.Controllers.Main.saveTitleText": "Shranjevanje predstavitve",
   "PE.Controllers.Main.splitDividerErrorText": "Število vrstic mora biti razdelilec %1.",

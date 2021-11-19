@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
+    "errorInvalidLink": "La referencia del enlace no existe. Por favor, corrija o elimine el enlace.",
     "menuAddComment": "Añadir comentario",
     "menuAddLink": "Añadir enlace ",
     "menuCancel": "Cancelar",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -223,12 +223,14 @@
     "pastInMergeAreaError": "No se puede modificar una parte de una celda combinada",
     "saveErrorText": "Se ha producido un error al guardar el archivo ",
     "scriptLoadError": "La conexión es demasiado lenta, algunos de los componentes no se han podido cargar. Por favor, vuelva a cargar la página.",
+    "textErrorPasswordIsNotCorrect": "La contraseña que ha proporcionado no es correcta.<br>Verifique que la tecla Bloq Mayús está desactivada y asegúrese de utilizar las mayúsculas correctas.",
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Contraseña",
     "applyChangesTextText": "Cargando datos...",
     "applyChangesTitleText": "Cargando datos",
     "confirmMoveCellRange": "El rango de celdas de destino puede contener datos. ¿Continuar la operación?",
@@ -255,9 +257,13 @@
     "savePreparingTitle": "Preparando para guardar. Espere, por favor...",
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
+    "textCancel": "Cancelar",
+    "textErrorWrongPassword": "La contraseña que ha proporcionado no es correcta.",
     "textLoadingDocument": "Cargando documento",
     "textNo": "No",
     "textOk": "OK",
+    "textUnlockRange": "Desbloquear rango",
+    "textUnlockRangeWarning": "Un rango que está tratando de cambiar está protegido por contraseña.",
     "textYes": "Sí",
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Subiendo imagen...",

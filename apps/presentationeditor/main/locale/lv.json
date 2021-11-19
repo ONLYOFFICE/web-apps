@@ -256,8 +256,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Someone is editing this presentation right now. Please try again later.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Access denied",
   "PE.Controllers.Main.saveErrorText": "Faila noglabāšanas laikā radās kļūda",
-  "PE.Controllers.Main.savePreparingText": "Preparing to save",
-  "PE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "PE.Controllers.Main.saveTextText": "Prezentācijas saglabāšana",
   "PE.Controllers.Main.saveTitleText": "Prezentācijas saglabāšana",
   "PE.Controllers.Main.splitDividerErrorText": "The number of rows must be a divisor of %1.",

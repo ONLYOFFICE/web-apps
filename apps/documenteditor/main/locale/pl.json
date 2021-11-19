@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Odmowa dostępu",
   "DE.Controllers.Main.saveErrorText": "Wystąpił błąd podczas zapisywania pliku.",
   "DE.Controllers.Main.saveErrorTextDesktop": "Nie można zapisać lub utworzyć tego pliku.<br>Możliwe przyczyny to: <br>1. Plik jest tylko do odczytu. <br>2. Plik jest edytowany przez innych użytkowników. <br>3. Dysk jest pełny lub uszkodzony.",
-  "DE.Controllers.Main.savePreparingText": "Przygotowywanie do zapisu",
-  "DE.Controllers.Main.savePreparingTitle": "Przygotowywanie do zapisu. Proszę czekać...",
   "DE.Controllers.Main.saveTextText": "Zapisywanie dokumentu...",
   "DE.Controllers.Main.saveTitleText": "Zapisywanie dokumentu",
   "DE.Controllers.Main.scriptLoadError": "Połączenie jest zbyt wolne, niektóre komponenty mogą być niezaładowane. Prosimy odświeżyć stronę.",

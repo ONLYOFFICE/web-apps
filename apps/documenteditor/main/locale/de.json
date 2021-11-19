@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "Zugriff verweigert",
   "DE.Controllers.Main.saveErrorText": "Beim Speichern dieser Datei ist ein Fehler aufgetreten.",
   "DE.Controllers.Main.saveErrorTextDesktop": "Diese Datei kann nicht erstellt oder gespeichert werden.<br>Dies ist möglicherweise davon verursacht: <br>1. Die Datei ist schreibgeschützt. <br>2. Die Datei wird von anderen Benutzern bearbeitet. <br>3. Die Festplatte ist voll oder beschädigt.",
-  "DE.Controllers.Main.savePreparingText": "Speichervorbereitung",
-  "DE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "DE.Controllers.Main.saveTextText": "Dokument wird gespeichert...",
   "DE.Controllers.Main.saveTitleText": "Dokument wird gespeichert...",
   "DE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",

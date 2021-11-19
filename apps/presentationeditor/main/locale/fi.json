@@ -226,8 +226,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Joku on muokkaamassa tätä esitystä parhaillaan. Ole hyvä ja yritä myöhemmin uudelleen.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Pääsy kielletty",
   "PE.Controllers.Main.saveErrorText": "Virhe tapahtui tallennettaessa tiedostoa",
-  "PE.Controllers.Main.savePreparingText": "Valmistetaan tallennusta",
-  "PE.Controllers.Main.savePreparingTitle": "Valmistellaan talletusta. Ole hyvä ja odota...",
   "PE.Controllers.Main.scriptLoadError": "Yhteys on liian hidas, joitakin komponentteja ei voitu ladata. Lataa sivu uudelleen.",
   "PE.Controllers.Main.splitDividerErrorText": "Rivien määrä tulee olla arvon %1 jakaja.",
   "PE.Controllers.Main.splitMaxColsErrorText": "Sarakkeiden määrä tulee olla vähemmän kuin %1.",

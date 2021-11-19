@@ -229,8 +229,6 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "Ktoś edytuje teraz tą prezentację. Proszę spróbuj później.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Odmowa dostępu",
   "PE.Controllers.Main.saveErrorText": "Wystąpił błąd podczas zapisywania pliku",
-  "PE.Controllers.Main.savePreparingText": "Przygotowywanie do zapisu",
-  "PE.Controllers.Main.savePreparingTitle": "Przygotowywanie do zapisu. Proszę czekać...",
   "PE.Controllers.Main.saveTextText": "Zapisywanie prezentacji...",
   "PE.Controllers.Main.saveTitleText": "Zapisywanie prezentacji",
   "PE.Controllers.Main.splitDividerErrorText": "Liczba wierszy musi być dzielnikiem %1.",

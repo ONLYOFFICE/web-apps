@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "액세스가 거부되었습니다",
   "DE.Controllers.Main.saveErrorText": "파일을 저장하는 동안 오류가 발생했습니다.",
   "DE.Controllers.Main.saveErrorTextDesktop": "이 파일을 저장하거나 생성할 수 없습니다. <br>가능한 이유는 다음과 같습니다. <br> 1. 파일이 읽기 전용입니다. <br> 2. 다른 사용자가 파일을 편집 중입니다. <br> 3. 디스크가 가득 찼거나 손상되었습니다.",
-  "DE.Controllers.Main.savePreparingText": "저장 준비 중",
-  "DE.Controllers.Main.savePreparingTitle": "저장 준비 중입니다. 잠시 기다려주십시오 ...",
   "DE.Controllers.Main.saveTextText": "문서 저장 중 ...",
   "DE.Controllers.Main.saveTitleText": "문서 저장 중",
   "DE.Controllers.Main.scriptLoadError": "연결 속도가 느려, 일부 요소들이 로드되지 않았습니다. 페이지를 다시 새로 고침해주세요.",

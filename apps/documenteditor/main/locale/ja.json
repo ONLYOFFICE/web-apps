@@ -573,8 +573,6 @@
   "DE.Controllers.Main.requestEditFailedTitleText": "アクセスが拒否されました",
   "DE.Controllers.Main.saveErrorText": "ファイル保存中にエラーが発生しました",
   "DE.Controllers.Main.saveErrorTextDesktop": "このファイルは作成または保存できません。<br>考えられる理由は次のとおりです：<br>1. ファイルが読み取り専用です。<br>2. ファイルが他のユーザーによって編集されています。<br>3. ディスクがいっぱいか破損しています。",
-  "DE.Controllers.Main.savePreparingText": "保存の準備中",
-  "DE.Controllers.Main.savePreparingTitle": "保存の準備中です。お待ちください。",
   "DE.Controllers.Main.saveTextText": "ドキュメントを保存しています...",
   "DE.Controllers.Main.saveTitleText": "ドキュメントを保存しています",
   "DE.Controllers.Main.scriptLoadError": "インターネット接続が遅いため、一部のコンポーネントをロードできませんでした。ページを再度お読み込みください。",
