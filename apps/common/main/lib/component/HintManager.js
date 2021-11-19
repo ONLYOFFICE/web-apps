@@ -426,14 +426,16 @@ Common.UI.HintManager = new(function() {
             if (_hintVisible) {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
-                    if (_currentLevel === 0) {
-                        _hideHints();
-                        _lockedKeyEvents(false);
-                    } else {
-                        _prevLevel();
-                        _setCurrentSection('esc');
-                        _showHints();
-                    }
+                    setTimeout(function () {
+                        if (_currentLevel === 0) {
+                            _hideHints();
+                            _lockedKeyEvents(false);
+                        } else {
+                            _prevLevel();
+                            _setCurrentSection('esc');
+                            _showHints();
+                        }
+                    }, 10);
                 } else {
                     var curLetter = null;
                     var keyCode = e.keyCode;
