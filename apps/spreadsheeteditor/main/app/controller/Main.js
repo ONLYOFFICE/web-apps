@@ -456,6 +456,10 @@ define([
                 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
+
+                if (this.appOptions.isEditDiagram) {
+                    Common.UI.HintManager.setMode(this.appOptions);
+                }
             },
 
             loadDocument: function(data) {
