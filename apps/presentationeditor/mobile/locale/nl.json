@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Wil je deze opmerking verwijderen?",
       "textMessageDeleteReply": "Wil je dit antwoord verwijderen?",
       "textNoComments": "Dit document bevat geen opmerkingen",
+      "textOk": "OK",
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers",
-      "textOk": "Ok"
+      "textUsers": "Gebruikers"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -143,6 +143,7 @@
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
     "errorKeyEncrypt": "Onbekende sleutelbeschrijver",
     "errorKeyExpire": "Sleutelbeschrijver vervallen",
+    "errorLoadingFont": "Lettertypes zijn niet geladen.\nNeem alstublieft contact op met de beheerder van de documentserver.",
     "errorSessionAbsolute": "De document bewerkingssessie is verlopen. Gelieve de pagina opnieuw te laden.",
     "errorSessionIdle": "Het document is al een hele tijd niet meer bewerkt. Gelieve de pagina opnieuw te laden.",
     "errorSessionToken": "De verbinding met de server is onderbroken. Gelieve de pagina opnieuw te laden.",
@@ -150,7 +151,7 @@
     "errorUpdateVersionOnDisconnect": "De internet verbinding is hersteld, en de versie van het bestand is gewijzigd. <br>Voordat u verder kunt werken, download het bestand of kopieer de inhoud om er zeker van te zijn dat er niets verloren gaat, en herlaad vervolgens deze pagina.",
     "errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
     "errorUsersExceed": "Het onder het prijsplan toegestane aantal gebruikers is overschreden",
-    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
+    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden of printen totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
     "notcriticalErrorTitle": "Waarschuwing",
     "openErrorText": "Er is een fout opgetreden bij het openen van het bestand",
     "saveErrorText": "Er is een fout opgetreden bij het opslaan van het bestand",
@@ -161,8 +162,7 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -376,6 +376,7 @@
       "textTopRight": "Rechtsboven",
       "textTotalRow": "Totaalrij",
       "textTransition": "Overgang",
+      "textTransitions": "Overgangen",
       "textType": "Type",
       "textUnCover": "Onthullen",
       "textVerticalIn": "Verticaal naar binnen",
@@ -387,8 +388,7 @@
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
       "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textTransitions": "Transitions"
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

@@ -113,6 +113,7 @@
       "textMessageDeleteComment": "Yorumu silmek istediğinize emin misiniz?",
       "textMessageDeleteReply": "Bu cevabı silmek istediğinize emin misiniz?",
       "textMultiple": "Çoklu",
+      "textNoBreakBefore": "Öncesinde sayfa sonu yok",
       "textNoChanges": "Değişiklik yok.",
       "textNoComments": "Bu belge yorum içermiyor",
       "textNoContextual": "Aynı stildeki paragraflar arasına aralık ekle",
@@ -153,7 +154,6 @@
       "textTryUndoRedo": "Hızlı birlikte düzenleme modunda geri al/ileri al fonksiyonları devre dışıdır.",
       "textUnderline": "Altı çizili",
       "textUsers": "Kullanıcılar",
-      "textNoBreakBefore": "No page break before",
       "textStrikeout": "Strikeout",
       "textWidow": "Widow control"
     },

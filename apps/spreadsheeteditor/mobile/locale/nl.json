@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Wil je deze opmerking verwijderen?",
       "textMessageDeleteReply": "Wil je deze reactie verwijderen?",
       "textNoComments": "Dit document bevat geen opmerkingen",
+      "textOk": "OK",
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers",
-      "textOk": "Ok"
+      "textUsers": "Gebruikers"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Kopieer-, knip- en plakacties via het contextmenu worden alleen binnen het huidige bestand uitgevoerd.",
+    "errorInvalidLink": "De koppelingsverwijzing bestaat niet. Corrigeer de koppeling of verwijder deze.",
     "menuAddComment": "Opmerking toevoegen",
     "menuAddLink": "Koppeling toevoegen",
     "menuCancel": "Annuleren",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
   },
   "Controller": {
     "Main": {
@@ -170,6 +170,7 @@
     "errorAutoFilterHiddenRange": "De bewerking kan niet worden uitgevoerd omdat het gebied gefilterde cellen bevat.<br>Gelieve de gefilterde elementen te deactiveren en probeer opnieuw.",
     "errorBadImageUrl": "Afbeelding's URL is onjuist",
     "errorChangeArray": "U kunt een deel van een array niet wijzigen.",
+    "errorChangeOnProtectedSheet": "De cel of grafiek die u probeert te wijzigen staat op een beveiligd blad. \nOm een aanpassing te kunnen maken, dient u de beveiliging op te heffen. Er kan om een wachtwoord worden gevraagd.",
     "errorConnectToServer": "Kan dit document niet opslaan. Controleer uw verbindingsinstellingen of neem contact op met uw beheerder.<br>Wanneer u op de 'OK' knop klikt, wordt u gevraagd om het document te downloaden.",
     "errorCopyMultiselectArea": "Deze opdracht kan niet worden uitgevoerd op meerdere selecties.<br>Selecteer één bereik en probeer het opnieuw.",
     "errorCountArg": "Een fout in de formule.<br>Ongeldig aantal argumenten.",
@@ -195,6 +196,7 @@
     "errorInvalidRef": "Voer een juiste naam in voor de selectie of een geldige referentie om naar toe te gaan.",
     "errorKeyEncrypt": "Onbekende sleutelbeschrijver",
     "errorKeyExpire": "Sleutelbeschrijver vervallen",
+    "errorLoadingFont": "Lettertypes zijn niet geladen.\nNeem alstublieft contact op met de beheerder van de documentserver.",
     "errorLockedAll": "De bewerking kan niet worden uitgevoerd omdat het blad is vergrendeld door een andere gebruiker.",
     "errorLockedCellPivot": "U kunt geen data veranderen in een draaitabel.",
     "errorLockedWorksheetRename": "De naam van het blad kan op dit moment niet worden gewijzigd omdat het al wordt hernoemd door een andere gebruiker",
@@ -213,7 +215,7 @@
     "errorUpdateVersionOnDisconnect": "De internetverbinding is hersteld en de bestandsversie is gewijzigd. <br>Voordat u verder kunt werken, moet u het bestand downloaden of de inhoud kopiëren om er zeker van te zijn dat er niets verloren gaat, en deze pagina vervolgens opnieuw laden.",
     "errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
     "errorUsersExceed": "Het onder het prijsplan toegestane aantal gebruikers is overschreden",
-    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
+    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden of printen totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
     "errorWrongBracketsCount": "Een fout in de formule.<br>Verkeerd aantal haakjes.",
     "errorWrongOperator": "Een fout in de ingevoerde formule. De verkeerde operator is gebruikt.<br>Corrigeer de fout.",
     "notcriticalErrorTitle": "Waarschuwing",
@@ -224,9 +226,8 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
-    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -262,7 +263,12 @@
     "txtEditingMode": "Bewerkmodus instellen...",
     "uploadImageTextText": "Afbeelding wordt geüpload...",
     "uploadImageTitleText": "Afbeelding wordt geüpload",
-    "waitText": "Een moment geduld..."
+    "waitText": "Een moment geduld...",
+    "textErrorWrongPassword": "The password you supplied is not correct.",
+    "textUnlockRange": "Unlock Range",
+    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Waarschuwing",
@@ -276,13 +282,13 @@
     "textErrorRemoveSheet": "Het werkblad kan niet worden verwijderd.",
     "textHide": "Verbergen",
     "textMore": "Meer",
+    "textOk": "OK",
     "textRename": "Hernoemen",
     "textRenameSheet": "Blad hernoemen",
     "textSheet": "Blad",
     "textSheetName": "Bladnaam",
     "textUnhide": "Verbergen ongedaan maken",
-    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?",
-    "textOk": "Ok"
+    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -331,18 +337,18 @@
       "textRange": "Bereik",
       "textRequired": "Vereist",
       "textScreenTip": "Schermtip",
+      "textSelectedRange": "Geselecteerd bereik",
       "textShape": "Vorm",
       "textSheet": "Blad",
       "textSortAndFilter": "Sorteren en filteren",
       "txtExpand": "Uitvouwen en sorteren",
       "txtExpandSort": "De gegevens naast de selectie worden niet gesorteerd. Wilt u de selectie uitbreiden en aangrenzende gegevens opnemen of wilt u doorgaan met sorteren van alleen de cellen die op dit moment zijn geselecteerd?",
+      "txtLockSort": "Er is data gevonden naast uw huidige selectie, maar u heeft niet genoeg rechten om deze cellen aan te passen.\nWilt u doorgaan met de huidige selectie?",
+      "txtNo": "Nee",
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSorting": "Sorteren",
       "txtSortSelected": "Geselecteerde sorteren",
-      "textSelectedRange": "Selected Range",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
-      "txtNo": "No",
-      "txtYes": "Yes"
+      "txtYes": "Ja"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -543,6 +549,9 @@
       "textByRows": "Door rijen",
       "textCancel": "Annuleren",
       "textCentimeter": "Centimeter",
+      "textChooseCsvOptions": "CSV-opties kiezen",
+      "textChooseDelimeter": "Kies scheidingsteken",
+      "textChooseEncoding": "Kies tekenset",
       "textCollaboration": "Samenwerken",
       "textColorSchemes": "Kleurschema's",
       "textComment": "Opmerking",
@@ -550,6 +559,7 @@
       "textComments": "Opmerkingen",
       "textCreated": "Aangemaakt",
       "textCustomSize": "Aangepaste grootte",
+      "textDelimeter": "Scheidingsteken",
       "textDisableAll": "Alles uitschakelen",
       "textDisableAllMacrosWithNotification": "Schakel alle macro's uit met een melding",
       "textDisableAllMacrosWithoutNotification": "Schakel alle macro's uit zonder melding",
@@ -559,6 +569,7 @@
       "textEmail": "E-mail",
       "textEnableAll": "Alles inschakelen",
       "textEnableAllMacrosWithoutNotification": "Schakel alle macro's in zonder een notificatie",
+      "textEncoding": "Codering",
       "textExample": "Voorbeeld",
       "textFind": "Zoeken",
       "textFindAndReplace": "Zoeken en vervangen",
@@ -582,6 +593,7 @@
       "textMatchCase": "Identiek hoofdlettergebruik",
       "textMatchCell": "Identiek aan cel",
       "textNoTextFound": "Tekst niet gevonden",
+      "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
       "textOrientation": "Oriëntatie ",
       "textOwner": "Eigenaar",
@@ -614,9 +626,13 @@
       "textValues": "Waarden",
       "textVersion": "Versie",
       "textWorkbook": "Werkmap",
+      "txtColon": "Dubbele punt",
+      "txtComma": "Komma",
       "txtDelimiter": "Scheidingsteken",
+      "txtDownloadCsv": "CSV downloaden",
       "txtEncoding": "Codering",
       "txtIncorrectPwd": "Wachtwoord is onjuist",
+      "txtOk": "OK",
       "txtProtected": "Wanneer u het wachtwoord ingeeft en het bestand opent zal het huidige wachtwoord worden gereset.",
       "txtScheme1": "Kantoor",
       "txtScheme10": "Mediaan",
@@ -640,20 +656,10 @@
       "txtScheme7": "Vermogen",
       "txtScheme8": "Stroom",
       "txtScheme9": "Gieterij",
+      "txtSemicolon": "Puntkomma",
       "txtSpace": "Spatie",
       "txtTab": "Tab",
-      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
-      "textChooseCsvOptions": "Choose CSV Options",
-      "textChooseDelimeter": "Choose Delimeter",
-      "textChooseEncoding": "Choose Encoding",
-      "textDelimeter": "Delimiter",
-      "textEncoding": "Encoding",
-      "textOk": "Ok",
-      "txtColon": "Colon",
-      "txtComma": "Comma",
-      "txtDownloadCsv": "Download CSV",
-      "txtOk": "Ok",
-      "txtSemicolon": "Semicolon"
+      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?"
     }
   }
 }

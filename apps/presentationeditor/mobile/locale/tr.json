@@ -144,6 +144,7 @@
     "errorKeyEncrypt": "Bilinmeyen anahtar tanımlayıcı",
     "errorKeyExpire": "Anahtar tanımlayıcının süresi doldu",
     "errorLoadingFont": "Fontlar yüklenemedi.<br>Lütfen sistem yöneticinizle iletişime geçin.",
+    "errorSessionAbsolute": "Belge düzenleme oturumunun süresi doldu. Lütfen sayfayı yenileyin.",
     "errorSessionIdle": "Belge uzun süredir düzenlenmemiştir. Lütfen sayfayı yenileyin.",
     "errorSessionToken": "Sunucuyla bağlantı kesildi. Lütfen sayfayı yenileyin.",
     "errorStockChart": "Yanlış satır sırası. Bir hisse senedi grafiği oluşturmak için tablodaki verileri aşağıdaki sırayla yerleştirin:<br> açılış fiyatı, maksimum fiyat, minimum fiyat, kapanış fiyatı.",
@@ -161,8 +162,7 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
-    "errorSessionAbsolute": "The document editing session has expired. Please, reload the page."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -450,6 +450,7 @@
       "txtScheme10": "Medyan",
       "txtScheme11": "Metro",
       "txtScheme12": "Modül",
+      "txtScheme13": "Zengin",
       "txtScheme15": "Orjin",
       "txtScheme16": "Kağıt",
       "txtScheme18": "Yöntem",
@@ -463,7 +464,6 @@
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
       "txtScheme9": "Döküm",
-      "txtScheme13": "Opulent",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
       "txtScheme19": "Trek",

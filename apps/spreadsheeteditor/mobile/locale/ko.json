@@ -226,7 +226,8 @@
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -262,7 +263,12 @@
     "txtEditingMode": "편집 모드 설정 ...",
     "uploadImageTextText": "이미지 업로드 중 ...",
     "uploadImageTitleText": "이미지 업로드 중",
-    "waitText": "잠시만 기다려주세요..."
+    "waitText": "잠시만 기다려주세요...",
+    "textErrorWrongPassword": "The password you supplied is not correct.",
+    "textUnlockRange": "Unlock Range",
+    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "경고",
