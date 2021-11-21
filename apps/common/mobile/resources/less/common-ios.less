@@ -141,6 +141,8 @@
         --f7-list-item-text-text-color: @text-secondary;
         --f7-list-item-subtitle-text-color: @text-secondary;
 
+        --f7-searchbar-search-icon-color: @text-tertiary;
+        --f7-searchbar-input-clear-button-color: @text-tertiary;
         --f7-list-chevron-icon-color: @text-tertiary;
 
         --f7-toggle-inactive-color: @background-menu-divider;
@@ -513,16 +515,15 @@
         appearance: none;
         border-radius: 5px;
         font-family: inherit;
-        color: @fill-black;
+        color: @text-normal;
         font-size: 14px;
         font-weight: 400;
         padding: 0 8px;
-        background-color: @background-primary;
+        background-color: @background-button;
         padding: 0 28px;
-    }
-
-    .searchbar input[type=search]::placeholder {
-        color: @text-tertiary;
+        &::placeholder {
+            color: @text-tertiary;
+        }
     }
 
     .searchbar-inner {
