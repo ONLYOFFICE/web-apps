@@ -1,4 +1,4 @@
-@text-normal: var(--text-normal);
+// @text-normal: #000;
 // @common-image-about-path - defined in webpack config
 
 .about {
@@ -14,14 +14,14 @@
         margin: 0 auto 15px;
 
         a {
-            color: @text-normal;
+            // color: @text-normal;
         }
     }
 
     h3 {
         font-weight: normal;
         margin: 0;
-        color: @text-normal;
+        color: @text-secondary;
 
         &.vendor {
             color: @text-normal;
@@ -33,6 +33,7 @@
     p > label {
         color: @text-normal;
         margin-right: 5px;
+        color: @text-secondary;
     }
 
     .logo {
@@ -41,6 +42,12 @@
         height: 55px;
         background: ~"url(@{common-image-about-path}/logo_s.svg) no-repeat center";
     }
+
+    .theme-type-dark {
+        .about .logo {
+            background: ~"url(@{common-image-about-path}/logo-white_s.svg) no-repeat center";
+        }
+    } 
 }
 
 .theme-type-dark {

@@ -7,6 +7,7 @@
     @darkGrey: #757575;
     @text-normal: var(--text-normal);
     @brand-text-on-brand: var(--brand-text-on-brand);
+
     @touchColor: rgba(255,255,255,0.1);
 
     --f7-navbar-shadow-image: none;
@@ -78,6 +79,7 @@
         --f7-text-color: @text-normal;
         --f7-list-item-title-text-color: @text-normal;
         --f7-list-item-text-text-color: @text-normal;
+        --f7-list-item-subtitle-text-color: @text-secondary;
         --f7-block-title-text-color: @text-secondary;
         --f7-input-placeholder-color: @text-secondary;
         --f7-label-text-color: @text-normal;
@@ -120,6 +122,9 @@
             margin-left: 0;
             border-radius: 0;
             height: 32px;
+            i.icon-expand-down {
+                background: @brandColor;
+            }
         }
         label {
             color: @text-normal;
@@ -237,7 +242,7 @@
                 color: @fill-white;
                 i.icon {
                     opacity: 1;
-                    // background-color: @fill-white;
+                    background-color: @fill-white;
                 }
             }
         }
@@ -313,11 +318,12 @@
                                 margin-left: 0;
                             }
                             &.active {
-                                color: @fill-white;
-                                background-color: @brandColor;
-                                i.icon {
-                                    background-color: @fill-white;
-                                }
+                                color: @brandColor;
+                                // background-color: var(--button-active-opacity);
+                                background-color: @button-active-opacity;
+                                // i.icon {
+                                //     background-color: @white;
+                                // }
                             }
                         }
                     }
@@ -331,6 +337,7 @@
                 border-radius: 4px;
                 margin-top: -3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
+                background: @fill-white;
                 &.auto {
                     background-color: @autoColor;
                 }
@@ -344,6 +351,7 @@
         .list{
             margin: 5px;
             ul {
+                background: none;
                 &:before, &:after {
                     display: none;
                 }

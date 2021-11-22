@@ -9,6 +9,7 @@
 
 .device-ios {
     --toolbar-background: var(--background-primary, #fff);
+    --toolbar-segment: var(--brand-cell, #40865C);
     --toolbar-icons: var(--brand-cell, #40865C);
 }
 .device-android {
@@ -20,6 +21,8 @@
 }
 
 @toolbar-background: var(--toolbar-background);
+@toolbar-segment: var(--toolbar-segment);
+@button-active-opacity: var(--active-opacity-cell);
 
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';

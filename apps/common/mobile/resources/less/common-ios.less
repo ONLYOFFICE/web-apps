@@ -28,6 +28,7 @@
     --f7-page-bg-color: @background-tertiary;
     --f7-list-item-title-text-color: @text-normal;
     --f7-list-item-text-text-color: @text-normal;
+    --f7-list-item-subtitle-text-color: @text-secondary;
     --f7-label-text-color: @text-normal;
     --f7-list-item-after-text-color: @text-normal;
     --f7-input-text-color: @text-normal;
@@ -171,6 +172,7 @@
                 width: 100%;
                 margin-top: 10px;
                 padding:  0 5px;
+                background: none;
             }
             &:first-child li:first-child, &:last-child li:last-child {
                 border-radius: 0;
@@ -275,6 +277,7 @@
             }
         }
         .item-inner {
+            color: @text-normal;
             padding-top: 7px;
             color: @text-normal;
             .item-after {
@@ -305,6 +308,11 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        &.active {
+                            color: @brandColor;
+                            // background-color: var(--button-active-opacity);
+                            background-color: @button-active-opacity;
+                        }
                     }
                 }
             }
@@ -326,7 +334,7 @@
             position: relative;
             overflow: hidden;
             -webkit-box-flex: 1;
-            border: 1px solid @brandColor;
+            border: 1px solid @toolbar-segment;
             text-decoration: none;
             text-align: center;
             margin: 0;
@@ -349,8 +357,13 @@
                 border-radius: 0 5px 5px 0;
             }
             &.tab-link-active {
-                background: @brandColor;
+                // background: @brandColor;
+                // color: @fill-white;
+                background: @toolbar-segment;
                 color: @brand-text-on-brand;
+                i.icon {
+                    background-color: @brand-text-on-brand;
+                }
             }
         }
     }
@@ -590,8 +603,8 @@
     }
 
     .actions-button {
-        // background: rgba(255,255,255,.95);
         background: @background-secondary;
+        --f7-actions-button-border-color: @background-menu-divider;
     }
     
     .actions-button-text {
