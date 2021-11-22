@@ -2231,7 +2231,7 @@ define([
             },
 
             checkProtectedRange: function(callback, scope, args) {
-                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
+                var result = this.api.asc_isProtectedSheet() && this.api.asc_checkLockedCells() ? this.api.asc_checkProtectedRange() : false;
                 if (result===null) {
                     this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
                     return;
