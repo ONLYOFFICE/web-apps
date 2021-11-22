@@ -98,7 +98,7 @@ class ApplicationSettingsController extends Component {
                 clickR1C1Style={this.clickR1C1Style}
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
-                onRegSettings={this.onRegSettings}
+                onRegSettings={this.onRegSettings}   
             />
         )
     }

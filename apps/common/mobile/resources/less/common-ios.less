@@ -1,29 +1,56 @@
 
-.device-ios {
+.device-ios .app-layout {
     @blockTitleColor: #6d6d72;
     @item-border-color: #c8c7cc;
-    --f7-list-item-border-color: @item-border-color;
     @darkGreen: #40865c;
+    @text-normal: var(--text-normal);
 
-    --f7-navbar-link-color: @themeColor;
-    --f7-subnavbar-link-color: @themeColor;
-    --f7-navbar-text-color: @black;
+    --f7-navbar-link-color: @brandColor;
+    --f7-subnavbar-link-color: @brandColor;
+    --f7-navbar-text-color: @text-normal;
     --f7-navbar-title-line-height: 44px;
     --f7-navbar-link-line-height: 44px;
     --f7-navbar-title-font-size: 17px;
 
-    --f7-list-bg-color: @white;
-    --f7-navbar-bg-color: #f7f7f8;
+    --f7-list-bg-color: @background-primary;
+    --f7-navbar-bg-color: @toolbar-background;
 
-    --f7-tabbar-link-inactive-color: @themeColor;
+    --f7-tabbar-link-inactive-color: @toolbar-segment;
 
-    --f7-radio-active-color: @themeColor;
-    --f7-toggle-active-color: @themeColor;
-    --f7-range-bar-active-bg-color: @themeColor;
+    --f7-radio-active-color: @brandColor;
+    --f7-toggle-active-color: @brandColor;
+    --f7-range-bar-active-bg-color: @brandColor;
 
-    --f7-list-button-text-color: @themeColor;
+    --f7-list-button-text-color: @brandColor;
 
-    --f7-dialog-button-text-color: @themeColor;
+    --f7-list-item-border-color: @background-menu-divider;
+
+    --f7-page-bg-color: @background-tertiary;
+    --f7-list-item-title-text-color: @text-normal;
+    --f7-list-item-text-text-color: @text-normal;
+    --f7-list-item-subtitle-text-color: @text-secondary;
+    --f7-label-text-color: @text-normal;
+    --f7-list-item-after-text-color: @text-normal;
+    --f7-input-text-color: @text-normal;
+    --f7-block-title-text-color: @text-secondary;
+    --f7-input-placeholder-color: @text-secondary;
+
+    --f7-list-chevron-icon-color: @text-tertiary;
+    --f7-searchbar-search-icon-color: @text-tertiary;
+    --f7-searchbar-input-clear-button-color: @text-tertiary;
+
+    --f7-toggle-inactive-color: @background-menu-divider;
+    --f7-toggle-border-color: @background-menu-divider;
+    --f7-actions-button-border-color: @background-menu-divider;
+    --f7-popover-bg-color: @background-primary;
+    --f7-dialog-bg-color-rgb: @background-secondary;
+    --f7-dialog-title-text-color: @text-normal;
+    --f7-dialog-text-color: @text-normal;
+    --f7-dialog-button-text-color: @brandColor;
+    --f7-dialog-border-divider-color: @background-menu-divider;
+
+    --f7-subnavbar-border-color: @background-menu-divider;
+    --f7-list-border-color: @background-menu-divider;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -31,13 +58,14 @@
         margin-left: 0;
     }
 
-    .navbar, .subnavbar {
+    .navbar, .navbar-bg, .subnavbar {
         a.btn-doc-back {
             width: 22px;
         }
         background-color: var(--f7-navbar-bg-color);
         .title {
             font-weight: 600;
+            color: @text-normal;
         }
         .navbar-inner, .subnavbar-inner {
             z-index: auto;
@@ -47,6 +75,12 @@
             height: 44px;
             display: flex;
             justify-content: center;
+        }
+    }
+
+    .subnavbar {
+        .icon-back {
+            color: @brandColor;
         }
     }
 
@@ -138,6 +172,7 @@
                 width: 100%;
                 margin-top: 10px;
                 padding:  0 5px;
+                background: none;
             }
             &:first-child li:first-child, &:last-child li:last-child {
                 border-radius: 0;
@@ -172,7 +207,7 @@
             .thumb {
                 width: 100%;
                 height: 100%;
-                background-color: @white;
+                background-color: @fill-white;
                 background-size: cover;
 
                 label {
@@ -208,6 +243,9 @@
     }
 
     .list {
+        li {
+            color: @text-normal;
+        }
         .item-content {
             .color-preview {
                 width: 22px;
@@ -239,9 +277,11 @@
             }
         }
         .item-inner {
+            color: @text-normal;
             padding-top: 7px;
+            color: @text-normal;
             .item-after {
-                color: @black;
+                color: @text-normal;
                 .after-start {
                     margin: 0 5px;
                 }
@@ -268,6 +308,11 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        &.active {
+                            color: @brandColor;
+                            // background-color: var(--button-active-opacity);
+                            background-color: @button-active-opacity;
+                        }
                     }
                 }
             }
@@ -289,7 +334,7 @@
             position: relative;
             overflow: hidden;
             -webkit-box-flex: 1;
-            border: 1px solid @themeColor;
+            border: 1px solid @toolbar-segment;
             text-decoration: none;
             text-align: center;
             margin: 0;
@@ -302,6 +347,7 @@
             cursor: pointer;
             outline: 0;
             font-weight: 600;
+            color: @brandColor;
             &:first-child {
                 border-radius: 5px 0 0 5px;
                 border-left-width: 1px;
@@ -311,19 +357,24 @@
                 border-radius: 0 5px 5px 0;
             }
             &.tab-link-active {
-                background: @themeColor;
-                color: @white;
+                // background: @brandColor;
+                // color: @fill-white;
+                background: @toolbar-segment;
+                color: @brand-text-on-brand;
+                i.icon {
+                    background-color: @brand-text-on-brand;
+                }
             }
         }
     }
 
     .button {
-        border: 1px solid @themeColor;
-        color: @themeColor;
+        border: 1px solid @brandColor;
+        color: @brandColor;
         text-decoration: none;
         text-align: center;
         display: block;
-        border-radius: 5px;
+        // border-radius: 5px;
         line-height: 27px;
         box-sizing: border-box;
         background: 0 0;
@@ -339,22 +390,22 @@
         cursor: pointer;
         outline: 0;
         &.active {
-            background: @themeColor;
-            color: @white;
+            background: @brandColor;
+            color: @fill-white;
             i.icon {
-                background-color: @white;
+                background-color: @fill-white;
             }
         }
     }
 
     .button-fill {
-        color: @themeColor;
-        background-color: @white;
+        color: @brandColor;
+        background-color: @background-primary;
     }
 
     .button-red {
-        color: @red;
-        background-color: @white;
+        color: @text-error;
+        background-color: @background-primary;
     }
 
     .buttons-list {
@@ -371,7 +422,7 @@
     }
 
     .button-red .list-button {
-        color: red;
+        color: @text-error;
     }
 
     .list-button {
@@ -393,12 +444,12 @@
 
     .shapes {
         .page-content {
-            background: @white;
+            background: @fill-white;
         }
     }
 
     .dialog {
-        background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
+        background-color: var(--f7-dialog-bg-color-rgb);
     }
 
     #color-picker {
@@ -424,7 +475,7 @@
 
     .dataview, #add-table, #add-shape, #add-slide, #add-chart {
         &.page-content, .page-content {
-            background-color: @white;
+            background-color: @background-tertiary;
         }
     }
 
@@ -466,7 +517,7 @@
             height: 28px;
         }
         .buttons-row-replace a {
-            color: @themeColor;
+            color: @brandColor;
         }
     }
 
@@ -479,12 +530,15 @@
         appearance: none;
         border-radius: 5px;
         font-family: inherit;
-        color: @black;
+        color: @text-normal;
         font-size: 14px;
         font-weight: 400;
         padding: 0 8px;
-        background-color: @white;
+        background-color: @background-button;
         padding: 0 28px;
+        &::placeholder {
+            color: @text-tertiary;
+        }
     }
 
     .searchbar-inner {
@@ -549,14 +603,15 @@
     }
 
     .actions-button {
-        background: rgba(255,255,255,.95);
+        background: @background-secondary;
+        --f7-actions-button-border-color: @background-menu-divider;
     }
     
     .actions-button-text {
         height: 57px;
         line-height: 57px;
         font-size: 20px;
-        color: @themeColor;
+        color: @text-normal;
         white-space: normal;
         text-overflow: ellipsis;
     }
@@ -587,6 +642,12 @@
         .item-content {
             padding-left: 0;
         }
+    }
+
+    // Toggle Icon 
+
+    .toggle-icon {
+        background: transparent;
     }
 }
 

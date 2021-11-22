@@ -1,10 +1,29 @@
-@themeColor: #446995;
 
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
 
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@brandColor: var(--brand-word);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #FFF);
+    --toolbar-segment: var(--brand-word, #446995);
+    --toolbar-icons: var(--brand-word, #446995);
+}
+
+.device-android {
+    --toolbar-background: var(--brand-word, #446995);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-word, #446995);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+@toolbar-segment: var(--toolbar-segment);
+@button-active-opacity: var(--active-opacity-word);
+
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';
@@ -48,9 +67,9 @@
 
 // Review
 .page-review {
-    --f7-toolbar-link-color: @themeColor;
+    --f7-toolbar-link-color: @brandColor;
     .toolbar {
-        background-color: @white;
+        background-color: @background-secondary;
         box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
         position: absolute;
         #btn-reject-change {
@@ -66,27 +85,28 @@
         }
     }
     .page-content {
-        background-color: @white;
+        // background-color: @white;
         .no-changes {
             padding: 15px;
+            color: @text-normal;
         }
         .block-description {
             padding: 15px;
             .user-name {
                 font-size: 17px;
                 line-height: 22px;
-                color: @black;
+                color: @text-normal;
                 margin: 0;
             }
             .date-change {
                 font-size: 14px;
                 line-height: 18px;
-                color: @darkGray;
+                color: @text-secondary;
                 margin: 0;
                 margin-top: 3px;
             }
             .text {
-                color: @black;
+                color: @text-normal;
                 font-size: 15px;
                 line-height: 20px;
                 margin: 0;

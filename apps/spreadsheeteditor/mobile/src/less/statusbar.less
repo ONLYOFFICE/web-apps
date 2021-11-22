@@ -2,10 +2,10 @@
 @fontColor: #000;
 
 .statusbar {
-    .hairline(top, @border-regular-control);
+    .hairline(top, @background-menu-divider);
     height: @statusbar-height;
     min-height: @statusbar-height;
-    background-color: @background-normal;
+    background-color: @background-tertiary;
     display: flex;
 
     .tab {
@@ -21,7 +21,7 @@
         height: 100%;
         position: relative;
 
-        .hairline(right, @border-regular-control);
+        .hairline(right, @background-menu-divider);
     }
 
     .statusbar--box-tabs {
@@ -65,9 +65,10 @@
         width: 22px;
         height: 22px;
         &.icon-plus {
-            @source: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>';
-            .encoded-svg-mask(@source, @fontColor);
-            background-image: none;
+            // @source: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>';
+            // .encoded-svg-mask(@source, @fontColor);
+            // background-image: none;
+            .encoded-svg-mask('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>')
         }
     }
 }

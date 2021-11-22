@@ -1,7 +1,8 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
@@ -20,6 +21,7 @@ const PageApplicationSettings = props => {
     const isRefStyle = storeApplicationSettings.isRefStyle;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
+    const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -91,6 +93,11 @@ const PageApplicationSettings = props => {
                                     props.clickR1C1Style(!isRefStyle);
                                 }}
                         />
+                    </ListItem>
+                    <ListItem title={t('View.Settings.textDarkTheme')}>
+                        <Toggle checked={isThemeDark}
+                            onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                        </Toggle>
                     </ListItem>
                 </List>
             {/* } */}

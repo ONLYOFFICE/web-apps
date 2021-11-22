@@ -1,7 +1,7 @@
 .page-change {
-  background-color: #FFFFFF;
+  background-color: @fill-white;
   .block-description {
-    background-color: #fff;
+    background-color: @fill-white;
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 0;
@@ -11,18 +11,18 @@
   #user-name {
     font-size: 17px;
     line-height: 22px;
-    color: #000000;
+    color: @fill-black;
     margin: 0;
   }
   #date-change {
     font-size: 14px;
     line-height: 18px;
-    color: #6d6d72;
+    color: @text-tertiary;
     margin: 0;
     margin-top: 3px;
   }
   #text-change {
-    color: #000000;
+    color: @fill-black;
     font-size: 15px;
     line-height: 20px;
     margin: 0;
@@ -155,19 +155,19 @@
   .user-name {
     font-size: 17px;
     line-height: 22px;
-    color: #000000;
+    color: @fill-black;
     margin: 0;
     font-weight: bold;
   }
   .comment-date, .reply-date {
     font-size: 13px;
     line-height: 18px;
-    color: #6d6d72;
+    color: @text-secondary;
     margin: 0;
     margin-top: 0px;
   }
   .comment-text, .reply-text {
-    color: #000000;
+    color: @fill-black;
     font-size: 15px;
     line-height: 25px;
     margin: 0;
@@ -205,8 +205,8 @@
     }
   }
   .comment-quote {
-    color: @themeColor;
-    border-left: 1px solid @themeColor;
+    color: @text-secondary;
+    border-left: 1px solid @text-secondary;
     padding-left: 10px;
     padding-right: 16px;
     margin: 5px 0;
@@ -233,7 +233,7 @@
 
 .container-edit-comment {
   .page {
-    background-color: #FFFFFF;
+    background-color: @fill-white;
   }
 }
 
@@ -380,10 +380,10 @@
 }
 
 #done-comment {
-  color: @themeColor;
+  color: @brandColor;
 }
 .page-add-comment {
-  background-color: #FFFFFF;
+  background-color: @fill-white;
   .wrap-comment, .wrap-reply {
     padding: 16px 24px 0 16px;
     .header-comment {
@@ -396,7 +396,7 @@
     }
     .comment-date {
       font-size: 13px;
-      color: #6d6d72;
+      color: @text-secondary;
       padding-left: 5px;
     }
     .wrap-textarea {

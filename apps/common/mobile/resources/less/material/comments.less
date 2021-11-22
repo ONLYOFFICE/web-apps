@@ -1,6 +1,10 @@
 .device-android {
   .wrap-comment {
     height: calc(100% - 72px);
+    background-color: @background-tertiary;
+    .comment-date {
+      color: @text-secondary;
+    }
   }
   .add-comment-popup, .add-reply-popup, .add-comment-dialog, .add-reply-dialog {
     .wrap-textarea {
@@ -17,7 +21,7 @@
       display: flex;
       .initials {
         border-radius: 50px;
-        color: @white;
+        color: @fill-white;
         display: flex;
         justify-content: center;
         align-items: center;

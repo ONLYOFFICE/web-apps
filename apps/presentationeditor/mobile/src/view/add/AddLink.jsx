@@ -144,7 +144,7 @@ const PageLink = props => {
             </List>
             <List className="buttons-list">
                 <ListButton title={_t.textInsert}
-                            className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
+                            className={`button-fill button-raised ${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onInsertLink(typeLink, (typeLink === 1 ?
                                     {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :

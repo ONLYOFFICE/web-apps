@@ -1,6 +1,6 @@
 .page-change {
   .block-description {
-    background-color: #fff;
+    background-color: @fill-white;
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 0;
@@ -10,18 +10,18 @@
   #user-name {
     font-size: 16px;
     line-height: 22px;
-    color: #000000;
+    color: @fill-black;
     margin: 0;
   }
   #date-change {
     font-size: 14px;
     line-height: 18px;
-    color: #6d6d72;
+    color: @text-tertiary;
     margin: 0;
     margin-top: 3px;
   }
   #text-change {
-    color: #000000;
+    color: @fill-black;
     font-size: 15px;
     line-height: 20px;
     margin: 0;
@@ -152,18 +152,18 @@
   .user-name {
     font-size: 16px;
     line-height: 22px;
-    color: #000000;
+    color: @fill-black;
     margin: 0;
   }
   .comment-date, .reply-date {
     font-size: 12px;
     line-height: 18px;
-    color: #6d6d72;
+    color: @text-secondary;
     margin: 0;
     margin-top: 0px;
   }
   .comment-text, .reply-text {
-    color: #000000;
+    color: @fill-black;
     font-size: 15px;
     line-height: 25px;
     margin: 0;
@@ -185,8 +185,8 @@
     }
   }
   .comment-quote {
-    color: @themeColor;
-    border-left: 1px solid @themeColor;
+    color: @text-secondary;
+    border-left: 1px solid @text-secondary;
     padding-left: 10px;
     padding-right: 16px;
     margin: 5px 0;
@@ -291,7 +291,7 @@
     }
     a {
       &.link {
-        color: @themeColor;
+        color: @brandColor;
         font-size: 16px;
       }
     }
@@ -316,6 +316,7 @@
     display: flex;
     justify-content: center;
     height: 40px;
+    background-color: @background-primary;
     .icon-swipe {
       margin-top: 8px;
       width: 40px;
@@ -419,7 +420,7 @@
     }
     .comment-date {
       font-size: 13px;
-      color: #6d6d72;
+      color: @text-secondary;
     }
     .wrap-textarea {
       margin-top: 16px;
@@ -471,7 +472,7 @@
     }
   }
   .page-add-comment {
-    background-color: #FFFFFF;
+    background-color: @fill-white;
   }
   .header-comment {
     justify-content: flex-start;
@@ -483,7 +484,7 @@
 }
 
 .page-edit-comment, .page-add-reply, .page-edit-reply {
-  background-color: #FFFFFF;
+  background-color: @fill-white;
   .header-comment {
     justify-content: flex-start;
   }
