@@ -251,6 +251,10 @@ define([
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         me.setTheme(e.originalEvent.newValue, true);
+                    } else
+                    if ( e.key == 'content-theme' ) {
+                        me.setContentTheme(e.originalEvent.newValue, true);
+                        console.log('changed content', e.originalEvent.newValue);
                     }
                 })
 
@@ -333,6 +337,22 @@ define([
 
             isContentThemeDark: function () {
                 return Common.localStorage.getItem("content-theme") == 'dark';
+            },
+
+            setContentTheme: function (mode, force) {
+                var set_dark = mode == 'dark';
+                if ( set_dark && !this.isDarkTheme() )
+                    return;
+
+                if ( set_dark != this.isContentThemeDark() || force ) {
+                    if ( this.api.asc_setContentDarkMode )
+                        this.api.asc_setContentDarkMode(set_dark);
+
+                    if ( Common.localStorage.getItem('content-theme') != mode )
+                        Common.localStorage.setItem('content-theme', mode);
+
+                    Common.NotificationCenter.trigger('contenttheme:dark', set_dark);
+                }
             },
 
             toggleContentTheme: function () {
