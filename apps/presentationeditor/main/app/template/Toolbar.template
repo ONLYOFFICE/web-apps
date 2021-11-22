@@ -198,25 +198,25 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small a-table">
-                    <div class="elset font-normal a-tr">
-                        <div class="a-td"><label id="animation-label-start"></label></div>
-                        <div class="a-td"><div class="btn-slot" style="width: 96px; " id="animation-start"></div></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="animation-label-start"></label>
+                        <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
                     </div>
-                    <div class="elset font-normal a-tr bottom">
-                         <div class="a-td"><label id="animation-delay"></label></div>
-                         <div class="a-td"><span id="animation-spin-delay" class="btn-slot text spinner" ></span></div>
+                    <div class="elset font-normal">
+                         <label id="animation-delay"></label>
+                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small a-table">
-                    <div class="elset font-normal a-tr">
-                        <div class="a-td"><label id="animation-duration"></label></div>
-                        <div class="a-td"><span id="animation-spin-duration" class="btn-slot text spinner" ></span></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="animation-duration"></label>
+                        <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
                     </div>
-                    <div class="elset font-normal a-tr bottom">
-                        <div class="a-td"><label id="animation-label-trigger"></label></div>
-                        <div class="a-td"><div class="btn-slot" style="width: 82px; " id="animation-trigger"></div></div>
+                    <div class="elset font-normal">
+                        <label id="animation-label-trigger"></label>
+                        <div class="btn-slot" style="width: 82px; " id="animation-trigger"></div>
                     </div>
                 </div>
                 <div class="separator long"></div>

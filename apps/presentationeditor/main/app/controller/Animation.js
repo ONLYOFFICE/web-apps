@@ -75,7 +75,7 @@ define([
                     'tab:active':           _.bind(this.onActiveTab, this)
                 }
             });
-
+            this.EffectGroups = Common.define.effectData.getEffectGroupData();
         },
 
         onLaunch: function () {
@@ -116,11 +116,11 @@ define([
         },
 
         onPreviewClick: function() {
-
+            Asc.asc_StartAnimationPreview();
         },
 
         onParameterClick: function (value) {
-            this._state.EffectType = value;
+            this._state.EffectOption = value;
         },
 
         onAnimationPane: function() {
@@ -141,14 +141,15 @@ define([
 
         onEffectSelect: function (combo, record) {
            var type = record.get('value');
-           var parameter = this._state.EffectType;
+           var parameter = this._state.EffectOption;
 
-            if (this.Effect !== type)
-                parameter = this.view.setMenuParameters(type);
-
+            if (this.Effect !== type) {
+                parameter = this.view.setMenuParameters(type, parameter, true);
+                if (type != -10 && this.Effect == -10)
+                    Asc.asc_AddAnimation(this.EffectGroups.findWhere({id: record.group}).value, type);
+            }
             this._state.Effect = type;
             this.onParameterClick(parameter);
-
         },
 
         onStartSelect: function (combo, record) {
@@ -176,8 +177,11 @@ define([
         },
 
         loadSettings: function () {
-            this._state.Effect = !this._state.Effect ? 2 : this._state.Effect;
-            this._state.EffectType = !this._state.EffectType ? this.view.setMenuParameters(this._state.Effect): this._state.EffectType;
+
+           /* var oPr= Asc.c_oAscTypeSelectElement.Animation;
+            this._state.Effect = oPr.asc_getClass();*/
+            this._state.Effect = !this._state.Effect ? -10 : this._state.Effect;
+            this._state.EffectOption = !this._state.EffectOption ? this.view.setMenuParameters(this._state.Effect,undefined,true): this._state.EffectOption;
 
             var value = 1000;
             if (Math.abs(this._state.Duration - value) > 0.001 ||
@@ -223,8 +227,8 @@ define([
                 this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
             }
 
-            if (me.btnParameters.menu.items.length > 0 && this._state.EffectType !== undefined)
-                me.setMenuParameters(this._state.Effect, this._state.EffectType);
+            if (me.btnParameters.menu.items.length > 0 && this._state.EffectOption !== undefined)
+                me.setMenuParameters(this._state.Effect, this._state.EffectOption);
 
             me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
             me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);

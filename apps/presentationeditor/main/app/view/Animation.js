@@ -127,18 +127,9 @@ define([
                 var _set = PE.enumLock;
                 this.lockedControls = [];
 
-                this._arrEffectName = [
-                    {title: this.textNone, imageUrl: "transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
-                    {title: this.textFade, imageUrl: "transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
-                    {title: this.textPush, imageUrl: "transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
-                    {title: this.textWipe, imageUrl: "transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
-                    {title: this.textSplit, imageUrl: "transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
-                    {title: this.textUnCover, imageUrl: "transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
-                    {title: this.textCover, imageUrl: "transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
-                    {title: this.textClock, imageUrl: "transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
-                ];
-
+                this._arrEffectName = [{group:'none', value: -10, iconCls: 'transition-none', caption: this.textNone}];
+                Array.prototype.push.apply( this._arrEffectName, Common.define.effectData.getEffectData());
+                this._arrEffectOptions = [];
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-styles',
                     itemWidth: 87,
@@ -153,7 +144,6 @@ define([
                             menu = cmp.openButton.menu;
 
                         if (menu.cmpEl) {
-
                             menu.menuAlignEl = cmp.cmpEl;
                             menu.menuAlign = 'tl-tl';
                             menu.cmpEl.css({
@@ -168,7 +158,6 @@ define([
                                 suppressScrollX: true
                             });
                         }
-
                         cmp.removeTips();
                     }
                 });
@@ -177,8 +166,8 @@ define([
 
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
-                        '<div class = "caption"><%= title %></div>',
+                        '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
+                        '<div class = "caption"><%= caption %></div>',
                     '</div>'
                 ].join(''));
                 this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
@@ -199,8 +188,7 @@ define([
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon transition-none',
-                    menu: new Common.UI.Menu({
-                        items: this.createParametersMenuItems()}),
+                    menu: new Common.UI.Menu({items: []}),
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -440,60 +428,37 @@ define([
                 this.widthDuration = this.widthRow(this.$el.find("#animation-duration"), this.$el.find("#animation-label-trigger"),this.widthDuration);
             },
 
-            setMenuParameters: function (effect, value)
+            setMenuParameters: function (effectId, option, reload)
             {
-                var minMax = [-1, -1];
-                switch (effect) {
-                    case Asc.c_oAscSlideTransitionTypes.Fade:
-                        minMax = [0, 1];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Push:
-                        minMax = [2, 5];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Wipe:
-                        minMax = [2, 9];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Split:
-                        minMax = [10, 13];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.UnCover:
-                        minMax = [2, 9];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Cover:
-                        minMax = [2, 9];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Clock:
-                        minMax = [14, 16];
-                        break;
-                    case Asc.c_oAscSlideTransitionTypes.Zoom:
-                        minMax = [17, 19];
-                        break;
+                var effect = this.listEffects.store.findWhere({value: effectId}).attributes;
+                if(reload) {
+                    this._arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group);
                 }
+                if (!this.listEffects.isDisabled()) {
+                    this.btnParameters.setDisabled(effect.group === 'none' || !this._arrEffectOptions);
+                    this.btnPreview.setDisabled(effect.group === 'none');
+                    this.numDuration.setDisabled(effect.group === 'none');
+                }
+                if(!this._arrEffectOptions)
+                    return  undefined;
 
                 var selectedElement;
-                _.each(this.btnParameters.menu.items, function (element, index) {
-                    if (((index < minMax[0])||(index > minMax[1])))
-                        element.setVisible(false);
-                    else {
-                        element.setVisible(true);
-
-                        if (value != undefined) {
-                            if (value == element.value) selectedElement = element;
-                        }
-                    }
-                });
-
-                if (selectedElement == undefined)
-                    selectedElement = this.btnParameters.menu.items[minMax[0]];
-                
-                if (effect != Asc.c_oAscSlideTransitionTypes.None)
-                    selectedElement.setChecked(true);
+                this.btnParameters.menu.removeAll();
+                //if(this._arrEffectOptions[effect.value].length>0) {
+                if(this._arrEffectOptions[effect.value]) {
+                    this._arrEffectOptions[effect.value].forEach(function (opt) {
+                        this.btnParameters.menu.addItem(opt);
+                    }, this);
+                    selectedElement = this.btnParameters.menu.items[0];
+                }
+                else {
+                    selectedElement = undefined;
+                }
 
                 if (!this.listEffects.isDisabled()) {
-                    this.btnParameters.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
-                    this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
-                    this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.btnParameters.setDisabled(!selectedElement);
                 }
+
                 return (selectedElement)?selectedElement.value:-1;
             },
 
