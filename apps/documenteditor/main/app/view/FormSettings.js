@@ -1219,19 +1219,20 @@ define([
             this.txtNewValue.setValue(record.get('name'));
             this._state.listValue = record.get('name');
             this._state.listIndex = undefined;
-            this.disableListButtons(false);
+            this.disableListButtons();
         },
 
         onDisconnect: function() {
             this.onKeyChanged(this.cmbKey, {value: ""});
         },
 
-        disableListButtons: function(disabled) {
-            if (disabled===undefined)
-                disabled = !this.list.getSelectedRec();
-            this.btnListDelete.setDisabled(disabled || this._state.DisabledControls);
-            this.btnListUp.setDisabled(disabled || this._state.DisabledControls);
-            this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
+        disableListButtons: function() {
+            var rec = this.list.getSelectedRec(),
+                idx = rec ? this.list.store.indexOf(rec) : -1;
+
+            this.btnListDelete.setDisabled(idx<0 || this._state.DisabledControls);
+            this.btnListUp.setDisabled(idx<1 || this._state.DisabledControls);
+            this.btnListDown.setDisabled(idx<0 || idx>this.list.store.length-2 || this._state.DisabledControls);
         },
 
         onImagePositionChange: function (type, field, newValue, oldValue) {
