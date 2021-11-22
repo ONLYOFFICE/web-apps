@@ -87,20 +87,6 @@ class ApplicationSettingsController extends Component {
         if (regCode!==null) api.asc_setLocale(+regCode);
     }
 
-    switchDarkTheme(value) {
-        const theme = value ? {id:'theme-dark', type:'dark'} : {id:'theme-light', type:'light'};
-        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-
-        const $body = $$('body');
-        $body.attr('class') && $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
-        $body.addClass(`theme-type-${theme.type}`);
-    }
-
-    isThemeDark() {
-        const obj = LocalStorage.getItem("ui-theme");
-        return !!obj ? JSON.parse(obj).type === 'dark' : false;
-    }
-
     render() {
         return (
             <ApplicationSettings 
@@ -112,9 +98,7 @@ class ApplicationSettingsController extends Component {
                 clickR1C1Style={this.clickR1C1Style}
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
-                onRegSettings={this.onRegSettings}
-                isThemeDark={this.isThemeDark}    
-                switchDarkTheme={this.switchDarkTheme}      
+                onRegSettings={this.onRegSettings}   
             />
         )
     }
