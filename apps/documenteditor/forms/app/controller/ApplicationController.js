@@ -1445,8 +1445,6 @@ define([
                 this.textMenu.items[0].setDisabled(!cancopy); // copy
                 this.textMenu.items[1].setDisabled(disabled || !cancopy); // cut
                 this.textMenu.items[2].setDisabled(disabled) // paste;
-                this.textMenu.items[3].setVisible(this.appOptions.canPrint);
-                this.textMenu.items[3].setDisabled(!cancopy);
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1469,13 +1467,6 @@ define([
                             }
                         }
                     }
-                    break;
-                case 'print':
-                    var printopt = new Asc.asc_CAdjustPrint();
-                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    opts.asc_setAdvancedOptions(printopt);
-                    this.api.asc_Print(opts);
                     break;
             }
         },

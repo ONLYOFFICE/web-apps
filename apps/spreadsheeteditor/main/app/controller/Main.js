@@ -2231,7 +2231,7 @@ define([
             },
 
             checkProtectedRange: function(callback, scope, args) {
-                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
+                var result = this.api.asc_isProtectedSheet() && this.api.asc_checkLockedCells() ? this.api.asc_checkProtectedRange() : false;
                 if (result===null) {
                     this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
                     return;
@@ -2250,18 +2250,20 @@ define([
                         handler: function (result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
-                                    if (me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword())) {
-                                        callback && setTimeout(function() {
-                                            callback.apply(scope, args);
-                                        }, 1);
-                                    } else {
-                                        Common.UI.warning({
-                                            msg: me.errorWrongPassword,
-                                            callback: function() {
-                                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                            }
-                                        });
-                                    }
+                                    me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword(), function(res) {
+                                        if (res) {
+                                            callback && setTimeout(function() {
+                                                callback.apply(scope, args);
+                                            }, 1);
+                                        } else {
+                                            Common.UI.warning({
+                                                msg: me.errorWrongPassword,
+                                                callback: function() {
+                                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);

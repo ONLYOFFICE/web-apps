@@ -92,8 +92,7 @@ define([
                 items: [
                     { caption: this.textCut, value: 'cut', iconCls: 'mi-icon svg-icon cut' },
                     { caption: this.textCopy, value: 'copy', iconCls: 'mi-icon svg-icon copy' },
-                    { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' },
-                    { caption: this.textPrintSel, value: 'print', iconCls: 'mi-icon svg-icon print' }
+                    { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' }
                 ]
             });
         },
