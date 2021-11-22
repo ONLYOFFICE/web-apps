@@ -99,7 +99,8 @@ const Search = withTranslation()(props => {
 
         if (params.find && params.find.length) {
             
-            api.asc_selectSearchingResults(true);
+            if(params.highlight) api.asc_selectSearchingResults(true);
+            
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
                 f7.dialog.alert(null, _t.textNoTextFound);
             }
