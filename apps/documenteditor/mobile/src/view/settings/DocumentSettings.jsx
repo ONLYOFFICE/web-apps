@@ -69,6 +69,7 @@ const PageDocumentMargins = props => {
             }
     
             if(errorMsg) {
+                f7.popover.close('#settings-popover');
                 f7.dialog.alert(errorMsg, _t.notcriticalErrorTitle);
                 return;
             }
