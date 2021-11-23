@@ -1092,8 +1092,13 @@ define([
                     if (this.appOptions.customization && this.appOptions.customization.goback) {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
                             Common.Gateway.requestClose();
-                        else if (this.appOptions.customization.goback.url)
-                            window.parent.location.href = this.appOptions.customization.goback.url;
+                        else if (this.appOptions.customization.goback.url) {
+                            if (this.appOptions.customization.goback.blank!==false) {
+                                window.open(this.appOptions.customization.goback.url, "_blank");
+                            } else {
+                                window.parent.location.href = this.appOptions.customization.goback.url;
+                            }
+                        }
                     }
                     break;
                 case 'download-docx':
