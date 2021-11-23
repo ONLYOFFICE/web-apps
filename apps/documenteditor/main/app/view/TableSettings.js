@@ -442,7 +442,9 @@ define([
                 parentEl: $('#table-btn-distrub-rows', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon distribute-rows',
-                hint: this.textDistributeRows
+                hint: this.textDistributeRows,
+                dataHint: '1',
+                dataHintDirection: 'top'
             });
             this.lockedControls.push(this.btnDistributeRows);
             this.btnDistributeRows.on('click', _.bind(function(btn){
@@ -453,7 +455,10 @@ define([
                 parentEl: $('#table-btn-distrub-cols', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon distribute-columns',
-                hint: this.textDistributeCols
+                hint: this.textDistributeCols,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.btnDistributeCols);
             this.btnDistributeCols.on('click', _.bind(function(btn){
@@ -471,7 +476,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon table-to-text',
                 caption     : this.textConvert,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'medium'
             });
             this.btnConvert.on('click', _.bind(this.onConvertTable, this));
             this.lockedControls.push(this.btnConvert);
