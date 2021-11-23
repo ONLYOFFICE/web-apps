@@ -120,7 +120,11 @@ Common.UI.HintManager = new(function() {
 
     var _api;
 
-    var _setCurrentSection = function (btn) {
+    var _setCurrentSection = function (btn, section) {
+        if (section) {
+            _currentSection = section;
+            return;
+        }
         if (btn === 'esc') {
             if (_currentLevel === 0) {
                 _currentSection = document;
@@ -172,11 +176,15 @@ Common.UI.HintManager = new(function() {
         clearInterval(_inputTimer);
     };
 
-    var _nextLevel = function() {
+    var _nextLevel = function(level) {
         _removeHints();
         _currentHints.length = 0;
         _currentControls.length = 0;
-        _currentLevel++;
+        if (level !== undefined) {
+            _currentLevel = level;
+        } else {
+            _currentLevel++;
+        }
     };
 
     var _prevLevel = function() {
@@ -476,8 +484,9 @@ Common.UI.HintManager = new(function() {
                                     _resetToDefault();
                                     return;
                                 }
-                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'));
-                                if (!curr.attr('content-target') || needOpenPanel) { // need to open panel
+                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible') ||
+                                    (curr.parent().prop('id') === 'slot-btn-chat' && !$('#left-panel-chat').is(':visible')));
+                                if ((!curr.attr('content-target') && curr.parent().prop('id') !== 'slot-btn-chat') || needOpenPanel) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
                                         if (curr.attr('for')) { // to trigger event in checkbox
@@ -503,8 +512,13 @@ Common.UI.HintManager = new(function() {
                                     return;
                                 }
                                 if (!_isComplete) {
-                                    _nextLevel();
-                                    _setCurrentSection(curr);
+                                    if (curr.parent().prop('id') === 'slot-btn-chat') {
+                                        _nextLevel(1);
+                                        _setCurrentSection(undefined, $('#left-menu.hint-section'));
+                                    } else {
+                                        _nextLevel();
+                                        _setCurrentSection(curr);
+                                    }
                                     _showHints();
                                     if (_currentHints.length < 1) {
                                         _resetToDefault();
