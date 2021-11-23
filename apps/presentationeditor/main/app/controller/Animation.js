@@ -116,7 +116,7 @@ define([
         },
 
         onPreviewClick: function() {
-            Asc.asc_StartAnimationPreview();
+            this.api.asc_StartAnimationPreview();
         },
 
         onParameterClick: function (value) {
@@ -146,7 +146,18 @@ define([
             if (this.Effect !== type) {
                 parameter = this.view.setMenuParameters(type, parameter, true);
                 if (type != -10 && this.Effect == -10)
-                    Asc.asc_AddAnimation(this.EffectGroups.findWhere({id: record.group}).value, type);
+                    this.api.asc_AddAnimation(this.EffectGroups.findWhere({id: record.group}).value, type);
+                else
+                {
+                    var selectedElements = this.api.getSelectedElements();
+                    for (var i = 0; i < selectedElements.length; i0) {
+                        var elType = selectedElements[i].get_ObjectType();
+                        if(elType==Asc.c_oAscTypeSelectElement.Animation)
+                        {
+                            //selectedElements[i].
+                        }
+                    }
+                }
             }
             this._state.Effect = type;
             this.onParameterClick(parameter);
