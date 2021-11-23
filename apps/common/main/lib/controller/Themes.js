@@ -174,10 +174,13 @@ define([
         }
 
         var parse_themes_object = function (obj) {
+            var curr_lang = Common.Locale.getCurrentLanguage(),
+                theme_label;
             if ( !!obj.themes && obj.themes instanceof Array ) {
                 obj.themes.forEach(function (item) {
                     if ( !!item.id ) {
-                        themes_map[item.id] = {text: item.name, type: item.type};
+                        theme_label = !item.l10n || !item.l10n[curr_lang] ? item.name : item.l10n[curr_lang];
+                        themes_map[item.id] = {text: theme_label, type: item.type};
                         write_theme_css(create_colors_css(item.id, item.colors));
                     } else
                     if ( typeof item == 'string' ) {
@@ -186,7 +189,8 @@ define([
                 });
             } else
             if ( obj.id ) {
-                themes_map[obj.id] = {text: obj.name, type: obj.type};
+                theme_label = !obj.l10n || !obj.l10n[curr_lang] ? obj.name : obj.l10n[curr_lang];
+                themes_map[obj.id] = {text: theme_label, type: obj.type};
                 write_theme_css( create_colors_css(obj.id, obj.colors) );
             }
         }
