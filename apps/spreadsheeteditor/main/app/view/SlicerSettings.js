@@ -414,9 +414,8 @@ define([
 
         onSendThemeColors: function() {
             // get new table templates
-            if (this.mnuSlicerPicker && this._originalProps) {
+            if (this.btnSlicerStyle && this._originalProps) {
                 this.onInitStyles(this._originalProps.asc_getSlicerProperties().asc_getStylesPictures());
-                this.mnuSlicerPicker.scroller.update({alwaysVisibleY: true});
             }
         },
 
@@ -717,7 +716,7 @@ define([
                 var stylesStore = this.btnSlicerStyle.menuPicker.store;
                 if (stylesStore) {
                     var count = stylesStore.length;
-                    if (count>0 && count==styles.length) {
+                    if (count>0 && count==this.styles.length) {
                         var data = stylesStore.models;
                         _.each(Templates, function(style, index){
                             data[index].set('imageUrl', style.asc_getImage());
