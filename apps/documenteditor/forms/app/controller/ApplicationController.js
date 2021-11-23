@@ -54,9 +54,16 @@ define([
             this.view = this.createView('ApplicationView').render();
 
             window["flat_desine"] = true;
+            var translationTable = {
+                'Your text here': this.txtArt,
+                "Choose an item": this.txtChoose,
+                "Enter a date": this.txtEnterDate,
+                "Click to load image": this.txtClickToLoad
+            }
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
-                'embedded' : true
+                'embedded' : true,
+                'translate': translationTable
             });
 
             Common.UI.Themes.init(this.api);
@@ -1085,8 +1092,13 @@ define([
                     if (this.appOptions.customization && this.appOptions.customization.goback) {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
                             Common.Gateway.requestClose();
-                        else if (this.appOptions.customization.goback.url)
-                            window.parent.location.href = this.appOptions.customization.goback.url;
+                        else if (this.appOptions.customization.goback.url) {
+                            if (this.appOptions.customization.goback.blank!==false) {
+                                window.open(this.appOptions.customization.goback.url, "_blank");
+                            } else {
+                                window.parent.location.href = this.appOptions.customization.goback.url;
+                            }
+                        }
                     }
                     break;
                 case 'download-docx':
@@ -1519,7 +1531,11 @@ define([
         errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
         errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
         uploadImageSizeMessage: 'Maximum image size limit exceeded.',
-        uploadImageExtMessage: 'Unknown image format.'
+        uploadImageExtMessage: 'Unknown image format.',
+        txtArt: 'Your text here',
+        txtChoose: 'Choose an item',
+        txtEnterDate: 'Enter a date',
+        txtClickToLoad: 'Click to load image'
 
     }, DE.Controllers.ApplicationController));
 

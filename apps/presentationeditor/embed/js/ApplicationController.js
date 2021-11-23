@@ -330,8 +330,13 @@ PE.ApplicationController = new(function(){
                 if (config.customization && config.customization.goback) {
                     if (config.customization.goback.requestClose && config.canRequestClose)
                         Common.Gateway.requestClose();
-                    else if (config.customization.goback.url)
-                        window.parent.location.href = config.customization.goback.url;
+                    else if (config.customization.goback.url) {
+                        if (config.customization.goback.blank!==false) {
+                            window.open(config.customization.goback.url, "_blank");
+                        } else {
+                            window.parent.location.href = config.customization.goback.url;
+                        }
+                    }
                 }
             });
 
