@@ -7,8 +7,8 @@
         <div class="inner-ct">
             <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>" data-hint="1" data-hint-direction="left-top"></textarea>
         </div>
-        <button class="btn add normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textAddComment%></button>
-        <button class="btn cancel normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=textCancel%></button>
+        <button class="btn add normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big" style="width: auto;min-width: 86px;"><%=textAddComment%></button>
+        <button class="btn cancel normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big" style="width: auto;min-width: 86px;"><%=textCancel%></button>
     </div>
     <div id="comments-header" class="">
         <label><%=textComments%></label>
