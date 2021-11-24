@@ -2073,7 +2073,7 @@ define([
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                Common.UI.error({
+                Common.UI.warning({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
