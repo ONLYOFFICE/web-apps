@@ -103,7 +103,8 @@ define([
                     // work handlers
 
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
-                    'comment:sort':             _.bind(this.setComparator, this)
+                    'comment:sort':             _.bind(this.setComparator, this),
+                    'comment:filtergroups':     _.bind(this.setFilterGroups, this)
                 },
 
                 'Common.Views.ReviewPopover': {
@@ -157,6 +158,7 @@ define([
             }
 
             this.groupCollection = [];
+            this.userGroups = []; // for filtering comments
 
             this.view = this.createView('Common.Views.Comments', { store: this.collection });
             this.view.render();
@@ -830,6 +832,8 @@ define([
                 comment.set('removable', (t.mode.canDeleteComments || (data.asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()));
                 comment.set('hide', !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()));
 
+                !comment.get('hide') && t.fillUserGroups(data.asc_getUserName());
+
                 replies = _.clone(comment.get('replys'));
 
                 replies.length = 0;
@@ -1329,6 +1333,7 @@ define([
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
+                !comment.get('hide') && this.fillUserGroups(data.asc_getUserName());
                 var replies = this.readSDKReplies(data);
                 if (replies.length) {
                     comment.set('replys', replies);
@@ -1639,6 +1644,49 @@ define([
         clearCollections: function() {
             this.collection.reset();
             this.groupCollection = [];
+        },
+
+        fillUserGroups: function(username) {
+            if (!this.mode.canUseCommentPermissions) return;
+
+            var usergroups = AscCommon.UserInfoParser.getParsedGroups(username),
+                viewgroups = AscCommon.UserInfoParser.getCommentPermissions('view');
+            if (usergroups && usergroups.length>0) {
+                if (viewgroups) {
+                    usergroups = _.intersection(usergroups, viewgroups);
+                    usergroups = _.uniq(this.userGroups.concat(usergroups));
+                }
+            }
+            if (this.view && this.view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
+                this.userGroups = usergroups;
+                var menu = this.view.buttonSort.menu;
+                menu.items[menu.items.length-1].setVisible(this.userGroups.length>0);
+                menu.items[menu.items.length-2].setVisible(this.userGroups.length>0);
+                menu = menu.items[menu.items.length-1].menu;
+                menu.removeAll();
+
+                var last = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
+                menu.addItem(new Common.UI.MenuItem({
+                    checkable: true,
+                    checked: last===-1 || last===undefined,
+                    toggleGroup: 'filtercomments',
+                    caption: this.view.textAll,
+                    value: -1
+                }));
+                this.userGroups.forEach(function(item){
+                    menu.addItem(new Common.UI.MenuItem({
+                        checkable: true,
+                        checked: last === item,
+                        toggleGroup: 'filtercomments',
+                        caption: Common.Utils.String.htmlEncode(item),
+                        value: item
+                    }));
+                });
+            }
+        },
+
+        setFilterGroups: function (group) {
+            Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group)
         }
 
     }, Common.Controllers.Comments || {}));

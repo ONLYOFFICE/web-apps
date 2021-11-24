@@ -377,7 +377,21 @@ define([
                                 visible: this.appPrefix==='de-',
                                 checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
                                 toggleGroup: 'sortcomments'
-                            }
+                            },
+                            {
+                                caption: '--',
+                                visible: false
+                            },
+                            this.menuFilterGroups = new Common.UI.MenuItem({
+                                caption: this.mniFilterGroups,
+                                checkable: false,
+                                visible: false,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    style: 'min-width: auto;',
+                                    items: []
+                                })
+                            })
                         ]
                     })
                 });
@@ -394,6 +408,7 @@ define([
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
+                this.menuFilterGroups.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.txtComment.keydown(function (event) {
@@ -812,6 +827,10 @@ define([
             state && this.fireEvent('comment:sort', [item.value]);
         },
 
+        onFilterGroupsClick: function(menu, item, state) {
+            state && this.fireEvent('comment:filtergroups', [item.value]);
+        },
+
         onClickClosePanel: function() {
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
@@ -839,6 +858,8 @@ define([
         mniDateDesc: 'Newest',
         mniDateAsc: 'Oldest',
         textClosePanel: 'Close comments',
-        textViewResolved: 'You have not permission for reopen comment'
+        textViewResolved: 'You have not permission for reopen comment',
+        mniFilterGroups: 'Filter by Group',
+        textAll: 'All'
     }, Common.Views.Comments || {}))
 });
