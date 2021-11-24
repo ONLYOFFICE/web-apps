@@ -84,7 +84,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-width'),
                 step: .1,
-                width: 80,
+                width: 70,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -108,7 +108,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-height'),
                 step: .1,
-                width: 80,
+                width: 70,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
