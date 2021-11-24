@@ -80,6 +80,7 @@ define([
             hideAddReply        : false,
             scope               : null,
             hide                : false,
+            filtered            : false,
             hint                : false,
             dummy               : undefined,
             editable            : true,

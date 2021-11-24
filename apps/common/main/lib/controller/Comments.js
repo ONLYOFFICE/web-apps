@@ -698,7 +698,7 @@ define([
                     var end = true;
                     for (var i = this.collection.length - 1; i >= 0; --i) {
                         var item = this.collection.at(i);
-                        if (end && !item.get('hide')) {
+                        if (end && !item.get('hide') && !item.get('filtered')) {
                             item.set('last', true, {silent: true});
                             end = false;
                         } else {
@@ -834,7 +834,13 @@ define([
                 comment.set('removable', (t.mode.canDeleteComments || (data.asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()));
                 comment.set('hide', !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()));
 
-                !comment.get('hide') && t.fillUserGroups(comment.get('parsedGroups'));
+                if (!comment.get('hide')) {
+                    var usergroups = comment.get('parsedGroups');
+                    t.fillUserGroups(usergroups);
+                    var group = Common.Utils.InternalSettings.get(t.appPrefix + "comments-filtergroups");
+                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
+                    comment.set('filtered', filter);
+                }
 
                 replies = _.clone(comment.get('replys'));
 
@@ -1155,7 +1161,7 @@ define([
 
                 for (i = this.collection.length - 1; i >= 0; --i) {
                     var item = this.collection.at(i);
-                    if (end && !item.get('hide')) {
+                    if (end && !item.get('hide') && !item.get('filtered')) {
                         item.set('last', true, {silent: true});
                         end = false;
                     } else {
@@ -1337,7 +1343,13 @@ define([
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
-                !comment.get('hide') && this.fillUserGroups(comment.get('parsedGroups'));
+                if (!comment.get('hide')) {
+                    var usergroups = comment.get('parsedGroups');
+                    this.fillUserGroups(usergroups);
+                    var group = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
+                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
+                    comment.set('filtered', filter);
+                }
                 var replies = this.readSDKReplies(data);
                 if (replies.length) {
                     comment.set('replys', replies);
@@ -1688,8 +1700,24 @@ define([
         },
 
         setFilterGroups: function (group) {
-            Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group)
-
+            Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group);
+            var i, end = true;
+            for (i = this.collection.length - 1; i >= 0; --i) {
+                var item = this.collection.at(i);
+                if (!item.get('hide')) {
+                    var usergroups = item.get('parsedGroups');
+                    item.set('filtered', !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0), {silent: true});
+                }
+                if (end && !item.get('hide') && !item.get('filtered')) {
+                    item.set('last', true, {silent: true});
+                    end = false;
+                } else {
+                    if (item.get('last')) {
+                        item.set('last', false, {silent: true});
+                    }
+                }
+            }
+            this.updateComments(true);
         }
 
     }, Common.Controllers.Comments || {}));

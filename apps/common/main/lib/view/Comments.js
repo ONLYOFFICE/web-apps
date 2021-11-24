@@ -408,7 +408,7 @@ define([
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
-                this.menuFilterGroups.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
+                this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.txtComment.keydown(function (event) {
