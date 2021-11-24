@@ -302,5 +302,6 @@ class SearchView extends Component {
 }
 
 const SearchViewWithObserver = observer(SearchView);
+const SearchSettingsViewWithObserver =  observer(SearchSettingsView);
 
-export {SearchViewWithObserver as SearchView, SearchSettingsView};
+export {SearchViewWithObserver as SearchView, SearchSettingsViewWithObserver as SearchSettingsView};
