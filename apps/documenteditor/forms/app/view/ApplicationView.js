@@ -16,6 +16,7 @@ define([
                 cls: 'btn-toolbar no-caret',
                 iconCls: 'svg-icon more-vertical',
                 menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {caption: this.txtPrint, value: 'print', iconCls: 'mi-icon svg-icon print'},
                         {caption: '--'},
