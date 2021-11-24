@@ -211,6 +211,7 @@ module.exports = {
       } : false,
       skeleton: {
           stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
+          htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
       },
       system: {
           env: {

@@ -32,6 +32,11 @@
   <!-- built styles file will be auto injected -->
 </head>
 <body>
+    <% if ( htmlWebpackPlugin.options.skeleton.htmlscript ) { %>
+    <script>
+        <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
+    </script>
+    <% } %>
     <section class="skl-container ">
         <div class="skl-navbar skl-navbar--cell"></div>
     </section>
