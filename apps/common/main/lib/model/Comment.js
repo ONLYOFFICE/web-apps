@@ -57,6 +57,7 @@ define([
             userid              : 0,
             username            : 'Guest',
             parsedName          : 'Guest',
+            parsedGroups        : undefined,
             usercolor           : null,
             date                : undefined,
             quote               : '',

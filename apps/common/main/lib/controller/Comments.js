@@ -697,14 +697,15 @@ define([
 
                     var end = true;
                     for (var i = this.collection.length - 1; i >= 0; --i) {
-                        if (end) {
-                            this.collection.at(i).set('last', true, {silent: true});
+                        var item = this.collection.at(i);
+                        if (end && !item.get('hide')) {
+                            item.set('last', true, {silent: true});
+                            end = false;
                         } else {
-                            if (this.collection.at(i).get('last')) {
-                                this.collection.at(i).set('last', false, {silent: true});
+                            if (item.get('last')) {
+                                item.set('last', false, {silent: true});
                             }
                         }
-                        end = false;
                     }
                     this.view.render();
                     this.view.update();
@@ -822,6 +823,7 @@ define([
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
                 comment.set('parsedName', AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()));
+                comment.set('parsedGroups', AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()));
                 comment.set('usercolor', (user) ? user.get('color') : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
@@ -832,7 +834,7 @@ define([
                 comment.set('removable', (t.mode.canDeleteComments || (data.asc_getUserId() == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()));
                 comment.set('hide', !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()));
 
-                !comment.get('hide') && t.fillUserGroups(data.asc_getUserName());
+                !comment.get('hide') && t.fillUserGroups(comment.get('parsedGroups'));
 
                 replies = _.clone(comment.get('replys'));
 
@@ -1152,14 +1154,15 @@ define([
                 this.onUpdateFilter(this.filter, true);
 
                 for (i = this.collection.length - 1; i >= 0; --i) {
-                    if (end) {
-                        this.collection.at(i).set('last', true, {silent: true});
+                    var item = this.collection.at(i);
+                    if (end && !item.get('hide')) {
+                        item.set('last', true, {silent: true});
+                        end = false;
                     } else {
-                        if (this.collection.at(i).get('last')) {
-                            this.collection.at(i).set('last', false, {silent: true});
+                        if (item.get('last')) {
+                            item.set('last', false, {silent: true});
                         }
                     }
-                    end = false;
                 }
 
                 this.view.render();
@@ -1310,6 +1313,7 @@ define([
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
+                parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
                 usercolor           : (user) ? user.get('color') : null,
                 date                : this.dateToLocaleTimeString(date),
                 quote               : data.asc_getQuoteText(),
@@ -1333,7 +1337,7 @@ define([
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
-                !comment.get('hide') && this.fillUserGroups(data.asc_getUserName());
+                !comment.get('hide') && this.fillUserGroups(comment.get('parsedGroups'));
                 var replies = this.readSDKReplies(data);
                 if (replies.length) {
                     comment.set('replys', replies);
@@ -1646,16 +1650,14 @@ define([
             this.groupCollection = [];
         },
 
-        fillUserGroups: function(username) {
+        fillUserGroups: function(usergroups) {
             if (!this.mode.canUseCommentPermissions) return;
 
-            var usergroups = AscCommon.UserInfoParser.getParsedGroups(username),
-                viewgroups = AscCommon.UserInfoParser.getCommentPermissions('view');
+            var viewgroups = AscCommon.UserInfoParser.getCommentPermissions('view');
             if (usergroups && usergroups.length>0) {
-                if (viewgroups) {
+                if (viewgroups)
                     usergroups = _.intersection(usergroups, viewgroups);
-                    usergroups = _.uniq(this.userGroups.concat(usergroups));
-                }
+                usergroups = _.uniq(this.userGroups.concat(usergroups));
             }
             if (this.view && this.view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
                 this.userGroups = usergroups;
@@ -1687,6 +1689,7 @@ define([
 
         setFilterGroups: function (group) {
             Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group)
+
         }
 
     }, Common.Controllers.Comments || {}));
