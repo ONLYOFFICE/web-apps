@@ -410,7 +410,7 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _needShow) {
+            if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
