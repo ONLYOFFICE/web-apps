@@ -53,7 +53,7 @@ define([
                 title: options.title ? options.title : (options.type=='sheet' ? this.txtSheetTitle : this.txtWBTitle),
                 cls: 'modal-dlg',
                 width: 350,
-                height: options.type=='sheet' ? 447 : (options.type=='range' ? 338 : 306),
+                height: 'auto',
                 buttons: options.buttons ? options.buttons : [{
                     value: 'ok',
                     caption: this.txtProtect
