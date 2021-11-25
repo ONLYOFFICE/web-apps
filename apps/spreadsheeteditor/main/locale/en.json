@@ -200,6 +200,8 @@
   "Common.Views.Comments.textResolved": "Resolved",
   "Common.Views.Comments.textSort": "Sort comments",
   "Common.Views.Comments.textViewResolved": "You have not permission for reopen comment",
+  "Common.Views.Comments.mniFilterGroups": "Filter by Group",
+  "Common.Views.Comments.textAll": "All",
   "Common.Views.CopyWarningDialog.textDontShow": "Don't show this message again",
   "Common.Views.CopyWarningDialog.textMsg": "Copy, cut and paste actions using the editor toolbar buttons and context menu actions will be performed within this editor tab only.<br><br>To copy or paste to or from applications outside the editor tab use the following keyboard combinations:",
   "Common.Views.CopyWarningDialog.textTitle": "Copy, Cut and Paste Actions",

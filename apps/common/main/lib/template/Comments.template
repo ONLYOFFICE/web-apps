@@ -1,4 +1,4 @@
-<% if (!hide) { %>
+<% if (!hide && !filtered) { %>
     <div id="<%= id %>" class="user-comment-item">
 
         <!-- comment block -->
