@@ -677,7 +677,7 @@ define([
                 if (this._currentPrintType !== printType) {
                     newPage = 0;
                     this._currentPrintType = printType;
-                } else if (this._navigationPreview.pageCount > pageCount) {
+                } else if (this._navigationPreview.currentPage > pageCount - 1) {
                     newPage = pageCount - 1;
                 } else {
                     newPage = this._navigationPreview.currentPage;
