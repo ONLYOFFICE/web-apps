@@ -104,6 +104,7 @@ define([
         setApi: function(o) {
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
         },
 
         updateSheetsInfo: function() {
@@ -682,6 +683,16 @@ define([
                 this.printSettings.updateCurrentPage(newPage);
                 this._navigationPreview.pageCount = pageCount;
                 this.printSettings.updateCountOfPages(pageCount);
+            }
+        },
+
+        onApiChangePreviewSheet: function (index) {
+            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
+            if (item) {
+                this.printSettings.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
+                var sheetName = this.api.asc_getWorksheetName(index);
+                this.printSettings.updateActiveSheet(sheetName);
             }
         },
 
