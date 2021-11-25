@@ -261,7 +261,7 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
+                            <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />

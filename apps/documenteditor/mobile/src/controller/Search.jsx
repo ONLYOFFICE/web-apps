@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { List, ListItem, Toggle, Page, Navbar, NavRight, Link } from 'framework7-react';
 import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
@@ -93,6 +93,14 @@ class DESearchView extends SearchView {
 const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('Settings', {returnObjects: true});
+
+    useEffect(() => {
+        if (f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
+            const api = Common.EditorApi.get();
+            $$('.searchbar-input').focus();
+            api.asc_enableKeyEvents(false);
+        }
+    });
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
