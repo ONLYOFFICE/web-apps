@@ -104,7 +104,8 @@ define([
         itemsDisabled: 'all-items-disabled',
         wsLockText: 'worksheet-lock-text',
         wsLockShape: 'worksheet-lock-shape',
-        wsLockFormat: 'worksheet-lock-format'
+        wsLockFormat: 'worksheet-lock-format',
+        wsLockFormatFill: 'worksheet-lock-format-fill'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -563,7 +564,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paracolor',
                     split       : true,
-                    lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill],
                     transparent: true,
                     menu: true,
                     dataHint: '1',
