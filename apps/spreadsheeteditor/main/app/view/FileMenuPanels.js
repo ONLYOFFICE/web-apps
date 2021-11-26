@@ -3258,6 +3258,6 @@ define([
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
         txtPageNumInvalid: 'Page number invalid'
-    }, SSE.Views.FileMenuPanels.PrintWithPreview || {}));
+    }, SSE.Views.PrintWithPreview || {}));
 
 });
