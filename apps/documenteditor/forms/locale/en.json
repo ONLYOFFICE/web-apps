@@ -112,6 +112,7 @@
   "DE.Controllers.ApplicationController.txtClickToLoad": "Click to load image",
   "DE.Controllers.ApplicationController.txtArt": "Your text here",
   "DE.Controllers.ApplicationController.txtEnterDate": "Enter a date",
+  "DE.Controllers.ApplicationController.openErrorText": "An error has occurred while opening the file.",
   "DE.Views.ApplicationView.textClear": "Clear All Fields",
   "DE.Views.ApplicationView.textCopy": "Copy",
   "DE.Views.ApplicationView.textCut": "Cut",

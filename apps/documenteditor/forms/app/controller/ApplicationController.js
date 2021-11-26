@@ -189,6 +189,10 @@ define([
                     config.msg = this.convertationErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.ConvertationOpenError:
+                    config.msg = this.openErrorText;
+                    break;
+
                 case Asc.c_oAscError.ID.DownloadError:
                     config.msg = this.downloadErrorText;
                     break;
@@ -1535,7 +1539,8 @@ define([
         txtArt: 'Your text here',
         txtChoose: 'Choose an item',
         txtEnterDate: 'Enter a date',
-        txtClickToLoad: 'Click to load image'
+        txtClickToLoad: 'Click to load image',
+        openErrorText: 'An error has occurred while opening the file'
 
     }, DE.Controllers.ApplicationController));
 

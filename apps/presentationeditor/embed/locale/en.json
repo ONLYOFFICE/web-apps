@@ -28,6 +28,7 @@
   "PE.ApplicationController.unknownErrorText": "Unknown error.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.ApplicationController.waitText": "Please, wait...",
+  "PE.ApplicationController.openErrorText": "An error has occurred while opening the file.",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
   "PE.ApplicationView.txtFileLocation": "Open file location",
