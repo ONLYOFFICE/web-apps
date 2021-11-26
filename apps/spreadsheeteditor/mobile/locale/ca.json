@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "No es pot canviar una part d'una cel·la combinada",
     "saveErrorText": "S'ha produït un error en desar el fitxer",
     "scriptLoadError": "La connexió és massa lenta, alguns dels components no s'han pogut carregar. Torneu a carregar la pàgina.",
+    "textErrorPasswordIsNotCorrect": "La contrasenya que heu introduït no és correcta.<br> Verifiqueu que la tecla Bloq Maj està desactivada i assegureu-vos que utilitzeu les majúscules correctes.",
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Contrasenya",
     "applyChangesTextText": "S'estant carregant les dades...",
     "applyChangesTitleText": "S'estan carregant les dades",
     "confirmMoveCellRange": "L'interval de cel·les de destinació pot contenir dades. Voleu continuar amb l'operació?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "S'està preparant per desar. Espereu...",
     "saveTextText": "S'està desant el document...",
     "saveTitleText": "S'està desant el document",
+    "textCancel": "Cancel·la",
+    "textErrorWrongPassword": "La contrasenya que heu introduït no és correcta.",
     "textLoadingDocument": "S'està carregant el document",
     "textNo": "No",
     "textOk": "D'acord",
+    "textUnlockRange": "Desbloca l'intereval",
+    "textUnlockRangeWarning": "Un interval que intenteu canviar està protegit amb contrasenya.",
     "textYes": "Sí",
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu...",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected."
+    "waitText": "Espereu..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertiment",

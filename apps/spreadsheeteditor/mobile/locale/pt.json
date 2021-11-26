@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "Não é possível alterar uma parte de uma célula mesclada",
     "saveErrorText": "Ocorreu um erro ao gravar o arquivo",
     "scriptLoadError": "A conexão está muito lenta, alguns dos componentes não puderam ser carregados. Por favor recarregue a página.",
+    "textErrorPasswordIsNotCorrect": "A senha fornecida não está correta. <br> Verifique se a tecla CAPS LOCK está desligada e use a capitalização correta.",
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Senha",
     "applyChangesTextText": "Carregando dados...",
     "applyChangesTitleText": "Carregando dados",
     "confirmMoveCellRange": "O intervalo de células de destino pode conter dados. Continuar a operação?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Preparando para salvar. Aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
+    "textCancel": "Cancelar",
+    "textErrorWrongPassword": "A senha que você forneceu não está correta.",
     "textLoadingDocument": "Carregando documento",
     "textNo": "Não",
     "textOk": "OK",
+    "textUnlockRange": "Desbloquear intervalo",
+    "textUnlockRangeWarning": "Um intervalo que você está tentando alterar está protegido por senha.",
     "textYes": "Sim",
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde...",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected."
+    "waitText": "Por favor, aguarde..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",

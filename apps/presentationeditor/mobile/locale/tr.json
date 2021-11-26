@@ -11,7 +11,7 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Uyarı",
-      "textAddComment": "Yorum Yap",
+      "textAddComment": "Yorum Ekle",
       "textAddReply": "Cevapla",
       "textBack": "Geri",
       "textCancel": "Vazgeç",
@@ -41,7 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Context menüyü kullanarak yapılacak kopyalama, kesme ve yapıştırma işlemleri sadece bu dosya özelinde yapılabilecektir.",
-    "menuAddComment": "Yorum Yap",
+    "menuAddComment": "Yorum Ekle",
     "menuAddLink": "Bağlantı Ekle",
     "menuCancel": "Vazgeç",
     "menuDelete": "Sil",
@@ -140,7 +140,7 @@
     "errorFileSizeExceed": "Dosya boyutu sunucu sınırlamanızı aşıyor.<br>Lütfen yöneticinizle iletişime geçin.",
     "errorKeyEncrypt": "Bilinmeyen anahtar tanımlayıcı",
     "errorKeyExpire": "Anahtar tanımlayıcının süresi doldu",
-    "errorLoadingFont": "Fontlar yüklenemedi.<br>Lütfen sistem yöneticinizle iletişime geçin.",
+    "errorLoadingFont": "Yazı tipleri yüklenmedi.<br>Lütfen Doküman Sunucusu yöneticinize başvurun.",
     "errorSessionAbsolute": "Belge düzenleme oturumunun süresi doldu. Lütfen sayfayı yenileyin.",
     "errorSessionIdle": "Belge uzun süredir düzenlenmemiştir. Lütfen sayfayı yenileyin.",
     "errorSessionToken": "Sunucuyla bağlantı kesildi. Lütfen sayfayı yenileyin.",
@@ -451,6 +451,7 @@
       "txtScheme18": "Yöntem",
       "txtScheme2": "Gri Ölçeği",
       "txtScheme20": "Kentsel",
+      "txtScheme21": "Enerji",
       "txtScheme22": "Yeni Ofis",
       "txtScheme3": "Apeks",
       "txtScheme4": "Açı",
@@ -461,8 +462,7 @@
       "txtScheme9": "Döküm",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
-      "txtScheme19": "Trek",
-      "txtScheme21": "Verve"
+      "txtScheme19": "Trek"
     }
   }
 }
