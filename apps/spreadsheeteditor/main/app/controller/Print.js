@@ -309,9 +309,8 @@ define([
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            this._navigationPreview.pageCount = this.api.asc_initPrintPreview('print-preview');
-            this.printSettings.updateCountOfPages(this._navigationPreview.pageCount);
-            this.printSettings.updateCurrentPage(0);
+            var pageCount = this.api.asc_initPrintPreview('print-preview');
+            this.updateNavigationButtons(0, pageCount);
 
             this._isPreviewVisible = true;
         },
@@ -634,8 +633,7 @@ define([
             }
             this.api.asc_drawPrintPreview(index);
 
-            this.printSettings.updateCurrentPage(index);
-            this._navigationPreview.currentPage = index;
+            this.updateNavigationButtons(index, this._navigationPreview.pageCount);
         },
 
         onKeypressPageNumber: function (input, e) {
@@ -644,6 +642,7 @@ define([
                     edit = box.find('input[type=text]'), page = parseInt(edit.val());
                 if (!page || page > this._navigationPreview.pageCount || page < 0) {
                     edit.select();
+                    this.disableNavButtons(true);
                     return false;
                 }
 
@@ -651,6 +650,7 @@ define([
 
                 this.api.asc_drawPrintPreview(page-1);
                 this.api.asc_enableKeyEvents(true);
+                this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
 
                 return false;
             }
@@ -690,10 +690,7 @@ define([
 
                 this.api.asc_drawPrintPreview(newPage);
 
-                this._navigationPreview.currentPage = newPage;
-                this.printSettings.updateCurrentPage(newPage);
-                this._navigationPreview.pageCount = pageCount;
-                this.printSettings.updateCountOfPages(pageCount);
+                this.updateNavigationButtons(newPage, pageCount);
             }
         },
 
@@ -705,6 +702,26 @@ define([
                 var sheetName = this.api.asc_getWorksheetName(index);
                 this.printSettings.updateActiveSheet(sheetName);
             }
+        },
+
+        updateNavigationButtons: function (page, count) {
+            this._navigationPreview.currentPage = page;
+            this.printSettings.updateCurrentPage(page);
+            this._navigationPreview.pageCount = count;
+            this.printSettings.updateCountOfPages(count);
+            this.disableNavButtons();
+        },
+
+        disableNavButtons: function (force) {
+            if (force) {
+                this.printSettings.btnPrevPage.setDisabled(true);
+                this.printSettings.btnNextPage.setDisabled(true);
+                return;
+            }
+            var curPage = this._navigationPreview.currentPage,
+                pageCount = this._navigationPreview.pageCount;
+            this.printSettings.btnPrevPage.setDisabled(curPage < 1);
+            this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
         },
 
         warnCheckMargings:      'Margins are incorrect',
