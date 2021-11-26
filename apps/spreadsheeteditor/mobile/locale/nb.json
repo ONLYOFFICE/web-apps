@@ -659,7 +659,8 @@
       "txtDownloadCsv": "Download CSV",
       "txtOk": "Ok",
       "txtSemicolon": "Semicolon",
-      "textExample": "Example"
+      "textExample": "Example",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

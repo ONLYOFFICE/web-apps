@@ -56,13 +56,13 @@
     "menuShow": "Göster",
     "menuUnfreezePanes": "Bölmeleri Çöz",
     "menuUnmerge": "Birleştirmeyi kaldır",
+    "menuUnwrap": "Kaydırmayı kaldır",
     "menuViewComment": "Yorumu Görüntüle",
     "menuWrap": "Metni Kaydır",
     "notcriticalErrorTitle": "Uyarı",
     "textCopyCutPasteActions": "Kes, Kopyala ve Yapıştır Aksiyonları",
     "textDoNotShowAgain": "Tekrar gösterme",
-    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
-    "menuUnwrap": "Unwrap"
+    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?"
   },
   "Controller": {
     "Main": {
@@ -99,7 +99,7 @@
         "txtPages": "Sayfalar",
         "txtPreparedBy": "Tarafından hazırlandı",
         "txtPrintArea": "Alanı yazdır",
-        "txtQuarter": "Qtr",
+        "txtQuarter": "Çeyrek",
         "txtQuarters": "Çeyrek",
         "txtRow": "Satır",
         "txtRowLbls": "Satır Etiketleri",
@@ -196,7 +196,7 @@
     "errorInvalidRef": "Seçim için doğru bir ad veya geçerli bir referans girin.",
     "errorKeyEncrypt": "Bilinmeyen anahtar tanımlayıcı",
     "errorKeyExpire": "Anahtar tanımlayıcının süresi doldu",
-    "errorLoadingFont": "Fontlar yüklenmedi.<br>Lütfen belge sunucu yöneticinizle iletişime geçin.",
+    "errorLoadingFont": "Yazı tipleri yüklenmedi.<br>Lütfen Doküman Sunucusu yöneticinize başvurun.",
     "errorLockedAll": "İşlem yapılamıyor çünkü iş tablosu başka bir kullanıcı tarafından kilitlenmiş.",
     "errorLockedCellPivot": "Pivot tablodaki veriyi değiştiremezsiniz.",
     "errorLockedWorksheetRename": "İş tablosu yeniden adlandırılamıyor çünkü başka bir kullanıcı tarafından yeniden adlandırılıyor",
@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "Birleştirilmiş hücrenin bir kısmı değiştirilemez",
     "saveErrorText": "Dosya açılırken bir hata oluştu.",
     "scriptLoadError": "Bağlantı çok yavaş, bazı bileşenler yüklenemedi. Lütfen sayfayı yenileyin.",
+    "textErrorPasswordIsNotCorrect": "Verdiğiniz parola doğru değil.<br>CAPS LOCK anahtarının kapalı olduğunu doğrulayın ve doğru büyük/küçük harf kullandığınızdan emin olun.",
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
   },
   "LongActions": {
+    "advDRMPassword": "Şifre",
     "applyChangesTextText": "Veri yükleniyor...",
     "applyChangesTitleText": "Veri yükleniyor",
     "confirmMoveCellRange": "Hedef hücre aralığı veri içerebilir. Operasyona devam edilsin mi?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Kaydetmeye hazırlanıyor. Lütfen bekleyin...",
     "saveTextText": "Belge kaydediliyor...",
     "saveTitleText": "Belge Kaydediliyor",
+    "textCancel": "İptal",
+    "textErrorWrongPassword": "Verdiğiniz şifre doğru değil.",
     "textLoadingDocument": "Belge yükleniyor",
     "textNo": "Hayır",
     "textOk": "Tamam",
+    "textUnlockRange": "Aralık Kilidini Aç",
+    "textUnlockRangeWarning": "Değiştirmeye çalıştığınız aralık parola korumalıdır.",
     "textYes": "Evet",
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin...",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "waitText": "Lütfen bekleyin..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Uyarı",
@@ -562,13 +562,13 @@
       "textDelimeter": "Sınırlayıcı",
       "textDisableAll": "Tümünü Devre Dışı Bırak",
       "textDisableAllMacrosWithNotification": "Bütün macroları uyarı vererek devre dışı bırak",
-      "textDisableAllMacrosWithoutNotification": "Bütün macroları uyarı vermeden devre dışı bırak",
+      "textDisableAllMacrosWithoutNotification": "Tüm makroları bildirimde bulunmadan devre dışı bırakın",
       "textDone": "Bitti",
       "textDownload": "İndir",
       "textDownloadAs": "Olarak indir",
       "textEmail": "E-posta",
       "textEnableAll": "Hepsini Etkinleştir",
-      "textEnableAllMacrosWithoutNotification": "Tüm makroları bildirimde bulunmadan etkinleştirin",
+      "textEnableAllMacrosWithoutNotification": "Tüm makroları bildirimde bulunmadan etkinleştir",
       "textEncoding": "Kodlama",
       "textExample": "Örnek",
       "textFind": "Bul",
@@ -647,6 +647,7 @@
       "txtScheme19": "Yolculuk",
       "txtScheme2": "Gri Ölçeği",
       "txtScheme20": "Kentsel",
+      "txtScheme21": "Enerji",
       "txtScheme22": "Yeni Ofis",
       "txtScheme3": "Apeks",
       "txtScheme4": "Açı",
@@ -659,7 +660,7 @@
       "txtSpace": "Boşluk",
       "txtTab": "Sekme",
       "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
-      "txtScheme21": "Verve"
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

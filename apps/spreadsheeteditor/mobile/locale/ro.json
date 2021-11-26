@@ -659,7 +659,8 @@
       "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
       "txtTab": "Tabulator",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

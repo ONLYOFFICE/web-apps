@@ -659,7 +659,8 @@
       "txtSemicolon": "セミコロン",
       "txtSpace": "スペース",
       "txtTab": "タブ",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

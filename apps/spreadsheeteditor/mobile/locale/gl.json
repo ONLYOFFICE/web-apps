@@ -659,7 +659,8 @@
       "txtSemicolon": "Punto e coma",
       "txtSpace": "Espazo",
       "txtTab": "Lapela",
-      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?"
+      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

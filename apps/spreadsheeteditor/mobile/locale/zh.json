@@ -659,7 +659,8 @@
       "txtScheme22": "New Office",
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }
