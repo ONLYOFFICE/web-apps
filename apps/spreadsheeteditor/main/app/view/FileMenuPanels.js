@@ -2745,8 +2745,8 @@ define([
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
-                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
-                                            '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
+                                            '<button id="print-btn-print-0" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-save-0" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',
@@ -2754,8 +2754,8 @@ define([
                         '</div>',
                         '<div class="fms-flex-apply hidden">',
                             '<div class="footer justify">',
-                                '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
-                                '<button id="print-btn-save" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
+                                '<button id="print-btn-print-1" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                '<button id="print-btn-save-1" class="btn normal dlg-btn" result="save" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button>',
                             '</div>',
                         '</div>',
                     '</div>',
@@ -3016,13 +3016,16 @@ define([
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
-            this.btnSave = new Common.UI.Button({
-                el: $markup.findById('#print-btn-save')
-            });
-
-            this.btnPrint = new Common.UI.Button({
-                el: $markup.findById('#print-btn-print')
-            });
+            this.btnsSave = [];
+            this.btnsPrint = [];
+            for (var i=0; i<2; i++) {
+                this.btnsSave.push(new Common.UI.Button({
+                    el: $markup.findById('#print-btn-save-'+i)
+                }));
+                this.btnsPrint.push(new Common.UI.Button({
+                    el: $markup.findById('#print-btn-print-'+i)
+                }));
+            }
 
             this.btnPrevPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-prev-page'),

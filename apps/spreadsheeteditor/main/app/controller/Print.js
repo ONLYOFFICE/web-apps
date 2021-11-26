@@ -85,10 +85,15 @@ define([
         },
 
         onAfterRender: function(view) {
+            var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
-            this.printSettings.btnSave.on('click', _.bind(this.querySavePrintSettings, this, false));
-            this.printSettings.btnPrint.on('click', _.bind(this.querySavePrintSettings, this, true));
+            this.printSettings.btnsSave.forEach(function (btn) {
+                btn.on('click', _.bind(me.querySavePrintSettings, me, false));
+            });
+            this.printSettings.btnsPrint.forEach(function (btn) {
+                btn.on('click', _.bind(me.querySavePrintSettings, me, true));
+            });
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
