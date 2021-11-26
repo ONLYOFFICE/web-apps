@@ -121,6 +121,7 @@ DE.ApplicationController = new(function(){
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_UserInfo(_user);
+            docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
@@ -693,6 +694,10 @@ DE.ApplicationController = new(function(){
                 message = me.convertationErrorText;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationOpenError:
+                message = me.openErrorText;
+                break;
+
             case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
                 break;
@@ -945,6 +950,7 @@ DE.ApplicationController = new(function(){
         txtEmpty: '(Empty)',
         txtPressLink: 'Press Ctrl and click link',
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.'
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        openErrorText: 'An error has occurred while opening the file'
     }
 })();

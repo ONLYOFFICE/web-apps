@@ -186,6 +186,7 @@ define([
             }
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
+            var locktext = false;
             for (i=0; i<SelectedObjects.length; ++i)
             {
                 var eltype = SelectedObjects[i].asc_getObjectType(),
@@ -195,6 +196,7 @@ define([
 
                 var value = SelectedObjects[i].asc_getObjectValue();
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
+                    locktext = locktext || value.asc_getProtectionLockText();
                     if (value.asc_getChartProperties() !== null) {
                         settingsType = Common.Utils.documentSettingsType.Chart;
                         this._settings[settingsType].btn.updateHint(this.rightmenu.txtChartSettings);
@@ -203,20 +205,23 @@ define([
                         if (value.asc_getShapeProperties().asc_getTextArtProperties()) {
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.asc_getLocked() || this._state.wsProps['Objects'];
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.asc_getLocked() || this._state.wsProps['Objects'] && value.asc_getProtectionLockText();
                         }
                     } else if (value.asc_getSlicerProperties() !== null) {
                         settingsType = Common.Utils.documentSettingsType.Slicer;
                     }
+                    this._settings[settingsType].locked = value.asc_getLocked() || this._state.wsProps['Objects'] && value.asc_getProtectionLocked();
+                } else {
+                    this._settings[settingsType].locked = value.asc_getLocked();
                 }
 
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
 
-                this._settings[settingsType].locked = value.asc_getLocked() || this._state.wsProps['Objects'];
-
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.asc_getLocked();
+                if (!this._settings[Common.Utils.documentSettingsType.Paragraph].locked) // lock Paragraph, если хотя бы у одной автофигуры заблокирован текст
+                    this._settings[Common.Utils.documentSettingsType.Paragraph].locked = this._state.wsProps['Objects'] && locktext;
             }
 
             if (formatTableInfo) {
