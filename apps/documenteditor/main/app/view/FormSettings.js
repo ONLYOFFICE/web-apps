@@ -280,6 +280,9 @@ define([
             this.lockedControls.push(this.txtNewValue);
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
+            this.txtNewValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtNewValue._input && me.txtNewValue._input.select();}, 1);
+            });
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
