@@ -1580,6 +1580,22 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.chPrintGridlines = new Common.UI.CheckBox({
+                    labelText: this.textPrintGridlines,
+                    lock: [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
+                me.chPrintHeadings = new Common.UI.CheckBox({
+                    labelText: this.textPrintHeadings,
+                    lock: [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -1647,7 +1663,8 @@ define([
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
+                    me.chPrintGridlines, me.chPrintHeadings
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1853,7 +1870,9 @@ define([
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
             _injectComponent('#slot-btn-printarea',      this.btnPrintArea);
-            _injectComponent('#slot-btn-printtitles',    this.btnPrintTitles);
+            _injectComponent('#slot-btn-printtitles',   this.btnPrintTitles);
+            _injectComponent('#slot-chk-print-gridlines', this.chPrintGridlines);
+            _injectComponent('#slot-chk-print-headings',  this.chPrintHeadings);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -2863,6 +2882,8 @@ define([
         textItems: 'Items',
         tipInsertSpark: 'Insert sparkline',
         capInsertSpark: 'Sparklines',
-        txtScheme22: 'New Office'
+        txtScheme22: 'New Office',
+        textPrintGridlines: 'Print gridlines',
+        textPrintHeadings: 'Print headings'
     }, SSE.Views.Toolbar || {}));
 });

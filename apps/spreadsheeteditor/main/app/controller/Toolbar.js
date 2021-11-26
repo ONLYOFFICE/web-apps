@@ -396,6 +396,8 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
+                toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
+                toolbar.chPrintHeadings.on('change',                         _.bind(this.onPrintHeadingsChange, this));
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
@@ -2246,6 +2248,8 @@ define([
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
             this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
+            this.onApiGridLines(props.asc_getGridLines());
+            this.onApiHeadings(props.asc_getHeadings());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -2254,6 +2258,14 @@ define([
         onUpdateDocumentProps: function(nIndex) {
             if (nIndex == this.api.asc_getActiveWorksheetIndex())
                 this.onApiSheetChanged();
+        },
+
+        onApiGridLines: function (checked) {
+            this.toolbar.chPrintGridlines.setValue(checked, true);
+        },
+
+        onApiHeadings: function (checked) {
+            this.toolbar.chPrintHeadings.setValue(checked, true);
         },
 
         onApiPageSize: function(w, h) {
@@ -4066,6 +4078,16 @@ define([
                 this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
                 this.appConfig && this.appConfig.isEdit ? this.onApiSelectionChanged(this.api.asc_getCellInfo()) : this.onApiSelectionChangedRestricted(this.api.asc_getCellInfo());
             }
+        },
+
+        onPrintGridlinesChange: function (field, value) {
+            this.api.asc_SetPrintGridlines(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintHeadingsChange: function (field, value) {
+            this.api.asc_SetPrintHeadings(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
