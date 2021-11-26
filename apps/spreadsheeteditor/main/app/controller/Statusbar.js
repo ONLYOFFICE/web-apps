@@ -800,6 +800,12 @@ define([
             Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
         },
 
+        getIsDragDrop: function () {
+            var isDragDrop = this.statusbar.tabbar.isDragDrop;
+            this.statusbar.tabbar.isDragDrop = false;
+            return isDragDrop;
+        },
+
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
