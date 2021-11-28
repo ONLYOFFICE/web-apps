@@ -886,14 +886,13 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .functions-list {
-    max-height: 175px;
+    max-height: 200px;
     width: 360px;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: @white;
+    background-color: @background-primary;
     &__mobile {
         position: absolute;
-        top: 30px;
         right: 0;
         left: 0;
         width: 100%;
@@ -911,6 +910,54 @@ input[type="number"]::-webkit-inner-spin-button {
             }
             .item-title {
                 font-size: 15px;
+            }
+        }
+    }
+}
+
+// Function List Popover
+
+#idx-functions-list {
+    width: 350px;
+    .popover-inner {
+        .navbars {
+            .right .link {
+                font-weight: 600;
+            }
+            .navbar-bg {
+                background:  @background-secondary;
+                &::after {
+                    background: @background-menu-divider;
+                }
+            }
+        }
+        .page-function-info{
+            .navbar {
+                .navbar-bg::after {
+                    background: @background-menu-divider;
+                }
+                .navbar-inner{
+                    background:  @background-secondary;
+                    .title {
+                        color: @text-normal;
+                    }
+                    .right .link {
+                        color: @brandColor;
+                        font-weight: 600;
+                    }
+                    .icon-back::after {
+                        color: @brandColor;
+                    }
+                }
+            }
+            .function-info {
+                p {
+                    color: @text-secondary;
+                }
+                h3 {
+                    font-weight: 500;
+                    color: @text-normal;
+                }
             }
         }
     }
