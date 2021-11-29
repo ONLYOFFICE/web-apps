@@ -527,17 +527,7 @@ define([
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             }
 
-            var $parent = labelDocName.parent();
-            var _left_width = $parent.position().left,
-                _right_width = $parent.next().outerWidth();
-
-            if ( _left_width < _right_width )
-                $parent.css('padding-left', _right_width - _left_width);
-            else
-                $parent.css('padding-right', _left_width - _right_width);
-
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-
             this.api.asc_LoadDocument();
             this.api.Resize();
         },
