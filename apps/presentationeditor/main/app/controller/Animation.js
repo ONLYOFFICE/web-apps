@@ -70,6 +70,7 @@ define([
                     'animation:animationpane':_.bind(this.onAnimationPane, this),
                     'animation:addanimation':    _.bind(this.onAddAnimation, this),
                     'animation:startselect':    _.bind(this.onStartSelect, this),
+                    'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
                 },
                 'Toolbar': {
                     'tab:active':           _.bind(this.onActiveTab, this)
@@ -84,7 +85,6 @@ define([
 
         setConfig: function (config) {
             this.appConfig = config.mode;
-
             this.view = this.createView('PE.Views.Animation', {
                 toolbar: config.toolbar,
                 mode: config.mode
@@ -121,64 +121,90 @@ define([
 
         onParameterClick: function (value) {
             this._state.EffectOption = value;
+            if(this.api && this.AnimationProperties) {
+                this.AnimationProperties.asc_putSubtype(value);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                this.getAnimationProperties();
+
+                console.log(this.AnimationProperties.asc_getSubtype());
+            }
         },
 
-        onAnimationPane: function() {
+        onAnimationPane: function(combo, record) {
 
         },
 
         onAddAnimation: function() {
-
+            var type = record.get('value');
+            var  parameter;
+            var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).value;
+            if (this._state.Effect !== type) {
+                parameter= this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
+                this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter);
+                if (parameter!= undefined)
+                    this.onParameterClick(parameter);
+            }
+            this._state.EffectGroups = group;
+            this._state.Effect = type;
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
-            this._state.Duration = field.getNumberValue()*1000;
+            if (this.api) {
+                this._state.Duration = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putDuration(this._state.Duration);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-            this._state.Delay = field.getNumberValue()*1000;
+            if (this.api) {
+                this._state.Delay = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putDelay(this._state.Delay);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
         },
 
         onEffectSelect: function (combo, record) {
-           var type = record.get('value');
-           var parameter = this._state.EffectOption;
-
-            if (this.Effect !== type) {
-                parameter = this.view.setMenuParameters(type, parameter, true);
-                if (type != -10 && this.Effect == -10)
-                    this.api.asc_AddAnimation(this.EffectGroups.findWhere({id: record.group}).value, type);
-                else
-                {
-                    var selectedElements = this.api.getSelectedElements();
-                    for (var i = 0; i < selectedElements.length; i0) {
-                        var elType = selectedElements[i].get_ObjectType();
-                        if(elType==Asc.c_oAscTypeSelectElement.Animation)
-                        {
-                            //selectedElements[i].
-                        }
-                    }
+            var type = record.get('value');
+            var  parameter;
+            var group = _.findWhere(Common.define.effectData.getEffectGroupData(),{id: record.get('group')}).value;
+            if (this._state.Effect !== type) {
+                parameter= this.view.setMenuParameters(type, undefined, group != this._state.EffectGroups);
+                this.api.asc_AddAnimation(group, type, parameter);
+                if (parameter!= undefined) {
+                    this.onParameterClick(parameter);
                 }
+                //else this.api.asc_AddAnimation(group, type,-1);
             }
+            this._state.EffectGroups = group;
             this._state.Effect = type;
-            this.onParameterClick(parameter);
         },
 
         onStartSelect: function (combo, record) {
+            if (this.api) {
+                this._state.StartEffect =record.value;
+                this.AnimationProperties.asc_putStartType(this._state.StartEffect);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
+        },
 
+        onCheckRewindChange: function (field, newValue, oldValue, eOpts) {
+            if (this.api && this.AnimationProperties) {
+                this.AnimationProperties.asc_putRewind(field.getValue() == 'checked');
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
         },
 
         onFocusObject: function(selectedObjects) {
-            var me = this;
             for (var i = 0; i<selectedObjects.length; i++) {
                 var eltype = selectedObjects[i].get_ObjectType();
 
                 if (eltype === undefined)
                     continue;
 
-                if (eltype == Asc.c_oAscTypeSelectElement.Slide) {
-
-                    this.loadSettings();
-
+                if (eltype == Asc.c_oAscTypeSelectElement.Animation) {
+                    this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+                    this.loadSettings(this.AnimationProperties);
                     if (this._state.onactivetab) {
                         this.setLocked();
                         this.setSettings();
@@ -187,28 +213,43 @@ define([
             }
         },
 
-        loadSettings: function () {
+        getAnimationProperties: function() {
+            var selectedElements = this.api.getSelectedElements();
+            for (var i = 0; i<selectedElements.length; i++) {
+                if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.Animation) {
+                    this.AnimationProperties = selectedElements[i].get_ObjectValue();
+                    return;
+                }
+            }
+            return;
+        },
 
-           /* var oPr= Asc.c_oAscTypeSelectElement.Animation;
-            this._state.Effect = oPr.asc_getClass();*/
-            this._state.Effect = !this._state.Effect ? -10 : this._state.Effect;
-            this._state.EffectOption = !this._state.EffectOption ? this.view.setMenuParameters(this._state.Effect,undefined,true): this._state.EffectOption;
+        loadSettings: function (props) {
+            this.AnimationProperties = props;
+            var value;
+            this._state.EffectGroup = this.AnimationProperties.asc_getClass();
+            value = this.AnimationProperties.asc_getType();
+            value = !value ? -10 : value;
+            this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
+            this.view.setMenuParameters(value,this._state.EffectOption,true);
+            this._state.Effect = value;
 
-            var value = 1000;
+            value = this.AnimationProperties.asc_getDuration();
             if (Math.abs(this._state.Duration - value) > 0.001 ||
                 (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
                 (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
                 this._state.Duration = value;
             }
 
-            value = 1000;
+            value = this.AnimationProperties.asc_getDelay();
             if (Math.abs(this._state.Delay - value) > 0.001 ||
                 (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
                 (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
                 this._state.Delay = value;
             }
-
-            this._state.StartSelect = 0;
+            this._state.StartSelect = this.AnimationProperties.asc_getStartType();
+            this._state.RepeatCount = this.AnimationProperties.asc_getRepeatCount();
+            this._state.Rewind = this.AnimationProperties.asc_getRewind();
         },
 
         onActiveTab: function(tab) {
@@ -239,17 +280,15 @@ define([
             }
 
             if (me.btnParameters.menu.items.length > 0 && this._state.EffectOption !== undefined)
-                me.setMenuParameters(this._state.Effect, this._state.EffectOption);
+                me.setMenuParameters(this._state.Effect, this._state.EffectOption, true);
 
             me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
             me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
+
+            (this._state.StartSelect==undefined)&&(this._state.StartSelect = AscFormat.NODE_TYPE_CLICKEFFECT);
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
-            me.cmbStart.selectRecord(item ? item : me.cmbStart.items[0]);
-
-
-            //this.view.setWidthRow();
-
-
+            me.cmbStart.selectRecord(item);
+            me.chRewind.setValue(this._state.Rewind);
         }
 
     }, PE.Controllers.Animation || {}));

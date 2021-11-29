@@ -111,6 +111,12 @@ define([
                 }, me);
             }
 
+            if (me.chRewind) {
+                me.chRewind.on('change', _.bind(function (e) {
+                    me.fireEvent('animation:checkrewind', [me.chRewind, me.chRewind.value, me.chRewind.lastValue]);
+                }, me));
+            }
+
         }
 
         return {
@@ -270,9 +276,9 @@ define([
                     menuStyle: 'width: 150px;',
                     //lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                     data: [
-                        {value: 0, displayValue: this.textStartOnClick},
-                        {value: 1, displayValue: this.textStartBeforePrevious},
-                        {value: 2, displayValue: this.textStartAfterPrevious}
+                        {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
+                        {value: AscFormat.NODE_TYPE_WITHEFFECT, displayValue: this.textStartWithPrevious},
+                        {value: AscFormat.NODE_TYPE_AFTEREFFECT, displayValue: this.textStartAfterPrevious}
                     ],
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -444,12 +450,16 @@ define([
 
                 var selectedElement;
                 this.btnParameters.menu.removeAll();
-                //if(this._arrEffectOptions[effect.value].length>0) {
                 if(this._arrEffectOptions[effect.value]) {
-                    this._arrEffectOptions[effect.value].forEach(function (opt) {
+                    var i=0;
+                    this._arrEffectOptions[effect.value].forEach(function (opt, index) {
                         this.btnParameters.menu.addItem(opt);
+                        this.btnParameters.menu.items[index].checkable=true;
+                        if((option!=undefined)&&(opt.value==option))
+                            i = index;
                     }, this);
-                    selectedElement = this.btnParameters.menu.items[0];
+                    selectedElement = this.btnParameters.menu.items[i];
+                    selectedElement.setChecked(true);
                 }
                 else {
                     selectedElement = undefined;
@@ -459,7 +469,7 @@ define([
                     this.btnParameters.setDisabled(!selectedElement);
                 }
 
-                return (selectedElement)?selectedElement.value:-1;
+                return (selectedElement)?selectedElement.value:undefined;
             },
 
 
@@ -476,7 +486,7 @@ define([
             strTrigger: 'Trigger',
 
             textStartOnClick: 'On Click',
-            textStartBeforePrevious: 'Before Previous',
+            textStartWithPrevious: 'With Previous',
             textStartAfterPrevious: 'After Previous',
 
             textNone: 'None',
