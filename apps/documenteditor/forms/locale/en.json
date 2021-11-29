@@ -116,6 +116,7 @@
   "DE.Controllers.ApplicationController.mniImageFromFile": "Image from File",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Image from Storage",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Image from URL",
+  "DE.Controllers.ApplicationController.txtUntitled": "Untitled",
   "DE.Views.ApplicationView.textClear": "Clear All Fields",
   "DE.Views.ApplicationView.textCopy": "Copy",
   "DE.Views.ApplicationView.textCut": "Cut",

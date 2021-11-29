@@ -13,6 +13,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SaveAsDlg',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -358,6 +359,8 @@ define([
 
             this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
             this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
+            this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
+            this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
         },
 
         onExternalMessage: function(msg) {
@@ -525,7 +528,10 @@ define([
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
-                    me.appOptions.canDownload && me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    if (me.appOptions.canDownload) {
+                        me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                    }
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -766,8 +772,41 @@ define([
             }
         },
 
-        onDownloadUrl: function(url) {
-            Common.Gateway.downloadAs(url);
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromBtnDownload) { // download as pdf
+                var me = this,
+                    defFileName = this.embedConfig.docTitle;
+                !defFileName && (defFileName = me.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
+
+                if (me.appOptions.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.appOptions.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            } else {
+                Common.Gateway.downloadAs(url);
+            }
+            this.isFromBtnDownload = false;
         },
 
         onPrint: function() {
@@ -1668,7 +1707,8 @@ define([
         openErrorText: 'An error has occurred while opening the file',
         mniImageFromFile: 'Image from File',
         mniImageFromUrl: 'Image from URL',
-        mniImageFromStorage: 'Image from Storage'
+        mniImageFromStorage: 'Image from Storage',
+        txtUntitled: 'Untitled'
 
     }, DE.Controllers.ApplicationController));
 
