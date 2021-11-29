@@ -255,8 +255,12 @@ define([
                     webapp.addListeners({
                         'FileMenu': {
                             'item:click': function (menu, action, isopts) {
-                                if ( action == 'app:exit' ) {
-                                    native.execCommand('editor:event', JSON.stringify({action: 'close'}));
+                                if ( action == 'file:exit' ) {
+                                    native.execCommand('editor:event', JSON.stringify({action: 'file:exit'}));
+                                    menu.hide();
+                                } else
+                                if ( action == 'file:open' ) {
+                                    native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
                                     menu.hide();
                                 }
                             },

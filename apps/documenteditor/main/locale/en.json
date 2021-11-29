@@ -1661,6 +1661,8 @@
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy as...",
   "DE.Views.FileMenu.btnSettingsCaption": "Advanced Settings...",
   "DE.Views.FileMenu.btnToEditCaption": "Edit Document",
+  "DE.Views.FileMenu.btnExitCaption": "Exit",
+  "DE.Views.FileMenu.btnFileOpenCaption": "Open...",
   "DE.Views.FileMenu.textDownload": "Download",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Document",
   "DE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",
