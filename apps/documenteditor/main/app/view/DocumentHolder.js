@@ -533,6 +533,8 @@ define([
                                 ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
                                 ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
                                 ToolTip += changes.get('changetext');
+                                if (ToolTip.length>1000)
+                                    ToolTip = ToolTip.substr(0, 1000) + '...';
                             }
                         }
 

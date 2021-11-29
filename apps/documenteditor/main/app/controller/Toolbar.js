@@ -3117,6 +3117,7 @@ define([
                 this.api && this.api.asc_StartMailMerge();
             } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
+                    title: me.dataUrl,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -3654,7 +3655,8 @@ define([
         textInsert: 'Insert',
         textTabForms: 'Forms',
         textGroup: 'Group',
-        textEmptyMMergeUrl: 'You need to specify URL.'
+        textEmptyMMergeUrl: 'You need to specify URL.',
+        dataUrl: 'Paste a data URL'
 
     }, DE.Controllers.Toolbar || {}));
 });

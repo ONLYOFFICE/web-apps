@@ -11,6 +11,8 @@ define([
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -87,6 +89,7 @@ define([
             this.editorConfig = {};
             this.embedConfig = {};
             this.appOptions = {};
+            this.internalFormObj = null;
 
             if (this.api){
                 this.api.asc_registerCallback('asc_onError',                 this.onError.bind(this));
@@ -352,6 +355,9 @@ define([
             this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
             this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                 && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
+
+            this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+            this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
         },
 
         onExternalMessage: function(msg) {
@@ -527,17 +533,7 @@ define([
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             }
 
-            var $parent = labelDocName.parent();
-            var _left_width = $parent.position().left,
-                _right_width = $parent.next().outerWidth();
-
-            if ( _left_width < _right_width )
-                $parent.css('padding-left', _right_width - _left_width);
-            else
-                $parent.css('padding-right', _left_width - _right_width);
-
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-
             this.api.asc_LoadDocument();
             this.api.Resize();
         },
@@ -862,10 +858,7 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.api.asc_addImage(obj);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -879,6 +872,125 @@ define([
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        },
+
+        onShowImageActions: function(obj, x, y) {
+            var menu = this.imageControlMenu,
+                menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.imageControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tl-bl',
+                    items: [
+                        {caption: this.mniImageFromFile, value: 'file'},
+                        {caption: this.mniImageFromUrl, value: 'url'},
+                        {caption: this.mniImageFromStorage, value: 'storage', visible: this.appOptions.canRequestInsertImage || this.appOptions.fileChoiceUrl && this.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1}
+                    ]
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.onImageSelect(menu, item);
+                    }, 1);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.boxSdk.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value=='url') {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value=='storage') {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                this.api.asc_addImage(this.internalFormObj);
+                this._isFromFile = false;
+            }
+        },
+
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.appOptions.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.appOptions.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        setImageUrl: function(url, token) {
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+        },
+
+        insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
+            Common.NotificationCenter.trigger('storage:image-insert', data);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
+            }
         },
 
         onShowListActions: function(obj, x, y) {
@@ -1068,6 +1180,9 @@ define([
             Common.Gateway.on('processmouse',       _.bind(this.onProcessMouse, this));
             Common.Gateway.on('downloadas',         _.bind(this.onDownloadAs, this));
             Common.Gateway.on('requestclose',       _.bind(this.onRequestClose, this));
+            Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
+            Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
 
             this.attachUIEvents();
 
@@ -1540,7 +1655,10 @@ define([
         txtChoose: 'Choose an item',
         txtEnterDate: 'Enter a date',
         txtClickToLoad: 'Click to load image',
-        openErrorText: 'An error has occurred while opening the file'
+        openErrorText: 'An error has occurred while opening the file',
+        mniImageFromFile: 'Image from File',
+        mniImageFromUrl: 'Image from URL',
+        mniImageFromStorage: 'Image from Storage'
 
     }, DE.Controllers.ApplicationController));
 
