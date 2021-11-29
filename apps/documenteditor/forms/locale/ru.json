@@ -115,6 +115,7 @@
   "DE.Controllers.ApplicationController.mniImageFromFile": "Изображение из файла",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Изображение из хранилища",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Изображение по URL",
+  "DE.Controllers.ApplicationController.txtUntitled": "Без имени",
   "DE.Views.ApplicationView.textClear": "Очистить все поля",
   "DE.Views.ApplicationView.textCopy": "Копировать",
   "DE.Views.ApplicationView.textCut": "Вырезать",
