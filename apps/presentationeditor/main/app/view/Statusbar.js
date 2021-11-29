@@ -155,7 +155,10 @@ define([
                         { caption: "125%", value: 125 },
                         { caption: "150%", value: 150 },
                         { caption: "175%", value: 175 },
-                        { caption: "200%", value: 200 }
+                        { caption: "200%", value: 200 },
+                        { caption: "300%", value: 300 },
+                        { caption: "400%", value: 400 },
+                        { caption: "500%", value: 500 }
                     ]
                 });
                 this.zoomMenu.render($('.cnt-zoom',this.el));
