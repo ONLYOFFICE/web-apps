@@ -436,7 +436,7 @@
 
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*22 @icon-height*2;
+    background-size: @icon-width*24 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -511,6 +511,14 @@
     &.paste {
         background-position: -@icon-width*21 0;
         background-position: -@icon-width*21 @icon-normal-top;
+    }
+    &.undo {
+        background-position: -@icon-width*22 0;
+        background-position: -@icon-width*22 @icon-normal-top;
+    }
+    &.redo {
+        background-position: -@icon-width*23 0;
+        background-position: -@icon-width*23 @icon-normal-top;
     }
 }
 

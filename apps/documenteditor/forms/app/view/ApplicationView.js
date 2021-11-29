@@ -91,6 +91,9 @@ define([
             return new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
+                    { caption: this.textUndo, value: 'undo', iconCls: 'mi-icon svg-icon undo' },
+                    { caption: this.textRedo, value: 'redo', iconCls: 'mi-icon svg-icon redo' },
+                    { caption: '--' },
                     { caption: this.textCut, value: 'cut', iconCls: 'mi-icon svg-icon cut' },
                     { caption: this.textCopy, value: 'copy', iconCls: 'mi-icon svg-icon copy' },
                     { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' }
@@ -114,7 +117,9 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textPrintSel: 'Print Selection',
-        txtDarkMode: 'Dark mode'
+        txtDarkMode: 'Dark mode',
+        textUndo: 'Undo',
+        textRedo: 'Redo'
 
     }, DE.Views.ApplicationView || {}));
 });
