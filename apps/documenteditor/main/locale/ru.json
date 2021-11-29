@@ -1223,6 +1223,7 @@
   "DE.Controllers.Toolbar.txtSymbol_vdots": "Вертикальное многоточие",
   "DE.Controllers.Toolbar.txtSymbol_xsi": "Кси",
   "DE.Controllers.Toolbar.txtSymbol_zeta": "Дзета",
+  "DE.Controllers.Toolbar.dataUrl": "Вставьте URL-адрес данных",
   "DE.Controllers.Viewport.textFitPage": "По размеру страницы",
   "DE.Controllers.Viewport.textFitWidth": "По ширине",
   "DE.Controllers.Viewport.txtDarkMode": "Темный режим",
