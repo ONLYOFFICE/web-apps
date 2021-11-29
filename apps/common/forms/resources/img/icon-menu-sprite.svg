@@ -1,4 +1,4 @@
-<svg width="440" height="40" viewBox="0 0 440 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="480" height="40" viewBox="0 0 480 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="icon-menu-sprite Embedded Viewer">
 <g id="view-settings">
 <path id="Vector" d="M17 26H3V27H17V26Z" fill="white"/>
@@ -172,16 +172,16 @@
 <g id="paste_2">
     <path id="Union_30" fill-rule="evenodd" clip-rule="evenodd" d="M426 23H432V24H434C434.552 24 435 24.4477 435 25V27H434V25H432V26H426V25H424V32H426V33H424C423.448 33 423 32.5523 423 32V25C423 24.4477 423.448 24 424 24H426V23ZM436 36V29H428V36H436ZM428 28C427.448 28 427 28.4477 427 29V36C427 36.5523 427.448 37 428 37H436C436.552 37 437 36.5523 437 36V29C437 28.4477 436.552 28 436 28H428ZM429 31V30H435V31H429ZM435 32H429V33H435V32ZM429 35V34H435V35H429Z" fill="white"/>
 </g>
-    <g id="20 / redo">
+<g id="redo">
 <path id="Vector" d="M469.1 7C471.1 7 473.2 8.3 474.5 9.5L477 7V14H470L472.5 11.5C471.7 10.2 469.9 9.1 468.2 9.1C465.7 9.1 462.8 10.8 462.5 13.2C462.9 9.7 465.5 7 469.1 7Z" fill="black"/>
 </g>
-<g id="20 / redo_2">
+<g id="redo_2">
 <path id="Vector_2" d="M469.1 27C471.1 27 473.2 28.3 474.5 29.5L477 27V34H470L472.5 31.5C471.7 30.2 469.9 29.1 468.2 29.1C465.7 29.1 462.8 30.8 462.5 33.2C462.9 29.7 465.5 27 469.1 27Z" fill="white"/>
 </g>
-<g id="20 / undo">
+<g id="undo">
 <path id="Vector_3" d="M450.9 7C448.9 7 446.8 8.3 445.5 9.5L443 7V14H450L447.5 11.5C448.3 10.2 450.1 9.1 451.8 9.1C454.3 9.1 457.2 10.8 457.5 13.2C457.1 9.7 454.5 7 450.9 7Z" fill="black"/>
 </g>
-<g id="20 / undo_2">
+<g id="undo_2">
 <path id="Vector_4" d="M450.9 27C448.9 27 446.8 28.3 445.5 29.5L443 27V34H450L447.5 31.5C448.3 30.2 450.1 29.1 451.8 29.1C454.3 29.1 457.2 30.8 457.5 33.2C457.1 29.7 454.5 27 450.9 27Z" fill="white"/>
 </g>
 </g>
