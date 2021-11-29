@@ -489,7 +489,8 @@ define([
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
 
             var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
-            this.appOptions.canFillForms   = this.appOptions.canLicense && !!(type && typeof type[1] === 'string') && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
+            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1172,6 +1173,9 @@ define([
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
                 this.api.asc_SetHighlightRequiredFields(true);
+                Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
+                Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
+                Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
 
             if (this.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
@@ -1180,9 +1184,6 @@ define([
             Common.Gateway.on('processmouse',       _.bind(this.onProcessMouse, this));
             Common.Gateway.on('downloadas',         _.bind(this.onDownloadAs, this));
             Common.Gateway.on('requestclose',       _.bind(this.onRequestClose, this));
-            Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
-            Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
-            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
 
             this.attachUIEvents();
 
@@ -1314,12 +1315,12 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.isOFORM) {
                 menuItems[2].setVisible(false);
                 itemsCount--;
             }
 
-            if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
+            if ( !this.appOptions.isOFORM || !this.appOptions.canDownload) {
                 menuItems[3].setVisible(false);
                 menuItems[4].setVisible(false);
                 itemsCount -= 2;
@@ -1355,7 +1356,7 @@ define([
                 Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             }
 
-            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
                 menuItems[8].setVisible(false);
                 itemsCount--;
             }
@@ -1365,12 +1366,12 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
                 menuItems[11].setVisible(false);
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.fullscreenUrl ) {
+            if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
                 menuItems[12].setVisible(false);
                 itemsCount--;
             }
