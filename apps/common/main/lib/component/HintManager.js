@@ -531,7 +531,11 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (e.keyCode == Common.UI.Keys.ALT && (!Common.Utils.ModalWindow.isVisible()) && _isDocReady && _arrAlphabet.length > 0);
+            var isAlt = e.keyCode == Common.UI.Keys.ALT;
+            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (isAlt) {
+                e.preventDefault();
+            }
         });
     };
 
