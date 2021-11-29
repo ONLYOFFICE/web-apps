@@ -1573,9 +1573,12 @@ define([
                 var cancopy = this.api.can_CopyCut(),
                     disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
                                menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked);
-                this.textMenu.items[0].setDisabled(!cancopy); // copy
-                this.textMenu.items[1].setDisabled(disabled || !cancopy); // cut
-                this.textMenu.items[2].setDisabled(disabled) // paste;
+                this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
+                this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
+
+                this.textMenu.items[3].setDisabled(!cancopy); // copy
+                this.textMenu.items[4].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[5].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1583,6 +1586,12 @@ define([
 
         onContextMenuClick: function(menu, item, e) {
             switch (item.value) {
+                case 'undo':
+                    this.api && this.api.Undo();
+                    break;
+                case 'redo':
+                    this.api && this.api.Redo();
+                    break;
                 case 'copy':
                 case 'cut':
                 case 'paste':
