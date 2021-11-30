@@ -171,7 +171,7 @@ Common.UI.HintManager = new(function() {
     var _hideHints = function() {
         _hintVisible = false;
         _currentHints && _currentHints.forEach(function(item) {
-            item.hide()
+            item.remove()
         });
         clearInterval(_inputTimer);
     };
@@ -531,7 +531,11 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (e.keyCode == Common.UI.Keys.ALT && (!Common.Utils.ModalWindow.isVisible()) && _isDocReady && _arrAlphabet.length > 0);
+            var isAlt = e.keyCode == Common.UI.Keys.ALT;
+            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (isAlt) {
+                e.preventDefault();
+            }
         });
     };
 
@@ -566,6 +570,13 @@ Common.UI.HintManager = new(function() {
 
         if (isComplete) {
             _isComplete = true;
+        }
+
+        if ($('.hint-div').length > 0) {
+            $('.hint-div').remove();
+        }
+        if ($('iframe').length > 0) {
+            $('iframe').contents().find('.hint-div').remove();
         }
     };
 
