@@ -537,7 +537,7 @@ define([
             me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
                 me.view.btnDownload.setCaption(me.textSaveAs);
-                me.view.btnDownload.updateHint(me.textTipSaveAs);
+                me.view.btnDownload.updateHint(me.textSaveAs);
             }
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
@@ -1780,8 +1780,7 @@ define([
         errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
         errorBadImageUrl: 'Image url is incorrect',
         errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-        textSaveAs: 'Save as',
-        textTipSaveAs: 'Save as pdf'
+        textSaveAs: 'Save as PDF'
 
     }, DE.Controllers.ApplicationController));
 
