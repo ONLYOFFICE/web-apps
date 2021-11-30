@@ -237,7 +237,7 @@ define([
                     break;
 
                 case Asc.c_oAscError.ID.EditingError:
-                    config.msg = this.errorEditingDownloadas;
+                    config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                     break;
 
                 case Asc.c_oAscError.ID.ForceSaveButton:
@@ -286,6 +286,10 @@ define([
                     config.msg = this.errorDataEncrypted;
                     break;
 
+                case Asc.c_oAscError.ID.ConvertationSaveError:
+                    config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.saveErrorTextDesktop : this.saveErrorText;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -317,11 +321,14 @@ define([
                 config.callback = _.bind(function(btn){
                     if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                         Common.UI.Menu.Manager.hideAll();
-                        var me = this;
-                        setTimeout(function() {
-                            $('button', me.view.btnOptions.cmpEl).click();
-                        }, 10);
-
+                        if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                            this.api.asc_DownloadAs();
+                        else {
+                            var me = this;
+                            setTimeout(function() {
+                                $('button', me.view.btnOptions.cmpEl).click();
+                            }, 10);
+                        }
                     } else if (id == Asc.c_oAscError.ID.EditingError) {
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
@@ -514,7 +521,7 @@ define([
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
+            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
 
             var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
@@ -535,9 +542,9 @@ define([
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
             me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
-            if (me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
-                me.view.btnDownload.setCaption(me.textSaveAs);
-                me.view.btnDownload.updateHint(me.textSaveAs);
+            if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
+                me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
+                me.view.btnDownload.updateHint('');
             }
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
@@ -558,8 +565,12 @@ define([
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {
-                        me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
-                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                        if (me.appOptions.isOffline)
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        else {
+                            me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                        }
                     }
                 });
 
@@ -1424,7 +1435,7 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.appOptions.isOFORM || !this.appOptions.canDownload) {
+            if ( !this.appOptions.isOFORM || !this.appOptions.canDownload || this.appOptions.isOffline) {
                 menuItems[3].setVisible(false);
                 menuItems[4].setVisible(false);
                 itemsCount -= 2;
@@ -1780,7 +1791,11 @@ define([
         errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
         errorBadImageUrl: 'Image url is incorrect',
         errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-        textSaveAs: 'Save as PDF'
+        saveErrorText: 'An error has occurred while saving the file',
+        saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+        errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+        textSaveAs: 'Save as PDF',
+        textSaveAsDesktop: 'Save as...'
 
     }, DE.Controllers.ApplicationController));
 
