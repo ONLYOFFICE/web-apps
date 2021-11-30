@@ -1815,8 +1815,22 @@ define([
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
+                } else
+                if (/window:features/.test(cmd)) {
+                    var obj = JSON.parse(param);
+                    if (_.isNumber(obj.skiptoparea)) {
+                        $('.toolbar.top').css('top', obj.skiptoparea);
+                        $('.viewer.top').css('top', 40 + obj.skiptoparea);
+                        $('#title-doc-name')[obj.skiptoparea > 0 ? 'hide' : 'show']();
+                    }
                 }
             };
+
+            if ( !!window.native_message_cmd ) {
+                for ( var c in window.native_message_cmd ) {
+                    window.on_native_message(c, window.native_message_cmd[c]);
+                }
+            }
 
             Common.NotificationCenter.on({
                 'uitheme:changed' : function (name) {
