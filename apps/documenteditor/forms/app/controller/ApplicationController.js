@@ -14,6 +14,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SaveAsDlg',
+    'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -98,7 +99,7 @@ define([
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  this.onOpenDocument.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
                 this.api.asc_registerCallback('asc_onServerVersion',         this.onServerVersion.bind(this));
-
+                this.api.asc_registerCallback('asc_onAdvancedOptions',       this.onAdvancedOptions.bind(this));
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
 
@@ -696,7 +697,7 @@ define([
             }
         },
 
-         onLongActionEnd: function(type, id){
+        onLongActionEnd: function(type, id){
              var action = {id: id, type: type};
              this.stackLongActions.pop(action);
 
@@ -722,6 +723,42 @@ define([
                  !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
                  this.api.asc_enableKeyEvents(true);
              }
+        },
+
+        onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
+            if (this._openDlg) return;
+
+            var me = this;
+            if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                me._openDlg = new Common.Views.OpenDialog({
+                    title: Common.Views.OpenDialog.prototype.txtTitleProtected,
+                    closeFile: me.appOptions.canRequestClose,
+                    type: Common.Utils.importTextType.DRM,
+                    warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
+                    warningMsg: advOptions,
+                    validatePwd: !!me._isDRM,
+                    handler: function (result, value) {
+                        me.isShowOpenDialog = false;
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_setAdvancedOptions(type, value.drmOptions);
+                                me.loadMask && me.loadMask.show();
+                            }
+                        } else {
+                            Common.Gateway.requestClose();
+                            Common.Controllers.Desktop.requestClose();
+                        }
+                        me._openDlg = null;
+                    }
+                });
+                me._isDRM = true;
+            }
+            if (me._openDlg) {
+                this.isShowOpenDialog = true;
+                this.loadMask && this.loadMask.hide();
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                me._openDlg.show();
+            }
         },
 
         onDocMouseMoveStart: function() {
