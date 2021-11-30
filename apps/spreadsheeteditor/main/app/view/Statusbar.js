@@ -322,7 +322,7 @@ define([
                 });
 
                 var menuHiddenItems = new Common.UI.Menu({
-                    maxHeight: 260,
+                    maxHeight: 267,
                     menuAlign: 'tl-tr'
                 }).on('show:after', function () {
                     this.scroller.update({alwaysVisibleY: true});
