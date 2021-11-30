@@ -1314,6 +1314,8 @@
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy as...",
   "PE.Views.FileMenu.btnSettingsCaption": "Advanced Settings...",
   "PE.Views.FileMenu.btnToEditCaption": "Edit Presentation",
+  "PE.Views.FileMenu.btnExitCaption": "Exit",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Open...",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Presentation",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",
   "PE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Apply",
