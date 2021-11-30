@@ -139,6 +139,8 @@
   "DE.Controllers.ApplicationController.errorSessionToken": "The connection to the server has been interrupted. Please reload the page.",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "Image URL is incorrect",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
+  "DE.Controllers.ApplicationController.textSaveAs": "Save as",
+  "DE.Controllers.ApplicationController.textTipSaveAs": "Save as pdf",
   "DE.Views.ApplicationView.textClear": "Clear All Fields",
   "DE.Views.ApplicationView.textCopy": "Copy",
   "DE.Views.ApplicationView.textCut": "Cut",
