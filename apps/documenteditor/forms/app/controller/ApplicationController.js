@@ -253,12 +253,36 @@ define([
                     config.closable = false;
                     break;
 
+                case Asc.c_oAscError.ID.VKeyEncrypt:
+                    config.msg = this.errorToken;
+                    break;
+
                 case Asc.c_oAscError.ID.KeyExpire:
                     config.msg = this.errorTokenExpire;
                     break;
 
                 case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                     config.msg = this.errorViewerDisconnect;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionAbsolute:
+                    config.msg = this.errorSessionAbsolute;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionIdle:
+                    config.msg = this.errorSessionIdle;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionToken:
+                    config.msg = this.errorSessionToken;
+                    break;
+
+                case Asc.c_oAscError.ID.UplImageUrl:
+                    config.msg = this.errorBadImageUrl;
+                    break;
+
+                case Asc.c_oAscError.ID.DataEncrypted:
+                    config.msg = this.errorDataEncrypted;
                     break;
 
                 default:
@@ -1708,7 +1732,13 @@ define([
         mniImageFromFile: 'Image from File',
         mniImageFromUrl: 'Image from URL',
         mniImageFromStorage: 'Image from Storage',
-        txtUntitled: 'Untitled'
+        txtUntitled: 'Untitled',
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+        errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+        errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+        errorBadImageUrl: 'Image url is incorrect',
+        errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
 
     }, DE.Controllers.ApplicationController));
 
