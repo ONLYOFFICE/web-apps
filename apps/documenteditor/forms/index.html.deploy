@@ -127,6 +127,16 @@
         }
     </style>
 
+    <script>
+        if ( window.AscDesktopEditor ) {
+            window.on_native_message = function (cmd, param) {
+                !window.native_message_cmd && (window.native_message_cmd = []);
+                window.native_message_cmd[cmd] = param;
+            }
+            window.desktop.execCommand('webapps:entry', '');
+        }
+    </script>
+
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
