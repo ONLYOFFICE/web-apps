@@ -815,9 +815,10 @@ define(function() {
 
     Common.define.effectData = _.extend(new (function () {
         return {
-            textEntrance: 'Entrance',
-            textEmphasis: 'Emphasis',
-            textExit: 'Exit',
+            textEntrance: 'Entrance Effect',
+            textEmphasis: 'Emphasis Effect',
+            textExit: 'Exit Effect',
+            textPath: 'Motion Path',
             textAppear: 'Appear',
             textFade: 'Fade',
             textFlyIn: 'Fly in',
@@ -1007,15 +1008,15 @@ define(function() {
                     {
                         id: 'menu-effect-group-entrance',
                         value: AscFormat.PRESET_CLASS_ENTR,
-                        caption: this.textEntrance
+                        displayValue: this.textEntrance
                     },
                     {
                         id: 'menu-effect-group-emphasis',
                         value: AscFormat.PRESET_CLASS_EMPH,
-                        caption: this.textEmphasis
+                        displayValue: this.textEmphasis
                     },
-                    {id: 'menu-effect-group-exit', value: Asc.PRESET_CLASS_EXIT, caption: this.textExit},
-                    {id: 'menu-effect-group-path', value: AscFormat.PRESET_CLASS_PATH, caption: this.textPath}
+                    {id: 'menu-effect-group-exit', value: Asc.PRESET_CLASS_EXIT, displayValue: this.textExit},
+                    {id: 'menu-effect-group-path', value: AscFormat.PRESET_CLASS_PATH, displayValue: this.textPath}
 
                 ];
             },
@@ -1026,298 +1027,298 @@ define(function() {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_APPEAR,
                         iconCls: 'transition-push',
-                        caption: this.textAppear
+                        displayValue: this.textAppear
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_FADE,
                         iconCls: 'transition-push',
-                        caption: this.textFade
+                        displayValue: this.textFade
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_FLY_IN_FROM,
                         iconCls: 'transition-push',
-                        caption: this.textFlyIn
+                        displayValue: this.textFlyIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_FLOAT,
                         iconCls: 'transition-push',
-                        caption: this.textFloatIn
+                        displayValue: this.textFloatIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_SPLIT,
                         iconCls: 'transition-push',
-                        caption: this.textSplit
+                        displayValue: this.textSplit
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_WIPE_FROM,
                         iconCls: 'transition-wipe',
-                        caption: this.textWipe
+                        displayValue: this.textWipe
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_BOX,
                         iconCls: 'transition-push',
-                        caption: this.textBox
+                        displayValue: this.textBox
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_CIRCLE,
                         iconCls: 'transition-push',
-                        caption: this.textCircle
+                        displayValue: this.textCircle
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_PLUS,
                         iconCls: 'transition-push',
-                        caption: this.textPlus
+                        displayValue: this.textPlus
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_DIAMOND,
                         iconCls: 'transition-push',
-                        caption: this.textDiamond
+                        displayValue: this.textDiamond
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_WHEEL,
                         iconCls: 'transition-push',
-                        caption: this.textWheel
+                        displayValue: this.textWheel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_RANDOM_BARS,
                         iconCls: 'transition-push',
-                        caption: this.textRandomBars
+                        displayValue: this.textRandomBars
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_GROW_AND_TURN,
                         iconCls: 'transition-push',
-                        caption: this.textGrowTurn
+                        displayValue: this.textGrowTurn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_ZOOM,
                         iconCls: 'transition-zoom',
-                        caption: this.textZoom
+                        displayValue: this.textZoom
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_SWIVEL,
                         iconCls: 'transition-push',
-                        caption: this.textSwivel
+                        displayValue: this.textSwivel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         value: AscFormat.ENTRANCE_BOUNCE,
                         iconCls: 'transition-push',
-                        caption: this.textBounce
+                        displayValue: this.textBounce
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_PULSE,
                         iconCls: 'transition-push',
-                        caption: this.textPulse
+                        displayValue: this.textPulse
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_COLOR_PULSE,
                         iconCls: 'transition-push',
-                        caption: this.textColorPulse
+                        displayValue: this.textColorPulse
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_TEETER,
                         iconCls: 'transition-push',
-                        caption: this.textTeeter
+                        displayValue: this.textTeeter
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_SPIN,
                         iconCls: 'transition-split',
-                        caption: this.textSplit
+                        displayValue: this.textSplit
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_GROW_SHRINK,
                         iconCls: 'transition-push',
-                        caption: this.textGrowShrink
+                        displayValue: this.textGrowShrink
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_DESATURATE,
                         iconCls: 'transition-push',
-                        caption: this.textDesaturate
+                        displayValue: this.textDesaturate
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_CONTRASTING_DARKEN,
                         iconCls: 'transition-push',
-                        caption: this.textDarken
+                        displayValue: this.textDarken
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_LIGHTEN,
                         iconCls: 'transition-push',
-                        caption: this.textLighten
+                        displayValue: this.textLighten
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_TRANSPARENCY,
                         iconCls: 'transition-push',
-                        caption: this.textTransparency
+                        displayValue: this.textTransparency
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_OBJECT_COLOR,
                         iconCls: 'transition-push',
-                        caption: this.textObjectColor
+                        displayValue: this.textObjectColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,
                         iconCls: 'transition-push',
-                        caption: this.textComplementaryColor
+                        displayValue: this.textComplementaryColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_LINE_COLOR,
                         iconCls: 'transition-push',
-                        caption: this.textLineColor
+                        displayValue: this.textLineColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         value: AscFormat.EMPHASIS_FILL_COLOR,
                         iconCls: 'transition-push',
-                        caption: this.textFillColor
+                        displayValue: this.textFillColor
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_DISAPPEAR,
                         iconCls: 'transition-push',
-                        caption: this.textDisappear
+                        displayValue: this.textDisappear
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_FADE,
                         iconCls: 'transition-push',
-                        caption: this.textFade
+                        displayValue: this.textFade
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_FLY_OUT_TO,
                         iconCls: 'transition-push',
-                        caption: this.textFlyOut
+                        displayValue: this.textFlyOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_FLOAT,
                         iconCls: 'transition-push',
-                        caption: this.textFloatOut
+                        displayValue: this.textFloatOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_SPLIT,
                         iconCls: 'transition-split',
-                        caption: this.textSplit
+                        displayValue: this.textSplit
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_WIPE_FROM,
                         iconCls: 'transition-wipe',
-                        caption: this.textWipe
+                        displayValue: this.textWipe
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_BOX,
                         iconCls: 'transition-push',
-                        caption: this.textBox
+                        displayValue: this.textBox
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_CIRCLE,
                         iconCls: 'transition-push',
-                        caption: this.textCircle
+                        displayValue: this.textCircle
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_PLUS,
                         iconCls: 'transition-push',
-                        caption: this.textPlus
+                        displayValue: this.textPlus
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_DIAMOND,
                         iconCls: 'transition-push',
-                        caption: this.textDiamond
+                        displayValue: this.textDiamond
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_WHEEL,
                         iconCls: 'transition-push',
-                        caption: this.textWheel
+                        displayValue: this.textWheel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_RANDOM_BARS,
                         iconCls: 'transition-push',
-                        caption: this.textRandomBars
+                        displayValue: this.textRandomBars
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_SHRINK_AND_TURN,
                         iconCls: 'transition-push',
-                        caption: this.textShrinkTurn
+                        displayValue: this.textShrinkTurn
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_ZOOM,
                         iconCls: 'transition-push',
-                        caption: this.textZoom
+                        displayValue: this.textZoom
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_BASIC_SWIVEL,
                         iconCls: 'transition-push',
-                        caption: this.textSwivel
+                        displayValue: this.textSwivel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         value: AscFormat.EXIT_BOUNCE,
                         iconCls: 'transition-push',
-                        caption: this.textBounce
+                        displayValue: this.textBounce
                     },
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_DOWN,                       iconCls: 'transition-push', caption: this.textDown},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_LEFT,                       iconCls: 'transition-push', caption: this.textLeft},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_RIGHT,                      iconCls: 'transition-push', caption: this.textRight},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_UP,                         iconCls: 'transition-push', caption: this.textUp},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'transition-push', caption: this.textArcDown},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_LEFT,                   iconCls: 'transition-push', caption: this.textArcLeft},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_RIGHT,                  iconCls: 'transition-push', caption: this.textArcRight},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_UP,                     iconCls: 'transition-push', caption: this.textArcUp},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_DOWN,                  iconCls: 'transition-push', caption: this.textTurnDown},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_DOWN_RIGHT,            iconCls: 'transition-push', caption: this.textTurnDownRight},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_UP,                    iconCls: 'transition-push', caption: this.textTurnUp},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_UP_RIGHT,              iconCls: 'transition-push', caption: this.textTurnUpRight},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_CIRCLE,                     iconCls: 'transition-push', caption: this.textCircle},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_DIAMOND,                    iconCls: 'transition-push', caption: this.textDiamond},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_EQUAL_TRIANGLE,             iconCls: 'transition-push', caption: this.textEqualTriangle},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_HEXAGON,                    iconCls: 'transition-push', caption: this.textHexagon},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_OCTAGON,                    iconCls: 'transition-push', caption: this.textOctagon},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_PARALLELOGRAM,              iconCls: 'transition-push', caption: this.textParallelogram},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_PENTAGON,                   iconCls: 'transition-push', caption: this.textPentagon},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_RIGHT_TRIANGLE,             iconCls: 'transition-push', caption: this.textRightTriangle},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_SQUARE,                     iconCls: 'transition-push', caption: this.textSquare},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TRAPEZOID,                  iconCls: 'transition-push', caption: this.textTrapezoid},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'transition-push', caption: this.textHorizontalFigure},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'transition-push', caption: this.textVerticalFigure},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'transition-push', caption: this.textLoopDeLoop},
-                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'transition-push', caption: this.textCustomPath},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_DOWN,                       iconCls: 'transition-push', displayValue: this.textDown},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_LEFT,                       iconCls: 'transition-push', displayValue: this.textLeft},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_RIGHT,                      iconCls: 'transition-push', displayValue: this.textRight},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_UP,                         iconCls: 'transition-push', displayValue: this.textUp},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'transition-push', displayValue: this.textArcDown},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_LEFT,                   iconCls: 'transition-push', displayValue: this.textArcLeft},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_RIGHT,                  iconCls: 'transition-push', displayValue: this.textArcRight},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_ARC_UP,                     iconCls: 'transition-push', displayValue: this.textArcUp},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_DOWN,                  iconCls: 'transition-push', displayValue: this.textTurnDown},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_DOWN_RIGHT,            iconCls: 'transition-push', displayValue: this.textTurnDownRight},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_UP,                    iconCls: 'transition-push', displayValue: this.textTurnUp},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TURN_UP_RIGHT,              iconCls: 'transition-push', displayValue: this.textTurnUpRight},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_CIRCLE,                     iconCls: 'transition-push', displayValue: this.textCircle},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_DIAMOND,                    iconCls: 'transition-push', displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_EQUAL_TRIANGLE,             iconCls: 'transition-push', displayValue: this.textEqualTriangle},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_HEXAGON,                    iconCls: 'transition-push', displayValue: this.textHexagon},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_OCTAGON,                    iconCls: 'transition-push', displayValue: this.textOctagon},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_PARALLELOGRAM,              iconCls: 'transition-push', displayValue: this.textParallelogram},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_PENTAGON,                   iconCls: 'transition-push', displayValue: this.textPentagon},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_RIGHT_TRIANGLE,             iconCls: 'transition-push', displayValue: this.textRightTriangle},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_SQUARE,                     iconCls: 'transition-push', displayValue: this.textSquare},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_TRAPEZOID,                  iconCls: 'transition-push', displayValue: this.textTrapezoid},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'transition-push', displayValue: this.textHorizontalFigure},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'transition-push', displayValue: this.textVerticalFigure},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'transition-push', displayValue: this.textLoopDeLoop},
+                    {group: 'menu-effect-group-motion',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'transition-push', displayValue: this.textCustomPath},
                 ];
             },
 
@@ -1325,16 +1326,16 @@ define(function() {
 
                 if (!isPath)
                     return [
-                        {id: 'menu-effect-level-basic', caption: this.textBasic},
-                        {id: 'menu-effect-level-subtle', caption: this.textSubtle},
-                        {id: 'menu-effect-level-moderate', caption: this.textModerate},
-                        {id: 'menu-effect-level-exciting', caption: this.textExciting}
+                        {id: 'menu-effect-level-basic', displayValue: this.textBasic},
+                        {id: 'menu-effect-level-subtle', displayValue: this.textSubtle},
+                        {id: 'menu-effect-level-moderate', displayValue: this.textModerate},
+                        {id: 'menu-effect-level-exciting', displayValue: this.textExciting}
                     ];
                 else
                     return [
-                        {id: 'menu-effect-level-basic', caption: this.textBasic},
-                        {id: 'menu-effect-level-lines_curves', caption: this.textSubtle},
-                        {id: 'menu-effect-level-special', caption: this.textModerate}
+                        {id: 'menu-effect-level-basic', displayValue: this.textBasic},
+                        {id: 'menu-effect-level-lines_curves', displayValue: this.textSubtle},
+                        {id: 'menu-effect-level-special', displayValue: this.textModerate}
                     ];
             },
 
@@ -1344,950 +1345,950 @@ define(function() {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_APPEAR,
-                        caption: this.textAppear
+                        displayValue: this.textAppear
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_BLINDS,
-                        caption: this.textBlinds
+                        displayValue: this.textBlinds
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_BOX,
-                        caption: this.textBox
+                        displayValue: this.textBox
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_CHECKERBOARD,
-                        caption: this.textCheckerboard
+                        displayValue: this.textCheckerboard
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_CIRCLE,
-                        caption: this.textCircle
+                        displayValue: this.textCircle
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_DIAMOND,
-                        caption: this.textDiamond
+                        displayValue: this.textDiamond
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_DISSOLVE_IN,
-                        caption: this.textDissolveIn
+                        displayValue: this.textDissolveIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_FLY_IN_FROM,
-                        caption: this.textFlyIn
+                        displayValue: this.textFlyIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_PEEK_IN_FROM,
-                        caption: this.textPeekIn
+                        displayValue: this.textPeekIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_PLUS,
-                        caption: this.textPlus
+                        displayValue: this.textPlus
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_RANDOM_BARS,
-                        caption: this.textRandomBars
+                        displayValue: this.textRandomBars
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_SPLIT,
-                        caption: this.textSplit
+                        displayValue: this.textSplit
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_STRIPS,
-                        caption: this.textStrips
+                        displayValue: this.textStrips
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_WEDGE,
-                        caption: this.textWedge
+                        displayValue: this.textWedge
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_WHEEL,
-                        caption: this.textWheel
+                        displayValue: this.textWheel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.ENTRANCE_WIPE_FROM,
-                        caption: this.textWipe
+                        displayValue: this.textWipe
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.ENTRANCE_EXPAND,
-                        caption: this.textExpand
+                        displayValue: this.textExpand
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.ENTRANCE_FADE,
-                        caption: this.textFade
+                        displayValue: this.textFade
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.ENTRANCE_SWIVEL,
-                        caption: this.textSwivel
+                        displayValue: this.textSwivel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.ENTRANCE_ZOOM,
-                        caption: this.textZoom
+                        displayValue: this.textZoom
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_BASIC_ZOOM,
-                        caption: this.textBasicZoom
+                        displayValue: this.textBasicZoom
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_CENTER_REVOLVE,
-                        caption: this.textCenterRevolve
+                        displayValue: this.textCenterRevolve
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_CENTER_COMPRESS,
-                        caption: this.textCompress
+                        displayValue: this.textCompress
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_FLOAT_DOWN,
-                        caption: this.textFloatDown
+                        displayValue: this.textFloatDown
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_FLOAT_UP,
-                        caption: this.textFloatUp
+                        displayValue: this.textFloatUp
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_GROW_AND_TURN,
-                        caption: this.textGrowTurn
+                        displayValue: this.textGrowTurn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_RISE_UP,
-                        caption: this.textRiseUp
+                        displayValue: this.textRiseUp
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_SPINNER,
-                        caption: this.textSpinner
+                        displayValue: this.textSpinner
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.ENTRANCE_STRETCH,
-                        caption: this.textStretch
+                        displayValue: this.textStretch
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_BASIC_SWIVEL,
-                        caption: this.textBasicSwivel
+                        displayValue: this.textBasicSwivel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_BOOMERANG,
-                        caption: this.textBoomerang
+                        displayValue: this.textBoomerang
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_BOUNCE,
-                        caption: this.textBounce
+                        displayValue: this.textBounce
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_CREDITS,
-                        caption: this.textCredits
+                        displayValue: this.textCredits
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_CURVE_UP,
-                        caption: this.textCuverUp
+                        displayValue: this.textCuverUp
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_DROP,
-                        caption: this.textDrop
+                        displayValue: this.textDrop
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_FLIP,
-                        caption: this.textFlip
+                        displayValue: this.textFlip
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_FLOAT,
-                        caption: this.textFloat
+                        displayValue: this.textFloat
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_PINWHEEL,
-                        caption: this.textPinwheel
+                        displayValue: this.textPinwheel
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_SPIRAL_IN,
-                        caption: this.textSpiralIn
+                        displayValue: this.textSpiralIn
                     },
                     {
                         group: 'menu-effect-group-entrance',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.ENTRANCE_WHIP,
-                        caption: this.textWhip
+                        displayValue: this.textWhip
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EMPHASIS_FILL_COLOR,
-                        caption: this.textFillColor
+                        displayValue: this.textFillColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EMPHASIS_GROW_SHRINK,
-                        caption: this.textGrowShrink
+                        displayValue: this.textGrowShrink
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EMPHASIS_LINE_COLOR,
-                        caption: this.textLineColor
+                        displayValue: this.textLineColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EMPHASIS_SPIN,
-                        caption: this.textSpin
+                        displayValue: this.textSpin
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EMPHASIS_TRANSPARENCY,
-                        caption: this.textTransparency
+                        displayValue: this.textTransparency
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,
-                        caption: this.textComplementaryColor
+                        displayValue: this.textComplementaryColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR_2,
-                        caption: this.textComplementaryColor2
+                        displayValue: this.textComplementaryColor2
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_CONTRASTING_COLOR,
-                        caption: this.textContrastingColor
+                        displayValue: this.textContrastingColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_CONTRASTING_DARKEN,
-                        caption: this.textDarken
+                        displayValue: this.textDarken
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_DESATURAT,
-                        caption: this.textDesaturate
+                        displayValue: this.textDesaturate
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_LIGHTEN,
-                        caption: this.textLighten
+                        displayValue: this.textLighten
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_OBJECT_COLOR,
-                        caption: this.textObjectColor
+                        displayValue: this.textObjectColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EMPHASIS_PULSE,
-                        caption: this.textPulse
+                        displayValue: this.textPulse
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EMPHASIS_COLOR_PULSE,
-                        caption: this.textColorPulse
+                        displayValue: this.textColorPulse
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EMPHASIS_GROW_WITH_COLOR,
-                        caption: this.textGrowWithColor
+                        displayValue: this.textGrowWithColor
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EMPHASIS_SHIMMER,
-                        caption: this.textShimmer
+                        displayValue: this.textShimmer
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EMPHASIS_TEETER,
-                        caption: this.textTeeter
+                        displayValue: this.textTeeter
                     },
                     {
                         group: 'menu-effect-group-emphasis',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EMPHASIS_BLINK,
-                        caption: this.textBlink
+                        displayValue: this.textBlink
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_BLINDS,
-                        caption: this.textBlinds
+                        displayValue: this.textBlinds
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_BOX,
-                        caption: this.textBox
+                        displayValue: this.textBox
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_CHECKERBOARD,
-                        caption: this.textCheckerboard
+                        displayValue: this.textCheckerboard
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_CIRCLE,
-                        caption: this.textCircle
+                        displayValue: this.textCircle
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_DIAMOND,
-                        caption: this.textDiamond
+                        displayValue: this.textDiamond
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_DISAPPEAR,
-                        caption: this.textDisappear
+                        displayValue: this.textDisappear
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_DISSOLVE_OUT,
-                        caption: this.textDissolveOut
+                        displayValue: this.textDissolveOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_FLY_OUT_TO,
-                        caption: this.textFlyOut
+                        displayValue: this.textFlyOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_PEEK_OUT_TO,
-                        caption: this.textPeekOut
+                        displayValue: this.textPeekOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_PLUS,
-                        caption: this.textPlus
+                        displayValue: this.textPlus
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_RANDOM_BARS,
-                        caption: this.textRandomBars
+                        displayValue: this.textRandomBars
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_SPLIT,
-                        caption: this.textSplit
+                        displayValue: this.textSplit
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_STRIPS,
-                        caption: this.textStrips
+                        displayValue: this.textStrips
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_WEDGE,
-                        caption: this.textWedge
+                        displayValue: this.textWedge
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_WHEEL,
-                        caption: this.textWheel
+                        displayValue: this.textWheel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.EXIT_WIPE_FROM,
-                        caption: this.textWipe
+                        displayValue: this.textWipe
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EXIT_CONTRACT,
-                        caption: this.textContrast
+                        displayValue: this.textContrast
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EXIT_FADE,
-                        caption: this.textFade
+                        displayValue: this.textFade
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EXIT_SWIVEL,
-                        caption: this.textSwivel
+                        displayValue: this.textSwivel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-subtle',
                         value: AscFormat.EXIT_ZOOM,
-                        caption: this.textZoom
+                        displayValue: this.textZoom
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_BASIC_ZOOM,
-                        caption: this.textBasicZoom
+                        displayValue: this.textBasicZoom
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_CENTER_REVOLVE,
-                        caption: this.textCenterRevolve
+                        displayValue: this.textCenterRevolve
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_COLLAPSE,
-                        caption: this.textCollapse
+                        displayValue: this.textCollapse
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_FLOAT_DOWN,
-                        caption: this.textFloatDown
+                        displayValue: this.textFloatDown
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_FLOAT_UP,
-                        caption: this.textFloatUp
+                        displayValue: this.textFloatUp
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_SHRINK_AND_TURN,
-                        caption: this.textShrinkTurn
+                        displayValue: this.textShrinkTurn
                     },
                     //sink down- EXIT_SHRINK_DOWN?
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_SPINNER,
-                        caption: this.textSpinner
+                        displayValue: this.textSpinner
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-moderate',
                         value: AscFormat.EXIT_STRETCHY,
-                        caption: this.textStretch
+                        displayValue: this.textStretch
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_BASIC_SWIVEL,
-                        caption: this.textBasicSwivel
+                        displayValue: this.textBasicSwivel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_BOOMERANG,
-                        caption: this.textBoomerang
+                        displayValue: this.textBoomerang
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_BOUNCE,
-                        caption: this.textBounce
+                        displayValue: this.textBounce
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_CREDITS,
-                        caption: this.textCredits
+                        displayValue: this.textCredits
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_CURVE_DOWN,
-                        caption: this.textCurveDown
+                        displayValue: this.textCurveDown
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_DROP,
-                        caption: this.textDrop
+                        displayValue: this.textDrop
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_FLIP,
-                        caption: this.textFlip
+                        displayValue: this.textFlip
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_FLOAT,
-                        caption: this.textFloat
+                        displayValue: this.textFloat
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_PINWHEEL,
-                        caption: this.textPinwheel
+                        displayValue: this.textPinwheel
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_SPIRAL_OUT,
-                        caption: this.textSpiralOut
+                        displayValue: this.textSpiralOut
                     },
                     {
                         group: 'menu-effect-group-exit',
                         level: 'menu-effect-level-exciting',
                         value: AscFormat.EXIT_WHIP,
-                        caption: this.textWhip
+                        displayValue: this.textWhip
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PATH_4_POINT_STAR,
-                        caption: this.textPointStar4
+                        displayValue: this.textPointStar4
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PATH_5_POINT_STAR,
-                        caption: this.textPointStar5
+                        displayValue: this.textPointStar5
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PATH_6_POINT_STAR,
-                        caption: this.textPointStar6
+                        displayValue: this.textPointStar6
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PATH_8_POINT_STAR,
-                        caption: this.textPointStar8
+                        displayValue: this.textPointStar8
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_CIRCLE,
-                        caption: this.textCircle
+                        displayValue: this.textCircle
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_CRESCENT_MOON,
-                        caption: this.textCrescentMoon
+                        displayValue: this.textCrescentMoon
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_DIAMOND,
-                        caption: this.textDiamond
+                        displayValue: this.textDiamond
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_EQUAL_TRIANGLE,
-                        caption: this.textEqualTriangle
+                        displayValue: this.textEqualTriangle
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_FOOTBALL,
-                        caption: this.textFootball
+                        displayValue: this.textFootball
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_HEART,
-                        caption: this.textHeart
+                        displayValue: this.textHeart
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_HEXAGON,
-                        caption: this.textHexagon
+                        displayValue: this.textHexagon
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_OCTAGON,
-                        caption: this.textOctagon
+                        displayValue: this.textOctagon
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PARALLELOGRAM,
-                        caption: this.textParallelogram
+                        displayValue: this.textParallelogram
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_PENTAGON,
-                        caption: this.textPentagon
+                        displayValue: this.textPentagon
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_RIGHT_TRIANGLE,
-                        caption: this.textRightTriangle
+                        displayValue: this.textRightTriangle
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_SQUARE,
-                        caption: this.textSquare
+                        displayValue: this.textSquare
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_TEARDROP,
-                        caption: this.textTeardrop
+                        displayValue: this.textTeardrop
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-basic',
                         value: AscFormat.MOTION_TRAPEZOID,
-                        caption: this.textTrapezoid
+                        displayValue: this.textTrapezoid
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_ARC_DOWN,
-                        caption: this.textArcDown
+                        displayValue: this.textArcDown
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_ARC_LEFT,
-                        caption: this.textArcLeft
+                        displayValue: this.textArcLeft
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_ARC_RIGHT,
-                        caption: this.textArcRight
+                        displayValue: this.textArcRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_ARC_UP,
-                        caption: this.textArcUp
+                        displayValue: this.textArcUp
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_BOUNCE_LEFT,
-                        caption: this.textBounceLeft
+                        displayValue: this.textBounceLeft
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_BOUNCE_RIGHT,
-                        caption: this.textBounceRight
+                        displayValue: this.textBounceRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_CURVY_LEFT,
-                        caption: this.textCurvyLeft
+                        displayValue: this.textCurvyLeft
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_CURVY_RIGHT,
-                        caption: this.textCurvyRight
+                        displayValue: this.textCurvyRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_DECAYING_WAVE,
-                        caption: this.textDecayingWave
+                        displayValue: this.textDecayingWave
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_DIAGONAL_DOWN_RIGHT,
-                        caption: this.textDiagonalDownRight
+                        displayValue: this.textDiagonalDownRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_DIAGONAL_UP_RIGHT,
-                        caption: this.textDiagonalUpRight
+                        displayValue: this.textDiagonalUpRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_DOWN,
-                        caption: this.textDown
+                        displayValue: this.textDown
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_FUNNEL,
-                        caption: this.textFunnel
+                        displayValue: this.textFunnel
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_HEARTBEAT,
-                        caption: this.textHeartbeat
+                        displayValue: this.textHeartbeat
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_LEFT,
-                        caption: this.textLeft
+                        displayValue: this.textLeft
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_S_CURVE_1,
-                        caption: this.textSCurve1
+                        displayValue: this.textSCurve1
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_S_CURVE_2,
-                        caption: this.textSCurve2
+                        displayValue: this.textSCurve2
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_SINE_WAVE,
-                        caption: this.textSineWave
+                        displayValue: this.textSineWave
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_SINE_SPIRAL_LEFT,
-                        caption: this.textSpiralLeft
+                        displayValue: this.textSpiralLeft
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_SINE_SPIRAL_RIGHT,
-                        caption: this.textSpiralRight
+                        displayValue: this.textSpiralRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_SPRING,
-                        caption: this.textSpring
+                        displayValue: this.textSpring
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_STAIRS_DOWN,
-                        caption: this.textStairsDown
+                        displayValue: this.textStairsDown
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_TURN_DOWN,
-                        caption: this.textTurnDown
+                        displayValue: this.textTurnDown
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_TURN_DOWN_RIGHT,
-                        caption: this.textTurnDownRight
+                        displayValue: this.textTurnDownRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_TURN_UP,
-                        caption: this.textTurnUp
+                        displayValue: this.textTurnUp
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_TURN_UP_RIGHT,
-                        caption: this.textTurnUpRight
+                        displayValue: this.textTurnUpRight
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_UP,
-                        caption: this.textUp
+                        displayValue: this.textUp
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_WAVE,
-                        caption: this.textWave
+                        displayValue: this.textWave
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-lines_curves',
                         value: AscFormat.MOTION_ZIGZAG,
-                        caption: this.textZigzag
+                        displayValue: this.textZigzag
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_BEAN,
-                        caption: this.textBean
+                        displayValue: this.textBean
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_CURVED_SQUARE,
-                        caption: this.textCurvedSquare
+                        displayValue: this.textCurvedSquare
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_CURVED_X,
-                        caption: this.textCurvedX
+                        displayValue: this.textCurvedX
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_CURVY_STAR,
-                        caption: this.textCurvyStar
+                        displayValue: this.textCurvyStar
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_FIGURE_8_FOUR,
-                        caption: this.textFigureFour
+                        displayValue: this.textFigureFour
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,
-                        caption: this.textHorizontalFigure
+                        displayValue: this.textHorizontalFigure
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_INVERTED_SQUARE,
-                        caption: this.textInvertedSquare
+                        displayValue: this.textInvertedSquare
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_INVERTED_TRIANGLE,
-                        caption: this.textInvertedTriangle
+                        displayValue: this.textInvertedTriangle
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_LOOP_DE_LOOP,
-                        caption: this.textLoopDeLoop
+                        displayValue: this.textLoopDeLoop
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_NEUTRON,
-                        caption: this.textNeutron
+                        displayValue: this.textNeutron
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_PEANUT,
-                        caption: this.textPeanut
+                        displayValue: this.textPeanut
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_POINTY_STAR,
-                        caption: this.textPointStar
+                        displayValue: this.textPointStar
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_SWOOSH,
-                        caption: this.textSwoosh
+                        displayValue: this.textSwoosh
                     },
                     {
                         group: 'menu-effect-group-path',
                         level: 'menu-effect-level-special',
                         value: AscFormat.MOTION_VERTICAL_FIGURE_8,
-                        caption: this.textVerticalFigure
+                        displayValue: this.textVerticalFigure
                     }
 
                 ];
@@ -2299,7 +2300,7 @@ define(function() {
                     case 'menu-effect-group-entrance':
                         arr[AscFormat.ENTRANCE_APPEAR] = [];
                         arr[AscFormat.ENTRANCE_BLINDS] = [
-                            {value: AscFormat.ENTRANCE_BLINDS_HORIZONTAL, caption: this.textHorizontal},
+                            {value: AscFormat.ENTRANCE_BLINDS_HORIZONTAL, displayValue: this.textHorizontal},
                             {value: AscFormat.ENTRANCE_BLINDS_VERTICAL, caption: this.textVertical}
                         ];
                         arr[AscFormat.ENTRANCE_BOX] = [

@@ -102,7 +102,7 @@ define([
                 me.cmbStart.on('selected',function (combo, record)
                 {
                     me.fireEvent('animation:startselect',[combo, record])
-                })
+                });
             }
 
             if (me.numRepeat) {
@@ -133,7 +133,7 @@ define([
                 var _set = PE.enumLock;
                 this.lockedControls = [];
 
-                this._arrEffectName = [{group:'none', value: -10, iconCls: 'transition-none', caption: this.textNone}];
+                this._arrEffectName = [{group:'none', value: -10, iconCls: 'transition-none', displayValue: this.textNone}];
                 Array.prototype.push.apply( this._arrEffectName, Common.define.effectData.getEffectData());
                 this._arrEffectOptions = [];
                 this.listEffects = new Common.UI.ComboDataView({
@@ -173,7 +173,7 @@ define([
                 this.listEffects.fieldPicker.itemTemplate = _.template([
                     '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
                         '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
-                        '<div class = "caption"><%= caption %></div>',
+                        '<div class = "caption"><%= displayValue %></div>',
                     '</div>'
                 ].join(''));
                 this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;

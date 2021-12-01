@@ -43,7 +43,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'presentationeditor/main/app/view/Animation'
+    'presentationeditor/main/app/view/Animation',
+    'presentationeditor/main/app/view/AnimationDialog'
 ], function () {
     'use strict';
 
@@ -130,22 +131,30 @@ define([
             }
         },
 
-        onAnimationPane: function(combo, record) {
 
+
+        onAnimationPane: function() {
+            (new PE.Views.AnimationDialog({
+                api: this.api,
+                activEffect: this.Effect
+            })).show();
         },
 
-        onAddAnimation: function() {
+        onAddAnimation: function(combo, record) {
             var type = record.get('value');
-            var  parameter;
             var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).value;
-            if (this._state.Effect !== type) {
-                parameter= this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
-                this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter);
-                if (parameter!= undefined)
-                    this.onParameterClick(parameter);
-            }
+            this.addNewEffect(type, group);
             this._state.EffectGroups = group;
             this._state.Effect = type;
+        },
+
+        addNewEffect: function (type, group) {
+            if (this._state.Effect == type) return;
+
+            var parameter= this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
+            this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter);
+            if (parameter!= undefined)
+                this.onParameterClick(parameter);
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
@@ -166,16 +175,8 @@ define([
 
         onEffectSelect: function (combo, record) {
             var type = record.get('value');
-            var  parameter;
             var group = _.findWhere(Common.define.effectData.getEffectGroupData(),{id: record.get('group')}).value;
-            if (this._state.Effect !== type) {
-                parameter= this.view.setMenuParameters(type, undefined, group != this._state.EffectGroups);
-                this.api.asc_AddAnimation(group, type, parameter);
-                if (parameter!= undefined) {
-                    this.onParameterClick(parameter);
-                }
-                //else this.api.asc_AddAnimation(group, type,-1);
-            }
+            this.addNewEffect(type, group);
             this._state.EffectGroups = group;
             this._state.Effect = type;
         },
