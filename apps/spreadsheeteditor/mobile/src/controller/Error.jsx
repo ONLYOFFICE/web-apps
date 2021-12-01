@@ -19,7 +19,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
     const onError = (id, level, errData) => {
         const api = Common.EditorApi.get();
-        api.asc_enableKeyEvents(false);
         
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
             f7.notification.create({
@@ -357,10 +356,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             buttons: [
                 {
                     text: 'OK',
-                    onClick: () => {
-                        api.asc_enableKeyEvents(true);
-                        config.callback;
-                    }
+                    onClick: () => config.callback
                 }
             ]
         }).open();
