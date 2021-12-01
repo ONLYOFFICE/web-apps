@@ -100,6 +100,7 @@ define([
                 'keypress:after':  _.bind(this.onKeypressPageNumber, this),
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
             });
+            this.printSettings.txtNumberPage.cmpEl.find('input').on('blur', _.bind(this.onBlurPageNumber, this));
             this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this));
 
             this.fillComponents(this.printSettings);
@@ -311,6 +312,7 @@ define([
 
             var pageCount = this.api.asc_initPrintPreview('print-preview');
             this.updateNavigationButtons(0, pageCount);
+            this.printSettings.txtNumberPage.checkValidate();
 
             this._isPreviewVisible = true;
         },
@@ -642,7 +644,8 @@ define([
                     edit = box.find('input[type=text]'), page = parseInt(edit.val());
                 if (!page || page > this._navigationPreview.pageCount || page < 0) {
                     edit.select();
-                    this.disableNavButtons(true);
+                    this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPage + 1);
+                    this.printSettings.txtNumberPage.checkValidate();
                     return false;
                 }
 
@@ -662,6 +665,13 @@ define([
                 box.focus(); // for IE
                 this.api.asc_enableKeyEvents(true);
                 return false;
+            }
+        },
+
+        onBlurPageNumber: function () {
+            if (this.printSettings.txtNumberPage.getValue() != this._navigationPreview.currentPage + 1) {
+                this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPage + 1);
+                this.printSettings.txtNumberPage.checkValidate();
             }
         },
 
