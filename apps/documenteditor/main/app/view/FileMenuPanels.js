@@ -97,6 +97,12 @@ define([
         },
 
         render: function() {
+            if ('{{DEFAULT_LANG}}'.split(/[\-_]/)[0].toLowerCase()=='ru') {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -173,6 +179,12 @@ define([
         },
 
         render: function() {
+            if ('{{DEFAULT_LANG}}'.split(/[\-_]/)[0].toLowerCase()=='ru') {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
