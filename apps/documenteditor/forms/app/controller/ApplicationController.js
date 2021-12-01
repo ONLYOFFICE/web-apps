@@ -1324,7 +1324,9 @@ define([
                     Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
-                    if (this.appOptions.customization && this.appOptions.customization.goback) {
+                    if (!DE.Controllers.Desktop.process('goback') &&
+                            this.appOptions.customization && this.appOptions.customization.goback)
+                    {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
                             Common.Gateway.requestClose();
                         else if (this.appOptions.customization.goback.url) {
@@ -1844,6 +1846,18 @@ define([
         return {
             isActive: function () {
                 return !!native;
+            },
+            process: function (opts) {
+                if ( !!native ) {
+                    if ( opts == 'goback' ) {
+                        var config = DE.getController('ApplicationController').editorConfig;
+                        native.execCommand('go:folder',
+                            config.isOffline ? 'offline' : config.customization.goback.url);
+                        return true;
+                    }
+                }
+
+                return false;
             },
         }
     };
