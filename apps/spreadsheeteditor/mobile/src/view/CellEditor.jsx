@@ -51,23 +51,8 @@ const FunctionsList = props => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     let functionInfo = functions[elem.name];
-    
                                     if(functionInfo) {    
-                                        if(isPhone) {                                      
-                                            f7.dialog.create({
-                                                title: functionInfo.caption,
-                                                content: `<h3>${functionInfo.caption} ${functionInfo.args}</h3><p>${functionInfo.descr}</p>`,
-                                                buttons: [
-                                                    {text: t('View.Add.textCancel')},
-                                                    {
-                                                        text: t('View.Add.textInsert'),
-                                                        onClick: () => props.insertFormula(elem.name, elem.type)
-                                                    }
-                                                ]
-                                            }).open();
-                                        } else {
-                                            f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
-                                        }
+                                        f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
                                     }
                                 }}>
                                 <Icon icon='icon-info'/>
@@ -114,16 +99,8 @@ const CellEditorView = props => {
                 <div className="ce-group">
                     <Link icon="caret" onClick={expandClick} />
                 </div>
-                {funcArr && funcArr.length ?
-                    isPhone &&
-                        <FunctionsList 
-                            functions={functions} 
-                            funcArr={funcArr} 
-                            insertFormula={props.insertFormula} 
-                        />
-                : null}
             </View>
-            {!isPhone &&
+            {
                 <Popover 
                     id="idx-functions-list" 
                     className="popover__titled popover__functions" 
@@ -132,7 +109,7 @@ const CellEditorView = props => {
                     closeByOutsideClick={true}
                 >
                     {funcArr && funcArr.length ?
-                        <View style={{height: '175px'}} routes={routes}>
+                        <View style={{height: '200px'}} routes={routes}>
                             <Page pageContent={false}>
                                 <Navbar className="navbar-hidden" />
                                 <FunctionsList 

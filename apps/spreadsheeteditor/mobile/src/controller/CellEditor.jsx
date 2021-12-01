@@ -38,7 +38,7 @@ const CellEditor = props => {
     const onFormulaCompleteMenu = funcArr => {
         setFuncArr(funcArr);
 
-        if(!Device.isPhone && funcArr) {
+        if(funcArr) {
             f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
             f7.popover.close('#idx-functions-list');
