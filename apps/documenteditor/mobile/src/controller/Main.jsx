@@ -346,6 +346,7 @@ class MainController extends Component {
         this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
         appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+        appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
         // Set units
         let value = LocalStorage.getItem('de-mobile-settings-unit');

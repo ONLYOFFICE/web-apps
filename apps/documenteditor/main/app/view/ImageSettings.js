@@ -338,7 +338,7 @@ define([
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
                 var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                    isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) || this._locked;
+                    isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr() || this._locked;
                 if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup || this._state.isPictureControl!==isPictureControl) {
                     this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
                     this._state.CanBeFlow=value;
