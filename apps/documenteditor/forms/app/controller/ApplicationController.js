@@ -393,6 +393,7 @@ define([
             this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
             this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
             this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
+            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
         },
 
         onExternalMessage: function(msg) {
@@ -518,6 +519,7 @@ define([
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
                 this.permissions.edit = this.permissions.review = false;
 
+            this.appOptions.isOffline      = this.api.asc_isOffline();
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
