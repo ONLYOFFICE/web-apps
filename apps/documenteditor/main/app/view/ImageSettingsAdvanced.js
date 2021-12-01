@@ -1390,7 +1390,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (control_props) {
                     var spectype = control_props.get_SpecificType();
                     fixed_size = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
-                                spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) &&
+                                spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
+                                spectype==Asc.c_oAscContentControlSpecificType.Picture) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
                 }
 
