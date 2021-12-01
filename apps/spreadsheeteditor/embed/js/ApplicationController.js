@@ -280,7 +280,7 @@ SSE.ApplicationController = new(function(){
             if (api){
                 var f = Math.floor(api.asc_getZoom() * 10)/10;
                 f += .1;
-                f > 0 && !(f > 2.) && api.asc_setZoom(f);
+                f > 0 && !(f > 5.) && api.asc_setZoom(f);
             }
         });
         $('#id-btn-zoom-out').on('click', function () {
