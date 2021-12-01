@@ -1822,10 +1822,8 @@ define([
                 } else
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
-                    if (_.isNumber(obj.skiptoparea)) {
-                        $('.toolbar.top').css('top', obj.skiptoparea);
-                        $('.viewer.top').css('top', 40 + obj.skiptoparea);
-                        $('#title-doc-name')[obj.skiptoparea > 0 ? 'hide' : 'show']();
+                    if ( obj.singlewindow !== undefined ) {
+                        $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                     }
                 }
             };
