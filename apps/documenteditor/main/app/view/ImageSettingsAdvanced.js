@@ -1401,7 +1401,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart() && !fixed_size);   // Margins
                 this.btnsCategory[7].setVisible(!fixed_size);   // Alt
                 this.btnsCategory[2].setVisible(!chartprops && (pluginGuid === null || pluginGuid === undefined)); // Rotation
-                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture)); // Wrapping
+                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr()); // Wrapping
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
