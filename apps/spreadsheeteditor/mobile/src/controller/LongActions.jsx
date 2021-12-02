@@ -223,12 +223,15 @@ const LongActionsController = () => {
                         onClick: () => {
                             let password = document.getElementById('modal-password').value;
                             if(apiCallback) {
-                                apiCallback(true ? api.asc_checkProtectedRangesPassword(password, data) : false, false);
+                                api.asc_checkProtectedRangesPassword(password, data, (res) => {
+                                    apiCallback(res, false);
+                                });
                             }
                         }
                     }, 
                     {
-                        text: t('LongActions.textCancel')
+                        text: t('LongActions.textCancel'),
+                        onClick: () => apiCallback(false, true)
                     }
                 ]
             }).open();
