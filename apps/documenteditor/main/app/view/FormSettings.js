@@ -182,7 +182,6 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.lockedControls.push(this.spnMaxChars);
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
             this.spnMaxChars.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
@@ -209,7 +208,6 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.lockedControls.push(this.spnWidth);
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -219,14 +217,12 @@ define([
                 labelText: this.textAutofit
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
-            this.lockedControls.push(this.chAutofit);
 
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
                 labelText: this.textMulti
             });
             this.chMulti.on('change', this.onChMulti.bind(this));
-            this.lockedControls.push(this.chMulti);
 
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
@@ -408,7 +404,6 @@ define([
                 labelText: this.textAspect
             });
             this.chAspect.on('change', this.onChAspect.bind(this));
-            this.lockedControls.push(this.chAspect);
 
             this.cmbScale = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-scale'),
@@ -438,7 +433,6 @@ define([
             });
             this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
             this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
-            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $('#form-img-slider-position-y'),
@@ -450,7 +444,6 @@ define([
             });
             this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
             this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
-            this.lockedControls.push(this.sldrPreviewPositionY);
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
@@ -508,7 +501,7 @@ define([
 
         onChMaxCharsChanged: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
-            this.spnMaxChars.setDisabled(!checked);
+            this.spnMaxChars.setDisabled(!checked || this._state.DisabledControls);
             if (!checked) {
                 this.chComb.setValue(false, true);
                 this.spnWidth.setDisabled(true);
@@ -539,9 +532,9 @@ define([
             var checked = (field.getValue()=='checked');
             if (checked) {
                 this.chMaxChars.setValue(true, true);
-                this.spnMaxChars.setDisabled(false);
+                this.spnMaxChars.setDisabled(false || this._state.DisabledControls);
             }
-            this.spnWidth.setDisabled(!checked);
+            this.spnWidth.setDisabled(!checked || this._state.DisabledControls);
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
@@ -1045,8 +1038,8 @@ define([
                     val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
                     this.imagePositionPreview.css({'top': val + 'px'});
 
-                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never);
-                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never || this._state.DisabledControls);
+                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect || this._state.DisabledControls;
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
                 }
@@ -1067,16 +1060,16 @@ define([
                         this.chMulti.setValue(!!val, true);
                         this._state.Multi=val;
                     }
-                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
 
                     val = formTextPr.get_AutoFit();
                     if ( this._state.AutoFit!==val ) {
                         this.chAutofit.setValue(!!val, true);
                         this._state.AutoFit=val;
                     }
-                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
 
-                    this.spnWidth.setDisabled(!this._state.Comb);
+                    this.spnWidth.setDisabled(!this._state.Comb || this._state.DisabledControls);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
@@ -1091,7 +1084,7 @@ define([
 
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
-                    this.spnMaxChars.setDisabled(!val || val<0);
+                    this.spnMaxChars.setDisabled(!val || val<0 || this._state.DisabledControls);
                     if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
@@ -1185,6 +1178,14 @@ define([
                     item.setDisabled(me._state.DisabledControls);
                 });
             }
+            this.spnMaxChars.setDisabled(this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.spnWidth.setDisabled(!this._state.Comb || this._state.DisabledControls);
+            this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
+            this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
+            this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never || this._state.DisabledControls);
+            var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+            this.sldrPreviewPositionX.setDisabled(disableSliders || this._state.DisabledControls);
+            this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
         },
 
