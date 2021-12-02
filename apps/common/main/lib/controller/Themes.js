@@ -255,7 +255,9 @@ define([
 
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
-                        me.setTheme(e.originalEvent.newValue, true);
+                        if ( !!t.originalEvent.newValue ) {
+                            me.setTheme(t.originalEvent.newValue, true);
+                        }
                     } else
                     if ( e.key == 'content-theme' ) {
                         me.setContentTheme(e.originalEvent.newValue, true);
@@ -371,6 +373,8 @@ define([
             },
 
             setTheme: function (obj, force) {
+                if ( !obj ) return;
+
                 var id = get_ui_theme_name(obj);
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
