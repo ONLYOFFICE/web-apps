@@ -80,11 +80,6 @@ define([
                     me.fireEvent('animation:animationpane', [me.btnAnimationPane]);
                 }, me));
             }
-            if (me.btnAddAnimation) {
-                me.btnAddAnimation.on('click', _.bind(function(btn) {
-                    me.fireEvent('animation:addanimation', [me.btnAddAnimation]);
-                }, me));
-            }
 
             if (me.numDuration) {
                 me.numDuration.on('change', function(bth) {
@@ -217,7 +212,6 @@ define([
                 this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
-                    split: true,
                     iconCls: 'toolbar__icon icon btn-addslide',
                     menu: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
@@ -367,8 +361,39 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function() {
-
                     setEvents.call(me);
+
+                    me.btnAddAnimation.setMenu( new Common.UI.Menu({
+                        style: 'width: 403px;padding-top: 12px;',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')}
+                        ]
+                    }));
+
+                    var itemWidth = 87,
+                        itemHeight = 40;
+                    var onShowBefore = function(menu) {
+                        var picker = new Common.UI.DataView({
+                            el: $('#id-toolbar-menu-addanimation'),
+                            parentMenu: menu,
+                            showLast: false,
+                            restoreHeight: 465,
+                            groups: new Common.UI.DataViewGroupStore(Common.define.effectData.getEffectGroupData()),
+                            store: new Common.UI.DataViewStore(Common.define.effectData.getEffectData()),
+                            itemTemplate: _.template([
+                                '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                                    '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
+                                    '<div class = "caption"><%= displayValue %></div>',
+                                '</div>'
+                            ].join(''))
+                        });
+                        picker.on('item:click', function (picker, item, record, e) {
+                            if (record)
+                                me.fireEvent('animation:addanimation', [picker, record]);
+                        });
+                        menu.off('show:before', onShowBefore);
+                    };
+                    me.btnAddAnimation.menu.on('show:before', onShowBefore);
                 });
             },
 

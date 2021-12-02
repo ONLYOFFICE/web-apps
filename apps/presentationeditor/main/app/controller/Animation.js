@@ -140,9 +140,9 @@ define([
             })).show();
         },
 
-        onAddAnimation: function(combo, record) {
+        onAddAnimation: function(picker, record) {
             var type = record.get('value');
-            var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).value;
+            var group = _.findWhere(Common.define.effectData.getEffectGroupData(),{id: record.get('group')}).value;
             this.addNewEffect(type, group);
             this._state.EffectGroups = group;
             this._state.Effect = type;

@@ -35,18 +35,49 @@
       }
     }
     .menu-picker-container .dataview {
-      padding: 10px 0 0;
+      padding: 10px 0 0 2px;
+
       .group-description {
         padding: 3px 0 3px 10px;
         font-weight: bold;
       }
 
       .group-items-container > div {
-        margin: 0 -1px -1px 0;
-        margin: 0 calc(-1px / var(--pixel-ratio-factor, 1)) 0;
+        margin: 0;
       }
     }
   }
+   .menu-animation {
+     margin: 0 5px 0 2px;
+
+     .group-description {
+       padding: 3px 0 3px 10px;
+       font-weight: bold;
+     }
+
+     .group-items-container {
+       float: left;
+       position: relative;
+     }
+     .item {
+       padding: 2px;
+       margin:0 ;
+       border: calc(2*@scaled-one-px-value-ie) solid transparent;
+       border: calc(@scaled-two-px-value) solid transparent;
+       .box-shadow(none);
+
+       &:hover{
+         border-color: @border-preview-hover-ie;
+         border-color: @border-preview-hover;
+       }
+
+       &.selected
+       {
+         border-color: @border-preview-select-ie;
+         border-color: @border-preview-select;
+       }
+     }
+   }
 
   label {
     margin-right: 10px;
