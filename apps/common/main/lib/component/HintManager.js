@@ -446,7 +446,8 @@ Common.UI.HintManager = new(function() {
                         }
                     }, 10);
                 } else {
-                    var curLetter = null;
+                    var curLetter = null,
+                        match = false;
                     var keyCode = e.keyCode;
                     if (keyCode !== 16 && keyCode !== 17 && keyCode !== 18 && keyCode !== 91) {
                         curLetter = _lang === 'en' ? ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) : e.key;
@@ -462,9 +463,16 @@ Common.UI.HintManager = new(function() {
                         _inputLetters = _inputLetters + curLetter.toUpperCase();
                         for (var i = 0; i < _currentControls.length; i++) {
                             var item = _currentControls[i];
-                            if (!_isItemDisabled(item) && item.attr('data-hint-title') === _inputLetters) {
-                                curr = item;
-                                break;
+                            if (!_isItemDisabled(item)) {
+                                var title = item.attr('data-hint-title'),
+                                    regExp = new RegExp('^' + _inputLetters + '');
+                                if (regExp.test(title)) {
+                                    match = true;
+                                }
+                                if (title === _inputLetters) {
+                                    curr = item;
+                                    break;
+                                }
                             }
                         }
                         if (curr) {
@@ -526,6 +534,8 @@ Common.UI.HintManager = new(function() {
                                     }
                                 }
                             }
+                        } else if (!match) {
+                            _inputLetters = '';
                         }
                     }
                 }
