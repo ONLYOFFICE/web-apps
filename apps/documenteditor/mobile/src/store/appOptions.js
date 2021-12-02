@@ -118,7 +118,8 @@ export class storeAppOptions {
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
-        this.canFillForms = this.canLicense && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
+        this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms);
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
