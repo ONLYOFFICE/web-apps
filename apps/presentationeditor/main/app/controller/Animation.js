@@ -125,7 +125,7 @@ define([
             if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putSubtype(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
-                this.getAnimationProperties();
+                // this.getAnimationProperties();
 
                 console.log(this.AnimationProperties.asc_getSubtype());
             }
@@ -148,11 +148,11 @@ define([
             this._state.Effect = type;
         },
 
-        addNewEffect: function (type, group) {
+        addNewEffect: function (type, group, replace) {
             if (this._state.Effect == type) return;
 
             var parameter= this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
-            this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter);
+            this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter!==undefined ? parameter : 0, !!replace);
             if (parameter!= undefined)
                 this.onParameterClick(parameter);
         },
@@ -176,7 +176,7 @@ define([
         onEffectSelect: function (combo, record) {
             var type = record.get('value');
             var group = _.findWhere(Common.define.effectData.getEffectGroupData(),{id: record.get('group')}).value;
-            this.addNewEffect(type, group);
+            this.addNewEffect(type, group, true);
             this._state.EffectGroups = group;
             this._state.Effect = type;
         },
@@ -230,7 +230,7 @@ define([
             var value;
             this._state.EffectGroup = this.AnimationProperties.asc_getClass();
             value = this.AnimationProperties.asc_getType();
-            value = !value ? -10 : value;
+            value = !value ? AscFormat.ANIM_PRESET_NONE : value;
             this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
             this.view.setMenuParameters(value,this._state.EffectOption,true);
             this._state.Effect = value;
@@ -289,7 +289,7 @@ define([
             (this._state.StartSelect==undefined)&&(this._state.StartSelect = AscFormat.NODE_TYPE_CLICKEFFECT);
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
             me.cmbStart.selectRecord(item);
-            me.chRewind.setValue(this._state.Rewind);
+            me.chRewind.setValue(this._state.Rewind, true);
         }
 
     }, PE.Controllers.Animation || {}));

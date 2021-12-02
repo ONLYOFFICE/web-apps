@@ -133,13 +133,22 @@ define([
                 var _set = PE.enumLock;
                 this.lockedControls = [];
 
-                this._arrEffectName = [{group:'none', value: -10, iconCls: 'transition-none', displayValue: this.textNone}];
-                Array.prototype.push.apply( this._arrEffectName, Common.define.effectData.getEffectData());
+                this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
                 this._arrEffectOptions = [];
+                var itemWidth = 87,
+                    itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
-                    cls: 'combo-styles',
-                    itemWidth: 87,
-                    itemHeight: 40,
+                    cls: 'combo-styles animation',
+                    itemWidth: itemWidth,
+                    itemHeight: itemHeight,
+                    itemTemplate: _.template([
+                        '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                            '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
+                            '<div class = "caption"><%= displayValue %></div>',
+                        '</div>'
+                    ].join('')),
+                    groups: new Common.UI.DataViewGroupStore([{id: 'none', value: -10, caption: this.textNone}].concat(Common.define.effectData.getEffectGroupData())),
+                    store: new Common.UI.DataViewStore(this._arrEffectName),
                     enableKeyEvents: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
@@ -168,15 +177,6 @@ define([
                     }
                 });
                 this.lockedControls.push(this.listEffects);
-                this.listEffects.menuPicker.store.add(this._arrEffectName);
-
-                this.listEffects.fieldPicker.itemTemplate = _.template([
-                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                        '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
-                        '<div class = "caption"><%= displayValue %></div>',
-                    '</div>'
-                ].join(''));
-                this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar', // x-huge icon-top',
@@ -450,7 +450,7 @@ define([
 
                 var selectedElement;
                 this.btnParameters.menu.removeAll();
-                if(this._arrEffectOptions[effect.value]) {
+                if(this._arrEffectOptions[effect.value] && this._arrEffectOptions[effect.value].length>0) {
                     var i=0;
                     this._arrEffectOptions[effect.value].forEach(function (opt, index) {
                         this.btnParameters.menu.addItem(opt);

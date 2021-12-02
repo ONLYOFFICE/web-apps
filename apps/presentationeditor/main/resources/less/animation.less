@@ -34,6 +34,18 @@
         }
       }
     }
+    .menu-picker-container .dataview {
+      padding: 10px 0 0;
+      .group-description {
+        padding: 3px 0 3px 10px;
+        font-weight: bold;
+      }
+
+      .group-items-container > div {
+        margin: 0 -1px -1px 0;
+        margin: 0 calc(-1px / var(--pixel-ratio-factor, 1)) 0;
+      }
+    }
   }
 
   label {
@@ -58,10 +70,6 @@
   }
 }
 
-.caption{
-  line-height: 18px;
-  font-size: 11px;
-}
 .btn_item {
   color: @text-normal-ie;
   color: @text-normal;
@@ -76,4 +84,12 @@
     margin-top: -2px;
   }
 
+  .caption{
+    line-height: 18px;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+  }
 }
