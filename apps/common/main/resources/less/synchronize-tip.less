@@ -93,16 +93,18 @@
         .asc-synchronizetip {
             background-color: @background-contrast-popover-ie;
             background-color: @background-contrast-popover;
-            color: @text-contrast-background-ie;
-            color: @text-contrast-background;
+            color: @text-normal-ie;
+            color: @text-normal;
             border-color: @border-contrast-popover-ie;
             border-color: @border-contrast-popover;
             .close {
                 &:before, &:after {
-                    background-color: @text-contrast-background-ie;
-                    background-color: @text-contrast-background;
+                    background-color: @text-normal-ie;
+                    background-color: @text-normal;
                 }
             }
+            .box-shadow(0 0 40px 0 @shadow-contrast-popover-ie);
+            .box-shadow(0 0 40px 0 @shadow-contrast-popover);
         }
 
         .tip-arrow:before {
@@ -124,31 +126,33 @@
             padding: 3px 12px;
             margin-top: 10px;
             &:hover {
-                background-color: @highlight-header-button-hover-ie;
-                background-color: @highlight-header-button-hover;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
             }
 
             &:active {
-                background-color: @highlight-header-button-pressed-ie;
-                background-color: @highlight-header-button-pressed;
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
             }
         }
 
         .show-link label {
-            border-bottom: @scaled-one-px-value-ie dotted @text-contrast-background-ie;
-            border-bottom: @scaled-one-px-value dotted @text-contrast-background;
-            color: @text-contrast-background-ie;
-            color: @text-contrast-background;
+            border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
+            border-bottom: @scaled-one-px-value dotted @text-normal;
+            color: @text-normal-ie;
+            color: @text-normal;
             cursor: pointer;
 
             &:hover:not(:disabled) {
-                color: @text-contrast-background;
-                border-bottom-color: dotted @text-contrast-background;
+                color: @text-normal;
+                border-bottom-color: dotted @text-normal;
             }
 
             &:active {
-                color: @text-contrast-background;
-                border-bottom-color: dotted @text-contrast-background;
+                color: @text-normal;
+                border-bottom-color: dotted @text-normal;
             }
         }
     }
