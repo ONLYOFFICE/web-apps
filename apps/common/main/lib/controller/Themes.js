@@ -53,6 +53,7 @@ define([
             "background-loader",
             "background-accent-button",
             "background-contrast-popover",
+            "shadow-contrast-popover",
 
             "highlight-button-hover",
             "highlight-button-pressed",
