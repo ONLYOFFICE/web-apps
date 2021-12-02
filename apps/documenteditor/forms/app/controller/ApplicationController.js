@@ -1818,7 +1818,8 @@ define([
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
-                    Common.UI.Themes.setTheme(param);
+                    if ( !!Common.UI.Themes.setTheme )
+                        Common.UI.Themes.setTheme(param);
                 } else
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
