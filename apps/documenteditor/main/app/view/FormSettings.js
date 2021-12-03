@@ -216,14 +216,20 @@ define([
 
             this.chAutofit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-autofit'),
-                labelText: this.textAutofit
+                labelText: this.textAutofit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
             this.lockedControls.push(this.chAutofit);
 
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
-                labelText: this.textMulti
+                labelText: this.textMulti,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chMulti.on('change', this.onChMulti.bind(this));
             this.lockedControls.push(this.chMulti);
