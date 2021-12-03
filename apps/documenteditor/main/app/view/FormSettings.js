@@ -411,7 +411,10 @@ define([
 
             this.chAspect = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-aspect'),
-                labelText: this.textAspect
+                labelText: this.textAspect,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAspect.on('change', this.onChAspect.bind(this));
             this.lockedControls.push(this.chAspect);
@@ -424,7 +427,10 @@ define([
                 data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
                     { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
                     { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
-                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
             this.lockedControls.push(this.cmbScale);
