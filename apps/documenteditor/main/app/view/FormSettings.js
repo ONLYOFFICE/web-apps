@@ -1157,7 +1157,10 @@ define([
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#form-background-color-btn'),
                     transparent: true,
-                    menu: true
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBGColor);
                 this.btnBGColor.on('color:select', _.bind(this.onColorBGSelect, this));
