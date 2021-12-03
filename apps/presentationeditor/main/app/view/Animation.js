@@ -178,7 +178,7 @@ define([
                     caption: this.txtPreview,
                     split: false,
                     iconCls: 'toolbar__icon preview-transitions',
-                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
+                    //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -219,6 +219,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
+
                 this.lockedControls.push(this.btnAddAnimation);
 
                 this.numDuration = new Common.UI.MetricSpinner({
@@ -296,6 +297,7 @@ define([
                     value: '',
                     maxValue: 1000,
                     minValue: 0,
+                    defaultUnit: '',
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -317,43 +319,6 @@ define([
                 this.boxSdk = $('#editor_sdk');
                 if (el) el.html(this.getPanel());
                 return this;
-            },
-
-            createParametersMenuItems: function()
-            {
-                var arrEffectType = [
-                    {caption: this.textSmoothly,          value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
-                    {caption: this.textBlack,             value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
-                    {caption: this.textLeft,              value: Asc.c_oAscSlideTransitionParams.Param_Left},
-                    {caption: this.textTop,               value: Asc.c_oAscSlideTransitionParams.Param_Top},
-                    {caption: this.textRight,             value: Asc.c_oAscSlideTransitionParams.Param_Right},
-                    {caption: this.textBottom,            value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
-                    {caption: this.textTopLeft,           value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
-                    {caption: this.textTopRight,          value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
-                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
-                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
-                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
-                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
-                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
-                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
-                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
-                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                    {caption: this.textWedge,             value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
-                    {caption: this.textZoomIn,            value: Asc.c_oAscSlideTransitionParams.Zoom_In},
-                    {caption: this.textZoomOut,           value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
-                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
-            ];
-
-                var itemsMenu = [];
-                _.each(arrEffectType, function (item) {
-                    itemsMenu.push({
-                            caption: item.caption,
-                            value: item.value,
-                            checkable: true,
-                            toggleGroup: 'effects'
-                        });
-                });
-                return itemsMenu;
             },
 
             onAppReady: function (config) {
@@ -459,42 +424,38 @@ define([
                 this.widthDuration = this.widthRow(this.$el.find("#animation-duration"), this.$el.find("#animation-label-trigger"),this.widthDuration);
             },
 
-            setMenuParameters: function (effectId, option, reload)
+            setMenuParameters: function (effectId, option)
             {
-                var effect = this.listEffects.store.findWhere({value: effectId}).attributes;
-                if(reload) {
-                    this._arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group);
-                }
+                var effect = this.listEffects.store.findWhere({value: effectId});
+                var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.get('group'), effect.get('value'));
                 if (!this.listEffects.isDisabled()) {
-                    this.btnParameters.setDisabled(effect.group === 'none' || !this._arrEffectOptions);
-                    this.btnPreview.setDisabled(effect.group === 'none');
-                    this.numDuration.setDisabled(effect.group === 'none');
+                    this.btnParameters.setDisabled(!arrEffectOptions);
                 }
-                if(!this._arrEffectOptions)
-                    return  undefined;
 
+                if(!arrEffectOptions) {
+                    this.btnParameters.menu.removeAll();
+                    this._effectId = effectId
+                    return undefined;
+                }
                 var selectedElement;
-                this.btnParameters.menu.removeAll();
-                if(this._arrEffectOptions[effect.value] && this._arrEffectOptions[effect.value].length>0) {
-                    var i=0;
-                    this._arrEffectOptions[effect.value].forEach(function (opt, index) {
+                if (this._effectId != effectId) {
+                    this.btnParameters.menu.removeAll();
+                    arrEffectOptions.forEach(function (opt, index) {
+                        opt.checkable = true;
+                        opt.toggleGroup ='animateeffects';
                         this.btnParameters.menu.addItem(opt);
-                        this.btnParameters.menu.items[index].checkable=true;
-                        if((option!=undefined)&&(opt.value==option))
-                            i = index;
+                        (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
                     }, this);
-                    selectedElement = this.btnParameters.menu.items[i];
-                    selectedElement.setChecked(true);
                 }
                 else {
-                    selectedElement = undefined;
+                    this.btnParameters.menu.items.forEach(function (opt) {
+                        (opt.value == option) && (selectedElement = opt);
+                    });
                 }
-
-                if (!this.listEffects.isDisabled()) {
-                    this.btnParameters.setDisabled(!selectedElement);
-                }
-
-                return (selectedElement)?selectedElement.value:undefined;
+                (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
+                selectedElement.setChecked(true);
+                this._effectId = effectId;
+                return selectedElement.value;
             },
 
 
@@ -509,41 +470,10 @@ define([
             strRewind: 'Rewind',
             strRepeat: 'Repeat',
             strTrigger: 'Trigger',
-
             textStartOnClick: 'On Click',
             textStartWithPrevious: 'With Previous',
             textStartAfterPrevious: 'After Previous',
-
-            textNone: 'None',
-            textFade: 'Fade',
-            textPush: 'Push',
-            textWipe: 'Wipe',
-            textSplit: 'Split',
-            textUnCover: 'UnCover',
-            textCover: 'Cover',
-            textClock: 'Clock',
-            textZoom: 'Zoom',
-
-            textSmoothly: 'Smoothly',
-            textBlack: 'Through Black',
-            textLeft: 'Left',
-            textTop: 'Top',
-            textRight: 'Right',
-            textBottom: 'Bottom',
-            textTopLeft: 'Top-Left',
-            textTopRight: 'Top-Right',
-            textBottomLeft: 'Bottom-Left',
-            textBottomRight: 'Bottom-Right',
-            textVerticalIn: 'Vertical In',
-            textVerticalOut: 'Vertical Out',
-            textHorizontalIn: 'Horizontal In',
-            textHorizontalOut: 'Horizontal Out',
-            textClockwise: 'Clockwise',
-            textCounterclockwise: 'Counterclockwise',
-            textWedge: 'Wedge',
-            textZoomIn: 'Zoom In',
-            textZoomOut: 'Zoom Out',
-            textZoomRotate: 'Zoom and Rotate'
+            textNone: 'None'
         }
     }()), PE.Views.Animation || {}));
 
