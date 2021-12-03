@@ -62,6 +62,7 @@ define([
 
 
         if ( !!native ) {
+            native.features = {};
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -89,6 +90,10 @@ define([
                     } else
                     if ( obj.lockthemes != undefined ) {
                         Common.UI.Themes.setAvailable(!obj.lockthemes);
+                    } else
+                    if ( obj.singlewindow !== undefined ) {
+                        $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
+                        native.features.singlewindow = obj.singlewindow;
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -239,6 +244,10 @@ define([
                         if ( !!config.callback_editorconfig ) {
                             config.callback_editorconfig();
                             delete config.callback_editorconfig;
+                        }
+
+                        if ( native.features.singlewindow !== undefined ) {
+                            $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
                         }
                     });
 
