@@ -256,7 +256,7 @@ define([
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         if ( !!e.originalEvent.newValue ) {
-                            me.setTheme(t.originalEvent.newValue, true);
+                            me.setTheme(e.originalEvent.newValue, true);
                         }
                     } else
                     if ( e.key == 'content-theme' ) {
