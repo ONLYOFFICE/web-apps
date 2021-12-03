@@ -80,11 +80,6 @@ define([
                     me.fireEvent('animation:animationpane', [me.btnAnimationPane]);
                 }, me));
             }
-            if (me.btnAddAnimation) {
-                me.btnAddAnimation.on('click', _.bind(function(btn) {
-                    me.fireEvent('animation:addanimation', [me.btnAddAnimation]);
-                }, me));
-            }
 
             if (me.numDuration) {
                 me.numDuration.on('change', function(bth) {
@@ -133,12 +128,22 @@ define([
                 var _set = PE.enumLock;
                 this.lockedControls = [];
 
-                this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}];
-                Array.prototype.push.apply( this._arrEffectName, Common.define.effectData.getEffectData());
+                this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
+                this._arrEffectOptions = [];
+                var itemWidth = 87,
+                    itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
-                    cls: 'combo-styles',
-                    itemWidth: 87,
-                    itemHeight: 40,
+                    cls: 'combo-styles animation',
+                    itemWidth: itemWidth,
+                    itemHeight: itemHeight,
+                    itemTemplate: _.template([
+                        '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                            '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
+                            '<div class = "caption"><%= displayValue %></div>',
+                        '</div>'
+                    ].join('')),
+                    groups: new Common.UI.DataViewGroupStore([{id: 'none', value: -10, caption: this.textNone}].concat(Common.define.effectData.getEffectGroupData())),
+                    store: new Common.UI.DataViewStore(this._arrEffectName),
                     enableKeyEvents: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
@@ -167,15 +172,6 @@ define([
                     }
                 });
                 this.lockedControls.push(this.listEffects);
-                this.listEffects.menuPicker.store.add(this._arrEffectName);
-
-                this.listEffects.fieldPicker.itemTemplate = _.template([
-                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                        '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
-                        '<div class = "caption"><%= displayValue %></div>',
-                    '</div>'
-                ].join(''));
-                this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar', // x-huge icon-top',
@@ -216,7 +212,6 @@ define([
                 this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
-                    split: true,
                     iconCls: 'toolbar__icon icon btn-addslide',
                     menu: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
@@ -331,8 +326,39 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function() {
-
                     setEvents.call(me);
+
+                    me.btnAddAnimation.setMenu( new Common.UI.Menu({
+                        style: 'width: 403px;padding-top: 12px;',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')}
+                        ]
+                    }));
+
+                    var itemWidth = 87,
+                        itemHeight = 40;
+                    var onShowBefore = function(menu) {
+                        var picker = new Common.UI.DataView({
+                            el: $('#id-toolbar-menu-addanimation'),
+                            parentMenu: menu,
+                            showLast: false,
+                            restoreHeight: 465,
+                            groups: new Common.UI.DataViewGroupStore(Common.define.effectData.getEffectGroupData()),
+                            store: new Common.UI.DataViewStore(Common.define.effectData.getEffectData()),
+                            itemTemplate: _.template([
+                                '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                                    '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
+                                    '<div class = "caption"><%= displayValue %></div>',
+                                '</div>'
+                            ].join(''))
+                        });
+                        picker.on('item:click', function (picker, item, record, e) {
+                            if (record)
+                                me.fireEvent('animation:addanimation', [picker, record]);
+                        });
+                        menu.off('show:before', onShowBefore);
+                    };
+                    me.btnAddAnimation.menu.on('show:before', onShowBefore);
                 });
             },
 
@@ -420,7 +446,6 @@ define([
                         this.btnParameters.menu.addItem(opt);
                         (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
                     }, this);
-
                 }
                 else {
                     this.btnParameters.menu.items.forEach(function (opt) {

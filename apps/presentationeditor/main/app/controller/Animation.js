@@ -72,7 +72,7 @@ define([
                     'animation:addanimation':   _.bind(this.onAddAnimation, this),
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                     'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
-                    'animation:repeat':         _.bind(this.onRepeatChange, this),
+                    'animation:repeat':         _.bind(this.onRepeatChange, this)
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -136,11 +136,10 @@ define([
             })).show();
         },
 
-        onAddAnimation: function(combo, record) {
+        onAddAnimation: function(picker, record) {
             var type = record.get('value');
-            var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).get('value');
+            var group = _.findWhere(Common.define.effectData.getEffectGroupData(), {id: record.get('group')}).value;
             this.addNewEffect(type, group, false);
-
         },
 
         addNewEffect: function (type, group, replace) {
@@ -325,7 +324,6 @@ define([
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
             me.cmbStart.selectRecord(item);
             me.chRewind.setValue(this._state.Rewind, true);
-
         }
 
     }, PE.Controllers.Animation || {}));
