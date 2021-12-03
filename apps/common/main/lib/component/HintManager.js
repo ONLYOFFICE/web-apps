@@ -524,6 +524,9 @@ Common.UI.HintManager = new(function() {
                                     if (curr.parent().prop('id') === 'slot-btn-chat') {
                                         _nextLevel(1);
                                         _setCurrentSection(undefined, $('#left-menu.hint-section'));
+                                    } else if (curr.prop('id') === 'id-right-menu-signature') {
+                                        _nextLevel(2);
+                                        _setCurrentSection(curr);
                                     } else {
                                         _nextLevel();
                                         _setCurrentSection(curr);

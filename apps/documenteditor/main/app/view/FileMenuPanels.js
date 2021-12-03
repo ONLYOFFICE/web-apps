@@ -1848,8 +1848,8 @@ define([
                         '<td colspan="2"><label style="cursor: default;"><%= tipText %></label></td>',
                     '</tr>',
                     '<tr>',
-                        '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',
-                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>">' + me.txtEdit + '</label></td>',
+                        '<td><label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label></td>',
+                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
