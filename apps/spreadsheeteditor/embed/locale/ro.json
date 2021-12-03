@@ -19,6 +19,7 @@
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
   "SSE.ApplicationController.errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Avertisment",
+  "SSE.ApplicationController.openErrorText": "Eroare la deschiderea fișierului.",
   "SSE.ApplicationController.scriptLoadError": "Conexeunea e prea lentă și unele elemente nu se încarcă. Încercați să reîmprospătati pagina.",
   "SSE.ApplicationController.textAnonymous": "Anonim",
   "SSE.ApplicationController.textGuest": "Invitat",

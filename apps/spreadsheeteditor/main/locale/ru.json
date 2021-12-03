@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Закрыть меню",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Создать новую",
   "SSE.Views.FileMenu.btnDownloadCaption": "Скачать как...",
+  "SSE.Views.FileMenu.btnExitCaption": "Выйти",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Открыть...",
   "SSE.Views.FileMenu.btnHelpCaption": "Справка...",
   "SSE.Views.FileMenu.btnHistoryCaption": "История версий",
   "SSE.Views.FileMenu.btnInfoCaption": "Сведения о таблице...",

@@ -1300,6 +1300,8 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "Закрыть меню",
   "PE.Views.FileMenu.btnCreateNewCaption": "Создать новую",
   "PE.Views.FileMenu.btnDownloadCaption": "Скачать как...",
+  "PE.Views.FileMenu.btnExitCaption": "Выйти",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Открыть...",
   "PE.Views.FileMenu.btnHelpCaption": "Справка...",
   "PE.Views.FileMenu.btnHistoryCaption": "История версий",
   "PE.Views.FileMenu.btnInfoCaption": "Сведения о презентации...",

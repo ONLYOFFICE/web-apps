@@ -80,6 +80,7 @@
   "DE.Controllers.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Bağlantı kayboldu. Belgeyi yine de görüntüleyebilirsiniz,<br>ancak bağlantı yeniden kurulana ve sayfa yeniden yüklenene kadar indiremez veya yazdıramazsınız.",
   "DE.Controllers.ApplicationController.notcriticalErrorTitle": "Uyarı",
+  "DE.Controllers.ApplicationController.openErrorText": "Dosya açılırken bir hata oluştu.",
   "DE.Controllers.ApplicationController.scriptLoadError": "Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.",
   "DE.Controllers.ApplicationController.textAnonymous": "Anonim",
   "DE.Controllers.ApplicationController.textBuyNow": "Websitesini ziyaret edin",
