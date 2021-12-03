@@ -1303,16 +1303,23 @@ define([
                         caption: me.textStyleMenuNew
                     });
 
+                    var itemWidth = 104,
+                        itemHeight = 40;
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
-                        itemWidth: 104,
-                        itemHeight: 40,
+                        itemWidth: itemWidth,
+                        itemHeight: itemHeight,
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
+                        itemTemplate: _.template([
+                            '<div class="style" id="<%= id %>">',
+                                '<div style="background-image: url(<%= imageUrl %>); width: ' + itemWidth + 'px; height: ' + itemHeight + 'px;"></div>',
+                            '</div>'
+                        ].join('')),
                         beforeOpenHandler: function (e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
@@ -1322,22 +1329,22 @@ define([
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
                                 var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
                                 Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
-                                var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
+                                var _width = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                     (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                         parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
                                 var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
+                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + _width) + 0.5));
 
                                 columnCount = columnCount < minCount ? minCount : columnCount;
                                 menu.menuAlignEl = cmp.cmpEl;
 
                                 menu.menuAlign = 'tl-tl';
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + _width) - 1;
                                 menu.setOffset(Math.min(offset, 0));
 
                                 menu.cmpEl.css({
-                                    'width': columnCount * (itemWidth + itemMargin),
+                                    'width': columnCount * (_width + itemMargin),
                                     'min-height': cmp.cmpEl.height()
                                 });
                             }
@@ -1353,16 +1360,6 @@ define([
                         }
                     });
 
-                    this.listStyles.fieldPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"></div>',
-                        '</div>'
-                    ].join(''));
-                    this.listStyles.menuPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"></div>',
-                        '</div>'
-                    ].join(''));
                     this.paragraphControls.push(this.listStyles);
                     this.textOnlyControls.push(this.listStyles);
 

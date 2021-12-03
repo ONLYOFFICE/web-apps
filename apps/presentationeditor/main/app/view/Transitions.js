@@ -133,10 +133,18 @@ define([
                     {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
                 ];
 
+                var itemWidth = 87,
+                    itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-styles',
-                    itemWidth: 87,
-                    itemHeight: 40,
+                    itemWidth: itemWidth,
+                    itemHeight: itemHeight,
+                    itemTemplate: _.template([
+                        '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                            '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                            '<div class = "caption"><%= title %></div>',
+                        '</div>'
+                    ].join('')),
                     enableKeyEvents: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
@@ -168,14 +176,6 @@ define([
                 });
                 this.lockedControls.push(this.listEffects);
                 this.listEffects.menuPicker.store.add(this._arrEffectName);
-
-                this.listEffects.fieldPicker.itemTemplate = _.template([
-                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
-                        '<div class = "caption"><%= title %></div>',
-                    '</div>'
-                ].join(''));
-                this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar', // x-huge icon-top',
