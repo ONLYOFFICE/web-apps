@@ -19,6 +19,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "İnternet bağlantısı tekrar sağlandı, ve dosya versiyon değişti.<br>Çalışmanıza devam etmeden önce, veri kaybını önlemeniz için dosyasının bir kopyasını indirmeniz ya da dosya içeriğini kopyalamanız ve sonrasında sayfayı yenilemeniz gerekmektedir.",
   "PE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "PE.ApplicationController.notcriticalErrorTitle": "Uyarı",
+  "PE.ApplicationController.openErrorText": "Dosya açılırken bir hata oluştu. ",
   "PE.ApplicationController.scriptLoadError": "Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.",
   "PE.ApplicationController.textAnonymous": "Anonim",
   "PE.ApplicationController.textGuest": "Ziyaretçi",

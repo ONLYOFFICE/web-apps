@@ -19,6 +19,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "PE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",
+  "PE.ApplicationController.openErrorText": "При открытии файла произошла ошибка.",
   "PE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "PE.ApplicationController.textAnonymous": "Анонимный пользователь",
   "PE.ApplicationController.textGuest": "Гость",

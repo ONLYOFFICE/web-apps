@@ -19,6 +19,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
   "PE.ApplicationController.errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
   "PE.ApplicationController.notcriticalErrorTitle": "Avertisment",
+  "PE.ApplicationController.openErrorText": "Eroare la deschiderea fișierului.",
   "PE.ApplicationController.scriptLoadError": "Conexeunea e prea lentă și unele elemente nu se încarcă. Încercați să reîmprospătati pagina.",
   "PE.ApplicationController.textAnonymous": "Anonim",
   "PE.ApplicationController.textGuest": "Invitat",

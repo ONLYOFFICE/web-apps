@@ -80,6 +80,7 @@
   "DE.Controllers.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "A ligação foi perdida. Você ainda pode ver o documento,<br> mas não pode fazer o download ou imprimir até que a conexão seja restaurada.",
   "DE.Controllers.ApplicationController.notcriticalErrorTitle": "Aviso",
+  "DE.Controllers.ApplicationController.openErrorText": "Ocorreu um erro ao abrir o arquivo",
   "DE.Controllers.ApplicationController.scriptLoadError": "A conexão está muito lenta, e alguns dos componentes não puderam ser carregados. Por favor, recarregue a página.",
   "DE.Controllers.ApplicationController.textAnonymous": "Anônimo",
   "DE.Controllers.ApplicationController.textBuyNow": "Visitar website",
