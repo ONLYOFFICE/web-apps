@@ -63,18 +63,19 @@ define([
 
             this.addListeners({
                 'PE.Views.Animation': {
-                    'animation:preview':      _.bind(this.onPreviewClick, this),
-                    'animation:parameters':   _.bind(this.onParameterClick, this),
-                    'animation:duration':     _.bind(this.onDurationChange, this),
-                    'animation:selecteffect': _.bind(this.onEffectSelect, this),
-                    'animation:delay':        _.bind(this.onDelayChange, this),
-                    'animation:animationpane':_.bind(this.onAnimationPane, this),
-                    'animation:addanimation':    _.bind(this.onAddAnimation, this),
+                    'animation:preview':        _.bind(this.onPreviewClick, this),
+                    'animation:parameters':     _.bind(this.onParameterClick, this),
+                    'animation:duration':       _.bind(this.onDurationChange, this),
+                    'animation:selecteffect':   _.bind(this.onEffectSelect, this),
+                    'animation:delay':          _.bind(this.onDelayChange, this),
+                    'animation:animationpane':  _.bind(this.onAnimationPane, this),
+                    'animation:addanimation':   _.bind(this.onAddAnimation, this),
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                     'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
+                    'animation:repeat':         _.bind(this.onRepeatChange, this),
                 },
                 'Toolbar': {
-                    'tab:active':           _.bind(this.onActiveTab, this)
+                    'tab:active':               _.bind(this.onActiveTab, this)
                 }
             });
             this.EffectGroups = Common.define.effectData.getEffectGroupData();
@@ -87,16 +88,16 @@ define([
         setConfig: function (config) {
             this.appConfig = config.mode;
             this.view = this.createView('PE.Views.Animation', {
-                toolbar: config.toolbar,
-                mode: config.mode
+                toolbar : config.toolbar,
+                mode    : config.mode
             });
             return this;
         }, 
 
         setApi: function (api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
-            this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
+            this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onFocusObject, this));
+            this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onApiCountPages, this));
             return this;
         },
 
@@ -125,36 +126,29 @@ define([
             if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putSubtype(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
-                this.getAnimationProperties();
-
-                console.log(this.AnimationProperties.asc_getSubtype());
             }
         },
 
-
-
         onAnimationPane: function() {
             (new PE.Views.AnimationDialog({
-                api: this.api,
-                activEffect: this.Effect
+                api         : this.api,
+                activeEffect : this._state.Effect
             })).show();
         },
 
         onAddAnimation: function(combo, record) {
             var type = record.get('value');
-            var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).value;
-            this.addNewEffect(type, group);
-            this._state.EffectGroups = group;
-            this._state.Effect = type;
+            var group = Common.define.effectData.getEffectGroupData().findWhere({id: record.group}).get('value');
+            this.addNewEffect(type, group, false);
+
         },
 
-        addNewEffect: function (type, group) {
+        addNewEffect: function (type, group, replace) {
             if (this._state.Effect == type) return;
-
-            var parameter= this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
-            this.api.asc_AddAnimation(this._state.EffectGroups, type, parameter);
-            if (parameter!= undefined)
-                this.onParameterClick(parameter);
+            var parameter = this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
+            this._state.EffectGroups = group;
+            this._state.Effect = type;
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
@@ -173,17 +167,24 @@ define([
             }
         },
 
+        onRepeatChange: function (field, newValue, oldValue, eOpts){
+            if (this.api) {
+                this._state.Repeat = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putRepeatCount(this._state.Repeat);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
+        },
         onEffectSelect: function (combo, record) {
-            var type = record.get('value');
-            var group = _.findWhere(Common.define.effectData.getEffectGroupData(),{id: record.get('group')}).value;
-            this.addNewEffect(type, group);
-            this._state.EffectGroups = group;
-            this._state.Effect = type;
+            if (this.api) {
+                var type = record.get('value');
+                var group = (type != AscFormat.ANIM_PRESET_NONE) ? _.findWhere(Common.define.effectData.getEffectGroupData(), {id: record.get('group')}).value : undefined;
+                this.addNewEffect(type, group, this._state.Effect != AscFormat.ANIM_PRESET_NONE);
+            }
         },
 
         onStartSelect: function (combo, record) {
             if (this.api) {
-                this._state.StartEffect =record.value;
+                this._state.StartEffect = record.value;
                 this.AnimationProperties.asc_putStartType(this._state.StartEffect);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -197,6 +198,7 @@ define([
         },
 
         onFocusObject: function(selectedObjects) {
+            var isAnimtionObject = false, isAnimation = false;
             for (var i = 0; i<selectedObjects.length; i++) {
                 var eltype = selectedObjects[i].get_ObjectType();
 
@@ -205,24 +207,48 @@ define([
 
                 if (eltype == Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+
                     this.loadSettings(this.AnimationProperties);
                     if (this._state.onactivetab) {
                         this.setLocked();
                         this.setSettings();
+                        isAnimation = true;
                     }
                 }
-            }
-        },
-
-        getAnimationProperties: function() {
-            var selectedElements = this.api.getSelectedElements();
-            for (var i = 0; i<selectedElements.length; i++) {
-                if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.Animation) {
-                    this.AnimationProperties = selectedElements[i].get_ObjectValue();
-                    return;
+                else if((eltype == Asc.c_oAscTypeSelectElement.Shape) ||
+                    (eltype == Asc.c_oAscTypeSelectElement.Tab) ||
+                    (eltype == Asc.c_oAscTypeSelectElement.Text) ||
+                    (eltype == Asc.c_oAscTypeSelectElement.Image)) {
+                    isAnimtionObject = true;
                 }
             }
-            return;
+            this.setLockedByObjects (isAnimtionObject, isAnimation);
+
+        },
+
+        setLockedByObjects: function (isAnimtionObject, isAnimation) {
+            if(isAnimtionObject)
+            {
+                if(isAnimation) {
+                    if (this._state.Effect == AscFormat.ANIM_PRESET_NONE) {
+                        this.view.setDisabled(true);
+                        this.view.listEffects.setDisabled(false);
+
+                        this.view.effectId = AscFormat.ANIM_PRESET_NONE;
+                    } else {
+                        this.view.setDisabled(false);
+                        this.view.btnParameters.setDisabled(this.view.btnParameters.menu.items.length == 0)
+                    }
+                }
+                else {
+                    this.view.setDisabled(true);
+                    this.view.listEffects.setDisabled(false);
+                }
+            }
+            else
+                this.view.setDisabled(true);
+
+            this.view.btnAddAnimation.setDisabled(this.view.listEffects.isDisabled());
         },
 
         loadSettings: function (props) {
@@ -230,9 +256,8 @@ define([
             var value;
             this._state.EffectGroup = this.AnimationProperties.asc_getClass();
             value = this.AnimationProperties.asc_getType();
-            value = !value ? -10 : value;
+            (value == undefined) && (value = AscFormat.ANIM_PRESET_NONE);
             this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
-            this.view.setMenuParameters(value,this._state.EffectOption,true);
             this._state.Effect = value;
 
             value = this.AnimationProperties.asc_getDuration();
@@ -248,6 +273,14 @@ define([
                 (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
                 this._state.Delay = value;
             }
+
+            value = this.AnimationProperties.asc_getRepeatCount();
+            if (Math.abs(this._state.Repeat - value) > 0.001 ||
+                (this._state.Repeat === null || value === null) && (this._state.Repeat !== value) ||
+                (this._state.Repeat === undefined || value === undefined) && (this._state.Repeat !== value)) {
+                this._state.Repeat = value;
+            }
+
             this._state.StartSelect = this.AnimationProperties.asc_getStartType();
             this._state.RepeatCount = this.AnimationProperties.asc_getRepeatCount();
             this._state.Rewind = this.AnimationProperties.asc_getRewind();
@@ -256,6 +289,7 @@ define([
         onActiveTab: function(tab) {
             if (tab == 'animate') {
                 this._state.onactivetab = true;
+
                 this.setLocked();
                 this.setSettings();
             }
@@ -267,8 +301,8 @@ define([
         },
 
         setLocked: function() {
-            if (this._state.lockedtransition != undefined)
-                this.lockToolbar(PE.enumLock.transitLock, this._state.lockedtransition);
+           /* if (this._state.lockedanimation != undefined)
+                this.lockToolbar(PE.enumLock.animationLock, this._state.lockedanimation);*/
         },
 
         setSettings: function () {
@@ -280,16 +314,18 @@ define([
                 this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
             }
 
-            if (me.btnParameters.menu.items.length > 0 && this._state.EffectOption !== undefined)
-                me.setMenuParameters(this._state.Effect, this._state.EffectOption, true);
+            if (this._state.EffectOption !== undefined)
+                me.setMenuParameters(this._state.Effect, this._state.EffectOption);
 
             me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
             me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
+            me.numRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat / 1000. : '', true);
 
             (this._state.StartSelect==undefined)&&(this._state.StartSelect = AscFormat.NODE_TYPE_CLICKEFFECT);
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
             me.cmbStart.selectRecord(item);
-            me.chRewind.setValue(this._state.Rewind);
+            me.chRewind.setValue(this._state.Rewind, true);
+
         }
 
     }, PE.Controllers.Animation || {}));

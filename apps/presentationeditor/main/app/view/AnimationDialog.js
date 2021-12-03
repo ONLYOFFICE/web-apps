@@ -64,17 +64,15 @@ define([
             this.allEffects = Common.define.effectData.getEffectFullData();
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
-            this.activEffect = this.options.Effect;
-            if (this.activEffect != undefined) {
-                var itemEffect= this.allEffects.findWhere({value: this.activEffect});
+            this.activeEffect = this.options.Effect;
+            if (this.activeEffect != undefined) {
+                var itemEffect= this.allEffects.findWhere({value: this.activeEffect});
                 this.activeGroup = itemEffect.group;
                 this.activeLevel = itemEffect.level;
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
-        setEvents: function() {
-            this.cmbGroup.on('selected', _.bind(this.onGroupSelect,this));
-        } ,
+
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
@@ -92,35 +90,45 @@ define([
                 data    : Common.define.effectData.getEffectGroupData(),
                 value   : (this.activEffect != undefined)?this.activeGroup:undefined
             });
+            this.cmbGroup.on('selected', _.bind(this.onGroupSelect,this));
 
             this.cmbLevel = new Common.UI.ComboBox({
                 el      : $('#animation-level'),
                 cls: 'input-group-nr',
                 editable: false,
                 style   : 'margin-top: 16px; width: 100%;',
-                takeFocusOnClose: true,                  
-                data    : Common.define.effectData.getLevelEffect(false)
+                takeFocusOnClose: true
             });
+            this.cmbLevel.on('selected', _.bind(this.onLevelSelect,this));
 
             this.lstEffectList = new Common.UI.ListView({
                 el      : $('#animation-list'),
-                scroll  : true,
-                data    : (this.activEffect != undefined)?this.allEffects.where({group: this.activeGroup, level: this.activeLevel}):undefined
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= displayValue %></div>'),
+                scroll  : true
             });
 
             this.chPreview = new  Common.UI.CheckBox({
                 el      : $('#animation-setpreview'),
                 labelText : this.textPreviewEffect
             });
-
-            this.setEvents.call(this);
-
+            this.cmbGroup.selectRecord(this.cmbGroup.store.models[0]);
+            this.onGroupSelect(undefined,this.cmbGroup.store.models[0]);
         },
+
         onGroupSelect: function (combo, record) {
-            this.activeGroup = record.value;
-            this.cmbLevel.data=Common.define.effectData.getLevelEffect(record.id == 'menu-effect-group-path');
-            this.cmbLevel.setValue(this.cmbLevel.data[0].displayValue);
+            this.activeGroup = record.id;
+            this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(record.id == 'menu-effect-group-path'));
+            this.cmbLevel.selectRecord(this.cmbLevel.store.models[0]);
+            this.onLevelSelect(undefined,this.cmbLevel.store.models[0]);
         },
+
+        onLevelSelect: function (combo, record) {
+            this.activeLevel = record.id;
+            var arr = _.where(this.allEffects, {group: this.activeGroup, level: this.activeLevel });
+            this.lstEffectList.store.reset(arr);
+            this.lstEffectList.selectRecord(this.lstEffectList.store.models[0]);
+        },
+
         textTitle: 'More Effects',
         textPreviewEffect: 'Preview Effect'
 
