@@ -214,13 +214,19 @@ define([
 
             this.chAutofit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-autofit'),
-                labelText: this.textAutofit
+                labelText: this.textAutofit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
 
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
-                labelText: this.textMulti
+                labelText: this.textMulti,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chMulti.on('change', this.onChMulti.bind(this));
 
@@ -401,7 +407,10 @@ define([
 
             this.chAspect = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-aspect'),
-                labelText: this.textAspect
+                labelText: this.textAspect,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAspect.on('change', this.onChAspect.bind(this));
 
@@ -413,7 +422,10 @@ define([
                 data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
                     { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
                     { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
-                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
             this.lockedControls.push(this.cmbScale);
@@ -1150,7 +1162,10 @@ define([
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#form-background-color-btn'),
                     transparent: true,
-                    menu: true
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBGColor);
                 this.btnBGColor.on('color:select', _.bind(this.onColorBGSelect, this));
