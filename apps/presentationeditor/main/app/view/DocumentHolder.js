@@ -439,6 +439,14 @@ define([
                     /** coauthoring end **/
                     me.hideTips();
                     onDocumentHolderResize();
+                },
+                'preview:show': function(e){
+                    me.isPreviewVisible = true;
+                    screenTip && (screenTip.tipLength = -1); // redraw link tip
+                },
+                'preview:hide': function(e){
+                    me.isPreviewVisible = false;
+                    screenTip && (screenTip.tipLength = -1);  // redraw link tip
                 }
             });
 
@@ -508,7 +516,7 @@ define([
                                 ToolTip = ToolTip.substr(0, 256) + '...';
 
                             if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                                screenTip.toolTip.setTitle(ToolTip + '<br><b>' + me.txtPressLink + '</b>');
+                                screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.txtPressLink + '</b>'));
                                 screenTip.tipLength = ToolTip.length;
                                 screenTip.strTip = ToolTip;
                                 recalc = true;
