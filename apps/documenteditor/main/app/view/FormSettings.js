@@ -271,13 +271,15 @@ define([
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
                 allowBlank  : true,
-                validateOnChange: false,
+                validateOnChange: true,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
+            }).on ('changing', function (input, value) {
+                me.btnListAdd.setDisabled(value.length<1 || me._state.DisabledControls);
             });
             this.lockedControls.push(this.txtNewValue);
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -311,7 +313,6 @@ define([
                 dataHintOffset: 'big'
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
-            this.lockedControls.push(this.btnListAdd);
 
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
@@ -866,6 +867,7 @@ define([
                             this.list.scrollToRecord(rec);
                         } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
+                            this.btnListAdd.setDisabled(true);
                             this._state.listValue = this._state.listIndex = undefined;
                         }
                     }
@@ -1201,6 +1203,7 @@ define([
             var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
             this.sldrPreviewPositionX.setDisabled(disableSliders || this._state.DisabledControls);
             this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
         },
 
@@ -1238,6 +1241,7 @@ define([
             this.txtNewValue.setValue(record.get('name'));
             this._state.listValue = record.get('name');
             this._state.listIndex = undefined;
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.disableListButtons();
         },
 
