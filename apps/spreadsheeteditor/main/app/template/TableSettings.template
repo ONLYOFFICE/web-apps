@@ -62,15 +62,13 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large" colspan=2>
-            <label class="header" style="margin-top: 3px;"><%= scope.textResize %></label>
-            <button type="button" class="btn btn-text-default" id="table-btn-select-data" style="display: inline-block; float:right; min-width: 100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textSelectData %></button>
+        <td class="padding-small" colspan=2>
+            <div id="table-btn-select-data" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
-            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+            <div id="table-btn-edit" style="width:100%;"></div>
         </td>
     </tr>
     <tr>

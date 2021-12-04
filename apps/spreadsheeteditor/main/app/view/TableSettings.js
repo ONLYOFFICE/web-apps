@@ -273,16 +273,25 @@ define([
             this.lockedControls.push(this.txtTableName);
 
             this.btnSelectData = new Common.UI.Button({
-                el: $('#table-btn-select-data')
+                parentEl: $('#table-btn-select-data'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon resize-table',
+                caption     : this.textResize,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
             this.lockedControls.push(this.btnSelectData);
 
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
-                cls: 'btn-icon-default',
-                iconCls: 'btn-edit-table',
-                menu        : new Common.UI.Menu({
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon rows-and-columns',
+                caption     : this.textEdit,
+                style       : 'width: 100%;',
+                menu: new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     items: [
                         { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
@@ -300,10 +309,11 @@ define([
                         { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
                     ]
                 }),
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'medium'
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
+
             this.btnEdit.menu.on('show:after', _.bind( function(menu){
                 if (this.api) {
                     menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
@@ -321,10 +331,10 @@ define([
 
             this.btnConvertRange = new Common.UI.Button({
                 parentEl: $('#table-btn-convert-range'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-convert-to-range',
                 caption     : this.textConvertRange,
-                style       : 'width: 100%;text-align: left;',
+                style       : 'width: 100%;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -338,10 +348,10 @@ define([
 
             this.btnRemDuplicates = new Common.UI.Button({
                 parentEl: $('#table-btn-rem-duplicates'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-remove-duplicates',
                 caption     : this.textRemDuplicates,
-                style       : 'width: 100%;text-align: left;',
+                style       : 'width: 100%;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -353,10 +363,10 @@ define([
 
             this.btnSlicer = new Common.UI.Button({
                 parentEl: $('#table-btn-slicer'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-slicer',
                 caption     : this.textSlicer,
-                style       : 'width: 100%;text-align: left;',
+                style       : 'width: 100%;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -366,10 +376,10 @@ define([
 
             this.btnPivot = new Common.UI.Button({
                 parentEl: $('#table-btn-pivot'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-pivot-sum',
                 caption     : this.textPivot,
-                style       : 'width: 100%;text-align: left;',
+                style       : 'width: 100%;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
