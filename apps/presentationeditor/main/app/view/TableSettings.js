@@ -334,9 +334,11 @@ define([
 
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
-                cls: 'btn-icon-default',
-                iconCls: 'btn-edit-table',
-                menu        : new Common.UI.Menu({
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon rows-and-columns',
+                caption     : this.textEdit,
+                style       : 'width: 100%;',
+                menu: new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     items: [
                         { caption: this.selectRowText, value: 0 },
@@ -357,9 +359,9 @@ define([
                         { caption: this.splitCellsText,  value: 12 }
                     ]
                 }),
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.mnuMerge = this.btnEdit.menu.items[this.btnEdit.menu.items.length-2];
             this.mnuSplit = this.btnEdit.menu.items[this.btnEdit.menu.items.length-1];

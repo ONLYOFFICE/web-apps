@@ -96,8 +96,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
-            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+            <div id="table-btn-edit" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
