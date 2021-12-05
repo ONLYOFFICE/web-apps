@@ -1809,6 +1809,7 @@ define([
             // eventloading: true,
             uithemes: true
         };
+        var api;
 
         var native = window.desktop || window.AscDesktopEditor;
         !!native && native.execCommand('webapps:features', JSON.stringify(features));
@@ -1844,16 +1845,20 @@ define([
             });
         }
 
+        Common.Gateway.on('opendocument', function () {
+            api = DE.getController('ApplicationController').api;
+        });
+
         return {
             isActive: function () {
                 return !!native;
             },
             process: function (opts) {
-                if ( !!native ) {
+                if ( !!native && !!api ) {
                     if ( opts == 'goback' ) {
                         var config = DE.getController('ApplicationController').editorConfig;
                         native.execCommand('go:folder',
-                            config.isOffline ? 'offline' : config.customization.goback.url);
+                            api.asc_isOffline() ? 'offline' : config.customization.goback.url);
                         return true;
                     }
                 }
