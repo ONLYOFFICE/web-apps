@@ -94,10 +94,11 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
-            if ('{{DEFAULT_LANG}}'.split(/[\-_]/)[0].toLowerCase()=='ru') {
+            if (this.mode && !this.mode.canFeatureForms) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;
@@ -176,10 +177,11 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
-            if ('{{DEFAULT_LANG}}'.split(/[\-_]/)[0].toLowerCase()=='ru') {
+            if (this.mode && !this.mode.canFeatureForms) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;

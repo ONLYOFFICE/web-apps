@@ -269,7 +269,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
                     caption: this.capBtnPrev,
-                    disabled: true,
+                    disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -280,7 +280,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
                     caption: this.capBtnNext,
-                    disabled: true,
+                    disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -292,7 +292,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon submit-form',
                         caption: this.capBtnSubmit,
-                        disabled: true,
+                        disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -304,7 +304,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon save-form',
                         caption: this.capBtnSaveForm,
-                        disabled: true,
+                        disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -327,7 +327,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    if (config.isEdit && config.canFeatureContentControl) {
+                    if (config.isEdit && config.canFeatureContentControl && config.canFeatureForms) {
                         if (config.canEditContentControl) {
                             me.btnHighlight.setMenu();
                             me.mnuFormsColorPicker = me.btnHighlight.getPicker();
