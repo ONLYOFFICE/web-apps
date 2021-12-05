@@ -384,7 +384,8 @@ define([
         },
 
         onContentThemeChangedToDark: function (isdark) {
-            this.header.menuItemsDarkMode.setChecked(isdark, true);
+            if ( this.header.menuItemsDarkMode )
+                this.header.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         onWindowResize: function(e) {
