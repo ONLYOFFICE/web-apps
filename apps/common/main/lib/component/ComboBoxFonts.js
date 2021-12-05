@@ -229,8 +229,10 @@ define([
                         me.onAfterHideMenu(e);
                     }, 10);
                 } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT && e.keyCode != Common.UI.Keys.TAB){
-                    if (!this.isMenuOpen() && !e.ctrlKey)
+                    if (!this.isMenuOpen() && !e.ctrlKey) {
                         this.openMenu();
+                        (this.recent > 0) && this.flushVisibleFontsTiles();
+                    }
 
                     if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                         _.delay(function() {
