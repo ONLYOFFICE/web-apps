@@ -3168,8 +3168,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3217,8 +3217,8 @@ define([
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
-            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
-                if (config.canFeatureForms) {
+            if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
+                if (config.isFormCreator) {
                     tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
@@ -3226,7 +3226,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }

@@ -94,9 +94,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -170,9 +177,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 

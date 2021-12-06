@@ -401,7 +401,8 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
-                this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
+                this.appOptions.canFeatureContentControl = true;
+                this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
@@ -480,8 +481,7 @@ define([
                 }
 
                 var type = data.doc ? /^(?:(docxf))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string');
-                this.appOptions.canFeatureForms = this.appOptions.isFormCreator; // show forms only for docxf
+                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string') && this.appOptions.canFeatureForms; // show forms only for docxf
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
                 if (type && typeof type[1] === 'string') {
