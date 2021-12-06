@@ -229,6 +229,20 @@ Common.UI.HintManager = new(function() {
         if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title
             visibleItems.forEach(function (item) {
                 var el = $(item);
+                if (_lang !== 'en') {
+                    var title = el.attr('data-hint-title').toLowerCase(),
+                        firstLetter = title.substr(0, 1);
+                    if (_arrAlphabet.indexOf(firstLetter) === -1) { // tip is in English
+                        var newTip = '';
+                        for (var i = 0; i < title.length; i++) {
+                            var letter = title.substr(i, 1),
+                                ind = _arrEnAlphabet.indexOf(letter);
+                            newTip = newTip + _arrAlphabet[ind].toUpperCase();
+                        }
+                        el.attr('data-hint-title', newTip);
+                    }
+
+                }
                 _currentControls.push(el);
             });
             return;
