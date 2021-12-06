@@ -34,6 +34,7 @@ define([
             window.currentLoaderTheme = undefined;
         }
 
+        var is_dark_mode_allowed = true;
         var id_default_light_theme = 'theme-classic-light',
             id_default_dark_theme = 'theme-dark';
 
@@ -249,10 +250,21 @@ define([
             return objtheme;
         }
 
+        var on_document_open = function (data) {
+            var document = data.doc;
+            is_dark_mode_allowed = !/^pdf|djvu|xps|oxps$/.test(document.fileType);
+            if ( is_dark_mode_allowed ) {
+                if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
+                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                }
+            }
+        };
+
         return {
             init: function (api) {
                 var me = this;
 
+                Common.Gateway.on('opendocument', on_document_open.bind(this));
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         if ( !!e.originalEvent.newValue ) {
@@ -300,10 +312,6 @@ define([
                 obj.type = themes_map[theme_name].type;
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
-
-                if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
-                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                }
 
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
@@ -381,7 +389,7 @@ define([
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
                     if ( this.api ) {
-                        if ( this.api.asc_setContentDarkMode )
+                        if ( this.api.asc_setContentDarkMode && is_dark_mode_allowed )
                             if ( themes_map[id].type == 'light' ) {
                                 this.api.asc_setContentDarkMode(false);
                             } else {
