@@ -53,7 +53,7 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
 
             this.view = this.createView('ApplicationView').render();
 
@@ -102,6 +102,7 @@ define([
                 this.api.asc_registerCallback('asc_onAdvancedOptions',       this.onAdvancedOptions.bind(this));
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
+                this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                 // Initialize api gateway
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
@@ -359,6 +360,23 @@ define([
 
         onCurrentPage: function(number) {
             this.view.txtGoToPage.setValue(number + 1);
+        },
+
+        updateWindowTitle: function(force) {
+            var isModified = this.api.isDocumentModified();
+            if (this._state.isDocModified !== isModified || force) {
+                this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
+                this._state.isDocModified = isModified;
+            }
+        },
+
+        onDocumentModifiedChanged: function() {
+            var isModified = this.api.asc_isDocumentCanSave();
+            if (this._state.isDocModified !== isModified) {
+                this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+            }
+
+            this.updateWindowTitle();
         },
 
         loadConfig: function(data) {
@@ -717,6 +735,8 @@ define([
         onLongActionEnd: function(type, id){
              var action = {id: id, type: type};
              this.stackLongActions.pop(action);
+
+            this.updateWindowTitle(true);
 
              action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
              action && this.setLongActionView(action);
@@ -1265,8 +1285,11 @@ define([
         },
 
         onDocumentContentReady: function() {
-            var me = this;
+            if (this._isDocReady)
+                return;
 
+            var me = this;
+            me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -1294,6 +1317,8 @@ define([
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
+
+            this.updateWindowTitle(true);
 
             if (this.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
                 this.applyLicense();
