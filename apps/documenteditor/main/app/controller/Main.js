@@ -554,10 +554,11 @@ define([
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
                             Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM,
-                            Asc.c_oAscFileType.DOCXF,
-                            Asc.c_oAscFileType.OFORM
+                            Asc.c_oAscFileType.DOCM
                         ];
+                    if (this.appOptions.canFeatureForms) {
+                        _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                    }
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
                         _format = Asc.c_oAscFileType.DOCX;

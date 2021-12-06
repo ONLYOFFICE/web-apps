@@ -523,8 +523,8 @@ define([
                             }
 
                             showPoint = [moveData.get_X(), moveData.get_Y()];
-                            showPoint[1] += (me._XY[1]-15);
-                            showPoint[0] += (me._XY[0]+5);
+                            showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                            showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
 
                             if (!screenTip.isVisible || recalc) {
                                 screenTip.isVisible = true;
@@ -536,6 +536,8 @@ define([
                                 screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
                             }
                             showPoint[1] -= screenTip.tipHeight;
+                            if (showPoint[1]<0)
+                                showPoint[1] = 0;
                             if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
                                 showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                             screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
