@@ -353,3 +353,49 @@
 .combo-slicer-style {
     .combo-textart(60px, 4px);
 }
+
+.combo-transitions {
+    @combo-dataview-height: 46px;
+    @combo-dataview-height-calc: calc(40px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
+    @combo-dataview-item-margins: @scaled-two-px-value;
+    @combo-dataview-button-width: 15px;
+
+    height: @combo-dataview-height;
+    height: @combo-dataview-height-calc;
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+    }
+
+    .view .dataview, .dropdown-menu {
+        padding: 0;
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+        height: @combo-dataview-height-calc;
+    }
+
+    .item {
+        padding: 0px;
+        margin: @combo-dataview-item-margins 0 0 @combo-dataview-item-margins;
+        .box-shadow(none);
+    }
+
+    .menu-picker-container {
+        .last-item {
+            margin-bottom: @combo-dataview-item-margins;
+        }
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(none);
+            }
+        }
+    }
+
+}
