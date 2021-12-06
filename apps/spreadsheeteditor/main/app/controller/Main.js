@@ -1860,8 +1860,8 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.FillAllRowsWarning:
-                        var fill = errData[1],
-                            have = errData[2],
+                        var fill = errData[0],
+                            have = errData[1],
                             fillWithSeparator = fill.toLocaleString(this.appOptions.lang);
                         if (this.appOptions.isDesktopApp && this.appOptions.isOffline) {
                             config.msg = fill > have ? Common.Utils.String.format(this.textFormulaFilledAllRowsWithEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledAllRows, fillWithSeparator);
