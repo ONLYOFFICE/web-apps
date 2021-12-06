@@ -60,6 +60,7 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
+        var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
 
         if ( !!native ) {
             native.features = {};
@@ -89,7 +90,8 @@ define([
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
                     } else
                     if ( obj.lockthemes != undefined ) {
-                        Common.UI.Themes.setAvailable(!obj.lockthemes);
+                        // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
+                        // Common.UI.Themes.setAvailable(!obj.lockthemes);
                     } else
                     if ( obj.singlewindow !== undefined ) {
                         $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
@@ -190,6 +192,7 @@ define([
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
+                    Common.UI.Themes.setAvailable(!is_win_xp);
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
                         !!native && native.execCommand('doc:onready', '');
