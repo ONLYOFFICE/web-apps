@@ -265,7 +265,7 @@ define([
                         'FileMenu': {
                             'item:click': function (menu, action, isopts) {
                                 if ( action == 'file:exit' ) {
-                                    native.execCommand('editor:event', JSON.stringify({action: 'file:exit'}));
+                                    native.execCommand('editor:event', JSON.stringify({action: 'file:close'}));
                                     menu.hide();
                                 } else
                                 if ( action == 'file:open' ) {
@@ -300,7 +300,7 @@ define([
             },
             requestClose: function () {
                 if ( config.isDesktopApp && !!native ) {
-                    native.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
+                    native.execCommand('editor:event', JSON.stringify({action:'file:close', url: config.customization.goback.url}));
                 }
             },
             isActive: function () {
