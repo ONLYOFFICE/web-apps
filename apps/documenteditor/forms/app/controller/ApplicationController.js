@@ -1872,6 +1872,9 @@ define([
 
         Common.Gateway.on('opendocument', function () {
             api = DE.getController('ApplicationController').api;
+
+            var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+            Common.UI.Themes.setAvailable(!is_win_xp);
         });
 
         return {
