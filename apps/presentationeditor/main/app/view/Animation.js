@@ -61,6 +61,9 @@ define([
                 me.listEffects.on('click', _.bind(function (combo, record) {
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
+                me.listEffectsMore.on('click', _.bind(function () {
+                    me.fireEvent('animation:additional');
+                }, me));
             }
 
             if (me.btnPreview) {
@@ -132,6 +135,9 @@ define([
                 this._arrEffectOptions = [];
                 var itemWidth = 87,
                     itemHeight = 40;
+                this.listEffectsMore = new Common.UI.MenuItem({
+                    caption: this.textMoreEffects
+                });
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
@@ -144,6 +150,7 @@ define([
                     ].join('')),
                     groups: new Common.UI.DataViewGroupStore([{id: 'none', value: -10, caption: this.textNone}].concat(Common.define.effectData.getEffectGroupData())),
                     store: new Common.UI.DataViewStore(this._arrEffectName),
+                    additionalMenuItems: [{caption: '--'}, this.listEffectsMore],
                     enableKeyEvents: true,
                     //lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
@@ -473,8 +480,9 @@ define([
             textStartOnClick: 'On Click',
             textStartWithPrevious: 'With Previous',
             textStartAfterPrevious: 'After Previous',
-            textNone: 'None'
+            textNone: 'None',
+            textMoreEffects: 'Show More Effects'
         }
     }()), PE.Views.Animation || {}));
 
-    });
+});

@@ -72,7 +72,8 @@ define([
                     'animation:addanimation':   _.bind(this.onAddAnimation, this),
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                     'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
-                    'animation:repeat':         _.bind(this.onRepeatChange, this)
+                    'animation:repeat':         _.bind(this.onRepeatChange, this),
+                    'animation:additional':     _.bind(this.onAnimationAdditional, this)
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -130,6 +131,13 @@ define([
         },
 
         onAnimationPane: function() {
+            (new PE.Views.AnimationDialog({
+                api         : this.api,
+                activeEffect : this._state.Effect
+            })).show();
+        },
+
+        onAnimationAdditional: function() {
             (new PE.Views.AnimationDialog({
                 api         : this.api,
                 activeEffect : this._state.Effect
