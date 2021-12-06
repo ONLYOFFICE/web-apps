@@ -133,7 +133,7 @@ define([
                 var itemWidth = 87,
                     itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
-                    cls: 'combo-styles animation',
+                    cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     itemTemplate: _.template([
@@ -329,7 +329,7 @@ define([
                     setEvents.call(me);
 
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
-                        style: 'width: 403px;padding-top: 12px;',
+                        style: 'width: 370px;padding-top: 12px;',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')}
                         ]
