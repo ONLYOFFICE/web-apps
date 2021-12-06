@@ -133,11 +133,14 @@ define([
                     {title: this.textUnCover, imageUrl: "transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
                     {title: this.textCover, imageUrl: "transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl: "transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()}
+                    {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(), cls: 'last-item'}
                 ];
+                this._arrEffectName.forEach(function(item) {
+                    item.tip = item.title;
+                });
 
                 this.listEffects = new Common.UI.ComboDataView({
-                    cls: 'combo-styles',
+                    cls: 'combo-transitions',
                     itemWidth: 87,
                     itemHeight: 40,
                     enableKeyEvents: true,
@@ -145,6 +148,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
+                    delayRenderTips: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
