@@ -314,7 +314,7 @@
           </div>
       </div>
 
-      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Click the link to open it" style="display:none;"></div>
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

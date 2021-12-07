@@ -724,6 +724,7 @@ define([
                     case Asc.c_oAscAsyncAction.ForceSaveTimeout:
                         clearTimeout(this._state.timerSave);
                         force   = true;
+                        title   = this.saveTitleText;
                         text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
