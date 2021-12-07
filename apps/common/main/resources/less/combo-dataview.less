@@ -343,3 +343,88 @@
 .combo-slicer-style {
     .combo-textart(60px, 4px);
 }
+
+.combo-transitions {
+    @combo-dataview-height: 46px;
+    @combo-dataview-height-calc: calc(40px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
+    @combo-dataview-item-margins: @scaled-two-px-value;
+    @combo-dataview-button-width: 15px;
+
+    height: @combo-dataview-height;
+    height: @combo-dataview-height-calc;
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+    }
+
+    .view .dataview, .dropdown-menu {
+        padding: 0;
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+        height: @combo-dataview-height-calc;
+    }
+
+    .item {
+        padding: 0px;
+        margin: @combo-dataview-item-margins 0 0 @combo-dataview-item-margins;
+        .box-shadow(none);
+    }
+
+    .menu-picker-container {
+        .group-description {
+            padding: 3px 0 3px 10px;
+            font-weight: bold;
+        }
+
+        .group-items-container .item {
+            box-shadow: none;
+            margin: @scaled-two-px-value 0 0 @scaled-two-px-value;
+            &:last-child {
+                margin-bottom: @combo-dataview-item-margins;
+            }
+        }
+
+        .last-item {
+            margin-bottom: @combo-dataview-item-margins;
+        }
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(none);
+            }
+        }
+    }
+}
+
+.combo-transitions, .menu-animation {
+    .btn_item {
+        color: @text-normal-ie;
+        color: @text-normal;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icon:not(svg) {
+            width: @x-huge-btn-icon-size;
+            height: @x-huge-btn-icon-size;
+            min-width: 0;
+            margin-top: -2px;
+        }
+
+        .caption{
+            line-height: 18px;
+            font-size: 11px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            padding: 0 2px;
+        }
+    }
+}

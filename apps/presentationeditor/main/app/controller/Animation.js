@@ -73,6 +73,7 @@ define([
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                     'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
                     'animation:repeat':         _.bind(this.onRepeatChange, this),
+                    'animation:additional':     _.bind(this.onAnimationAdditional, this),
                     'animation:trigger':        _.bind(this.onTriggerClick, this),
                     'animation:triggerclickof': _.bind(this.onTriggerClickOfClick, this)
                 },
@@ -132,6 +133,13 @@ define([
         },
 
         onAnimationPane: function() {
+            (new PE.Views.AnimationDialog({
+                api         : this.api,
+                activeEffect : this._state.Effect
+            })).show();
+        },
+
+        onAnimationAdditional: function() {
             (new PE.Views.AnimationDialog({
                 api         : this.api,
                 activeEffect : this._state.Effect
@@ -343,7 +351,6 @@ define([
         },
 
         setSettings: function () {
-
             var me = this.view;
             var item;
             this.setTriggerList();

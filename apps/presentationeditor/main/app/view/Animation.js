@@ -61,6 +61,9 @@ define([
                 me.listEffects.on('click', _.bind(function (combo, record) {
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
+                me.listEffectsMore.on('click', _.bind(function () {
+                    me.fireEvent('animation:additional');
+                }, me));
             }
 
             if (me.btnPreview) {
@@ -136,7 +139,6 @@ define([
                     ClickOf:        1
                 }
 
-
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
@@ -148,8 +150,11 @@ define([
                 this._arrEffectOptions = [];
                 var itemWidth = 87,
                     itemHeight = 40;
+                this.listEffectsMore = new Common.UI.MenuItem({
+                    caption: this.textMoreEffects
+                });
                 this.listEffects = new Common.UI.ComboDataView({
-                    cls: 'combo-styles animation',
+                    cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     itemTemplate: _.template([
@@ -361,7 +366,7 @@ define([
                     setEvents.call(me);
 
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
-                        style: 'width: 403px;padding-top: 12px;',
+                        style: 'width: 370px;padding-top: 12px;',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')}
                         ]
@@ -437,8 +442,6 @@ define([
                 }, this);
             },
 
-
-
             setMenuParameters: function (effectId, option)
             {
                 var effect = this.listEffects.store.findWhere({value: effectId});
@@ -490,8 +493,9 @@ define([
             textStartAfterPrevious: 'After Previous',
             textOnClickSequence: 'On Click Sequence',
             textOnClickOf: 'On Click of',
-            textNone: 'None'
+            textNone: 'None',
+            textMoreEffects: 'Show More Effects'
         }
     }()), PE.Views.Animation || {}));
 
-    });
+});
