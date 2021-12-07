@@ -111,6 +111,8 @@ class ContextMenuController extends Component {
             });
 
             if ( this.state.items.length > 0 ) {
+                const api = Common.EditorApi.get();
+
                 this.$targetEl.css({left: `${x}px`, top: `${y}px`});
                 const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
@@ -120,6 +122,8 @@ class ContextMenuController extends Component {
                 this.setState(state => {
                     return {opened: true}
                 });
+
+                api.asc_enableKeyEvents(true);
             }
         }
     }

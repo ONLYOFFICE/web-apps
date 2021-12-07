@@ -137,6 +137,14 @@ const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('View.Settings', {returnObjects: true});
 
+    useEffect(() => {
+        if (f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
+            const api = Common.EditorApi.get();
+            $$('.searchbar-input').focus();
+            api.asc_enableKeyEvents(false);
+        }
+    });
+
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
       
@@ -155,7 +163,7 @@ const Search = withTranslation()(props => {
             options.asc_setScanByRows(searchBy);
             options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
-            api.asc_selectSearchingResults(true);
+            if (params.highlight) api.asc_selectSearchingResults(true);
 
             if (!api.asc_findText(options)) {
                 f7.dialog.alert(null, _t.textNoTextFound);

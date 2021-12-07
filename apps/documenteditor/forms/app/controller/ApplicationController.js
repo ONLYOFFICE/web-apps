@@ -11,6 +11,10 @@ define([
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SaveAsDlg',
+    'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
     'documenteditor/forms/app/view/ApplicationView'
 ], function (Viewport) {
@@ -49,14 +53,21 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
 
             this.view = this.createView('ApplicationView').render();
 
             window["flat_desine"] = true;
+            var translationTable = {
+                'Your text here': this.txtArt,
+                "Choose an item": this.txtChoose,
+                "Enter a date": this.txtEnterDate,
+                "Click to load image": this.txtClickToLoad
+            }
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
-                'embedded' : true
+                'embedded' : true,
+                'translate': translationTable
             });
 
             Common.UI.Themes.init(this.api);
@@ -80,6 +91,7 @@ define([
             this.editorConfig = {};
             this.embedConfig = {};
             this.appOptions = {};
+            this.internalFormObj = null;
 
             if (this.api){
                 this.api.asc_registerCallback('asc_onError',                 this.onError.bind(this));
@@ -87,9 +99,10 @@ define([
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  this.onOpenDocument.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
                 this.api.asc_registerCallback('asc_onServerVersion',         this.onServerVersion.bind(this));
-
+                this.api.asc_registerCallback('asc_onAdvancedOptions',       this.onAdvancedOptions.bind(this));
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
+                this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                 // Initialize api gateway
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
@@ -182,6 +195,10 @@ define([
                     config.msg = this.convertationErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.ConvertationOpenError:
+                    config.msg = this.openErrorText;
+                    break;
+
                 case Asc.c_oAscError.ID.DownloadError:
                     config.msg = this.downloadErrorText;
                     break;
@@ -221,7 +238,7 @@ define([
                     break;
 
                 case Asc.c_oAscError.ID.EditingError:
-                    config.msg = this.errorEditingDownloadas;
+                    config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                     break;
 
                 case Asc.c_oAscError.ID.ForceSaveButton:
@@ -238,12 +255,40 @@ define([
                     config.closable = false;
                     break;
 
+                case Asc.c_oAscError.ID.VKeyEncrypt:
+                    config.msg = this.errorToken;
+                    break;
+
                 case Asc.c_oAscError.ID.KeyExpire:
                     config.msg = this.errorTokenExpire;
                     break;
 
                 case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                     config.msg = this.errorViewerDisconnect;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionAbsolute:
+                    config.msg = this.errorSessionAbsolute;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionIdle:
+                    config.msg = this.errorSessionIdle;
+                    break;
+
+                case Asc.c_oAscError.ID.SessionToken:
+                    config.msg = this.errorSessionToken;
+                    break;
+
+                case Asc.c_oAscError.ID.UplImageUrl:
+                    config.msg = this.errorBadImageUrl;
+                    break;
+
+                case Asc.c_oAscError.ID.DataEncrypted:
+                    config.msg = this.errorDataEncrypted;
+                    break;
+
+                case Asc.c_oAscError.ID.ConvertationSaveError:
+                    config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.saveErrorTextDesktop : this.saveErrorText;
                     break;
 
                 default:
@@ -277,11 +322,14 @@ define([
                 config.callback = _.bind(function(btn){
                     if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                         Common.UI.Menu.Manager.hideAll();
-                        var me = this;
-                        setTimeout(function() {
-                            $('button', me.view.btnOptions.cmpEl).click();
-                        }, 10);
-
+                        if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                            this.api.asc_DownloadAs();
+                        else {
+                            var me = this;
+                            setTimeout(function() {
+                                $('button', me.view.btnOptions.cmpEl).click();
+                            }, 10);
+                        }
                     } else if (id == Asc.c_oAscError.ID.EditingError) {
                         Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                     }
@@ -314,6 +362,23 @@ define([
             this.view.txtGoToPage.setValue(number + 1);
         },
 
+        updateWindowTitle: function(force) {
+            var isModified = this.api.isDocumentModified();
+            if (this._state.isDocModified !== isModified || force) {
+                this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
+                this._state.isDocModified = isModified;
+            }
+        },
+
+        onDocumentModifiedChanged: function() {
+            var isModified = this.api.asc_isDocumentCanSave();
+            if (this._state.isDocModified !== isModified) {
+                this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+            }
+
+            this.updateWindowTitle();
+        },
+
         loadConfig: function(data) {
             this.editorConfig = $.extend(this.editorConfig, data.config);
             this.embedConfig = $.extend(this.embedConfig, data.config.embedded);
@@ -341,6 +406,12 @@ define([
             this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
             this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                 && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
+
+            this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+            this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
+            this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
+            this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
+            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
         },
 
         onExternalMessage: function(msg) {
@@ -468,13 +539,15 @@ define([
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
                 this.permissions.edit = this.permissions.review = false;
 
+            this.appOptions.isOffline      = this.api.asc_isOffline();
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
+            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
 
             var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
-            this.appOptions.canFillForms   = this.appOptions.canLicense && !!(type && typeof type[1] === 'string') && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
+            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -491,6 +564,10 @@ define([
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
             me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
+            if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
+                me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
+                me.view.btnDownload.updateHint('');
+            }
             if (!this.appOptions.canFillForms) {
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
@@ -509,7 +586,14 @@ define([
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
-                    me.appOptions.canDownload && me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    if (me.appOptions.canDownload) {
+                        if (me.appOptions.isOffline)
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        else {
+                            me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                        }
+                    }
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -518,17 +602,7 @@ define([
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             }
 
-            var $parent = labelDocName.parent();
-            var _left_width = $parent.position().left,
-                _right_width = $parent.next().outerWidth();
-
-            if ( _left_width < _right_width )
-                $parent.css('padding-left', _right_width - _left_width);
-            else
-                $parent.css('padding-right', _left_width - _right_width);
-
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-
             this.api.asc_LoadDocument();
             this.api.Resize();
         },
@@ -660,9 +734,11 @@ define([
             }
         },
 
-         onLongActionEnd: function(type, id){
+        onLongActionEnd: function(type, id){
              var action = {id: id, type: type};
              this.stackLongActions.pop(action);
+
+            this.updateWindowTitle(true);
 
              action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
              action && this.setLongActionView(action);
@@ -686,6 +762,42 @@ define([
                  !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
                  this.api.asc_enableKeyEvents(true);
              }
+        },
+
+        onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
+            if (this._openDlg) return;
+
+            var me = this;
+            if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                me._openDlg = new Common.Views.OpenDialog({
+                    title: Common.Views.OpenDialog.prototype.txtTitleProtected,
+                    closeFile: me.appOptions.canRequestClose,
+                    type: Common.Utils.importTextType.DRM,
+                    warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
+                    warningMsg: advOptions,
+                    validatePwd: !!me._isDRM,
+                    handler: function (result, value) {
+                        me.isShowOpenDialog = false;
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_setAdvancedOptions(type, value.drmOptions);
+                                me.loadMask && me.loadMask.show();
+                            }
+                        } else {
+                            Common.Gateway.requestClose();
+                            Common.Controllers.Desktop.requestClose();
+                        }
+                        me._openDlg = null;
+                    }
+                });
+                me._isDRM = true;
+            }
+            if (me._openDlg) {
+                this.isShowOpenDialog = true;
+                this.loadMask && this.loadMask.hide();
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                me._openDlg.show();
+            }
         },
 
         onDocMouseMoveStart: function() {
@@ -760,8 +872,41 @@ define([
             }
         },
 
-        onDownloadUrl: function(url) {
-            Common.Gateway.downloadAs(url);
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromBtnDownload) { // download as pdf
+                var me = this,
+                    defFileName = this.embedConfig.docTitle;
+                !defFileName && (defFileName = me.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
+
+                if (me.appOptions.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.appOptions.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            } else {
+                Common.Gateway.downloadAs(url);
+            }
+            this.isFromBtnDownload = false;
         },
 
         onPrint: function() {
@@ -853,10 +998,7 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.api.asc_addImage(obj);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -870,6 +1012,125 @@ define([
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        },
+
+        onShowImageActions: function(obj, x, y) {
+            var menu = this.imageControlMenu,
+                menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.imageControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tl-bl',
+                    items: [
+                        {caption: this.mniImageFromFile, value: 'file'},
+                        {caption: this.mniImageFromUrl, value: 'url'},
+                        {caption: this.mniImageFromStorage, value: 'storage', visible: this.appOptions.canRequestInsertImage || this.appOptions.fileChoiceUrl && this.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1}
+                    ]
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.onImageSelect(menu, item);
+                    }, 1);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.boxSdk.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value=='url') {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value=='storage') {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                this.api.asc_addImage(this.internalFormObj);
+                this._isFromFile = false;
+            }
+        },
+
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.appOptions.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.appOptions.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        setImageUrl: function(url, token) {
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+        },
+
+        insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
+            Common.NotificationCenter.trigger('storage:image-insert', data);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
+            }
         },
 
         onShowListActions: function(obj, x, y) {
@@ -1026,8 +1287,11 @@ define([
         },
 
         onDocumentContentReady: function() {
-            var me = this;
+            if (this._isDocReady)
+                return;
 
+            var me = this;
+            me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -1051,7 +1315,12 @@ define([
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
                 this.api.asc_SetHighlightRequiredFields(true);
+                Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
+                Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
+                Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
+
+            this.updateWindowTitle(true);
 
             if (this.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
                 this.applyLicense();
@@ -1084,11 +1353,18 @@ define([
                     Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
-                    if (this.appOptions.customization && this.appOptions.customization.goback) {
+                    if (!DE.Controllers.Desktop.process('goback') &&
+                            this.appOptions.customization && this.appOptions.customization.goback)
+                    {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
                             Common.Gateway.requestClose();
-                        else if (this.appOptions.customization.goback.url)
-                            window.parent.location.href = this.appOptions.customization.goback.url;
+                        else if (this.appOptions.customization.goback.url) {
+                            if (this.appOptions.customization.goback.blank!==false) {
+                                window.open(this.appOptions.customization.goback.url, "_blank");
+                            } else {
+                                window.parent.location.href = this.appOptions.customization.goback.url;
+                            }
+                        }
                     }
                     break;
                 case 'download-docx':
@@ -1113,7 +1389,11 @@ define([
         },
 
         onThemeClick: function(menu, item) {
-            Common.UI.Themes.setTheme(item.value);
+            (item.value!==null) && Common.UI.Themes.setTheme(item.value);
+        },
+
+        onDarkModeClick: function(item) {
+            Common.UI.Themes.toggleContentTheme();
         },
 
         onThemeChange: function() {
@@ -1121,6 +1401,11 @@ define([
             _.each(this.view.mnuThemes.items, function(item){
                 item.setChecked(current===item.value, true);
             });
+            if (this.view.menuItemsDarkMode) {
+                this.view.menuItemsDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+                this.view.menuItemsDarkMode.setChecked(Common.UI.Themes.isContentThemeDark());
+            }
+
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
                 if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
@@ -1128,6 +1413,10 @@ define([
                     $('#header-logo img').attr('src', image);
                 }
             }
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            this.view.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         createDelayedElements: function() {
@@ -1172,12 +1461,12 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.isOFORM) {
                 menuItems[2].setVisible(false);
                 itemsCount--;
             }
 
-            if ( !this.appOptions.canFillForms || !this.appOptions.canDownload) {
+            if ( !this.appOptions.isOFORM || !this.appOptions.canDownload || this.appOptions.isOffline) {
                 menuItems[3].setVisible(false);
                 menuItems[4].setVisible(false);
                 itemsCount -= 2;
@@ -1199,11 +1488,21 @@ define([
                 menuItems[6].setVisible(false);
                 itemsCount--;
             } else {
+                this.view.menuItemsDarkMode = new Common.UI.MenuItem({
+                    caption: this.view.txtDarkMode,
+                    checkable: true,
+                    checked: Common.UI.Themes.isContentThemeDark(),
+                    disabled: !Common.UI.Themes.isDarkTheme()
+                });
+                this.view.mnuThemes.addItem(new Common.UI.MenuItem({caption     :  '--'}));
+                this.view.mnuThemes.addItem(this.view.menuItemsDarkMode);
                 this.view.mnuThemes.on('item:click', _.bind(this.onThemeClick, this));
+                this.view.menuItemsDarkMode.on('click', _.bind(this.onDarkModeClick, this));
                 Common.NotificationCenter.on('uitheme:changed', this.onThemeChange.bind(this));
+                Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             }
 
-            if ( !this.embedConfig.shareUrl || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
                 menuItems[8].setVisible(false);
                 itemsCount--;
             }
@@ -1213,12 +1512,12 @@ define([
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.embedUrl || this.appOptions.canFillForms) {
+            if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
                 menuItems[11].setVisible(false);
                 itemsCount--;
             }
 
-            if ( !this.embedConfig.fullscreenUrl ) {
+            if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
                 menuItems[12].setVisible(false);
                 itemsCount--;
             }
@@ -1421,11 +1720,12 @@ define([
                 var cancopy = this.api.can_CopyCut(),
                     disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
                                menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked);
-                this.textMenu.items[0].setDisabled(!cancopy); // copy
-                this.textMenu.items[1].setDisabled(disabled || !cancopy); // cut
-                this.textMenu.items[2].setDisabled(disabled) // paste;
-                this.textMenu.items[3].setVisible(this.appOptions.canPrint);
-                this.textMenu.items[3].setDisabled(!cancopy);
+                this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
+                this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
+
+                this.textMenu.items[3].setDisabled(!cancopy); // copy
+                this.textMenu.items[4].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[5].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1433,6 +1733,12 @@ define([
 
         onContextMenuClick: function(menu, item, e) {
             switch (item.value) {
+                case 'undo':
+                    this.api && this.api.Undo();
+                    break;
+                case 'redo':
+                    this.api && this.api.Redo();
+                    break;
                 case 'copy':
                 case 'cut':
                 case 'paste':
@@ -1448,13 +1754,6 @@ define([
                             }
                         }
                     }
-                    break;
-                case 'print':
-                    var printopt = new Asc.asc_CAdjustPrint();
-                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                    opts.asc_setAdvancedOptions(printopt);
-                    this.api.asc_Print(opts);
                     break;
             }
         },
@@ -1507,7 +1806,96 @@ define([
         errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
         errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
         uploadImageSizeMessage: 'Maximum image size limit exceeded.',
-        uploadImageExtMessage: 'Unknown image format.'
+        uploadImageExtMessage: 'Unknown image format.',
+        txtArt: 'Your text here',
+        txtChoose: 'Choose an item',
+        txtEnterDate: 'Enter a date',
+        txtClickToLoad: 'Click to load image',
+        openErrorText: 'An error has occurred while opening the file',
+        mniImageFromFile: 'Image from File',
+        mniImageFromUrl: 'Image from URL',
+        mniImageFromStorage: 'Image from Storage',
+        txtUntitled: 'Untitled',
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+        errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+        errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+        errorBadImageUrl: 'Image url is incorrect',
+        errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
+        saveErrorText: 'An error has occurred while saving the file',
+        saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+        errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+        textSaveAs: 'Save as PDF',
+        textSaveAsDesktop: 'Save as...'
 
     }, DE.Controllers.ApplicationController));
+
+    var Desktop = function () {
+        var features = {
+            version: '{{PRODUCT_VERSION}}',
+            // eventloading: true,
+            uithemes: true
+        };
+        var api;
+
+        var native = window.desktop || window.AscDesktopEditor;
+        !!native && native.execCommand('webapps:features', JSON.stringify(features));
+
+        if ( !!native ) {
+            $('#header-logo, .brand-logo').hide();
+
+            window.on_native_message = function (cmd, param) {
+                if (/theme:changed/.test(cmd)) {
+                    if ( !!Common.UI.Themes.setTheme )
+                        Common.UI.Themes.setTheme(param);
+                } else
+                if (/window:features/.test(cmd)) {
+                    var obj = JSON.parse(param);
+                    if ( obj.singlewindow !== undefined ) {
+                        $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
+                    }
+                }
+            };
+
+            if ( !!window.native_message_cmd ) {
+                for ( var c in window.native_message_cmd ) {
+                    window.on_native_message(c, window.native_message_cmd[c]);
+                }
+            }
+
+            Common.NotificationCenter.on({
+                'uitheme:changed' : function (name) {
+                    var theme = Common.UI.Themes.get(name);
+                    if ( theme )
+                        native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                },
+            });
+        }
+
+        Common.Gateway.on('opendocument', function () {
+            api = DE.getController('ApplicationController').api;
+
+            var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+            Common.UI.Themes.setAvailable(!is_win_xp);
+        });
+
+        return {
+            isActive: function () {
+                return !!native;
+            },
+            process: function (opts) {
+                if ( !!native && !!api ) {
+                    if ( opts == 'goback' ) {
+                        var config = DE.getController('ApplicationController').editorConfig;
+                        native.execCommand('go:folder',
+                            api.asc_isOffline() ? 'offline' : config.customization.goback.url);
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+        }
+    };
+    DE.Controllers.Desktop = new Desktop();
 });

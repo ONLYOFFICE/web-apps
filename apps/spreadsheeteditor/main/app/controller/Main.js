@@ -458,6 +458,10 @@ define([
                 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
+
+                if (this.appOptions.isEditDiagram) {
+                    Common.UI.HintManager.setMode(this.appOptions);
+                }
             },
 
             loadDocument: function(data) {
@@ -1469,7 +1473,7 @@ define([
                 }
             },
 
-            onError: function(id, level, errData) {
+            onError: function(id, level, errData, callback) {
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
@@ -1868,6 +1872,20 @@ define([
                         config.msg = this.errorLoadingFont;
                         break;
 
+                    case Asc.c_oAscError.ID.FillAllRowsWarning:
+                        var fill = errData[0],
+                            have = errData[1],
+                            fillWithSeparator = fill.toLocaleString(this.appOptions.lang);
+                        if (this.appOptions.isDesktopApp && this.appOptions.isOffline) {
+                            config.msg = fill > have ? Common.Utils.String.format(this.textFormulaFilledAllRowsWithEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledAllRows, fillWithSeparator);
+                            config.buttons = [{caption: this.textFillOtherRows, primary: true, value: 'fillOther'}, 'close'];
+                        } else {
+                            config.msg = fill >= have ? Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherIsEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherHaveData, fillWithSeparator, (have - fill).toLocaleString(this.appOptions.lang));
+                            config.buttons = ['ok'];
+                        }
+                        config.maxwidth = 400;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1907,6 +1925,8 @@ define([
                             Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         } else if (id == Asc.c_oAscError.ID.DataValidate && btn !== 'ok') {
                             this.api.asc_closeCellEditor(true);
+                        } else if (id == Asc.c_oAscError.ID.FillAllRowsWarning && btn === 'fillOther' && _.isFunction(callback)) {
+                            callback();
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -2089,7 +2109,7 @@ define([
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                Common.UI.error({
+                Common.UI.warning({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
@@ -2247,7 +2267,7 @@ define([
             },
 
             checkProtectedRange: function(callback, scope, args) {
-                var result = this.api.asc_isProtectedSheet() ? this.api.asc_checkProtectedRange() : false;
+                var result = this.api.asc_isProtectedSheet() && this.api.asc_checkLockedCells() ? this.api.asc_checkProtectedRange() : false;
                 if (result===null) {
                     this.onError(Asc.c_oAscError.ID.ChangeOnProtectedSheet, Asc.c_oAscError.Level.NoCritical);
                     return;
@@ -2266,18 +2286,20 @@ define([
                         handler: function (result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
-                                    if (me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword())) {
-                                        callback && setTimeout(function() {
-                                            callback.apply(scope, args);
-                                        }, 1);
-                                    } else {
-                                        Common.UI.warning({
-                                            msg: me.errorWrongPassword,
-                                            callback: function() {
-                                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                            }
-                                        });
-                                    }
+                                    me.api.asc_checkActiveCellPassword(value.drmOptions.asc_getPassword(), function(res) {
+                                        if (res) {
+                                            callback && setTimeout(function() {
+                                                callback.apply(scope, args);
+                                            }, 1);
+                                        } else {
+                                            Common.UI.warning({
+                                                msg: me.errorWrongPassword,
+                                                callback: function() {
+                                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -3412,7 +3434,12 @@ define([
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             textNeedSynchronize: 'You have an updates',
-            textChangesSaved: 'All changes saved'
+            textChangesSaved: 'All changes saved',
+            textFillOtherRows: 'Fill other rows',
+            textFormulaFilledAllRows: 'Formula filled {0} rows have data. Filling other empty rows may take a few minutes.',
+            textFormulaFilledAllRowsWithEmpty: 'Formula filled first {0} rows. Filling other empty rows may take a few minutes.',
+            textFormulaFilledFirstRowsOtherIsEmpty: 'Formula filled only first {0} rows by memory save reason. Other rows in this sheet don\'t have data.',
+            textFormulaFilledFirstRowsOtherHaveData: 'Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.'
         }
     })(), SSE.Controllers.Main || {}))
 });

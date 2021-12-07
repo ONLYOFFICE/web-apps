@@ -596,6 +596,7 @@
     "txtScheme13": "Zengin",
     "txtScheme15": "Orjin",
     "txtScheme16": "Kağıt",
+    "txtScheme17": "Gündönümü",
     "txtScheme18": "Yöntem",
     "txtScheme2": "Gri Ölçeği",
     "txtScheme20": "Kentsel",
@@ -609,7 +610,6 @@
     "txtScheme8": "Yayılma",
     "txtScheme9": "Döküm",
     "txtScheme14": "Oriel",
-    "txtScheme17": "Solstice",
     "txtScheme19": "Trek"
   },
   "Toolbar": {

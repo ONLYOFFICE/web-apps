@@ -349,7 +349,6 @@ const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const store = props.storeFocusObjects;
-    const wsLock = props.wsLock;
     const wsProps = props.wsProps;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
@@ -367,14 +366,14 @@ const EditTabs = props => {
                 component: <EditCellController />
             })
         }
+        if (!store.isLockedShape && settings.indexOf('shape') > -1) {
+            editors.push({
+                caption: _t.textShape,
+                id: 'edit-shape',
+                component: <EditShapeController />
+            })
+        }
         if(!wsProps.Objects) {
-            if (settings.indexOf('shape') > -1) {
-                editors.push({
-                    caption: _t.textShape,
-                    id: 'edit-shape',
-                    component: <EditShapeController />
-                })
-            }
             if (settings.indexOf('image') > -1) {
                 editors.push({
                     caption: _t.textImage,

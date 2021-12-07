@@ -224,6 +224,7 @@
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
             }
+            window.desktop.execCommand('webapps:type', 'oform');
             window.desktop.execCommand('webapps:entry', '');
         }
     </script>

@@ -264,11 +264,11 @@
     "uploadImageTextText": "Das Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
     "waitText": "Bitte warten...",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel",
     "textErrorWrongPassword": "The password you supplied is not correct.",
     "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "textUnlockRangeWarning": "A range you are trying to change is password protected."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warnung",

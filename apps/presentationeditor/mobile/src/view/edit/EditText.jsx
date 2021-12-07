@@ -98,7 +98,7 @@ const EditText = props => {
                     {!isAndroid && <Icon slot="media" icon="icon-text-additional"></Icon>}
                 </ListItem>
             </List>
-            {paragraphObj ? (
+            {paragraphObj || storeFocusObjects.settings.includes('text') ? (
                 <Fragment>
                     <List>
                         <ListItem className='buttons'>
@@ -254,7 +254,8 @@ const PageFonts = props => {
     };
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -338,7 +339,8 @@ const PageFontColor = props => {
     };
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -435,6 +437,7 @@ const PageAdditionalFormatting = props => {
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const paragraphObj = storeFocusObjects.paragraphObject;
+    const shapeObj = storeFocusObjects.shapeObject;
     const isSuperscript = storeTextSettings.isSuperscript;
     const isSubscript = storeTextSettings.isSubscript;
     
@@ -452,7 +455,7 @@ const PageAdditionalFormatting = props => {
         letterSpacing = (paragraphObj.get_TextSpacing() === null || paragraphObj.get_TextSpacing() === undefined) ? paragraphObj.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_TextSpacing());
     }
 
-    if (!paragraphObj && Device.phone) {
+    if (!shapeObj && !paragraphObj && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -517,7 +520,8 @@ const PageBullets = props => {
     const typeBullets = storeTextSettings.typeBullets;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -572,7 +576,8 @@ const PageNumbers = props => {
     const typeNumbers = storeTextSettings.typeNumbers;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
@@ -637,7 +642,8 @@ const PageLineSpacing = props => {
     const lineSpacing = storeTextSettings.lineSpacing;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
-    if (!paragraph && Device.phone) {
+    const shapeObj = props.storeFocusObjects.shapeObject;
+    if (!shapeObj && !paragraph && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }

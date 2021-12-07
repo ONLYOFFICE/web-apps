@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Fermer le menu",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Nouveau classeur",
   "SSE.Views.FileMenu.btnDownloadCaption": "Télécharger comme...",
+  "SSE.Views.FileMenu.btnExitCaption": "Quitter",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Ouvrir...",
   "SSE.Views.FileMenu.btnHelpCaption": "Aide...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Historique des versions",
   "SSE.Views.FileMenu.btnInfoCaption": "Informations du classeur...",

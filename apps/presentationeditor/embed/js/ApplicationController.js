@@ -119,6 +119,7 @@ PE.ApplicationController = new(function(){
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_UserInfo(_user);
+            docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
@@ -332,8 +333,13 @@ PE.ApplicationController = new(function(){
                 if (config.customization && config.customization.goback) {
                     if (config.customization.goback.requestClose && config.canRequestClose)
                         Common.Gateway.requestClose();
-                    else if (config.customization.goback.url)
-                        window.parent.location.href = config.customization.goback.url;
+                    else if (config.customization.goback.url) {
+                        if (config.customization.goback.blank!==false) {
+                            window.open(config.customization.goback.url, "_blank");
+                        } else {
+                            window.parent.location.href = config.customization.goback.url;
+                        }
+                    }
                 }
             });
 
@@ -533,6 +539,10 @@ PE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.ConvertationError:
                 message = me.convertationErrorText;
+                break;
+
+            case Asc.c_oAscError.ID.ConvertationOpenError:
+                message = me.openErrorText;
                 break;
 
             case Asc.c_oAscError.ID.DownloadError:
@@ -737,6 +747,7 @@ PE.ApplicationController = new(function(){
         textAnonymous: 'Anonymous',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.'
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        openErrorText: 'An error has occurred while opening the file'
     }
 })();

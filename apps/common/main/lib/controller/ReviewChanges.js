@@ -917,6 +917,8 @@ define([
         applySettings: function(menu) {
             this.view && this.view.turnSpelling( Common.localStorage.getBool(this.view.appPrefix + "settings-spellcheck", true) );
             this.view && this.view.turnCoAuthMode( Common.localStorage.getBool(this.view.appPrefix + "settings-coauthmode", true) );
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && this.appConfig.reviewHoverMode)
+                this.onApiShowChange();
         },
 
         synchronizeChanges: function() {

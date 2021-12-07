@@ -115,18 +115,25 @@ Common.UI.HintManager = new(function() {
         _isComplete = false,
         _isLockedKeyEvents = false,
         _inputTimer,
-        _isDocReady = false;
+        _isDocReady = false,
+        _isEditDiagram = false;
 
     var _api;
 
-    var _setCurrentSection = function (btn) {
+    var _setCurrentSection = function (btn, section) {
+        if (section) {
+            _currentSection = section;
+            return;
+        }
         if (btn === 'esc') {
             if (_currentLevel === 0) {
                 _currentSection = document;
             }
             return;
         }
-        if ($('#file-menu-panel').is(':visible')) {
+        if (_isEditDiagram) {
+            _currentSection = [$(window.parent.document).find('.advanced-settings-dlg')[0], window.document];
+        } else if ($('#file-menu-panel').is(':visible')) {
             _currentSection = $('#file-menu-panel');
         } else {
             _currentSection = (btn && btn.closest('.hint-section')) || document;
@@ -142,7 +149,7 @@ Common.UI.HintManager = new(function() {
 
     var _showHints = function () {
         _inputLetters = '';
-        if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible') && _currentLevel === 1)) {
+        if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
             _getHints();
         }
         if (_currentHints.length > 0) {
@@ -164,16 +171,20 @@ Common.UI.HintManager = new(function() {
     var _hideHints = function() {
         _hintVisible = false;
         _currentHints && _currentHints.forEach(function(item) {
-            item.hide()
+            item.remove()
         });
         clearInterval(_inputTimer);
     };
 
-    var _nextLevel = function() {
+    var _nextLevel = function(level) {
         _removeHints();
         _currentHints.length = 0;
         _currentControls.length = 0;
-        _currentLevel++;
+        if (level !== undefined) {
+            _currentLevel = level;
+        } else {
+            _currentLevel++;
+        }
     };
 
     var _prevLevel = function() {
@@ -198,16 +209,40 @@ Common.UI.HintManager = new(function() {
 
     var _getControls = function() {
         _currentControls = [];
-        var arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
+        var arr = [],
+            arrItemsWithTitle = [];
+        if (_.isArray(_currentSection)) {
+            _currentSection.forEach(function (section) {
+                arr = arr.concat($(section).find('[data-hint=' + (_currentLevel) + ']').toArray());
+                arrItemsWithTitle = arrItemsWithTitle.concat($(section).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray());
+            });
+        } else {
+            arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
+            arrItemsWithTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray();
+        }
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
-        var visibleItemsWithTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray().filter(function (item) {
+        var visibleItemsWithTitle = arrItemsWithTitle.filter(function (item) {
             return $(item).is(':visible');
         });
         if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title
             visibleItems.forEach(function (item) {
                 var el = $(item);
+                if (_lang !== 'en') {
+                    var title = el.attr('data-hint-title').toLowerCase(),
+                        firstLetter = title.substr(0, 1);
+                    if (_arrAlphabet.indexOf(firstLetter) === -1) { // tip is in English
+                        var newTip = '';
+                        for (var i = 0; i < title.length; i++) {
+                            var letter = title.substr(i, 1),
+                                ind = _arrEnAlphabet.indexOf(letter);
+                            newTip = newTip + _arrAlphabet[ind].toUpperCase();
+                        }
+                        el.attr('data-hint-title', newTip);
+                    }
+
+                }
                 _currentControls.push(el);
             });
             return;
@@ -219,7 +254,7 @@ Common.UI.HintManager = new(function() {
             _arrLetters = _arrAlphabet.slice();
         }
         var usedLetters = [];
-        if ($(_currentSection).find('[data-hint-title]').length > 0) {
+        if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
                 var el = $(item);
                 var title = el.attr('data-hint-title');
@@ -252,10 +287,11 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getHints = function() {
-        var docH = Common.Utils.innerHeight() - 20,
-            docW = Common.Utils.innerWidth(),
-            topSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? $(_currentSection).offset().top : 0,
-            bottomSection = _currentLevel !== 0 && $(_currentSection).length > 0 ? topSection + $(_currentSection).height() : docH;
+        var docH = _isEditDiagram ? (window.parent.innerHeight * Common.Utils.zoom()) : (Common.Utils.innerHeight() - 20),
+            docW = _isEditDiagram ? (window.parent.innerWidth * Common.Utils.zoom()) : (Common.Utils.innerWidth()),
+            section = _isEditDiagram ? _currentSection[0] : _currentSection,
+            topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? $(section).offset().top : 0,
+            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
 
         if (_currentControls.length === 0)
             _getControls();
@@ -263,7 +299,8 @@ Common.UI.HintManager = new(function() {
             if (!_isItemDisabled(item)) {
                 var leftBorder = 0,
                     rightBorder = docW;
-                if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)
+                    || ($('#about-menu-panel').is(':visible') && item.closest('.hint-section').prop('id') === 'right-menu')) { // don't show right menu hints when about is visible
                     return;
                 }
                 if (window.SSE && item.parent().prop('id') === 'statusbar_bottom') {
@@ -284,7 +321,7 @@ Common.UI.HintManager = new(function() {
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
                 var direction = item.attr('data-hint-direction');
                 // exceptions
-                if (window.SSE && _currentSection.nodeType !== 9 &&
+                if (window.SSE && !_isEditDiagram && _currentSection.nodeType !== 9 &&
                     _currentSection.prop('id') === 'toolbar' && item.closest('.panel').attr('data-tab') === 'data') {
                     if (item.parent().hasClass('slot-sortdesc') || item.parent().hasClass('slot-btn-setfilter')) {
                         direction = 'top';
@@ -344,7 +381,12 @@ Common.UI.HintManager = new(function() {
                         top: top,
                         left: left
                     });
-                    $(document.body).append(hint);
+                    if (_isEditDiagram && index < 2) {
+                        hint.css('z-index', '1060');
+                        $(window.parent.document.body).append(hint);
+                    } else {
+                        $(document.body).append(hint);
+                    }
                 }
 
                 _currentHints.push(hint);
@@ -359,7 +401,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _resetToDefault = function() {
-        _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
+        _currentLevel = ($('#file-menu-panel').is(':visible') || _isEditDiagram) ? 1 : 0;
         _setCurrentSection();
         _currentHints.length = 0;
         _currentControls.length = 0;
@@ -383,11 +425,11 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _needShow) {
+            if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
-                    _currentLevel = $('#file-menu-panel').is(':visible') ? 1 : 0;
+                    _currentLevel = ($('#file-menu-panel').is(':visible') || _isEditDiagram) ? 1 : 0;
                     _setCurrentSection();
                     _showHints();
                 } else {
@@ -407,16 +449,19 @@ Common.UI.HintManager = new(function() {
             if (_hintVisible) {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
-                    if (_currentLevel === 0) {
-                        _hideHints();
-                        _lockedKeyEvents(false);
-                    } else {
-                        _prevLevel();
-                        _setCurrentSection('esc');
-                        _showHints();
-                    }
+                    setTimeout(function () {
+                        if (_currentLevel === 0) {
+                            _hideHints();
+                            _lockedKeyEvents(false);
+                        } else {
+                            _prevLevel();
+                            _setCurrentSection('esc');
+                            _showHints();
+                        }
+                    }, 10);
                 } else {
-                    var curLetter = null;
+                    var curLetter = null,
+                        match = false;
                     var keyCode = e.keyCode;
                     if (keyCode !== 16 && keyCode !== 17 && keyCode !== 18 && keyCode !== 91) {
                         curLetter = _lang === 'en' ? ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) : e.key;
@@ -432,9 +477,16 @@ Common.UI.HintManager = new(function() {
                         _inputLetters = _inputLetters + curLetter.toUpperCase();
                         for (var i = 0; i < _currentControls.length; i++) {
                             var item = _currentControls[i];
-                            if (!_isItemDisabled(item) && item.attr('data-hint-title') === _inputLetters) {
-                                curr = item;
-                                break;
+                            if (!_isItemDisabled(item)) {
+                                var title = item.attr('data-hint-title'),
+                                    regExp = new RegExp('^' + _inputLetters + '');
+                                if (regExp.test(title)) {
+                                    match = true;
+                                }
+                                if (title === _inputLetters) {
+                                    curr = item;
+                                    break;
+                                }
                             }
                         }
                         if (curr) {
@@ -451,12 +503,13 @@ Common.UI.HintManager = new(function() {
                             } else {
                                 _isComplete = false;
                                 _hideHints();
-                                if ($(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || curr.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || curr.closest('.group').find('.toolbar-group-mask').length > 0)) {
                                     _resetToDefault();
                                     return;
                                 }
-                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible'));
-                                if (!curr.attr('content-target') || needOpenPanel) { // need to open panel
+                                var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible') ||
+                                    (curr.parent().prop('id') === 'slot-btn-chat' && !$('#left-panel-chat').is(':visible')));
+                                if ((!curr.attr('content-target') && curr.parent().prop('id') !== 'slot-btn-chat') || needOpenPanel) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
                                         if (curr.attr('for')) { // to trigger event in checkbox
@@ -470,7 +523,8 @@ Common.UI.HintManager = new(function() {
                                 }
                                 if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
-                                    curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll')) {
+                                    curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
+                                    curr.prop('id') === 'left-btn-support') {
                                     _resetToDefault();
                                     return;
                                 }
@@ -482,20 +536,34 @@ Common.UI.HintManager = new(function() {
                                     return;
                                 }
                                 if (!_isComplete) {
-                                    _nextLevel();
-                                    _setCurrentSection(curr);
+                                    if (curr.parent().prop('id') === 'slot-btn-chat') {
+                                        _nextLevel(1);
+                                        _setCurrentSection(undefined, $('#left-menu.hint-section'));
+                                    } else if (curr.prop('id') === 'id-right-menu-signature') {
+                                        _nextLevel(2);
+                                        _setCurrentSection(curr);
+                                    } else {
+                                        _nextLevel();
+                                        _setCurrentSection(curr);
+                                    }
                                     _showHints();
                                     if (_currentHints.length < 1) {
                                         _resetToDefault();
                                     }
                                 }
                             }
+                        } else if (!match) {
+                            _inputLetters = '';
                         }
                     }
                 }
             }
 
-            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady);
+            var isAlt = e.keyCode == Common.UI.Keys.ALT;
+            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (isAlt) {
+                e.preventDefault();
+            }
         });
     };
 
@@ -531,14 +599,26 @@ Common.UI.HintManager = new(function() {
         if (isComplete) {
             _isComplete = true;
         }
+
+        if ($('.hint-div').length > 0) {
+            $('.hint-div').remove();
+        }
+        if ($('iframe').length > 0) {
+            $('iframe').contents().find('.hint-div').remove();
+        }
     };
 
     var _isHintVisible = function () {
         return _hintVisible;
     };
 
+    var _setMode = function (mode) {
+        _isEditDiagram = mode.isEditDiagram;
+    };
+
     return {
         init: _init,
+        setMode: _setMode,
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
         isHintVisible: _isHintVisible

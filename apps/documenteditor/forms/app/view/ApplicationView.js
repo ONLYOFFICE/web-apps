@@ -16,6 +16,7 @@ define([
                 cls: 'btn-toolbar no-caret',
                 iconCls: 'svg-icon more-vertical',
                 menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {caption: this.txtPrint, value: 'print', iconCls: 'mi-icon svg-icon print'},
                         {caption: '--'},
@@ -90,10 +91,12 @@ define([
             return new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
+                    { caption: this.textUndo, value: 'undo', iconCls: 'mi-icon svg-icon undo' },
+                    { caption: this.textRedo, value: 'redo', iconCls: 'mi-icon svg-icon redo' },
+                    { caption: '--' },
                     { caption: this.textCut, value: 'cut', iconCls: 'mi-icon svg-icon cut' },
                     { caption: this.textCopy, value: 'copy', iconCls: 'mi-icon svg-icon copy' },
-                    { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' },
-                    { caption: this.textPrintSel, value: 'print', iconCls: 'mi-icon svg-icon print' }
+                    { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' }
                 ]
             });
         },
@@ -113,7 +116,10 @@ define([
         textCut: 'Cut',
         textCopy: 'Copy',
         textPaste: 'Paste',
-        textPrintSel: 'Print Selection'
+        textPrintSel: 'Print Selection',
+        txtDarkMode: 'Dark mode',
+        textUndo: 'Undo',
+        textRedo: 'Redo'
 
     }, DE.Views.ApplicationView || {}));
 });

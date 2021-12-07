@@ -154,8 +154,14 @@ define([
                     }
                     top = (top!==undefined) ? (top + 'px') : 'auto';
                     bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';
-                    left = (left!==undefined) ? (left + 'px') : 'auto';
                     right = (right!==undefined) ? (right + 'px') : 'auto';
+                    if (left!==undefined) {
+                        var width = this.cmpEl.width();
+                        if (left+width>Common.Utils.innerWidth())
+                            left = Common.Utils.innerWidth() - width - 10;
+                        left = (left + 'px');
+                    } else
+                        left = 'auto';
                     this.cmpEl.css({top : top, left: left, right: right, bottom: bottom});
                 }
             },

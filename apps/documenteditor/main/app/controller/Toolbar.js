@@ -159,10 +159,11 @@ define([
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
                             Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM,
-                            Asc.c_oAscFileType.DOCXF,
-                            Asc.c_oAscFileType.OFORM
+                            Asc.c_oAscFileType.DOCM
                         ];
+                        if (_main.appOptions.canFeatureForms) {
+                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                        }
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
@@ -3130,6 +3131,7 @@ define([
                 this.api && this.api.asc_StartMailMerge();
             } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
+                    title: me.dataUrl,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -3180,8 +3182,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3229,8 +3231,8 @@ define([
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
-            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
-                if (config.canFeatureForms) {
+            if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
+                if (config.isFormCreator) {
                     tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
@@ -3238,7 +3240,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
@@ -3668,7 +3670,8 @@ define([
         textTabForms: 'Forms',
         textGroup: 'Group',
         textEmptyMMergeUrl: 'You need to specify URL.',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        dataUrl: 'Paste a data URL'
 
     }, DE.Controllers.Toolbar || {}));
 });

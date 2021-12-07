@@ -1300,6 +1300,8 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "Cerrar menú",
   "PE.Views.FileMenu.btnCreateNewCaption": "Crear nuevo",
   "PE.Views.FileMenu.btnDownloadCaption": "Descargar como...",
+  "PE.Views.FileMenu.btnExitCaption": "Salir",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Abrir...",
   "PE.Views.FileMenu.btnHelpCaption": "Ayuda...",
   "PE.Views.FileMenu.btnHistoryCaption": "Historial de versiones",
   "PE.Views.FileMenu.btnInfoCaption": "Info sobre presentación...",

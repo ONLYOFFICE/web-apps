@@ -21,6 +21,7 @@
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
   "DE.ApplicationController.errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
   "DE.ApplicationController.notcriticalErrorTitle": "Avertisment",
+  "DE.ApplicationController.openErrorText": "Eroare la deschiderea fișierului.",
   "DE.ApplicationController.scriptLoadError": "Conexeunea e prea lentă și unele elemente nu se încarcă. Încercați să reîmprospătati pagina.",
   "DE.ApplicationController.textAnonymous": "Anonim",
   "DE.ApplicationController.textClear": "Goleşte toate câmpurile",

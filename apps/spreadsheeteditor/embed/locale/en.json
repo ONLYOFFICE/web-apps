@@ -19,6 +19,7 @@
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "SSE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Warning",
+  "SSE.ApplicationController.openErrorText": "An error has occurred while opening the file.",
   "SSE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "SSE.ApplicationController.textAnonymous": "Anonymous",
   "SSE.ApplicationController.textGuest": "Guest",

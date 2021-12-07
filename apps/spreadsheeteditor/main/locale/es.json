@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Cerrar menú",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Crear nueva",
   "SSE.Views.FileMenu.btnDownloadCaption": "Descargar como...",
+  "SSE.Views.FileMenu.btnExitCaption": "Salir",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Abrir...",
   "SSE.Views.FileMenu.btnHelpCaption": "Ayuda...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Historial de versiones",
   "SSE.Views.FileMenu.btnInfoCaption": "Info sobre hoja de cálculo...",

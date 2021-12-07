@@ -929,18 +929,10 @@
             path_type;
 
         path += app + "/";
-        if (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform') {
-            var canFillForms =  !config.document.permissions
-                                ? true : (config.document.permissions.fillForms===undefined)
-                                ? (config.document.permissions.edit !== false) : config.document.permissions.fillForms;
-            path_type = (config.type === "mobile" || isSafari_mobile)
-                        ? "mobile" : (config.type === "embedded" || !canFillForms || config.editorConfig.mode === 'view')
-                        ? "embed" : "forms";
-        } else {
-            path_type = (config.type === "mobile" || isSafari_mobile)
-                        ? "mobile" : (config.type === "embedded")
-                        ? "embed" : "main";
-        }
+        path_type = (config.type === "mobile" || isSafari_mobile)
+                    ? "mobile" : (config.type === "embedded")
+                    ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
+                    ? "forms" : "main";
 
         path += path_type;
         var index = "/index.html";

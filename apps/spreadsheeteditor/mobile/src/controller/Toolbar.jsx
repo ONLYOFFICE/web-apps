@@ -17,6 +17,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const storeFocusObjects = props.storeFocusObjects;
     const focusOn = storeFocusObjects.focusOn;
     const isObjectLocked = storeFocusObjects.isLocked;
+    const isShapeLocked = storeFocusObjects.isLockedShape;
     const isEditCell = storeFocusObjects.isEditCell;
     const editFormulaMode = storeFocusObjects.editFormulaMode;
 
@@ -159,6 +160,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                      isDisconnected={isDisconnected}
                      wsProps={wsProps}
                      focusOn={focusOn}
+                     isShapeLocked={isShapeLocked}
         />
     )
 }));

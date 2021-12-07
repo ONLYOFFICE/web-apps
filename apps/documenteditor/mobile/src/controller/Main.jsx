@@ -221,6 +221,8 @@ class MainController extends Component {
                 Common.Notifications.trigger('preloader:close');
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
 
+                appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
+
                 let value = LocalStorage.getItem("de-settings-zoom");
                 const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
                 (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
@@ -529,11 +531,11 @@ class MainController extends Component {
             this.api.Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+        $$(window).on('popover:open popup:open sheet:open actions:open dialog:open', () => {
             this.api.asc_enableKeyEvents(false);
         });
 
-        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
+        $$(window).on('popover:close popup:close sheet:close actions:close dialog:close', () => {
             this.api.asc_enableKeyEvents(true);
         });
 
@@ -578,7 +580,6 @@ class MainController extends Component {
             }
         });
 
-        // text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
 
@@ -731,8 +732,7 @@ class MainController extends Component {
             this.cmpCalendar.open();
         }, 100)
     }
-    
-        
+
     onShowListActions(obj, x, y) {
         if(!Device.isPhone) {
             this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
