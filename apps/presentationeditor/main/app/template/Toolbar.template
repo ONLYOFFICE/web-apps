@@ -216,7 +216,7 @@
                     </div>
                     <div class="elset font-normal">
                         <label id="animation-label-trigger"></label>
-                        <div class="btn-slot" style="width: 82px; " id="animation-trigger"></div>
+                        <div class="btn-slot" style="width: 82px;" id="animation-trigger"></div>
                     </div>
                 </div>
                 <div class="separator long"></div>
