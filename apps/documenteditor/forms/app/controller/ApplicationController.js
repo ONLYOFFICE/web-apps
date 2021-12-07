@@ -108,6 +108,7 @@ define([
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
                 Common.Gateway.on('opendocument',       this.loadDocument.bind(this));
                 Common.Gateway.on('showmessage',        this.onExternalMessage.bind(this));
+                Common.NotificationCenter.on('showmessage',   this.onExternalMessage.bind(this));
                 Common.Gateway.appReady();
             }
 
