@@ -59,7 +59,7 @@ define([
             },
 
             template: _.template([
-                '<div class="listview inner <%= cls %>"></div>'
+                '<div class="listview inner <%= cls %>" <% if (options.dataHint) { %> data-hint="<%= options.dataHint %>" <% } if (options.dataHintDirection) { %> data-hint-direction="<%= options.dataHintDirection %>" <% } if (options.dataHintOffset) { %> data-hint-offset="<%= options.dataHintOffset %>" <% } %>></div>'
             ].join('')),
 
             onResetItems : function() {
