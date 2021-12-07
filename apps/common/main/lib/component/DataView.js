@@ -299,7 +299,8 @@ define([
                 this.cmpEl = $(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -308,7 +309,8 @@ define([
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
             }
 
@@ -506,7 +508,8 @@ define([
             $(this.el).html(this.template({
                 groups: this.groups ? this.groups.toJSON() : null,
                 style: this.style,
-                cls: this.cls
+                cls: this.cls,
+                options: this.options
             }));
 
             if (!_.isUndefined(this.scroller)) {
