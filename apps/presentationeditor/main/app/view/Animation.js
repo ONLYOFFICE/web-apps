@@ -62,10 +62,12 @@ define([
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
-                    me.fireEvent('animation:additional');
+                    me.fireEvent('animation:additional', [true]); // replace effect
                 }, me));
             }
-
+            me.btnAddAnimation && me.btnAddAnimation.menu.on('item:click', function (menu, item, e) {
+                (item.value=='more') && me.fireEvent('animation:additional', [false]); // add effect
+            });
             if (me.btnPreview) {
                 me.btnPreview.on('click', _.bind(function(btn) {
                     me.fireEvent('animation:preview', [me.btnPreview]);
@@ -333,12 +335,15 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function() {
-                    setEvents.call(me);
-
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
                         style: 'width: 370px;padding-top: 12px;',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')},
+                            {caption: '--'},
+                            {
+                                caption: me.textMoreEffects,
+                                value: 'more'
+                            }
                         ]
                     }));
 
@@ -348,8 +353,11 @@ define([
                         var picker = new Common.UI.DataView({
                             el: $('#id-toolbar-menu-addanimation'),
                             parentMenu: menu,
+                            outerMenu:  {menu: me.btnAddAnimation.menu, index: 0},
                             showLast: false,
-                            restoreHeight: 465,
+                            restoreHeight: 300,
+                            style: 'max-height: 300px;',
+                            scrollAlwaysVisible: true,
                             groups: new Common.UI.DataViewGroupStore(Common.define.effectData.getEffectGroupData()),
                             store: new Common.UI.DataViewStore(Common.define.effectData.getEffectData()),
                             itemTemplate: _.template([
@@ -364,8 +372,11 @@ define([
                                 me.fireEvent('animation:addanimation', [picker, record]);
                         });
                         menu.off('show:before', onShowBefore);
+                        me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
                     me.btnAddAnimation.menu.on('show:before', onShowBefore);
+
+                    setEvents.call(me);
                 });
             },
 

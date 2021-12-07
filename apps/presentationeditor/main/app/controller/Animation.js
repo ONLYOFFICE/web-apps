@@ -137,7 +137,7 @@ define([
             })).show();
         },
 
-        onAnimationAdditional: function() {
+        onAnimationAdditional: function(replace) { // replace or add new additional effect
             (new PE.Views.AnimationDialog({
                 api         : this.api,
                 activeEffect : this._state.Effect
