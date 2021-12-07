@@ -41,7 +41,7 @@ PE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         currentPage = 0,
-        ttOffset = [0, -10],
+        ttOffset = [5, -10],
         labelDocName;
 
     var LoadingDocument = -256;
@@ -206,10 +206,11 @@ PE.ApplicationController = new(function(){
                     $ttEl.tooltip({'container':'body', 'trigger':'manual'});
                     $ttEl.on('shown.bs.tooltip', function(e) {
                         $tooltip = $ttEl.data('bs.tooltip').tip();
-
+                        var pos = $ttEl.ttpos[1] - $tooltip.height() + ttOffset[1];
+                        (pos<0) && (pos = 0);
                         $tooltip.css({
                             left: $ttEl.ttpos[0] + ttOffset[0],
-                            top: $ttEl.ttpos[1] + ttOffset[1]
+                            top: pos
                         });
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
@@ -220,9 +221,11 @@ PE.ApplicationController = new(function(){
                     $ttEl.ttpos = [data.get_X(), data.get_Y()];
                     $ttEl.tooltip('show');
                 } else {
+                    var pos = $ttEl.ttpos[1] - $tooltip.height() + ttOffset[1];
+                    (pos<0) && (pos = 0);
                     $tooltip.css({
                         left:data.get_X() + ttOffset[0],
-                        top:data.get_Y() + ttOffset[1]
+                        top:pos
                     });
                 }
             }
