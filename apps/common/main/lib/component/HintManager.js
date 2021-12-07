@@ -500,6 +500,10 @@ Common.UI.HintManager = new(function() {
                                 curr.trigger(jQuery.Event('click', {which: 1}));
                                 curr.focus();
                                 _resetToDefault();
+                            } else if (curr.hasClass('listview')) {
+                                _hideHints();
+                                curr.focus();
+                                _resetToDefault();
                             } else {
                                 _isComplete = false;
                                 _hideHints();

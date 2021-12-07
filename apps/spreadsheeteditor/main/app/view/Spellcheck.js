@@ -60,7 +60,7 @@ define([
                 '<div id="spellcheck-suggestions-list"></div>',
                 '<div id="spellcheck-change" style=""></div>',
                 '<div id="spellcheck-ignore" class="padding-large"></div>',
-                '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary"><%= scope.txtAddToDictionary %></button>',
+                '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAddToDictionary %></button>',
                 '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                 '<div id="spellcheck-dictionary-language"></div>',
                 '<div id="spellcheck-complete" class="hidden">',
@@ -84,7 +84,10 @@ define([
                 el : $('#spellcheck-current-word'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
 
             this.buttonNext = new Common.UI.Button({
@@ -92,14 +95,19 @@ define([
                 style: 'margin-left: 5px;',
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'toolbar__icon btn-nextitem',
-                hint: this.txtNextTip
+                hint: this.txtNextTip,
+                dataHint: '1',
+                dataHintDirection: 'top'
             });
 
             this.suggestionList = new Common.UI.ListView({
                 el: $('#spellcheck-suggestions-list'),
                 emptyText: this.noSuggestions,
                 store: new Common.UI.DataViewStore(),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
             });
 
             this.btnChange = new Common.UI.Button({
@@ -121,7 +129,10 @@ define([
                             value: 1
                         }
                         ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.btnIgnore = new Common.UI.Button({
@@ -143,7 +154,10 @@ define([
                             value: 1
                         }
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
@@ -155,7 +169,10 @@ define([
                 scroller    : {
                     suppressScrollX: true
                 },
-                search: true
+                search: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.btnToDictionary = new Common.UI.Button({
