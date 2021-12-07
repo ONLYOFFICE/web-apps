@@ -65,6 +65,8 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
             this.activeEffect = this.options.Effect;
+            this.EffectGroupData = Common.define.effectData.getEffectGroupData();
+            this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
             if (this.activeEffect != undefined) {
                 var itemEffect= this.allEffects.findWhere({value: this.activeEffect});
                 this.activeGroup = itemEffect.group;
@@ -87,7 +89,7 @@ define([
                 editable: false,
                 style   : 'margin-top: 16px; width: 100%;',
                 takeFocusOnClose: true,
-                data    : Common.define.effectData.getEffectGroupData(),
+                data    : this.EffectGroupData,
                 value   : (this.activEffect != undefined)?this.activeGroup:undefined
             });
             this.cmbGroup.on('selected', _.bind(this.onGroupSelect,this));

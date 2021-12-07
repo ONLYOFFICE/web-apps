@@ -73,7 +73,9 @@ define([
                     'animation:startselect':    _.bind(this.onStartSelect, this),
                     'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
                     'animation:repeat':         _.bind(this.onRepeatChange, this),
-                    'animation:additional':     _.bind(this.onAnimationAdditional, this)
+                    'animation:additional':     _.bind(this.onAnimationAdditional, this),
+                    'animation:trigger':        _.bind(this.onTriggerClick, this),
+                    'animation:triggerclickof': _.bind(this.onTriggerClickOfClick, this)
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -181,6 +183,32 @@ define([
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
+
+        onTriggerClick: function (value) {
+            if(this.api) {
+                if(value==this.view.triggers.ClickSequence)
+                {
+                    this._state.Trigger = this.view.triggers.ClickSequence;
+                    this._state.TriggerValue = true;
+                    this.AnimationProperties.asc_putTriggerClickSequence(this._state.TriggerValue);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                }
+            }
+        },
+
+        onTriggerClickOfClick: function (value)
+        {
+            if(this.api)
+            {
+                this._state.Trigger = this.view.triggers.ClickOf;
+                this._state.TriggerValue = value.caption;
+                this.AnimationProperties.asc_putTriggerClickSequence(false);
+                this.AnimationProperties.asc_putTriggerObjectClick(this._state.TriggerValue);
+                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+            }
+
+        },
+
         onEffectSelect: function (combo, record) {
             if (this.api) {
                 var type = record.get('value');
@@ -288,6 +316,16 @@ define([
                 this._state.Repeat = value;
             }
 
+            if(this.AnimationProperties.asc_getTriggerClickSequence()) {
+                this._state.trigger = this.view.triggers.ClickSequence;
+                this._state.TriggerValue = true;
+            }
+            else
+            {
+                this._state.trigger = this.view.triggers.ClickOf;
+                this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
+            }
+
             this._state.StartSelect = this.AnimationProperties.asc_getStartType();
             this._state.RepeatCount = this.AnimationProperties.asc_getRepeatCount();
             this._state.Rewind = this.AnimationProperties.asc_getRewind();
@@ -315,10 +353,11 @@ define([
         setSettings: function () {
             var me = this.view;
             var item;
+            this.setTriggerList();
             if (this._state.Effect !== undefined) {
                 item = me.listEffects.store.findWhere({value: this._state.Effect});
                 me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
-                this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
+                this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
             }
 
             if (this._state.EffectOption !== undefined)
@@ -332,6 +371,26 @@ define([
             item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
             me.cmbStart.selectRecord(item);
             me.chRewind.setValue(this._state.Rewind, true);
+
+            var obj;
+            obj =(this._state.trigger == me.triggers.ClickSequence)?me.cmbTrigger.menu.items[0] : _.findWhere(me.btnClickOf.menu.items,{caption: this._state.TriggerValue});
+            if(obj) {
+                obj.setChecked(true);
+                //me.cmbTrigger.setCaption(obj.caption);
+            }
+
+
+        },
+
+        setTriggerList: function (){
+            this.objectNames = this.api.asc_getCurSlideObjectsNames();
+            if(this.countObjects == this.objectNames.length) return;
+            this.view.btnClickOf.menu.removeAll();
+            var btnMemnu=this.view.btnClickOf.menu;
+            this.objectNames.forEach(function (item){
+                btnMemnu.addItem({ caption: item, checkable: true, toggleGroup: 'animtrigger'});
+            });
+
         }
 
     }, PE.Controllers.Animation || {}));
