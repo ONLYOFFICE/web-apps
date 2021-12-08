@@ -140,9 +140,17 @@ define([
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
+            var me = this;
             (new PE.Views.AnimationDialog({
                 api         : this.api,
-                activeEffect : this._state.Effect
+                activeEffect : this._state.Effect,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.addNewEffect(value.activeEffect, value.activeGroupValue, replace);
+                        }
+                    }
+                }
             })).show();
         },
 
@@ -378,8 +386,6 @@ define([
                 obj.setChecked(true);
                 //me.cmbTrigger.setCaption(obj.caption);
             }
-
-
         },
 
         setTriggerList: function (){
@@ -390,7 +396,6 @@ define([
             this.objectNames.forEach(function (item){
                 btnMemnu.addItem({ caption: item, checkable: true, toggleGroup: 'animtrigger'});
             });
-
         }
 
     }, PE.Controllers.Animation || {}));

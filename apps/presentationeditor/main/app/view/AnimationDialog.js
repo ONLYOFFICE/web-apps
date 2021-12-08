@@ -64,12 +64,15 @@ define([
             this.allEffects = Common.define.effectData.getEffectFullData();
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
-            this.activeEffect = this.options.Effect;
+            this._state=[];
+            this.handler =   this.options.handler;
             this.EffectGroupData = Common.define.effectData.getEffectGroupData();
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
-            if (this.activeEffect != undefined) {
-                var itemEffect= this.allEffects.findWhere({value: this.activeEffect});
-                this.activeGroup = itemEffect.group;
+            if (this.options.Effect != undefined) {
+                this._state.activeEffect = this.options.Effect;
+                var itemEffect= this.allEffects.findWhere({value: this._state.activeEffect});
+                this._state.activeGroup = itemEffect.group;
+                this._state.activeGroupValue = this.EffectGroupData.findWhere({id: this._state.activeGroup});
                 this.activeLevel = itemEffect.level;
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -90,7 +93,7 @@ define([
                 style   : 'margin-top: 16px; width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
-                value   : (this.activEffect != undefined)?this.activeGroup:undefined
+                value   : (this._state.activeEffect != undefined)?this._state.activeGroup:undefined
             });
             this.cmbGroup.on('selected', _.bind(this.onGroupSelect,this));
 
@@ -108,6 +111,7 @@ define([
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= displayValue %></div>'),
                 scroll  : true
             });
+            this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
 
             this.chPreview = new  Common.UI.CheckBox({
                 el      : $('#animation-setpreview'),
@@ -115,10 +119,13 @@ define([
             });
             this.cmbGroup.selectRecord(this.cmbGroup.store.models[0]);
             this.onGroupSelect(undefined,this.cmbGroup.store.models[0]);
+
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
         onGroupSelect: function (combo, record) {
-            this.activeGroup = record.id;
+            this._state.activeGroup = record.id;
+            this._state.activeGroupValue = record.get('value');
             this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(record.id == 'menu-effect-group-path'));
             this.cmbLevel.selectRecord(this.cmbLevel.store.models[0]);
             this.onLevelSelect(undefined,this.cmbLevel.store.models[0]);
@@ -126,9 +133,28 @@ define([
 
         onLevelSelect: function (combo, record) {
             this.activeLevel = record.id;
-            var arr = _.where(this.allEffects, {group: this.activeGroup, level: this.activeLevel });
+            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
             this.lstEffectList.store.reset(arr);
             this.lstEffectList.selectRecord(this.lstEffectList.store.models[0]);
+        },
+
+        onEffectListItem: function (lisvView, itemView, record){
+            if (record) {
+                this._state.activeEffect = record.get('value');
+            }
+        },
+
+        onBtnClick: function (event)
+        {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        _handleInput: function(state) {
+            if (this.options.handler) {
+                this.options.handler.call(this, state, this._state);
+            }
+
+            this.close();
         },
 
         textTitle: 'More Effects',
