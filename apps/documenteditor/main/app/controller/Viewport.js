@@ -325,7 +325,8 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
-                if ( !Common.UI.Themes.isDarkTheme() ) {
+                var document = DE.getController('Main').document;
+                if ( !Common.UI.Themes.isDarkTheme() || /^pdf|djvu|xps|oxps$/.test(document.fileType)  ) {
                     me.header.menuItemsDarkMode.hide();
                     me.header.menuItemsDarkMode.$el.prev('.divider').hide();
                 }
