@@ -137,6 +137,17 @@ define([
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
+                this.btnDarkDocument = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-dark-document'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon night',
+                    caption: this.textDarkDocument,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnDarkDocument);
+
                 this.chStatusbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textStatusBar,
@@ -205,7 +216,8 @@ define([
             textInterfaceTheme: 'Interface theme',
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
-            textRulers: 'Rulers'
+            textRulers: 'Rulers',
+            textDarkDocument: 'Dark document'
         }
     }()), DE.Views.ViewTab || {}));
 });
