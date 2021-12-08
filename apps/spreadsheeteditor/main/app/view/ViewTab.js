@@ -209,6 +209,41 @@ define([
                 });
                 this.lockedControls.push(this.chZeros);
 
+                this.btnInterfaceTheme = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-interface-theme'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon',
+                    caption: this.textInterfaceTheme,
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnInterfaceTheme);
+
+                this.chStatusbar = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-statusbar'),
+                    labelText: this.textCombineSheetAndStatusBars,
+                    value       : true,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chStatusbar);
+
+                this.chToolbar = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-toolbar'),
+                    labelText: this.textAlwaysShowToolbar,
+                    value       : true,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chToolbar);
+
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -339,7 +374,10 @@ define([
             textFreezeRow: 'Freeze Top Row',
             textFreezeCol: 'Freeze First Column',
             textUnFreeze: 'Unfreeze Panes',
-            textZeros: 'Show zeros'
+            textZeros: 'Show zeros',
+            textCombineSheetAndStatusBars: 'Combine sheet and status bars',
+            textAlwaysShowToolbar: 'Always show toolbar',
+            textInterfaceTheme: 'Interface theme',
         }
     }()), SSE.Views.ViewTab || {}));
 });
