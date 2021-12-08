@@ -125,7 +125,7 @@ define([
 
         onGroupSelect: function (combo, record) {
             this._state.activeGroup = record.id;
-            this._state.activeGroupValue = record.get('value');
+            this._state.activeGroupValue = record.value;
             this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(record.id == 'menu-effect-group-path'));
             this.cmbLevel.selectRecord(this.cmbLevel.store.models[0]);
             this.onLevelSelect(undefined,this.cmbLevel.store.models[0]);

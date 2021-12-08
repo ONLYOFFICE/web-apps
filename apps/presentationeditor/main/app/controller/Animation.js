@@ -125,7 +125,7 @@ define([
         },
 
         onParameterClick: function (value) {
-            this._state.EffectOption = value;
+            // this._state.EffectOption = value;
             if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putSubtype(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -133,10 +133,6 @@ define([
         },
 
         onAnimationPane: function() {
-            (new PE.Views.AnimationDialog({
-                api         : this.api,
-                activeEffect : this._state.Effect
-            })).show();
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
@@ -170,24 +166,24 @@ define([
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
             if (this.api) {
-                this._state.Duration = field.getNumberValue() * 1000;
-                this.AnimationProperties.asc_putDuration(this._state.Duration);
+                // this._state.Duration = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putDuration(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
             if (this.api) {
-                this._state.Delay = field.getNumberValue() * 1000;
-                this.AnimationProperties.asc_putDelay(this._state.Delay);
+                // this._state.Delay = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putDelay(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
 
         onRepeatChange: function (field, newValue, oldValue, eOpts){
             if (this.api) {
-                this._state.Repeat = field.getNumberValue() * 1000;
-                this.AnimationProperties.asc_putRepeatCount(this._state.Repeat);
+                // this._state.Repeat = field.getNumberValue() * 1000;
+                this.AnimationProperties.asc_putRepeatCount(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
@@ -208,10 +204,10 @@ define([
         {
             if(this.api)
             {
-                this._state.Trigger = this.view.triggers.ClickOf;
-                this._state.TriggerValue = value.caption;
+                // this._state.Trigger = this.view.triggers.ClickOf;
+                // this._state.TriggerValue = value.caption;
                 this.AnimationProperties.asc_putTriggerClickSequence(false);
-                this.AnimationProperties.asc_putTriggerObjectClick(this._state.TriggerValue);
+                this.AnimationProperties.asc_putTriggerObjectClick(value.caption);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
 
@@ -227,8 +223,8 @@ define([
 
         onStartSelect: function (combo, record) {
             if (this.api) {
-                this._state.StartEffect = record.value;
-                this.AnimationProperties.asc_putStartType(this._state.StartEffect);
+                // this._state.StartEffect = record.value;
+                this.AnimationProperties.asc_putStartType(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
@@ -241,109 +237,148 @@ define([
         },
 
         onFocusObject: function(selectedObjects) {
-            var isAnimtionObject = false, isAnimation = false;
+            this.AnimationProperties = null;
             for (var i = 0; i<selectedObjects.length; i++) {
-                var eltype = selectedObjects[i].get_ObjectType();
-
-                if (eltype === undefined)
-                    continue;
-
-                if (eltype == Asc.c_oAscTypeSelectElement.Animation) {
+                if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
-
-                    this.loadSettings(this.AnimationProperties);
-                    if (this._state.onactivetab) {
-                        this.setLocked();
-                        this.setSettings();
-                        isAnimation = true;
-                    }
-                }
-                else if((eltype == Asc.c_oAscTypeSelectElement.Shape) ||
-                    (eltype == Asc.c_oAscTypeSelectElement.Tab) ||
-                    (eltype == Asc.c_oAscTypeSelectElement.Text) ||
-                    (eltype == Asc.c_oAscTypeSelectElement.Image)) {
-                    isAnimtionObject = true;
                 }
             }
-            this.setLockedByObjects (isAnimtionObject, isAnimation);
-
+            if (this._state.onactivetab)
+                this.setSettings();
         },
 
-        setLockedByObjects: function (isAnimtionObject, isAnimation) {
-            if(isAnimtionObject)
-            {
-                if(isAnimation) {
-                    if (this._state.Effect == AscFormat.ANIM_PRESET_NONE) {
-                        this.view.setDisabled(true);
-                        this.view.listEffects.setDisabled(false);
+        setSettings: function () {
+            this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = true;
+            if (this.AnimationProperties) {
+                this._state.noGraphic = false;
 
-                        this.view.effectId = AscFormat.ANIM_PRESET_NONE;
+                var item,
+                    view = this.view,
+                    store = view.listEffects.store,
+                    fieldStore = view.listEffects.fieldPicker.store,
+                    value = this.AnimationProperties.asc_getType(),
+                    group = this.AnimationProperties.asc_getClass();
+
+                (value == undefined) && (value = AscFormat.ANIM_PRESET_NONE);
+                this._state.noAnimation = (value===AscFormat.ANIM_PRESET_NONE);
+
+                if (this._state.Effect !== value || this._state.EffectGroup !== group) {
+                    this._state.Effect = value;
+                    this._state.EffectGroup = group;
+
+                    group = view.listEffects.groups.findWhere({value: this._state.EffectGroup});
+                    item = store.findWhere(group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
+                    if (item) {
+                        var forceFill = false;
+                        if (!item.get('isCustom')) { // remove custom effect from list if not-custom is selected
+                            var rec = store.findWhere({isCustom: true});
+                            forceFill = !!rec;
+                            store.remove(rec);
+                        }
+                        if (this._state.Effect!==AscFormat.ANIM_PRESET_MULTIPLE) { // remove "multiple" item if one effect is selected
+                            var rec = fieldStore.findWhere({value: AscFormat.ANIM_PRESET_MULTIPLE});
+                            forceFill = forceFill || !!rec;
+                            fieldStore.remove(rec);
+                        }
+                        view.listEffects.selectRecord(item);
+                        view.listEffects.fillComboView(item, true, forceFill);
+                        view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                     } else {
-                        this.view.setDisabled(false);
-                        this.view.btnParameters.setDisabled(this.view.btnParameters.menu.items.length == 0)
+                        if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
+                            view.listEffects.fillComboView(store.at(0), false, true);
+                            fieldStore.remove(fieldStore.at(fieldStore.length-1));
+                            view.listEffects.fieldPicker.selectRecord(fieldStore.add(new Common.UI.DataViewModel({
+                                group: 'none',
+                                value: AscFormat.ANIM_PRESET_MULTIPLE,
+                                iconCls: 'transition-multiple',
+                                displayValue: view.textMultiple
+                            }), {at:1}));
+                            view.listEffects.menuPicker.deselectAll();
+                        } else { // add custom effect to appropriate group
+                            if (group) {
+                                store.remove(store.findWhere({isCustom: true})); // remove other custom effects
+
+                                var items = store.where({group: group.get('id')});
+                                var index = (items && items.length>0) ? store.indexOf(items.at(items.length-1)) : store.length-1;
+                                var rec = _.findWhere(Common.define.effectData.getEffectFullData(), {group: group.get('id'), value: this._state.Effect});
+                                item = store.add(new Common.UI.DataViewModel({
+                                    group: group.get('id'),
+                                    value: this._state.Effect,
+                                    iconCls: 'transition-push',
+                                    displayValue: rec ? rec.displayValue : '',
+                                    isCustom: true
+                                }), {at:index+1});
+                                view.listEffects.selectRecord(item);
+                                view.listEffects.fillComboView(item, true, true);
+                                view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
+                            } else {
+                                view.listEffects.fieldPicker.deselectAll();
+                                view.listEffects.menuPicker.deselectAll();
+                            }
+                        }
                     }
                 }
-                else {
-                    this.view.setDisabled(true);
-                    this.view.listEffects.setDisabled(false);
-                }
-            }
-            else
-                this.view.setDisabled(true);
 
-            this.view.btnAddAnimation.setDisabled(this.view.listEffects.isDisabled());
+                this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
+                if (this._state.EffectOption !== undefined)
+                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, this._state.EffectOption)===undefined;
+
+                value = this.AnimationProperties.asc_getDuration();
+                if (Math.abs(this._state.Duration - value) > 0.001 ||
+                    (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
+                    (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
+                    this._state.Duration = value;
+                    view.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
+                }
+                value = this.AnimationProperties.asc_getDelay();
+                if (Math.abs(this._state.Delay - value) > 0.001 ||
+                    (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
+                    (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
+                    this._state.Delay = value;
+                    view.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
+                }
+                value = this.AnimationProperties.asc_getRepeatCount();
+                if (Math.abs(this._state.Repeat - value) > 0.001 ||
+                    (this._state.Repeat === null || value === null) && (this._state.Repeat !== value) ||
+                    (this._state.Repeat === undefined || value === undefined) && (this._state.Repeat !== value)) {
+                    this._state.Repeat = value;
+                    view.numRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat / 1000. : '', true);
+                }
+
+                this._state.StartSelect = this.AnimationProperties.asc_getStartType();
+                view.cmbStart.setValue(this._state.StartSelect!==undefined ? this._state.StartSelect : AscFormat.NODE_TYPE_CLICKEFFECT);
+
+                this._state.Rewind = this.AnimationProperties.asc_getRewind();
+                view.chRewind.setValue(!!this._state.Rewind, true);
+
+                if(this.AnimationProperties.asc_getTriggerClickSequence()) {
+                    this._state.trigger = view.triggers.ClickSequence;
+                    this._state.TriggerValue = true;
+                } else {
+                    this._state.trigger = view.triggers.ClickOf;
+                    this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
+                }
+                this.setTriggerList();
+            }
+            this.setLocked();
         },
 
-        loadSettings: function (props) {
-            this.AnimationProperties = props;
-            var value;
-            this._state.EffectGroup = this.AnimationProperties.asc_getClass();
-            value = this.AnimationProperties.asc_getType();
-            (value == undefined) && (value = AscFormat.ANIM_PRESET_NONE);
-            this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
-            this._state.Effect = value;
+        setTriggerList: function (){
+            var me = this;
+            this.objectNames = this.api.asc_getCurSlideObjectsNames();
+            this._state.noTriggerObjects = !this.objectNames || this.objectNames.length<1;
 
-            value = this.AnimationProperties.asc_getDuration();
-            if (Math.abs(this._state.Duration - value) > 0.001 ||
-                (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
-                (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
-                this._state.Duration = value;
-            }
-
-            value = this.AnimationProperties.asc_getDelay();
-            if (Math.abs(this._state.Delay - value) > 0.001 ||
-                (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
-                (this._state.Delay === undefined || value === undefined) && (this._state.Delay !== value)) {
-                this._state.Delay = value;
-            }
-
-            value = this.AnimationProperties.asc_getRepeatCount();
-            if (Math.abs(this._state.Repeat - value) > 0.001 ||
-                (this._state.Repeat === null || value === null) && (this._state.Repeat !== value) ||
-                (this._state.Repeat === undefined || value === undefined) && (this._state.Repeat !== value)) {
-                this._state.Repeat = value;
-            }
-
-            if(this.AnimationProperties.asc_getTriggerClickSequence()) {
-                this._state.trigger = this.view.triggers.ClickSequence;
-                this._state.TriggerValue = true;
-            }
-            else
-            {
-                this._state.trigger = this.view.triggers.ClickOf;
-                this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
-            }
-
-            this._state.StartSelect = this.AnimationProperties.asc_getStartType();
-            this._state.RepeatCount = this.AnimationProperties.asc_getRepeatCount();
-            this._state.Rewind = this.AnimationProperties.asc_getRewind();
+            this.view.btnClickOf.menu.removeAll();
+            var btnMemnu=this.view.btnClickOf.menu;
+            this.objectNames.forEach(function (item){
+                btnMemnu.addItem({ caption: item, checkable: true, toggleGroup: 'animtrigger', checked: item===me._state.TriggerValue});
+            });
+            this.view.cmbTrigger.menu.items[0].setChecked(this._state.trigger == this.view.triggers.ClickSequence);
         },
 
         onActiveTab: function(tab) {
             if (tab == 'animate') {
                 this._state.onactivetab = true;
-
-                this.setLocked();
                 this.setSettings();
             }
             else this._state.onactivetab = false;
@@ -354,48 +389,14 @@ define([
         },
 
         setLocked: function() {
-           /* if (this._state.lockedanimation != undefined)
-                this.lockToolbar(PE.enumLock.animationLock, this._state.lockedanimation);*/
-        },
-
-        setSettings: function () {
-            var me = this.view;
-            var item;
-            this.setTriggerList();
-            if (this._state.Effect !== undefined) {
-                item = me.listEffects.store.findWhere({value: this._state.Effect});
-                me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
-                this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
-            }
-
-            if (this._state.EffectOption !== undefined)
-                me.setMenuParameters(this._state.Effect, this._state.EffectOption);
-
-            me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
-            me.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
-            me.numRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat / 1000. : '', true);
-
-            (this._state.StartSelect==undefined)&&(this._state.StartSelect = AscFormat.NODE_TYPE_CLICKEFFECT);
-            item = me.cmbStart.store.findWhere({value: this._state.StartSelect});
-            me.cmbStart.selectRecord(item);
-            me.chRewind.setValue(this._state.Rewind, true);
-
-            var obj;
-            obj =(this._state.trigger == me.triggers.ClickSequence)?me.cmbTrigger.menu.items[0] : _.findWhere(me.btnClickOf.menu.items,{caption: this._state.TriggerValue});
-            if(obj) {
-                obj.setChecked(true);
-                //me.cmbTrigger.setCaption(obj.caption);
-            }
-        },
-
-        setTriggerList: function (){
-            this.objectNames = this.api.asc_getCurSlideObjectsNames();
-            if(this.countObjects == this.objectNames.length) return;
-            this.view.btnClickOf.menu.removeAll();
-            var btnMemnu=this.view.btnClickOf.menu;
-            this.objectNames.forEach(function (item){
-                btnMemnu.addItem({ caption: item, checkable: true, toggleGroup: 'animtrigger'});
-            });
+            if (this._state.noGraphic != undefined)
+                this.lockToolbar(PE.enumLock.noGraphic, this._state.noGraphic);
+            if (this._state.noAnimation != undefined)
+                this.lockToolbar(PE.enumLock.noAnimation, this._state.noAnimation);
+            if (this._state.noAnimationParam != undefined)
+                this.lockToolbar(PE.enumLock.noAnimationParam, this._state.noAnimationParam);
+            if (this._state.noTriggerObjects != undefined)
+                this.lockToolbar(PE.enumLock.noTriggerObjects, this._state.noTriggerObjects);
         }
 
     }, PE.Controllers.Animation || {}));

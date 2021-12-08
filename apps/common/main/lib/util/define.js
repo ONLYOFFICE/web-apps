@@ -815,11 +815,10 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_ZOOM,                     iconCls: 'transition-zoom',    displayValue: this.textZoom},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_SWIVEL,                   iconCls: 'transition-push',    displayValue: this.textSwivel},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_BOUNCE,                   iconCls: 'transition-push',    displayValue: this.textBounce},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ANIM_PRESET_NONE,        iconCls: 'transition-push',    displayValue: this.textFillColor, isHide: true},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_PULSE,                    iconCls: 'transition-push',    displayValue: this.textPulse},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_COLOR_PULSE,              iconCls: 'transition-push',    displayValue: this.textColorPulse},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_TEETER,                   iconCls: 'transition-push',    displayValue: this.textTeeter},
-                    {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_SPIN,                     iconCls: 'transition-split',   displayValue: this.textSplit},
+                    {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_SPIN,                     iconCls: 'transition-split',   displayValue: this.textSpin},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_GROW_SHRINK,              iconCls: 'transition-push',    displayValue: this.textGrowShrink},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_DESATURATE,               iconCls: 'transition-push',    displayValue: this.textDesaturate},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_CONTRASTING_DARKEN,       iconCls: 'transition-push',    displayValue: this.textDarken},
@@ -829,7 +828,6 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,      iconCls: 'transition-push',    displayValue: this.textComplementaryColor},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_LINE_COLOR,               iconCls: 'transition-push',    displayValue: this.textLineColor},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_FILL_COLOR,               iconCls: 'transition-push',    displayValue: this.textFillColor},
-                    {group: 'menu-effect-group-emphasis',   value: AscFormat.ANIM_PRESET_NONE,        iconCls: 'transition-push',    displayValue: this.textFillColor, isHide: true},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_DISAPPEAR,                    iconCls: 'transition-push',    displayValue: this.textDisappear},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FADE,                         iconCls: 'transition-push',    displayValue: this.textFade},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLY_OUT_TO,                   iconCls: 'transition-push',    displayValue: this.textFlyOut},
@@ -846,7 +844,6 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_ZOOM,                         iconCls: 'transition-push',    displayValue: this.textZoom},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BASIC_SWIVEL,                 iconCls: 'transition-push',    displayValue: this.textSwivel},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOUNCE,                       iconCls: 'transition-push',    displayValue: this.textBounce},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.ANIM_PRESET_NONE,        iconCls: 'transition-push',    displayValue: this.textFillColor, isHide: true},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_DOWN,                       iconCls: 'transition-push',    displayValue: this.textDown},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LEFT,                       iconCls: 'transition-push',    displayValue: this.textLeft},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_RIGHT,                      iconCls: 'transition-push',    displayValue: this.textRight},
@@ -872,9 +869,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'transition-push',    displayValue: this.textHorizontalFigure},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'transition-push',    displayValue: this.textVerticalFigure},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'transition-push',    displayValue: this.textLoopDeLoop},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'transition-push',    displayValue: this.textCustomPath},
-                    {group: 'menu-effect-group-path',     value: AscFormat.ANIM_PRESET_NONE,        iconCls: 'transition-push',    displayValue: this.textFillColor, isHide: true}
-
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'transition-push',    displayValue: this.textCustomPath}
                 ];
             },
 

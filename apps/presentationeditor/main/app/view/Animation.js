@@ -167,8 +167,9 @@ define([
                     ].join('')),
                     groups: new Common.UI.DataViewGroupStore([{id: 'none', value: -10, caption: this.textNone}].concat(Common.define.effectData.getEffectGroupData())),
                     store: new Common.UI.DataViewStore(this._arrEffectName),
+                    additionalMenuItems: [{caption: '--'}, this.listEffectsMore],
                     enableKeyEvents: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
@@ -201,7 +202,7 @@ define([
                     caption: this.txtPreview,
                     split: false,
                     iconCls: 'toolbar__icon preview-transitions',
-                    lock: [_set.slideDeleted, _set.noSlides],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -213,7 +214,7 @@ define([
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon transition-none',
                     menu: new Common.UI.Menu({items: []}),
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -225,7 +226,7 @@ define([
                     caption: this.txtAnimationPane,
                     split: true,
                     iconCls: 'toolbar__icon transition-apply-all',
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -237,7 +238,7 @@ define([
                     caption: this.txtAddEffect,
                     iconCls: 'toolbar__icon icon btn-addslide',
                     menu: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -253,7 +254,7 @@ define([
                     defaultUnit: this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
@@ -265,6 +266,7 @@ define([
                         cls: 'btn-text-split-default',
                         split: true,
                         width: 82,
+                        lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
                         menu        : new Common.UI.Menu({
                             style       : 'min-width: 150px;',
                             items: [
@@ -298,7 +300,7 @@ define([
                     defaultUnit: this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -308,7 +310,7 @@ define([
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'width: 150px;',
-                    lock: [_set.slideDeleted,  _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation],
                     data: [
                         {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
                         {value: AscFormat.NODE_TYPE_WITHEFFECT, displayValue: this.textStartWithPrevious},
@@ -322,7 +324,7 @@ define([
                 this.chRewind = new Common.UI.CheckBox({
                     el: this.$el.find('#animation-checkbox-rewind'),
                     labelText: this.strRewind,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -337,14 +339,12 @@ define([
                     maxValue: 1000,
                     minValue: 0,
                     defaultUnit: '',
-                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.numRepeat);
-
-                Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#animation-duration').text(this.strDuration);
                 this.$el.find('#animation-delay').text(this.strDelay);
@@ -442,25 +442,13 @@ define([
             },
 
             getButtons: function (type) {
-                if (type === undefined)
-                    return this.lockedControls;
-                return [];
-            },
-
-            setDisabled: function (state) {
-                this.lockedControls && this.lockedControls.forEach(function (button) {
-                        button.setDisabled(state);
-                }, this);
+                return this.lockedControls;
             },
 
             setMenuParameters: function (effectId, option)
             {
                 var effect = this.listEffects.store.findWhere({value: effectId});
                 var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.get('group'), effect.get('value'));
-                if (!this.listEffects.isDisabled()) {
-                    this.btnParameters.setDisabled(!arrEffectOptions);
-                }
-
                 if(!arrEffectOptions) {
                     this.btnParameters.menu.removeAll();
                     this._effectId = effectId
@@ -505,6 +493,7 @@ define([
             textOnClickSequence: 'On Click Sequence',
             textOnClickOf: 'On Click of',
             textNone: 'None',
+            textMultiple: 'Multiple',
             textMoreEffects: 'Show More Effects'
         }
     }()), PE.Views.Animation || {}));
