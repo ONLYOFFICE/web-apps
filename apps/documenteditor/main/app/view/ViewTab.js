@@ -46,12 +46,15 @@ define([
     'use strict';
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
-        function setEvents() {
-            var me = this;
-        }
-
         return {
             options: {},
+
+            setEvents() {
+                var me = this;
+                me.btnNavigation && me.btnNavigation.on('click', function (btn, e) {
+                    me.fireEvent('viewtab:navigation', [btn.pressed]);
+                });
+            },
 
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this);
@@ -68,6 +71,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-navigation',
                     caption: this.textNavigation,
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -188,6 +192,10 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            turnNavigation: function (state) {
+                this.btnNavigation && this.btnNavigation.toggle(state, true);
             },
 
             textNavigation: 'Navigation',

@@ -58,6 +58,7 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -95,6 +96,21 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.view.setEvents();
+            });
+            if (me.view.btnNavigation) {
+                me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function(btn, state){
+                    if (state !== me.view.btnNavigation.pressed)
+                        me.view.turnNavigation(state);
+                });
+            }
         },
 
     }, DE.Controllers.ViewTab || {}));
