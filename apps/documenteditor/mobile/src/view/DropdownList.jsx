@@ -10,8 +10,8 @@ const PageDropdownList = props => {
             <Page>
                 <List>
                     {listItems.length && listItems.map((elem, index) => (
-                        <ListItem key={index} className='no-indicator' title={elem.caption} onClick={() => props.onChangeItemList(elem.value)}></ListItem>
-                    ))} 
+                        <ListItem key={index} className='no-indicator' style={index === 0 ? {opacity: 0.6} : null} title={elem.caption} onClick={() => props.onChangeItemList(elem.value)}></ListItem>
+                    ))}
                 </List>
             </Page>
         </View>
@@ -26,7 +26,7 @@ class DropdownListView extends Component {
     render() {
         return (
             Device.isPhone ? 
-                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToStep={true} swipeToClose={true}> 
+                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToClose={true}> 
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
