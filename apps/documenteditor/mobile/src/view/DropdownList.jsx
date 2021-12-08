@@ -26,7 +26,7 @@ class DropdownListView extends Component {
     render() {
         return (
             Device.isPhone ? 
-                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToStep={true} swipeToClose={true}> 
+                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToClose={true}> 
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
