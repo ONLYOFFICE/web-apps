@@ -2494,6 +2494,10 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
 
+                var viewtab = me.getApplication().getController('ViewTab');
+                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
+
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 if (!(config.customization && config.customization.compactHeader)) {
