@@ -46,12 +46,21 @@ define([
     'use strict';
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
-        function setEvents() {
-            var me = this;
-        }
-
         return {
             options: {},
+
+            setEvents: function () {
+                var me = this;
+                me.cmbZoom && me.cmbZoom.on('selected', function (combo, record) {
+                    me.fireEvent('zoom:value', [record.value]);
+                });
+                me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
+                    me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
+                });
+                me.btnFitToWidth && me.btnFitToWidth.on('click', function () {
+                    me.fireEvent('zoom:towidth', [me.btnFitToWidth]);
+                });
+            },
 
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this);
@@ -92,17 +101,21 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtoslide',
                     caption: this.textFitToSlide,
+                    toggleGroup: 'view-zoom',
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
                 });
-                this.lockedControls.push(this.btnFitToPage);
+                this.lockedControls.push(this.btnFitToSlide);
 
                 this.btnFitToWidth = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-ftw'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     caption: this.textFitToWidth,
+                    toggleGroup: 'view-zoom',
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'

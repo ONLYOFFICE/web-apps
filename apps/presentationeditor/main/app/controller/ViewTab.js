@@ -57,13 +57,17 @@ define([
         initialize: function () {
         },
         onLaunch: function () {
-            this._state = {};
+            this._state = {
+                zoom_type: undefined,
+                zoom_percent: undefined
+            };
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
             if (api) {
                 this.api = api;
-
+                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
             }
             return this;
         },
@@ -76,7 +80,9 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
-
+                    'zoom:value': _.bind(this.onChangeZoomValue, this),
+                    'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
+                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
                 },
                 'Statusbar': {
 
@@ -96,6 +102,44 @@ define([
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
         },
+
+        onZoomChange: function (percent, type) {
+            if (this._state.zoom_type !== type) {
+                this.view.btnFitToSlide.toggle(type == 2, true);
+                this.view.btnFitToWidth.toggle(type == 1, true);
+                this._state.zoom_type = type;
+            }
+            if (this._state.zoom_percent !== percent) {
+                this.view.cmbZoom.setValue(percent, percent + '%');
+                this._state.zoom_percent = percent;
+            }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.view.setEvents();
+            });
+        },
+
+        onChangeZoomValue: function (value) {
+            this._state.zoom_type = undefined;
+            this._state.zoom_percent = undefined;
+            this.api.zoom(value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onBtnZoomTo: function (type, btn) {
+            this._state.zoom_type = undefined;
+            this._state.zoom_percent = undefined;
+            if (!btn.pressed)
+                this.api.zoomCustomMode();
+            else
+                this.api[type === 'toslide' ? 'zoomFitToPage' : 'zoomFitToWidth']();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        }
 
     }, PE.Controllers.ViewTab || {}));
 });
