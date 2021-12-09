@@ -402,7 +402,7 @@ define([
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
-                this.appOptions.canFeatureViews = !!this.api.asc_isSupportFeature("sheet-views");
+                this.appOptions.canFeatureViews = true;
 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
