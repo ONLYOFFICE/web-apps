@@ -54,6 +54,15 @@ define([
                 me.btnNavigation && me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
+                me.cmbZoom && me.cmbZoom.on('selected', function (combo, record) {
+                    me.fireEvent('zoom:value', [record.value]);
+                });
+                me.btnFitToPage && me.btnFitToPage.on('click', function () {
+                    me.fireEvent('zoom:topage');
+                });
+                me.btnFitToWidth && me.btnFitToWidth.on('click', function () {
+                    me.fireEvent('zoom:towidth');
+                });
             },
 
             initialize: function (options) {
@@ -107,6 +116,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtopage',
                     caption: this.textFitToPage,
+                    toggleGroup: 'view-zoom',
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -118,6 +129,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     caption: this.textFitToWidth,
+                    toggleGroup: 'view-zoom',
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'

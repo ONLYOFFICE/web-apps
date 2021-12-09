@@ -64,7 +64,7 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
-
+                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
             }
             return this;
         },
@@ -77,7 +77,9 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
-
+                    'zoom:value': _.bind(this.onChangeZoomValue, this),
+                    'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
+                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
                 },
                 'Statusbar': {
 
@@ -132,6 +134,34 @@ define([
                     this.view.btnDarkDocument.setDisabled(value !== 'theme-dark');
                 }, this));
             }
+        },
+
+        onZoomChange: function (percent, type) {
+            this.view.btnFitToPage.toggle(type == 2, true);
+            this.view.btnFitToWidth.toggle(type == 1, true);
+
+            this.view.cmbZoom.setValue(percent, percent + '%');
+        },
+
+        onChangeZoomValue: function (value) {
+            this.api.zoom(value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onBtnZoomTo: function(type) {
+            var btn, func;
+            if ( type === 'topage' ) {
+                btn = 'btnFitToPage';
+                func = 'zoomFitToPage';
+            } else {
+                btn = 'btnFitToWidth';
+                func = 'zoomFitToWidth';
+            }
+            if ( !this.view[btn].pressed )
+                this.api.zoomCustomMode();
+            else
+                this.api[func]();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
     }, DE.Controllers.ViewTab || {}));
