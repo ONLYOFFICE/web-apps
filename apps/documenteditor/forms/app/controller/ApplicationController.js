@@ -1833,6 +1833,7 @@ define([
         var features = {
             version: '{{PRODUCT_VERSION}}',
             // eventloading: true,
+            uitype: 'fillform',
             uithemes: true
         };
         var api;
