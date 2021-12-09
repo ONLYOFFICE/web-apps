@@ -1723,6 +1723,7 @@
   "DE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Turn on spell checking option",
   "DE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "DE.Views.FileMenuPanels.Settings.strTheme": "Interface theme",
+  "DE.Views.FileMenuPanels.Settings.txtDarkMode": "Turn on document dark mode",
   "DE.Views.FileMenuPanels.Settings.strUnit": "Unit of Measurement",
   "DE.Views.FileMenuPanels.Settings.strZoom": "Default Zoom Value",
   "DE.Views.FileMenuPanels.Settings.text10Minutes": "Every 10 Minutes",
