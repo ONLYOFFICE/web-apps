@@ -190,11 +190,8 @@ define([
 
         onTriggerClick: function (value) {
             if(this.api) {
-                if(value==this.view.triggers.ClickSequence)
-                {
-                    this._state.Trigger = this.view.triggers.ClickSequence;
-                    this._state.TriggerValue = true;
-                    this.AnimationProperties.asc_putTriggerClickSequence(this._state.TriggerValue);
+                if(value.value == this.view.triggers.ClickSequence) {
+                    this.AnimationProperties.asc_putTriggerClickSequence(true);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
             }
@@ -202,15 +199,11 @@ define([
 
         onTriggerClickOfClick: function (value)
         {
-            if(this.api)
-            {
-                // this._state.Trigger = this.view.triggers.ClickOf;
-                // this._state.TriggerValue = value.caption;
+            if(this.api) {
                 this.AnimationProperties.asc_putTriggerClickSequence(false);
                 this.AnimationProperties.asc_putTriggerObjectClick(value.caption);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
-
         },
 
         onEffectSelect: function (combo, record) {

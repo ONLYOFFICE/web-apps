@@ -262,33 +262,32 @@ define([
                 this.lockedControls.push(this.numDuration);
 
                 this.cmbTrigger = new Common.UI.Button({
-                        parentEl: $('#animation-trigger'),
-                        cls: 'btn-text-split-default',
-                        split: true,
-                        width: 82,
-                        lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
-                        menu        : new Common.UI.Menu({
-                            style       : 'min-width: 150px;',
-                            items: [
-                                {
-                                    caption: this.textOnClickSequence,
-                                    checkable: true,
-                                    toggleGroup: 'animtrigger',
-                                    value: this.triggers.ClickSequence
-                                },
-                                {
-                                    value: this.triggers.ClickOf,
-                                    caption:  this.textOnClickOf,
-                                    menu: new Common.UI.Menu({
-                                        menuAlign: 'tr-br',
-                                        items: []
-                                    })
-                                }]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'big'
-                    });
+                    parentEl: $('#animation-trigger'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-contents',
+                    caption: this.strTrigger,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    menu        : new Common.UI.Menu({
+                         items: [
+                            {
+                                caption: this.textOnClickSequence,
+                                checkable: true,
+                                toggleGroup: 'animtrigger',
+                                value: this.triggers.ClickSequence
+                            },
+                            {
+                                value: this.triggers.ClickOf,
+                                caption:  this.textOnClickOf,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tr-br',
+                                    items: []
+                                })
+                            }]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
                 this.lockedControls.push(this.cmbTrigger);
                 this.btnClickOf = this.cmbTrigger.menu.items[1];
 
@@ -350,7 +349,6 @@ define([
                 this.$el.find('#animation-delay').text(this.strDelay);
                 this.$el.find('#animation-label-start').text(this.strStart);
                 this.$el.find('#animation-repeat').text(this.strRepeat);
-                this.$el.find('#animation-label-trigger').text(this.strTrigger);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -417,14 +415,12 @@ define([
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
                 this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
-                //this.cmbTrigger && this.cmbTrigger.render(this.$el.find('#animation-trigger'));
                 this.renderComponent('#animation-spin-duration', this.numDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
                 this.renderComponent('#animation-spin-repeat', this.numRepeat);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
-                this.$el.find("#animation-label-trigger").innerText = this.strTrigger;
                 this.$el.find("#animation-repeat").innerText = this.strRepeat;
                 return this.$el;
             },
