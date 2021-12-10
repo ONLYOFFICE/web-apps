@@ -659,7 +659,8 @@
       "txtSemicolon": "Point-virgule",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

@@ -99,6 +99,7 @@ Common.Locale = new(function() {
     };
 
     var _requireLang = function (l) {
+        typeof l != 'string' && (l = null);
         var lang = (l || _getUrlParameterByName('lang') || defLang).split(/[\-_]/)[0];
         currentLang = lang;
         fetch('locale/' + lang + '.json')

@@ -19,6 +19,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Η σύνδεση στο Διαδίκτυο έχει αποκατασταθεί και η έκδοση του αρχείου έχει αλλάξει.<br>Προτού συνεχίσετε να εργάζεστε, πρέπει να κατεβάσετε το αρχείο ή να αντιγράψετε το περιεχόμενό του για να βεβαιωθείτε ότι δεν έχει χαθεί τίποτα και, στη συνέχεια, φορτώστε ξανά αυτήν τη σελίδα.",
   "PE.ApplicationController.errorUserDrop": "Δεν είναι δυνατή η πρόσβαση στο αρχείο αυτήν τη στιγμή.",
   "PE.ApplicationController.notcriticalErrorTitle": "Προειδοποίηση",
+  "PE.ApplicationController.openErrorText": "Παρουσιάστηκε σφάλμα κατά το άνοιγμα του αρχείου.",
   "PE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
   "PE.ApplicationController.textAnonymous": "Ανώνυμος",
   "PE.ApplicationController.textGuest": "Επισκέπτης",

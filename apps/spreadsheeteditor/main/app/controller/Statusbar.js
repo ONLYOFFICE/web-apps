@@ -121,7 +121,7 @@ define([
                 case 'up':
                     var f = Math.floor(this.api.asc_getZoom() * 10)/10;
                     f += .1;
-                    !(f > 4.) && this.api.asc_setZoom(f);
+                    !(f > 5.) && this.api.asc_setZoom(f);
                     break;
                 case 'down':
                     f = Math.ceil(this.api.asc_getZoom() * 10)/10;
@@ -803,6 +803,12 @@ define([
 
         protectWorksheet: function() {
             Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
+        },
+
+        getIsDragDrop: function () {
+            var isDragDrop = this.statusbar.tabbar.isDragDrop;
+            this.statusbar.tabbar.isDragDrop = false;
+            return isDragDrop;
         },
 
         zoomText        : 'Zoom {0}%',

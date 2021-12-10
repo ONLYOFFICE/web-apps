@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "Cannot change a part of a merged cell",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Password",
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
     "confirmMoveCellRange": "The destination cells range can contain data. Continue the operation?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Preparing to save. Please wait...",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "textCancel": "Cancel",
+    "textErrorWrongPassword": "The password you supplied is not correct.",
     "textLoadingDocument": "Loading document",
     "textNo": "No",
     "textOk": "Ok",
+    "textUnlockRange": "Unlock Range",
+    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
     "textYes": "Yes",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "waitText": "Please, wait..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",

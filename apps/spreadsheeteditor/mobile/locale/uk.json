@@ -264,11 +264,11 @@
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
     "waitText": "Please, wait...",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel",
     "textErrorWrongPassword": "The password you supplied is not correct.",
     "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "textUnlockRangeWarning": "A range you are trying to change is password protected."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
@@ -659,7 +659,8 @@
       "txtDownloadCsv": "Download CSV",
       "txtOk": "Ok",
       "txtSemicolon": "Semicolon",
-      "textExample": "Example"
+      "textExample": "Example",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

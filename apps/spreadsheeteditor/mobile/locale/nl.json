@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "Kan een deel van een samengevoegde cel niet wijzigen",
     "saveErrorText": "Er is een fout opgetreden bij het opslaan van het bestand",
     "scriptLoadError": "De verbinding is te traag, sommige onderdelen konden niet geladen worden. Gelieve de pagina opnieuw te laden.",
+    "textErrorPasswordIsNotCorrect": "Het ingevoerde wachtwoord is niet correct.\nVerifieer dat de CAPS LOCK toets is uitgeschakeld en let op het juiste gebruik van hoofdletters.",
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
   },
   "LongActions": {
+    "advDRMPassword": "Wachtwoord",
     "applyChangesTextText": "Gegevens worden geladen...",
     "applyChangesTitleText": "Gegevens worden geladen",
     "confirmMoveCellRange": "Het bereik van de doelcellen kan gegevens bevatten. Doorgaan met de bewerking?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Klaarmaken om op te slaan. Even geduld...",
     "saveTextText": "Document wordt opgeslagen...",
     "saveTitleText": "Document wordt opgeslagen",
+    "textCancel": "Annuleren",
+    "textErrorWrongPassword": "Het ingevoerde wachtwoord is niet correct.",
     "textLoadingDocument": "Document wordt geladen",
     "textNo": "Nee",
     "textOk": "OK",
+    "textUnlockRange": "Bereik ontgrendelen",
+    "textUnlockRangeWarning": "Het bereik dat u probeert aan te passen is beveiligd met een wachtwoord.",
     "textYes": "Ja",
     "txtEditingMode": "Bewerkmodus instellen...",
     "uploadImageTextText": "Afbeelding wordt geüpload...",
     "uploadImageTitleText": "Afbeelding wordt geüpload",
-    "waitText": "Een moment geduld...",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "waitText": "Een moment geduld..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Waarschuwing",
@@ -659,7 +659,8 @@
       "txtSemicolon": "Puntkomma",
       "txtSpace": "Spatie",
       "txtTab": "Tab",
-      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?"
+      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

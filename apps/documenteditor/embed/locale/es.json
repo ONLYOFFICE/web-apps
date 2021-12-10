@@ -21,6 +21,7 @@
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "La conexión a Internet ha sido restaurada, y la versión del archivo ha sido cambiada. Antes de poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se pierda nada, y luego recargar esta página.",
   "DE.ApplicationController.errorUserDrop": "No se puede acceder al archivo en este momento.",
   "DE.ApplicationController.notcriticalErrorTitle": "Aviso",
+  "DE.ApplicationController.openErrorText": "Se ha producido un error al abrir el archivo. ",
   "DE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, algunos de los componentes no se han podido cargar. Por favor, recargue la página.",
   "DE.ApplicationController.textAnonymous": "Anónimo",
   "DE.ApplicationController.textClear": "Borrar todos los campos",

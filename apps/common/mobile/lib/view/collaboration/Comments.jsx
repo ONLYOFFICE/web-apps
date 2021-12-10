@@ -23,6 +23,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
     const _t = t('Common.Collaboration', {returnObjects: true});
     useEffect(() => {
         f7.popup.open('.add-comment-popup');
+        if(!Device.android) f7.input.focus('.input-comment');
     });
     const userInfo = props.userInfo;
     const [stateText, setText] = useState('');
@@ -59,7 +60,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <Input type='textarea' placeholder={_t.textAddComment} autofocus value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
+                    <Input className="input-comment" autofocus type='textarea' placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
                 </div>
             </div>
         </Popup>
@@ -94,12 +95,13 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textAddComment}' autofocus></textarea>
+                        <textarea id='comment-text' placeholder='${_t.textAddComment}'></textarea>
                     </div>
                 </div>`,
             on: {
                 opened: () => {
                     const cancel = document.getElementById('comment-cancel');
+                    if(!Device.android) $$('#comment-text').focus();
                     cancel.addEventListener('click', () => {
                         f7.dialog.close();
                         props.closeAddComment();

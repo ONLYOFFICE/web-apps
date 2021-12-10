@@ -116,7 +116,7 @@ define([
                     iconCls: 'toolbar__icon protect-workbook',
                     enableToggle: true,
                     caption: this.txtProtectWB,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -128,7 +128,7 @@ define([
                     iconCls: 'toolbar__icon protect-sheet',
                     enableToggle: true,
                     caption: this.txtProtectSheet,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -139,7 +139,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon allow-edit-ranges',
                     caption: this.txtAllowRanges,
-                    lock        : [_set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

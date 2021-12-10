@@ -94,9 +94,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -155,7 +162,7 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                             '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
                             '<% } %>',
@@ -170,9 +177,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -264,7 +278,9 @@ define([
                 /** coauthoring end **/
                 '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
-                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-theme" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div id="fms-chb-dark-mode" style="display: inline-block; vertical-align: middle;margin-top: 2px;"></div></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
@@ -407,7 +423,10 @@ define([
                     { value: 120, displayValue: "120%" },
                     { value: 150, displayValue: "150%" },
                     { value: 175, displayValue: "175%" },
-                    { value: 200, displayValue: "200%" }
+                    { value: 200, displayValue: "200%" },
+                    { value: 300, displayValue: "300%" },
+                    { value: 400, displayValue: "400%" },
+                    { value: 500, displayValue: "500%" }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -530,6 +549,16 @@ define([
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
+            }).on('selected', function(combo, record) {
+                me.chDarkMode.setDisabled(record.themeType!=='dark');
+            });
+
+            this.chDarkMode = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-dark-mode'),
+                labelText: this.txtDarkMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbReviewHover = new Common.UI.ComboBox({
@@ -685,7 +714,7 @@ define([
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
-                data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
+                data.push({value: t, displayValue: Common.UI.Themes.get(t).text, themeType: Common.UI.Themes.get(t).type});
             }
 
             if ( data.length ) {
@@ -693,6 +722,8 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+            this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
+            this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
 
             if (this.mode.canViewReview) {
                 value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
@@ -703,6 +734,8 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+            if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
+                Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
@@ -838,7 +871,8 @@ define([
         txtAutoCorrect: 'AutoCorrect options...',
         strReviewHover: 'Track Changes Display',
         txtChangesTip: 'Show by hover in tooltips',
-        txtChangesBalloons: 'Show by click in balloons'
+        txtChangesBalloons: 'Show by click in balloons',
+        txtDarkMode: 'Turn on document dark mode'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -915,14 +949,14 @@ define([
             '<div class="thumb-list">',
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
-                    '<div class="blank-document-btn">',
+                    '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="2, 10">',
                         '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
                 '<% } %>',
                 '<% _.each(docs, function(item, index) { %>',
-                '<div class="thumb-wrap" template="<%= item.url %>">',
+                '<div class="thumb-wrap" template="<%= item.url %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="14, 22">',
                     '<div class="thumb" ',
                         '<% if (!_.isEmpty(item.image)) {%> ',
                         ' style="background-image: url(<%= item.image %>);">',
@@ -1169,7 +1203,7 @@ define([
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}"></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1848,8 +1882,8 @@ define([
                         '<td colspan="2"><label style="cursor: default;"><%= tipText %></label></td>',
                     '</tr>',
                     '<tr>',
-                        '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',
-                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>">' + me.txtEdit + '</label></td>',
+                        '<td><label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label></td>',
+                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label></td>',
                     '</tr>',
                 '</table>'
             ].join(''));

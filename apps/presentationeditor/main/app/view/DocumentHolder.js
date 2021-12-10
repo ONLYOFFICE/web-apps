@@ -447,6 +447,14 @@ define([
                     /** coauthoring end **/
                     me.hideTips();
                     onDocumentHolderResize();
+                },
+                'preview:show': function(e){
+                    me.isPreviewVisible = true;
+                    screenTip && (screenTip.tipLength = -1); // redraw link tip
+                },
+                'preview:hide': function(e){
+                    me.isPreviewVisible = false;
+                    screenTip && (screenTip.tipLength = -1);  // redraw link tip
                 }
             });
 
@@ -516,15 +524,15 @@ define([
                                 ToolTip = ToolTip.substr(0, 256) + '...';
 
                             if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                                screenTip.toolTip.setTitle(ToolTip + '<br><b>' + me.txtPressLink + '</b>');
+                                screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.txtPressLink + '</b>'));
                                 screenTip.tipLength = ToolTip.length;
                                 screenTip.strTip = ToolTip;
                                 recalc = true;
                             }
 
                             showPoint = [moveData.get_X(), moveData.get_Y()];
-                            showPoint[1] += (me._XY[1]-15);
-                            showPoint[0] += (me._XY[0]+5);
+                            showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                            showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
 
                             if (!screenTip.isVisible || recalc) {
                                 screenTip.isVisible = true;
@@ -536,6 +544,8 @@ define([
                                 screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
                             }
                             showPoint[1] -= screenTip.tipHeight;
+                            if (showPoint[1]<0)
+                                showPoint[1] = 0;
                             if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
                                 showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                             screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});

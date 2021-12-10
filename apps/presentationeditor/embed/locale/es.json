@@ -19,6 +19,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La conexión a Internet ha sido restaurada, y la versión del archivo ha sido cambiada. Antes de poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se pierda nada, y luego recargar esta página. ",
   "PE.ApplicationController.errorUserDrop": "No se puede acceder al archivo ahora mismo.",
   "PE.ApplicationController.notcriticalErrorTitle": "Aviso",
+  "PE.ApplicationController.openErrorText": "Se ha producido un error al abrir el archivo. ",
   "PE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
   "PE.ApplicationController.textAnonymous": "Anónimo",
   "PE.ApplicationController.textGuest": "Invitado",

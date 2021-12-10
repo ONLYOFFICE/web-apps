@@ -455,6 +455,33 @@ define([
                 this.panels['help'] = ((new PE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            if ( Common.Controllers.Desktop.isActive() ) {
+                $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-local-open', this.$el),
+                        action  : 'file:open',
+                        caption : this.btnFileOpenCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+
+                $('<li class="devider" />' +
+                    '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-exit', this.$el),
+                        action  : 'file:exit',
+                        caption : this.btnExitCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+            }
         },
 
         setMode: function(mode, delay) {
@@ -601,6 +628,8 @@ define([
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
-        btnHistoryCaption       : 'Versions History'
+        btnHistoryCaption       : 'Versions History',
+        btnExitCaption          : 'Exit',
+        btnFileOpenCaption      : 'Open...'
     }, PE.Views.FileMenu || {}));
 });

@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Kopieren, Ausschneiden und Einfügen über das Kontextmenü werden nur in der aktuellen Datei ausgeführt.",
+    "errorInvalidLink": "Der Linkverweis ist nicht vorhanden. Bitte korrigieren oder löschen Sie den Link.",
     "menuAddComment": "Kommentar hinzufügen",
     "menuAddLink": "Link hinzufügen",
     "menuCancel": "Abbrechen",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Warnung",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {
@@ -170,6 +170,7 @@
     "errorAutoFilterHiddenRange": "Die Operation kann nicht ausgeführt werden, weil der Bereich gefilterte Zellen enthält.<br>Bitte machen Sie die gefilterten Elemente sichtbar und versuchen Sie es erneut.",
     "errorBadImageUrl": "URL des Bildes ist falsch",
     "errorChangeArray": "Sie können einen Teil eines Arrays nicht ändern.",
+    "errorChangeOnProtectedSheet": "Die Zelle oder das Diagramm, die bzw. das Sie ändern möchten, befindet sich auf einem schreibgeschützten Blatt. Um eine Änderung vorzunehmen, heben Sie den Schutz des Blatts auf. Möglicherweise werden Sie aufgefordert, ein Kennwort einzugeben.",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Beim Klicken auf OK können Sie das Dokument herunterladen.",
     "errorCopyMultiselectArea": "Bei einer Markierung von nicht angrenzenden Zellen ist die Ausführung dieses Befehls nicht möglich.<br>Wählen Sie nur einen einzelnen Bereich aus und versuchen Sie es noch mal.",
     "errorCountArg": "Die Formel enthält einen Fehler.<br>Ungültige Anzahl von Argumenten.",
@@ -222,14 +223,14 @@
     "pastInMergeAreaError": "Teil einer verbundenen Zelle kann nicht geändert werden",
     "saveErrorText": "Beim Speichern dieser Datei ist ein Fehler aufgetreten",
     "scriptLoadError": "Die Verbindung ist zu langsam, manche Elemente wurden nicht geladen. Bitte die Seite neu laden.",
+    "textErrorPasswordIsNotCorrect": "Das eingegebene Kennwort ist ungültig.<br>Stellen Sie sicher, dass die FESTSTELLTASTE nicht aktiviert ist und dass Sie die korrekte Groß-/Kleinschreibung verwenden.",
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
+    "advDRMPassword": "Passwort",
     "applyChangesTextText": "Daten werden geladen...",
     "applyChangesTitleText": "Daten werden geladen",
     "confirmMoveCellRange": "Der Zielzellenbereich kann Daten enthalten. Möchten Sie fortsetzen?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Speichervorbereitung. Bitte warten...",
     "saveTextText": "Dokument wird gespeichert...",
     "saveTitleText": "Dokument wird gespeichert...",
+    "textCancel": "Abbrechen",
+    "textErrorWrongPassword": "Inkorrektes Passwort.",
     "textLoadingDocument": "Dokument wird geladen...",
     "textNo": "Nein",
     "textOk": "OK",
+    "textUnlockRange": "Bereich aufsperren",
+    "textUnlockRangeWarning": "Ein Bereich, den Sie zu bearbeiten versuchen, ist durch ein Kennwort geschützt.",
     "textYes": "Ja",
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Das Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
-    "waitText": "Bitte warten...",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "waitText": "Bitte warten..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warnung",
@@ -659,7 +659,8 @@
       "txtSemicolon": "Semikolon",
       "txtSpace": "Leerzeichen",
       "txtTab": "Tab",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

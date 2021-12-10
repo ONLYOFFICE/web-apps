@@ -130,3 +130,43 @@
     width: 70px;
     height: 50px;
 }
+// Theme
+
+.slide-theme {
+    &__list {
+        margin: auto;
+        ul {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding-left: 18px;
+            padding-right: 18px;
+            padding-bottom: 14px;
+        }
+    }
+    .item-inner:after {
+        display: none;
+    }
+    .item-theme {
+        position: relative;
+        margin: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+        width: 88px;
+        height: 40px;
+        margin-top: 14px;
+        background-image: ~"url(@{app-image-path}/themes/themes.png)";
+        display: block;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .item-theme.active:before {
+        content: '';
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        right: -5px;
+        bottom: -5px;
+        z-index: 1;
+        .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="#aa5252"><g><circle fill="#fff" cx="11" cy="11" r="11"/><path d="M11,21A10,10,0,1,1,21,11,10,10,0,0,1,11,21h0ZM17.4,7.32L17.06,7a0.48,0.48,0,0,0-.67,0l-7,6.84L6.95,11.24a0.51,0.51,0,0,0-.59.08L6,11.66a0.58,0.58,0,0,0,0,.65l3.19,3.35a0.38,0.38,0,0,0,.39,0L17.4,8a0.48,0.48,0,0,0,0-.67h0Z"/></g></svg>');
+    }
+}

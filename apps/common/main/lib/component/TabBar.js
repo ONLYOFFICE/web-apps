@@ -177,11 +177,11 @@ define([
                             lockDrag = true;
                         }
                     });
-                    if (((this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) && !(e.ctrlKey || e.metaKey)) || this.bar.isEditFormula) {
+                    if (((this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) && !(e.ctrlKey || (Common.Utils.isMac && e.altKey))) || this.bar.isEditFormula) {
                         lockDrag = true;
                     }
                     // move last selected sheet if all sheets are selected
-                    if (this.bar.selectTabs.length === this.bar.tabs.length && this.bar.tabs.length > 1 && !e.ctrlKey && !e.metaKey) {
+                    if (this.bar.selectTabs.length === this.bar.tabs.length && this.bar.tabs.length > 1 && !e.ctrlKey && !(Common.Utils.isMac && e.altKey)) {
                         lockDrag = false;
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
                     }
@@ -221,7 +221,7 @@ define([
                 if (!this.bar.isEditFormula) {
                     this.bar.$el.find('.mousemove').removeClass('mousemove right');
                     $(e.currentTarget).parent().addClass('mousemove');
-                    event.dataTransfer.dropEffect = event.metaKey || event.ctrlKey ? 'copy' : 'move';
+                    event.dataTransfer.dropEffect = (event.ctrlKey || Common.Utils.isMac && event.altKey) ? 'copy' : 'move';
                 } else {
                     event.dataTransfer.dropEffect = 'none';
                 }
@@ -234,7 +234,7 @@ define([
                 if (!this.bar.isEditFormula) {
                     this.bar.$el.find('.mousemove').removeClass('mousemove right');
                     $(e.currentTarget).parent().addClass('mousemove');
-                    event.dataTransfer.dropEffect = event.metaKey || event.ctrlKey ? 'copy' : 'move';
+                    event.dataTransfer.dropEffect = (event.ctrlKey || Common.Utils.isMac && event.altKey) ? 'copy' : 'move';
                 } else {
                     event.dataTransfer.dropEffect = 'none';
                 }
@@ -244,6 +244,9 @@ define([
                 $(e.currentTarget).parent().removeClass('mousemove right');
             }, this),
             dragend: $.proxy(function (e) {
+                if (Common.Utils.isMac && e.altKey) { // don't show alt hints after copy by drag and drop
+                    this.bar.isDragDrop = true;
+                }
                 var event = e.originalEvent;
                 if (event.dataTransfer.dropEffect === 'move' && !event.dataTransfer.mozUserCancelled) {
                     this.bar.trigger('tab:dragend', true);
@@ -253,10 +256,13 @@ define([
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
             }, this),
             drop: $.proxy(function (e) {
+                if (Common.Utils.isMac && e.altKey) { // don't show alt hints after copy by drag and drop
+                    this.bar.isDragDrop = true;
+                }
                 var event = e.originalEvent,
                     index = $(event.currentTarget).data('index');
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
-                this.bar.trigger('tab:drop', event.dataTransfer, index, event.ctrlKey || event.metaKey);
+                this.bar.trigger('tab:drop', event.dataTransfer, index, (event.ctrlKey || Common.Utils.isMac && event.altKey));
                 this.bar.isDrop = true;
             }, this)
         });
@@ -299,7 +305,7 @@ define([
             }, this));
             addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
                 if (!this.isEditFormula) {
-                    event.dataTransfer.dropEffect = event.metaKey || event.ctrlKey ? 'copy' : 'move';
+                    event.dataTransfer.dropEffect = (event.ctrlKey || Common.Utils.isMac && event.altKey) ? 'copy' : 'move';
                 } else {
                     event.dataTransfer.dropEffect = 'none';
                 }
@@ -308,7 +314,7 @@ define([
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                event.dataTransfer.dropEffect = !this.isEditFormula ? (event.metaKey || event.ctrlKey ? 'copy' : 'move') : 'none';
+                event.dataTransfer.dropEffect = !this.isEditFormula ? ((event.ctrlKey || Common.Utils.isMac && event.altKey) ? 'copy' : 'move') : 'none';
                 !this.isEditFormula && this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
                 return false;
             }, this));
@@ -319,7 +325,10 @@ define([
             addEvent(this.$bar[0], 'drop', _.bind(function (event) {
                 this.$el.find('.mousemove').removeClass('mousemove right');
                 if (this.isDrop === undefined) {
-                    this.trigger('tab:drop', event.dataTransfer, 'last', event.ctrlKey || event.metaKey);
+                    if (Common.Utils.isMac && event.altKey) { // don't show alt hints after copy by drag and drop
+                        this.isDragDrop = true;
+                    }
+                    this.trigger('tab:drop', event.dataTransfer, 'last', (event.ctrlKey || Common.Utils.isMac && event.altKey));
                 } else {
                     this.isDrop = undefined;
                 }

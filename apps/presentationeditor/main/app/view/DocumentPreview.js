@@ -308,6 +308,7 @@ define([
             }, 1000);
             $('#viewport-vbox-layout').css('z-index','0');
             this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('preview:show');
         },
 
         hide: function() {
@@ -324,6 +325,7 @@ define([
 
             this.$el.off('mousemove');
             this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('preview:hide');
         },
 
         setApi: function(o) {

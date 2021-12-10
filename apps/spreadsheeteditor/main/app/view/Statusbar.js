@@ -192,7 +192,10 @@ define([
                         { caption: "125%", value: 125 },
                         { caption: "150%", value: 150 },
                         { caption: "175%", value: 175 },
-                        { caption: "200%", value: 200 }
+                        { caption: "200%", value: 200 },
+                        { caption: "300%", value: 300 },
+                        { caption: "400%", value: 400 },
+                        { caption: "500%", value: 500 }
                     ]
                 });
                 this.zoomMenu.render($('.cnt-zoom',this.el));
@@ -319,7 +322,7 @@ define([
                 });
 
                 var menuHiddenItems = new Common.UI.Menu({
-                    maxHeight: 260,
+                    maxHeight: 267,
                     menuAlign: 'tl-tr'
                 }).on('show:after', function () {
                     this.scroller.update({alwaysVisibleY: true});
@@ -831,12 +834,13 @@ define([
                 if (this.isCompact) {
                     if (this.boxAction.is(':visible')) {
                         var tabsWidth = this.tabbar.getWidth();
-                        if (Common.Utils.innerWidth() - right - 175 - 140 - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                        var actionWidth = this.actionWidth || 140;
+                        if (Common.Utils.innerWidth() - right - 175 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
                             var left = tabsWidth + 175;
                             this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
                             this.boxAction.find('.separator').css('border-left-color', 'transparent');
                         } else {
-                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': '140px'});
+                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': actionWidth + 'px'});
                             this.boxAction.find('.separator').css('border-left-color', '');
                             visible = true;
                         }
@@ -971,8 +975,8 @@ define([
 
             getStatusMessage: function (message) {
                 var _message;
-                if (this.isCompact && message.length > 17 && this.boxAction.width() < 180) {
-                    _message = message.substr(0, 17) + '...'
+                if (this.isCompact && message.length > 23 && this.boxAction.width() < 180) {
+                    _message = message.substr(0, 23).trim() + '...'
                 } else {
                     _message = message;
                 }
@@ -981,6 +985,9 @@ define([
 
             showStatusMessage: function(message) {
                 this.statusMessage = message;
+                if (!this.actionWidth) {
+                    this.actionWidth = message.length > 22 ? 166 : 140;
+                }
                 this.labelAction.text(this.getStatusMessage(message));
                 this.customizeStatusBarMenu.items.forEach(function (item) {
                     if (item.options.id === 'saved-status') {

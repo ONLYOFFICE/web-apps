@@ -193,7 +193,9 @@ define([
                 cf_locked: [],
                 selectedCells: 0,
                 wsLock: false,
-                wsProps: []
+                wsProps: [],
+                is_lockText: false,
+                is_lockShape: false
             };
             this.binding = {};
 
@@ -396,6 +398,8 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
+                toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
+                toolbar.chPrintHeadings.on('change',                         _.bind(this.onPrintHeadingsChange, this));
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
@@ -2246,6 +2250,8 @@ define([
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
             this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
+            this.onApiGridLines(props.asc_getGridLines());
+            this.onApiHeadings(props.asc_getHeadings());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -2254,6 +2260,14 @@ define([
         onUpdateDocumentProps: function(nIndex) {
             if (nIndex == this.api.asc_getActiveWorksheetIndex())
                 this.onApiSheetChanged();
+        },
+
+        onApiGridLines: function (checked) {
+            this.toolbar.chPrintGridlines.setValue(checked, true);
+        },
+
+        onApiHeadings: function (checked) {
+            this.toolbar.chPrintHeadings.setValue(checked, true);
         },
 
         onApiPageSize: function(w, h) {
@@ -2544,7 +2558,8 @@ define([
             // lock formatting controls in cell with FormatCells protection or in shape and Objects protection
             need_disable = (selectionType === Asc.c_oAscSelectionType.RangeImage || selectionType === Asc.c_oAscSelectionType.RangeChart || selectionType === Asc.c_oAscSelectionType.RangeChartText ||
                             selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeSlicer);
-            toolbar.lockToolbar(SSE.enumLock.wsLockFormat, need_disable && !!this._state.wsProps['Objects'] || !need_disable && !!this._state.wsProps['FormatCells']);
+            toolbar.lockToolbar(SSE.enumLock.wsLockFormat, need_disable && !!this._state.wsProps['Objects'] && !!this._state.is_lockText || !need_disable && !!this._state.wsProps['FormatCells']);
+            toolbar.lockToolbar(SSE.enumLock.wsLockFormatFill, need_disable && !!this._state.wsProps['Objects'] && !!this._state.is_lockShape || !need_disable && !!this._state.wsProps['FormatCells']);
 
             toolbar.lockToolbar(SSE.enumLock['Objects'], !!this._state.wsProps['Objects']);
             toolbar.lockToolbar(SSE.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
@@ -3454,7 +3469,9 @@ define([
                 is_slicer       = seltype == Asc.c_oAscSelectionType.RangeSlicer,
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart || is_slicer,
                 is_objLocked    = false,
-                is_smartart_internal = false;
+                is_smartart_internal = false,
+                is_lockShape    = false,
+                is_lockText = false;
 
             if (!(is_mode_2 || is_image) && this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===Asc.c_oAscSelectionType.RangeImage);
 
@@ -3463,14 +3480,18 @@ define([
                 for (var i=0; i<SelectedObjects.length; ++i)
                 {
                     if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                        is_objLocked = is_objLocked || SelectedObjects[i].asc_getObjectValue().asc_getLocked();
                         var value = SelectedObjects[i].asc_getObjectValue(),
                             shapeProps = value ? value.asc_getShapeProperties() : null;
                         if (shapeProps) {
                             is_smartart_internal = shapeProps.asc_getFromSmartArtInternal();
                         }
+                        is_objLocked = is_objLocked || value.asc_getLocked();
+                        is_lockText = is_lockText || value.asc_getProtectionLockText();
+                        is_lockShape = is_lockShape || value.asc_getProtectionLocked();
                     }
                 }
+                this._state.is_lockText = is_lockText;
+                this._state.is_lockShape = is_lockShape;
             }
 
             if ( coauth_disable ) {
@@ -4066,6 +4087,16 @@ define([
                 this.toolbar.lockToolbar(SSE.enumLock['InsertHyperlinks'], this._state.wsProps['InsertHyperlinks'], {array: [this.toolbar.btnInsertHyperlink]});
                 this.appConfig && this.appConfig.isEdit ? this.onApiSelectionChanged(this.api.asc_getCellInfo()) : this.onApiSelectionChangedRestricted(this.api.asc_getCellInfo());
             }
+        },
+
+        onPrintGridlinesChange: function (field, value) {
+            this.api.asc_SetPrintGridlines(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintHeadingsChange: function (field, value) {
+            this.api.asc_SetPrintHeadings(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

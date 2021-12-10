@@ -220,6 +220,7 @@
             else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
             else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
             else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
             else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
             return reqerr;

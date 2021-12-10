@@ -805,7 +805,8 @@ define([
             if (control_props) {
                 var spectype = control_props.get_SpecificType();
                 control_props = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
-                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) &&
+                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
+                                spectype==Asc.c_oAscContentControlSpecificType.Picture) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
             } else
                 control_props = false;
@@ -1211,6 +1212,7 @@ define([
                     this._state.GradColor = color;
                 }
 
+                this.chShadow.setDisabled(!!shapeprops.get_FromChart());
                 this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
                 this._noApply = false;

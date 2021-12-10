@@ -317,7 +317,7 @@ define([
                     if ( btn == 'up' ) {
                         var _f = Math.floor(this.api.asc_getZoom() * 10)/10;
                         _f += .1;
-                        if (_f > 0 && !(_f > 2.))
+                        if (_f > 0 && !(_f > 5.))
                             this.api.asc_setZoom(_f);
                     } else {
                         _f = Math.ceil(this.api.asc_getZoom() * 10)/10;

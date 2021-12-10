@@ -402,8 +402,9 @@ define([
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
-                this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
-                this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
+                this.appOptions.canFeatureComparison = true;
+                this.appOptions.canFeatureContentControl = true;
+                this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
@@ -484,8 +485,7 @@ define([
                 }
 
                 var type = data.doc ? /^(?:(docxf))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string');
-                this.appOptions.canFeatureForms = this.appOptions.isFormCreator; // show forms only for docxf
+                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string') && this.appOptions.canFeatureForms; // show forms only for docxf
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
                 if (type && typeof type[1] === 'string') {
@@ -558,10 +558,11 @@ define([
                             Asc.c_oAscFileType.OTT,
                             Asc.c_oAscFileType.FB2,
                             Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM,
-                            Asc.c_oAscFileType.DOCXF,
-                            Asc.c_oAscFileType.OFORM
+                            Asc.c_oAscFileType.DOCM
                         ];
+                    if (this.appOptions.canFeatureForms) {
+                        _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                    }
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
                         _format = Asc.c_oAscFileType.DOCX;

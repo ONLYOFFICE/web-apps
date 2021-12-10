@@ -182,7 +182,6 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.lockedControls.push(this.spnMaxChars);
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
             this.spnMaxChars.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
@@ -209,24 +208,27 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.lockedControls.push(this.spnWidth);
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.chAutofit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-autofit'),
-                labelText: this.textAutofit
+                labelText: this.textAutofit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
-            this.lockedControls.push(this.chAutofit);
 
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
-                labelText: this.textMulti
+                labelText: this.textMulti,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chMulti.on('change', this.onChMulti.bind(this));
-            this.lockedControls.push(this.chMulti);
 
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
@@ -269,17 +271,22 @@ define([
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
                 allowBlank  : true,
-                validateOnChange: false,
+                validateOnChange: true,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
+            }).on ('changing', function (input, value) {
+                me.btnListAdd.setDisabled(value.length<1 || me._state.DisabledControls);
             });
             this.lockedControls.push(this.txtNewValue);
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
+            this.txtNewValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtNewValue._input && me.txtNewValue._input.select();}, 1);
+            });
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
@@ -306,7 +313,6 @@ define([
                 dataHintOffset: 'big'
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
-            this.lockedControls.push(this.btnListAdd);
 
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
@@ -402,10 +408,12 @@ define([
 
             this.chAspect = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-aspect'),
-                labelText: this.textAspect
+                labelText: this.textAspect,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chAspect.on('change', this.onChAspect.bind(this));
-            this.lockedControls.push(this.chAspect);
 
             this.cmbScale = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-scale'),
@@ -415,7 +423,10 @@ define([
                 data: [{ displayValue: this.textAlways,  value: Asc.c_oAscPictureFormScaleFlag.Always },
                     { displayValue: this.textNever,  value: Asc.c_oAscPictureFormScaleFlag.Never },
                     { displayValue: this.textTooBig,  value: Asc.c_oAscPictureFormScaleFlag.Bigger },
-                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }]
+                    { displayValue: this.textTooSmall,  value: Asc.c_oAscPictureFormScaleFlag.Smaller }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbScale.setValue(Asc.c_oAscPictureFormScaleFlag.Always);
             this.lockedControls.push(this.cmbScale);
@@ -435,7 +446,6 @@ define([
             });
             this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
             this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
-            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $('#form-img-slider-position-y'),
@@ -447,7 +457,6 @@ define([
             });
             this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
             this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
-            this.lockedControls.push(this.sldrPreviewPositionY);
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
@@ -505,7 +514,7 @@ define([
 
         onChMaxCharsChanged: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
-            this.spnMaxChars.setDisabled(!checked);
+            this.spnMaxChars.setDisabled(!checked || this._state.DisabledControls);
             if (!checked) {
                 this.chComb.setValue(false, true);
                 this.spnWidth.setDisabled(true);
@@ -536,9 +545,9 @@ define([
             var checked = (field.getValue()=='checked');
             if (checked) {
                 this.chMaxChars.setValue(true, true);
-                this.spnMaxChars.setDisabled(false);
+                this.spnMaxChars.setDisabled(false || this._state.DisabledControls);
             }
-            this.spnWidth.setDisabled(!checked);
+            this.spnWidth.setDisabled(!checked || this._state.DisabledControls);
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
@@ -858,6 +867,7 @@ define([
                             this.list.scrollToRecord(rec);
                         } else if (!this.txtNewValue._input.is(':focus')) {
                             this.txtNewValue.setValue('');
+                            this.btnListAdd.setDisabled(true);
                             this._state.listValue = this._state.listIndex = undefined;
                         }
                     }
@@ -1042,8 +1052,8 @@ define([
                     val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
                     this.imagePositionPreview.css({'top': val + 'px'});
 
-                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never);
-                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+                    this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never || this._state.DisabledControls);
+                    var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect || this._state.DisabledControls;
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
                 }
@@ -1064,16 +1074,16 @@ define([
                         this.chMulti.setValue(!!val, true);
                         this._state.Multi=val;
                     }
-                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb);
+                    this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
 
                     val = formTextPr.get_AutoFit();
                     if ( this._state.AutoFit!==val ) {
                         this.chAutofit.setValue(!!val, true);
                         this._state.AutoFit=val;
                     }
-                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb);
+                    this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
 
-                    this.spnWidth.setDisabled(!this._state.Comb);
+                    this.spnWidth.setDisabled(!this._state.Comb || this._state.DisabledControls);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
@@ -1088,7 +1098,7 @@ define([
 
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
-                    this.spnMaxChars.setDisabled(!val || val<0);
+                    this.spnMaxChars.setDisabled(!val || val<0 || this._state.DisabledControls);
                     if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
@@ -1154,7 +1164,10 @@ define([
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#form-background-color-btn'),
                     transparent: true,
-                    menu: true
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.btnBGColor);
                 this.btnBGColor.on('color:select', _.bind(this.onColorBGSelect, this));
@@ -1182,6 +1195,15 @@ define([
                     item.setDisabled(me._state.DisabledControls);
                 });
             }
+            this.spnMaxChars.setDisabled(this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.spnWidth.setDisabled(!this._state.Comb || this._state.DisabledControls);
+            this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
+            this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
+            this.chAspect.setDisabled(this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Never || this._state.DisabledControls);
+            var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect;
+            this.sldrPreviewPositionX.setDisabled(disableSliders || this._state.DisabledControls);
+            this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
         },
 
@@ -1219,19 +1241,21 @@ define([
             this.txtNewValue.setValue(record.get('name'));
             this._state.listValue = record.get('name');
             this._state.listIndex = undefined;
-            this.disableListButtons(false);
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
+            this.disableListButtons();
         },
 
         onDisconnect: function() {
             this.onKeyChanged(this.cmbKey, {value: ""});
         },
 
-        disableListButtons: function(disabled) {
-            if (disabled===undefined)
-                disabled = !this.list.getSelectedRec();
-            this.btnListDelete.setDisabled(disabled || this._state.DisabledControls);
-            this.btnListUp.setDisabled(disabled || this._state.DisabledControls);
-            this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
+        disableListButtons: function() {
+            var rec = this.list.getSelectedRec(),
+                idx = rec ? this.list.store.indexOf(rec) : -1;
+
+            this.btnListDelete.setDisabled(idx<0 || this._state.DisabledControls);
+            this.btnListUp.setDisabled(idx<1 || this._state.DisabledControls);
+            this.btnListDown.setDisabled(idx<0 || idx>this.list.store.length-2 || this._state.DisabledControls);
         },
 
         onImagePositionChange: function (type, field, newValue, oldValue) {

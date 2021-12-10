@@ -299,7 +299,8 @@ define([
                 this.cmpEl = $(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -308,7 +309,8 @@ define([
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
             }
 
@@ -506,7 +508,8 @@ define([
             $(this.el).html(this.template({
                 groups: this.groups ? this.groups.toJSON() : null,
                 style: this.style,
-                cls: this.cls
+                cls: this.cls,
+                options: this.options
             }));
 
             if (!_.isUndefined(this.scroller)) {
@@ -805,14 +808,14 @@ define([
             };
 
             var el = $(this.dataViewItems[0].el),
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
+                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW + 0.01);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -1275,7 +1278,7 @@ define([
             };
 
             var el = this.dataViewItems[0].el,
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;

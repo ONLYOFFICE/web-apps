@@ -167,7 +167,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) ||
+            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
 
@@ -207,8 +207,8 @@ define([
         onAppReady: function (config) {
             var me = this;
             if ( me.header.btnOptions ) {
-                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
-                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
+                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
+                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
                     if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                         compactview = Common.localStorage.getBool("de-compact-toolbar");
                     } else
@@ -325,8 +325,7 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
-                var document = DE.getController('Main').document;
-                if ( !Common.UI.Themes.isDarkTheme() || /^pdf|djvu|xps|oxps$/.test(document.fileType) ) {
+                if ( !Common.UI.Themes.isDarkTheme() ) {
                     me.header.menuItemsDarkMode.hide();
                     me.header.menuItemsDarkMode.$el.prev('.divider').hide();
                 }
@@ -371,8 +370,7 @@ define([
         },
 
         onThemeChanged: function (id) {
-            var document = DE.getController('Main').document;
-            if ( !/^pdf|djvu|xps|oxps$/.test(document.fileType) ) {
+            if ( this.header.menuItemsDarkMode ) {
                 var current_dark = Common.UI.Themes.isDarkTheme();
                 var menuItem = this.header.menuItemsDarkMode;
                 menuItem.setVisible(current_dark);
@@ -383,7 +381,8 @@ define([
         },
 
         onContentThemeChangedToDark: function (isdark) {
-            this.header.menuItemsDarkMode.setChecked(isdark, true);
+            if ( this.header.menuItemsDarkMode )
+                this.header.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         onWindowResize: function(e) {

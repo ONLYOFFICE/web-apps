@@ -564,15 +564,15 @@ define([
 
             this.btnCondFormat = new Common.UI.Button({
                 parentEl: $('#cell-btn-cond-format'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-cond-format',
                 caption     : this.textCondFormat,
-                style       : 'width: 100%;text-align: left;',
+                style       : 'width: 100%;',
                 menu: true,
                 disabled: this._locked,
                 dataHint    : '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.btnCondFormat);
         },

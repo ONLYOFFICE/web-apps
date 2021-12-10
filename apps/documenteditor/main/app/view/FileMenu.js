@@ -443,12 +443,12 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -457,13 +457,25 @@ define([
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {
+                $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-local-open', this.$el),
+                        action  : 'file:open',
+                        caption : this.btnFileOpenCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+
                 $('<li class="devider" />' +
                     '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
                         el      : $('#fm-btn-exit', this.$el),
-                        action  : 'app:exit',
-                        caption : 'Exit',
+                        action  : 'file:exit',
+                        caption : this.btnExitCaption,
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
@@ -603,6 +615,8 @@ define([
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
-        btnSaveCopyAsCaption    : 'Save Copy as...'
+        btnSaveCopyAsCaption    : 'Save Copy as...',
+        btnExitCaption          : 'Exit',
+        btnFileOpenCaption      : 'Open...'
     }, DE.Views.FileMenu || {}));
 });

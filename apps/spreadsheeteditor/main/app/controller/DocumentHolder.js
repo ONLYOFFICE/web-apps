@@ -1730,7 +1730,7 @@ define([
                     } else if (delta > 0) {
                         factor = Math.floor(factor * 10)/10;
                         factor += 0.1;
-                        if (factor > 0 && !(factor > 2.)) {
+                        if (factor > 0 && !(factor > 5.)) {
                             this.api.asc_setZoom(factor);
                         }
                     }
@@ -1749,7 +1749,7 @@ define([
                         if (!this.api.isCellEdited) {
                             var factor = Math.floor(this.api.asc_getZoom() * 10)/10;
                             factor += .1;
-                            if (factor > 0 && !(factor > 2.)) {
+                            if (factor > 0 && !(factor > 5.)) {
                                 this.api.asc_setZoom(factor);
                             }
 

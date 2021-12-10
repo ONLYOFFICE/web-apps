@@ -264,11 +264,11 @@
     "uploadImageTextText": "上传图片...",
     "uploadImageTitleText": "图片上传中",
     "waitText": "请稍候...",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel",
     "textErrorWrongPassword": "The password you supplied is not correct.",
     "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "textUnlockRangeWarning": "A range you are trying to change is password protected."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "警告",
@@ -659,7 +659,8 @@
       "txtScheme22": "New Office",
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

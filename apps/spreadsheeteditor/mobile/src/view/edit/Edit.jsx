@@ -349,7 +349,6 @@ const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const store = props.storeFocusObjects;
-    const wsLock = props.wsLock;
     const wsProps = props.wsProps;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
@@ -367,35 +366,35 @@ const EditTabs = props => {
                 component: <EditCellController />
             })
         }
+        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('shape') > -1) {
+            editors.push({
+                caption: _t.textShape,
+                id: 'edit-shape',
+                component: <EditShapeController />
+            })
+        }
+        if (!(wsProps.Objects && store.isLockedText) && settings.indexOf('text') > -1) {
+            editors.push({
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
+            })
+        }
+        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('chart') > -1) {
+            editors.push({
+                caption: _t.textChart,
+                id: 'edit-chart',
+                component: <EditChartController />
+            })
+        }
+        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('image') > -1) {
+            editors.push({
+                caption: _t.textImage,
+                id: 'edit-image',
+                component: <EditImageController />
+            })
+        }
         if(!wsProps.Objects) {
-            if (settings.indexOf('shape') > -1) {
-                editors.push({
-                    caption: _t.textShape,
-                    id: 'edit-shape',
-                    component: <EditShapeController />
-                })
-            }
-            if (settings.indexOf('image') > -1) {
-                editors.push({
-                    caption: _t.textImage,
-                    id: 'edit-image',
-                    component: <EditImageController />
-                })
-            }
-            if (settings.indexOf('text') > -1) {
-                editors.push({
-                    caption: _t.textText,
-                    id: 'edit-text',
-                    component: <EditTextController />
-                })
-            }
-            if (settings.indexOf('chart') > -1) {
-                editors.push({
-                    caption: _t.textChart,
-                    id: 'edit-chart',
-                    component: <EditChartController />
-                })
-            }
             if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
                 editors.push({
                     caption: _t.textHyperlink,

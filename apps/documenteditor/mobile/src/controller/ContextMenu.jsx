@@ -15,6 +15,7 @@ import EditorUIController from '../lib/patch';
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
+    canFillForms: stores.storeAppOptions.canFillForms,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     displayMode: stores.storeReview.displayMode
@@ -212,7 +213,7 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
-        const { isEdit } = this.props;
+        const { isEdit, canFillForms } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -255,6 +256,20 @@ class ContextMenu extends ContextMenuController {
                 itemsIcon.push({
                     event: 'copy',
                     icon: 'icon-copy'
+                });
+            }
+
+            if ( canFillForms && canCopy && !locked ) {
+                itemsIcon.push({
+                    event: 'cut',
+                    icon: 'icon-cut'
+                });
+            }
+
+            if ( canFillForms && !locked ) {
+                itemsIcon.push({
+                    event: 'paste',
+                    icon: 'icon-paste'
                 });
             }
 
