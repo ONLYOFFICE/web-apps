@@ -648,7 +648,6 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
-            this.chDarkMode.setVisible(!/^pdf|djvu|xps|oxps$/.test(DE.getController('Main').document.fileType));
         },
 
         setApi: function(o) {
