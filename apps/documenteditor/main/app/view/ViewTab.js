@@ -63,6 +63,15 @@ define([
                 me.btnFitToWidth && me.btnFitToWidth.on('click', function () {
                     me.fireEvent('zoom:towidth');
                 });
+                me.chToolbar && me.chToolbar.on('change', _.bind(function(checkbox, state) {
+                    me.fireEvent('toolbar:setcompact', [me.chToolbar, state !== 'checked']);
+                }, me));
+                me.chStatusbar && me.chStatusbar.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('statusbar:hide', [me.chStatusbar, state !== 'checked']);
+                }, me));
+                me.chRulers && me.chRulers.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                }, me));
             },
 
             initialize: function (options) {
@@ -164,7 +173,7 @@ define([
                 this.chStatusbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textStatusBar,
-                    value: true, //!Common.localStorage.getBool(''),
+                    value: !Common.localStorage.getBool("de-hidden-status"),
                     //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -175,7 +184,7 @@ define([
                 this.chToolbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-toolbar'),
                     labelText: this.textAlwaysShowToolbar,
-                    value: true, //!Common.localStorage.getBool(''),
+                    value: !options.compactToolbar,
                     //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -186,7 +195,7 @@ define([
                 this.chRulers = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-rulers'),
                     labelText: this.textRulers,
-                    value: true, //!Common.localStorage.getBool(''),
+                    value: !Common.Utils.InternalSettings.get("de-hidden-rulers"),
                     //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'left',

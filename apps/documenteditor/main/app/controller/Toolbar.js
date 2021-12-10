@@ -172,6 +172,9 @@ define([
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
+                },
+                'ViewTab': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 }
             });
 

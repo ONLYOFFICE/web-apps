@@ -73,16 +73,30 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode
+                mode: config.mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
                 'ViewTab': {
                     'zoom:value': _.bind(this.onChangeZoomValue, this),
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
-                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
+                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
+                    'rulers:change': _.bind(this.onChangeRulers, this)
+                },
+                'Toolbar': {
+                    'view:compact': _.bind(function (toolbar, state) {
+                        this.view.chToolbar.setValue(!state, true);
+                    }, this)
                 },
                 'Statusbar': {
-
+                    'view:hide': _.bind(function (statusbar, state) {
+                        this.view.chStatusbar.setValue(!state, true);
+                    }, this)
+                },
+                'Common.Views.Header': {
+                    'toolbar:hiderulers': _.bind(function (isChecked) {
+                        this.view.chRulers.setValue(!isChecked, true);
+                    }, this)
                 }
             });
         },
@@ -161,6 +175,15 @@ define([
                 this.api.zoomCustomMode();
             else
                 this.api[func]();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onChangeRulers: function (btn, checked) {
+            this.api.asc_SetViewRulers(checked);
+            Common.localStorage.setBool('de-hidden-rulers', !checked);
+            Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
+            this.view.fireEvent('rulers:hide', [!checked]);
+            Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 

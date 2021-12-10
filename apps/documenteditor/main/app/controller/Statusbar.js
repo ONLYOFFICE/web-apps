@@ -65,13 +65,10 @@ define([
                     }.bind(this)
                 },
                 'Common.Views.Header': {
-                    'statusbar:hide': function (view, status) {
-                        me.statusbar.setVisible(!status);
-                        Common.localStorage.setBool('de-hidden-status', status);
-
-                        Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', me.statusbar);
-                    }
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                },
+                'ViewTab': {
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
             });
         },
@@ -172,6 +169,18 @@ define([
                     }
                 }
             });
+        },
+
+        onChangeCompactView: function (view, status) {
+            this.statusbar.setVisible(!status);
+            Common.localStorage.setBool('de-hidden-status', status);
+
+            if ($(view).parent().prop('id') !== 'slot-btn-options') {
+                this.statusbar.fireEvent('view:hide', [this, status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
