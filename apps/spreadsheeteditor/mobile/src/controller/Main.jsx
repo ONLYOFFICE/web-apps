@@ -19,8 +19,10 @@ import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
 import { useTranslation } from 'react-i18next';
+import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(
     "users",
@@ -40,6 +42,7 @@ class MainController extends Component {
         super(props);
         window.editorType = 'sse';
 
+        this.boxSdk = $$('#editor_sdk');
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
         this.InitApplication = -254;
@@ -414,7 +417,43 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
-        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));   
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this)); 
+        
+        this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
+        this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
+    }
+
+    onEntriesListMenu(validation, textArr, addArr) {
+        const { t } = this.props;
+    
+        if (textArr && textArr.length) { 
+            if(!Device.isPhone) {
+                this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+            
+                if (!this.dropdownListTarget.length) {
+                    this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                    this.boxSdk.append(this.dropdownListTarget);
+                }
+
+                let coord  = this.api.asc_getActiveCellCoord(),
+                    offset = {left: 0, top: 0},
+                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+            
+                this.dropdownListTarget.css({left: `${showPoint[0]}px`, top: `${showPoint[1]}px`});
+            }
+
+            Common.Notifications.trigger('openDropdownList', addArr);
+        } else {
+            !validation && f7.dialog.create({
+                title: t('Controller.Main.notcriticalErrorTitle'),
+                text: t('Controller.Main.textNoChoices'),
+                buttons: [
+                    {
+                        text: t('Controller.Main.textOk')
+                    }
+                ]
+            });
+        }
     }
 
     onChangeProtectSheet() {
@@ -902,6 +941,7 @@ class MainController extends Component {
                 <ViewCommentsSheetsController />
                 <PluginsController />
                 <EncodingController />
+                <DropdownListController />
             </Fragment>
         )
     }
