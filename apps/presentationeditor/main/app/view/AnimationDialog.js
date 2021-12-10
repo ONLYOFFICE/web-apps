@@ -67,12 +67,14 @@ define([
             this._state=[];
             this.handler =   this.options.handler;
             this.EffectGroupData = Common.define.effectData.getEffectGroupData();
+            this._state.activeGroup = this.EffectGroupData[0].id;
+            this._state.activeGroupValue = this.EffectGroupData[0].value;
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
-            if (this.options.Effect != undefined) {
-                this._state.activeEffect = this.options.Effect;
-                var itemEffect= this.allEffects.findWhere({value: this._state.activeEffect});
+            if (this.options.activeEffect != undefined) {
+                this._state.activeEffect = this.options.activeEffect;
+                var itemEffect = _.findWhere(this.allEffects,{value: this._state.activeEffect});
                 this._state.activeGroup = itemEffect.group;
-                this._state.activeGroupValue = this.EffectGroupData.findWhere({id: this._state.activeGroup});
+                this._state.activeGroupValue = _.findWhere(this.EffectGroupData, {id: this._state.activeGroup}).value;
                 this.activeLevel = itemEffect.level;
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -117,25 +119,42 @@ define([
                 el      : $('#animation-setpreview'),
                 labelText : this.textPreviewEffect
             });
-            this.cmbGroup.selectRecord(this.cmbGroup.store.models[0]);
-            this.onGroupSelect(undefined,this.cmbGroup.store.models[0]);
+
+            this.cmbGroup.setValue(this._state.activeGroupValue);
+            this.fillLevel();
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
         onGroupSelect: function (combo, record) {
             this._state.activeGroup = record.id;
-            this._state.activeGroupValue = record.get('value');
-            this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(record.id == 'menu-effect-group-path'));
-            this.cmbLevel.selectRecord(this.cmbLevel.store.models[0]);
-            this.onLevelSelect(undefined,this.cmbLevel.store.models[0]);
+            this._state.activeGroupValue = record.value;
+            this.activeLevel = undefined;
+            this._state.activeEffect = undefined;
+            this.fillLevel();
+        },
+
+        fillLevel: function ()
+        {
+            this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(this._state.activeGroup == 'menu-effect-group-path'));
+            var item = (this.activeLevel)?this.cmbLevel.store.findWhere({id: this.activeLevel}):this.cmbLevel.store.at(0);
+            this.cmbLevel.setValue(item.get('displayValue'));
+            this.activeLevel = item.get('id');
+            this.fillEffect();
         },
 
         onLevelSelect: function (combo, record) {
             this.activeLevel = record.id;
+            this._state.activeEffect = undefined;
+            this.fillEffect();
+        },
+
+        fillEffect: function () {
             var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
             this.lstEffectList.store.reset(arr);
-            this.lstEffectList.selectRecord(this.lstEffectList.store.models[0]);
+            var  item = (this._state.activeEffect)?this.lstEffectList.store.findWhere({value: this._state.activeEffect}):this.lstEffectList.store.at(0);
+            this.lstEffectList.selectRecord(item);
+            this._state.activeEffect = item.get('value');
         },
 
         onEffectListItem: function (lisvView, itemView, record){

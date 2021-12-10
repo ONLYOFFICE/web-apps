@@ -226,8 +226,15 @@
                          <span class="btn-slot text" id="animation-checkbox-rewind"></span>
                     </div>
                 </div>
-
-
+                <div class="separator long"></div>
+                <div class="group small" style="width: 120px; min-width: 100px;">
+                    <div class="elset">
+                        <div class="btn-slot" id="animation-moveearlier"></div>
+                    </div>
+                    <div class="elset font-normal">
+                        <div class="btn-slot" id="animation-movelater"></div>
+                    </div>
+                </div>
             </section>
         </section>
     </section>

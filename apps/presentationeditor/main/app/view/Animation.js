@@ -65,9 +65,11 @@ define([
                     me.fireEvent('animation:additional', [true]); // replace effect
                 }, me));
             }
+
             me.btnAddAnimation && me.btnAddAnimation.menu.on('item:click', function (menu, item, e) {
                 (item.value=='more') && me.fireEvent('animation:additional', [false]); // add effect
             });
+
             if (me.btnPreview) {
                 me.btnPreview.on('click', _.bind(function(btn) {
                     me.fireEvent('animation:preview', [me.btnPreview]);
@@ -126,6 +128,14 @@ define([
                     me.fireEvent('animation:checkrewind', [me.chRewind, me.chRewind.value, me.chRewind.lastValue]);
                 }, me));
             }
+
+            me.btnMoveEarlier && me.btnMoveEarlier.on('click', _.bind(function(btn) {
+                me.fireEvent('animation:moveearlier', [me.btnMoveEarlier]);
+            }, me));
+
+            me.btnMoveLater && me.btnMoveLater.on('click', _.bind(function(btn) {
+                me.fireEvent('animation:movelater', [me.btnMoveLater]);
+            }, me));
 
         }
 
@@ -279,7 +289,7 @@ define([
                                 value: this.triggers.ClickOf,
                                 caption:  this.textOnClickOf,
                                 menu: new Common.UI.Menu({
-                                    menuAlign: 'tr-br',
+                                    menuAlign: 'tl-tr',
                                     items: []
                                 })
                             }]
@@ -344,6 +354,32 @@ define([
                     dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.numRepeat);
+
+                this.btnMoveEarlier = new Common.UI.Button({
+                    parentEl: $('#animation-moveearlier'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-arrow-up',
+                    style: 'min-width: 82px',
+                    caption: this.textMoveEarlier,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnMoveEarlier);
+
+                this.btnMoveLater = new Common.UI.Button({
+                    parentEl: $('#animation-movelater'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-arrow-down',
+                    style: 'min-width: 82px',
+                    caption: this.textMoveLater,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnMoveLater);
 
                 this.$el.find('#animation-duration').text(this.strDuration);
                 this.$el.find('#animation-delay').text(this.strDelay);
@@ -490,7 +526,9 @@ define([
             textOnClickOf: 'On Click of',
             textNone: 'None',
             textMultiple: 'Multiple',
-            textMoreEffects: 'Show More Effects'
+            textMoreEffects: 'Show More Effects',
+            textMoveEarlier: 'Move Earlier',
+            textMoveLater:  'Move Later'
         }
     }()), PE.Views.Animation || {}));
 

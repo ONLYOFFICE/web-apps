@@ -75,7 +75,9 @@ define([
                     'animation:repeat':         _.bind(this.onRepeatChange, this),
                     'animation:additional':     _.bind(this.onAnimationAdditional, this),
                     'animation:trigger':        _.bind(this.onTriggerClick, this),
-                    'animation:triggerclickof': _.bind(this.onTriggerClickOfClick, this)
+                    'animation:triggerclickof': _.bind(this.onTriggerClickOfClick, this),
+                    'animation:moveearlier':    _.bind(this.onMoveEarlier, this),
+                    'animation:movelater':      _.bind(this.onMoveLater, this)
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -125,7 +127,6 @@ define([
         },
 
         onParameterClick: function (value) {
-            // this._state.EffectOption = value;
             if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putSubtype(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -166,7 +167,6 @@ define([
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
             if (this.api) {
-                // this._state.Duration = field.getNumberValue() * 1000;
                 this.AnimationProperties.asc_putDuration(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -174,7 +174,6 @@ define([
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
             if (this.api) {
-                // this._state.Delay = field.getNumberValue() * 1000;
                 this.AnimationProperties.asc_putDelay(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -182,10 +181,17 @@ define([
 
         onRepeatChange: function (field, newValue, oldValue, eOpts){
             if (this.api) {
-                // this._state.Repeat = field.getNumberValue() * 1000;
                 this.AnimationProperties.asc_putRepeatCount(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
+        },
+
+        onMoveEarlier: function () {
+
+        },
+
+        onMoveLater: function () {
+
         },
 
         onTriggerClick: function (value) {
