@@ -8,9 +8,9 @@ const PageDropdownList = props => {
     return (
         <View style={props.style}>
             <Page>
-                <List>
+                <List className="dropdown-list">
                     {listItems.length && listItems.map((elem, index) => (
-                        <ListItem key={index} className='no-indicator' style={index === 0 ? {opacity: 0.6} : null} title={elem.caption} onClick={() => props.onChangeItemList(elem.value)}></ListItem>
+                        <ListItem key={index} className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={elem.caption} onClick={() => props.onChangeItemList(elem.value)}></ListItem>
                     ))}
                 </List>
             </Page>

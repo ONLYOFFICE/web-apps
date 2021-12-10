@@ -60,7 +60,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <Input className="input-comment" type='textarea' placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
+                    <Input className="input-comment" autofocus type='textarea' placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
                 </div>
             </div>
         </Popup>
