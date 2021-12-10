@@ -808,14 +808,14 @@ define([
             };
 
             var el = $(this.dataViewItems[0].el),
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
+                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW + 0.01);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -1278,7 +1278,7 @@ define([
             };
 
             var el = this.dataViewItems[0].el,
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;

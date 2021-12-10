@@ -278,7 +278,9 @@ define([
                 /** coauthoring end **/
                 '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
-                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-theme" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div id="fms-chb-dark-mode" style="display: inline-block; vertical-align: middle;margin-top: 2px;"></div></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
@@ -547,6 +549,16 @@ define([
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
+            }).on('selected', function(combo, record) {
+                me.chDarkMode.setDisabled(record.themeType!=='dark');
+            });
+
+            this.chDarkMode = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-dark-mode'),
+                labelText: this.txtDarkMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbReviewHover = new Common.UI.ComboBox({
@@ -702,7 +714,7 @@ define([
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
-                data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
+                data.push({value: t, displayValue: Common.UI.Themes.get(t).text, themeType: Common.UI.Themes.get(t).type});
             }
 
             if ( data.length ) {
@@ -710,6 +722,8 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+            this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
+            this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
 
             if (this.mode.canViewReview) {
                 value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
@@ -720,6 +734,8 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+            if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
+                Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
@@ -855,7 +871,8 @@ define([
         txtAutoCorrect: 'AutoCorrect options...',
         strReviewHover: 'Track Changes Display',
         txtChangesTip: 'Show by hover in tooltips',
-        txtChangesBalloons: 'Show by click in balloons'
+        txtChangesBalloons: 'Show by click in balloons',
+        txtDarkMode: 'Turn on document dark mode'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

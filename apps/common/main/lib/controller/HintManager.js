@@ -292,6 +292,9 @@ Common.UI.HintManager = new(function() {
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
             topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? $(section).offset().top : 0,
             bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
+        if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
+            bottomSection += $(section).find('.box-controls').outerHeight();
+        }
 
         if (_currentControls.length === 0)
             _getControls();
@@ -512,7 +515,8 @@ Common.UI.HintManager = new(function() {
                                     return;
                                 }
                                 var needOpenPanel = (curr.attr('content-target') && !$('#' + curr.attr('content-target')).is(':visible') ||
-                                    (curr.parent().prop('id') === 'slot-btn-chat' && !$('#left-panel-chat').is(':visible')));
+                                    (curr.parent().prop('id') === 'slot-btn-chat' && !$('#left-panel-chat').is(':visible')) ||
+                                    (curr.parent().hasClass('ribtab') && !$('#toolbar').children('.toolbar').hasClass('expanded')));
                                 if ((!curr.attr('content-target') && curr.parent().prop('id') !== 'slot-btn-chat') || needOpenPanel) { // need to open panel
                                     if (!($('#file-menu-panel').is(':visible') && (curr.parent().prop('id') === 'fm-btn-info' && $('#panel-info').is(':visible') ||
                                         curr.parent().prop('id') === 'fm-btn-settings' && $('#panel-settings').is(':visible')))) {
