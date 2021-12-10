@@ -190,12 +190,10 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
-                     <div class="elset">
-                        <span class="btn-slot text" id="animation-button-preview"></span>
-                    </div>
-                    <div class="elset">
+                     <span class="btn-slot text" id="animation-button-preview"></span>
+                    <!--<div class="elset">
                         <span class="btn-slot text " id="animation-button-pane"></span>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">

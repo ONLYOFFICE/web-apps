@@ -198,10 +198,10 @@ define([
                 this.lockedControls.push(this.listEffects);
 
                 this.btnPreview = new Common.UI.Button({
-                    cls: 'btn-toolbar', // x-huge icon-top',
+                    cls: 'btn-toolbar   x-huge  icon-top', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon preview-transitions',
+                    iconCls: 'toolbar__icon transition-fade',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimation],
                     dataHint: '1',
                     dataHintDirection: 'left',
