@@ -76,7 +76,8 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode
+                mode: config.mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
                 'ViewTab': {
@@ -84,9 +85,16 @@ define([
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
                 },
+                'Toolbar': {
+                    'view:compact': _.bind(function (toolbar, state) {
+                        this.view.chToolbar.setValue(!state, true);
+                    }, this)
+                },
                 'Statusbar': {
-
-                }
+                    'view:hide': _.bind(function (statusbar, state) {
+                        this.view.chStatusbar.setValue(!state, true);
+                    }, this)
+                },
             });
         },
 

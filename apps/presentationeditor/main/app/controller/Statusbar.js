@@ -62,13 +62,10 @@ define([
                     'langchanged': this.onLangMenu
                 },
                 'Common.Views.Header': {
-                    'statusbar:hide': function (view, status) {
-                        me.statusbar.setVisible(!status);
-                        Common.localStorage.setBool('pe-hidden-status', status);
-
-                        Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                },
+                'ViewTab': {
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
             });
             this._state = {
@@ -224,6 +221,18 @@ define([
 
         onLangMenu: function(obj, langid, title) {
             this.api.put_TextPrLang(langid);
+        },
+
+        onChangeCompactView: function (view, status) {
+            this.statusbar.setVisible(!status);
+            Common.localStorage.setBool('pe-hidden-status', status);
+
+            if ($(view).parent().prop('id') !== 'slot-btn-options') {
+                this.statusbar.fireEvent('view:hide', [this, status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         zoomText        : 'Zoom {0}%'
