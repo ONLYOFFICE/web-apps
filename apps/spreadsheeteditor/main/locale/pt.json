@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Fechar menu",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Criar novo...",
   "SSE.Views.FileMenu.btnDownloadCaption": "Transferir como...",
+  "SSE.Views.FileMenu.btnExitCaption": "Sair",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Abrir...",
   "SSE.Views.FileMenu.btnHelpCaption": "Ajuda...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Histórico de versão",
   "SSE.Views.FileMenu.btnInfoCaption": "Informações da planilha",

@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Menu sluiten",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Nieuw maken",
   "SSE.Views.FileMenu.btnDownloadCaption": "Downloaden als...",
+  "SSE.Views.FileMenu.btnExitCaption": "Afsluiten",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Openen...",
   "SSE.Views.FileMenu.btnHelpCaption": "Help...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Versiehistorie",
   "SSE.Views.FileMenu.btnInfoCaption": "Spreadsheetinfo...",

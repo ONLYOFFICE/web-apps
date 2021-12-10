@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Κλείσιμο Μενού",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Δημιουργία Νέου",
   "SSE.Views.FileMenu.btnDownloadCaption": "Λήψη ως...",
+  "SSE.Views.FileMenu.btnExitCaption": "Έξοδος",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Άνοιγμα...",
   "SSE.Views.FileMenu.btnHelpCaption": "Βοήθεια...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Ιστορικό Εκδόσεων",
   "SSE.Views.FileMenu.btnInfoCaption": "Πληροφορίες Υπολογιστικού Φύλλου...",
