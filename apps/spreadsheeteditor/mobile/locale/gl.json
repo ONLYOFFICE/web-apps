@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "As accións de copiar, cortar e pegar usando o menú contextual realizaranse só dentro do ficheiro actual.",
+    "errorInvalidLink": "A referencia da ligazón non existe. Corrixa a ligazón ou elimínaa.",
     "menuAddComment": "Engadir comentario",
     "menuAddLink": "Engadir ligazón",
     "menuCancel": "Cancelar",
@@ -61,8 +62,7 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Accións de copiar, cortar e pegar",
     "textDoNotShowAgain": "Non amosar de novo",
-    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?"
   },
   "Controller": {
     "Main": {
@@ -223,13 +223,14 @@
     "pastInMergeAreaError": "Non se pode modificar unha parte dunha celda combinada",
     "saveErrorText": "Produciuse un erro ao gardar o ficheiro",
     "scriptLoadError": "A conexión é demasiado lecta, algúns dos compoñentes non se puido cargar. Por favor, volva a cargar a páxina.",
+    "textErrorPasswordIsNotCorrect": "O contrasinal que forneceu non é correcto. <br> Verifique que a tecla BLOQUEO MAIÚSCULAS estea desactivada e asegúrese de usar a maiúscula correcta.",
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Contrasinal",
     "applyChangesTextText": "Cargando datos...",
     "applyChangesTitleText": "Cargando datos",
     "confirmMoveCellRange": "O rango de celdas de destino pode conter datos. Continuar la operación?",
@@ -256,19 +257,18 @@
     "savePreparingTitle": "Preparando para gardar. Espere, por favor...",
     "saveTextText": "Gardando documento...",
     "saveTitleText": "Gardando documento",
+    "textCancel": "Cancelar",
+    "textErrorWrongPassword": "O contrasinal que proporcionou non é correcto.",
     "textLoadingDocument": "Cargando o documento",
     "textNo": "Non",
     "textOk": "Aceptar",
+    "textUnlockRange": "Desbloquear rango",
+    "textUnlockRangeWarning": "O rango que está tratando de cambiar está protexido por contrasinal.",
     "textYes": "Si",
     "txtEditingMode": "Establecer o modo de edición...",
     "uploadImageTextText": "Cargando imaxe...",
     "uploadImageTitleText": "Cargando imaxe",
-    "waitText": "Agarde...",
-    "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textUnlockRange": "Unlock Range",
-    "textUnlockRangeWarning": "A range you are trying to change is password protected.",
-    "advDRMPassword": "Password",
-    "textCancel": "Cancel"
+    "waitText": "Agarde..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",

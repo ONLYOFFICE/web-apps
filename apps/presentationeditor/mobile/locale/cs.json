@@ -387,8 +387,8 @@
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
       "textZoomRotate": "Přiblížit a otočit",
-      "textDesign": "Design",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textDesign": "Design"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
