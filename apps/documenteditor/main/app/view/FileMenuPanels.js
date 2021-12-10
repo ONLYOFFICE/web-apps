@@ -98,6 +98,11 @@ define([
         },
 
         render: function() {
+            if (/^pdf|xps|oxps$/.test(this.fileType)) {
+                this.formats[0].splice(1, 1); // remove pdf
+                this.formats[1].splice(1, 1); // remove pdfa
+                this.formats[3].push({name: 'Original',  imgCls: 'pdf', type: ''});
+            }
             if (this.mode && !this.mode.canFeatureForms) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
@@ -126,7 +131,7 @@ define([
         onFormatClick: function(e) {
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
-                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
+                this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined]);
             }
         }
     });
@@ -181,6 +186,11 @@ define([
         },
 
         render: function() {
+            if (/^pdf|xps|oxps$/.test(this.fileType)) {
+                this.formats[0].splice(1, 1); // remove pdf
+                this.formats[1].splice(1, 1); // remove pdfa
+                this.formats[3].push({name: 'Original',  imgCls: 'pdf', type: '', ext: true});
+            }
             if (this.mode && !this.mode.canFeatureForms) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
@@ -210,7 +220,7 @@ define([
             var type = e.currentTarget.attributes['format'],
                 ext = e.currentTarget.attributes['format-ext'];
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
-                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
+                this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined, ext.value]);
             }
         }
     });
