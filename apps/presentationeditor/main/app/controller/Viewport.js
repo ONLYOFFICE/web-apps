@@ -113,6 +113,12 @@ define([
 
                 },
                 'ViewTab': {
+                    'rulers:hide': function (state) {
+                        me.header.mnuitemHideRulers.setChecked(state, true);
+                    },
+                    'notes:hide': function (state) {
+                        me.header.mnuitemHideNotes.setChecked(state, true);
+                    },
                     'statusbar:hide': function (view, state) {
                         me.header.mnuitemHideStatusBar.setChecked(state, true);
                     }
@@ -252,14 +258,14 @@ define([
                 if ( config.canBrandingExt && config.customization && config.customization.statusBar === false )
                     me.header.mnuitemHideStatusBar.hide();
 
-                var mnuitemHideRulers = new Common.UI.MenuItem({
+                me.header.mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
                     checked: Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
                 if (!config.isEdit)
-                    mnuitemHideRulers.hide();
+                    me.header.mnuitemHideRulers.hide();
 
                 me.header.mnuitemHideNotes = new Common.UI.MenuItem({
                     caption: me.header.textHideNotes,
@@ -304,7 +310,7 @@ define([
                         items: [
                             me.header.mnuitemCompactToolbar,
                             me.header.mnuitemHideStatusBar,
-                            mnuitemHideRulers,
+                            me.header.mnuitemHideRulers,
                             me.header.mnuitemHideNotes,
                             {caption:'--'},
                             me.header.mnuitemFitPage,
@@ -465,11 +471,13 @@ define([
                 Common.Utils.InternalSettings.set("pe-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
+                me.header.fireEvent('rulers:hide', [item.isChecked()]);
                 break;
             case 'notes':
                 me.api.asc_ShowNotes(!item.isChecked());
                 Common.localStorage.setBool('pe-hidden-notes', item.isChecked());
                 Common.NotificationCenter.trigger('edit:complete', me.header);
+                me.header.fireEvent('notes:hide', [item.isChecked()]);
                 break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();

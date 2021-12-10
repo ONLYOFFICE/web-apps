@@ -66,6 +66,12 @@ define([
                 me.chStatusbar && me.chStatusbar.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('statusbar:hide', [me.chStatusbar, state !== 'checked']);
                 }, me));
+                me.chRulers && me.chRulers.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                }, me));
+                me.chNotes && me.chNotes.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('notes:change', [me.chNotes, state === 'checked']);
+                }, me));
             },
 
             initialize: function (options) {
@@ -166,7 +172,7 @@ define([
                 this.chRulers = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-rulers'),
                     labelText: this.textRulers,
-                    value: true, //!Common.localStorage.getBool(''),
+                    value: !Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -177,7 +183,7 @@ define([
                 this.chNotes = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-notes'),
                     labelText: this.textNotes,
-                    value: true, //!Common.localStorage.getBool(''),
+                    value: !Common.localStorage.getBool('pe-hidden-notes', this.appConfig.customization && this.appConfig.customization.hideNotes===true),
                     //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'left',

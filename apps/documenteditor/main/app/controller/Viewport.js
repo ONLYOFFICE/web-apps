@@ -430,7 +430,7 @@ define([
                 Common.Utils.InternalSettings.set("de-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
-                me.header.fireEvent('toolbar:hiderulers', [item.isChecked()]);
+                me.header.fireEvent('rulers:hide', [item.isChecked()]);
                 break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();

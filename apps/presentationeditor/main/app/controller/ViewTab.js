@@ -83,7 +83,9 @@ define([
                 'ViewTab': {
                     'zoom:value': _.bind(this.onChangeZoomValue, this),
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
-                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
+                    'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
+                    'rulers:change': _.bind(this.onChangeRulers, this),
+                    'notes:change': _.bind(this.onChangeNotes, this),
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -95,6 +97,14 @@ define([
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
                 },
+                'Common.Views.Header': {
+                    'rulers:hide': _.bind(function (isChecked) {
+                        this.view.chRulers.setValue(!isChecked, true);
+                    }, this),
+                    'notes:hide': _.bind(function (isChecked) {
+                        this.view.chNotes.setValue(!isChecked, true);
+                    }, this),
+                }
             });
         },
 
@@ -147,6 +157,22 @@ define([
             else
                 this.api[type === 'toslide' ? 'zoomFitToPage' : 'zoomFitToWidth']();
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onChangeRulers: function (btn, checked) {
+            this.api.asc_SetViewRulers(checked);
+            Common.localStorage.setBool('pe-hidden-rulers', !checked);
+            Common.Utils.InternalSettings.set("pe-hidden-rulers", !checked);
+            this.view.fireEvent('rulers:hide', [!checked]);
+            Common.NotificationCenter.trigger('layout:changed', 'rulers');
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onChangeNotes: function (btn, checked) {
+            this.api.asc_ShowNotes(checked);
+            Common.localStorage.setBool('pe-hidden-notes', !checked);
+            this.view.fireEvent('notes:hide', [!checked]);
+            Common.NotificationCenter.trigger('edit:complete', me.view);
         }
 
     }, PE.Controllers.ViewTab || {}));

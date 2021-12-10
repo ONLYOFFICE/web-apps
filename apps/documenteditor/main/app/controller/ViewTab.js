@@ -94,7 +94,7 @@ define([
                     }, this)
                 },
                 'Common.Views.Header': {
-                    'toolbar:hiderulers': _.bind(function (isChecked) {
+                    'rulers:hide': _.bind(function (isChecked) {
                         this.view.chRulers.setValue(!isChecked, true);
                     }, this)
                 }
