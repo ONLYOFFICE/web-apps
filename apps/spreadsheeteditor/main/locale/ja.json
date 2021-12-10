@@ -1995,6 +1995,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "（←戻る）",
   "SSE.Views.FileMenu.btnCreateNewCaption": "新規作成",
   "SSE.Views.FileMenu.btnDownloadCaption": "ダウンロード...",
+  "SSE.Views.FileMenu.btnExitCaption": "終了",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "開く",
   "SSE.Views.FileMenu.btnHelpCaption": "ヘルプ...",
   "SSE.Views.FileMenu.btnHistoryCaption": "バージョン履歴",
   "SSE.Views.FileMenu.btnInfoCaption": "スプレッドシートの情報...",

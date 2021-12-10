@@ -1300,6 +1300,8 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "Κλείσιμο Μενού",
   "PE.Views.FileMenu.btnCreateNewCaption": "Δημιουργία Νέου",
   "PE.Views.FileMenu.btnDownloadCaption": "Λήψη ως...",
+  "PE.Views.FileMenu.btnExitCaption": "Έξοδος",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Άνοιγμα...",
   "PE.Views.FileMenu.btnHelpCaption": "Βοήθεια...",
   "PE.Views.FileMenu.btnHistoryCaption": "Ιστορικό εκδόσεων",
   "PE.Views.FileMenu.btnInfoCaption": "Πληροφορίες παρουσίασης...",

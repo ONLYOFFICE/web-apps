@@ -1993,6 +1993,8 @@
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Menüyü kapat",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Yeni oluştur",
   "SSE.Views.FileMenu.btnDownloadCaption": "Farklı İndir...",
+  "SSE.Views.FileMenu.btnExitCaption": "Çıkış",
+  "SSE.Views.FileMenu.btnFileOpenCaption": "Aç...",
   "SSE.Views.FileMenu.btnHelpCaption": "Yardım...",
   "SSE.Views.FileMenu.btnHistoryCaption": "Sürüm tarihçesi",
   "SSE.Views.FileMenu.btnInfoCaption": "Spreadsheet Bilgisi...",

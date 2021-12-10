@@ -1300,6 +1300,8 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "Menüyü kapat",
   "PE.Views.FileMenu.btnCreateNewCaption": "Yeni oluştur",
   "PE.Views.FileMenu.btnDownloadCaption": "Farklı İndir...",
+  "PE.Views.FileMenu.btnExitCaption": "Çıkış",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Aç...",
   "PE.Views.FileMenu.btnHelpCaption": "Yardım...",
   "PE.Views.FileMenu.btnHistoryCaption": "Sürüm Tarihçesi",
   "PE.Views.FileMenu.btnInfoCaption": "Sunum Bilgisi...",
