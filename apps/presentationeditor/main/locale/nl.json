@@ -1300,6 +1300,8 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "Menu sluiten",
   "PE.Views.FileMenu.btnCreateNewCaption": "Nieuw maken",
   "PE.Views.FileMenu.btnDownloadCaption": "Downloaden als...",
+  "PE.Views.FileMenu.btnExitCaption": "Afsluiten",
+  "PE.Views.FileMenu.btnFileOpenCaption": "Openen...",
   "PE.Views.FileMenu.btnHelpCaption": "Help...",
   "PE.Views.FileMenu.btnHistoryCaption": "Versie geschiedenis",
   "PE.Views.FileMenu.btnInfoCaption": "Info over presentatie...",

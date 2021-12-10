@@ -19,6 +19,7 @@
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Η σύνδεση στο Διαδίκτυο έχει αποκατασταθεί και η έκδοση του αρχείου έχει αλλάξει.<br>Προτού συνεχίσετε να εργάζεστε, πρέπει να κατεβάσετε το αρχείο ή να αντιγράψετε το περιεχόμενό του για να βεβαιωθείτε ότι δεν έχει χαθεί τίποτα και, στη συνέχεια, φορτώστε ξανά αυτήν τη σελίδα.",
   "SSE.ApplicationController.errorUserDrop": "Δεν είναι δυνατή η πρόσβαση στο αρχείο αυτήν τη στιγμή.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Προειδοποίηση",
+  "SSE.ApplicationController.openErrorText": "Παρουσιάστηκε σφάλμα κατά το άνοιγμα του αρχείου.",
   "SSE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
   "SSE.ApplicationController.textAnonymous": "Ανώνυμος",
   "SSE.ApplicationController.textGuest": "Επισκέπτης",
