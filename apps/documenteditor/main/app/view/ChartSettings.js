@@ -236,14 +236,14 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
-                delayRenderTips: true
+                delayRenderTips: true,
+                itemTemplate: _.template([
+                    '<div class="item-icon-box" id="<%= id %>">',
+                        '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
+                            'class="combo-wrap-item options__icon options__icon-huge <%= icon %>" ',
+                    '</div>'
+                ].join(''))
             });
-            this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
-                '<div class="item-icon-box" id="<%= id %>">',
-                    '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
-                        'class="combo-wrap-item options__icon options__icon-huge <%= icon %>" ',
-                '</div>'
-            ].join(''));
             this.cmbWrapType.render($('#chart-combo-wrap'));
             this.cmbWrapType.openButton.menu.cmpEl.css({
                 'min-width': 178,
