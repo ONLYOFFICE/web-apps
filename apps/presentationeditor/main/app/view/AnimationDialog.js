@@ -70,7 +70,7 @@ define([
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
-            if (this.options.activeEffect != undefined) {
+            if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE)){
                 this._state.activeEffect = this.options.activeEffect;
                 var itemEffect = _.findWhere(this.allEffects,{value: this._state.activeEffect});
                 this._state.activeGroup = itemEffect.group;
