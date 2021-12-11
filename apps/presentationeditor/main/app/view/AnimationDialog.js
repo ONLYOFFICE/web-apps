@@ -152,7 +152,7 @@ define([
         fillEffect: function () {
             var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
             this.lstEffectList.store.reset(arr);
-            var  item = (this._state.activeEffect)?this.lstEffectList.store.findWhere({value: this._state.activeEffect}):this.lstEffectList.store.at(0);
+            var  item = (this._state.activeEffect != undefined)?this.lstEffectList.store.findWhere({value: this._state.activeEffect}):this.lstEffectList.store.at(0);
             this.lstEffectList.selectRecord(item);
             this._state.activeEffect = item.get('value');
         },

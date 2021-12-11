@@ -787,6 +787,8 @@ define(function(){ 'use strict';
             textHorizontal: 'Horizontal',
             textIn: 'In',
             textOut: 'Out',
+            textWedge: 'Wedge',
+            textFlip: 'Flip',
 
             getEffectGroupData: function () {
                 return [
