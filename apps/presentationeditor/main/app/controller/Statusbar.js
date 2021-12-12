@@ -227,7 +227,7 @@ define([
             this.statusbar.setVisible(!status);
             Common.localStorage.setBool('pe-hidden-status', status);
 
-            if ($(view).parent().prop('id') !== 'slot-btn-options') {
+            if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
                 this.statusbar.fireEvent('view:hide', [this, status]);
             }
 

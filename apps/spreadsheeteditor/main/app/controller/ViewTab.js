@@ -79,7 +79,8 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode
+                mode: config.mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
                 'ViewTab': {
@@ -95,7 +96,15 @@ define([
                     'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
-                    'sheet:changed': this.onApiSheetChanged.bind(this)
+                    'sheet:changed': this.onApiSheetChanged.bind(this),
+                    'view:compact': _.bind(function (statusbar, state) {
+                        this.view.chStatusbar.setValue(state, true);
+                    }, this)
+                },
+                'Toolbar': {
+                    'view:compact': _.bind(function (toolbar, state) {
+                        this.view.chToolbar.setValue(!state, true);
+                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));

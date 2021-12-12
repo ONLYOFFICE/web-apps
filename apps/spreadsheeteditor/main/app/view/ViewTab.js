@@ -75,6 +75,12 @@ define([
             this.cmbZoom.on('selected', function(combo, record) {
                 me.fireEvent('viewtab:zoom', [record.value]);
             });
+            this.chToolbar.on('change', function (field, value) {
+                me.fireEvent('viewtab:showtoolbar', [field, value !== 'checked']);
+            });
+            this.chStatusbar.on('change', function (field, value) {
+                me.fireEvent('statusbar:setcompact', [field, value === 'checked']);
+            });
         }
 
         return {
@@ -225,7 +231,7 @@ define([
                 this.chStatusbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textCombineSheetAndStatusBars,
-                    value       : true,
+                    value       : Common.localStorage.getBool('sse-compact-statusbar', true),
                     lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -236,7 +242,7 @@ define([
                 this.chToolbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-toolbar'),
                     labelText: this.textAlwaysShowToolbar,
-                    value       : true,
+                    value       : !options.compactToolbar,
                     lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint    : '1',
                     dataHintDirection: 'left',
