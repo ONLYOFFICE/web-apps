@@ -137,9 +137,8 @@ define([
                 this.btnInterfaceTheme = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-interface-theme'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon',
+                    iconCls: 'toolbar__icon day',
                     caption: this.textInterfaceTheme,
-                    split: true,
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',

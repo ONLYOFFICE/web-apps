@@ -141,6 +141,26 @@ define([
                 })).then(function () {
                     me.view.setEvents();
                 });
+
+                var menuItems = [],
+                    currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                for (var t in Common.UI.Themes.map()) {
+                    menuItems.push({
+                        value: t,
+                        caption: Common.UI.Themes.get(t).text,
+                        checked: t === currentTheme,
+                        checkable: true,
+                        toggleGroup: 'interface-theme'
+                    });
+                }
+
+                if (menuItems.length) {
+                    this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                    this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                        var value = item.value;
+                        Common.UI.Themes.setTheme(value);
+                    }, this));
+                }
             }
         },
 
