@@ -4,7 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -37,24 +37,26 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
 
         return () => {
-            Common.Notifications.off('setdoctitle', setDocTitle);
+            // Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
         }
     });
 
-    const [docTitle, resetDocTitle] = useState('');
+    const docInfo = props.storeDocumentInfo;
+    const [docTitle, resetDocTitle] = useState(docInfo.dataDoc ? docInfo.dataDoc.title : '');
     const setDocTitle = (title) => {
         resetDocTitle(title);
     }
 
     // Back button
-    const [isShowBack, setShowBack] = useState(false);
+    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
+            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
+        {
             setShowBack(true);
         }
     };
