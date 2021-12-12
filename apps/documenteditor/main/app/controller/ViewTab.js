@@ -59,6 +59,7 @@ define([
         onLaunch: function () {
             this._state = {};
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
         },
 
         setApi: function (api) {
@@ -81,7 +82,8 @@ define([
                     'zoom:value': _.bind(this.onChangeZoomValue, this),
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
-                    'rulers:change': _.bind(this.onChangeRulers, this)
+                    'rulers:change': _.bind(this.onChangeRulers, this),
+                    'darkmode:change': _.bind(this.onChangeDarkMode, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -186,6 +188,14 @@ define([
             this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onChangeDarkMode: function () {
+            Common.UI.Themes.toggleContentTheme();
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            this.view && this.view.btnDarkDocument.toggle(isdark, true);
         },
 
     }, DE.Controllers.ViewTab || {}));

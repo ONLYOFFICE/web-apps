@@ -51,26 +51,29 @@ define([
 
             setEvents() {
                 var me = this;
-                me.btnNavigation && me.btnNavigation.on('click', function (btn, e) {
+                me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
-                me.cmbZoom && me.cmbZoom.on('selected', function (combo, record) {
+                me.cmbZoom.on('selected', function (combo, record) {
                     me.fireEvent('zoom:value', [record.value]);
                 });
-                me.btnFitToPage && me.btnFitToPage.on('click', function () {
+                me.btnFitToPage.on('click', function () {
                     me.fireEvent('zoom:topage');
                 });
-                me.btnFitToWidth && me.btnFitToWidth.on('click', function () {
+                me.btnFitToWidth.on('click', function () {
                     me.fireEvent('zoom:towidth');
                 });
-                me.chToolbar && me.chToolbar.on('change', _.bind(function(checkbox, state) {
+                me.chToolbar.on('change', _.bind(function(checkbox, state) {
                     me.fireEvent('toolbar:setcompact', [me.chToolbar, state !== 'checked']);
                 }, me));
-                me.chStatusbar && me.chStatusbar.on('change', _.bind(function (checkbox, state) {
+                me.chStatusbar.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('statusbar:hide', [me.chStatusbar, state !== 'checked']);
                 }, me));
-                me.chRulers && me.chRulers.on('change', _.bind(function (checkbox, state) {
+                me.chRulers.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                }, me));
+                me.btnDarkDocument.on('click', _.bind(function () {
+                    me.fireEvent('darkmode:change');
                 }, me));
             },
 
@@ -87,7 +90,7 @@ define([
                 this.btnNavigation = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-navigation'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-navigation',
+                    iconCls: 'toolbar__icon btn-menu-navigation',
                     caption: this.textNavigation,
                     enableToggle: true,
                     dataHint: '1',
@@ -149,9 +152,8 @@ define([
                 this.btnInterfaceTheme = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-interface-theme'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon',
+                    iconCls: 'toolbar__icon day',
                     caption: this.textInterfaceTheme,
-                    split: true,
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -164,6 +166,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon night',
                     caption: this.textDarkDocument,
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
