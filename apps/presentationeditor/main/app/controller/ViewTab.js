@@ -135,11 +135,13 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            (new Promise(function (accept, reject) {
-                accept();
-            })).then(function(){
-                me.view.setEvents();
-            });
+            if (me.view) {
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function () {
+                    me.view.setEvents();
+                });
+            }
         },
 
         onChangeZoomValue: function (value) {
@@ -172,7 +174,7 @@ define([
             this.api.asc_ShowNotes(checked);
             Common.localStorage.setBool('pe-hidden-notes', !checked);
             this.view.fireEvent('notes:hide', [!checked]);
-            Common.NotificationCenter.trigger('edit:complete', me.view);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         }
 
     }, PE.Controllers.ViewTab || {}));

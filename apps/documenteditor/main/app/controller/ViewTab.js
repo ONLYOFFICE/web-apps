@@ -116,37 +116,38 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            (new Promise(function (accept, reject) {
-                accept();
-            })).then(function(){
-                me.view.setEvents();
-            });
-            if (me.view.btnNavigation) {
-                me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function(btn, state){
+            if (me.view) {
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function(){
+                    me.view.setEvents();
+                });
+
+                me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function (btn, state) {
                     if (state !== me.view.btnNavigation.pressed)
                         me.view.turnNavigation(state);
                 });
-            }
 
-            var menuItems = [],
-                currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-            for (var t in Common.UI.Themes.map()) {
-                menuItems.push({
-                    value: t,
-                    caption: Common.UI.Themes.get(t).text,
-                    checked: t === currentTheme,
-                    checkable: true,
-                    toggleGroup: 'interface-theme'
-                });
-            }
+                var menuItems = [],
+                    currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                for (var t in Common.UI.Themes.map()) {
+                    menuItems.push({
+                        value: t,
+                        caption: Common.UI.Themes.get(t).text,
+                        checked: t === currentTheme,
+                        checkable: true,
+                        toggleGroup: 'interface-theme'
+                    });
+                }
 
-            if ( menuItems.length ) {
-                this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                    var value = item.value;
-                    Common.UI.Themes.setTheme(value);
-                    this.view.btnDarkDocument.setDisabled(value !== 'theme-dark');
-                }, this));
+                if (menuItems.length) {
+                    this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                    this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                        var value = item.value;
+                        Common.UI.Themes.setTheme(value);
+                        this.view.btnDarkDocument.setDisabled(value !== 'theme-dark');
+                    }, this));
+                }
             }
         },
 
