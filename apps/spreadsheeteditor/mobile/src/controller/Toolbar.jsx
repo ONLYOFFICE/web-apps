@@ -48,11 +48,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     });
 
     // Back button
-    const [isShowBack, setShowBack] = useState(false);
+    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
+            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
+        {
             setShowBack(true);
         }
     };
@@ -125,7 +126,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     };
 
 
-    const [disabledControls, setDisabledControls] = useState(true);
+    const [disabledControls, setDisabledControls] = useState(/*true*/false);
     const activateControls = () => {
         setDisabledControls(false);
     };

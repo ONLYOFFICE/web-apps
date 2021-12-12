@@ -4,7 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -42,17 +42,19 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         }
     });
 
-    const [docTitle, resetDocTitle] = useState('');
+    const docInfo = props.storePresentationInfo;
+    const [docTitle, resetDocTitle] = useState(docInfo.dataDoc ? docInfo.dataDoc.title : '');
     const setDocTitle = (title) => {
         resetDocTitle(title);
     }
 
     // Back button
-    const [isShowBack, setShowBack] = useState(false);
+    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
+            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
+        {
             setShowBack(true);
         }
     };
@@ -120,7 +122,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
     };
 
 
-    const [disabledControls, setDisabledControls] = useState(true);
+    const [disabledControls, setDisabledControls] = useState(/*true*/false);
     const activateControls = () => {
         setDisabledControls(false);
     };
