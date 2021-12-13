@@ -251,12 +251,8 @@ define([
         }
 
         var on_document_open = function (data) {
-            var document = data.doc;
-            is_dark_mode_allowed = !/^pdf|djvu|xps|oxps$/.test(document.fileType);
-            if ( is_dark_mode_allowed ) {
-                if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
-                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                }
+            if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
+                this.api.asc_setContentDarkMode(this.isContentThemeDark());
             }
         };
 
