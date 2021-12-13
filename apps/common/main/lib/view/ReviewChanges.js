@@ -524,8 +524,8 @@ define([
                             me.btnCompare.updateHint(me.tipCompare);
                         }
 
-                        me.btnAccept.setDisabled(config.isReviewOnly);
-                        me.btnReject.setDisabled(config.isReviewOnly);
+                        config.isReviewOnly && me.btnAccept.setDisabled(true);
+                        config.isReviewOnly && me.btnReject.setDisabled(true);
                     }
                     if (me.appConfig.canViewReview) {
                         me.btnPrev.updateHint(me.hintPrev);
@@ -946,6 +946,9 @@ define([
             this.popoverChanges = this.options.popoverChanges;
             this.mode = this.options.mode;
 
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
@@ -972,7 +975,7 @@ define([
                 cls         : 'btn-toolbar',
                 caption     : this.txtAccept,
                 split       : true,
-                disabled    : this.mode.isReviewOnly,
+                disabled    : this.mode.isReviewOnly || !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"),
                 menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuAcceptCurrent = new Common.UI.MenuItem({
@@ -992,7 +995,7 @@ define([
                 cls         : 'btn-toolbar',
                 caption     : this.txtReject,
                 split       : true,
-                disabled    : this.mode.isReviewOnly,
+                disabled    : this.mode.isReviewOnly || !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"),
                 menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuRejectCurrent = new Common.UI.MenuItem({
