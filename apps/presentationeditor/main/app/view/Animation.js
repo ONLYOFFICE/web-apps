@@ -150,7 +150,7 @@ define([
                     ClickSequence:  0,
                     ClickOf:        1
                 }
-                this.allEffects = Common.define.effectData.getEffectFullData();
+                this.allEffects = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectFullData());
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
