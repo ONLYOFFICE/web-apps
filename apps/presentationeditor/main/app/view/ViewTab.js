@@ -78,6 +78,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
+                var _set = PE.enumLock;
 
                 this.lockedControls = [];
 
@@ -89,7 +90,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     editable: false,
-                    //lock: [_set.coAuth, _set.lostConnect, _set.editCell],
+                    lock: [_set.disableOnStart],
                     data: [
                         { displayValue: "50%", value: 50 },
                         { displayValue: "75%", value: 75 },
@@ -113,6 +114,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtoslide',
                     caption: this.textFitToSlide,
+                    lock: [_set.disableOnStart],
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
                     dataHint: '1',
@@ -126,6 +128,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     caption: this.textFitToWidth,
+                    lock: [_set.disableOnStart],
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
                     dataHint: '1',
@@ -139,6 +142,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon day',
                     caption: this.textInterfaceTheme,
+                    lock: [_set.disableOnStart],
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -150,7 +154,7 @@ define([
                     el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("pe-hidden-status"),
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -161,7 +165,7 @@ define([
                     el: $host.findById('#slot-chk-toolbar'),
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock: [_set.disableOnStart],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -172,7 +176,7 @@ define([
                     el: $host.findById('#slot-chk-rulers'),
                     labelText: this.textRulers,
                     value: !Common.Utils.InternalSettings.get("pe-hidden-rulers"),
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -183,7 +187,7 @@ define([
                     el: $host.findById('#slot-chk-notes'),
                     labelText: this.textNotes,
                     value: !Common.localStorage.getBool('pe-hidden-notes', this.appConfig.customization && this.appConfig.customization.hideNotes===true),
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
