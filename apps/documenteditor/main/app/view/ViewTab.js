@@ -93,6 +93,7 @@ define([
                     iconCls: 'toolbar__icon btn-menu-navigation',
                     caption: this.textNavigation,
                     enableToggle: true,
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -104,7 +105,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     editable: false,
-                    //lock: [_set.coAuth, _set.lostConnect, _set.editCell],
+                    disabled: true,
                     data: [
                         { displayValue: "50%", value: 50 },
                         { displayValue: "75%", value: 75 },
@@ -130,6 +131,7 @@ define([
                     caption: this.textFitToPage,
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -143,6 +145,7 @@ define([
                     caption: this.textFitToWidth,
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -155,6 +158,7 @@ define([
                     iconCls: 'toolbar__icon day',
                     caption: this.textInterfaceTheme,
                     menu: true,
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -167,6 +171,7 @@ define([
                     iconCls: 'toolbar__icon night',
                     caption: this.textDarkDocument,
                     enableToggle: true,
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -177,7 +182,7 @@ define([
                     el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("de-hidden-status"),
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -188,7 +193,7 @@ define([
                     el: $host.findById('#slot-chk-toolbar'),
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    disabled: true,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -199,7 +204,7 @@ define([
                     el: $host.findById('#slot-chk-rulers'),
                     labelText: this.textRulers,
                     value: !Common.Utils.InternalSettings.get("de-hidden-rulers"),
-                    //lock: [_set.lostConnect, _set.coAuth, _set.editCell],
+                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
