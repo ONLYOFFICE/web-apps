@@ -259,7 +259,7 @@ define([
                     group = this.AnimationProperties.asc_getClass();
 
                 (value == undefined) && (value = AscFormat.ANIM_PRESET_NONE);
-                this._state.noAnimation = (value===AscFormat.ANIM_PRESET_NONE);
+                this._state.noAnimation = (value === AscFormat.ANIM_PRESET_NONE);
 
                 if (this._state.Effect !== value || this._state.EffectGroup !== group) {
                     this._state.Effect = value;

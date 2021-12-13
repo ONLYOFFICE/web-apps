@@ -150,7 +150,7 @@ define([
                     ClickSequence:  0,
                     ClickOf:        1
                 }
-
+                this.allEffects = Common.define.effectData.getEffectFullData();
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
@@ -479,8 +479,8 @@ define([
 
             setMenuParameters: function (effectId, option)
             {
-                var effect = this.listEffects.store.findWhere({value: effectId});
-                var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.get('group'), effect.get('value'));
+                var effect = _.findWhere(this.allEffects, {value: effectId});
+                var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
                 if(!arrEffectOptions) {
                     this.btnParameters.menu.removeAll();
                     this._effectId = effectId
