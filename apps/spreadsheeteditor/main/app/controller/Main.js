@@ -713,6 +713,7 @@ define([
 
             setLongActionView: function(action) {
                 var title = '', text = '', force = false;
+                var statusCallback = null; // call after showing status
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction.Open:
@@ -788,7 +789,10 @@ define([
                         title    = this.textDisconnect;
                         text     = this.textDisconnect;
                         this.disableEditing(true, true);
-                        this.getApplication().getController('Statusbar').showDisconnectTip();
+                        var me = this;
+                        statusCallback = function() {
+                            me.getApplication().getController('Statusbar').showDisconnectTip();
+                        };
                         break;
 
                     default:
@@ -808,7 +812,7 @@ define([
                         this.loadMask.show();
                     }
                 } else {
-                    this.getApplication().getController('Statusbar').setStatusCaption(text, force);
+                    this.getApplication().getController('Statusbar').setStatusCaption(text, force, 0, statusCallback);
                 }
             },
 

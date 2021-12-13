@@ -987,7 +987,7 @@ define([
                 return _message;
             },
 
-            showStatusMessage: function(message) {
+            showStatusMessage: function(message, callback) {
                 this.statusMessage = message;
                 if (!this.actionWidth) {
                     this.actionWidth = message.length > 22 ? 166 : 140;
@@ -1006,6 +1006,7 @@ define([
                 _.delay(function(){
                     me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                    callback && callback();
                 },30);
             },
 

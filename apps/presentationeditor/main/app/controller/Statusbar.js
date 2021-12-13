@@ -205,13 +205,14 @@ define([
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text, force, delay) {
+        setStatusCaption: function(text, force, delay, callback) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
 
             this.timerCaption = undefined;
             if (text.length) {
                 this.statusbar.showStatusMessage(text);
+                callback && callback();
                 if (delay>0)
                     this.timerCaption = (new Date()).getTime() + delay;
             } else
@@ -229,8 +230,10 @@ define([
         showDisconnectTip: function () {
             var me = this;
             if (!this.disconnectTip) {
+                var target = this.statusbar.getStatusLabel();
+                target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
                 this.disconnectTip = new Common.UI.SynchronizeTip({
-                    target  : this.statusbar.isVisible() ? this.statusbar.getStatusLabel().parent() : $(document.body),
+                    target  : target,
                     text    : this.textDisconnect,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
