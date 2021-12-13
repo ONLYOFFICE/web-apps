@@ -525,6 +525,10 @@ define([
                 visible ? this.show(): this.hide();
             },
 
+            isVisible: function() {
+                return this.$el && this.$el.is(':visible');
+            },
+
             update: function() {
                 var me = this;
 
@@ -1008,6 +1012,10 @@ define([
             clearStatusMessage: function() {
                 this.labelAction.text('');
                 this.statusMessage = undefined;
+            },
+
+            getStatusLabel: function() {
+                return this.labelAction;
             },
 
             sheetIndexText      : 'Sheet {0} of {1}',

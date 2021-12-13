@@ -325,6 +325,10 @@ define([
                     : this.hide();
             },
 
+            isVisible: function() {
+                return this.$el && this.$el.is(':visible');
+            },
+
             reloadLanguages: function(array) {
                 var arr = [],
                     saved = this.langMenu.saved;
@@ -358,12 +362,16 @@ define([
                 }
             },
 
+            getStatusLabel: function() {
+                return $('.statusbar #label-action');
+            },
+
             showStatusMessage: function(message) {
-                $('.statusbar #label-action').text(message);
+                this.getStatusLabel().text(message);
             },
 
             clearStatusMessage: function() {
-                $('.statusbar #label-action').text('');
+                this.getStatusLabel().text('');
             },
 
             SetDisabled: function(disable) {

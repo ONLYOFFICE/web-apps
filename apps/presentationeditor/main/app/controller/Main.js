@@ -621,6 +621,7 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this.disableEditing(false, true);
+                    this.getApplication().getController('Statusbar').hideDisconnectTip();
                 }
 
                 if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
@@ -712,6 +713,7 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         this.disableEditing(true, true);
+                        this.getApplication().getController('Statusbar').showDisconnectTip();
                         break;
 
                     default:

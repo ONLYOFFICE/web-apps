@@ -76,11 +76,12 @@ define([
                 this.target = this.options.target;
                 this.text = !_.isEmpty(this.options.text) ? this.options.text : this.textSynchronize;
                 this.textLink = !_.isEmpty(this.options.textLink) ? this.options.textLink : this.textDontShow;
-                this.placement = this.options.placement;
+                this.placement = this.options.placement; // if placement='target' and position is undefined  show in top,left position of target, also use for arrow position
                 this.showLink = this.options.showLink;
                 this.showButton = this.options.showButton;
                 this.closable = this.options.closable;
                 this.textButton = this.options.textButton || '';
+                this.position = this.options.position; // show in the position relative to target
             },
 
             render: function() {
@@ -90,6 +91,8 @@ define([
                     this.cmpEl.find('.close').on('click', _.bind(function() { this.trigger('closeclick');}, this));
                     this.cmpEl.find('.show-link label').on('click', _.bind(function() { this.trigger('dontshowclick');}, this));
                     this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
+
+                    this.closable && this.cmpEl.addClass('closable');
                 }
 
                 this.applyPlacement();
@@ -115,9 +118,25 @@ define([
             },
 
             applyPlacement: function () {
-                var showxy = this.target.offset();
-                if (this.placement=='target') {
+                var target = this.target && this.target.length>0 ? this.target : $(document.body);
+                var showxy = target.offset();
+                if (this.placement=='target' && !this.position) {
                     this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
+                    return;
+                }
+
+                if (this.position && typeof this.position == 'object') {
+                    var top = this.position.top, left = this.position.left, bottom = this.position.bottom, right = this.position.right;
+                    if (bottom!==undefined || top!==undefined)
+                        left = showxy.left + (target.width() - this.cmpEl.width())/2;
+                    else
+                        top = showxy.top + (target.height() - this.cmpEl.height())/2;
+                    top = (top!==undefined) ? (top + 'px') : 'auto';
+                    bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';
+                    right = (right!==undefined) ? (right + 'px') : 'auto';
+                    left = (left!==undefined) ? (left + 'px') : 'auto';
+
+                    this.cmpEl.css({top : top, left: left, right: right, bottom: bottom});
                     return;
                 }
 
@@ -128,29 +147,29 @@ define([
                     if (pos=='top') {
                         bottom = Common.Utils.innerHeight() - showxy.top;
                     } else if (pos == 'bottom') {
-                        top = showxy.top + this.target.height();
+                        top = showxy.top + target.height();
                     } else if (pos == 'left') {
                         right = Common.Utils.innerWidth() - showxy.left;
                     } else if (pos == 'right') {
-                        left = showxy.left + this.target.width();
+                        left = showxy.left + target.width();
                     }
                     pos = placement[1];
                     if (pos=='top') {
-                        bottom = Common.Utils.innerHeight() - showxy.top - this.target.height()/2;
+                        bottom = Common.Utils.innerHeight() - showxy.top - target.height()/2;
                     } else if (pos == 'bottom') {
-                        top = showxy.top + this.target.height()/2;
+                        top = showxy.top + target.height()/2;
                         var height = this.cmpEl.height();
                         if (top+height>Common.Utils.innerHeight())
                             top = Common.Utils.innerHeight() - height - 10;
                     } else if (pos == 'left') {
-                        right = Common.Utils.innerWidth() - showxy.left - this.target.width()/2;
+                        right = Common.Utils.innerWidth() - showxy.left - target.width()/2;
                     } else if (pos == 'right') {
-                        left = showxy.left + this.target.width()/2;
+                        left = showxy.left + target.width()/2;
                     } else {
                         if (bottom!==undefined || top!==undefined)
-                            left = showxy.left + (this.target.width() - this.cmpEl.width())/2;
+                            left = showxy.left + (target.width() - this.cmpEl.width())/2;
                         else
-                            top = showxy.top + (this.target.height() - this.cmpEl.height())/2;
+                            top = showxy.top + (target.height() - this.cmpEl.height())/2;
                     }
                     top = (top!==undefined) ? (top + 'px') : 'auto';
                     bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';

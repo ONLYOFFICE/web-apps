@@ -942,6 +942,7 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this.disableEditing(false, true);
+                    this.getApplication().getController('Statusbar').hideDisconnectTip();
                 }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -1043,6 +1044,7 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         this.disableEditing(true, true);
+                        this.getApplication().getController('Statusbar').showDisconnectTip();
                         break;
 
                     default:

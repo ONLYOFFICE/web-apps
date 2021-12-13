@@ -306,10 +306,36 @@ define([
             return tip;
         },
 
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : this.statusbar.isVisible() ? this.statusbar.getStatusLabel().parent() : $(document.body),
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
         zoomText        : 'Zoom {0}%',
         textHasChanges  : 'New changes have been tracked',
         textTrackChanges: 'The document is opened with the Track Changes mode enabled',
         tipReview       : 'Review',
-        textSetTrackChanges: 'You are in Track Changes mode'
+        textSetTrackChanges: 'You are in Track Changes mode',
+        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
     }, DE.Controllers.Statusbar || {}));
 });

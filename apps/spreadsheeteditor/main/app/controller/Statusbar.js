@@ -811,12 +811,38 @@ define([
             return isDragDrop;
         },
 
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : this.statusbar.isVisible() ? this.statusbar.getStatusLabel().parent() : $(document.body),
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
         strSheet        : 'Sheet',
         textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.',
-        textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.'
+        textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.',
+        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
     }, SSE.Controllers.Statusbar || {}));
 });

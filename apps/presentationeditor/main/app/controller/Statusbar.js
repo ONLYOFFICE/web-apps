@@ -226,6 +226,32 @@ define([
             this.api.put_TextPrLang(langid);
         },
 
-        zoomText        : 'Zoom {0}%'
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : this.statusbar.isVisible() ? this.statusbar.getStatusLabel().parent() : $(document.body),
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
+        zoomText        : 'Zoom {0}%',
+        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
     }, PE.Controllers.Statusbar || {}));
 });
