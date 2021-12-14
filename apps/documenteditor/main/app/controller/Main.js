@@ -1454,10 +1454,10 @@ define([
                     this.appOptions.canChat = false;
                 }
 
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+                var type = /^(?:(djvu))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
-                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps))$/.test(this.document.fileType);
+                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
                 this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
 
                 this.appOptions.fileKey = this.document.key;
