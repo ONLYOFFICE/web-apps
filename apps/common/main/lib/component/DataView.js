@@ -763,6 +763,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             this.disabled = disabled;
             $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
         },
@@ -1237,6 +1238,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             this.disabled = disabled;
             $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
         },
