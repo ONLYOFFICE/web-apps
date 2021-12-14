@@ -309,12 +309,20 @@ define([
                     : this.hide();
             },
 
+            isVisible: function() {
+                return this.$el && this.$el.is(':visible');
+            },
+
+            getStatusLabel: function() {
+                return $('.statusbar #status-label-action');
+            },
+
             showStatusMessage: function(message) {
-                $('#status-label-action').text(message);
+                this.getStatusLabel().text(message);
             },
 
             clearStatusMessage: function() {
-                $('#status-label-action').text('');
+                this.getStatusLabel().text('');
             },
 
             reloadLanguages: function(array) {

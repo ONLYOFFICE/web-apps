@@ -525,6 +525,10 @@ define([
                 visible ? this.show(): this.hide();
             },
 
+            isVisible: function() {
+                return this.$el && this.$el.is(':visible');
+            },
+
             update: function() {
                 var me = this;
 
@@ -983,7 +987,7 @@ define([
                 return _message;
             },
 
-            showStatusMessage: function(message) {
+            showStatusMessage: function(message, callback) {
                 this.statusMessage = message;
                 if (!this.actionWidth) {
                     this.actionWidth = message.length > 22 ? 166 : 140;
@@ -1002,12 +1006,17 @@ define([
                 _.delay(function(){
                     me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                    callback && callback();
                 },30);
             },
 
             clearStatusMessage: function() {
                 this.labelAction.text('');
                 this.statusMessage = undefined;
+            },
+
+            getStatusLabel: function() {
+                return this.labelAction;
             },
 
             sheetIndexText      : 'Sheet {0} of {1}',
