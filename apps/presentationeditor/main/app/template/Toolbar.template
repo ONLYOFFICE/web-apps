@@ -178,6 +178,46 @@
                     </div>
                 </div>
             </section>
+            <section class="panel" data-tab="view">
+                <div class="group small">
+                    <div class="elset" style="display: flex;">
+                        <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
+                    </div>
+                    <div class="elset" style="text-align: center;">
+                        <span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-fts" style="font-size: 11px;text-align: center;"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-notes"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-rulers"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
+                    </div>
+                </div>
+            </section>
         </section>
     </section>
 </div>

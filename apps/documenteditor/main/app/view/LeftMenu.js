@@ -378,6 +378,13 @@ define([
                         this.onBtnMenuClick(this.btnComments);
                         this.onCoauthOptions();
                     }
+                } else if (menu == 'navigation') {
+                    if (this.btnNavigation.isVisible() &&
+                        !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
+                        this.btnNavigation.toggle(true);
+                        this.onBtnMenuClick(this.btnNavigation);
+                        this.onCoauthOptions();
+                    }
                 }
                 /** coauthoring end **/
             }

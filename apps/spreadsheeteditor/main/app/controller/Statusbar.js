@@ -70,6 +70,9 @@ define([
                 },
                 'Common.Views.Header': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
+                },
+                'ViewTab': {
+                    'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
             });
         },

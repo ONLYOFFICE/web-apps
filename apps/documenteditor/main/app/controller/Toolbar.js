@@ -173,6 +173,9 @@ define([
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
+                },
+                'ViewTab': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 }
             });
 
@@ -3230,6 +3233,10 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+
+                var viewtab = me.getApplication().getController('ViewTab');
+                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, viewtab.getView('ViewTab').getButtons());
             }
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {

@@ -45,14 +45,16 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
-    'documenteditor/main/app/view/FileMenu'
+    'documenteditor/main/app/view/FileMenu',
+    'documenteditor/main/app/view/ViewTab',
 ], function () {
     'use strict';
 
     DE.Controllers.LeftMenu = Backbone.Controller.extend(_.extend({
         views: [
             'LeftMenu',
-            'FileMenu'
+            'FileMenu',
+            'ViewTab'
         ],
 
         initialize: function() {
@@ -106,6 +108,9 @@ define([
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
+                },
+                'ViewTab': {
+                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this)
                 }
             });
 
@@ -911,6 +916,16 @@ define([
                     this.leftMenu.btnChat.toggle(false, true);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
+            }
+        },
+
+        onShowHideNavigation: function(state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.leftMenu.showMenu('navigation');
+            } else {
+                this.leftMenu.btnNavigation.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
             }
         },
 

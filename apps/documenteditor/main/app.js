@@ -157,6 +157,7 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
+            'ViewTab',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -185,6 +186,7 @@ require([
                 'documenteditor/main/app/controller/RightMenu',
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
+                'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/view/FileMenuPanels',
                 'documenteditor/main/app/view/ParagraphSettings',
                 'documenteditor/main/app/view/HeaderFooterSettings',

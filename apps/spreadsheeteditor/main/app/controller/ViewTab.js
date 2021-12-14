@@ -79,11 +79,13 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode
+                mode: config.mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
                 'ViewTab': {
                     'viewtab:freeze': this.onFreeze,
+                    'viewtab:freezeshadow': this.onFreezeShadow,
                     'viewtab:formula': this.onViewSettings,
                     'viewtab:headings': this.onViewSettings,
                     'viewtab:gridlines': this.onViewSettings,
@@ -95,7 +97,20 @@ define([
                     'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
-                    'sheet:changed': this.onApiSheetChanged.bind(this)
+                    'sheet:changed': this.onApiSheetChanged.bind(this),
+                    'view:compact': _.bind(function (statusbar, state) {
+                        this.view.chStatusbar.setValue(state, true);
+                    }, this)
+                },
+                'Toolbar': {
+                    'view:compact': _.bind(function (toolbar, state) {
+                        this.view.chToolbar.setValue(!state, true);
+                    }, this)
+                },
+                'Common.Views.Header': {
+                    'toolbar:freezeshadow': _.bind(function (isChecked) {
+                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
+                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -125,6 +140,13 @@ define([
             if (this.api) {
                 this.api.asc_freezePane(type);
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onFreezeShadow: function (checked) {
+            this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+            Common.localStorage.setBool('sse-freeze-shadow', checked);
+            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 

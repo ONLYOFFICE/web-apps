@@ -118,6 +118,11 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'freeze:shadow': function (checked) {
+                        me.header.mnuitemFreezePanesShadow.setChecked(checked, true);
+                    }
                 }
             });
 
@@ -511,6 +516,7 @@ define([
             case 'freezepanesshadow':
                 me.api.asc_setFrozenPaneBorderType(item.isChecked() ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
                 Common.localStorage.setBool('sse-freeze-shadow', item.isChecked());
+                me.header.fireEvent('toolbar:freezeshadow', [item.isChecked()]);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
             }
