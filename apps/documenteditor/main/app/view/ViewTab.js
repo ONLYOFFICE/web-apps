@@ -49,7 +49,7 @@ define([
         return {
             options: {},
 
-            setEvents() {
+            setEvents: function () {
                 var me = this;
                 me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);

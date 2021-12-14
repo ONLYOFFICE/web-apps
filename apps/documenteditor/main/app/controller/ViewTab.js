@@ -60,6 +60,7 @@ define([
             this._state = {};
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function (api) {
@@ -201,6 +202,16 @@ define([
 
         onContentThemeChangedToDark: function (isdark) {
             this.view && this.view.btnDarkDocument.toggle(isdark, true);
+        },
+
+        onThemeChanged: function () {
+            if (this.view) {
+                var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                this.view.btnInterfaceTheme.menu.clearAll();
+                menu_item.setChecked(true, true);
+                this.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+            }
         },
 
     }, DE.Controllers.ViewTab || {}));

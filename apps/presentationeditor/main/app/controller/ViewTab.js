@@ -62,6 +62,7 @@ define([
                 zoom_percent: undefined
             };
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function (api) {
@@ -195,7 +196,16 @@ define([
             Common.localStorage.setBool('pe-hidden-notes', !checked);
             this.view.fireEvent('notes:hide', [!checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
-        }
+        },
+
+        onThemeChanged: function () {
+            if (this.view) {
+                var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                this.view.btnInterfaceTheme.menu.clearAll();
+                menu_item.setChecked(true, true);
+            }
+        },
 
     }, PE.Controllers.ViewTab || {}));
 });
