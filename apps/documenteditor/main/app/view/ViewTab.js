@@ -113,7 +113,10 @@ define([
                         { displayValue: "125%", value: 125 },
                         { displayValue: "150%", value: 150 },
                         { displayValue: "175%", value: 175 },
-                        { displayValue: "200%", value: 200 }
+                        { displayValue: "200%", value: 200 },
+                        { displayValue: "300%", value: 300 },
+                        { displayValue: "400%", value: 400 },
+                        { displayValue: "500%", value: 500 }
                     ],
                     dataHint    : '1',
                     dataHintDirection: 'top',

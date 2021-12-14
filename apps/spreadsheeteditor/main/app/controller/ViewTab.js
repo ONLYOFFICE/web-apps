@@ -85,6 +85,7 @@ define([
             this.addListeners({
                 'ViewTab': {
                     'viewtab:freeze': this.onFreeze,
+                    'viewtab:freezeshadow': this.onFreezeShadow,
                     'viewtab:formula': this.onViewSettings,
                     'viewtab:headings': this.onViewSettings,
                     'viewtab:gridlines': this.onViewSettings,
@@ -104,6 +105,11 @@ define([
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
+                    }, this)
+                },
+                'Common.Views.Header': {
+                    'toolbar:freezeshadow': _.bind(function (isChecked) {
+                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
                     }, this)
                 }
             });
@@ -134,6 +140,13 @@ define([
             if (this.api) {
                 this.api.asc_freezePane(type);
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onFreezeShadow: function (checked) {
+            this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+            Common.localStorage.setBool('sse-freeze-shadow', checked);
+            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 

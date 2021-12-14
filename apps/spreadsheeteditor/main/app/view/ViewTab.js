@@ -58,7 +58,11 @@ define([
             }
 
             me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('viewtab:freeze', [item.value]);
+                if (item.value === 'shadow') {
+                    me.fireEvent('viewtab:freezeshadow', [item.checked]);
+                } else {
+                    me.fireEvent('viewtab:freeze', [item.value]);
+                }
             });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
@@ -286,6 +290,13 @@ define([
                             {
                                 caption: me.textFreezeCol,
                                 value: Asc.c_oAscFrozenPaneAddType.firstCol
+                            },
+                            { caption: '--' },
+                            {
+                                caption: me.textShowFrozenPanesShadow,
+                                value: 'shadow',
+                                checkable: true,
+                                checked: Common.localStorage.getBool('sse-freeze-shadow', true)
                             }
                         ]
                     }));
@@ -403,6 +414,7 @@ define([
             textCombineSheetAndStatusBars: 'Combine sheet and status bars',
             textAlwaysShowToolbar: 'Always show toolbar',
             textInterfaceTheme: 'Interface theme',
+            textShowFrozenPanesShadow: 'Show frozen panes shadow'
         }
     }()), SSE.Views.ViewTab || {}));
 });
