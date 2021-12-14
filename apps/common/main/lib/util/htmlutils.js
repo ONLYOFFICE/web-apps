@@ -52,11 +52,8 @@ var checkLocalStorage = (function () {
     }
 })();
 
-!window.desktop && !!window.AscDesktopEditor &&
-    (window.desktop = window.AscDesktopEditor);
-
-if ( window.desktop && !!window.RendererProcessVariable ) {
-    var theme = window.RendererProcessVariable.theme
+if ( window.desktop ) {
+    var theme = desktop.theme
 
     if ( theme ) {
         if ( !theme.id && !!theme.type ) {

@@ -63,7 +63,7 @@ define([
         var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
 
         if ( !!native ) {
-            native.features = {};
+            native.features = native.features || {};
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);

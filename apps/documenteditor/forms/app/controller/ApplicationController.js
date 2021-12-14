@@ -1852,6 +1852,7 @@ define([
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
                     if ( obj.singlewindow !== undefined ) {
+                        native.features.singlewindow = obj.singlewindow;
                         $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                     }
                 }
@@ -1874,6 +1875,8 @@ define([
 
         Common.Gateway.on('opendocument', function () {
             api = DE.getController('ApplicationController').api;
+
+            $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
 
             var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
             Common.UI.Themes.setAvailable(!is_win_xp);
