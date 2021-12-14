@@ -59,6 +59,7 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function (api) {
@@ -246,6 +247,16 @@ define([
         onApiZoomChange: function(zf, type){
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
+        },
+
+        onThemeChanged: function () {
+            if (this.view) {
+                var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                this.view.btnInterfaceTheme.menu.clearAll();
+                menu_item.setChecked(true, true);
+            }
         }
+
     }, SSE.Controllers.ViewTab || {}));
 });
