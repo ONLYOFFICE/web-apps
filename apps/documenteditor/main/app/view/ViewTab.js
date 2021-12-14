@@ -54,9 +54,6 @@ define([
                 me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
-                me.cmbZoom.on('selected', function (combo, record) {
-                    me.fireEvent('zoom:value', [record.value]);
-                });
                 me.btnFitToPage.on('click', function () {
                     me.fireEvent('zoom:topage');
                 });
@@ -104,7 +101,7 @@ define([
                     el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
-                    editable: false,
+                    editable: true,
                     disabled: true,
                     data: [
                         { displayValue: "50%", value: 50 },

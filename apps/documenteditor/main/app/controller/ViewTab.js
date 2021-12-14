@@ -80,7 +80,6 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
-                    'zoom:value': _.bind(this.onChangeZoomValue, this),
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
@@ -125,6 +124,11 @@ define([
                 })).then(function(){
                     me.view.setEvents();
 
+                    me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
+                        .on('changed:before',_.bind(me.onZoomChanged, me, true))
+                        .on('changed:after', _.bind(me.onZoomChanged, me, false))
+                        .on('combo:blur',    _.bind(me.onComboBlur, me, false));
+
                     me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function (btn, state) {
                         if (state !== me.view.btnNavigation.pressed)
                             me.view.turnNavigation(state);
@@ -166,9 +170,36 @@ define([
             this.view.cmbZoom.setValue(percent, percent + '%');
         },
 
-        onChangeZoomValue: function (value) {
-            this.api.zoom(value);
+        applyZoom: function (value) {
+            var val = parseFloat(value);
+            val = isNaN(val) ? 25 : Math.max(25, Math.min(500, val));
+            this.api.zoom(val);
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onSelectedZoomValue: function (combo, record) {
+            this.applyZoom(record.value);
+        },
+
+        onZoomChanged: function (before, combo, record, e) {
+            var me = this;
+            if (before) {
+                var value = parseFloat(record.value),
+                    expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(%)?\\s*$');
+                if (!(expr.exec(record.value)) || value<25 || value>500) {
+                    setTimeout( function() {
+                        Common.UI.error({
+                            msg: me.textZoomErr,
+                            callback: function() {
+                                _.defer(function() {
+                                    me.fireEvent('editcomplete', me);
+                                })
+                            }
+                        });
+                    }, 10);
+                }
+            } else
+                this.applyZoom(record.value);
         },
 
         onBtnZoomTo: function(type) {
@@ -213,6 +244,12 @@ define([
                 this.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
             }
         },
+
+        onComboBlur: function() {
+            this.fireEvent('editcomplete', this);
+        },
+
+        textZoomErr: 'The entered value is incorrect.<br>Please enter a value between 25% and 500%.'
 
     }, DE.Controllers.ViewTab || {}));
 });
