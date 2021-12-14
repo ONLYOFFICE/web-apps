@@ -2810,6 +2810,7 @@
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
   "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.textTabView": "View",
   "DE.Views.WatermarkSettingsDialog.textAuto": "Auto",
   "DE.Views.WatermarkSettingsDialog.textBold": "Bold",
   "DE.Views.WatermarkSettingsDialog.textColor": "Text color",
@@ -2833,5 +2834,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
+  "DE.Views.ViewTab.textNavigation": "Navigation",
+  "DE.Views.ViewTab.textZoom": "Zoom",
+  "DE.Views.ViewTab.textFitToPage": "Fit To Page",
+  "DE.Views.ViewTab.textFitToWidth": "Fit To Width",
+  "DE.Views.ViewTab.textInterfaceTheme": "Interface theme",
+  "DE.Views.ViewTab.textStatusBar": "Status Bar",
+  "DE.Views.ViewTab.textAlwaysShowToolbar": "Always show toolbar",
+  "DE.Views.ViewTab.textRulers": "Rulers",
+  "DE.Views.ViewTab.textDarkDocument": "Dark document"
 }

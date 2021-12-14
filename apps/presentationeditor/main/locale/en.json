@@ -2000,6 +2000,7 @@
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
   "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.textTabView": "View",
   "PE.Views.Transitions.strDelay": "Delay",
   "PE.Views.Transitions.strDuration": "Duration",
   "PE.Views.Transitions.strStartOnClick": "Start On Click",
@@ -2035,5 +2036,13 @@
   "PE.Views.Transitions.txtApplyToAll": "Apply to All Slides",
   "PE.Views.Transitions.txtParameters": "Parameters",
   "PE.Views.Transitions.txtPreview": "Preview",
-  "PE.Views.Transitions.txtSec": "s"
+  "PE.Views.Transitions.txtSec": "s",
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.textFitToSlide": "Fit To Slide",
+  "PE.Views.ViewTab.textFitToWidth": "Fit To Width",
+  "PE.Views.ViewTab.textInterfaceTheme": "Interface theme",
+  "PE.Views.ViewTab.textStatusBar": "Status Bar",
+  "PE.Views.ViewTab.textAlwaysShowToolbar": "Always show toolbar",
+  "PE.Views.ViewTab.textRulers": "Rulers",
+  "PE.Views.ViewTab.textNotes": "Notes"
 }
