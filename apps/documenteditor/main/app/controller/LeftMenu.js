@@ -85,7 +85,6 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
-                    // 'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -386,111 +385,6 @@ define([
                 }
             } else
                 this._saveAsFormat(menu, format, ext);
-            return;
-
-            if (menu) {
-                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
-                    Common.UI.warning({
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
-                        buttons: ['ok', 'cancel'],
-                        callback: _.bind(function(btn){
-                            if (btn == 'ok') {
-                                if (format == Asc.c_oAscFileType.TXT)
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
-                                else
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                                menu.hide();
-                            }
-                        }, this)
-                    });
-                } else if (format == Asc.c_oAscFileType.DOCX) {
-                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
-                        Common.UI.warning({
-                            closable: false,
-                            width: 600,
-                            title: this.notcriticalErrorTitle,
-                            msg: this.txtCompatible,
-                            buttons: ['ok', 'cancel'],
-                            dontshow: true,
-                            callback: _.bind(function(btn, dontshow){
-                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
-                                if (btn == 'ok') {
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                                    menu.hide();
-                                }
-                            }, this)
-                        });
-                    } else {
-                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
-                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
-                        this.api.asc_DownloadAs(opts);
-                        menu.hide();
-                    }
-                } else {
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                    menu.hide();
-                }
-            } else
-                this.api.asc_DownloadOrigin();
-        },
-
-        clickSaveCopyAsFormat: function(menu, format, ext) {
-            this._saveAsFormat(menu, format, ext);
-            return;
-            if (menu) {
-                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
-                    Common.UI.warning({
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
-                        buttons: ['ok', 'cancel'],
-                        callback: _.bind(function(btn){
-                            if (btn == 'ok') {
-                                this.isFromFileDownloadAs = ext;
-                                if (format == Asc.c_oAscFileType.TXT)
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
-                                else
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
-                                menu.hide();
-                            }
-                        }, this)
-                    });
-                } else if (format == Asc.c_oAscFileType.DOCX) {
-                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
-                        Common.UI.warning({
-                            closable: false,
-                            width: 600,
-                            title: this.notcriticalErrorTitle,
-                            msg: this.txtCompatible,
-                            buttons: ['ok', 'cancel'],
-                            dontshow: true,
-                            callback: _.bind(function(btn, dontshow){
-                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
-                                if (btn == 'ok') {
-                                    this.isFromFileDownloadAs = ext;
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
-                                    menu.hide();
-                                }
-                            }, this)
-                        });
-                    } else {
-                        this.isFromFileDownloadAs = ext;
-                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
-                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
-                        this.api.asc_DownloadAs(opts);
-                        menu.hide();
-                    }
-                } else {
-                    this.isFromFileDownloadAs = ext;
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
-                    menu.hide();
-                }
-            } else {
-                this.isFromFileDownloadAs = true;
-                this.api.asc_DownloadOrigin(true);
-            }
         },
 
         onDownloadUrl: function(url, fileType) {
