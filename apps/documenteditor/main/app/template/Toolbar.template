@@ -175,10 +175,10 @@
                 </div>
             </section>
             <section class="panel" data-tab="view">
-                <div class="group">
+                <div class="group" data-layout-name="toolbar-view-navigation">
                     <span class="btn-slot text x-huge" id="slot-btn-navigation"></span>
                 </div>
-                <div class="separator long"></div>
+                <div class="separator long" data-layout-name="toolbar-view-navigation"></div>
                 <div class="group small">
                     <div class="elset" style="display: flex;">
                         <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>

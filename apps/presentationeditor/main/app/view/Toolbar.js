@@ -136,7 +136,7 @@ define([
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
                                 {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
                                 undefined,
-                                {caption: me.textTabView, action: 'view', extcls: 'canedit', dataHintTitle: 'W'}
+                                {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
                             ]
                         }
                     );

@@ -161,6 +161,9 @@
                             collaboration:  false / true // collaboration tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
+                            view: {
+                                navigation: false/true // navigation button in de
+                            } / false / true, // view tab
                             save: false/true // save button on toolbar in 
                         },
                         header: {
