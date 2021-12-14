@@ -145,6 +145,9 @@ define([
                 },
                 'CellSettings': {
                     'cf:init': this.onShowBeforeCondFormat
+                },
+                'ViewTab': {
+                    'viewtab:showtoolbar': this.onChangeViewMode.bind(this)
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));

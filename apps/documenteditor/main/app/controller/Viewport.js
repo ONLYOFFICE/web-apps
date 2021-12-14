@@ -105,6 +105,14 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'rulers:hide': function (state) {
+                        me.header.mnuitemHideRulers.setChecked(state, true);
+                    },
+                    'statusbar:hide': function (view, state) {
+                        me.header.mnuitemHideStatusBar.setChecked(state, true);
+                    }
                 }
             });
         },
@@ -231,7 +239,7 @@ define([
                     }, this));
                 }
 
-                var mnuitemHideStatusBar = new Common.UI.MenuItem({
+                me.header.mnuitemHideStatusBar = new Common.UI.MenuItem({
                     caption: me.header.textHideStatusBar,
                     checked: Common.localStorage.getBool("de-hidden-status"),
                     checkable: true,
@@ -239,16 +247,16 @@ define([
                 });
 
                 if ( config.canBrandingExt && config.customization && config.customization.statusBar === false )
-                    mnuitemHideStatusBar.hide();
+                    me.header.mnuitemHideStatusBar.hide();
 
-                var mnuitemHideRulers = new Common.UI.MenuItem({
+                me.header.mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
                     checked: Common.Utils.InternalSettings.get("de-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
                 if (!config.isEdit)
-                    mnuitemHideRulers.hide();
+                    me.header.mnuitemHideRulers.hide();
 
                 me.header.menuItemsDarkMode = new Common.UI.MenuItem({
                     caption: me.txtDarkMode,
@@ -292,8 +300,8 @@ define([
                         style: 'min-width: 180px;',
                         items: [
                             me.header.mnuitemCompactToolbar,
-                            mnuitemHideStatusBar,
-                            mnuitemHideRulers,
+                            me.header.mnuitemHideStatusBar,
+                            me.header.mnuitemHideRulers,
                             {caption:'--'},
                             me.header.menuItemsDarkMode,
                             {caption:'--'},
@@ -421,6 +429,7 @@ define([
                 Common.Utils.InternalSettings.set("de-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
+                me.header.fireEvent('rulers:hide', [item.isChecked()]);
                 break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();

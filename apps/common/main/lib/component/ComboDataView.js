@@ -81,6 +81,7 @@ define([
             this.style       = this.options.style;
             this.hint        = this.options.hint;
             this.store       = this.options.store || new Common.UI.DataViewStore();
+            this.groups      = this.options.groups;
             this.itemWidth   = this.options.itemWidth;
             this.itemHeight  = this.options.itemHeight;
             this.menuMaxHeight = this.options.menuMaxHeight;
@@ -92,18 +93,19 @@ define([
             this.needFillComboView = false;
             this.minWidth = this.options.minWidth;
             this.delayRenderTips = this.options.delayRenderTips || false;
+            this.itemTemplate   = this.options.itemTemplate || _.template([
+                '<div class="style" id="<%= id %>">',
+                    '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
+                    '<% if (typeof title !== "undefined") {%>',
+                        '<span class="title"><%= title %></span>',
+                    '<% } %>',
+                '</div>'
+            ].join(''));
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
                 allowScrollbar: false,
-                itemTemplate : _.template([
-                    '<div class="style" id="<%= id %>">',
-                        '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
-                        '<% if (typeof title !== "undefined") {%>',
-                            '<span class="title"><%= title %></span>',
-                        '<% } %>',
-                    '</div>'
-                ].join('')),
+                itemTemplate : this.itemTemplate,
                 delayRenderTips: this.delayRenderTips
             });
 
@@ -128,15 +130,9 @@ define([
                 restoreHeight: this.menuMaxHeight,
                 style: 'max-height: '+this.menuMaxHeight+'px;',
                 enableKeyEvents: this.options.enableKeyEvents,
+                groups: this.groups,
                 store: this.store,
-                itemTemplate : _.template([
-                    '<div class="style" id="<%= id %>">',
-                        '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
-                        '<% if (typeof title !== "undefined") {%>',
-                            '<span class="title"><%= title %></span>',
-                        '<% } %>',
-                    '</div>'
-                ].join('')),
+                itemTemplate : this.itemTemplate,
                 delayRenderTips: this.delayRenderTips
             });
 
@@ -384,6 +380,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             this.disabled = disabled;
 
             if (!this.rendered)

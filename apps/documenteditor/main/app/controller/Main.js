@@ -942,6 +942,8 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this.disableEditing(false, true);
+                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -955,6 +957,7 @@ define([
 
             setLongActionView: function(action) {
                 var title = '', text = '', force = false;
+                var statusCallback = null; // call after showing status
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction['Open']:
@@ -1043,6 +1046,10 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         this.disableEditing(true, true);
+                        var me = this;
+                        statusCallback = function() {
+                            me.getApplication().getController('Statusbar').showDisconnectTip();
+                        };
                         break;
 
                     default:
@@ -1062,7 +1069,7 @@ define([
                     if (!this.isShowOpenDialog)
                         this.loadMask.show(action.id===Asc.c_oAscAsyncAction['Open']);
                 } else {
-                    this.getApplication().getController('Statusbar').setStatusCaption(text, force);
+                    this.getApplication().getController('Statusbar').setStatusCaption(text, force, 0, statusCallback);
                 }
             },
 
@@ -1454,10 +1461,10 @@ define([
                     this.appOptions.canChat = false;
                 }
 
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+                var type = /^(?:(djvu))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
-                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps))$/.test(this.document.fileType);
+                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
                 this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
 
                 this.appOptions.fileKey = this.document.key;
@@ -3070,6 +3077,7 @@ define([
             txtStyle_endnote_text: 'Endnote Text',
             txtTOCHeading: 'TOC Heading',
             textDisconnect: 'Connection is lost',
+            textReconnect: 'Connection is restored',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
         }

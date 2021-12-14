@@ -384,7 +384,7 @@ define([
                         {caption: me.textTabFormula, action: 'formula', extcls: 'canedit', dataHintTitle: 'O'},
                         {caption: me.textTabData, action: 'data', extcls: 'canedit', dataHintTitle: 'D'},
                         undefined, undefined, undefined,
-                        {caption: me.textTabView, action: 'view', extcls: 'canedit', dataHintTitle: 'W'}
+                        {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
                     ]}
                 );
 

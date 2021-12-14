@@ -134,7 +134,9 @@ define([
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
-                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'}
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
+                                undefined, undefined,
+                                {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
                             ]
                         }
                     );
@@ -1017,6 +1019,11 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
+                        itemTemplate: _.template([
+                            '<div class="style" id="<%= id %>">',
+                            '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
+                            '</div>'
+                        ].join('')),
                         beforeOpenHandler: function (e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
@@ -1054,17 +1061,6 @@ define([
                             }
                         }
                     });
-
-                    me.listTheme.fieldPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
-                        '</div>'
-                    ].join(''));
-                    me.listTheme.menuPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
-                        '</div>'
-                    ].join(''));
 
                     this.cmbInsertShape = new Common.UI.ComboDataViewShape({
                         cls: 'combo-styles shapes',
@@ -1993,7 +1989,8 @@ define([
             tipMarkersCheckmark: 'Checkmark bullets',
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
-            tipNone: 'None'
+            tipNone: 'None',
+            textTabView: 'View'
         }
     }()), PE.Views.Toolbar || {}));
 });

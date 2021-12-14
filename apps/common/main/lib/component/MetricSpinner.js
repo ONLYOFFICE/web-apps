@@ -206,6 +206,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             var el = this.$el || $(this.el);
             if (disabled !== this.disabled) {
                 el.find('button').toggleClass('disabled', disabled);

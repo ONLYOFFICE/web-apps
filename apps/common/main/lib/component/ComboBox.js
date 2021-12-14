@@ -545,6 +545,7 @@ define([
             },
 
             setDisabled: function(disabled) {
+                disabled = !!disabled;
                 this.disabled = disabled;
 
                 if (!this.rendered)

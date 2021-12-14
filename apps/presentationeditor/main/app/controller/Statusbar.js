@@ -62,13 +62,10 @@ define([
                     'langchanged': this.onLangMenu
                 },
                 'Common.Views.Header': {
-                    'statusbar:hide': function (view, status) {
-                        me.statusbar.setVisible(!status);
-                        Common.localStorage.setBool('pe-hidden-status', status);
-
-                        Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                },
+                'ViewTab': {
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
             });
             this._state = {
@@ -205,13 +202,14 @@ define([
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text, force, delay) {
+        setStatusCaption: function(text, force, delay, callback) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
 
             this.timerCaption = undefined;
             if (text.length) {
                 this.statusbar.showStatusMessage(text);
+                callback && callback();
                 if (delay>0)
                     this.timerCaption = (new Date()).getTime() + delay;
             } else
@@ -226,6 +224,47 @@ define([
             this.api.put_TextPrLang(langid);
         },
 
-        zoomText        : 'Zoom {0}%'
+        onChangeCompactView: function (view, status) {
+            this.statusbar.setVisible(!status);
+            Common.localStorage.setBool('pe-hidden-status', status);
+
+            if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                this.statusbar.fireEvent('view:hide', [this, status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                var target = this.statusbar.getStatusLabel();
+                target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : target,
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
+        zoomText        : 'Zoom {0}%',
+        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
+
     }, PE.Controllers.Statusbar || {}));
 });

@@ -757,7 +757,9 @@
   "PE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "PE.Controllers.Main.textReconnect": "Connection is restored",
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
+  "PE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Please check connection settings.",
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
@@ -1998,6 +2000,7 @@
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
   "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.textTabView": "View",
   "PE.Views.Transitions.strDelay": "Delay",
   "PE.Views.Transitions.strDuration": "Duration",
   "PE.Views.Transitions.strStartOnClick": "Start On Click",
@@ -2033,5 +2036,13 @@
   "PE.Views.Transitions.txtApplyToAll": "Apply to All Slides",
   "PE.Views.Transitions.txtParameters": "Parameters",
   "PE.Views.Transitions.txtPreview": "Preview",
-  "PE.Views.Transitions.txtSec": "s"
+  "PE.Views.Transitions.txtSec": "s",
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.textFitToSlide": "Fit To Slide",
+  "PE.Views.ViewTab.textFitToWidth": "Fit To Width",
+  "PE.Views.ViewTab.textInterfaceTheme": "Interface theme",
+  "PE.Views.ViewTab.textStatusBar": "Status Bar",
+  "PE.Views.ViewTab.textAlwaysShowToolbar": "Always show toolbar",
+  "PE.Views.ViewTab.textRulers": "Rulers",
+  "PE.Views.ViewTab.textNotes": "Notes"
 }

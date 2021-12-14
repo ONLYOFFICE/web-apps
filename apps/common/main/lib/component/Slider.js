@@ -272,6 +272,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             if (disabled !== this.disabled)
                 this.cmpEl.toggleClass('disabled', disabled);
             this.disabled = disabled;
@@ -588,6 +589,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             if (disabled !== this.disabled)
                 this.cmpEl.toggleClass('disabled', disabled);
             this.disabled = disabled;
