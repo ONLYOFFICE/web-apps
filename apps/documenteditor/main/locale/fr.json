@@ -397,7 +397,7 @@
   "Common.Views.ReviewChanges.txtNext": "À la modification suivante",
   "Common.Views.ReviewChanges.txtOff": "OFF pour moi ",
   "Common.Views.ReviewChanges.txtOffGlobal": "OFF pour moi et tout le monde",
-  "Common.Views.ReviewChanges.txtOn": "OFF pour moi ",
+  "Common.Views.ReviewChanges.txtOn": "ON pour moi ",
   "Common.Views.ReviewChanges.txtOnGlobal": "ON pour moi et tout le monde",
   "Common.Views.ReviewChanges.txtOriginal": "Toutes les modifications rejetées {0}",
   "Common.Views.ReviewChanges.txtOriginalCap": "Original",
