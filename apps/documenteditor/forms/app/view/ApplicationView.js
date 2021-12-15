@@ -32,6 +32,32 @@ define([
                             })
                         },
                         {caption: '--'},
+                        {caption: this.textZoom, value: 'zoomn',  conCls: 'mi-icon' ,
+                            menu        : this.mnuZoom = new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {caption: this.textFitToPage, value: 'zoom:page', toggleGroup: 'view-zoom', checkable: true},
+                                    {caption: this.textFitToWidth, value: 'zoom:width', toggleGroup: 'view-zoom', checkable: true},
+                                    (new Common.UI.MenuItem({
+                                        template: _.template([
+                                            '<div id="id-menu-zoom" class="menu-zoom" style="height: 26px;" ',
+                                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                            'data-stopPropagation="true"',
+                                            '<% } %>', '>',
+                                            '<label class="title">' + this.textZoom + '</label>',
+                                            '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn btn-toolbar"><i class="mi-icon svg-icon zoom-in">&nbsp;</i></button>',
+                                            '<label class="zoom"><%= options.value %>%</label>',
+                                            '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn btn-toolbar"><i class="mi-icon svg-icon zoom-out">&nbsp;</i></button>',
+                                            '</div>'
+                                        ].join('')),
+                                        stopPropagation: true,
+                                        value: 30
+                                    }))
+                                ]
+                            })
+                        },
+                        {caption: '--'},
                         {caption: this.txtShare, value: 'share', iconCls: 'mi-icon svg-icon share'},
                         {caption: this.txtFileLocation, value: 'close', iconCls: 'mi-icon svg-icon go-to-location'},
                         {caption: '--'},
@@ -41,6 +67,7 @@ define([
                 })
             });
             this.btnOptions.render($('#box-tools'));
+
 
             this.btnClear = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -119,7 +146,10 @@ define([
         textPrintSel: 'Print Selection',
         txtDarkMode: 'Dark mode',
         textUndo: 'Undo',
-        textRedo: 'Redo'
+        textRedo: 'Redo',
+        textZoom: 'Zoom',
+        textFitToPage: 'Fit to Page',
+        textFitToWidth: 'Fit to Width'
 
     }, DE.Views.ApplicationView || {}));
 });
