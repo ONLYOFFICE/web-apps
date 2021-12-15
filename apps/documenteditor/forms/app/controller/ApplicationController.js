@@ -1871,16 +1871,16 @@ define([
                         native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                 },
             });
+
+            Common.Gateway.on('opendocument', function () {
+                api = DE.getController('ApplicationController').api;
+
+                $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
+
+                var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+                Common.UI.Themes.setAvailable(!is_win_xp);
+            });
         }
-
-        Common.Gateway.on('opendocument', function () {
-            api = DE.getController('ApplicationController').api;
-
-            $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
-
-            var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
-            Common.UI.Themes.setAvailable(!is_win_xp);
-        });
 
         return {
             isActive: function () {
