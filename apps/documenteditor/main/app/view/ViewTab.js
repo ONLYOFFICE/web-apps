@@ -171,7 +171,7 @@ define([
                 this.btnDarkDocument = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-dark-document'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon night',
+                    iconCls: 'toolbar__icon dark-mode',
                     caption: this.textDarkDocument,
                     enableToggle: true,
                     disabled: true,
