@@ -27,7 +27,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
-
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
