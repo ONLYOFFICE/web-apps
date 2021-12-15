@@ -162,7 +162,7 @@ class SearchView extends Component {
     }
 
     onReplaceClick() {
-        if (this.searchbar && this.state.searchQuery) {
+        if (this.searchbar && this.state.replaceQuery) {
             if (this.props.onReplaceQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
@@ -174,7 +174,7 @@ class SearchView extends Component {
     }
 
     onReplaceAllClick() {
-        if (this.searchbar && this.state.searchQuery) {
+        if (this.searchbar && this.state.replaceQuery) {
             if (this.props.onReplaceAllQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
@@ -281,9 +281,9 @@ class SearchView extends Component {
                             {/* <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
                             {isReplaceAll ? (
-                                <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                                <a id="replace-all-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                             ) : usereplace ? (
-                                <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                                <a id="replace-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             ) : null}
                         </div>
                         <div className="buttons-row">
