@@ -51,9 +51,6 @@ define([
 
             setEvents: function () {
                 var me = this;
-                me.cmbZoom && me.cmbZoom.on('selected', function (combo, record) {
-                    me.fireEvent('zoom:value', [record.value]);
-                });
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
                 });
@@ -89,7 +86,7 @@ define([
                     el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
-                    editable: false,
+                    editable: true,
                     lock: [_set.disableOnStart],
                     data: [
                         { displayValue: "50%", value: 50 },

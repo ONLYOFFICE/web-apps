@@ -76,14 +76,20 @@ define([
             this.chZeros.on('change', function (field, value) {
                 me.fireEvent('viewtab:zeros', [3, value]);
             });
-            this.cmbZoom.on('selected', function(combo, record) {
-                me.fireEvent('viewtab:zoom', [record.value]);
-            });
             this.chToolbar.on('change', function (field, value) {
                 me.fireEvent('viewtab:showtoolbar', [field, value !== 'checked']);
             });
             this.chStatusbar.on('change', function (field, value) {
                 me.fireEvent('statusbar:setcompact', [field, value === 'checked']);
+            });
+            this.cmbZoom.on('selected', function (combo, record) {
+                me.fireEvent('zoom:selected', [combo, record]);
+            }).on('changed:before', function (combo, record) {
+                me.fireEvent('zoom:changedbefore', [true, combo, record]);
+            }).on('changed:after', function (combo, record) {
+                me.fireEvent('zoom:changedafter', [false, combo, record]);
+            }).on('combo:blur', function () {
+                me.fireEvent('editcomplete', me);
             });
         }
 
@@ -160,7 +166,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
-                    editable    : false,
+                    editable    : true,
                     lock        : [_set.coAuth, _set.lostConnect, _set.editCell],
                     data        : [
                         { displayValue: "50%", value: 50 },
