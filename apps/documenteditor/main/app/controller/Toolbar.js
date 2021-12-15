@@ -364,6 +364,7 @@ define([
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
+            Common.NotificationCenter.on('more:toggle', _.bind(this.onMoreToggle, this));
 
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -3323,6 +3324,32 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        onMoreToggle: function(btn, state, e) {
+            (state) ? this.onMoreShow(btn, e) : this.onMoreHide(btn, e);
+        },
+
+        onMoreHide: function(btn, e) {
+            var moreContainer = btn.panel.parent();
+            if (btn.pressed) {
+                btn.toggle(false, true);
+            }
+            if (moreContainer.is(':visible')) {
+                moreContainer.hide();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar, btn);
+            }
+        },
+
+        onMoreShow: function(btn, e) {
+            var moreContainer = btn.panel.parent();
+            var target = btn.$el,
+                showxy = target.offset(),
+                right = Common.Utils.innerWidth() - showxy.left - target.width(),
+                top = showxy.top + target.height();
+
+            moreContainer.css({right: right, left: 'auto', top : top});
+            moreContainer.show();
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
